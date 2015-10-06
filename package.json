@@ -1,0 +1,26 @@
+{
+  "name": "wow-guild-recruit",
+  "version": "0.0.0",
+  "description": "Guild recruitment tools for World of Warcraft",
+  "private": true,
+  "main": "server.js",
+  "dependencies": {
+    "express": "latest",
+    "morgan":"latest",
+    "connect":"latest",
+    "connect-mongo":"latest",
+    "passport": "latest",
+    "passport-bnet": "latest",
+    "passport.socketio": "latest",
+    "socket.io": "latest",
+    "body-parser": "latest",
+    "cookie-parser": "latest",
+    "cookie-session": "latest",
+    "express-session": "latest"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  },
+  "author": "baptiste.routhieau@gmail.com",
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "wow-guild-recruit",
+  "dependencies": {
+    "angular": "latest",
+    "angular-moment": "latest",
+    "angular-ui-router": "latest",
+    "angular-socket-io": "latest",
+    "angular-translate": "latest",
+    "angular-translate-loader-static-files": "latest",
+    "angular-bootstrap": "latest",
+    "bootstrap": "latest",
+    "jquery": "latest",
+    "font-awesome": "latest"
+  }
+}
