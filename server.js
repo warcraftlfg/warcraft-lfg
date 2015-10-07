@@ -1,5 +1,6 @@
 var express = require('express'),
     http = require('http'),
+    https = require('https'),
     passport = require('passport'),
     path = require('path'),
     morgan = require('morgan'),
@@ -7,10 +8,13 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session'),
     session = require('express-session'),
-    sessionStore = require('connect-mongo')(session),
+    mongoStore = require('connect-mongo')(session),
+    sessionStore = new mongoStore({url: 'mongodb://localhost/wow-guild-recruit'}),
+    User = require('./server/models/User.js'),
     env = process.env.NODE_ENV || 'dev',
     config = require('./server/config/config.'+env+'.json'),
-    app = module.exports = express(),
+    passportSocketIo = require("passport.socketio"),
+    app  = express(),
     server = http.Server(app),
     io = require('socket.io')(server);
 
@@ -19,10 +23,12 @@ app.use(morgan('dev'));
 
 
 app.use(session({
- key: 'sid',
- store: new sessionStore({url: 'mongodb://localhost/test-app'}),
- secret: "tata",
- }));
+    key: 'sid',
+    store: sessionStore,
+    secret: config.session.secret,
+    resave: true,
+    saveUninitialized: true
+}));
 
 
 app.use(cookieParser());
@@ -43,18 +49,29 @@ app.use(function(req, res, next) {
     res.redirect('/login.html');
 });
 
-app.get('/auth/bnet', passport.authenticate('bnet'));
-app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/' }), function(req, res){res.redirect('/');});
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/login.html');
+});
+
+app.get('/auth/bnet',
+    passport.authenticate('bnet'));
+app.get('/auth/bnet/callback',
+    passport.authenticate('bnet', { successRedirect: '/',failureRedirect: '/login.html' }));
+
 
 
 
 app.use(express.static(path.join(__dirname, 'client')));
+
+passport.use('bnet', User.bnetStrategy());
+
 passport.serializeUser(User.serializeUser);
 passport.deserializeUser(User.deserializeUser);
 
 io.use(passportSocketIo.authorize({
     cookieParser: cookieParser,
-    key: 'k1ss.sid',
+    key: 'sid',
     secret: config.session.secret,
     store: sessionStore
 }));

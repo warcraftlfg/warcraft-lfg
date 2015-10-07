@@ -7,7 +7,6 @@
   "dependencies": {
     "express": "latest",
     "morgan":"latest",
-    "connect":"latest",
     "connect-mongo":"latest",
     "passport": "latest",
     "passport-bnet": "latest",
