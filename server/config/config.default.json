@@ -1,0 +1,21 @@
+{
+  "server": {
+    "port": 3000,
+    "key": "server/config/sslcert/server.key",
+    "crt": "server/config/sslcert/server.crt"
+  },
+  "session": {
+    "secret": "justbetweenyouandme"
+  },
+  "mongodb": {
+    "url": "mongodb://localhost/wow-guild-recruit"
+  },
+  "oauth": {
+    "bnet": {
+      "client_id": "",
+      "client_secret": "",
+      "callback_url": "https://localhost:3000/auth/bnet/callback"
+    }
+  }
+
+}
