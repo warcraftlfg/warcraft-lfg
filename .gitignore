@@ -1,5 +1,6 @@
 .idea
 node_modules
-client/components
+/client/components
 db
-server/config/config.dev.json
+/server/config/sslcert
+/server/config/config.dev.json

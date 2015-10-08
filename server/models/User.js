@@ -7,6 +7,9 @@ var User,
 
 module.exports = {
 
+    findOrCreateOauthUser: function(req, id, battletag, accessToken, callback) {
+    },
+
     bnetStrategy: function(){
         return new BnetStrategy({
                 clientID: config.oauth.bnet.client_id,
@@ -15,8 +18,9 @@ module.exports = {
                 callbackURL: config.oauth.bnet.callback_url
             },
             function(accessToken, refreshToken, profile, done) {
-                console.log(profile);
-                return done(null, profile);
+                module.exports.findOrCreateOauthUser(req,profile.id,profile.battletag,profile.accessToken,function(user){
+                    return done(null, user);
+                });
             }
         );
     },

@@ -1,6 +1,6 @@
 var express = require('express'),
-    http = require('http'),
     https = require('https'),
+    fs = require('fs'),
     passport = require('passport'),
     path = require('path'),
     morgan = require('morgan'),
@@ -15,8 +15,14 @@ var express = require('express'),
     config = require('./server/config/config.'+env+'.json'),
     passportSocketIo = require("passport.socketio"),
     app  = express(),
-    server = http.Server(app),
+    privateKey  = fs.readFileSync(config.server.key, 'utf8'),
+    certificate = fs.readFileSync(config.server.crt, 'utf8'),
+    credentials = {key: privateKey, cert: certificate},
+    server = https.createServer(credentials,app),
     io = require('socket.io')(server);
+
+
+
 
 
 app.use(morgan('dev'));

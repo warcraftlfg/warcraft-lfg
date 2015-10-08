@@ -1,5 +1,18 @@
 {
   "server": {
-    "port" : 3000
+    "port": 3000,
+    "key": "server/config/sslcert/server.key",
+    "crt": "server/config/sslcert/server.crt"
+  },
+  "session": {
+    "secret": "justbetweenyouandme"
+  },
+  "oauth": {
+    "bnet": {
+      "client_id": "c7eg5yhfeqad8k4wthkpk5tdukzhp8cu",
+      "client_secret": "t8NuFsZwxM5vk6fKHCnydSbXe2Wv9fFS",
+      "callback_url": "https://localhost:3000/auth/bnet/callback"
+    }
   }
+
 }

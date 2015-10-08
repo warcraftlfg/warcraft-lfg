@@ -1,0 +1,3 @@
+
+#GET CHAR
+https://eu.api.battle.net/wow/user/characters?access_token=[ACCESS_TOKEN]
