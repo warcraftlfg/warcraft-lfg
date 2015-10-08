@@ -4,10 +4,11 @@ var User,
     config = require('../config/config.'+env+'.json');
 
 
-
 module.exports = {
 
-    findOrCreateOauthUser: function(req, id, battletag, accessToken, callback) {
+
+    findOrCreateOauthUser: function(id, battletag, accessToken, callback) {
+        callback(battletag);
     },
 
     bnetStrategy: function(){
@@ -18,14 +19,16 @@ module.exports = {
                 callbackURL: config.oauth.bnet.callback_url
             },
             function(accessToken, refreshToken, profile, done) {
-                module.exports.findOrCreateOauthUser(req,profile.id,profile.battletag,profile.accessToken,function(user){
+                return done(null, profile);
+                /*module.exports.findOrCreateOauthUser(profile.id,profile.battletag,profile.accessToken,function(user){
                     return done(null, user);
-                });
+                });*/
             }
         );
     },
 
     serializeUser: function(user, done) {
+        console.log(user);
         done(null, user);
     },
 

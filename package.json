@@ -5,8 +5,10 @@
   "private": true,
   "main": "server.js",
   "dependencies": {
+    "async": "latest",
     "express": "latest",
-    "morgan":"latest",
+    "morgan": "latest",
+    "mongodb": "latest",
     "connect-mongo":"latest",
     "passport": "latest",
     "passport-bnet": "latest",
