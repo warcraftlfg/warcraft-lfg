@@ -16,8 +16,8 @@
     "socket.io": "latest",
     "body-parser": "latest",
     "cookie-parser": "latest",
-    "cookie-session": "latest",
-    "express-session": "latest"
+    "express-session": "latest",
+    "winston": "latest"
   },
   "scripts": {
     "postinstall": "bower install"

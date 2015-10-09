@@ -1,7 +1,7 @@
-
 'use strict';
 
 angular.module('k1ss',['pascalprecht.translate'])
+
     .config(function ($translateProvider) {
 
         $translateProvider.useStaticFilesLoader({
@@ -14,12 +14,14 @@ angular.module('k1ss',['pascalprecht.translate'])
         });
         $translateProvider.determinePreferredLanguage();
 
+
     })
     .controller('FooterCtrl', ['$scope','$translate',function ($scope,$translate) {
         $scope.setLanguage = function (key){
             $translate.use(key);
         }
-    }]);
+
+}])
 
 
 
