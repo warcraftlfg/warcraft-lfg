@@ -2,7 +2,44 @@
 #GET CHAR
 https://eu.api.battle.net/wow/user/characters?access_token=[ACCESS_TOKEN]
 
+#FUNCTIONALITIES 
+Header :
+- Menu 
+- Login with battlenet 
 
+Home Page :
+- Two columns : Guild Search & Player Search by date 
+- Counters (Guild & Player search).
+- Description 
+
+Guild Search View :
+- Filter : region, server, progress, time week(min max), language, class searched, update date
+
+Player Search View :
+- Filter : region, server, progress, ilvl, time week (min max), language, update date 
+
+Player View : 
+- Region
+- Server 
+- Progress 
+- ilvl 
+- ring 
+- description
+
+Guid View : 
+- Region
+- Server 
+- Progress
+- Language
+- time week (min max)
+- class searched
+- description
+
+
+User Page : 
+Only create anounce with account player or guild.
+
+#OLD SERVER FILE
 var env = process.env.NODE_ENV || 'dev',
     config = require('./server/config/config.'+env+'.json'),
     express = require('express'),
