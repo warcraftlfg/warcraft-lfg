@@ -7,7 +7,6 @@
 // Module dependencies
 var util = require("util");
 var mongodb = require("mongodb");
-var Database = process.require("app/api/Database.js");
 var MongoClient = mongodb.MongoClient;
 
 /**
@@ -28,11 +27,10 @@ var MongoClient = mongodb.MongoClient;
  * @param Object databaseConf A database configuration object like
  */
 function MongoDatabase(databaseConf){
-    Database.call(this, databaseConf);
+    this.conf = databaseConf;
 }
 
 module.exports = MongoDatabase;
-util.inherits(MongoDatabase, Database);
 
 /**
  * Establishes connection to the database.

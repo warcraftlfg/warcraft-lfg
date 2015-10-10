@@ -6,7 +6,6 @@ var config = process.require("app/config/config."+env+".json");
 var path = require("path");
 var fs = require('fs');
 var https = require('https');
-
 var express = require("express");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
@@ -45,7 +44,7 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
-    process.require('app/sockets/global.js')(this.io);
+    process.require('app/sockets/users.js')(this.io);
 
     //Create sessionStore inside Mongodb
     var sessionStore =  new MongoStore({db: db.db})
