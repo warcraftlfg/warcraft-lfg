@@ -29,26 +29,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">WoW Guild Recruit</a>
+                <a class="navbar-brand" href="#/">WoW Guild Recruit</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-if="user==undefined">
+                    <li ng-if="!user.logged_in">
                        <a href="/auth/bnet"><i class="fa fa-lg fa-arrow-circle-right"></i> {{"CONNECT_BNET" | translate}}</a>
                     </li>
-                    <li ng-if="user!=undefined" class="dropdown">
+                    <li ng-if="user.logged_in" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.battletag}} <span class="caret"></span></a>
                         <ul  class="dropdown-menu">
-                            <li><a href="/logout"><i class="fa fa-lg fa-power-off"></i> {{"LOGOUT" | translate}}</a></li>
+                            <li><a href="#/account"><i class="fa fa-user"></i> {{"ACCOUNT" | translate}}</a></li>
+                            <li><a href="/logout"><i class="fa fa-power-off"></i> {{"LOGOUT" | translate}}</a></li>
                         </ul>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
-
+    <div ui-view></div>
 </div>
 
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -56,6 +56,7 @@
 <script type="text/javascript" src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="components/angular/angular.min.js"></script>
 <script type="text/javascript" src="components/angular-socket-io/socket.min.js"></script>
+<script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="components/angular-translate/angular-translate.min.js"></script>
 <script type="text/javascript" src="components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 <script type="text/javascript" src="js/app.js"></script>

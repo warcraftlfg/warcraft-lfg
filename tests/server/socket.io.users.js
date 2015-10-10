@@ -7,12 +7,10 @@ var options ={
     'force new connection': true
 };
 
-
 describe("Socket.io Users",function() {
     it("Should broadcast {logged_in: false} to anonymous user", function (done) {
-        var client1 = socket.connect(socketURL,options);
-
-        client1.on('get:user', function (user) {
+        var anonymousClient = socket.connect(socketURL,options);
+        anonymousClient.on('get:user', function (user) {
             assert.equal(user.logged_in, false);
             done();
         });

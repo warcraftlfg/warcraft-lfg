@@ -1,4 +1,4 @@
-"use scrict"
+"use strict"
 
 /**
  * @module api-mongodb
@@ -76,13 +76,13 @@ MongoDatabase.prototype.connect = function(callback){
  * @method insert
  * @async
  * @param {String} collection The collection to work on
- * @param {Objet} data The document to insert into the collection
+ * @param {Objet} data The array of documents to insert into the collection
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-MongoDatabase.prototype.insert = function(collection, data, callback){
+MongoDatabase.prototype.insertMany = function(collection, data, callback){
     var collection = this.db.collection(collection);
-    collection.insert(data, callback);
+    collection.insertMany(data, callback);
 };
 
 /**

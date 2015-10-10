@@ -1,6 +1,5 @@
 {
-"CONNECT_BNET": "Connect with Battlenet",
-"LOGOUT": "Logout",
-"WELCOME": "Welcome"
-
+  "CONNECT_BNET": "Connect with Battlenet",
+  "ACCOUNT": "Acount",
+  "LOGOUT": "Logout"
 }

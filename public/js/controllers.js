@@ -9,4 +9,10 @@ angular.module("wow-guild-recruit")
         socket.on('get:user', function(user) {
             $scope.user = user;
         });
+    }])
+    .controller('DashboardCtrl', ['$scope','socket',function ($scope,socket) {
+
+    }])
+    .controller('AccountCtrl', ['$scope','socket',function ($scope,socket) {
+
     }]);
