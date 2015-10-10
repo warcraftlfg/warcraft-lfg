@@ -19,6 +19,11 @@
     "express-session": "latest",
     "winston": "latest"
   },
+  "devDependencies": {
+    "mocha": "latest",
+    "socket.io-client":"latest",
+    "chai":"latest"
+  },
   "scripts": {
     "postinstall": "bower install"
   },

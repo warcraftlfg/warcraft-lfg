@@ -89,7 +89,8 @@ WebServer.prototype.onDatabaseAvailable = function(db){
         key: "wgt.sid",
         secret: config.session.secret,
         store: sessionStore,
-        success:function(data, accept){  accept();}
+        success: function(data, accept){ accept();},
+        fail: function(data, message, error, accept){ accept();}
     }));
 
 
