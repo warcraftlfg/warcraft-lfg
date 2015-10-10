@@ -1,7 +1,9 @@
 'use strict';
 
-angular.module('k1ss',['pascalprecht.translate'])
-
+angular.module('wow-guild-recruit',['pascalprecht.translate','btford.socket-io'])
+    .factory('socket', function (socketFactory) {
+        return socketFactory();
+    })
     .config(function ($translateProvider) {
 
         $translateProvider.useStaticFilesLoader({
@@ -16,10 +18,15 @@ angular.module('k1ss',['pascalprecht.translate'])
 
 
     })
-    .controller('FooterCtrl', ['$scope','$translate',function ($scope,$translate) {
+    .controller('MainCtrl', ['$scope','$translate','socket',function ($scope,$translate,socket) {
         $scope.setLanguage = function (key){
             $translate.use(key);
         }
+        $scope.user = undefined;
+        socket.on('get:user', function(user) {
+            $scope.user = user;
+        });
+
 
 }])
 

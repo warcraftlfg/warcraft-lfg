@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="k1ss">
+<html lang="en" ng-app="wow-guild-recruit">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,25 +18,32 @@
     <![endif]-->
 </head>
 <body class="login">
-<div class="main-container container-fluid" >
+<div class="main-container container-fluid" ng-controller="MainCtrl">
     <h1>WoW Guild Recruit</h1>
     <div class="row">
         <div class="col-md-4">
-            <a class="btn btn-default btn-lg" href="auth/bnet" role="button">
-                <i class="fa fa-lg fa-arrow-circle-right"></i> {{"Connectez vous avec Battlenet" | translate}}
+            <a ng-if="user==undefined" class="btn btn-default btn-lg" href="/auth/bnet" role="button">
+                <i class="fa fa-lg fa-arrow-circle-right"></i> {{"CONNECT_BNET" | translate}}
+            </a>
+            <a ng-if="user!=undefined" class="btn btn-default btn-lg" href="/logout" role="button">
+                <i class="fa fa-lg fa-power-off"></i> {{"LOGOUT" | translate}}
             </a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div ng-if="user!=undefined">
+                {{"WELCOME" | translate}} {{user.battletag}}
+            </div>
+        </div>
+    </div>
 </div>
-<a href="logout">Logout</a>
+
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="components/angular/angular.min.js"></script>
 <script type="text/javascript" src="components/angular-socket-io/socket.min.js"></script>
 <script type="text/javascript" src="components/angular-translate/angular-translate.min.js"></script>
 <script type="text/javascript" src="components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
-<script>
-    var socket = io();
-</script>
 </body>
 </html>
