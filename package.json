@@ -1,6 +1,6 @@
 {
   "name": "wow-guild-recruit",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Guild recruitment tools for World of Warcraft",
   "private": true,
   "main": "server.js",
@@ -22,6 +22,6 @@
   "scripts": {
     "postinstall": "bower install"
   },
-  "author": "baptiste.routhieau@gmail.com",
-  "license": "MIT"
+  "author": "Bmagic <baptiste.routhieau@gmail.com>",
+  "license": "AGPL-3.0"
 }

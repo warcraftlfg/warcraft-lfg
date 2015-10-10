@@ -1,10 +1,8 @@
 'use strict';
 
 angular.module('wow-guild-recruit',['pascalprecht.translate','btford.socket-io'])
-    .factory('socket', function (socketFactory) {
-        return socketFactory();
-    })
     .config(function ($translateProvider) {
+
 
         $translateProvider.useStaticFilesLoader({
             prefix: 'locales/locale-',
@@ -16,19 +14,9 @@ angular.module('wow-guild-recruit',['pascalprecht.translate','btford.socket-io']
         });
         $translateProvider.determinePreferredLanguage();
 
+        $translateProvider.useSanitizeValueStrategy('escape');
 
-    })
-    .controller('MainCtrl', ['$scope','$translate','socket',function ($scope,$translate,socket) {
-        $scope.setLanguage = function (key){
-            $translate.use(key);
-        }
-        $scope.user = undefined;
-        socket.on('get:user', function(user) {
-            $scope.user = user;
-        });
-
-
-}])
+    });
 
 
 

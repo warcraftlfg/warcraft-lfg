@@ -9,7 +9,7 @@ process.require = function(filePath){
 // Module dependencies
 var path = require("path");
 var async = require('async');
-var Database = process.require('/app/api/Database.js');
+var MongoDatabase = process.require('/app/api/MongoDatabase.js');
 var loggerAPI = process.require('/app/api/logger.js');
 
 
@@ -23,10 +23,10 @@ var WebServer = process.require("/app/process/WebServer.js");
 var webServer = new WebServer();
 
 async.series([
-    // Establish a connection to the database
+    // Establish a connection to the database and start process
     function(callback) {
 
-        var db = Database.getDatabase(config.database);
+        var db = new MongoDatabase(config.database);
         // Establish connection to the database
         db.connect(function(error) {
             if (error) {
