@@ -4,8 +4,8 @@ https://eu.api.battle.net/wow/user/characters?access_token=[ACCESS_TOKEN]
 
 #FUNCTIONALITIES 
 Header :
-- Menu 
-- Login with battlenet 
+- Menu OK
+- Login with battlenet OK
 
 Home Page :
 - Two columns : Guild Search & Player Search by date 

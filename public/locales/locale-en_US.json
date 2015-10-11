@@ -3,5 +3,6 @@
   "ACCOUNT": "Acount",
   "LOGOUT": "Logout",
   "SEARCH_GUILD": "You are searching a guild",
-  "SEARCH_PLAYER": "You are searching players for your guild"
+  "SEARCH_PLAYER": "You are searching players for your guild",
+  "SELECT_REGION_GUILD":  "Select your region and your guild"
 }

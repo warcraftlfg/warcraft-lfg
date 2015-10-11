@@ -17,8 +17,22 @@ angular.module("wow-guild-recruit")
 
     }])
     .controller('GuildAddCtrl', ['$scope','socket',function ($scope,socket) {
-        socket.emit('get:bnet-guilds');
-        socket.on('get:bnet-guilds', function(guilds) {
-           console.log(guilds)
+
+        //Initialize $scope variables
+        $scope.userGuilds = null;
+
+        socket.forward('get:bnet-guilds',$scope);
+        $scope.$on('socket:get:bnet-guilds',function(ev,guilds){
+            $scope.$parent.loading = false;
+            $scope.userGuilds = guilds;
         });
+
+        $scope.updateRegion = function(){
+            $scope.$parent.loading = true;
+            socket.emit('get:bnet-guilds',$scope.region);
+        }
+        $scope.selectGuild = function(guild){
+            $scope.guild = guild;
+
+        }
     }]);

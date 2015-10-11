@@ -3,5 +3,6 @@
   "ACCOUNT": "Mon compte",
   "LOGOUT": "Déconnection",
   "SEARCH_GUILD": "Vous recherchez une guilde",
-  "SEARCH_PLAYER": "Vous recherchez des joueurs pour votre guilde"
+  "SEARCH_PLAYER": "Vous recherchez des joueurs pour votre guilde",
+  "SELECT_REGION_GUILD":  "Selectionnez votre région et votre guilde"
 }

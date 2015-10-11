@@ -1,1 +1,36 @@
-Add Guild
+<div row>
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="regionSelect">{{"SELECT_REGION_GUILD"|translate}}</label>
+                <select ng-model="region" ng-change="updateRegion()" class="form-control" id="regionSelect">
+                    <option>EU</option>
+                    <option>KR</option>
+                    <option>TW</option>
+                    <option>US</option>
+                </select>
+            </div>
+        </form>
+        <div class="guilds">
+            <button type="button" ng-click="selectGuild(guild)" class="btn btn-default btn-lg" ng-repeat="guild in userGuilds">
+                {{guild.name}} - {{guild.realm}}
+            </button>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <form>
+            <div class="form-group">
+                <label for="guildNameInput">{{"GUILD_NAME"|translate}}</label>
+                <input ng-model="guild.name" disabled class="form-control" id="guildNameInput">
+            </div>
+            <div class="form-group">
+                <label for="guildRealmInput">{{"GUILD_REALM"|translate}}</label>
+                <input ng-model="guild.realm" disabled class="form-control" id="guildRealmInput">
+            </div>
+            <div class="form-group">
+                <label for="guildRegionInput">{{"GUILD_REGION"|translate}}</label>
+                <input ng-model="guild.region" disabled class="form-control" id="guildRegionInput">
+            </div>
+        </form>
+    </div>
+</div>
