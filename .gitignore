@@ -4,3 +4,4 @@ node_modules
 app/config/sslcert
 app/config/config.dev.json
 public/components
+logs/wow-guild-recruit.log
