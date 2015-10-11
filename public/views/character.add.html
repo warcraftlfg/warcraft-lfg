@@ -1,0 +1,36 @@
+<div row>
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="regionSelect">{{"SELECT_REGION_CHARACTER"|translate}}</label>
+                <select ng-model="region" ng-change="updateRegion()" class="form-control" id="regionSelect">
+                    <option>EU</option>
+                    <option>KR</option>
+                    <option>TW</option>
+                    <option>US</option>
+                </select>
+            </div>
+        </form>
+        <div class="characters">
+            <button type="button" ng-click="selectCharacter(character)" class="btn btn-default btn-lg" ng-repeat="character in userCharacters">
+                {{character.name}} ({{character.level}}) - {{character.realm}}
+            </button>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <form>
+            <div class="form-group">
+                <label for="characterNameInput">{{"CHARACTER_NAME"|translate}}</label>
+                <input ng-model="character.name" disabled class="form-control" id="characterNameInput">
+            </div>
+            <div class="form-group">
+                <label for="characterRealmInput">{{"CHARACTER_REALM"|translate}}</label>
+                <input ng-model="character.realm" disabled class="form-control" id="characterRealmInput">
+            </div>
+            <div class="form-group">
+                <label for="characterRegionInput">{{"CHARACTER_REGION"|translate}}</label>
+                <input ng-model="character.region" disabled class="form-control" id="characterRegionInput">
+            </div>
+        </form>
+    </div>
+</div>

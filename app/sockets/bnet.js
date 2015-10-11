@@ -19,6 +19,11 @@ module.exports = function(io){
                     socket.emit("get:bnet-guilds",guilds);
                 });
             });
+            socket.on('get:bnet-characters', function(region) {
+                userModel.getCharacters(socket.request.user.id,region,function(characters){
+                    socket.emit("get:bnet-characters",characters);
+                });
+            });
         }
     });
 };

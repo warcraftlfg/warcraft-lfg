@@ -78,5 +78,21 @@ UserModel.prototype.getGuilds = function(id,region,callback){
             callback(arr);
         });
     })
+}
 
+UserModel.prototype.getCharacters = function(id,region,callback){
+    this.getAccessToken(id,function(error,accessToken){
+        bnetAPI.getUserCharacters(region,accessToken,function(characters){
+            var charactersFilter = {};
+            //Fetch all characters
+            async.forEach(characters,function(character,callback){
+                if (character.level == 100)
+                    charactersFilter[character.name+character.realm] = {name: character.name, realm: character.realm, region: region, level: character.level}
+                callback();
+            });
+            //Remove Key
+            var arr = Object.keys(charactersFilter).map(function (key) {return charactersFilter[key]});
+            callback(arr);
+        });
+    })
 }
