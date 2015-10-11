@@ -53,3 +53,8 @@ UserModel.prototype.update = function (user,callback){
         callback(error, result);
     });
 };
+
+UserModel.prototype.getGuild = function(id,callback){
+    //TODO Call bnetapi and return guild
+    callback('LISTOFGUILDS');
+}

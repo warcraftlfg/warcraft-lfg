@@ -1,14 +1,25 @@
 {
   "server": {
     "port": 3000,
-    "key": "server/config/sslcert/server.key",
-    "crt": "server/config/sslcert/server.crt"
+    "key": "app/config/sslcert/server.key",
+    "crt": "app/config/sslcert/server.crt"
   },
   "session": {
     "secret": "justbetweenyouandme"
   },
-  "mongodb": {
-    "url": "mongodb://localhost/wow-guild-recruit"
+  "database": {
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "database": "wow-guild-recruit",
+    "username": "",
+    "password": ""
+  },
+  "logger": {
+    "fileName": "logs/wow-guild-recruit.log",
+    "level": "debug",
+    "maxFileSize": 1048576,
+    "maxFiles": 2
   },
   "oauth": {
     "bnet": {

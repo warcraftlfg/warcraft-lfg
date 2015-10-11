@@ -1,5 +1,7 @@
 {
   "CONNECT_BNET": "Connect with Battlenet",
   "ACCOUNT": "Acount",
-  "LOGOUT": "Logout"
+  "LOGOUT": "Logout",
+  "SEARCH_GUILD": "You are searching a guild",
+  "SEARCH_PLAYER": "You are searching players for your guild"
 }

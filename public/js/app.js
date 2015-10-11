@@ -27,9 +27,12 @@ angular.module('wow-guild-recruit',['ui.router','pascalprecht.translate','btford
                 url: "/account",
                 templateUrl: "views/account.html",
                 controller: "AccountCtrl"
-            });
-
-
+            })
+            .state('/guild-add', {
+                url: "/guild-add",
+                templateUrl: "views/guild.add.html",
+                controller: "GuildAddCtrl"
+            })
     });
 
 

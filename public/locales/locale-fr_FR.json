@@ -1,5 +1,7 @@
 {
   "CONNECT_BNET": "Connectez vous avec Battlenet",
   "ACCOUNT": "Mon compte",
-  "LOGOUT": "Déconnection"
+  "LOGOUT": "DÃ©connection",
+  "SEARCH_GUILD": "Vous recherchez une guilde",
+  "SEARCH_PLAYER": "Vous recherchez des joueurs pour votre guilde"
 }

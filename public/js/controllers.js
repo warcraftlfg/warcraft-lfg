@@ -15,4 +15,10 @@ angular.module("wow-guild-recruit")
     }])
     .controller('AccountCtrl', ['$scope','socket',function ($scope,socket) {
 
+    }])
+    .controller('GuildAddCtrl', ['$scope','socket',function ($scope,socket) {
+        socket.emit('get:bnet-guilds');
+        socket.on('get:bnet-guilds', function(guilds) {
+           console.log(guilds)
+        });
     }]);
