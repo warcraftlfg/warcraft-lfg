@@ -27,6 +27,7 @@
       "client_secret": "",
       "callback_url": "https://localhost:3000/auth/bnet/callback"
     }
-  }
+  },
+  "region":["eu","kr","tw","us"]
 
 }

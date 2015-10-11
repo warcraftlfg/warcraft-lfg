@@ -80,9 +80,9 @@ MongoDatabase.prototype.connect = function(callback){
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-MongoDatabase.prototype.insertMany = function(collection, data, callback){
+MongoDatabase.prototype.insert = function(collection, data, callback){
     var collection = this.db.collection(collection);
-    collection.insertMany(data, callback);
+    collection.insert(data, callback);
 };
 
 /**
@@ -116,6 +116,22 @@ MongoDatabase.prototype.remove = function(collection, criteria, callback){
 MongoDatabase.prototype.update = function(collection, criteria, data, callback){
     var collection = this.db.collection(collection);
     collection.update(criteria, {$set : data}, {multi:true}, callback);
+};
+
+/**
+ * Insert or update a document.
+ *
+ * @method update
+ * @async
+ * @param {String} collection The collection to work on
+ * @param {Object} criteria The update criteria
+ * @param {Object} data Data to update
+ * @param {Function} callback The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ */
+MongoDatabase.prototype.InsertOrUpdate = function(collection, criteria, data, callback){
+    var collection = this.db.collection(collection);
+    collection.update(criteria, {$set : data}, {upsert:true, multi:true}, callback);
 };
 
 
