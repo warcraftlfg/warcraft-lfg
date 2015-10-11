@@ -12,14 +12,16 @@ You need :
 
 ###mongodb
 Add user
-`use wow-guild-recruit
+```
+use wow-guild-recruit`
  db.createUser(
    {
      user: "admin",
      pwd: "password",
      roles: [ { role: "userAdmin", db: "wow-guild-recruit" } ]
    }
- )`
+ )
+```
 
 ###Download nodejs dependencies
 `npm install`
