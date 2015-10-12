@@ -10,6 +10,8 @@
     "angular-bootstrap": "latest",
     "bootstrap": "latest",
     "jquery": "latest",
-    "font-awesome": "latest"
+    "font-awesome": "latest",
+    "material-design-lite": "~1.0.5",
+    "angular-material-design-lite": "~0.4.1"
   }
 }
