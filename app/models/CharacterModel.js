@@ -3,7 +3,6 @@
 //Module dependencies
 var applicationStorage = process.require("app/api/applicationStorage");
 
-
 /**
  * Defines a model class to manipulate characters
  * @constructor
@@ -18,4 +17,7 @@ CharacterModel.prototype.add = function(character,callback) {
     this.database.InsertOrUpdate("characters", {region:character.region,realm:character.realm,name:character.name} ,character, function(error,result){
         callback(error, result);
     });
-}
+};
+
+
+

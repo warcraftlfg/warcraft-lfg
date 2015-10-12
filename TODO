@@ -1,2 +1,9 @@
 //Bmagic
 Cron qui va chercher dans une collection CharacterToUpdate, les personnages à insérer ou à mettre à jour.
+
+
+// Collections
+sessions : les session utilisateurs
+users : les utilisateurs
+characters : les personnages
+character-updates : les update de personnags en attente de passage du cron

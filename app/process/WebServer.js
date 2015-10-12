@@ -104,7 +104,7 @@ WebServer.prototype.onDatabaseAvailable = function(db){
  *
  * @method startServer
  */
-WebServer.prototype.startServer = function(){
+WebServer.prototype.start = function(){
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
