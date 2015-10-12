@@ -16,34 +16,42 @@ var applicationStorage = process.require("app/api/applicationStorage");
 //Configuration
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("/app/config/config."+env+".json");
+var loggerWebserver= loggerAPI.get("webserver",config.logger.webserver);
+var loggerCron= loggerAPI.get("cron",config.logger.cron);
+
+
 
 //Load WebServer
-var logger= loggerAPI.get("wow-guild-recruitment",config.logger);
 var WebServer = process.require("/app/process/WebServer.js");
 var webServer = new WebServer();
 
+//Load character update process
+var CharacterUpdateProcess = process.require("app/process/CharacterUpdateProcess.js");
+var characterUpdateProcess = new CharacterUpdateProcess();
+
 async.series([
-    // Establish a connection to the database and start process
+    // Establish a connection to the database
     function(callback) {
 
         var db = new MongoDatabase(config.database);
         // Establish connection to the database
         db.connect(function(error) {
             if (error) {
-                logger.error(error.message);
+                loggerWebserver.error(error.message);
                 process.exit(0);
             }
 
             applicationStorage.setDatabase(db);
             webServer.onDatabaseAvailable(db);
+            characterUpdateProcess.onDatabaseAvailable(db);
 
             callback();
         });
     },
-    //TODO CRON ??? Update DB ???
     // Start Process
     function(callback){
-        webServer.startServer();
+        webServer.start();
+        characterUpdateProcess.start();
         callback();
     }
 ]);

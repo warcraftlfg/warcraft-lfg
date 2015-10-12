@@ -18,7 +18,8 @@
     "cookie-parser": "latest",
     "express-session": "latest",
     "winston": "latest",
-    "request": "latest"
+    "request": "latest",
+    "cron": "latest"
   },
   "devDependencies": {
     "mocha": "latest",

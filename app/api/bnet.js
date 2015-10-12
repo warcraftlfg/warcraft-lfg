@@ -11,7 +11,10 @@ var config = process.require('/app/config/config.'+env+'.json');
 module.exports.getUserCharacters = function(region,accessToken,callback){
     request("https://"+region+".api.battle.net/wow/user/characters?access_token="+accessToken, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          callback(JSON.parse(body).characters);
+            callback(JSON.parse(body).characters);
+        }
+        else{
+            callback(null);
         }
     })
 }
@@ -21,6 +24,10 @@ module.exports.getCharacter = function(region,realm,name,callback){
         if (!error && response.statusCode == 200) {
             callback(JSON.parse(body));
         }
+        else{
+            callback(null);
+        }
     });
+
 
 }

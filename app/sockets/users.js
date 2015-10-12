@@ -6,7 +6,7 @@
  */
 
 //Modules dependencies
-var logger = process.require("app/api/logger.js").get("wow-guild-recruitment");
+var loggerWebserver = process.require("app/api/logger.js").get("webserver");
 
 
 module.exports = function(io){
@@ -14,9 +14,9 @@ module.exports = function(io){
     io.on('connection', function(socket){
 
         if(socket.request.user.logged_in)
-            logger.info( socket.request.user.battletag + " connected");
+            loggerWebserver.info( socket.request.user.battletag + " connected");
         else
-            logger.info("Anonymous user connected");
+            loggerWebserver.info("Anonymous user connected");
 
         //Send to user is informations
         socket.emit('get:user',socket.request.user);
