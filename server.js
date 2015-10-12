@@ -16,7 +16,9 @@ var applicationStorage = process.require("app/api/applicationStorage");
 //Configuration
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("/app/config/config."+env+".json");
-var logger= loggerAPI.get("wow-guild-recruitment",config.logger);
+var loggerWebserver= loggerAPI.get("webserver",config.logger.webserver);
+var loggerCron= loggerAPI.get("cron",config.logger.cron);
+
 
 
 //Load WebServer
@@ -35,7 +37,7 @@ async.series([
         // Establish connection to the database
         db.connect(function(error) {
             if (error) {
-                logger.error(error.message);
+                loggerWebserver.error(error.message);
                 process.exit(0);
             }
 

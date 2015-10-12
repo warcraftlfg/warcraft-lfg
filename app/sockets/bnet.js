@@ -4,7 +4,6 @@
  */
 
 //Modules dependencies
-var logger = process.require("app/api/logger.js").get("wow-guild-recruitment");
 var UserModel = process.require("app/models/UserModel.js");
 
 //Configuration
@@ -15,13 +14,17 @@ module.exports = function(io){
     io.on('connection', function(socket) {
         if (socket.request.user.logged_in){
             socket.on('get:bnet-guilds', function(region) {
-                userModel.getGuilds(socket.request.user.id,region,function(guilds){
-                    socket.emit("get:bnet-guilds",guilds);
+                userModel.getAccessToken(socket.request.user.id,function(error,accessToken) {
+                    userModel.getGuilds(region,accessToken, function (guilds) {
+                        socket.emit("get:bnet-guilds", guilds);
+                    });
                 });
             });
             socket.on('get:bnet-characters', function(region) {
-                userModel.getCharacters(socket.request.user.id,region,function(characters){
-                    socket.emit("get:bnet-characters",characters);
+                userModel.getAccessToken(socket.request.user.id,function(error,accessToken) {
+                    userModel.getCharacters(region,accessToken, function (characters) {
+                        socket.emit("get:bnet-characters", characters);
+                    });
                 });
             });
         }

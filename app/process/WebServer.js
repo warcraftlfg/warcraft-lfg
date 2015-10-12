@@ -13,7 +13,7 @@ var session = require("express-session");
 var MongoStore = require("connect-mongo")(session);
 var passport = require("passport");
 var passportSocketIo = require("passport.socketio");
-var logger = process.require("app/api/logger.js").get("wow-guild-recruitment");
+var loggerWebserver = process.require("app/api/logger.js").get("webserver");
 
 
 /**
@@ -108,7 +108,7 @@ WebServer.prototype.start = function(){
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
-        logger.info("Server listening on port %s", server.address().port);
+        loggerWebserver.info("Server listening on port %s", server.address().port);
     });
 
 };
