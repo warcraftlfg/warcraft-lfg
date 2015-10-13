@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('wow-guild-recruit',['ui.router','pascalprecht.translate','btford.socket-io','mdl'])
+angular.module('wow-guild-recruit',['ui.router','pascalprecht.translate','btford.socket-io','ngMaterial'])
     .config(function ($translateProvider,$urlRouterProvider,$stateProvider) {
 
         //Translation Property

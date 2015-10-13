@@ -1,7 +1,7 @@
 "use strict"
 
 angular.module("wow-guild-recruit")
-    .controller('MainCtrl', ['$scope','$translate','socket',function ($scope,$translate,socket) {
+    .controller('MainCtrl', ['$scope','$translate','socket','$mdUtil','$mdSidenav',function ($scope,$translate,socket,$mdUtil,$mdSidenav) {
         $scope.setLanguage = function (key){
             $translate.use(key);
         }
@@ -9,6 +9,18 @@ angular.module("wow-guild-recruit")
         socket.on('get:user', function(user) {
             $scope.user = user;
         });
+        var originatorEv;
+        $scope.openMenu = function($mdOpenMenu, ev) {
+            originatorEv = ev;
+            $mdOpenMenu(ev);
+        };
+        $scope.toggleRight = function() {
+
+            $mdSidenav("left")
+                .toggle();
+        }
+
+
     }])
     .controller('DashboardCtrl', ['$scope','socket',function ($scope,socket) {
 

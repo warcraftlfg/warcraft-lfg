@@ -1,25 +1,18 @@
-<section class="mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-    <div class="mdl-cell mdl-cell--3-col">
-        <div class="bnet-logo"></div>
-    </div>
-    <div class="mdl-card mdl-cell mdl-cell--9-col">
-        <div class="mdl-card__supporting-text">
-            <h4>{{user.battletag}}</h4>
-            <p>{{"ACCOUNT_SEARCH_DESCRIPTION"|translate}}</p>
-        </div>
-        <div class="mdl-card__actions mdl-card--border">
-            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="#/account/guild-add">{{"ACCOUNT_SEARCH_PLAYER"|translate}}</a> -
-            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="#/account/character-add">{{"ACCOUNT_SEARCH_GUILD"|translate}}</a>
-        </div>
-    </div>
-</section>
+<md-card>
 
-<div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">
-       <pre>
-           ACCOUNT TODOLIST
-           - Show current ad
-       </pre>
-    </div>
+<div layout="row">
+        <div flex=20>
+            <div class="bnet-logo"></div>
+        </div>
+        <div flex >
+            <md-card-content>
+                <h2>{{user.battletag}}</h2>
+                <p>{{"ACCOUNT_SEARCH_DESCRIPTION"|translate}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+                <md-button ng-href="#/account/guild-add">{{"ACCOUNT_SEARCH_PLAYER"|translate}}</md-button>
+                <md-button ng-href="#/account/character-add">{{"ACCOUNT_SEARCH_GUILD"|translate}}</md-button>
+            </div>
+        </div>
 </div>
-
+</md-card>

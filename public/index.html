@@ -3,72 +3,80 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1" />
 
     <title>WoW Guild Recruit</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="/components/material-design-lite/material.min.css">
-    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-blue.min.css" />
-    <link href="css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="/components/angular-material/angular-material.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>    <link href="css/styles.css" rel="stylesheet">
 </head>
-<body ng-controller="MainCtrl" style="background-color: #f5f5f5;">
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">WoW Guild Recruit</span>
-            <div class="mdl-spinner mdl-js-spinner" ng-class="{'is-active':loading}"></div>
-            <div class="mdl-layout-spacer"></div>
-            <!-- Navigation -->
-            <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="#/">{{"HOME"|translate}}</a>
-                <a class="mdl-navigation__link" href="#/characters">{{"CHARACTERS"|translate}}</a>
-                <a class="mdl-navigation__link" href="#/guilds">{{"GUILDS"|translate}}</a>
-            </nav>
-            <button ng-if="user.logged_in" id="account-menu" class="mdl-button mdl-js-button mdl-button--icon" mdl-upgrade="true">
-                <i class="material-icons">account_circle</i>
-            </button>
-            <ul ng-if="user.logged_in"  class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="account-menu" mdl-upgrade="true">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    <a href="#/account">{{"ACCOUNT"|translate}}</a>
-                </li>
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    <a href="/logout">{{"LOGOUT"|translate}}</a>
-                </li>
-            </ul>
-            <!-- Right aligned menu below button -->
-            <a href="/auth/bnet" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-if="!user.logged_in">
+<body ng-controller="MainCtrl">
+<md-content>
+    <md-toolbar class="md-theme-indigo">
+        <div class="md-toolbar-tools">
+            <md-button ng-click="toggleRight()" class="md-icon-button" aria-label="Menu">
+                <md-icon md-svg-icon="/images/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>WoW Guild Recruit</span>
+            </h2>
+            <span flex></span>
+            <md-button md-no-ink ng-if="!user.logged_in" ng-href="/auth/bnet" class="md-primary">
                 {{"CONNECT_BNET"|translate}}
-            </a>
+            </md-button>
+            <md-menu ng-if="user.logged_in">
+                <md-button class="md-icon-button" aria-label="Account" ng-click="openMenu($mdOpenMenu, $event)">
+                    <md-icon md-svg-icon="/images/icons/account.svg"></md-icon>
+                </md-button>
+                <md-menu-content width="2">
+                    <md-menu-item>
+                        <md-button ng-href="#/account">
+                            {{"ACCOUNT"|translate}}
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-href="/logout">
+                            {{"LOGOUT"|translate}}
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </div>
-    </header>
-    <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">WoW Guild Recruit</span>
-        <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="#/">{{"HOME"|translate}}</a>
-            <a class="mdl-navigation__link" href="#/characters">{{"CHARACTERS"|translate}}</a>
-            <a class="mdl-navigation__link" href="#/guilds">{{"GUILDS"|translate}}</a>
-            <div class="drawer-separator"></div>
-            <a id="account" class="mdl-navigation__link" href="#/account">{{"ACCOUNT"|translate}}</a>
-            <a class="mdl-navigation__link" href="/logout">{{"LOGOUT"|translate}}</a>
-        </nav>
-    </div>
+    </md-toolbar>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+        <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">WoW Guild Recruit</h1>
+        </md-toolbar>
+        <md-content layout-padding>
+            <form>
+                <md-input-container>
+                    <md-button ng-href="#/characters">
+                        {{"CHARACTERS"|translate}}
+                    </md-button>
+                    <md-button ng-href="#/guilds">
+                        {{"GUILDS"|translate}}
+                    </md-button>
+                </md-input-container>
+            </form>
+        </md-content>
+    </md-sidenav>
+
     <main class="mdl-layout__content" >
         <div class="main-container" ui-view>
         </div>
     </main>
-</div>
+</md-content>
 
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="/components/material-design-lite/material.min.js"></script>
 <script type="text/javascript" src="/components/angular/angular.min.js"></script>
+<script type="text/javascript" src="/components/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="/components/angular-aria/angular-aria.min.js"></script>
+<script type="text/javascript" src="/components/angular-material/angular-material.js"></script>
 <script type="text/javascript" src="/components/angular-socket-io/socket.min.js"></script>
 <script type="text/javascript" src="/components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="/components/angular-translate/angular-translate.min.js"></script>
 <script type="text/javascript" src="/components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-<script type="text/javascript" src="/components/angular-material-design-lite/dist/angular-material-design-lite.min.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/services.js"></script>
 <script type="text/javascript" src="js/controllers.js"></script>
