@@ -28,6 +28,8 @@ var webServer = new WebServer();
 //Load character update process
 var CharacterUpdateProcess = process.require("app/process/CharacterUpdateProcess.js");
 var characterUpdateProcess = new CharacterUpdateProcess();
+var GuildUpdateProcess = process.require("app/process/GuildUpdateProcess.js");
+var guildUpdateProcess = new GuildUpdateProcess();
 
 async.series([
     // Establish a connection to the database
@@ -44,6 +46,7 @@ async.series([
             applicationStorage.setDatabase(db);
             webServer.onDatabaseAvailable(db);
             characterUpdateProcess.onDatabaseAvailable(db);
+            guildUpdateProcess.onDatabaseAvailable(db);
 
             callback();
         });
@@ -52,6 +55,7 @@ async.series([
     function(callback){
         webServer.start();
         characterUpdateProcess.start();
+        guildUpdateProcess.start();
         callback();
     }
 ]);

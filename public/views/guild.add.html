@@ -1,22 +1,25 @@
-<div row>
-    <div class="col-md-4">
-        <form>
-            <div class="form-group">
-                <label for="regionSelect">{{"SELECT_REGION_GUILD"|translate}}</label>
-                <select ng-model="region" ng-change="updateRegion()" class="form-control" id="regionSelect">
-                    <option>EU</option>
-                    <option>KR</option>
-                    <option>TW</option>
-                    <option>US</option>
-                </select>
-            </div>
-        </form>
-        <div class="guilds">
-            <button type="button" ng-click="selectGuild(guild)" class="btn btn-default btn-lg" ng-repeat="guild in userGuilds">
-                {{guild.name}} - {{guild.realm}}
-            </button>
+<section class="mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-cell mdl-cell--3-col">
+        <h4>1. Select your region and guild</h4>
+        <div id="select-container" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="regionSelect">{{"SELECT_REGION_GUILD"|translate}}</label>
+        <select class="mdl-textfield__input" ng-model="region" ng-change="updateRegion()" id="regionSelect" name="regionSelect">
+            <option>EU</option>
+            <option>KR</option>
+            <option>TW</option>
+            <option>US</option>
+        </select>
         </div>
+        <button type="button" ng-click="selectGuild(guild)" class="btn btn-default btn-lg" ng-repeat="guild in userGuilds">
+            {{guild.name}} - {{guild.realm}}
+        </button>
+
     </div>
+    <div class="mdl-cell mdl-cell--9-col">
+        2. Fill the form
+    </div>
+</section>
+
     <div class="col-md-8">
         <form>
             <div class="form-group">
