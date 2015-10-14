@@ -12,14 +12,22 @@ var guildAdModel = new GuildAdModel();
 module.exports = function(io){
     //Listen for new user's connections
     io.on('connection', function(socket) {
-        //Check if user is logged before anything
+        //All users function
+        socket.on('get:guild-ads', function() {
+            guildAdModel.getLast(function(error,result){
+                socket.emit('get:guild-ads',result);
+            });
+        });
+
+        //User logged only function
         if (socket.request.user.logged_in){
             socket.on('add:guild-ad', function(guild_ad) {
-                console.log(guild_ad);
+                //TODO Vérifier que l'utilisateur est bien dans la guilde qu'il rajoute
                 guildAdModel.add(socket.request.user.id,guild_ad,function(error,result){
                     io.emit('add:guild-ad',guild_ad);
                 });
             });
         }
+
     });
 };

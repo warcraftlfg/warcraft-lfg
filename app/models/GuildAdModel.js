@@ -20,3 +20,10 @@ GuildAdModel.prototype.add = function(id,guild_ad,callback) {
         callback(error, result);
     });
 };
+
+GuildAdModel.prototype.getLast = function(callback){
+    this.database.search("guild-ads", {}, {}, 5, 1, {_id:1}, function(error,result){
+        callback(error, result);
+    });
+
+}

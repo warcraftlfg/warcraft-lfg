@@ -22,7 +22,18 @@ angular.module("wow-guild-recruit")
 
     }])
     .controller('DashboardCtrl', ['$scope','socket',function ($scope,socket) {
+        $scope.guild_ads=[];
 
+        socket.emit('get:guild-ads');
+
+        socket.forward('get:guild-ads',$scope);
+        $scope.$on('socket:get:guild-ads',function(ev,guild_ads){
+            $scope.guild_ads=guild_ads;
+        });
+        socket.forward('add:guild-ad',$scope);
+        $scope.$on('socket:add:guild-ad',function(ev,guild_ad){
+            $scope.guild_ads.unshift(guild_ad);
+        });
     }])
     .controller('AccountCtrl', ['$scope','socket',function ($scope,socket) {
 
