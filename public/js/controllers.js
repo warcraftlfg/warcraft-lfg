@@ -15,7 +15,6 @@ angular.module("wow-guild-recruit")
             $mdOpenMenu(ev);
         };
         $scope.toggleRight = function() {
-
             $mdSidenav("left")
                 .toggle();
         }
@@ -47,10 +46,12 @@ angular.module("wow-guild-recruit")
 
         }
     }])
-    .controller('GuildAddCtrl', ['$scope','socket',function ($scope,socket) {
+    .controller("GuildAddCtrl", ["$scope","socket", "LANGUAGES",function ($scope,socket,LANGUAGES) {
 
         //Initialize $scope variables
         $scope.userGuilds = null;
+        $scope.languages= LANGUAGES;
+        $scope.raiding_style="semi-hardcore";
 
         socket.forward('get:bnet-guilds',$scope);
         $scope.$on('socket:get:bnet-guilds',function(ev,guilds){
