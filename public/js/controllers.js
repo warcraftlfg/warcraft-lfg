@@ -32,7 +32,8 @@ angular.module("wow-guild-recruit")
         });
         socket.forward('add:guild-ad',$scope);
         $scope.$on('socket:add:guild-ad',function(ev,guild_ad){
-            $scope.guild_ads.unshift(guild_ad);
+            //TODO informer l'utilisateur que c'est good
+            //socket.emit('get:guild-ads');
         });
     }])
     .controller('AccountCtrl', ['$scope','socket',function ($scope,socket) {

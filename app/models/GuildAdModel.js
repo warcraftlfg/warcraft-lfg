@@ -22,7 +22,7 @@ GuildAdModel.prototype.add = function(id,guild_ad,callback) {
 };
 
 GuildAdModel.prototype.getLast = function(callback){
-    this.database.search("guild-ads", {}, {}, 5, 1, {_id:1}, function(error,result){
+    this.database.search("guild-ads", {}, {}, 5, 1, {updated:-1}, function(error,result){
         callback(error, result);
     });
 

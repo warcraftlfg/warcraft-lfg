@@ -24,7 +24,9 @@ module.exports = function(io){
             socket.on('add:guild-ad', function(guild_ad) {
                 //TODO Vérifier que l'utilisateur est bien dans la guilde qu'il rajoute
                 guildAdModel.add(socket.request.user.id,guild_ad,function(error,result){
-                    io.emit('add:guild-ad',guild_ad);
+                    guildAdModel.getLast(function(error,result){
+                        io.emit('get:guild-ads',result);
+                    });
                 });
             });
         }
