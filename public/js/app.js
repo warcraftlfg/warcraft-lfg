@@ -30,7 +30,7 @@ angular.module('wow-guild-recruit',["wow-guild-recruit.config","ui.router","pasc
             })
             .state("guild-add", {
                 url: "/account/guild-add",
-                templateUrl: "views/guild.add.html",
+                templateUrl: "views/guild-ad.add.html",
                 controller: "GuildAddCtrl"
             })
             .state("character-add", {

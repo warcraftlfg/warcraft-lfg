@@ -46,12 +46,12 @@ angular.module("wow-guild-recruit")
 
         }
     }])
-    .controller("GuildAddCtrl", ["$scope","socket", "LANGUAGES",function ($scope,socket,LANGUAGES) {
+    .controller("GuildAddCtrl", ["$scope","socket", "LANGUAGES","GUILD_AD",function ($scope,socket,LANGUAGES,GUILD_AD) {
 
         //Initialize $scope variables
         $scope.userGuilds = null;
         $scope.languages= LANGUAGES;
-        $scope.raiding_style="semi-hardcore";
+        $scope.guild_ad =GUILD_AD;
 
         socket.forward('get:bnet-guilds',$scope);
         $scope.$on('socket:get:bnet-guilds',function(ev,guilds){
@@ -62,8 +62,13 @@ angular.module("wow-guild-recruit")
         $scope.updateRegion = function(){
             $scope.$parent.loading = true;
             socket.emit('get:bnet-guilds',$scope.region);
-        }
+        };
         $scope.selectGuild = function(guild){
-            $scope.guild = guild;
-        }
+            $scope.guild_ad.name = guild.name;
+            $scope.guild_ad.realm = guild.realm;
+            $scope.guild_ad.region = guild.region
+        };
+        $scope.submit = function(){
+            socket.emit('add:guild-ad',$scope.guild_ad);
+        };
     }]);
