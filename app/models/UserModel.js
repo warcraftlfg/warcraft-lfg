@@ -4,14 +4,13 @@
 var async = require("async");
 var applicationStorage = process.require("app/api/applicationStorage");
 var bnetAPI = process.require("app/api/bnet.js");
-var CharacterUpdateModel = process.require("app/models/CharacterUpdateModel.js");
+var GuildUpdateModel = process.require("app/models/GuildUpdateModel.js");
 var loggerWebserver = process.require("app/api/logger.js").get("webserver");
 
 //Configuration
 var env = process.env.NODE_ENV || 'dev';
 var config = process.require('/app/config/config.'+env+'.json');
-var characterUpdateModel = new CharacterUpdateModel();
-
+var guildUpdateModel = new GuildUpdateModel();
 
 /**
  * Defines a model class to manipulate users
@@ -30,7 +29,7 @@ UserModel.prototype.findOrCreateOauthUser = function (user,callback){
         if(result==null){
             //Create User
             self.add(user,function(error,result){
-                self.importCharactersAndGuilds(user.accessToken);
+                self.importGuilds(user.accessToken);
                 delete user.accessToken;
                 callback(user);
             });
@@ -38,7 +37,6 @@ UserModel.prototype.findOrCreateOauthUser = function (user,callback){
         else {
             //Update user
             self.update(user,function(error,data){
-                self.importCharactersAndGuilds(user.accessToken);
                 callback(result);
             });
         }
@@ -103,22 +101,16 @@ UserModel.prototype.getCharacters = function(region,accessToken,callback){
 };
 
 
-UserModel.prototype.importCharactersAndGuilds= function(accessToken){
+UserModel.prototype.importGuilds = function(accessToken){
     var self=this;
     config.bnet_regions.forEach(function(region) {
-        bnetAPI.getUserCharacters(region, accessToken, function (characters) {
-            characters.forEach(function (character){
-                characterUpdateModel.add(region,character.realm,character.name, function (error, result) {
-                    loggerWebserver.info("Insert character to update "+ character.name+"-"+character.realm+"-"+region)
+
+        self.getGuilds(region,accessToken,function(guilds) {
+            guilds.forEach(function (guild) {
+                guildUpdateModel.add(region, guild.realm, guild.name,function (error,result){
+                    loggerWebserver.info("Insert guild  to update "+ guild.name+"-"+guild.realm+"-"+region)
                 });
             });
         });
-        self.getGuilds(region,accessToken,function(guilds) {
-            guilds.forEach(function (guild) {
-                //TODO Get guild to cron ;)
-            });
-        })
-
-
     });
 };

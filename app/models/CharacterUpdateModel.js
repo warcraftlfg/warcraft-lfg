@@ -39,6 +39,10 @@ CharacterUpdateModel.prototype.remove = function(character,callback){
     });
 };
 
+/**
+ * Get older guidl of the collection character-updates
+ * @param callback
+ */
 CharacterUpdateModel.prototype.getOlder = function(callback){
     this.database.search("character-updates", {}, {}, 1, 1, {_id:1}, function(error,result){
         callback(error, result[0]);

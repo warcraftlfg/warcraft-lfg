@@ -7,7 +7,6 @@ var CharacterModel = process.require("app/models/CharacterModel.js");
 var bnetAPI = process.require("app/api/bnet.js");
 var loggerCron = process.require("app/api/logger.js").get("cron");
 
-
 function CharacterUpdateProcess(){
     this.lock = false;
 }
@@ -25,22 +24,19 @@ CharacterUpdateProcess.prototype.updateCharacter = function(){
         self.lock = true;
         self.characterUpdateModel.getOlder(function(error,currentupdate){
             if(currentupdate){
-                bnetAPI.getCharacter(currentupdate.region,currentupdate.realm, currentupdate.name, function (character) {
-                    if (character) {
-                        character.region = currentupdate.region;
-                        self.characterModel.add(character, function (error, result) {
-                            self.characterUpdateModel.remove(currentupdate, function (error, result) {
-                                loggerCron.info('insert/update: ' + character.region + "-" + character.realm + "-" + character.name);
+                self.characterUpdateModel.remove(currentupdate, function (error, result) {
+                    bnetAPI.getCharacter(currentupdate.region,currentupdate.realm, currentupdate.name, function (character) {
+                        if (character) {
+                            self.characterModel.add(currentupdate.region, character, function (error, result) {
+                                loggerCron.info('insert/update character: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
                                 self.lock = false;
                             });
-                        });
-                    }
-                    else {
-                        self.characterUpdateModel.remove(currentupdate, function (error, result) {
+                        }
+                        else {
                             self.lock = false;
                             loggerCron.warn('Unable to fetch user: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
-                        });
-                    }
+                        }
+                    });
                 });
             }else {
                 self.lock = false;

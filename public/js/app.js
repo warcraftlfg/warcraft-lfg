@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('wow-guild-recruit',['mdl','ui.router','pascalprecht.translate','btford.socket-io'])
+angular.module('wow-guild-recruit',['ui.router','pascalprecht.translate','btford.socket-io','ngMaterial'])
     .config(function ($translateProvider,$urlRouterProvider,$stateProvider) {
 
         //Translation Property
@@ -18,23 +18,23 @@ angular.module('wow-guild-recruit',['mdl','ui.router','pascalprecht.translate','
         //Define routes
         $urlRouterProvider.otherwise("/");
         $stateProvider
-            .state('/', {
+            .state('home', {
                 url: "/",
                 templateUrl: "views/dashboard.html",
                 controller: "DashboardCtrl"
             })
-            .state('/account', {
+            .state('account', {
                 url: "/account",
                 templateUrl: "views/account.html",
                 controller: "AccountCtrl"
             })
-            .state('/guild-add', {
-                url: "/guild-add",
+            .state('guild-add', {
+                url: "/account/guild-add",
                 templateUrl: "views/guild.add.html",
                 controller: "GuildAddCtrl"
             })
-            .state('/character-add', {
-                url: "/character-add",
+            .state('character-add', {
+                url: "/account/character-add",
                 templateUrl: "views/character.add.html",
                 controller: "CharacterAddCtrl"
             })

@@ -1,32 +1,18 @@
-<div class="row">
-    <div class="col-md-12">
-        Battletag : {{user.battletag}}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <a href="#/character-add">
-            <button type="button" class="btn btn-default btn-lg">
-                <i class="fa fa-plus"></i> {{"SEARCH_GUILD"|translate}}
-            </button>
-        </a>
-        <a href="#/guild-add">
-            <button type="button" class="btn btn-default btn-lg">
-                <i class="fa fa-plus"></i> {{"SEARCH_PLAYER"|translate}}
-            </button>
-        </a>
-    </div>
-    <div class="col-md-6">
+<md-card>
 
-    </div>
+<div layout="row">
+        <div flex=20>
+            <div class="bnet-logo"></div>
+        </div>
+        <div flex >
+            <md-card-content>
+                <h2>{{user.battletag}}</h2>
+                <p>{{"ACCOUNT_SEARCH_DESCRIPTION"|translate}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+                <md-button ng-href="#/account/guild-add">{{"ACCOUNT_SEARCH_PLAYER"|translate}}</md-button>
+                <md-button ng-href="#/account/character-add">{{"ACCOUNT_SEARCH_GUILD"|translate}}</md-button>
+            </div>
+        </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-       <pre>
-           ACCOUNT TODOLIST
-           - Create 2 buttons - Search Guild & Search Player
-           - Show current ad
-       </pre>
-    </div>
-</div>
-
+</md-card>
