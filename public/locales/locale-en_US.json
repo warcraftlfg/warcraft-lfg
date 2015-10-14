@@ -8,5 +8,6 @@
   "ACCOUNT_SEARCH_DESCRIPTION": "Your are searching a guild or some players. Go to 'Characters' and 'Guilds' pages and search as you like. You can also click on le link above and create a classified advertisement and increase your visibility.",
   "ACCOUNT_SEARCH_GUILD": "I'm searching a guild",
   "ACCOUNT_SEARCH_PLAYER": "I'm searching players",
-  "SELECT_REGION_GUILD":  "Select your region and your guild"
+  "SELECT_REGION_GUILD":  "Select your region and your guild",
+  "LANG_DE":"DEUTCH"
 }
