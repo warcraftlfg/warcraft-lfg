@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('wow-guild-recruit',["wow-guild-recruit.config","ui.router","pascalprecht.translate","btford.socket-io","ngMaterial"])
+angular.module('wow-guild-recruit',["wow-guild-recruit.config","ui.router","pascalprecht.translate","btford.socket-io","angularMoment"])
     .config(function ($translateProvider,$urlRouterProvider,$stateProvider) {
 
         //Translation Property
@@ -28,14 +28,19 @@ angular.module('wow-guild-recruit',["wow-guild-recruit.config","ui.router","pasc
                 templateUrl: "views/account.html",
                 controller: "AccountCtrl"
             })
-            .state("guild-add", {
-                url: "/account/guild-add",
-                templateUrl: "views/guild-ad.add.html",
-                controller: "GuildAddCtrl"
+            .state("guildad-add", {
+                url: "/account/guildad",
+                templateUrl: "views/guildad-add.html",
+                controller: "GuildAdAddCtrl"
             })
-            .state("character-add", {
-                url: "/account/character-add",
-                templateUrl: "views/character.add.html",
+            .state("guildad-edit", {
+                url: "/account/guildad/:region/:realm/:name",
+                templateUrl: "views/guildad-edit.html",
+                controller: "GuildAdEditCtrl"
+            })
+            .state("characterad", {
+                url: "/account/characterad",
+                templateUrl: "views/characterad.html",
                 controller: "CharacterAddCtrl"
             })
     });

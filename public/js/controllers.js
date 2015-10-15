@@ -1,7 +1,7 @@
 "use strict"
 
 angular.module("wow-guild-recruit")
-    .controller('MainCtrl', ['$scope','$translate','socket','$mdUtil','$mdSidenav',function ($scope,$translate,socket,$mdUtil,$mdSidenav) {
+    .controller('MainCtrl', ['$scope','$translate','socket',function ($scope,$translate,socket) {
         $scope.setLanguage = function (key){
             $translate.use(key);
         }
@@ -9,15 +9,6 @@ angular.module("wow-guild-recruit")
         socket.on('get:user', function(user) {
             $scope.user = user;
         });
-        var originatorEv;
-        $scope.openMenu = function($mdOpenMenu, ev) {
-            originatorEv = ev;
-            $mdOpenMenu(ev);
-        };
-        $scope.toggleRight = function() {
-            $mdSidenav("left")
-                .toggle();
-        }
 
 
     }])
@@ -37,6 +28,16 @@ angular.module("wow-guild-recruit")
         });
     }])
     .controller('AccountCtrl', ['$scope','socket',function ($scope,socket) {
+
+        $scope.$parent.loading = true;
+
+        socket.emit('get:user-guild-ads');
+        socket.forward('get:user-guild-ads',$scope);
+        $scope.$on('socket:get:user-guild-ads',function(ev,guild_ads){
+            $scope.$parent.loading = false;
+            $scope.guild_ads = guild_ads;
+        });
+
 
     }])
     .controller('CharacterAddCtrl', ['$scope','socket',function ($scope,socket) {
@@ -58,12 +59,8 @@ angular.module("wow-guild-recruit")
 
         }
     }])
-    .controller("GuildAddCtrl", ["$scope","socket", "LANGUAGES","GUILD_AD",function ($scope,socket,LANGUAGES,GUILD_AD) {
-
-        //Initialize $scope variables
+    .controller("GuildAdAddCtrl", ["$scope","socket",function ($scope,socket) {
         $scope.userGuilds = null;
-        $scope.languages= LANGUAGES;
-        $scope.guild_ad =GUILD_AD;
 
         socket.forward('get:bnet-guilds',$scope);
         $scope.$on('socket:get:bnet-guilds',function(ev,guilds){
@@ -75,12 +72,37 @@ angular.module("wow-guild-recruit")
             $scope.$parent.loading = true;
             socket.emit('get:bnet-guilds',$scope.region);
         };
-        $scope.selectGuild = function(guild){
-            $scope.guild_ad.name = guild.name;
-            $scope.guild_ad.realm = guild.realm;
-            $scope.guild_ad.region = guild.region
-        };
-        $scope.submit = function(){
+    }])
+    .controller("GuildAdEditCtrl", ["$scope","socket","$state","$stateParams","LANGUAGES","GUILD_AD",function ($scope,socket,$state,$stateParams,LANGUAGES,GUILD_AD) {
+
+        //Initialize $scope variables
+        $scope.languages= LANGUAGES;
+        $scope.guild_ad = GUILD_AD;
+        $scope.$parent.loading = true;
+
+
+        socket.emit('get:guild-ad',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+
+        socket.forward('get:guild-ad',$scope);
+        $scope.$on('socket:get:guild-ad',function(ev,guild_ad){
+            $scope.guild_ad = angular.merge({},GUILD_AD,guild_ad);
+            if (!guild_ad){
+                $scope.guild_ad.name = $stateParams.name;
+                $scope.guild_ad.realm = $stateParams.realm;
+                $scope.guild_ad.region = $stateParams.region;
+            }
+            $scope.$parent.loading = false;
+
+        });
+
+        $scope.save = function(){
             socket.emit('add:guild-ad',$scope.guild_ad);
+            $scope.$parent.loading = true;
         };
+
+        socket.forward('add:guild-ad',$scope);
+        $scope.$on('socket:add:guild-ad',function(ev,guild_ad){
+            $scope.$parent.loading = false;
+            $state.go("account");
+        });
     }]);

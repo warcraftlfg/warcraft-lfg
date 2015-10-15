@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="form-group">
+                <label for="characterNameInput">{{"SELECTED_GUILD_NAME"|translate}}</label>
+                <input ng-model="guild_ad.name" disabled class="form-control" id="characterNameInput">
+            </div>
+            <div class="form-group">
+                <label for="characterRealmInput">{{"SELECTED_GUILD_REALM"|translate}}</label>
+                <input ng-model="guild_ad.realm" disabled class="form-control" id="characterRealmInput">
+            </div>
+            <div class="form-group">
+                <label>{{"GUILD_ADD_RECRUITMENT_CLASS"|translate}}</label>
+                <div class="row">
+                    <div ng-repeat="(role,value) in guild_ad.recruitment" class="col-md-3">
+                        <strong>{{role|uppercase|translate}}</strong>
+                        <div  ng-repeat="(class,value) in guild_ad.recruitment[role]" class="checkbox">
+                            <label>
+                                <input ng-model="guild_ad.recruitment[role][class]" type="checkbox"> {{class|uppercase|translate}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{"GUILD_ADD_RAIDS_PER_WEEK"|translate}}</label>
+                <div ng-repeat="(key,value) in guild_ad.raids_per_week" class="checkbox">
+                    <label>
+                        <input ng-model="guild_ad.raids_per_week[key]" type="checkbox"> {{key|uppercase|translate}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{"GUILD_ADD_PRIMARY_LANGUAGE"|translate}}</label>
+                <select ng-model="guild_ad.lang_code" class="form-control">
+                    <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>{{"GUILD_ADD_RAIDING_STYLE"|translate}}</label>
+                <div class="radio">
+                    <label>
+                        <input name="raiding_style" type="radio" value="hardcore" ng-model="guild_ad.raiding_style">{{"HARDCORE"|translate}}
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input name="raiding_style" type="radio" value="semi-hardcore" ng-model="guild_ad.raiding_style">{{"SEMI_HARDCORE"|translate}}
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input name="raiding_style" type="radio" value="casual" ng-model="guild_ad.raiding_style">{{"CASUAL"|translate}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{"GUILD_ADD_DESCRIPTION"|translate}}</label>
+                <textarea ng-model="guild_ad.description" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
+        </form>
+    </div>
+</div>
