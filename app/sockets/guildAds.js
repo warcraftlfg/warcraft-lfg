@@ -24,9 +24,26 @@ module.exports = function(io){
             socket.on('add:guild-ad', function(guild_ad) {
                 //TODO Vérifier que l'utilisateur est bien dans la guilde qu'il rajoute
                 guildAdModel.add(socket.request.user.id,guild_ad,function(error,result){
-                    io.emit('add:guild-ad',guild_ad);
+                    guildAdModel.getLast(function(error,result){
+                        io.emit('get:guild-ads',result);
+                        socket.emit('add:guild-ad',result);
+
+                    });
                 });
             });
+            socket.on('get:guild-ad', function(guild_ad) {
+                guildAdModel.get(guild_ad,function(error,result){
+                    socket.emit('get:guild-ad',result);
+                });
+            });
+
+
+            socket.on('get:user-guild-ads', function(guild_ad) {
+                guildAdModel.getUserGuildAds(socket.request.user.id,function(error,result){
+                    socket.emit('get:user-guild-ads',result);
+                });
+            });
+
         }
 
     });
