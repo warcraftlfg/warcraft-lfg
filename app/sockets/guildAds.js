@@ -26,9 +26,24 @@ module.exports = function(io){
                 guildAdModel.add(socket.request.user.id,guild_ad,function(error,result){
                     guildAdModel.getLast(function(error,result){
                         io.emit('get:guild-ads',result);
+                        socket.emit('add:guild-ad',result);
+
                     });
                 });
             });
+            socket.on('get:guild-ad', function(guild_ad) {
+                guildAdModel.get(guild_ad,function(error,result){
+                    socket.emit('get:guild-ad',result);
+                });
+            });
+
+
+            socket.on('get:user-guild-ads', function(guild_ad) {
+                guildAdModel.getUserGuildAds(socket.request.user.id,function(error,result){
+                    socket.emit('get:user-guild-ads',result);
+                });
+            });
+
         }
 
     });
