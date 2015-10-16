@@ -10,9 +10,19 @@ angular.module("wow-guild-recruit")
             $scope.user = user;
         });
 
+        socket.on('global:error', function(error) {
+            $scope.error = error;
+            $scope.loading=false;
+        });
+
+
 
     }])
     .controller('DashboardCtrl', ['$scope','socket',function ($scope,socket) {
+        //Reset error message
+        $scope.$parent.error=null
+
+        //Initialize $scope variables
         $scope.guild_ads=[];
 
         socket.emit('get:guild-ads');
@@ -28,7 +38,10 @@ angular.module("wow-guild-recruit")
         });
     }])
     .controller('AccountCtrl', ['$scope','socket',function ($scope,socket) {
+        //Reset error message
+        $scope.$parent.error=null
 
+        //Initialize $scope variables
         $scope.$parent.loading = true;
 
         socket.emit('get:user-guild-ads');
@@ -41,6 +54,9 @@ angular.module("wow-guild-recruit")
 
     }])
     .controller('CharacterAddCtrl', ['$scope','socket',function ($scope,socket) {
+        //Reset error message
+        $scope.$parent.error=null
+
         //Initialize $scope variables
         $scope.userCharacters = null;
 
@@ -60,6 +76,10 @@ angular.module("wow-guild-recruit")
         }
     }])
     .controller("GuildAdAddCtrl", ["$scope","socket",function ($scope,socket) {
+        //Reset error message
+        $scope.$parent.error=null
+
+        //Initialize $scope variables
         $scope.userGuilds = null;
 
         socket.forward('get:bnet-guilds',$scope);
@@ -74,6 +94,8 @@ angular.module("wow-guild-recruit")
         };
     }])
     .controller("GuildAdEditCtrl", ["$scope","socket","$state","$stateParams","LANGUAGES","GUILD_AD",function ($scope,socket,$state,$stateParams,LANGUAGES,GUILD_AD) {
+        //Reset error message
+        $scope.$parent.error=null
 
         //Initialize $scope variables
         $scope.languages= LANGUAGES;
