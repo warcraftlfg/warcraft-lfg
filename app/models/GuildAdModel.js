@@ -13,20 +13,21 @@ function GuildAdModel(){
 
 module.exports = GuildAdModel;
 
-GuildAdModel.prototype.add = function(id,guild_ad,callback) {
-    guild_ad.id=id;
-    guild_ad.updated=new Date().getTime();
-    delete guild_ad._id;
-    this.database.InsertOrUpdate("guild-ads", {region:guild_ad.region,realm:guild_ad.realm,name:guild_ad.name} ,guild_ad, function(error,result){
+GuildAdModel.prototype.add = function(id,guildAd,callback) {
+    guildAd.id=id;
+    guildAd.updated=new Date().getTime();
+    delete guildAd._id;
+    this.database.InsertOrUpdate("guild-ads", {region:guildAd.region,realm:guildAd.realm,name:guildAd.name} ,guildAd, function(error,result){
         callback(error, result);
     });
 };
 
-GuildAdModel.prototype.get = function(guild_ad,callback){
-    this.database.get("guild-ads",{"region":guild_ad.region,"realm":guild_ad.realm,"name":guild_ad.name},{},1,function(error,guild_ad){
-        callback(error, guild_ad && guild_ad[0]);
+GuildAdModel.prototype.get = function(guildAd,callback){
+    this.database.get("guild-ads",{"region":guildAd.region,"realm":guildAd.realm,"name":guildAd.name},{},1,function(error,guildAd){
+        callback(error, guildAd && guildAd[0]);
     });
 };
+
 GuildAdModel.prototype.getLast = function(callback){
     this.database.search("guild-ads", {}, {}, 5, 1, {updated:-1}, function(error,result){
         callback(error, result);
