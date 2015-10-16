@@ -16,10 +16,10 @@
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="guild_ad in guild_ads">
             <div class="row">
-                <div class="col-md-10">
-                    {{guild_ad.name}} - {{guild_ad.realm}} - {{guild_ad.region}} - <span am-time-ago="guild_ad.updated"></span>
+                <div class="col-md-9">
+                   <a href="#">{{guild_ad.name}} - {{guild_ad.realm}} - {{guild_ad.region}} - <span am-time-ago="guild_ad.updated"></span></a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <a class="btn btn-default" href="#/account/guildad/{{guild_ad.region}}/{{guild_ad.realm}}/{{guild_ad.name}}" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
                     <a class="btn btn-danger" href="#" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
                 </div>
@@ -27,3 +27,7 @@
         </li>
     </ul>
 </div>
+<div>
+    <h3>{{"ACCOUNT_USER_CHARACTERS_ADS"|translate}}</h3>
+</div>
+
