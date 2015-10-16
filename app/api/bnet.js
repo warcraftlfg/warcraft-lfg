@@ -8,13 +8,18 @@ var request = require("request");
 var env = process.env.NODE_ENV || 'dev';
 var config = process.require('/app/config/config.'+env+'.json');
 
+
 module.exports.getUserCharacters = function(region,accessToken,callback){
-    request(encodeURI("https://"+region+".api.battle.net/wow/user/characters?access_token="+accessToken), function (error, response, body) {
+    var url = encodeURI("https://"+region+".api.battle.net/wow/user/characters?access_token="+accessToken);
+    request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            callback(JSON.parse(body).characters);
+            callback(error,JSON.parse(body).characters);
         }
         else{
-            callback(null);
+            if(error)
+                callback(new Error(error.message+" on fetching bnet api "+url));
+            else
+                callback(new Error("Error HTTP "+response.statusCode+" on fetching bnet api "+url));
         }
     })
 };
@@ -25,7 +30,10 @@ module.exports.getCharacter = function(region,realm,name,callback){
             callback(JSON.parse(body));
         }
         else{
-            callback(null);
+            if(error)
+                callback(new Error(error.message+" on fetching bnet api "+url));
+            else
+                callback(new Error("Error HTTP "+response.statusCode+" on fetching bnet api "+url));
         }
     });
 };
@@ -36,7 +44,10 @@ module.exports.getGuild= function(region,realm,name,callback){
             callback(JSON.parse(body));
         }
         else{
-            callback(null);
+            if(error)
+                callback(new Error(error.message+" on fetching bnet api "+url));
+            else
+                callback(new Error("Error HTTP "+response.statusCode+" on fetching bnet api "+url));
         }
     });
 };

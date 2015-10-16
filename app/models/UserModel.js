@@ -71,7 +71,13 @@ UserModel.prototype.getAccessToken = function(id,callback){
 };
 
 UserModel.prototype.getGuilds = function(region,accessToken,callback){
-    bnetAPI.getUserCharacters(region,accessToken,function(characters){
+    bnetAPI.getUserCharacters(region,accessToken,function(error,characters){
+        if (error) {
+            callback(new Error("BNET_API_ERROR"));
+            loggerWebserver.error(error.message);
+            return;
+        }
+
         var guilds = {};
         //Fetch all characters and keep guild
         async.forEach(characters,function(character,callback){
@@ -81,12 +87,18 @@ UserModel.prototype.getGuilds = function(region,accessToken,callback){
         });
         //Remove Key
         var arr = Object.keys(guilds).map(function (key) {return guilds[key]});
-        callback(arr);
+        callback(null,arr);
     });
 };
 
 UserModel.prototype.getCharacters = function(region,accessToken,callback){
-    bnetAPI.getUserCharacters(region,accessToken,function(characters){
+    bnetAPI.getUserCharacters(region,accessToken,function(error,characters){
+        if (error) {
+            callback(new Error("BNET_API_ERROR"));
+            loggerWebserver.error(error.message);
+            return;
+        }
+
         var charactersFilter = {};
         //Fetch all characters
         async.forEach(characters,function(character,callback){
@@ -96,7 +108,7 @@ UserModel.prototype.getCharacters = function(region,accessToken,callback){
         });
         //Remove Key
         var arr = Object.keys(charactersFilter).map(function (key) {return charactersFilter[key]});
-        callback(arr);
+        callback(null,arr);
     });
 };
 
@@ -105,7 +117,7 @@ UserModel.prototype.importGuilds = function(accessToken){
     var self=this;
     config.bnet_regions.forEach(function(region) {
 
-        self.getGuilds(region,accessToken,function(guilds) {
+        self.getGuilds(region,accessToken,function(error,guilds) {
             guilds.forEach(function (guild) {
                 guildUpdateModel.add(region, guild.realm, guild.name,function (error,result){
                     loggerWebserver.info("Insert guild  to update "+ guild.name+"-"+guild.realm+"-"+region)
