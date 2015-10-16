@@ -3,109 +3,64 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>WoW Guild Recruit</title>
 
-    <link rel="stylesheet" href="/components/angular-material/angular-material.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
 </head>
+
 <body ng-controller="MainCtrl">
+<div class="main-container  container-fluid">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/"></i> WoW Guild Recruit</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">{{"CHARACTERS"|translate}}</a></li>
+                    <li><a href="#">{{"GUILDS"|translate}}</a></li>
 
-<div layout-fill>
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <md-button hide-gt-sm ng-click="toggleRight()" class="md-icon-button" aria-label="Menu">
-                <md-icon md-svg-icon="/images/icons/menu.svg"></md-icon>
-            </md-button>
-            <h2>
-                <span>WoW Guild Recruit</span>
-            </h2>
-            <md-progress-circular ng-if="loading" md-mode="indeterminate" class="md-accent" md-diameter="30"></md-progress-circular>
-            <span flex></span>
-            <span hide show-gt-sm>
-                <md-button ng-href="#/">
-                    {{"HOME"|translate}}
-                </md-button>
-                <md-button ng-href="#/characters">
-                    {{"CHARACTERS"|translate}}
-                </md-button>
-                <md-button ng-href="#/guilds">
-                    {{"GUILDS"|translate}}
-                </md-button>
-                <md-button md-no-ink ng-if="!user.logged_in" ng-href="/auth/bnet" class="md-primary">
-                    {{"CONNECT_BNET"|translate}}
-                </md-button>
-            </span>
-            <md-menu ng-if="user.logged_in" hide show-gt-sm>
-                <md-button class="md-icon-button" aria-label="Account" ng-click="openMenu($mdOpenMenu, $event)">
-                    <md-icon md-svg-icon="/images/icons/account.svg"></md-icon>
-                </md-button>
-                <md-menu-content width="2">
-                    <md-menu-item>
-                        <md-button ng-href="#/account">
-                            {{"ACCOUNT"|translate}}
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-href="/logout">
-                            {{"LOGOUT"|translate}}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-        </div>
-    </md-toolbar>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
-        <md-toolbar class="md-theme-light">
-            <h1 class="md-toolbar-tools">WoW Guild Recruit</h1>
-        </md-toolbar>
-        <md-content layout-padding>
-            <form>
-                <md-input-container>
-                    <md-button ng-href="#/">
-                        {{"HOME"|translate}}
-                    </md-button>
-                    <md-button ng-href="#/characters">
-                        {{"CHARACTERS"|translate}}
-                    </md-button>
-                    <md-button ng-href="#/guilds">
-                        {{"GUILDS"|translate}}
-                    </md-button>
-                    <md-divider></md-divider>
-                    <md-button ng-href="#/account">
-                        {{"ACCOUNT"|translate}}
-                    </md-button>
-                    <md-button ng-href="/logout">
-                        {{"LOGOUT"|translate}}
-                    </md-button>
-                </md-input-container>
-            </form>
-        </md-content>
-    </md-sidenav>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li ng-if="!user.logged_in">
+                        <a href="/auth/bnet"><i class="fa fa-lg fa-arrow-circle-right"></i> {{"CONNECT_BNET" | translate}}</a>
+                    </li>
+                    <li ng-if="user.logged_in" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.battletag}} <span class="caret"></span></a>
+                        <ul  class="dropdown-menu">
+                            <li><a href="#/account"><i class="fa fa-user"></i> {{"ACCOUNT" | translate}}</a></li>
+                            <li><a href="/logout"><i class="fa fa-power-off"></i> {{"LOGOUT" | translate}}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div ui-view></div>
+    <!-- Modal -->
 
-    <md-content layout-wrap role="main">
-        <div class="main-container" ui-view>
-        </div>
-    </md-content>
-
-    <!-- Le footer bug pour le moment ??? -->
-    <!--md-bottom-sheet>
-        <div layout="column" layout-align="center center">
-            <div>Footer</div>
-        </div>
-    </md-bottom-sheet-->
-
+    <div class="modal-backdrop fade in" ng-if="loading"></div>
 </div>
-
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/components/angular/angular.min.js"></script>
-<script type="text/javascript" src="/components/angular-animate/angular-animate.js"></script>
-<script type="text/javascript" src="/components/angular-aria/angular-aria.min.js"></script>
-<script type="text/javascript" src="/components/angular-material/angular-material.js"></script>
 <script type="text/javascript" src="/components/angular-socket-io/socket.min.js"></script>
+<script type="text/javascript" src="/components/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="/components/angular-moment/angular-moment.min.js"></script>
 <script type="text/javascript" src="/components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="/components/angular-translate/angular-translate.min.js"></script>
 <script type="text/javascript" src="/components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>

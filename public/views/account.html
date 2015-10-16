@@ -1,17 +1,29 @@
-<md-card>
-    <div layout="row">
-        <div flex=20>
-            <div class="bnet-logo"></div>
-        </div>
-        <div flex >
-            <md-card-content>
-                <h2>{{user.battletag}}</h2>
-                <p>{{"ACCOUNT_SEARCH_DESCRIPTION"|translate}}</p>
-            </md-card-content>
-            <div class="md-actions" layout="row" layout-align="end center">
-                <md-button ng-href="#/account/guild-add">{{"ACCOUNT_SEARCH_PLAYER"|translate}}</md-button>
-                <md-button ng-href="#/account/character-add">{{"ACCOUNT_SEARCH_GUILD"|translate}}</md-button>
-            </div>
+<div class="jumbotron">
+    <h2>{{user.battletag}}</h2>
+    <div class="row">
+        <div class="col-md-3 bnet-logo"></div>
+        <div class="col-md-9">
+            <p>{{"ACCOUNT_SEARCH_DESCRIPTION"|translate}}</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="#/account/guildad" role="button">{{"ACCOUNT_SEARCH_PLAYER"|translate}}</a>
+                <a class="btn btn-primary btn-lg" href="#/account/characterad" role="button">{{"ACCOUNT_SEARCH_GUILD"|translate}}</a>
+            </p>
         </div>
     </div>
-</md-card>
+</div>
+<div>
+    <h3>{{"ACCOUNT_USER_GUILD_ADS"|translate}}</h3>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="guild_ad in guild_ads">
+            <div class="row">
+                <div class="col-md-10">
+                    {{guild_ad.name}} - {{guild_ad.realm}} - {{guild_ad.region}} - <span am-time-ago="guild_ad.updated"></span>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-default" href="#/account/guildad/{{guild_ad.region}}/{{guild_ad.realm}}/{{guild_ad.name}}" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
+                    <a class="btn btn-danger" href="#" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
