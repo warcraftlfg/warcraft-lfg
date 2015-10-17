@@ -38,10 +38,15 @@ angular.module('wow-guild-recruit',["wow-guild-recruit.config","ui.router","pasc
                 templateUrl: "views/guildad-edit.html",
                 controller: "GuildAdEditCtrl"
             })
-            .state("characterad", {
+            .state("characterad-add", {
                 url: "/account/characterad",
-                templateUrl: "views/characterad.html",
-                controller: "CharacterAddCtrl"
+                templateUrl: "views/characterad-add.html",
+                controller: "CharacterAdAddCtrl"
+            })
+            .state("characterad-edit", {
+                url: "/account/characterad/:region/:realm/:name",
+                templateUrl: "views/characterad-edit.html",
+                controller: "CharacterAdEditCtrl"
             })
     });
 

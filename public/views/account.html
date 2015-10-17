@@ -29,5 +29,18 @@
 </div>
 <div>
     <h3>{{"ACCOUNT_USER_CHARACTERS_ADS"|translate}}</h3>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="character_ad in character_ads">
+            <div class="row">
+                <div class="col-md-9">
+                   <a href="#">{{character_ad.name}} - {{character_ad.realm}} - {{character_ad.region}} - <span am-time-ago="character_ad.updated"></span></a>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-default" href="#/account/characterad/{{character_ad.region}}/{{character_ad.realm}}/{{character_ad.name}}" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
+                    <a class="btn btn-danger" href="#" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 
