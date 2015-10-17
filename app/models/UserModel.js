@@ -1,11 +1,11 @@
-"use strict"
+"use strict";
 
 //Module dependencies
 var async = require("async");
 var applicationStorage = process.require("app/api/applicationStorage");
 var bnetAPI = process.require("app/api/bnet.js");
 var GuildUpdateModel = process.require("app/models/GuildUpdateModel.js");
-var loggerWebserver = process.require("app/api/logger.js").get("webserver");
+var logger = process.require("app/api/logger.js").get("logger");
 
 //Configuration
 var env = process.env.NODE_ENV || 'dev';
@@ -70,11 +70,11 @@ UserModel.prototype.getAccessToken = function(id,callback){
     });
 };
 
+
 UserModel.prototype.getGuilds = function(region,accessToken,callback){
     bnetAPI.getUserCharacters(region,accessToken,function(error,characters){
         if (error) {
-            callback(new Error("BNET_API_ERROR"));
-            loggerWebserver.error(error.message);
+            callback(error);
             return;
         }
 
@@ -91,11 +91,23 @@ UserModel.prototype.getGuilds = function(region,accessToken,callback){
     });
 };
 
+UserModel.prototype.getUserGuilds = function(region,id,callback){
+    var self = this;
+    self.getAccessToken(id,function(error,accessToken) {
+        if (error) {
+            callback(error);
+            return;
+        }
+        self.getGuilds(region,accessToken, function (error,guilds) {
+            callback(error,guilds);
+        });
+    });
+};
+
 UserModel.prototype.getCharacters = function(region,accessToken,callback){
     bnetAPI.getUserCharacters(region,accessToken,function(error,characters){
         if (error) {
-            callback(new Error("BNET_API_ERROR"));
-            loggerWebserver.error(error.message);
+            callback(error);
             return;
         }
 
@@ -112,6 +124,19 @@ UserModel.prototype.getCharacters = function(region,accessToken,callback){
     });
 };
 
+UserModel.prototype.getUserCharacters = function(region,id,callback){
+    var self = this;
+    self.getAccessToken(id,function(error,accessToken) {
+        if (error) {
+            callback(error);
+            return;
+        }
+        self.getCharacters(region,accessToken, function (error,guilds) {
+            callback(error,guilds);
+        });
+    });
+};
+
 
 UserModel.prototype.importGuilds = function(accessToken){
     var self=this;
@@ -120,7 +145,7 @@ UserModel.prototype.importGuilds = function(accessToken){
         self.getGuilds(region,accessToken,function(error,guilds) {
             guilds.forEach(function (guild) {
                 guildUpdateModel.add(region, guild.realm, guild.name,function (error,result){
-                    loggerWebserver.info("Insert guild  to update "+ guild.name+"-"+guild.realm+"-"+region)
+                    logger.info("Insert guild  to update "+ guild.name+"-"+guild.realm+"-"+region)
                 });
             });
         });
