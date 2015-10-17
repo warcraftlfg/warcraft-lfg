@@ -16,8 +16,7 @@ var applicationStorage = process.require("app/api/applicationStorage");
 //Configuration
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("/app/config/config."+env+".json");
-var loggerWebserver= loggerAPI.get("webserver",config.logger.webserver);
-var loggerCron= loggerAPI.get("cron",config.logger.cron);
+var logger = loggerAPI.get("logger",config.logger.webserver);
 
 
 
@@ -39,7 +38,7 @@ async.series([
         // Establish connection to the database
         db.connect(function(error) {
             if (error) {
-                loggerWebserver.error(error.message);
+                logger.error(error.message);
                 process.exit(0);
             }
 

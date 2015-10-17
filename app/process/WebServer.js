@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 //Module dependencies
 var env = process.env.NODE_ENV || "dev";
@@ -13,7 +13,7 @@ var session = require("express-session");
 var MongoStore = require("connect-mongo")(session);
 var passport = require("passport");
 var passportSocketIo = require("passport.socketio");
-var loggerWebserver = process.require("app/api/logger.js").get("webserver");
+var logger = process.require("app/api/logger.js").get("logger");
 
 
 /**
@@ -45,11 +45,10 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
     //Load sockets for socket.io messaging
     process.require('app/sockets/users.js')(this.io);
-    process.require('app/sockets/bnet.js')(this.io);
     process.require('app/sockets/guildAds.js')(this.io);
 
     //Create sessionStore inside Mongodb
-    var sessionStore =  new MongoStore({db: db.db})
+    var sessionStore =  new MongoStore({db: db.db});
 
     //Update Session store with opened database connection
     //Allowed server to restart without loosing any session
@@ -94,11 +93,7 @@ WebServer.prototype.onDatabaseAvailable = function(db){
         success: function(data, accept){ accept();},
         fail: function(data, message, error, accept){ accept();}
     }));
-
-
-
-
-}
+};
 
 /**
  * Starts the HTTP server.
@@ -109,7 +104,7 @@ WebServer.prototype.start = function(){
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
-        loggerWebserver.info("Server listening on port %s", server.address().port);
+        logger.info("Server listening on port %s", server.address().port);
     });
 
 };

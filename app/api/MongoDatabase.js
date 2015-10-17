@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 /**
  * @module api-mongodb
@@ -8,6 +8,9 @@
 var util = require("util");
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
+
+// Configuration
+var logger = process.require("app/api/logger.js").get("logger");
 
 /**
  * Defines a MongoDB Database.
@@ -24,7 +27,7 @@ var MongoClient = mongodb.MongoClient;
  *
  * @class MongoDatabase
  * @constructor
- * @param Object databaseConf A database configuration object like
+ * @param databaseConf A database configuration object like
  */
 function MongoDatabase(databaseConf){
     this.conf = databaseConf;
@@ -58,8 +61,10 @@ MongoDatabase.prototype.connect = function(callback){
 
     MongoClient.connect(connectionUrl, function(error, db){
         // Connection failed
-        if(error)
-            callback(error);
+        if(error){
+            logger.error(error.message);
+            callback(new Error("DATABASE_ERROR"));
+        }
 
         // Connection succeeded
         else{
@@ -75,14 +80,20 @@ MongoDatabase.prototype.connect = function(callback){
  *
  * @method insert
  * @async
- * @param {String} collection The collection to work on
- * @param {Objet} data The array of documents to insert into the collection
- * @param {Function} callback The function to call when it's done
+ * @param collection The collection to work on
+ * @param data The array of documents to insert into the collection
+ * @param callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
 MongoDatabase.prototype.insert = function(collection, data, callback){
     var collection = this.db.collection(collection);
-    collection.insert(data, callback);
+    collection.insert(data, function(error,result){
+        if(error){
+            logger.error(error.message);
+            error = new Error("DATABASE_ERROR");
+        }
+        callback(error,result);
+    });
 };
 
 /**
@@ -98,7 +109,13 @@ MongoDatabase.prototype.insert = function(collection, data, callback){
 MongoDatabase.prototype.remove = function(collection, criteria, callback){
     if(criteria && Object.keys(criteria).length){
         var collection = this.db.collection(collection);
-        collection.remove(criteria, callback);
+        collection.remove(criteria, function(error,result){
+            if(error){
+                logger.error(error.message);
+                error = new Error("DATABASE_ERROR");
+            }
+            callback(error,result);
+        });
     }
 };
 
@@ -115,7 +132,13 @@ MongoDatabase.prototype.remove = function(collection, criteria, callback){
  */
 MongoDatabase.prototype.update = function(collection, criteria, data, callback){
     var collection = this.db.collection(collection);
-    collection.update(criteria, {$set : data}, {multi:true}, callback);
+    collection.update(criteria, {$set : data}, {multi:true}, function(error,result){
+        if(error){
+            logger.error(error.message);
+            error = new Error("DATABASE_ERROR");
+        }
+        callback(error,result);
+    });
 };
 
 /**
@@ -131,7 +154,13 @@ MongoDatabase.prototype.update = function(collection, criteria, data, callback){
  */
 MongoDatabase.prototype.InsertOrUpdate = function(collection, criteria, data, callback){
     var collection = this.db.collection(collection);
-    collection.update(criteria, {$set : data}, {upsert:true, multi:true}, callback);
+    collection.update(criteria, {$set : data}, {upsert:true, multi:true}, function(error,result){
+        if(error){
+            logger.error(error.message);
+            error = new Error("DATABASE_ERROR");
+        }
+        callback(error,result);
+    });
 };
 
 
@@ -157,9 +186,21 @@ MongoDatabase.prototype.get = function(collection, criteria, projection, limit, 
     var limit = limit || -1;
 
     if(limit === -1)
-        collection.find(criteria, projection).toArray(callback);
+        collection.find(criteria, projection).toArray(function(error,result){
+            if(error){
+                logger.error(error.message);
+                error = new Error("DATABASE_ERROR");
+            }
+            callback(error,result);
+        });
     else
-        collection.find(criteria, projection).limit(limit).toArray(callback);
+        collection.find(criteria, projection).limit(limit).toArray(function (error,result){
+            if(error){
+                logger.error(error.message);
+                error = new Error("DATABASE_ERROR");
+            }
+            callback(error,result);
+        });
 };
 
 MongoDatabase.prototype.search = function(collection, criteria, projection, limit, page, sort, callback){
@@ -173,7 +214,13 @@ MongoDatabase.prototype.search = function(collection, criteria, projection, limi
     var sort = sort || {};
 
     if(limit === -1)
-        collection.find(criteria, projection).sort(sort).toArray(callback);
+        collection.find(criteria, projection).sort(sort).toArray(function(error,result){
+            if(error){
+                logger.error(error.message);
+                error = new Error("DATABASE_ERROR");
+            }
+            callback(error,result);
+        });
     else{
         var cursor = collection.find(criteria, projection).sort(sort).skip(skip).limit(limit);
         var rows = cursor.toArray(function (err, res) {
@@ -184,6 +231,10 @@ MongoDatabase.prototype.search = function(collection, criteria, projection, limi
                     "pages": Math.ceil(count / limit),
                     "size": count
                 };
+                if(err){
+                    logger.error(err.message);
+                    err = new Error("DATABASE_ERROR");
+                }
                 callback(err, res, paginate)
             });
         });

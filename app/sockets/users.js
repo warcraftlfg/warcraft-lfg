@@ -6,19 +6,54 @@
  */
 
 //Modules dependencies
-var loggerWebserver = process.require("app/api/logger.js").get("webserver");
+var UserModel = process.require("app/models/UserModel.js");
 
+//Configuration
+var logger = process.require("app/api/logger.js").get("logger");
+var userModel = new UserModel();
 
 module.exports = function(io){
     //Listen for new user's connections
     io.on('connection', function(socket){
 
-        if(socket.request.user.logged_in)
-            loggerWebserver.info( socket.request.user.battletag + " connected");
-        else
-            loggerWebserver.info("Anonymous user connected");
+        if(!socket.request.user.logged_in) {
+            logger.info("Anonymous user connected");
+        }
+        else {
+            logger.info( socket.request.user.battletag + " connected");
+
+            /**
+             * Return bnet guilds for current user
+             */
+            socket.on('get:bnet-guilds', function(region) {
+                userModel.getUserGuilds(region,socket.request.user.id, function (error,guilds) {
+                    if (error) {
+                        socket.emit("global:error", error.message);
+                        return;
+                    }
+                    socket.emit("get:bnet-guilds", guilds);
+                });
+            });
+
+            /**
+             * Return bnet characters for current user
+             */
+            socket.on('get:bnet-characters', function(region) {
+
+                userModel.getUserCharacters(region,socket.request.user.id, function (error,characters) {
+                    if (error) {
+                        socket.emit("global:error", error.message);
+                        return;
+                    }
+                    socket.emit("get:bnet-characters", characters);
+
+                });
+            });
+        }
 
         //Send to user is informations
         socket.emit('get:user',socket.request.user);
     });
+
+
 };

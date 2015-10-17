@@ -16,15 +16,13 @@
     "password": ""
   },
   "logger": {
-    "webserver":
-    {
+    "webserver": {
       "fileName": "logs/webserver.log",
       "level": "debug",
       "maxFileSize": 1048576,
       "maxFiles": 2
     },
-    "cron":
-    {
+    "cron": {
       "fileName": "logs/cron.log",
       "level": "debug",
       "maxFileSize": 1048576,
