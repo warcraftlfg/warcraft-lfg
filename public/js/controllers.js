@@ -122,6 +122,26 @@ angular.module("wow-guild-recruit")
             $state.go("account");
         });
     }])
+    .controller("CharacterAdCtrl", ["$scope","socket","$state","$stateParams","LANGUAGES","CHARACTER_AD",function ($scope,socket,$state,$stateParams,LANGUAGES,CHARACTER_AD) {
+        //Reset error message
+        $scope.$parent.error=null
+
+        //Initialize $scope variables
+        $scope.languages= LANGUAGES;
+        $scope.character_ad = CHARACTER_AD;
+        $scope.$parent.loading = true;
+
+        socket.emit('get:character-ad',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+
+        socket.forward('get:character-ad',$scope);
+        $scope.$on('socket:get:character-ad',function(ev,character_ad){
+            $scope.character_ad = angular.merge({},CHARACTER_AD,character_ad);
+
+            // TODO Throw 404
+            $scope.$parent.loading = false;
+
+        });
+    }])
     .controller("GuildAdAddCtrl", ["$scope","socket",function ($scope,socket) {
         //Reset error message
         $scope.$parent.error=null
