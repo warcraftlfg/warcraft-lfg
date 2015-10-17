@@ -29,6 +29,16 @@ module.exports = function(io){
             });
         });
 
+        socket.on('get:character-ad', function(characterAd) {
+            characterAdModel.get(characterAd,function(error,result){
+                if (error){
+                    socket.emit("global:error", error.message);
+                    return;
+                }
+                socket.emit('get:character-ad',result);
+            });
+        });
+
         if (socket.request.user.logged_in){
             /**
              * Logged In Users
@@ -48,16 +58,6 @@ module.exports = function(io){
                         io.emit('get:character-ads', result);
                         socket.emit('add:character-ad', result);
                     });
-                });
-            });
-
-            socket.on('get:character-ad', function(characterAd) {
-                characterAdModel.get(characterAd,function(error,result){
-                    if (error){
-                        socket.emit("global:error", error.message);
-                        return;
-                    }
-                    socket.emit('get:character-ad',result);
                 });
             });
 
