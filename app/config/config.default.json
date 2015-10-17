@@ -16,10 +16,20 @@
     "password": ""
   },
   "logger": {
-    "fileName": "logs/wow-guild-recruit.log",
-    "level": "debug",
-    "maxFileSize": 1048576,
-    "maxFiles": 2
+    "webserver":
+    {
+      "fileName": "logs/webserver.log",
+      "level": "debug",
+      "maxFileSize": 1048576,
+      "maxFiles": 2
+    },
+    "cron":
+    {
+      "fileName": "logs/cron.log",
+      "level": "debug",
+      "maxFileSize": 1048576,
+      "maxFiles": 2
+    }
   },
   "oauth": {
     "bnet": {
