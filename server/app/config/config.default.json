@@ -1,8 +1,8 @@
 {
   "server": {
     "port": 3000,
-    "key": "app/config/sslcert/server.key",
-    "crt": "app/config/sslcert/server.crt"
+    "key": "server/app/config/sslcert/server.key",
+    "crt": "server/app/config/sslcert/server.crt"
   },
   "session": {
     "secret": "justbetweenyouandme"
