@@ -21,7 +21,7 @@ module.exports = GuildUpdateModel;
  * @param callback Callback of the function
  */
 GuildUpdateModel.prototype.add = function(region,realm,name,callback) {
-    this.database.InsertOrUpdate("guild-updates", {region:region,realm:realm,name:name} ,{region:region,realm:realm,name:name}, function(error,result){
+    this.database.insertOrUpdate("guild-updates", {region:region,realm:realm,name:name} ,{region:region,realm:realm,name:name}, function(error,result){
         callback(error, result);
     });
 };

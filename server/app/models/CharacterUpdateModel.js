@@ -21,7 +21,7 @@ module.exports = CharacterUpdateModel;
  * @param callback Callback of the function
  */
 CharacterUpdateModel.prototype.add = function(region,realm,name,callback) {
-    this.database.InsertOrUpdate("character-updates", {region:region,realm:realm,name:name} ,{region:region,realm:realm,name:name}, function(error,result){
+    this.database.insertOrUpdate("character-updates", {region:region,realm:realm,name:name} ,{region:region,realm:realm,name:name}, function(error,result){
         callback(error, result);
     });
 };

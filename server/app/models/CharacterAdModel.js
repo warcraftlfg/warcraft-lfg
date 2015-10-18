@@ -36,7 +36,7 @@ CharacterAdModel.prototype.add = function(id,characterAd,callback) {
             characterAd.id=id;
             characterAd.updated=new Date().getTime();
             delete characterAd._id;
-            self.database.InsertOrUpdate("character-ads", {region:characterAd.region,realm:characterAd.realm,name:characterAd.name} ,characterAd, function(error,result){
+            self.database.insertOrUpdate("character-ads", {region:characterAd.region,realm:characterAd.realm,name:characterAd.name} ,characterAd, function(error,result){
                 callback(error, result);
             });
         }

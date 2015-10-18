@@ -130,9 +130,10 @@ MongoDatabase.prototype.remove = function(collection, criteria, callback){
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-MongoDatabase.prototype.update = function(collection, criteria, data, callback){
+MongoDatabase.prototype.update = function(collection, criteria, document, data, callback){
+    var document = document || {$set : data}
     var collection = this.db.collection(collection);
-    collection.update(criteria, {$set : data}, {multi:true}, function(error,result){
+    collection.update(criteria, document, {multi:true}, function(error,result){
         if(error){
             logger.error(error.message);
             error = new Error("DATABASE_ERROR");
@@ -152,7 +153,7 @@ MongoDatabase.prototype.update = function(collection, criteria, data, callback){
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-MongoDatabase.prototype.InsertOrUpdate = function(collection, criteria, data, callback){
+MongoDatabase.prototype.insertOrUpdate = function(collection, criteria, data, callback){
     var collection = this.db.collection(collection);
     collection.update(criteria, {$set : data}, {upsert:true, multi:true}, function(error,result){
         if(error){
@@ -162,6 +163,7 @@ MongoDatabase.prototype.InsertOrUpdate = function(collection, criteria, data, ca
         callback(error,result);
     });
 };
+
 
 
 /**
@@ -244,3 +246,4 @@ MongoDatabase.prototype.search = function(collection, criteria, projection, limi
 MongoDatabase.prototype.search.count = function (cursor, callback){
 
 }
+
