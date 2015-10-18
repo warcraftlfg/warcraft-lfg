@@ -3,3 +3,6 @@ server/app/config/sslcert
 server/app/config/config.dev.json
 server/app/logs/*.log
 bower_components
+
+.idea
+db
