@@ -9,7 +9,7 @@
 
         //Translation Property
         $translateProvider.useStaticFilesLoader({
-            prefix: "locales/locale-",
+            prefix: "assets/locales/locale-",
             suffix: ".json"
         });
         $translateProvider.registerAvailableLanguageKeys(["en_US", "fr_FR"], {
