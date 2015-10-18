@@ -16,7 +16,25 @@ var applicationStorage = process.require("api/applicationStorage");
 //Configuration
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
-var logger = loggerAPI.get("logger",config.logger.webserver);
+
+//Check strat parameters
+var startWebserver = true;
+var startGuildUpdateProcess = true;
+var startCharacterUpdateProcess = true;
+if(process.argv.length == 3 ){
+    startWebserver = false;
+    startGuildUpdateProcess = false;
+    startCharacterUpdateProcess = false;
+
+    if(process.argv[2] ==="-gu")
+        startGuildUpdateProcess=true;
+    if(process.argv[2] ==="-cu")
+        startCharacterUpdateProcess=true;
+    if(process.argv[2] ==="-ws")
+        startWebserver=true;
+}
+
+var logger = loggerAPI.get("logger",config.logger);
 
 
 //Load WebServer
@@ -42,18 +60,24 @@ async.series([
             }
 
             applicationStorage.setDatabase(db);
-            webServer.onDatabaseAvailable(db);
-            characterUpdateProcess.onDatabaseAvailable(db);
-            guildUpdateProcess.onDatabaseAvailable(db);
+            if(startWebserver)
+                webServer.onDatabaseAvailable(db);
+            if(startCharacterUpdateProcess)
+                characterUpdateProcess.onDatabaseAvailable(db);
+            if (startGuildUpdateProcess)
+                guildUpdateProcess.onDatabaseAvailable(db);
 
             callback();
         });
     },
     // Start Process
     function(callback){
-        webServer.start();
-        characterUpdateProcess.start();
-        guildUpdateProcess.start();
+        if(startWebserver)
+            webServer.start();
+        if(startCharacterUpdateProcess)
+            characterUpdateProcess.start();
+        if (startGuildUpdateProcess)
+            guildUpdateProcess.start();
         callback();
     }
 ]);
