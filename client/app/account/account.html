@@ -17,7 +17,7 @@
         <li class="list-group-item" ng-repeat="guild_ad in guild_ads">
             <div class="row">
                 <div class="col-md-9">
-                   <a href="#">{{guild_ad.name}} - {{guild_ad.realm}} - {{guild_ad.region}} - <span am-time-ago="guild_ad.updated"></span></a>
+                   <a href="#/guild/{{ guild_ad.region }}/{{ guild_ad.realm }}/{{ guild_ad.name }}/">{{guild_ad.name}} - {{guild_ad.realm}} - {{guild_ad.region}} - <span am-time-ago="guild_ad.updated"></span></a>
                 </div>
                 <div class="col-md-3">
                     <a class="btn btn-default" href="#/guild/{{guild_ad.region}}/{{guild_ad.realm}}/{{guild_ad.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
@@ -33,7 +33,7 @@
         <li class="list-group-item" ng-repeat="character_ad in character_ads">
             <div class="row">
                 <div class="col-md-9">
-                   <a href="#">{{character_ad.name}} - {{character_ad.realm}} - {{character_ad.region}} - <span am-time-ago="character_ad.updated"></span></a>
+                   <a href="#/character/{{ character_ad.region }}/{{ character_ad.realm }}/{{ character_ad.name }}/">{{character_ad.name}} - {{character_ad.realm}} - {{character_ad.region}} - <span am-time-ago="character_ad.updated"></span></a>
                 </div>
                 <div class="col-md-3">
                     <a class="btn btn-default" href="#/character/{{character_ad.region}}/{{character_ad.realm}}/{{character_ad.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
