@@ -92,10 +92,26 @@
         });
     }
 
-    GuildDelete.$inject = ['$scope','socket'];
-    function GuildDelete($scope, socket) {
-        
+    GuildDelete.$inject = ['$scope','socket','$state','$stateParams'];
+    function GuildDelete($scope, socket, $state, $stateParams) {
+        //Reset error message
+        $scope.$parent.error=null;
+
+        //Initialize var
+        $scope.guild_ad = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
+
+        $scope.delete = function(){
+            $scope.$parent.loading = true;
+            socket.emit('delete:guild-ad',$scope.guild_ad);
+        };
+
+        socket.forward('delete:guild-ad',$scope);
+        $scope.$on('socket:delete:guild-ad',function(ev,guild_ad){
+            $scope.$parent.loading = false;
+            $state.go("account");
+        });
     }
+
     GuildList.$inject = ['$scope','socket'];
     function GuildList($scope, socket) {
         

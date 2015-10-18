@@ -58,6 +58,12 @@ GuildAdModel.prototype.get = function(guildAd,callback){
     });
 };
 
+GuildAdModel.prototype.delete = function(id,guildAd,callback){
+    this.database.remove("guild-ads",{"region":guildAd.region,"realm":guildAd.realm,"name":guildAd.name,"id":id},function(error,guildAd){
+        callback(error, guildAd);
+    });
+};
+
 GuildAdModel.prototype.getLast = function(callback){
     this.database.search("guild-ads", {}, {}, 5, 1, {updated:-1}, function(error,result){
         callback(error, result);

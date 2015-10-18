@@ -61,6 +61,16 @@ module.exports = function(io){
                 });
             });
 
+            socket.on('delete:guild-ad', function(guildAd) {
+                guildAdModel.delete(socket.request.user.id,guildAd,function(error,result){
+                    if (error){
+                        socket.emit("global:error", error.message);
+                        return;
+                    }
+                    socket.emit('delete:guild-ad',result);
+                });
+            });
+
             socket.on('get:user-guild-ads', function(guildAd) {
                 guildAdModel.getUserGuildAds(socket.request.user.id,function(error,result){
                     if (error){
