@@ -34,7 +34,7 @@ if(process.argv.length == 3 ){
         startWebserver=true;
 }
 
-var logger = loggerAPI.get("logger",config.loggers.webserver);
+var logger = loggerAPI.get("logger",config.logger);
 
 
 //Load WebServer
