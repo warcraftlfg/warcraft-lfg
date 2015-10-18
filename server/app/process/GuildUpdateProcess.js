@@ -56,7 +56,7 @@ GuildUpdateProcess.prototype.updateGuild = function() {
 
 
 GuildUpdateProcess.prototype.start = function(){
-    logger.info("Starting GuildUpdateProcess cron");
+    logger.info("Starting GuildUpdateProcess");
 
     //Start Cron every sec
     var self=this;
