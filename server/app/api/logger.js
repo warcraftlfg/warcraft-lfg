@@ -49,14 +49,11 @@ var winston = require("winston");
  */
 module.exports.get = function(name, conf){
     if(conf){
-
         // Create logger
         winston.loggers.add(name, {
             file: {
                 level: conf.level,
                 filename: conf.fileName,
-                maxsize : conf.maxFileSize,
-                maxFiles : conf.maxFiles
             }
         });
 

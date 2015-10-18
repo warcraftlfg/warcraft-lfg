@@ -47,6 +47,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function(){
 
 
 CharacterUpdateProcess.prototype.start = function(){
+    logger.info("Starting CharacterUpdateProcess cron");
     //Start Cron every sec
     var self=this;
     new cronJob('* * * * * *',
