@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Guild recruitment tools for World of Warcraft",
   "private": true,
-  "main": "server.js",
+  "main": "server/app.js",
   "dependencies": {
     "async": "latest",
     "express": "latest",
@@ -19,6 +19,7 @@
     "express-session": "latest",
     "winston": "latest",
     "request": "latest",
+    "compression": "latest",
     "cron": "latest"
   },
   "devDependencies": {
