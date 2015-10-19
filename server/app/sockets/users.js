@@ -25,27 +25,27 @@ module.exports = function(io){
             /**
              * Return bnet guilds for current user
              */
-            socket.on('get:bnet-guilds', function(region) {
-                userModel.getUserGuilds(region,socket.request.user.id, function (error,guilds) {
+            socket.on('get:user-guilds', function(region) {
+                userModel.getGuilds(region,socket.request.user.id, function (error,guilds) {
                     if (error) {
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    socket.emit("get:bnet-guilds", guilds);
+                    socket.emit("get:user-guilds", guilds);
                 });
             });
 
             /**
              * Return bnet characters for current user
              */
-            socket.on('get:bnet-characters', function(region) {
+            socket.on('get:user-characters', function(region) {
 
-                userModel.getUserCharacters(region,socket.request.user.id, function (error,characters) {
+                userModel.getCharacters(region,socket.request.user.id, function (error,characters) {
                     if (error) {
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    socket.emit("get:bnet-characters", characters);
+                    socket.emit("get:user-characters", characters);
 
                 });
             });

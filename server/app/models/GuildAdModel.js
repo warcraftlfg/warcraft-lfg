@@ -20,7 +20,7 @@ module.exports = GuildAdModel;
 
 GuildAdModel.prototype.add = function(id,guildAd,callback) {
     var self=this;
-    userModel.getUserGuilds(guildAd.region,id, function (error,guilds) {
+    userModel.getGuilds(guildAd.region,id, function (error,guilds) {
         if (error) {
             callback(error);
             return;

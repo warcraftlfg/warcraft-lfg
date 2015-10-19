@@ -18,15 +18,15 @@
         //Initialize $scope variables
         $scope.userGuilds = null;
 
-        socket.forward('get:bnet-guilds',$scope);
-        $scope.$on('socket:get:bnet-guilds',function(ev,guilds){
+        socket.forward('get:user-guilds',$scope);
+        $scope.$on('socket:get:user-guilds',function(ev,guilds){
             $scope.$parent.loading = false;
             $scope.userGuilds = guilds;
         });
 
         $scope.updateRegion = function(){
             $scope.$parent.loading = true;
-            socket.emit('get:bnet-guilds',$scope.region);
+            socket.emit('get:user-guilds',$scope.region);
         };
     }
 
