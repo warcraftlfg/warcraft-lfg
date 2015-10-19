@@ -29,6 +29,17 @@ module.exports = function(io){
             });
         });
 
+        socket.on('get:guild-ad', function(guildAd) {
+            guildAdModel.get(guildAd,function(error,result){
+                if (error){
+                    socket.emit("global:error", error.message);
+                    return;
+                }
+                socket.emit('get:guild-ad',result);
+            });
+        });
+
+
         if (socket.request.user.logged_in){
             /**
              * Logged In Users
@@ -50,17 +61,6 @@ module.exports = function(io){
                     });
                 });
             });
-
-            socket.on('get:guild-ad', function(guildAd) {
-                guildAdModel.get(guildAd,function(error,result){
-                    if (error){
-                        socket.emit("global:error", error.message);
-                        return;
-                    }
-                    socket.emit('get:guild-ad',result);
-                });
-            });
-
             socket.on('delete:guild-ad', function(guildAd) {
                 guildAdModel.delete(socket.request.user.id,guildAd,function(error,result){
                     if (error){

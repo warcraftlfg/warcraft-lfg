@@ -55,19 +55,24 @@ CharacterAdModel.prototype.get = function(characterAd,callback){
             return;
         }
         characterAd = characterAd[0];
-        self.database.get("users",{id: characterAd.id},{_id: 0, accessToken: 0},1,function(error,user) {
-            characterAd.user = user[0];
+        if (characterAd){
+            self.database.get("users",{id: characterAd.id},{_id: 0, accessToken: 0},1,function(error,user) {
+                characterAd.user = user[0];
 
-            //TODO Faire un mapReduce pour sélectionner Agréger les infos plutot que de tout renvoyer ...
-            self.database.get("characters",{"region":characterAd.region,"realm":characterAd.realm,"name":characterAd.name},{},1,function(error,character) {
-                if (error) {
-                    callback(error);
-                    return;
-                }
-                characterAd.character = character;
-                callback(error, characterAd);
+                //TODO Faire un mapReduce pour sélectionner Agréger les infos plutot que de tout renvoyer ...
+                self.database.get("characters",{"region":characterAd.region,"realm":characterAd.realm,"name":characterAd.name},{},1,function(error,character) {
+                    if (error) {
+                        callback(error);
+                        return;
+                    }
+                    characterAd.character = character;
+                    callback(error, characterAd);
+                });
             });
-        });
+        }
+        else{
+            callback(error, characterAd);
+        }
     });
 };
 
