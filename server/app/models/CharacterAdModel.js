@@ -36,7 +36,7 @@ CharacterAdModel.prototype.add = function(id,characterAd,callback) {
             characterAd.id=id;
             characterAd.updated=new Date().getTime();
             delete characterAd._id;
-            self.database.InsertOrUpdate("character-ads", {region:characterAd.region,realm:characterAd.realm,name:characterAd.name} ,characterAd, function(error,result){
+            self.database.insertOrUpdate("character-ads", {region:characterAd.region,realm:characterAd.realm,name:characterAd.name} ,characterAd, function(error,result){
                 callback(error, result);
             });
         }
@@ -48,8 +48,31 @@ CharacterAdModel.prototype.add = function(id,characterAd,callback) {
 };
 
 CharacterAdModel.prototype.get = function(characterAd,callback){
-    this.database.get("character-ads",{"region":characterAd.region,"realm":characterAd.realm,"name":characterAd.name},{},1,function(error,characterAd){
-        callback(error, characterAd && characterAd[0]);
+    var self = this;
+    self.database.get("character-ads",{"region":characterAd.region,"realm":characterAd.realm,"name":characterAd.name},{},1,function(error,characterAd){
+        if (error) {
+            callback(error);
+            return;
+        }
+        characterAd = characterAd[0];
+        if (characterAd){
+            self.database.get("users",{id: characterAd.id},{_id: 0, accessToken: 0},1,function(error,user) {
+                characterAd.user = user[0];
+
+                //TODO Faire un mapReduce pour sélectionner Agréger les infos plutot que de tout renvoyer ...
+                self.database.get("characters",{"region":characterAd.region,"realm":characterAd.realm,"name":characterAd.name},{},1,function(error,character) {
+                    if (error) {
+                        callback(error);
+                        return;
+                    }
+                    characterAd.character = character;
+                    callback(error, characterAd);
+                });
+            });
+        }
+        else{
+            callback(error, characterAd);
+        }
     });
 };
 
