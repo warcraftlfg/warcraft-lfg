@@ -59,7 +59,7 @@ UserModel.prototype.add = function (user,callback){
 
 
 UserModel.prototype.update = function (user,callback){
-    this.database.update("users", {id: user.id},user, function(error,result){
+    this.database.update("users", {id: user.id},null,user, function(error,result){
         callback(error, result);
     });
 };
