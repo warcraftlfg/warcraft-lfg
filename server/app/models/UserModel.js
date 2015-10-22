@@ -25,18 +25,15 @@ module.exports = UserModel;
 
 UserModel.prototype.findOrCreateOauthUser = function (user,callback){
     var self = this;
-
     this.findById(user.id,function(error,result){
-        //Import Guild on first connect
-        if(result==null)
-            self.importGuilds(user.accessToken);
-
         //Create or Update  User
-        self.insertOrUpdate(user,function(error,result){
+        self.insertOrUpdate(user,function(){
+            //Import Guild on first connect
+            if(result==null)
+                self.importGuilds(user.id);
             delete user.accessToken;
             callback(user);
         });
-
     });
 
 };
@@ -54,13 +51,11 @@ UserModel.prototype.insertOrUpdate = function (user,callback){
     });
 };
 
-
 UserModel.prototype.getAccessToken = function(id,callback){
     this.database.get("users",{id: id},{},1,function(error,user){
         callback(error, user && user[0].accessToken);
     });
 };
-
 
 UserModel.prototype.getGuilds = function(region,id,callback){
     this.getAccessToken(id,function(error,accessToken) {
@@ -118,11 +113,11 @@ UserModel.prototype.getCharacters = function(region,id,callback){
 };
 
 
-UserModel.prototype.importGuilds = function(accessToken){
+UserModel.prototype.importGuilds = function(id){
     var self=this;
     config.bnet_regions.forEach(function(region) {
 
-        self.getGuilds(region,accessToken,function(error,guilds) {
+        self.getGuilds(region,id,function(error,guilds) {
             guilds.forEach(function (guild) {
                 guildUpdateModel.add(region, guild.realm, guild.name,function (error,result){
                     logger.info("Insert guild  to update "+ guild.name+"-"+guild.realm+"-"+region)
