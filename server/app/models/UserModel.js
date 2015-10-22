@@ -3,7 +3,8 @@
 //Module dependencies
 var async = require("async");
 var applicationStorage = process.require("api/applicationStorage");
-var bnetAPI = process.require("api/bnet.js");
+var bnetAPI  = require("../api/bnet.js");
+//var bnetAPI = process.require("api/bnet.js");
 var GuildUpdateModel = process.require("models/GuildUpdateModel.js");
 var logger = process.require("api/logger.js").get("logger");
 
@@ -24,22 +25,15 @@ module.exports = UserModel;
 
 UserModel.prototype.findOrCreateOauthUser = function (user,callback){
     var self = this;
-
     this.findById(user.id,function(error,result){
-        if(result==null){
-            //Create User
-            self.add(user,function(error,result){
-                self.importGuilds(user.accessToken);
-                delete user.accessToken;
-                callback(user);
-            });
-        }
-        else {
-            //Update user
-            self.update(user,function(error,data){
-                callback(result);
-            });
-        }
+        //Create or Update  User
+        self.insertOrUpdate(user,function(){
+            //Import Guild on first connect
+            if(result==null)
+                self.importGuilds(user.id);
+            delete user.accessToken;
+            callback(user);
+        });
     });
 
 };
@@ -51,15 +45,8 @@ UserModel.prototype.findById = function (id,callback){
 };
 
 
-UserModel.prototype.add = function (user,callback){
-    this.database.insert("users", user, function(error,result){
-        callback(error, result);
-    });
-};
-
-
-UserModel.prototype.update = function (user,callback){
-    this.database.update("users", {id: user.id},null,user, function(error,result){
+UserModel.prototype.insertOrUpdate = function (user,callback){
+    this.database.insertOrUpdate("users",{id:user.id},user, function(error,result){
         callback(error, result);
     });
 };
@@ -70,79 +57,67 @@ UserModel.prototype.getAccessToken = function(id,callback){
     });
 };
 
-
-UserModel.prototype.getGuilds = function(region,accessToken,callback){
-    bnetAPI.getUserCharacters(region,accessToken,function(error,characters){
+UserModel.prototype.getGuilds = function(region,id,callback){
+    this.getAccessToken(id,function(error,accessToken) {
         if (error) {
             callback(error);
             return;
         }
-
-        var guilds = {};
-        //Fetch all characters and keep guild
-        async.forEach(characters,function(character,callback){
-            if(character.guild)
-                guilds[character.guild+character.guildRealm] = {name: character.guild, realm: character.guildRealm, region: region}
-            callback();
-        });
-        //Remove Key
-        var arr = Object.keys(guilds).map(function (key) {return guilds[key]});
-        callback(null,arr);
-    });
-};
-
-UserModel.prototype.getUserGuilds = function(region,id,callback){
-    var self = this;
-    self.getAccessToken(id,function(error,accessToken) {
-        if (error) {
-            callback(error);
-            return;
-        }
-        self.getGuilds(region,accessToken, function (error,guilds) {
-            callback(error,guilds);
-        });
-    });
-};
-
-UserModel.prototype.getCharacters = function(region,accessToken,callback){
-    bnetAPI.getUserCharacters(region,accessToken,function(error,characters){
-        if (error) {
-            callback(error);
-            return;
-        }
-
-        var charactersFilter = {};
-        //Fetch all characters
-        async.forEach(characters,function(character,callback){
-            character.region = region;
-            charactersFilter[character.name+character.realm] = character;
-            callback();
-        });
-        //Remove Key
-        var arr = Object.keys(charactersFilter).map(function (key) {return charactersFilter[key]});
-        callback(null,arr);
-    });
-};
-
-UserModel.prototype.getUserCharacters = function(region,id,callback){
-    var self = this;
-    self.getAccessToken(id,function(error,accessToken) {
-        if (error) {
-            callback(error);
-            return;
-        }
-        self.getCharacters(region,accessToken, function (error,guilds) {
-            callback(error,guilds);
+        bnetAPI.getUserCharacters(region,accessToken,function(error,characters){
+            if (error) {
+                callback(error);
+                return;
+            }
+            var guilds = {};
+            //Fetch all characters and keep guild
+            async.forEach(characters,function(character,callback){
+                if(character.guild)
+                    guilds[character.guild+character.guildRealm] = {name: character.guild, realm: character.guildRealm, region: region}
+                callback();
+            });
+            //Remove Key
+            var arr = Object.keys(guilds).map(function (key) {return guilds[key]});
+            callback(null,arr);
         });
     });
 };
 
 
-UserModel.prototype.importGuilds = function(accessToken){
+UserModel.prototype.getCharacters = function(region,id,callback){
+
+    this.getAccessToken(id,function(error,accessToken) {
+        if (error) {
+            callback(error);
+            return;
+        }
+        bnetAPI.getUserCharacters(region, accessToken, function (error, characters) {
+            if (error) {
+                callback(error);
+                return;
+            }
+
+            var charactersFilter = {};
+            //Fetch all characters
+            async.forEach(characters, function (character, callback) {
+                character.region = region;
+                charactersFilter[character.name + character.realm] = character;
+                callback();
+            });
+            //Remove Key
+            var arr = Object.keys(charactersFilter).map(function (key) {
+                return charactersFilter[key]
+            });
+            callback(null, arr);
+        });
+    });
+};
+
+
+UserModel.prototype.importGuilds = function(id){
     var self=this;
     config.bnet_regions.forEach(function(region) {
 
-        self.getGuilds(region,accessToken,function(error,guilds) {
+        self.getGuilds(region,id,function(error,guilds) {
             guilds.forEach(function (guild) {
                 guildUpdateModel.add(region, guild.realm, guild.name,function (error,result){
                     logger.info("Insert guild  to update "+ guild.name+"-"+guild.realm+"-"+region)

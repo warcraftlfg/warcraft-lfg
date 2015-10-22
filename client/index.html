@@ -13,7 +13,7 @@
         <link href="/assets/css/core.css" rel="stylesheet">
     </head>
 
-    <body ng-controller="InitializeController">
+    <body ng-controller="CoreController">
         <div data-ng-include="'app/layout/header.html'"></div>
         <div class="content container">
             <div ng-if="error" class="alert alert-danger" role="alert">
@@ -49,7 +49,7 @@
 
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
-        <script src="/app/core/initialize.js"></script>
+        <script src="/app/core/core.js"></script>
         <script src="/app/core/constants.js"></script>
         <script src="/app/core/config.js"></script>
 

@@ -1,4 +1,4 @@
-# wow-guild-recruit
+# wow-finder
 
 Still in development
 
@@ -13,12 +13,12 @@ You need :
 ###mongodb
 Add user
 ```
-use wow-guild-recruit`
+use wow-finder`
  db.createUser(
    {
      user: "admin",
      pwd: "password",
-     roles: [ { role: "userAdmin", db: "wow-guild-recruit" } ]
+     roles: [ { role: "userAdmin", db: "wow-finder" } ]
    }
  )
 ```

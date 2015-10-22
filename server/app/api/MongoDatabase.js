@@ -107,16 +107,15 @@ MongoDatabase.prototype.insert = function(collection, data, callback){
  *   - **Error** The error if an error occurred, null otherwise
  */
 MongoDatabase.prototype.remove = function(collection, criteria, callback){
-    if(criteria && Object.keys(criteria).length){
-        var collection = this.db.collection(collection);
-        collection.remove(criteria, function(error,result){
-            if(error){
-                logger.error(error.message);
-                error = new Error("DATABASE_ERROR");
-            }
-            callback(error,result);
-        });
-    }
+    var collection = this.db.collection(collection);
+    collection.remove(criteria, function(error,result){
+        if(error){
+            logger.error(error.message);
+            error = new Error("DATABASE_ERROR");
+        }
+        callback(error,result);
+    });
+
 };
 
 /**

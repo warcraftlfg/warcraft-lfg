@@ -20,7 +20,7 @@ module.exports = CharacterAdModel;
 
 CharacterAdModel.prototype.add = function(id,characterAd,callback) {
     var self=this;
-    userModel.getUserCharacters(characterAd.region,id, function (error,characters) {
+    userModel.getCharacters(characterAd.region,id, function (error,characters) {
         if (error) {
             callback(error);
             return;
@@ -59,7 +59,7 @@ CharacterAdModel.prototype.get = function(characterAd,callback){
             self.database.get("users",{id: characterAd.id},{_id: 0, accessToken: 0},1,function(error,user) {
                 characterAd.user = user[0];
 
-                //TODO Faire un mapReduce pour sélectionner Agréger les infos plutot que de tout renvoyer ...
+                //TODO Faire un mapReduce pour sÃ©lectionner AgrÃ©ger les infos plutot que de tout renvoyer ...
                 self.database.get("characters",{"region":characterAd.region,"realm":characterAd.realm,"name":characterAd.name},{},1,function(error,character) {
                     if (error) {
                         callback(error);

@@ -18,15 +18,15 @@
         //Initialize $scope variables
         $scope.userCharacters = null;
 
-        socket.forward('get:bnet-characters',$scope);
-        $scope.$on('socket:get:bnet-characters',function(ev,characters){
+        socket.forward('get:user-characters',$scope);
+        $scope.$on('socket:get:user-characters',function(ev,characters){
             $scope.$parent.loading = false;
             $scope.userCharacters = characters;
         });
 
         $scope.updateRegion = function(){
             $scope.$parent.loading = true;
-            socket.emit('get:bnet-characters',$scope.region);
+            socket.emit('get:user-characters',$scope.region);
         }
         $scope.selectCharacter = function(character){
             $scope.character = character;

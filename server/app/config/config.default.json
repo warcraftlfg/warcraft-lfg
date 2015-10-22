@@ -11,19 +11,13 @@
     "type": "mongodb",
     "host": "localhost",
     "port": 27017,
-    "database": "wow-guild-recruit",
+    "database": "wow-finder",
     "username": "",
     "password": ""
   },
   "logger": {
-    "webserver": {
-      "fileName": "logs/webserver.log",
-      "level": "debug"
-    },
-    "cron": {
-      "fileName": "logs/cron.log",
-      "level": "debug"
-    }
+    "fileName": "logs/all.log",
+    "level": "debug"
   },
   "oauth": {
     "bnet": {

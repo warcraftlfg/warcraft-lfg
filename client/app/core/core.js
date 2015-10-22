@@ -3,11 +3,11 @@
 
     angular
         .module('app.core')
-        .controller('InitializeController', Initialize);
+        .controller('CoreController', Core);
 
-    Initialize.$inject = ['$scope','$translate','socket'];
+    Core.$inject = ['$scope','$translate','socket'];
 
-    function Initialize($scope,$translate,socket) {
+    function Core($scope,$translate,socket) {
         $scope.setLanguage = function (key){
             $translate.use(key);
         }

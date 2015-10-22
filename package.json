@@ -25,7 +25,8 @@
   "devDependencies": {
     "mocha": "latest",
     "socket.io-client":"latest",
-    "chai":"latest"
+    "chai":"latest",
+    "proxyquire":"latest"
   },
   "scripts": {
     "postinstall": "bower install"
