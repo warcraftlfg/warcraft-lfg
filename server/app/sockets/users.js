@@ -20,7 +20,7 @@ module.exports = function(io){
             logger.info("Anonymous user connected");
         }
         else {
-            logger.info( socket.request.user.battletag + " connected");
+            logger.info( socket.request.user.battleTag + " connected");
 
             /**
              * Return bnet guilds for current user

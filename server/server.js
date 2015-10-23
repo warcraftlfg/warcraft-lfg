@@ -62,10 +62,6 @@ async.series([
             applicationStorage.setDatabase(db);
             if(startWebserver)
                 webServer.onDatabaseAvailable(db);
-            if(startCharacterUpdateProcess)
-                characterUpdateProcess.onDatabaseAvailable(db);
-            if (startGuildUpdateProcess)
-                guildUpdateProcess.onDatabaseAvailable(db);
 
             callback();
         });
@@ -74,8 +70,8 @@ async.series([
     function(callback){
         if(startWebserver)
             webServer.start();
-        if(startCharacterUpdateProcess)
-            characterUpdateProcess.start();
+        //if(startCharacterUpdateProcess)
+        //    characterUpdateProcess.start();
         if (startGuildUpdateProcess)
             guildUpdateProcess.start();
         callback();
