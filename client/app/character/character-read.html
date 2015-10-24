@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>{{ character_ad.name }} - {{ character_ad.region }} {{ character_ad.realm }}</h1>
+        <h2>
+            Role : 
+            <span ng-repeat="(role,value) in character_ad.role" ng-if="value == true">{{ role|uppercase|translate }} </span>
+        </h2>
+        <h2>
+            Raid per week :
+            <span ng-repeat="(key,value) in character_ad.raids_per_week" ng-if="value == true">{{ key|uppercase|translate }} / </span>
+        </h2>
+        <h2>Primary language : {{ character_ad.lang_code }} </h2>
+        <h2>Description : {{ character_ad.description }}</h2>
+        <h2>Battletag : {{ character_ad.user.battletag}}</h2>
+        <code>{{character_ad.character}}</code>
+    </div>
+</div>

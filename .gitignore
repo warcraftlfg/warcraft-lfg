@@ -1,7 +1,8 @@
+node_modules
+server/app/config/sslcert
+server/app/config/config.dev.json
+server/app/logs/*.log
+bower_components
+
 .idea
 db
-node_modules
-app/config/sslcert
-app/config/config.dev.json
-public/components
-logs/wow-guild-recruit.log

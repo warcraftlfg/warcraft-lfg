@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>WoW Guild Recruit</title>
+
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/assets/css/core.css" rel="stylesheet">
+    </head>
+
+    <body ng-controller="CoreController">
+        <div data-ng-include="'app/layout/header.html'"></div>
+        <div class="content container">
+            <div ng-if="error" class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                {{error|translate}}
+            </div>
+            <div ui-view></div>
+            <!-- Modal -->
+        </div>
+        <div data-ng-include="'app/layout/footer.html'"></div>
+        <div class="modal-backdrop fade in" ng-if="loading"></div>
+
+
+        <!-- Third party -->
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-socket-io/socket.min.js"></script>
+        <script type="text/javascript" src="/vendor/moment/min/moment.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-moment/angular-moment.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-translate/angular-translate.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+
+        <!-- inject:js -->
+        <!-- Bootstrapping -->
+        <script type="text/javascript" src="/app/app.module.js"></script>
+
+        <!-- Reusable Blocks/Modules -->
+        <script src="/app/blocks/socket/socket.module.js"></script>
+        <script src="/app/blocks/socket/socket.js"></script>
+
+        <!-- core module -->
+        <script src="/app/core/core.module.js"></script>
+        <script src="/app/core/core.js"></script>
+        <script src="/app/core/constants.js"></script>
+        <script src="/app/core/config.js"></script>
+
+        <!-- layout -->
+        <script src="/app/layout/layout.module.js"></script>
+
+        <!-- dashboard -->
+        <script src="/app/dashboard/dashboard.module.js"></script>
+        <script src="/app/dashboard/config.route.js"></script>
+        <script src="/app/dashboard/dashboard.js"></script>
+
+        <!-- account -->
+        <script src="/app/account/account.module.js"></script>
+        <script src="/app/account/config.route.js"></script>
+        <script src="/app/account/account.js"></script>
+
+        <!-- character -->
+        <script src="/app/character/character.module.js"></script>
+        <script src="/app/character/config.route.js"></script>
+        <script src="/app/character/character.js"></script>
+
+        <!-- guild -->
+        <script src="/app/guild/guild.module.js"></script>
+        <script src="/app/guild/config.route.js"></script>
+        <script src="/app/guild/guild.js"></script>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "server": {
+    "port": 3000,
+    "key": "server/app/config/sslcert/server.key",
+    "crt": "server/app/config/sslcert/server.crt"
+  },
+  "session": {
+    "secret": "justbetweenyouandme"
+  },
+  "database": {
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "database": "wow-finder",
+    "username": "",
+    "password": ""
+  },
+  "logger": {
+    "fileName": "logs/all.log",
+    "level": "debug"
+  },
+  "oauth": {
+    "bnet": {
+      "client_id": "",
+      "client_secret": "",
+      "callback_url": "https://localhost:3000/auth/bnet/callback"
+    }
+  },
+  "bnet_regions":["eu","kr","tw","us"]
+
+}
