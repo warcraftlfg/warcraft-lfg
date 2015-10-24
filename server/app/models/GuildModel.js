@@ -1,24 +1,56 @@
 "use strict"
 
-//Module dependencies
+//Defines dependencies
+var guildSchema = process.require('config/db/guildSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
+var Confine = require("confine");
+
+//Configuration
+var confine = new Confine();
 
 /**
- * Defines a model class to manipulate characters
+ * Defines a model class to manipulate guilds
  * @constructor
  */
-function GuildModel(){
-    this.database= applicationStorage.getDatabase();
+function GuildModel(data){
+    this.data = this.sanitize(data);
+    this.database = applicationStorage.getDatabase();
 }
 
-module.exports = GuildModel;
+GuildModel.prototype.data = {};
 
-GuildModel.prototype.add = function(region,guild,callback) {
-    guild.region = region;
-    this.database.insertOrUpdate("guilds", {region:guild.region,realm:guild.realm,name:guild.name} ,guild, function(error,result){
-        callback(error, result);
+GuildModel.prototype.get = function(name){
+    return this.data[name];
+};
+
+GuildModel.prototype.sanitize = function(data){
+    return confine.normalize(data,guildSchema);
+};
+
+GuildModel.prototype.save = function (callback) {
+    var self = this;
+    this.data = this.sanitize(this.data);
+
+    //Check for required attributes
+    if(this.data.region == null){
+        callback(new Error('Field region is required in GuildModel'));
+        return;
+    }
+    if(this.data.realm == null){
+        callback(new Error('Field realm is required in GuildModel'));
+        return;
+    }
+    if(this.data.name == null){
+        callback(new Error('Field name is required in GuildModel'));
+        return;
+    }
+
+    //Create or update guild
+    this.database.insertOrUpdate("guilds",{region:self.data.region,realm:self.data.realm,name:self.data.name},self.data, function(error){
+        callback(error, self);
     });
 };
 
+module.exports = GuildModel;
 
 

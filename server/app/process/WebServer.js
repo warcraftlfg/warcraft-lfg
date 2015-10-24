@@ -70,7 +70,7 @@ WebServer.prototype.onDatabaseAvailable = function(db){
     this.app.use(passport.session());
 
     // Initialize passport (authentication manager)
-    process.require("passport.js");
+    process.require("middleware/passport.js");
 
     //Create route for Oauth
     this.app.get("/auth/bnet", passport.authenticate("bnet"));
@@ -88,7 +88,6 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
     this.app.use('/', express.static(path.join(process.root, "../client")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
-
 
 
     this.io.use(passportSocketIo.authorize({

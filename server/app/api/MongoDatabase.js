@@ -12,38 +12,13 @@ var MongoClient = mongodb.MongoClient;
 // Configuration
 var logger = process.require("api/logger.js").get("logger");
 
-/**
- * Defines a MongoDB Database.
- *
- * @example
- *     var databaseConf = {
- *       "type" : "mongodb",
- *       "host" : "localhost",
- *       "port" : 27017,
- *       "database" : "[database-name]",
- *       "username" : "[database-username]",
- *       "password" : "[database-password]"
- *     };
- *
- * @class MongoDatabase
- * @constructor
- * @param databaseConf A database configuration object like
- */
+
 function MongoDatabase(databaseConf){
     this.conf = databaseConf;
 }
 
 module.exports = MongoDatabase;
 
-/**
- * Establishes connection to the database.
- *
- * @method connect
- * @async
- * @param {Function} callback The function to call when connection
- * to the database is done
- *   - **Error** The error if an error occurred, null otherwise
- */
 MongoDatabase.prototype.connect = function(callback){
     var self = this;
     var connectionUrl = "mongodb://" + this.conf.username + ":" + this.conf.password + "@" + this.conf.host + ":" + this.conf.port;
@@ -75,16 +50,6 @@ MongoDatabase.prototype.connect = function(callback){
 
 };
 
-/**
- * Inserts a document into a collection.
- *
- * @method insert
- * @async
- * @param collection The collection to work on
- * @param data The array of documents to insert into the collection
- * @param callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- */
 MongoDatabase.prototype.insert = function(collection, data, callback){
     var collection = this.db.collection(collection);
     collection.insert(data, function(error,result){
@@ -96,16 +61,7 @@ MongoDatabase.prototype.insert = function(collection, data, callback){
     });
 };
 
-/**
- * Removes a document from a collection.
- *
- * @method remove
- * @async
- * @param {String} collection The collection to work on
- * @param {Object} criteria The remove criteria
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- */
+
 MongoDatabase.prototype.remove = function(collection, criteria, callback){
     var collection = this.db.collection(collection);
     collection.remove(criteria, function(error,result){
@@ -118,17 +74,7 @@ MongoDatabase.prototype.remove = function(collection, criteria, callback){
 
 };
 
-/**
- * Updates a document.
- *
- * @method update
- * @async
- * @param {String} collection The collection to work on
- * @param {Object} criteria The update criteria
- * @param {Object} data Data to update
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- */
+
 MongoDatabase.prototype.update = function(collection, criteria, document, data, callback){
     var document = document || {$set : data}
     var collection = this.db.collection(collection);
@@ -141,17 +87,7 @@ MongoDatabase.prototype.update = function(collection, criteria, document, data, 
     });
 };
 
-/**
- * Insert or update a document.
- *
- * @method update
- * @async
- * @param {String} collection The collection to work on
- * @param {Object} criteria The update criteria
- * @param {Object} data Data to update
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- */
+
 MongoDatabase.prototype.insertOrUpdate = function(collection, criteria, data, callback){
     var collection = this.db.collection(collection);
     collection.update(criteria, {$set : data}, {upsert:true, multi:true}, function(error,result){
@@ -165,20 +101,7 @@ MongoDatabase.prototype.insertOrUpdate = function(collection, criteria, data, ca
 
 
 
-/**
- * Gets a list of documents.
- *
- * @method get
- * @async
- * @param {String} collection The collection to work on
- * @param {Object} criteria An object of criterias
- * @param {Object} projection Fields to return using
- * projection operators
- * @param {Number} limit An optional limit number of items to retrieve
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Array** The retrieved data
- */
+
 MongoDatabase.prototype.get = function(collection, criteria, projection, limit, callback){
     var collection = this.db.collection(collection);
 

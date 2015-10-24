@@ -5,4 +5,3 @@ server/app/logs/*.log
 bower_components
 
 .idea
-db
