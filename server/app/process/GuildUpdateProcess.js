@@ -9,8 +9,6 @@ function GuildUpdateProcess(){
     this.lock = false;
 }
 
-module.exports = GuildUpdateProcess;
-
 GuildUpdateProcess.prototype.updateGuild = function() {
     var self = this;
     if (self.lock == false) {
@@ -37,3 +35,5 @@ GuildUpdateProcess.prototype.start = function(){
         true
     );
 };
+
+module.exports = GuildUpdateProcess;

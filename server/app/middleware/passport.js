@@ -3,7 +3,7 @@
 //Module dependencies
 var passport = require("passport");
 var BnetStrategy = require("passport-bnet").Strategy;
-var UserModel = process.require("models/UserModel.js");
+var userModel = process.require("models/UserModel.js");
 var userService = process.require("services/userService.js");
 
 //Configuration
@@ -21,20 +21,14 @@ passport.use(new BnetStrategy({
     },
     function(accessToken, refreshToken, profile, done) {
 
-        new UserModel(
-            {
-                id:profile.id,
-                battleTag:profile.battletag,
-                accessToken:accessToken
+        userModel.insertOrUpdate({id:profile.id,battleTag:profile.battletag, accessToken:accessToken},function(error,user){
+            if(error){
+                logger.error(error.message);
+                return done(null,false);
             }
-        ).save(function(error,user){
-                if(error){
-                    logger.error(error.message);
-                    return done(null,false);
-                }
-                userService.importGuilds(user.get("id"));
-                return done(null, user);
-            });
+            userService.importGuilds(user.id);
+            return done(null, user);
+        });
     }
 ));
 
@@ -43,16 +37,16 @@ passport.use(new BnetStrategy({
 // Only the user ID is serialized to the session.
 passport.serializeUser(function(user, done) {
 
-    done(null, user.get('id'));
+    done(null, user.id);
 });
 
 // When subsequent requests are received, the ID is used to find
 // the user, which will be restored to req.user.
 passport.deserializeUser(function(id, done) {
 
-    UserModel.findById(id,function(error,user){
+    userModel.findById(id,function(error,user){
         if(user)
-            done(null,{id:user.get('id'),battleTag:user.get('battleTag')});
+            done(null,{id:user.id,battleTag:user.battleTag});
         else {
             logger.error(error.message);
             done(null, false);

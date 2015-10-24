@@ -2,9 +2,9 @@
     <div class="col-md-6">
         <h3>Dernières guildes inscrites </h3>
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="guild_ad in guild_ads">
-                <a href="#/guild/{{ guild_ad.region }}/{{ guild_ad.realm }}/{{ guild_ad.name }}/">
-                    {{guild_ad.name}} - {{guild_ad.realm}} - {{guild_ad.region}} - <span am-time-ago="guild_ad.updated"></span>
+            <li class="list-group-item" ng-repeat="guildAd in guildAds">
+                <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">
+                    {{guildAd.name}} - {{guildAd.realm}} - {{guildAd.region}} - <span am-time-ago="guildAd.updated"></span>
                 </a>
             </li>
         </ul>
@@ -12,9 +12,9 @@
     <div class="col-md-6">
         <h3>Derniers personnages inscrits </h3>
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="character_ad in character_ads">
-                <a href="#/character/{{ character_ad.region }}/{{ character_ad.realm }}/{{ character_ad.name }}/">
-                    {{character_ad.name}} - {{character_ad.realm}} - {{character_ad.region}} - <span am-time-ago="character_ad.updated"></span>
+            <li class="list-group-item" ng-repeat="characterAd in characterAds">
+                <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/">
+                    {{characterAd.name}} - {{characterAd.realm}} - {{characterAd.region}} - <span am-time-ago="characterAd.updated"></span>
                 </a>
             </li>
         </ul>
@@ -24,7 +24,6 @@
 
 <h2>Dashboard</h2>
 <code>
-    - Two columns : Guild Search & Player Search by date<br/>
     - Counters (Guild & Player search).<br/>
     - Description
 </code>

@@ -5,10 +5,7 @@
 
 //Modules dependencies
 var async = require("async");
-var CharacterAdModel = process.require("models/CharacterAdModel.js");
-
-//Configuration
-var characterAdModel = new CharacterAdModel();
+var characterAdModel = process.require("models/CharacterAdModel.js");
 
 
 module.exports = function(io){
@@ -19,23 +16,23 @@ module.exports = function(io){
          * All users
          * Return last characters Ads
          */
-        socket.on('get:character-ads', function() {
-            characterAdModel.getLast(function(error,result){
+        socket.on('get:characterAds', function() {
+            characterAdModel.getLast(function(error,characterAds){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:character-ads',result);
+                socket.emit('get:characterAds',characterAds);
             });
         });
 
-        socket.on('get:character-ad', function(characterAd) {
-            characterAdModel.get(characterAd,function(error,result){
+        socket.on('get:characterAd', function(characterAd) {
+            characterAdModel.get(characterAd,function(error,characterAd){
                 if (error){
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:character-ad',result);
+                socket.emit('get:characterAd',characterAd);
             });
         });
 
@@ -44,8 +41,8 @@ module.exports = function(io){
              * Logged In Users
              * Return last characters Ads
              */
-            socket.on('add:character-ad', function(characterAd) {
-                characterAdModel.add(socket.request.user.id, characterAd, function (error) {
+            socket.on('put:characterAd', function(characterAd) {
+                characterAdModel.insertOrUpdate(socket.request.user.id, characterAd, function (error) {
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
@@ -55,19 +52,19 @@ module.exports = function(io){
                             socket.emit("global:error", error.message);
                             return;
                         }
-                        io.emit('get:character-ads', result);
-                        socket.emit('add:character-ad', result);
+                        io.emit('get:characterAds', result);
+                        socket.emit('put:characterAd', characterAd);
                     });
                 });
             });
 
-            socket.on('get:user-character-ads', function(characterAd) {
+            socket.on('get:userCharacterAds', function(characterAd) {
                 characterAdModel.getUserCharacterAds(socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    socket.emit('get:user-character-ads',result);
+                    socket.emit('get:userCharacterAds',result);
                 });
             });
         }

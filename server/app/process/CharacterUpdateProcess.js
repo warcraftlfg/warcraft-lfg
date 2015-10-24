@@ -9,8 +9,6 @@ function CharacterUpdateProcess(){
     this.lock = false;
 }
 
-module.exports = CharacterUpdateProcess;
-
 CharacterUpdateProcess.prototype.updateCharacter = function(){
     var self = this;
     if (self.lock == false){
@@ -37,3 +35,5 @@ CharacterUpdateProcess.prototype.start = function(){
         true
     );
 };
+
+module.exports = CharacterUpdateProcess;

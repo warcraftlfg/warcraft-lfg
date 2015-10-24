@@ -3,12 +3,12 @@
 //Module dependencies
 var bnetAPI = process.require("api/bnet.js");
 var logger = process.require("api/logger.js").get("logger");
-var CharacterUpdateModel = process.require("models/CharacterUpdateModel.js");
-var CharacterModel = process.require("models/CharacterModel.js");
+var characterUpdateModel = process.require("models/CharacterUpdateModel.js");
+var characterModel = process.require("models/CharacterModel.js");
 
 module.exports.updateLastCharacter = function(callback){
     var self=this;
-    CharacterUpdateModel.getOlder(function(error,characterUpdate) {
+    characterUpdateModel.getOldest(function(error,characterUpdate) {
         if (error) {
             callback(error);
             return;
@@ -28,27 +28,24 @@ module.exports.updateLastCharacter = function(callback){
 };
 
 module.exports.updateCharacter = function(characterUpdate,callback) {
-    var region = characterUpdate.get("region");
-    var realm = characterUpdate.get("realm");
-    var name = characterUpdate.get("name");
 
-    characterUpdate.delete(function (error) {
+    characterUpdateModel.delete(characterUpdate,function (error) {
         if (error) {
             callback(error);
             return;
         }
-        bnetAPI.getCharacter(region, realm, name, function (error, character) {
+        bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, function (error, character) {
             if (error) {
                 callback();
                 return;
             }
-            character.region = region;
-            new CharacterModel(character).save(function (error, character) {
+            character.region = characterUpdate.region;
+            characterModel.insertOrUpdate(character,function (error, character) {
                 if (error) {
                     callback(error);
                     return;
                 }
-                logger.info('insert/update character: ' + character.get("region") + "-" + character.get("realm") + "-" + character.get("name"));
+                logger.info('insert/update character: ' + character.region + "-" + character.realm + "-" + character.name);
                 callback(null,character);
             });
         });

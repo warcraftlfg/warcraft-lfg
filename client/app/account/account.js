@@ -18,18 +18,18 @@
         //Initialize $scope variables
         $scope.$parent.loading = true;
 
-        socket.emit('get:user-guild-ads');
-        socket.forward('get:user-guild-ads',$scope);
-        $scope.$on('socket:get:user-guild-ads',function(ev,guild_ads){
+        socket.emit('get:userGuildAds');
+        socket.forward('get:userGuildAds',$scope);
+        $scope.$on('socket:get:userGuildAds',function(ev,guildAds){
             $scope.$parent.loading = false;
-            $scope.guild_ads = guild_ads;
+            $scope.guildAds = guildAds;
         });
 
-        socket.emit('get:user-character-ads');
-        socket.forward('get:user-character-ads',$scope);
-        $scope.$on('socket:get:user-character-ads',function(ev,character_ads){
+        socket.emit('get:userCharacterAds');
+        socket.forward('get:userCharacterAds',$scope);
+        $scope.$on('socket:get:userCharacterAds',function(ev,characterAds){
             $scope.$parent.loading = false;
-            $scope.character_ads = character_ads;
+            $scope.characterAds = characterAds;
         });
     }
 })();
