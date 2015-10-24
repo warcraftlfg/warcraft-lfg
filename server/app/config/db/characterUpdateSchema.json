@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Character Update",
+  "description": "A WoWFinder Character Update",
+  "type": "object",
+  "properties": {
+    "region": {
+      "type": "string"
+    },
+    "realm": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}
