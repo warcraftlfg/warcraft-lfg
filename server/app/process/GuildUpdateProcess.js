@@ -14,45 +14,56 @@ function GuildUpdateProcess(){
 
 module.exports = GuildUpdateProcess;
 
-GuildUpdateProcess.prototype.onDatabaseAvailable = function() {
-    this.guildModel = new GuildModel();
-    this.guildUpdateModel = new GuildUpdateModel();
-    this.characterUpdateModel = new CharacterUpdateModel();
-};
-
 GuildUpdateProcess.prototype.updateGuild = function() {
     var self = this;
     if (self.lock == false) {
         self.lock = true;
-        self.guildUpdateModel.getOlder(function(error,currentupdate){
-            if(currentupdate) {
-                self.guildUpdateModel.remove(currentupdate, function () {
-                    bnetAPI.getGuild(currentupdate.region, currentupdate.realm, currentupdate.name, function (error,guild) {
-                        if (!error && guild) {
-                            self.guildModel.add(currentupdate.region, guild, function () {
-                                logger.info('insert/update guild: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
-                                self.lock = false;
-                            });
-                            guild.members.forEach(function (member){
-                                var character = member.character;
-                                self.characterUpdateModel.add(currentupdate.region,character.realm,character.name, function () {
-                                    logger.info("Insert character to update "+ currentupdate.region +"-"+character.realm+"-"+character.name);
-                                });
-                            });
-                        }
-                        else {
-                            self.lock = false;
-                            logger.warn('Unable to fetch guild: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
-                        }
-                    });
+
+        GuildUpdateModel.getOlder(function(error,guildUpdate) {
+            if (error) {
+                logger.error(error.message);
+                return;
+            }
+            if (guildUpdate){
+                console.log(guildUpdate);
+                //TODO FINIR LA FONCTION
+                guildUpdate.delete(function (error) {
                 });
             }
-            else{
-                self.lock = false;
-            }
+
         });
     }
 };
+
+//        self.guildUpdateModel.getOlder(function(error,currentupdate){
+//            if(currentupdate) {
+//                self.guildUpdateModel.remove(currentupdate, function () {
+//                    bnetAPI.getGuild(currentupdate.region, currentupdate.realm, currentupdate.name, function (error,guild) {
+//                        if (!error && guild) {
+//                            self.guildModel.add(currentupdate.region, guild, function () {
+//                                logger.info('insert/update guild: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
+//                                self.lock = false;
+//                            });
+//                            guild.members.forEach(function (member){
+//                                var character = member.character;
+//                                self.characterUpdateModel.add(currentupdate.region,character.realm,character.name, function () {
+//                                    logger.info("Insert character to update "+ currentupdate.region +"-"+character.realm+"-"+character.name);
+//                                });
+//                            });
+//                        }
+//                        else {
+//                            self.lock = false;
+//                            logger.warn('Unable to fetch guild: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
+//                        }
+//                    });
+//                });
+//            }
+//            else{
+//                self.lock = false;
+//            }
+//        });
+//    }
+//};
 
 
 GuildUpdateProcess.prototype.start = function(){
