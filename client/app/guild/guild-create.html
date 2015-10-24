@@ -12,7 +12,7 @@
             </div>
         </form>
         <p ng-repeat="guild in userGuilds">
-            <a class="btn btn-default" href="#/guild/{{guild.region}}/{{guild.realm}}/{{guild.name}}/update" role="button">{{guild.name}} - {{guild.realm}}</a>
+            <a class="btn btn-default" ng-click="createGuildAd(region,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
         </p>
     </div>
 </div>

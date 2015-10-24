@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "User",
+  "description": "A WoWFinder User",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "battleTag": {
+      "type": "string"
+    },
+    "accessToken": {
+      "type": "string"
+    }
+  }
+}

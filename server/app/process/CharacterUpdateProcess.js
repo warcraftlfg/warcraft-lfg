@@ -2,45 +2,22 @@
 
 //Module dependencies
 var cronJob = require('cron').CronJob;
-var CharacterUpdateModel = process.require("models/CharacterUpdateModel.js");
-var CharacterModel = process.require("models/CharacterModel.js");
-var bnetAPI = process.require("api/bnet.js");
 var logger = process.require("api/logger.js").get("logger");
+var characterService = process.require("services/characterService.js");
 
 function CharacterUpdateProcess(){
     this.lock = false;
 }
 
-module.exports = CharacterUpdateProcess;
-
-CharacterUpdateProcess.prototype.onDatabaseAvailable = function() {
-    this.characterModel = new CharacterModel();
-    this.characterUpdateModel = new CharacterUpdateModel();
-};
-
 CharacterUpdateProcess.prototype.updateCharacter = function(){
     var self = this;
     if (self.lock == false){
         self.lock = true;
-        self.characterUpdateModel.getOlder(function(error,currentupdate){
-            if(currentupdate){
-                self.characterUpdateModel.remove(currentupdate, function () {
-                    bnetAPI.getCharacter(currentupdate.region,currentupdate.realm, currentupdate.name, function (error,character) {
-                        if (!error && character) {
-                            self.characterModel.add(currentupdate.region, character, function () {
-                                logger.info('insert/update character: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
-                                self.lock = false;
-                            });
-                        }
-                        else {
-                            self.lock = false;
-                            logger.warn('Unable to fetch user: ' + currentupdate.region + "-" + currentupdate.realm + "-" + currentupdate.name);
-                        }
-                    });
-                });
-            }else {
-                self.lock = false;
+        characterService.updateLastCharacter(function(error){
+            if (error){
+                logger.error(error.message);
             }
+            self.lock = false;
         });
     }
 };
@@ -58,3 +35,5 @@ CharacterUpdateProcess.prototype.start = function(){
         true
     );
 };
+
+module.exports = CharacterUpdateProcess;

@@ -6,27 +6,29 @@
   "main": "server/app.js",
   "dependencies": {
     "async": "latest",
+    "body-parser": "latest",
+    "compression": "latest",
+    "connect-mongo": "latest",
+    "cookie-parser": "latest",
+    "cron": "latest",
     "express": "latest",
-    "morgan": "latest",
+    "express-session": "latest",
+    "lodash": "latest",
     "mongodb": "latest",
-    "connect-mongo":"latest",
+    "morgan": "latest",
     "passport": "latest",
     "passport-bnet": "latest",
     "passport.socketio": "latest",
-    "socket.io": "latest",
-    "body-parser": "latest",
-    "cookie-parser": "latest",
-    "express-session": "latest",
-    "winston": "latest",
     "request": "latest",
-    "compression": "latest",
-    "cron": "latest"
+    "confine": "latest",
+    "socket.io": "latest",
+    "winston": "latest"
   },
   "devDependencies": {
     "mocha": "latest",
-    "socket.io-client":"latest",
-    "chai":"latest",
-    "proxyquire":"latest"
+    "socket.io-client": "latest",
+    "chai": "latest",
+    "proxyquire": "latest"
   },
   "scripts": {
     "postinstall": "bower install"

@@ -5,10 +5,7 @@
 
 //Modules dependencies
 var async = require("async");
-var GuildAdModel = process.require("models/GuildAdModel.js");
-
-//Configuration
-var guildAdModel = new GuildAdModel();
+var guildAdModel = process.require("models/GuildAdModel.js");
 
 
 module.exports = function(io){
@@ -17,69 +14,69 @@ module.exports = function(io){
 
         /**
          * All users
-         * Return last guilds Ads
          */
-        socket.on('get:guild-ads', function() {
-            guildAdModel.getLast(function(error,result){
+        socket.on('get:guildAds', function() {
+            guildAdModel.getLast(10,function(error,result){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:guild-ads',result);
+                socket.emit('get:guildAds',result);
             });
         });
 
-        socket.on('get:guild-ad', function(guildAd) {
+        socket.on('get:guildAd', function(guildAd) {
             guildAdModel.get(guildAd,function(error,result){
                 if (error){
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:guild-ad',result);
+                socket.emit('get:guildAd',result);
             });
         });
 
-
+        /**
+         * Authenticate Users
+         */
         if (socket.request.user.logged_in){
-            /**
-             * Logged In Users
-             * Return last guilds Ads
-             */
-            socket.on('add:guild-ad', function(guildAd) {
-                guildAdModel.add(socket.request.user.id, guildAd, function (error) {
+            socket.on('put:guildAd', function(guildAd) {
+                guildAdModel.insertOrUpdate(socket.request.user.id,guildAd,function(error,guildAd){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    guildAdModel.getLast(function (error, result) {
+                    guildAdModel.getLast(10,function (error, guildAds) {
                         if (error){
                             socket.emit("global:error", error.message);
                             return;
                         }
-                        io.emit('get:guild-ads', result);
-                        socket.emit('add:guild-ad', result);
+                        io.emit('get:guildAds', guildAds);
+                        socket.emit('put:guildAd', guildAd);
                     });
+
                 });
             });
-            socket.on('delete:guild-ad', function(guildAd) {
+            socket.on('delete:guildAd', function(guildAd) {
                 guildAdModel.delete(socket.request.user.id,guildAd,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    socket.emit('delete:guild-ad',result);
+                    socket.emit('delete:guildAd',result);
                 });
             });
 
-            socket.on('get:user-guild-ads', function(guildAd) {
+            socket.on('get:userGuildAds', function(guildAd) {
                 guildAdModel.getUserGuildAds(socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    socket.emit('get:user-guild-ads',result);
+                    socket.emit('get:userGuildAds',result);
                 });
             });
         }
     });
 };
+
+

@@ -6,11 +6,10 @@
  */
 
 //Modules dependencies
-var UserModel = process.require("models/UserModel.js");
+var userService = process.require("services/userService.js");
 
 //Configuration
 var logger = process.require("api/logger.js").get("logger");
-var userModel = new UserModel();
 
 module.exports = function(io){
     //Listen for new user's connections
@@ -20,32 +19,32 @@ module.exports = function(io){
             logger.info("Anonymous user connected");
         }
         else {
-            logger.info( socket.request.user.battletag + " connected");
+            logger.info( socket.request.user.battleTag + " connected");
 
             /**
              * Return bnet guilds for current user
              */
-            socket.on('get:user-guilds', function(region) {
-                userModel.getGuilds(region,socket.request.user.id, function (error,guilds) {
+            socket.on('get:userGuilds', function(region) {
+                userService.getGuilds(region,socket.request.user.id, function (error,guilds) {
                     if (error) {
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    socket.emit("get:user-guilds", guilds);
+                    socket.emit("get:userGuilds", guilds);
                 });
             });
 
             /**
              * Return bnet characters for current user
              */
-            socket.on('get:user-characters', function(region) {
+            socket.on('get:userCharacters', function(region) {
 
-                userModel.getCharacters(region,socket.request.user.id, function (error,characters) {
+                userService.getCharacters(region,socket.request.user.id, function (error,characters) {
                     if (error) {
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    socket.emit("get:user-characters", characters);
+                    socket.emit("get:userCharacters", characters);
 
                 });
             });

@@ -44,9 +44,9 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
-    process.require('sockets/users.js')(this.io);
-    process.require('sockets/guildAds.js')(this.io);
-    process.require('sockets/characterAds.js')(this.io);
+    process.require('sockets/userSocket.js')(this.io);
+    process.require('sockets/guildAdSocket.js')(this.io);
+    process.require('sockets/characterAdSocket.js')(this.io);
 
     //Create sessionStore inside Mongodb
     var sessionStore =  new MongoStore({db: db.db});
@@ -70,7 +70,7 @@ WebServer.prototype.onDatabaseAvailable = function(db){
     this.app.use(passport.session());
 
     // Initialize passport (authentication manager)
-    process.require("passport.js");
+    process.require("middleware/passport.js");
 
     //Create route for Oauth
     this.app.get("/auth/bnet", passport.authenticate("bnet"));
@@ -88,7 +88,6 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
     this.app.use('/', express.static(path.join(process.root, "../client")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
-
 
 
     this.io.use(passportSocketIo.authorize({

@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Character Ad",
+  "description": "A WoWFinder Character Ad",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "region": {
+      "type": "string"
+    },
+    "realm": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "updated": {
+      "type": "integer"
+    },
+    "language": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "role": {
+      "type": "object",
+      "properties": {
+        "tank": {
+          "type": "boolean",
+          "default": false
+        },
+        "dps": {
+          "type": "boolean",
+          "default": false
+        },
+        "healer": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "raids_per_week": {
+      "type": "object",
+      "properties": {
+        "1_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "2_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "3_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "4_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "5_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "6_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "7_per_week": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}
