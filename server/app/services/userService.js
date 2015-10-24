@@ -1,8 +1,8 @@
 "use strict";
 
 //Define dependencies
-var UserModel = process.require("models/UserModel.js");
-var GuildUpdateModel = process.require("models/GuildUpdateModel.js");
+var userModel = process.require("models/UserModel.js");
+var guildUpdateModel = process.require("models/GuildUpdateModel.js");
 var async = require("async");
 var bnetAPI = process.require("api/bnet.js");
 
@@ -13,22 +13,32 @@ var logger = process.require("api/logger.js").get("logger");
 
 
 module.exports.getGuilds = function(region,id,callback){
-    UserModel.findById(id,function(error,user){
-        bnetAPI.getUserCharacters(region,user.get("accessToken"),function(error,characters){
+    this.getCharacters(region,id,function(error,characters){
+        var guilds = {};
+        //Fetch all characters and keep guild
+        async.forEach(characters,function(character,callback){
+            if(character.guild)
+                guilds[character.guild+character.guildRealm] = {name: character.guild, realm: character.guildRealm, region: region}
+            callback();
+        });
+        //Remove Key
+        var arr = Object.keys(guilds).map(function (key) {return guilds[key]});
+        callback(null,arr);
+    });
+
+};
+
+module.exports.getCharacters = function(region,id,callback){
+    userModel.findById(id,function(error,user){
+        if (error) {
+            callback(error);
+        }
+        bnetAPI.getUserCharacters(region,user.accessToken,function(error,characters){
             if (error) {
                 callback(error);
                 return;
             }
-            var guilds = {};
-            //Fetch all characters and keep guild
-            async.forEach(characters,function(character,callback){
-                if(character.guild)
-                    guilds[character.guild+character.guildRealm] = {name: character.guild, realm: character.guildRealm, region: region}
-                callback();
-            });
-            //Remove Key
-            var arr = Object.keys(guilds).map(function (key) {return guilds[key]});
-            callback(null,arr);
+            callback(null,characters);
         });
     });
 };
@@ -38,12 +48,12 @@ module.exports.importGuilds = function(id){
     config.bnet_regions.forEach(function(region) {
         self.getGuilds(region,id,function(error,guilds) {
             if(error) {
-                logger.error(message);
+                logger.error(error.message);
                 return;
             }
             guilds.forEach(function (guild) {
-                new GuildUpdateModel({region:region, realm:guild.realm, name:guild.name}).save(function(error,guildUpdate){
-                    logger.info("Insert guild  to update "+ guildUpdate.get("name")+"-"+guildUpdate.get("realm")+"-"+guildUpdate.get("region"));
+                guildUpdateModel.insertOrUpdate({region:region, realm:guild.realm, name:guild.name},function(error,guildUpdate){
+                    logger.info("Insert guild  to update "+ guildUpdate.name+"-"+guildUpdate.realm+"-"+guildUpdate.region);
                 });
             });
         });

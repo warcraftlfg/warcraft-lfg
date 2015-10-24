@@ -3,13 +3,13 @@
 //Module dependencies
 var bnetAPI = process.require("api/bnet.js");
 var logger = process.require("api/logger.js").get("logger");
-var GuildUpdateModel = process.require("models/GuildUpdateModel.js");
-var GuildModel = process.require("models/GuildModel.js");
-var CharacterUpdateModel = process.require("models/CharacterUpdateModel.js");
+var guildUpdateModel = process.require("models/GuildUpdateModel.js");
+var guildModel = process.require("models/GuildModel.js");
+var characterUpdateModel = process.require("models/CharacterUpdateModel.js");
 
 module.exports.updateLastGuild = function(callback){
     var self=this;
-    GuildUpdateModel.getOlder(function(error,guildUpdate) {
+    guildUpdateModel.getOldest(function(error,guildUpdate) {
         if (error) {
             callback(error);
             return;
@@ -30,38 +30,35 @@ module.exports.updateLastGuild = function(callback){
 };
 
 module.exports.updateGuild = function(guildUpdate,callback){
-    var region = guildUpdate.get("region");
-    var realm = guildUpdate.get("realm");
-    var name = guildUpdate.get("name");
-    guildUpdate.delete(function (error) {
+
+    guildUpdateModel.delete(guildUpdate,function (error) {
         if (error) {
             callback(error);
             return;
         }
-        bnetAPI.getGuild(region, realm, name, function (error,guild) {
+        bnetAPI.getGuild(guildUpdate.region, guildUpdate.realm, guildUpdate.name, function (error,guild) {
             if (error) {
                 callback();
                 return;
             }
-            guild.region = region;
-            new GuildModel(guild).save(function (error,guild){
+            guild.region = guildUpdate.region;
+            guildModel.insertOrUpdate(guild,function (error,guild){
                 if (error) {
                     callback(error);
                     return;
                 }
-                logger.info('insert/update guild: ' + guild.get("region") + "-" + guild.get("realm") + "-" + guild.get("name"));
+                logger.info('insert/update guild: ' + guild.region + "-" + guild.realm + "-" + guild.name);
                 callback(null,guild);
 
                 //Add character to update
-                guild.get("members").forEach(function (member){
+                guild.members.forEach(function (member){
                     var character = member.character;
-                    new CharacterUpdateModel({region:region,realm:realm,name:character.name}).save(function(error,characterUpdate){
+                    characterUpdateModel.insertOrUpdate({region:guild.region,realm:guild.realm,name:character.name},function(error,characterUpdate){
                         if (error) {
                             logger.error(error.message);
                             return;
                         }
-                        logger.info("Insert character to update "+ characterUpdate.get("region") +"-"+characterUpdate.get("realm")+"-"+characterUpdate.get("name"));
-
+                        logger.info("Insert character to update "+ characterUpdate.region +"-"+characterUpdate.realm+"-"+characterUpdate.name);
                     });
                 });
 

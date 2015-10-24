@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Guild Ad",
+  "description": "A WoWFinder Guild Ad",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "region": {
+      "type": "string"
+    },
+    "realm": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "updated": {
+      "type": "integer"
+    },
+    "language": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "recruitment": {
+      "type": "object",
+      "properties": {
+        "tanks": {
+          "type": "object",
+          "properties": {
+            "protection_warrior": {
+              "type": "boolean",
+              "default": false
+            },
+            "guardian_druid": {
+              "type": "boolean",
+              "default": false
+            },
+            "protection_paladin": {
+              "type": "boolean",
+              "default": false
+            },
+            "brewmaster_monk": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "heals": {
+          "type": "object",
+          "properties": {
+            "restoration_druid": {
+              "type": "boolean",
+              "default": false
+            },
+            "discipline_priest": {
+              "type": "boolean",
+              "default": false
+            },
+            "holy_priest": {
+              "type": "boolean",
+              "default": false
+            },
+            "holy_paladin": {
+              "type": "boolean",
+              "default": false
+            },
+            "restoration_chaman": {
+              "type": "boolean",
+              "default": false
+            },
+            "mistweaver_monk": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "melee_dps": {
+          "type": "object",
+          "properties": {
+            "feral_druid": {
+              "type": "boolean",
+              "default": false
+            },
+            "deathknight": {
+              "type": "boolean",
+              "default": false
+            },
+            "retribution_paladin": {
+              "type": "boolean",
+              "default": false
+            },
+            "windwalker_monk": {
+              "type": "boolean",
+              "default": false
+            },
+            "enhancement_shaman": {
+              "type": "boolean",
+              "default": false
+            },
+            "warrior": {
+              "type": "boolean",
+              "default": false
+            },
+            "rogue": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "distant_dps": {
+          "type": "object",
+          "properties": {
+            "shadow_priest": {
+              "type": "boolean",
+              "default": false
+            },
+            "elemental_shaman": {
+              "type": "boolean",
+              "default": false
+            },
+            "hunter": {
+              "type": "boolean",
+              "default": false
+            },
+            "warlock": {
+              "type": "boolean",
+              "default": false
+            },
+            "mage": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+    "raids_per_week": {
+      "type": "object",
+      "properties": {
+        "1_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "2_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "3_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "4_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "5_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "6_per_week": {
+          "type": "boolean",
+          "default": false
+        },
+        "7_per_week": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "raiding_style": {
+      "type": "string",
+      "enum": ["casual","semi-hardcore", "hardcore"],
+      "default": "casual"
+    }
+  }
+}

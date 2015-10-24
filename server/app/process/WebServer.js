@@ -44,9 +44,9 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
-    process.require('sockets/users.js')(this.io);
-    process.require('sockets/guildAds.js')(this.io);
-    process.require('sockets/characterAds.js')(this.io);
+    process.require('sockets/userSocket.js')(this.io);
+    process.require('sockets/guildAdSocket.js')(this.io);
+    process.require('sockets/characterAdSocket.js')(this.io);
 
     //Create sessionStore inside Mongodb
     var sessionStore =  new MongoStore({db: db.db});

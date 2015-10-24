@@ -12,7 +12,7 @@
             </div>
         </form>
         <p ng-repeat="character in userCharacters">
-            <a class="btn btn-default" href="#/character/{{character.region}}/{{character.realm}}/{{character.name}}/update" role="button">
+            <a class="btn btn-default" ng-click="createCharacterAd(region,character.realm,character.name)" role="button">
                  {{character.name}} ({{character.level}}) - {{character.realm}}
             </a>
         </p>

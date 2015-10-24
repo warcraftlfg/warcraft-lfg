@@ -1,31 +1,31 @@
 <div class="row">
     <div class="col-md-12">
-        <h1>{{ guild_ad.name }} - {{ guild_ad.region }} {{ guild_ad.realm }}</h1>
+        <h1>{{ guildAd.name }} - {{ guildAd.region }} {{ guildAd.realm }}</h1>
         <div class="row">
             <h2>Description:</h2>
-            {{guild_ad.description}}
+            {{guildAd.description}}
         </div>
         <div class="row">
             <h2>Raiding Style:</h2>
-            {{guild_ad.raiding_style}}
+            {{guildAd.raiding_style}}
         </div>
         <div class="row">
             <h2>Language:</h2>
-            {{guild_ad.lang_code}}
+            {{guildAd.language}}
         </div>
         <div class="row">
             <h2>Recruitment:</h2>
-            <div ng-repeat="(role,value) in guild_ad.recruitment" class="col-md-3">
+            <div ng-repeat="(role,value) in guildAd.recruitment" class="col-md-3">
                 <strong>{{role|uppercase|translate}}</strong>
-                <div  ng-repeat="(class,value) in guild_ad.recruitment[role]" class="checkbox">
-                    <i ng-class="guild_ad.recruitment[role][class] ? 'fa-check' : 'fa-times'" class="fa "></i> {{class|uppercase|translate}}
+                <div  ng-repeat="(class,value) in guildAd.recruitment[role]" class="checkbox">
+                    <i ng-class="guildAd.recruitment[role][class] ? 'fa-check' : 'fa-times'" class="fa "></i> {{class|uppercase|translate}}
                 </div>
             </div>
         </div>
         <div class="row">
             <h2>Raids per week</h2>
-            <div ng-repeat="(key,value) in guild_ad.raids_per_week" class="checkbox">
-                <i ng-class="guild_ad.raids_per_week[key] ? 'fa-check' : 'fa-times'" class="fa "></i> {{key|uppercase|translate}}
+            <div ng-repeat="(key,value) in guildAd.raids_per_week" class="checkbox">
+                <i ng-class="guildAd.raids_per_week[key] ? 'fa-check' : 'fa-times'" class="fa "></i> {{key|uppercase|translate}}
             </div>
         </div>
     </div>
