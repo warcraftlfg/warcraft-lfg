@@ -1,30 +1,30 @@
-"use strict"
+"use strict";
 
 //Defines dependencies
-var schemas = process.require('config/db/db.schemas.json');
-var _ = require("lodash");
+var guildUpdateSchema = process.require('config/db/guildUpdateSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
+var Confine = require("confine");
+
+//Configuration
+var confine = new Confine();
 
 /**
  * Defines a model class to manipulate guild updates
  * @constructor
  */
 function GuildUpdateModel(data){
-
     this.data = this.sanitize(data);
     this.database = applicationStorage.getDatabase();
 }
 
-GuildUpdateModel.prototype.data = {}
+GuildUpdateModel.prototype.data = {};
 
 GuildUpdateModel.prototype.get = function(name){
     return this.data[name];
 };
 
 GuildUpdateModel.prototype.sanitize = function(data){
-    var data = data || {};
-    var schema = schemas.guildUpdate;
-    return _.pick(_.defaults(data, schema), _.keys(schema));
+    return confine.normalize(data,guildUpdateSchema);
 };
 
 GuildUpdateModel.prototype.save = function (callback) {
@@ -41,7 +41,7 @@ GuildUpdateModel.prototype.save = function (callback) {
         return;
     }
     if(this.data.name == null){
-        callback(new Error('Field name is required in GuildUpdateModel'))
+        callback(new Error('Field name is required in GuildUpdateModel'));
         return;
     }
 
@@ -50,6 +50,7 @@ GuildUpdateModel.prototype.save = function (callback) {
         callback(error, self);
     });
 };
+
 GuildUpdateModel.prototype.delete = function (callback) {
     var self=this;
     this.database.remove("guild-updates",self.data,function(error){

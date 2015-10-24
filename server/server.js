@@ -70,8 +70,8 @@ async.series([
     function(callback){
         if(startWebserver)
             webServer.start();
-        //if(startCharacterUpdateProcess)
-        //    characterUpdateProcess.start();
+        if(startCharacterUpdateProcess)
+            characterUpdateProcess.start();
         if (startGuildUpdateProcess)
             guildUpdateProcess.start();
         callback();
