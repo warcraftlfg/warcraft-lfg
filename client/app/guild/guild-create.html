@@ -1,18 +1,20 @@
-<div class="row">
-    <div class="col-md-12">
-        <h2>{{"GUILD_ADD_STATE_1"|translate}}</h2>
-        <form>
-            <div class="form-group">
-                <select ng-model="region" ng-change="updateRegion()" class="form-control">
-                    <option>EU</option>
-                    <option>KR</option>
-                    <option>TW</option>
-                    <option>US</option>
-                </select>
-            </div>
-        </form>
-        <p ng-repeat="guild in userGuilds">
-            <a class="btn btn-default" ng-click="createGuildAd(region,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
-        </p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{"GUILD_ADD_STATE_1"|translate}}</h2>
+            <form>
+                <div class="form-group">
+                    <select ng-model="region" ng-change="updateRegion()" class="form-control">
+                        <option>EU</option>
+                        <option>KR</option>
+                        <option>TW</option>
+                        <option>US</option>
+                    </select>
+                </div>
+            </form>
+            <p ng-repeat="guild in userGuilds">
+                <a class="btn btn-default" ng-click="createGuildAd(region,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
+            </p>
+        </div>
     </div>
 </div>

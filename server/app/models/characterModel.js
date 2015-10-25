@@ -27,6 +27,14 @@ module.exports.insertOrUpdate = function (character,callback) {
     });
 };
 
+
+module.exports.get = function(character,callback){
+    var database = applicationStorage.getDatabase();
+    database.get("characters",{"region":character.region,"realm":character.realm,"name":character.name},{_id: 0},1,function(error,character){
+        callback(error, character && character[0]);
+    });
+};
+
 module.exports.getCount = function (callback){
     var database = applicationStorage.getDatabase();
     database.count('characters',function(error,count){
@@ -34,4 +42,12 @@ module.exports.getCount = function (callback){
     });
 };
 
+module.exports.getLast = function(number,callback){
+    var number = number || 10;
+    var database = applicationStorage.getDatabase();
+
+    database.search("characters", {}, {_id: 0}, number, 1, {updated:-1}, function(error,result){
+        callback(error, result);
+    });
+};
 

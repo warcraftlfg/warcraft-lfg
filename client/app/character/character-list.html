@@ -1,0 +1,9 @@
+
+<div class="container">
+    <h1>Characters</h1>
+    <ul>
+        <li ng-repeat="characterData in charactersData">
+            <a href="#/character/{{ characterData.region }}/{{ characterData.realm }}/{{ characterData.name }}/">{{characterData.name}} - {{characterData.realm}} - {{characterData.region}}</a>
+        </li>
+    </ul>
+</div>

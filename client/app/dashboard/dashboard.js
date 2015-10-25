@@ -18,14 +18,14 @@
         $scope.guildAds = [];
         $scope.characterAds = [];
 
-        socket.emit('get:guildAds');
-        socket.forward('get:guildAds',$scope);
-        $scope.$on('socket:get:guildAds',function(ev,guildAds){
+        socket.emit('get:lastGuildAds');
+        socket.forward('get:lastGuildAds',$scope);
+        $scope.$on('socket:get:lastGuildAds',function(ev,guildAds){
             $scope.guildAds=guildAds;
         });
-        socket.emit('get:characterAds');
-        socket.forward('get:characterAds',$scope);
-        $scope.$on('socket:get:characterAds',function(ev,characterAds){
+        socket.emit('get:lastCharacterAds');
+        socket.forward('get:lastCharacterAds',$scope);
+        $scope.$on('socket:get:lastCharacterAds',function(ev,characterAds){
             $scope.characterAds=characterAds;
         });
 
@@ -41,5 +41,19 @@
         $scope.$on('socket:get:guildCount',function(ev,guildCount){
             $scope.guildCount=guildCount;
         });
+
+        socket.emit('get:characterAdCount');
+        socket.forward('get:characterAdCount',$scope);
+        $scope.$on('socket:get:characterAdCount',function(ev,characterAdCount){
+            $scope.characterAdCount=characterAdCount;
+        });
+
+        socket.emit('get:guildAdCount');
+        socket.forward('get:guildAdCount',$scope);
+        $scope.$on('socket:get:guildAdCount',function(ev,guildAdCount){
+            $scope.guildAdCount=guildAdCount;
+        });
+
+
     }
 })();
