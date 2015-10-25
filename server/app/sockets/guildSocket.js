@@ -15,13 +15,13 @@ module.exports = function(io){
         /**
          * All users
          */
-        socket.on('get:guildAds', function() {
-            guildAdModel.getLast(10,function(error,result){
+        socket.on('get:lastGuildAds', function() {
+            guildAdModel.getLast(5,function(error,result){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:guildAds',result);
+                socket.emit('get:lastGuildAds',result);
             });
         });
 
@@ -45,6 +45,17 @@ module.exports = function(io){
             });
         });
 
+        socket.on('get:guildAdCount', function () {
+            guildAdModel.getCount(function (error, count) {
+                if (error) {
+                    socket.emit("global:error", error.message);
+                    return;
+                }
+                socket.emit('get:guildAdCount', count);
+            });
+        });
+
+
         /**
          * Authenticate Users
          */
@@ -60,7 +71,7 @@ module.exports = function(io){
                             socket.emit("global:error", error.message);
                             return;
                         }
-                        io.emit('get:guildAds', guildAds);
+                        io.emit('get:lastGuildAds', guildAds);
                         socket.emit('put:guildAd', guildAd);
                     });
 

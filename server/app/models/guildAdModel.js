@@ -93,7 +93,11 @@ module.exports.get = function(guildAd,callback){
     });
 };
 
-
-
+module.exports.getCount = function (callback){
+    var database = applicationStorage.getDatabase();
+    database.count('guild-ads',function(error,count){
+        callback(error,count);
+    });
+};
 
 

@@ -4,6 +4,7 @@
 var bnetAPI = process.require("api/bnet.js");
 var logger = process.require("api/logger.js").get("logger");
 var characterUpdateModel = process.require("models/CharacterUpdateModel.js");
+var characterAdModel = process.require("models/CharacterAdModel.js");
 var characterModel = process.require("models/CharacterModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
@@ -73,4 +74,41 @@ module.exports.emitCount = function(){
         var socketIo = applicationStorage.getSocketIo();
         socketIo.emit('get:characterCount', count);
     });
+};
+
+module.exports.getCharacterData = function(characterData,callback){
+
+    //Merge All Datas
+    characterAdModel.get({region:characterData.region,realm:characterData.realm,name:characterData.name},function(error,characterAd){
+        if(error){
+            callback(error);
+            logger.error(error.message);
+            return;
+        }
+        characterData.characterAd = characterAd;
+        characterModel.get({region:characterData.region,realm:characterData.realm,name:characterData.name},function(error,character) {
+            if (error) {
+                callback(error);
+                logger.error(error.message);
+                return;
+            }
+            characterData.character = character;
+            callback(null,characterData);
+        });
+    });
+};
+
+module.exports.getCharactersData = function (callback){
+
+    var charactersData ={};
+    characterModel.getLast(-1,function(error,characters){
+        if (error) {
+            callback(error);
+            logger.error(error.message);
+            return;
+        }
+        charactersData = characters;
+        callback(error,charactersData);
+    })
+
 };

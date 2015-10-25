@@ -1,46 +1,49 @@
 <div class="jumbotron">
-    <h2>{{user.battletag}}</h2>
-    <div class="row">
-        <div class="col-md-3 bnet-logo"></div>
-        <div class="col-md-9">
-            <p>{{"ACCOUNT_SEARCH_DESCRIPTION"|translate}}</p>
-            <p>
-                <a class="btn btn-primary btn-lg" href="#/guild/create" role="button">{{"ACCOUNT_SEARCH_PLAYER"|translate}}</a>
-                <a class="btn btn-primary btn-lg" href="#/character/create" role="button">{{"ACCOUNT_SEARCH_GUILD"|translate}}</a>
-            </p>
+    <div class="container">
+        <h2>{{user.battletag}}</h2>
+        <div class="row">
+            <div class="col-md-3 bnet-logo"></div>
+            <div class="col-md-9">
+                <p>{{"ACCOUNT_SEARCH_DESCRIPTION"|translate}}</p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="#/guild/create" role="button">{{"ACCOUNT_SEARCH_PLAYER"|translate}}</a>
+                    <a class="btn btn-primary btn-lg" href="#/character/create" role="button">{{"ACCOUNT_SEARCH_GUILD"|translate}}</a>
+                </p>
+            </div>
         </div>
     </div>
 </div>
-<div>
-    <h3>{{"ACCOUNT_USER_GUILD_ADS"|translate}}</h3>
-    <ul class="list-group">
-        <li class="list-group-item" ng-repeat="guildAd in guildAds">
-            <div class="row">
-                <div class="col-md-9">
-                   <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">{{guildAd.name}} - {{guildAd.realm}} - {{guildAd.region}} - <span am-time-ago="guildAd.updated"></span></a>
+<div class="container">
+    <div>
+        <h3>{{"ACCOUNT_USER_GUILD_ADS"|translate}}</h3>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="guildAd in guildAds">
+                <div class="row">
+                    <div class="col-md-9">
+                        <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">{{guildAd.name}} - {{guildAd.realm}} - {{guildAd.region}} - <span am-time-ago="guildAd.updated"></span></a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-default" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
+                        <a class="btn btn-danger" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/delete" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <a class="btn btn-default" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
-                    <a class="btn btn-danger" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/delete" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{"ACCOUNT_USER_CHARACTERS_ADS"|translate}}</h3>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="characterAd in characterAds">
+                <div class="row">
+                    <div class="col-md-9">
+                        <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/">{{characterAd.name}} - {{characterAd.realm}} - {{characterAd.region}} - <span am-time-ago="characterAd.updated"></span></a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-default" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
+                        <a class="btn btn-danger" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/delete" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
+                    </div>
                 </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </div>
 </div>
-<div>
-    <h3>{{"ACCOUNT_USER_CHARACTERS_ADS"|translate}}</h3>
-    <ul class="list-group">
-        <li class="list-group-item" ng-repeat="characterAd in characterAds">
-            <div class="row">
-                <div class="col-md-9">
-                   <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/">{{characterAd.name}} - {{characterAd.realm}} - {{characterAd.region}} - <span am-time-ago="characterAd.updated"></span></a>
-                </div>
-                <div class="col-md-3">
-                    <a class="btn btn-default" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
-                    <a class="btn btn-danger" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/delete" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
-                </div>
-            </div>
-        </li>
-    </ul>
-</div>
-

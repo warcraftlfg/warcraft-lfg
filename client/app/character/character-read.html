@@ -1,17 +1,21 @@
-<div class="row">
-    <div class="col-md-12">
-        <h1>{{ characterAd.name }} - {{ characterAd.region }} {{ characterAd.realm }}</h1>
-        <h2>
-            Role : 
-            <span ng-repeat="(role,value) in characterAd.role" ng-if="value == true">{{ role|uppercase|translate }} </span>
-        </h2>
-        <h2>
-            Raid per week :
-            <span ng-repeat="(key,value) in characterAd.raids_per_week" ng-if="value == true">{{ key|uppercase|translate }} / </span>
-        </h2>
-        <h2>Primary language : {{ characterAd.language }} </h2>
-        <h2>Description : {{ characterAd.description }}</h2>
-        <h2>Battletag : {{ characterAd.user.battleTag}}</h2>
-        <code>{{characterAd.character}}</code>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ characterData.name }} - {{ characterData.region }} {{ characterData.realm }}</h1>
+            <h2>Recruitment</h2>
+            <div ng-if="characterData.characterAd">
+                <code>{{characterData.characterAd}}</code>
+            </div>
+            <div ng-if="!characterData.characterAd">
+                This character is not looking for a guild
+            </div>
+            <h2>Character</h2>
+            <div ng-if="characterData.character">
+                <code>{{characterData.character}}</code>
+            </div>
+            <div ng-if="!characterData.character">
+                This character is not yet in our database
+            </div>
+        </div>
     </div>
 </div>

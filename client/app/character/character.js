@@ -42,20 +42,19 @@
 
     }
 
-    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES"];
-    function CharacterRead($scope,socket,$state,$stateParams,LANGUAGES) {
+    CharacterRead.$inject = ["$scope","socket","$state","$stateParams"];
+    function CharacterRead($scope,socket,$state,$stateParams) {
         //Reset error message
         $scope.$parent.error=null
 
         //Initialize $scope variables
-        $scope.languages= LANGUAGES;
         $scope.$parent.loading = true;
 
-        socket.emit('get:characterAd',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        socket.emit('get:characterData',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:characterAd',$scope);
-        $scope.$on('socket:get:characterAd',function(ev,characterAd){
-            $scope.characterAd = characterAd
+        socket.forward('get:characterData',$scope);
+        $scope.$on('socket:get:characterData',function(ev,characterData){
+            $scope.characterData = characterData
 
             // TODO Throw 404
             $scope.$parent.loading = false;
@@ -93,12 +92,39 @@
         });         
     }
 
-    CharacterDelete.$inject = ['$scope','socket'];
-    function CharacterDelete($scope, socket) {
-        
+    CharacterDelete.$inject = ['$scope','socket','$state','$stateParams'];
+    function CharacterDelete($scope, socket, $state, $stateParams) {
+        //Reset error message
+        $scope.$parent.error=null;
+
+        //Initialize var
+        $scope.characterAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
+
+        $scope.delete = function(){
+            $scope.$parent.loading = true;
+            socket.emit('delete:characterAd',$scope.characterAd);
+        };
+
+        socket.forward('delete:characterAd',$scope);
+        $scope.$on('socket:delete:characterAd',function(ev,characterAd){
+            $scope.$parent.loading = false;
+            $state.go("account");
+        });
     }
     CharacterList.$inject = ['$scope','socket'];
     function CharacterList($scope, socket) {
-        
+
+        //Reset error message
+        $scope.$parent.error=null;
+        $scope.$parent.loading = true;
+
+        socket.emit('get:charactersData');
+        socket.forward('get:charactersData',$scope);
+        $scope.$on('socket:get:charactersData',function(ev,charactersData){
+            $scope.$parent.loading = false;
+            $scope.charactersData = charactersData;
+        });
+
+
     }
 })();

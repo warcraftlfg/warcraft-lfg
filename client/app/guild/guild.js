@@ -105,15 +105,15 @@
         $scope.$parent.error=null;
 
         //Initialize var
-        $scope.guild_ad = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
+        $scope.guildAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
 
         $scope.delete = function(){
             $scope.$parent.loading = true;
-            socket.emit('delete:guildAd',$scope.guild_ad);
+            socket.emit('delete:guildAd',$scope.guildAd);
         };
 
         socket.forward('delete:guildAd',$scope);
-        $scope.$on('socket:delete:guildAd',function(ev,guild_ad){
+        $scope.$on('socket:delete:guildAd',function(ev,guildAd){
             $scope.$parent.loading = false;
             $state.go("account");
         });
