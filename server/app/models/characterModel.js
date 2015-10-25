@@ -22,8 +22,15 @@ module.exports.insertOrUpdate = function (character,callback) {
 
     //Create or update guild
     character.updated=new Date().getTime();
-    database.insertOrUpdate("characters",{region:character.region,realm:character.realm,name:character.name},null,character, function(error){
-        callback(error, character);
+    database.insertOrUpdate("characters",{region:character.region,realm:character.realm,name:character.name},null,character, function(error,result){
+        callback(error, result);
+    });
+};
+
+module.exports.getCount = function (callback){
+    var database = applicationStorage.getDatabase();
+    database.count('characters',function(error,count){
+        callback(error,count);
     });
 };
 

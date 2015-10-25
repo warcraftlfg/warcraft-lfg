@@ -153,7 +153,14 @@ MongoDatabase.prototype.search = function(collection, criteria, projection, limi
     }
 };
 
-MongoDatabase.prototype.search.count = function (cursor, callback){
-
-}
+MongoDatabase.prototype.count = function (collection, callback){
+    var collection = this.db.collection(collection);
+    collection.count(function(err,count){
+        if(err){
+            logger.error(err.message);
+            err = new Error("DATABASE_ERROR");
+        }
+        callback(err, count);
+    });
+};
 
