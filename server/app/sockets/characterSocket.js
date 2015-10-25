@@ -6,7 +6,7 @@
 //Modules dependencies
 var async = require("async");
 var characterAdModel = process.require("models/CharacterAdModel.js");
-
+var characterModel = process.require("models/characterModel.js");
 
 module.exports = function(io){
     //Listen for new user's connections
@@ -35,6 +35,17 @@ module.exports = function(io){
                 socket.emit('get:characterAd',characterAd);
             });
         });
+
+        socket.on('get:characterCount', function () {
+            characterModel.getCount(function (error, count) {
+                if (error) {
+                    socket.emit("global:error", error.message);
+                    return;
+                }
+                socket.emit('get:characterCount', count);
+            });
+        });
+
 
         if (socket.request.user.logged_in){
             /**
