@@ -49,14 +49,16 @@ module.exports.insertOrUpdate = function(id,guildAd,callback) {
             guildAd.updated=new Date().getTime();
             delete guildAd.id;
             database.insertOrUpdate("guild-ads", {region:guildAd.region,realm:guildAd.realm,name:guildAd.name}, {$set:guildAd,$addToSet:{id:id}}, null, function(error){
-
                 callback(error, guildAd);
-
             });
         }
         else {
-            //TODO supprimer l'id de la personne de la guilde (pour éviter de lui présenter une guilde qu'il ne possède plus (gquit ou kick))
-            callback(new Error("GUILD_NOT_MEMBER_ERROR"));
+            //Remove user from guild (gquit / gkick)
+            database.insertOrUpdate("guild-ads", {region:guildAd.region,realm:guildAd.realm,name:guildAd.name}, {$pull:{id:id}}, null, function(error){
+                if (error)
+                    logger.error(error.message);
+                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
+            });
         }
     });
 };
