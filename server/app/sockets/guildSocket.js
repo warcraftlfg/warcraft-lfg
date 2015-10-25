@@ -6,7 +6,7 @@
 //Modules dependencies
 var async = require("async");
 var guildAdModel = process.require("models/GuildAdModel.js");
-
+var guildModel = process.require("models/GuildModel.js");
 
 module.exports = function(io){
     //Listen for new user's connections
@@ -32,6 +32,16 @@ module.exports = function(io){
                     return;
                 }
                 socket.emit('get:guildAd',result);
+            });
+        });
+
+        socket.on('get:guildCount', function () {
+            guildModel.getCount(function (error, count) {
+                if (error) {
+                    socket.emit("global:error", error.message);
+                    return;
+                }
+                socket.emit('get:guildCount', count);
             });
         });
 

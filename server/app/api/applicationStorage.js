@@ -6,6 +6,7 @@
  */
 
 var database;
+var socketIo;
 
 /**
  * Gets the database.
@@ -25,4 +26,23 @@ module.exports.getDatabase = function(){
  */
 module.exports.setDatabase = function(newDatabase){
     database = newDatabase;
+};
+/**
+ * Gets the socket.io
+ *
+ * @method getSocketIo
+ * @return {Database} A Database object
+ */
+module.exports.getSocketIo = function(){
+    return socketIo;
+};
+
+/**
+ * Sets the database.
+ *
+ * @method getDatabase
+ * @param {Database} newDatabase The new database of the application
+ */
+module.exports.setSocketIo = function(newsocketIo){
+    socketIo = newsocketIo;
 };

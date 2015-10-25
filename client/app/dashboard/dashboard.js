@@ -28,5 +28,18 @@
         $scope.$on('socket:get:characterAds',function(ev,characterAds){
             $scope.characterAds=characterAds;
         });
+
+
+        socket.emit('get:characterCount');
+        socket.forward('get:characterCount',$scope);
+        $scope.$on('socket:get:characterCount',function(ev,characterCount){
+            $scope.characterCount=characterCount;
+        });
+
+        socket.emit('get:guildCount');
+        socket.forward('get:guildCount',$scope);
+        $scope.$on('socket:get:guildCount',function(ev,guildCount){
+            $scope.guildCount=guildCount;
+        });
     }
 })();
