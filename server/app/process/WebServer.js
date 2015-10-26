@@ -16,6 +16,9 @@ var passportSocketIo = require("passport.socketio");
 var logger = process.require("api/logger.js").get("logger");
 var compress = require('compression');
 var applicationStorage = process.require('api/applicationStorage.js');
+var userSocket = process.require('sockets/userSocket.js');
+var characterSocket = process.require('sockets/characterSocket.js');
+var guildSocket = process.require('sockets/guildSocket.js');
 
 /**
  * WebServer creates an HTTP server for the application,
@@ -46,10 +49,9 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
-    process.require('sockets/userSocket.js')(this.io);
-    process.require('sockets/guildSocket.js')(this.io);
-    process.require('sockets/characterSocket.js')(this.io);
-
+    userSocket.connect();
+    characterSocket.connect();
+    guildSocket.connect();
     //Create sessionStore inside Mongodb
     var sessionStore =  new MongoStore({db: db.db});
 

@@ -10,8 +10,10 @@ var userService = process.require("services/userService.js");
 
 //Configuration
 var logger = process.require("api/logger.js").get("logger");
+var applicationStorage = process.require("api/applicationStorage.js");
 
-module.exports = function(io){
+module.exports.connect = function(){
+    var io = applicationStorage.getSocketIo();
     //Listen for new user's connections
     io.on('connection', function(socket){
 
