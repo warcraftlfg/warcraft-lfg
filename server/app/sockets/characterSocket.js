@@ -67,8 +67,8 @@ module.exports = function(io){
             });
         });
 
-        socket.on('get:charactersData', function () {
-            characterService.getCharactersData(function (error, charactersData) {
+        socket.on('get:charactersData', function (recruit) {
+            characterService.getCharactersData(recruit,function (error, charactersData) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;

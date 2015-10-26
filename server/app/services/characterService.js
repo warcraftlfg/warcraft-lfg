@@ -98,17 +98,29 @@ module.exports.getCharacterData = function(characterData,callback){
     });
 };
 
-module.exports.getCharactersData = function (callback){
+module.exports.getCharactersData = function (recruit,callback){
 
     var charactersData ={};
-    characterModel.getLast(-1,function(error,characters){
-        if (error) {
-            callback(error);
-            logger.error(error.message);
-            return;
-        }
-        charactersData = characters;
-        callback(error,charactersData);
-    })
-
+    if(recruit){
+        characterAdModel.getLast(-1,function(error,characterAds){
+            if (error) {
+                callback(error);
+                logger.error(error.message);
+                return;
+            }
+            charactersData = characterAds;
+            callback(error,charactersData);
+        });
+    }
+    else{
+        characterModel.getLast(-1,function(error,characters){
+            if (error) {
+                callback(error);
+                logger.error(error.message);
+                return;
+            }
+            charactersData = characters;
+            callback(error,characters);
+        })
+    }
 };
