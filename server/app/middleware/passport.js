@@ -3,7 +3,7 @@
 //Module dependencies
 var passport = require("passport");
 var BnetStrategy = require("passport-bnet").Strategy;
-var userModel = process.require("models/UserModel.js");
+var userModel = process.require("models/userModel.js");
 var userService = process.require("services/userService.js");
 
 //Configuration

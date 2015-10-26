@@ -5,7 +5,7 @@
 
 //Modules dependencies
 var async = require("async");
-var characterAdModel = process.require("models/CharacterAdModel.js");
+var characterAdModel = process.require("models/characterAdModel.js");
 var characterModel = process.require("models/characterModel.js");
 var characterService = process.require("services/characterService.js");
 
