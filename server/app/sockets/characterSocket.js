@@ -8,8 +8,11 @@ var async = require("async");
 var characterAdModel = process.require("models/characterAdModel.js");
 var characterModel = process.require("models/characterModel.js");
 var characterService = process.require("services/characterService.js");
+var applicationStorage = process.require("api/applicationStorage.js");
 
-module.exports = function(io){
+module.exports.connect = function(){
+    var io = applicationStorage.getSocketIo();
+    var self=this;
     //Listen for new user's connections
     io.on('connection', function(socket) {
 
@@ -91,14 +94,9 @@ module.exports = function(io){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    characterAdModel.getLast(5,function (error, result) {
-                        if (error){
-                            socket.emit("global:error", error.message);
-                            return;
-                        }
-                        io.emit('get:lastCharacterAds', result);
-                        socket.emit('put:characterAd', characterAd);
-                    });
+                    self.emitCharacterAdCount();
+                    self.emitLastCharacterAds();
+                    socket.emit('put:characterAd', characterAd);
                 });
             });
 
@@ -108,6 +106,8 @@ module.exports = function(io){
                         socket.emit("global:error", error.message);
                         return;
                     }
+                    self.emitCharacterAdCount();
+                    self.emitLastCharacterAds();
                     socket.emit('delete:characterAd',result);
                 });
             });
@@ -123,4 +123,27 @@ module.exports = function(io){
             });
         }
     });
+};
+
+module.exports.emitCharacterAdCount = function(){
+    var io = applicationStorage.getSocketIo();
+    characterAdModel.getCount(function (error, count) {
+        if (error){
+            return;
+        }
+        io.emit('get:characterAdCount', count);
+    });
+
+
+};
+
+module.exports.emitLastCharacterAds = function() {
+    var io = applicationStorage.getSocketIo();
+    characterAdModel.getLast(5, function (error, characterAds) {
+        if (error) {
+            return;
+        }
+        io.emit('get:lastCharacterAds', characterAds);
+    });
+
 };

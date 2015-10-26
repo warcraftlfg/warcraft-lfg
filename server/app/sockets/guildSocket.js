@@ -7,8 +7,12 @@
 var async = require("async");
 var guildAdModel = process.require("models/guildAdModel.js");
 var guildModel = process.require("models/guildModel.js");
+var applicationStorage = process.require("api/applicationStorage.js");
 
-module.exports = function(io){
+
+module.exports.connect = function(){
+    var io = applicationStorage.getSocketIo();
+    var self=this;
     //Listen for new user's connections
     io.on('connection', function(socket) {
 
@@ -66,15 +70,9 @@ module.exports = function(io){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    guildAdModel.getLast(10,function (error, guildAds) {
-                        if (error){
-                            socket.emit("global:error", error.message);
-                            return;
-                        }
-                        io.emit('get:lastGuildAds', guildAds);
-                        socket.emit('put:guildAd', guildAd);
-                    });
-
+                    self.emitLastGuildAds();
+                    self.emitGuildAdCount();
+                    socket.emit('put:guildAd', guildAd);
                 });
             });
             socket.on('delete:guildAd', function(guildAd) {
@@ -84,6 +82,8 @@ module.exports = function(io){
                         return;
                     }
                     socket.emit('delete:guildAd',result);
+                    self.emitGuildAdCount();
+                    self.emitLastGuildAds();
                 });
             });
 
@@ -98,6 +98,29 @@ module.exports = function(io){
             });
         }
     });
+};
+
+module.exports.emitGuildAdCount = function(){
+    var io = applicationStorage.getSocketIo();
+    guildAdModel.getCount(function (error, count) {
+        if (error){
+            return;
+        }
+        io.emit('get:guildAdCount', count);
+    });
+
+
+};
+
+module.exports.emitLastGuildAds = function(){
+    var io = applicationStorage.getSocketIo();
+    guildAdModel.getLast(5,function (error, guildAds) {
+        if (error){
+            return;
+        }
+        io.emit('get:lastGuildAds', guildAds);
+    });
+
 };
 
 
