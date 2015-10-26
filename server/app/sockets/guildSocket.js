@@ -5,8 +5,8 @@
 
 //Modules dependencies
 var async = require("async");
-var guildAdModel = process.require("models/GuildAdModel.js");
-var guildModel = process.require("models/GuildModel.js");
+var guildAdModel = process.require("models/guildAdModel.js");
+var guildModel = process.require("models/guildModel.js");
 
 module.exports = function(io){
     //Listen for new user's connections
