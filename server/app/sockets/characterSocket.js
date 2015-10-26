@@ -5,7 +5,6 @@
 
 //Modules dependencies
 var async = require("async");
-var characterAdModel = process.require("models/characterAdModel.js");
 var characterModel = process.require("models/characterModel.js");
 var characterService = process.require("services/characterService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
@@ -21,32 +20,23 @@ module.exports.connect = function(){
          * Return last characters Ads
          */
         socket.on('get:lastCharacterAds', function() {
-            characterAdModel.getLast(5,function(error,characterAds){
+            characterModel.getLastAds(5,function(error,characters){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:lastCharacterAds',characterAds);
+
+                socket.emit('get:lastCharacterAds',characters);
             });
         });
 
-        socket.on('get:characterData', function(characterData) {
-            characterService.getCharacterData(characterData,function(error,characterData){
+        socket.on('get:character', function(characterIds) {
+            characterModel.get(characterIds.region,characterIds.realm,characterIds.name,function(error,character){
                 if (error){
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:characterData',characterData);
-            });
-        });
-
-        socket.on('get:characterAd', function(characterAd) {
-            characterAdModel.get(characterAd,function(error,characterAd){
-                if (error){
-                    socket.emit("global:error", error.message);
-                    return;
-                }
-                socket.emit('get:characterAd',characterAd);
+                socket.emit('get:character',character);
             });
         });
 
@@ -61,7 +51,7 @@ module.exports.connect = function(){
         });
 
         socket.on('get:characterAdCount', function () {
-            characterAdModel.getCount(function (error, count) {
+            characterModel.getAdsCount(function (error, count) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -70,13 +60,13 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:charactersData', function (recruit) {
-            characterService.getCharactersData(recruit,function (error, charactersData) {
+        socket.on('get:characters', function () {
+            characterModel.getLast(25,function (error, characters) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:charactersData', charactersData);
+                socket.emit('get:characters', characters);
             });
         });
 
@@ -88,20 +78,20 @@ module.exports.connect = function(){
              * Logged In Users
              * Return last characters Ads
              */
-            socket.on('put:characterAd', function(characterAd) {
-                characterAdModel.insertOrUpdate(socket.request.user.id, characterAd, function (error) {
+            socket.on('put:characterAd', function(character) {
+                characterModel.insertOrUpdateAd(character.region, character.realm, character.name, socket.request.user.id, character.ad, function (error) {
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
                     self.emitCharacterAdCount();
                     self.emitLastCharacterAds();
-                    socket.emit('put:characterAd', characterAd);
+                    socket.emit('put:characterAd', character);
                 });
             });
 
             socket.on('delete:characterAd', function(characterAd) {
-                characterAdModel.delete(socket.request.user.id,characterAd,function(error,result){
+                characterModel.deleteAd(characterAd.region,characterAd.realm,characterAd.name,socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
@@ -112,8 +102,8 @@ module.exports.connect = function(){
                 });
             });
 
-            socket.on('get:userCharacterAds', function(characterAd) {
-                characterAdModel.getUserCharacterAds(socket.request.user.id,function(error,result){
+            socket.on('get:userCharacterAds', function() {
+                characterModel.getUserCharacterAds(socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
@@ -127,7 +117,7 @@ module.exports.connect = function(){
 
 module.exports.emitCharacterAdCount = function(){
     var io = applicationStorage.getSocketIo();
-    characterAdModel.getCount(function (error, count) {
+    characterModel.getAdsCount(function (error, count) {
         if (error){
             return;
         }
@@ -139,7 +129,7 @@ module.exports.emitCharacterAdCount = function(){
 
 module.exports.emitLastCharacterAds = function() {
     var io = applicationStorage.getSocketIo();
-    characterAdModel.getLast(5, function (error, characterAds) {
+    characterModel.getLastAds(5, function (error, characterAds) {
         if (error) {
             return;
         }

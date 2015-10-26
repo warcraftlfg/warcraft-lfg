@@ -1,19 +1,19 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>{{ characterData.name }} - {{ characterData.region }} {{ characterData.realm }}</h1>
+            <h1>{{ character.name }} - {{ character.region }} {{ character.realm }}</h1>
             <h2>Recruitment</h2>
-            <div ng-if="characterData.characterAd">
-                <code>{{characterData.characterAd}}</code>
+            <div ng-if="character.ad">
+                <code>{{character.ad}}</code>
             </div>
-            <div ng-if="!characterData.characterAd">
+            <div ng-if="!character.ad">
                 This character is not looking for a guild
             </div>
             <h2>Character</h2>
-            <div ng-if="characterData.character">
-                <code>{{characterData.character}}</code>
+            <div ng-if="character.bnet">
+                <code>{{character.bnet}}</code>
             </div>
-            <div ng-if="!characterData.character">
+            <div ng-if="!character.bnet">
                 This character is not yet in our database
             </div>
         </div>

@@ -4,20 +4,20 @@
             <form>
                 <div class="form-group">
                     <label for="characterNameInput">{{"SELECTED_GUILD_NAME"|translate}}</label>
-                    <input ng-model="guildAd.name" disabled class="form-control" id="characterNameInput">
+                    <input ng-model="guild.name" disabled class="form-control" id="characterNameInput">
                 </div>
                 <div class="form-group">
                     <label for="characterRealmInput">{{"SELECTED_GUILD_REALM"|translate}}</label>
-                    <input ng-model="guildAd.realm" disabled class="form-control" id="characterRealmInput">
+                    <input ng-model="guild.realm" disabled class="form-control" id="characterRealmInput">
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_ADD_RECRUITMENT_CLASS"|translate}}</label>
                     <div class="row">
-                        <div ng-repeat="(role,value) in guildAd.recruitment" class="col-md-3">
+                        <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3">
                             <strong>{{role|uppercase|translate}}</strong>
-                            <div  ng-repeat="(class,value) in guildAd.recruitment[role]" class="checkbox">
+                            <div  ng-repeat="(class,value) in guild.ad.recruitment[role]" class="checkbox">
                                 <label>
-                                    <input ng-model="guildAd.recruitment[role][class]" type="checkbox"> {{class|uppercase|translate}}
+                                    <input ng-model="guild.ad.recruitment[role][class]" type="checkbox"> {{class|uppercase|translate}}
                                 </label>
                             </div>
                         </div>
@@ -25,15 +25,15 @@
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_ADD_RAIDS_PER_WEEK"|translate}}</label>
-                    <div ng-repeat="(key,value) in guildAd.raids_per_week" class="checkbox">
+                    <div ng-repeat="(key,value) in guild.ad.raids_per_week" class="checkbox">
                         <label>
-                            <input ng-model="guildAd.raids_per_week[key]" type="checkbox"> {{key|uppercase|translate}}
+                            <input ng-model="guild.ad.raids_per_week[key]" type="checkbox"> {{key|uppercase|translate}}
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_ADD_PRIMARY_LANGUAGE"|translate}}</label>
-                    <select ng-model="guildAd.language" class="form-control">
+                    <select ng-model="guild.ad.language" class="form-control">
                         <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
                     </select>
                 </div>
@@ -41,23 +41,23 @@
                     <label>{{"GUILD_ADD_RAIDING_STYLE"|translate}}</label>
                     <div class="radio">
                         <label>
-                            <input name="raiding_style" type="radio" value="hardcore" ng-model="guildAd.raiding_style">{{"HARDCORE"|translate}}
+                            <input name="raiding_style" type="radio" value="hardcore" ng-model="guild.ad.raiding_style">{{"HARDCORE"|translate}}
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input name="raiding_style" type="radio" value="semi-hardcore" ng-model="guildAd.raiding_style">{{"SEMI_HARDCORE"|translate}}
+                            <input name="raiding_style" type="radio" value="semi-hardcore" ng-model="guild.ad.raiding_style">{{"SEMI_HARDCORE"|translate}}
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input name="raiding_style" type="radio" value="casual" ng-model="guildAd.raiding_style">{{"CASUAL"|translate}}
+                            <input name="raiding_style" type="radio" value="casual" ng-model="guild.ad.raiding_style">{{"CASUAL"|translate}}
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_ADD_DESCRIPTION"|translate}}</label>
-                    <textarea ng-model="guildAd.description" class="form-control" rows="3"></textarea>
+                    <textarea ng-model="guild.ad.description" class="form-control" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
             </form>

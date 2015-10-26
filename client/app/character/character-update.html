@@ -4,23 +4,23 @@
             <form>
                 <div class="form-group">
                     <label for="characterNameInput">{{"CHARACTER_NAME"|translate}}</label>
-                    <input ng-model="characterAd.name" disabled class="form-control" id="characterNameInput">
+                    <input ng-model="character.name" disabled class="form-control" id="characterNameInput">
                 </div>
                 <div class="form-group">
                     <label for="characterRealmInput">{{"CHARACTER_REALM"|translate}}</label>
-                    <input ng-model="characterAd.realm" disabled class="form-control" id="characterRealmInput">
+                    <input ng-model="character.realm" disabled class="form-control" id="characterRealmInput">
                 </div>
                 <div class="form-group">
                     <label for="characterRegionInput">{{"CHARACTER_REGION"|translate}}</label>
-                    <input ng-model="characterAd.region" disabled class="form-control" id="characterRegionInput">
+                    <input ng-model="character.region" disabled class="form-control" id="characterRegionInput">
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_ADD_RECRUITMENT_ROLE"|translate}}</label>
                     <div class="row">
-                        <div ng-repeat="(role,value) in characterAd.role" class="col-md-3">
+                        <div ng-repeat="(role,value) in character.ad.role" class="col-md-3">
                             <div class="checkbox">
                                 <label>
-                                    <input ng-model="characterAd.role[role]" type="checkbox"> {{role|uppercase|translate}}
+                                    <input ng-model="character.ad.role[role]" type="checkbox"> {{role|uppercase|translate}}
                                 </label>
                             </div>
                         </div>
@@ -28,21 +28,21 @@
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_ADD_RAIDS_PER_WEEK"|translate}}</label>
-                    <div ng-repeat="(key,value) in characterAd.raids_per_week" class="checkbox">
+                    <div ng-repeat="(key,value) in character.ad.raids_per_week" class="checkbox">
                         <label>
-                            <input ng-model="characterAd.raids_per_week[key]" type="checkbox"> {{key|uppercase|translate}}
+                            <input ng-model="character.ad.raids_per_week[key]" type="checkbox"> {{key|uppercase|translate}}
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_ADD_PRIMARY_LANGUAGE"|translate}}</label>
-                    <select ng-model="characterAd.language" class="form-control">
+                    <select ng-model="character.ad.language" class="form-control">
                         <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_ADD_DESCRIPTION"|translate}}</label>
-                    <textarea ng-model="characterAd.description" class="form-control" rows="3"></textarea>
+                    <textarea ng-model="character.ad.description" class="form-control" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
             </form>
