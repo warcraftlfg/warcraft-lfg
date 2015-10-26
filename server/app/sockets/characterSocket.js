@@ -91,7 +91,7 @@ module.exports = function(io){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    characterAdModel.getLast(function (error, result) {
+                    characterAdModel.getLast(5,function (error, result) {
                         if (error){
                             socket.emit("global:error", error.message);
                             return;
