@@ -3,9 +3,9 @@
 //Module dependencies
 var bnetAPI = process.require("api/bnet.js");
 var logger = process.require("api/logger.js").get("logger");
-var guildUpdateModel = process.require("models/GuildUpdateModel.js");
-var guildModel = process.require("models/GuildModel.js");
-var characterUpdateModel = process.require("models/CharacterUpdateModel.js");
+var guildUpdateModel = process.require("models/guildUpdateModel.js");
+var guildModel = process.require("models/guildModel.js");
+var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
 module.exports.updateLastGuild = function(callback){
