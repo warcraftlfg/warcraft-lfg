@@ -7,6 +7,8 @@ var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildModel = process.require("models/guildModel.js");
 var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
+var userService = process.require("services/userService.js");
+var async = require("async");
 
 module.exports.updateLastGuild = function(callback){
     var self=this;
@@ -42,13 +44,13 @@ module.exports.updateGuild = function(guildUpdate,callback){
                 callback();
                 return;
             }
-            guild.region = guildUpdate.region;
-            guildModel.insertOrUpdate(guild,function (error,result){
+
+            guildModel.insertOrUpdateBnet(guildUpdate.region,guild.realm,guild.name,guild,function (error,result){
                 if (error) {
                     callback(error);
                     return;
                 }
-                logger.info('insert/update guild: ' + guild.region + "-" + guild.realm + "-" + guild.name);
+                logger.info('insert/update guild: ' + guildUpdate.region + "-" + guild.realm + "-" + guild.name);
                 callback(null,guild);
 
                 //Dispatch count to all users if new
@@ -56,7 +58,7 @@ module.exports.updateGuild = function(guildUpdate,callback){
                     self.emitCount();
 
 
-                self.addCharacterUpdate(guild.region,guild.realm,guild.members);
+                self.addCharacterUpdate(guildUpdate.region,guild.realm,guild.members);
 
             });
         });
@@ -90,7 +92,24 @@ module.exports.emitCount = function(){
             return;
         }
         var socketIo = applicationStorage.getSocketIo();
-        socketIo.emit('get:characterCount', count);
+        socketIo.emit('get:guildCount', count);
+    });
+};
+
+module.exports.isMember = function (id,region,realm,name,callback){
+
+    userService.getGuilds(region, id, function(error,guilds){
+        if (error){
+            callback(error);
+            return;
+        }
+        var isMyCharacter = false;
+        async.forEach(guilds, function (guild, callback) {
+            if (guild.name == name && guild.realm == realm)
+                isMyCharacter = true;
+            callback();
+        });
+        callback(error,isMyCharacter);
     });
 };
 

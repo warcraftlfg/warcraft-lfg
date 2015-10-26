@@ -16,7 +16,7 @@
 
         //Initialize $scope variables
         $scope.guildAds = [];
-        $scope.characterAds = [];
+        $scope.characters = [];
 
         socket.emit('get:lastGuildAds');
         socket.forward('get:lastGuildAds',$scope);
@@ -25,8 +25,8 @@
         });
         socket.emit('get:lastCharacterAds');
         socket.forward('get:lastCharacterAds',$scope);
-        $scope.$on('socket:get:lastCharacterAds',function(ev,characterAds){
-            $scope.characterAds=characterAds;
+        $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
+            $scope.characters=characters;
         });
 
 

@@ -153,9 +153,11 @@ MongoDatabase.prototype.search = function(collection, criteria, projection, limi
     }
 };
 
-MongoDatabase.prototype.count = function (collection, callback){
+MongoDatabase.prototype.count = function (collection,criteria, callback){
     var collection = this.db.collection(collection);
-    collection.count(function(err,count){
+
+    var criteria = criteria || {};
+    collection.count(criteria,function(err,count){
         if(err){
             logger.error(err.message);
             err = new Error("DATABASE_ERROR");

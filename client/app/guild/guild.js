@@ -25,9 +25,9 @@
         });
 
         socket.forward('put:guildAd',$scope);
-        $scope.$on('socket:put:guildAd',function(ev,guildAd){
+        $scope.$on('socket:put:guildAd',function(ev,guild){
             $scope.$parent.loading = false;
-            $state.go("guild-update",{region:guildAd.region,realm:guildAd.realm,name:guildAd.name});
+            $state.go("guild-update",{region:guild.region,realm:guild.realm,name:guild.name});
         });
 
         $scope.updateRegion = function(){
@@ -51,17 +51,17 @@
         $scope.guild_ad = null;
         $scope.$parent.loading = true;
 
-        socket.emit('get:guildAd',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:guildAd',$scope);
-        $scope.$on('socket:get:guildAd',function(ev,guildAd){
+        socket.forward('get:guild',$scope);
+        $scope.$on('socket:get:guild',function(ev,guild){
             $scope.$parent.loading = false;
 
             //If not exit, redirect user to dashboard
-            if(guildAd==null)
+            if(guild==null)
                 $state.go("dashboard");
 
-            $scope.guildAd = guildAd;
+            $scope.guild = guild;
         });
 
     }
@@ -76,19 +76,20 @@
         $scope.$parent.loading = true;
 
 
-        socket.emit('get:guildAd',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:guildAd',$scope);
-        $scope.$on('socket:get:guildAd',function(ev,guildAd){
+        socket.forward('get:guild',$scope);
+        $scope.$on('socket:get:guild',function(ev,guild){
+        console.log(guild);
             $scope.$parent.loading = false;
             //If not exit, redirect user to dashboard
-            if(guildAd==null)
+            if(guild==null)
                 $state.go("dashboard");
-            $scope.guildAd = guildAd;
+            $scope.guild = guild;
         });
 
         $scope.save = function(){
-            socket.emit('put:guildAd',$scope.guildAd);
+            socket.emit('put:guildAd',$scope.guild);
             $scope.$parent.loading = true;
         };
 
@@ -105,15 +106,15 @@
         $scope.$parent.error=null;
 
         //Initialize var
-        $scope.guildAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
+        $scope.guild = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
 
         $scope.delete = function(){
             $scope.$parent.loading = true;
-            socket.emit('delete:guildAd',$scope.guildAd);
+            socket.emit('delete:guildAd',$scope.guild);
         };
 
         socket.forward('delete:guildAd',$scope);
-        $scope.$on('socket:delete:guildAd',function(ev,guildAd){
+        $scope.$on('socket:delete:guildAd',function(ev,guild){
             $scope.$parent.loading = false;
             $state.go("account");
         });

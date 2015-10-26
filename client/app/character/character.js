@@ -25,9 +25,9 @@
         });
 
         socket.forward('put:characterAd',$scope);
-        $scope.$on('socket:put:characterAd',function(ev,characterAd){
+        $scope.$on('socket:put:characterAd',function(ev,character){
             $scope.$parent.loading = false;
-            $state.go("character-update",{region:characterAd.region,realm:characterAd.realm,name:characterAd.name});
+            $state.go("character-update",{region:character.region,realm:character.realm,name:character.name});
         });
 
         $scope.updateRegion = function(){
@@ -37,7 +37,7 @@
 
         $scope.createCharacterAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            socket.emit('put:characterAd',{region:region,realm:realm,name:name});
+            socket.emit('put:characterAd',{region:region,realm:realm,name:name,ad:{}});
         }
 
     }
@@ -50,11 +50,11 @@
         //Initialize $scope variables
         $scope.$parent.loading = true;
 
-        socket.emit('get:characterData',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:characterData',$scope);
-        $scope.$on('socket:get:characterData',function(ev,characterData){
-            $scope.characterData = characterData
+        socket.forward('get:character',$scope);
+        $scope.$on('socket:get:character',function(ev,character){
+            $scope.character = character
 
             // TODO Throw 404
             $scope.$parent.loading = false;
@@ -71,18 +71,17 @@
         $scope.languages = LANGUAGES;
         $scope.$parent.loading = true;
 
-        socket.emit('get:characterAd',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:characterAd',$scope);
-        $scope.$on('socket:get:characterAd',function(ev,characterAd){
+        socket.forward('get:character',$scope);
+        $scope.$on('socket:get:character',function(ev,character){
             $scope.$parent.loading = false;
-            $scope.characterAd = characterAd;
-            console.log(characterAd);
+            $scope.character = character;
         });
 
         $scope.save = function(){
             $scope.$parent.loading = true;
-            socket.emit('put:characterAd',$scope.characterAd);
+            socket.emit('put:characterAd',$scope.character);
         };
 
         socket.forward('put:characterAd',$scope);
@@ -119,17 +118,12 @@
         $scope.$parent.loading = true;
         $scope.recruit = true;
 
-        socket.emit('get:charactersData',$scope.recruit);
-        socket.forward('get:charactersData',$scope);
-        $scope.$on('socket:get:charactersData',function(ev,charactersData){
+        socket.emit('get:characters',$scope.recruit);
+        socket.forward('get:characters',$scope);
+        $scope.$on('socket:get:characters',function(ev,characters){
             $scope.$parent.loading = false;
-            $scope.charactersData = charactersData;
+            $scope.characters = characters;
         });
 
-        $scope.getCharactersData = function(){
-            $scope.$parent.loading = true;
-            socket.emit('get:charactersData',$scope.recruit);
-
-        }
     }
 })();

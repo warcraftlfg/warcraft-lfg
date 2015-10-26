@@ -21,9 +21,9 @@
         <div class="col-md-6">
             <h3>{{"DASHBOARD_LAST_CHARACTERAD"|translate}}</h3>
             <ul class="list-group">
-                <li class="list-group-item" ng-repeat="characterAd in characterAds">
-                    <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/">
-                        {{characterAd.name}} - {{characterAd.realm}} - {{characterAd.region}} - {{"UPDATED"|translate}} <span am-time-ago="characterAd.updated"></span>
+                <li class="list-group-item" ng-repeat="character in characters">
+                    <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                        {{character.name}} - {{character.realm}} - {{character.region}} - {{"UPDATED"|translate}} <span am-time-ago="character.updated"></span>
                     </a>
                 </li>
             </ul>

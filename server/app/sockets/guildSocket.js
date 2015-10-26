@@ -5,7 +5,6 @@
 
 //Modules dependencies
 var async = require("async");
-var guildAdModel = process.require("models/guildAdModel.js");
 var guildModel = process.require("models/guildModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
@@ -20,7 +19,7 @@ module.exports.connect = function(){
          * All users
          */
         socket.on('get:lastGuildAds', function() {
-            guildAdModel.getLast(5,function(error,result){
+            guildModel.getLastAds(5,function(error,result){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -29,13 +28,13 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:guildAd', function(guildAd) {
-            guildAdModel.get(guildAd,function(error,result){
+        socket.on('get:guild', function(characterIds) {
+            guildModel.get(characterIds.region,characterIds.realm,characterIds.name,function(error,result){
                 if (error){
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:guildAd',result);
+                socket.emit('get:guild',result);
             });
         });
 
@@ -50,7 +49,7 @@ module.exports.connect = function(){
         });
 
         socket.on('get:guildAdCount', function () {
-            guildAdModel.getCount(function (error, count) {
+            guildModel.getAdsCount(function (error, count) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -64,19 +63,20 @@ module.exports.connect = function(){
          * Authenticate Users
          */
         if (socket.request.user.logged_in){
-            socket.on('put:guildAd', function(guildAd) {
-                guildAdModel.insertOrUpdate(socket.request.user.id,guildAd,function(error,guildAd){
+            socket.on('put:guildAd', function(guild) {
+                guildModel.insertOrUpdateAd(guild.region, guild.realm, guild.name, socket.request.user.id, guild.ad,function(error){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
                     self.emitLastGuildAds();
                     self.emitGuildAdCount();
-                    socket.emit('put:guildAd', guildAd);
+
+                    socket.emit('put:guildAd', guild);
                 });
             });
-            socket.on('delete:guildAd', function(guildAd) {
-                guildAdModel.delete(socket.request.user.id,guildAd,function(error,result){
+            socket.on('delete:guildAd', function(guild) {
+                guildModel.deleteAd(guild.region, guild.realm, guild.name,socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
@@ -87,8 +87,8 @@ module.exports.connect = function(){
                 });
             });
 
-            socket.on('get:userGuildAds', function(guildAd) {
-                guildAdModel.getUserGuildAds(socket.request.user.id,function(error,result){
+            socket.on('get:userGuildAds', function() {
+                guildModel.getUserGuildAds(socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
@@ -102,7 +102,7 @@ module.exports.connect = function(){
 
 module.exports.emitGuildAdCount = function(){
     var io = applicationStorage.getSocketIo();
-    guildAdModel.getCount(function (error, count) {
+    guildModel.getCount(function (error, count) {
         if (error){
             return;
         }
@@ -114,7 +114,7 @@ module.exports.emitGuildAdCount = function(){
 
 module.exports.emitLastGuildAds = function(){
     var io = applicationStorage.getSocketIo();
-    guildAdModel.getLast(5,function (error, guildAds) {
+    guildModel.getLast(5,function (error, guildAds) {
         if (error){
             return;
         }
