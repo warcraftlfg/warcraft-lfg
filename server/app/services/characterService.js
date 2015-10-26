@@ -3,9 +3,9 @@
 //Module dependencies
 var bnetAPI = process.require("api/bnet.js");
 var logger = process.require("api/logger.js").get("logger");
-var characterUpdateModel = process.require("models/CharacterUpdateModel.js");
-var characterAdModel = process.require("models/CharacterAdModel.js");
-var characterModel = process.require("models/CharacterModel.js");
+var characterUpdateModel = process.require("models/characterUpdateModel.js");
+var characterAdModel = process.require("models/characterAdModel.js");
+var characterModel = process.require("models/characterModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
 module.exports.updateLastCharacter = function(callback){
