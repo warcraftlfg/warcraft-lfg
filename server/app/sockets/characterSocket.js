@@ -90,8 +90,8 @@ module.exports.connect = function(){
                 });
             });
 
-            socket.on('delete:characterAd', function(characterAd) {
-                characterModel.deleteAd(characterAd.region,characterAd.realm,characterAd.name,socket.request.user.id,function(error,result){
+            socket.on('delete:characterAd', function(character) {
+                characterModel.deleteAd(character.region,character.realm,character.name,socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;

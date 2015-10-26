@@ -92,7 +92,7 @@ module.exports.emitCount = function(){
             return;
         }
         var socketIo = applicationStorage.getSocketIo();
-        socketIo.emit('get:characterCount', count);
+        socketIo.emit('get:guildCount', count);
     });
 };
 

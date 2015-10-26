@@ -64,18 +64,19 @@ module.exports.connect = function(){
          */
         if (socket.request.user.logged_in){
             socket.on('put:guildAd', function(guild) {
-                guildModel.insertOrUpdateAd(guild.region, guild.realm, guild.name, socket.request.user.id, guild.ad,function(error,guild){
+                guildModel.insertOrUpdateAd(guild.region, guild.realm, guild.name, socket.request.user.id, guild.ad,function(error){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
                     self.emitLastGuildAds();
                     self.emitGuildAdCount();
+
                     socket.emit('put:guildAd', guild);
                 });
             });
-            socket.on('delete:guildAd', function(guildAd) {
-                guildModel.deleteAd(socket.request.user.id,guildAd,function(error,result){
+            socket.on('delete:guildAd', function(guild) {
+                guildModel.deleteAd(guild.region, guild.realm, guild.name,socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;

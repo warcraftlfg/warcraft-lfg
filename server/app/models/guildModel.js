@@ -46,7 +46,8 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     var database = applicationStorage.getDatabase();
 
-    ad = confine.normalize(ad,guildAdSchema);
+    if (ad)
+        ad = confine.normalize(ad,guildAdSchema);
 
     //Check for required attributes
     if(id == null){
@@ -74,10 +75,10 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
             guild.name = name;
             guild.updated = new Date().getTime();
 
-            ad.updated=new Date().getTime();
-
-            guild.ad = ad;
-
+            if(ad != null) {
+                ad.updated = new Date().getTime();
+                guild.ad = ad;
+            }
             database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$set: guild, $addToSet: {id: id}}, null, function (error,result) {
                 callback(error, result);
             });
@@ -118,10 +119,9 @@ module.exports.getLast = function(number,callback){
     });
 };
 
-module.exports.deleteAd = function(id,guildAd,callback){
+module.exports.deleteAd = function(region,realm,name,id,callback){
     var database = applicationStorage.getDatabase();
-    character.ad = null;
-    database.insertOrUpdate("guilds", {region:character.region,realm:character.realm,name:character.name} ,null ,character, function(error,result){
+    database.insertOrUpdate("guilds", {region:region,realm:realm,name:name} ,{$unset: {ad:""}}  ,null, function(error,result){
         callback(error, result);
     });
 };

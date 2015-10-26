@@ -37,7 +37,7 @@
 
         $scope.createGuildAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            socket.emit('put:guildAd',{region:region,realm:realm,name:name,ad:{}});
+            socket.emit('put:guildAd',{region:region,realm:realm,name:name});
         }
 
     }

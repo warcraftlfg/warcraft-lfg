@@ -48,6 +48,7 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     var database = applicationStorage.getDatabase();
 
     //Normalize before insert
+    if (ad)
     ad = confine.normalize(ad,characterAdSchema);
 
     //Check for required attributes
@@ -82,10 +83,10 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
             character.id = id;
             character.updated = new Date().getTime();
 
-            ad.updated=new Date().getTime();
-
-            character.ad = ad;
-
+            if(ad) {
+                ad.updated = new Date().getTime();
+                character.ad = ad;
+            }
             database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
                 callback(error, result);
             });
@@ -124,8 +125,6 @@ module.exports.getLast = function(number,callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var database = applicationStorage.getDatabase();
-    var character = {}
-    character.ad = null;
     database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,{$unset: {ad:""}} ,null, function(error,result){
         callback(error, result);
     });
