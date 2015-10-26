@@ -1,8 +1,8 @@
 "use strict";
 
 //Define dependencies
-var userModel = process.require("models/UserModel.js");
-var guildUpdateModel = process.require("models/GuildUpdateModel.js");
+var userModel = process.require("models/userModel.js");
+var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var async = require("async");
 var bnetAPI = process.require("api/bnet.js");
 
