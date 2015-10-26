@@ -46,7 +46,7 @@ module.exports.getLast = function(number,callback){
     var number = number || 10;
     var database = applicationStorage.getDatabase();
 
-    database.search("characters", {}, {_id: 0}, number, 1, {updated:-1}, function(error,result){
+    database.search("characters", {}, {_id: 0,region:1,realm:1,name:1}, number, 1, {updated:-1}, function(error,result){
         callback(error, result);
     });
 };

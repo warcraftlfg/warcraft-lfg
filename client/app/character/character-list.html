@@ -1,6 +1,11 @@
 
 <div class="container">
     <h1>Characters</h1>
+    <div class="checkbox">
+        <label>
+            <input ng-model="recruit" ng-change="getCharactersData()" type="checkbox"> Recruit
+        </label>
+    </div>
     <ul>
         <li ng-repeat="characterData in charactersData">
             <a href="#/character/{{ characterData.region }}/{{ characterData.realm }}/{{ characterData.name }}/">{{characterData.name}} - {{characterData.realm}} - {{characterData.region}}</a>

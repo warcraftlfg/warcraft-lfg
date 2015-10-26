@@ -117,14 +117,19 @@
         //Reset error message
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
+        $scope.recruit = true;
 
-        socket.emit('get:charactersData');
+        socket.emit('get:charactersData',$scope.recruit);
         socket.forward('get:charactersData',$scope);
         $scope.$on('socket:get:charactersData',function(ev,charactersData){
             $scope.$parent.loading = false;
             $scope.charactersData = charactersData;
         });
 
+        $scope.getCharactersData = function(){
+            $scope.$parent.loading = true;
+            socket.emit('get:charactersData',$scope.recruit);
 
+        }
     }
 })();
