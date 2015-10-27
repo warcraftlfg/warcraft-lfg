@@ -34,3 +34,6 @@ Edit and configure app/config.default.json and rename it to config.dev.json
 
 ##Launch
 Then go to : `https://localhost:3000/`
+
+##Cluster
+For cluster only install redis and add the redis credentials in config.
