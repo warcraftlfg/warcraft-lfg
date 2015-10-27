@@ -1,12 +1,12 @@
 
-<div class="container">
+<div class="container" infinite-scroll="getMoreCharacters()">
     <h1>Characters</h1>
     <div class="checkbox">
         <label>
-            <input ng-model="recruit" ng-change="getCharactersData()" type="checkbox"> Looking for Guild
+            <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox"> Level 100
         </label>
     </div>
-    <table class="table table-condensed">
+    <table class="table table-condensed" >
         <thead>
         <tr>
             <th>Name</th>
@@ -14,13 +14,18 @@
             <th>Region</th>
             <th>Level</th>
             <th>Guild</th>
+            <th>Ring</th>
+            <th>Role</th>
+            <th>WarcraftLog</th>
+            <th>Migration</th>
+            <th>Raids per week</th>
             <th>Last update</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="character in characters">
             <td>
-                <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                <a class="icon class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
                     {{character.name}}
                 </a>
             </td>
@@ -35,6 +40,21 @@
             </td>
             <td class="guild faction-{{character.bnet.faction}}">
                 {{character.bnet.guild.name}}
+            </td>
+            <td>
+                todo
+            </td>
+            <td>
+                todo
+            </td>
+            <td>
+                todo
+            </td>
+            <td>
+                todo
+            </td>
+            <td>
+                todo
             </td>
             <td>
                 <span am-time-ago="character.updated"></span>

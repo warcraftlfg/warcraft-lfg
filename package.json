@@ -13,7 +13,6 @@
     "cron": "latest",
     "express": "latest",
     "express-session": "latest",
-    "lodash": "latest",
     "mongodb": "latest",
     "morgan": "latest",
     "passport": "latest",

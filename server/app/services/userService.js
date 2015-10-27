@@ -52,10 +52,11 @@ module.exports.importGuilds = function(id){
                 return;
             }
             guilds.forEach(function (guild) {
-                guildUpdateModel.insertOrUpdate({region:region, realm:guild.realm, name:guild.name},function(error,guildUpdate){
+                guildUpdateModel.insertOrUpdate({region:region.toLowerCase(), realm:guild.realm, name:guild.name},function(error,guildUpdate){
                     logger.info("Insert guild  to update "+ guildUpdate.name+"-"+guildUpdate.realm+"-"+guildUpdate.region);
                 });
             });
+
         });
     });
 };

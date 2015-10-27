@@ -27,6 +27,10 @@ module.exports.insertOrUpdate = function (guildUpdate,callback) {
         return;
     }
 
+
+    //Force region to lower case
+    guildUpdate.region = guildUpdate.region.toLowerCase();
+
     //Create or update guildUpdate
     database.insertOrUpdate("guild-updates",{region:guildUpdate.region,realm:guildUpdate.realm,name:guildUpdate.name}, null, guildUpdate, function(error){
         callback(error, guildUpdate);

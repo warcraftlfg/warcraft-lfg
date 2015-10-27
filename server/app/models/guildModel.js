@@ -28,10 +28,15 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
         return;
     }
 
+
+    //Force region to lower case
+    region = region.toLowerCase();
+
     var guild ={}
     guild.region = region;
     guild.realm = realm;
     guild.name = name;
+    guild.updated = new Date().getTime();
 
     bnet.updated=new Date().getTime();
 
@@ -46,8 +51,7 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     var database = applicationStorage.getDatabase();
 
-    if (ad)
-        ad = confine.normalize(ad,guildAdSchema);
+    ad = confine.normalize(ad,guildAdSchema);
 
     //Check for required attributes
     if(id == null){
@@ -67,6 +71,10 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
         return;
     }
 
+
+    //Force region to lower case
+    region = region.toLowerCase();
+
     guildService.isMember(id,region,realm,name,function(error,isMyGuild) {
         if (isMyGuild) {
             var guild ={}
@@ -75,10 +83,9 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
             guild.name = name;
             guild.updated = new Date().getTime();
 
-            if(ad != null) {
-                ad.updated = new Date().getTime();
-                guild.ad = ad;
-            }
+            ad.updated = new Date().getTime();
+            guild.ad = ad;
+
             database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$set: guild, $addToSet: {id: id}}, null, function (error,result) {
                 callback(error, result);
             });
@@ -102,19 +109,10 @@ module.exports.get = function(region,realm,name,callback){
     });
 };
 
-module.exports.getLastAds = function (number,callback) {
+module.exports.getLastAds = function (number,filter,callback) {
     var number = number || 10;
     var database = applicationStorage.getDatabase();
     database.search("guilds", {ad:{$exists:true}}, {_id: 0}, number, 1, {updated:-1}, function(error,guilds){
-        callback(error, guilds);
-    });
-};
-
-module.exports.getLast = function(number,callback){
-    var number = number || 10;
-    var database = applicationStorage.getDatabase();
-
-    database.search("guilds", {}, {_id: 0}, number, 1, {updated:-1}, function(error,guilds){
         callback(error, guilds);
     });
 };

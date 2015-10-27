@@ -8,7 +8,8 @@
     "angular-translate": "latest",
     "angular-translate-loader-static-files": "latest",
     "bootstrap": "latest",
+    "font-awesome": "latest",
     "jquery": "latest",
-    "font-awesome": "latest"
+    "ngInfiniteScroll": "latest"
   }
 }

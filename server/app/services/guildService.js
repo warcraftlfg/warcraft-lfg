@@ -5,8 +5,8 @@ var bnetAPI = process.require("api/bnet.js");
 var logger = process.require("api/logger.js").get("logger");
 var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildModel = process.require("models/guildModel.js");
-var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
+var characterService =  process.require("services/characterService.js");
 var userService = process.require("services/userService.js");
 var async = require("async");
 
@@ -57,8 +57,9 @@ module.exports.updateGuild = function(guildUpdate,callback){
                 if(result.result.nModified==0)
                     self.emitCount();
 
-
-                self.addCharacterUpdate(guildUpdate.region,guild.realm,guild.members);
+                guild.members.forEach(function (member){
+                    characterService.addCharacterUpdate(guildUpdate.region,member.character.realm,member.character.name);
+                });
 
             });
         });
@@ -71,19 +72,8 @@ module.exports.getCount = function(callback){
     });
 };
 
-module.exports.addCharacterUpdate = function (region,realm,members){
-    //Add character to update
-    members.forEach(function (member){
-        var character = member.character;
-        characterUpdateModel.insertOrUpdate({region:region,realm:realm,name:character.name},function(error,characterUpdate){
-            if (error) {
-                logger.error(error.message);
-                return;
-            }
-            logger.info("Insert character to update "+ characterUpdate.region +"-"+characterUpdate.realm+"-"+characterUpdate.name);
-        });
-    });
-};
+
+
 
 module.exports.emitCount = function(){
     this.getCount(function(error,count){
