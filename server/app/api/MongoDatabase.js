@@ -21,7 +21,12 @@ module.exports = MongoDatabase;
 
 MongoDatabase.prototype.connect = function(callback){
     var self = this;
-    var connectionUrl = "mongodb://" + this.conf.username + ":" + this.conf.password + "@" + this.conf.host + ":" + this.conf.port;
+
+    var connectionUrl = "mongodb://";
+    if(this.conf.username && this.conf.password)
+         connectionUrl += this.conf.username + ":" + this.conf.password + "@";
+    connectionUrl += this.conf.host + ":" + this.conf.port;
+
     var database = "/" + this.conf.database;
     var seedlist = "," + this.conf.seedlist;
     var replicaset = "?replicaSet="+ this.conf.replicaSet+"&readPreference=secondary";

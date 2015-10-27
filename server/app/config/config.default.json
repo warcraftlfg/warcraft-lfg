@@ -8,12 +8,19 @@
     "secret": "justbetweenyouandme"
   },
   "database": {
-    "type": "mongodb",
-    "host": "localhost",
-    "port": 27017,
-    "database": "wow-finder",
-    "username": "",
-    "password": ""
+    "mongodb": {
+      "host": "localhost",
+      "port": 27017,
+      "database": "wow-finder",
+      "username": "",
+      "password": ""
+    },
+    "redis":{
+      "host:":"locahost",
+      "port": 6379,
+      "username": "",
+      "password": ""
+    }
   },
   "logger": {
     "fileName": "logs/all.log",

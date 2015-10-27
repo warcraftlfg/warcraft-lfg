@@ -18,9 +18,12 @@
     "passport": "latest",
     "passport-bnet": "latest",
     "passport.socketio": "latest",
+    "redis":"latest",
     "request": "latest",
     "confine": "latest",
     "socket.io": "latest",
+    "socket.io-redis": "latest",
+    "socket.io-emitter": "latest",
     "winston": "latest"
   },
   "devDependencies": {

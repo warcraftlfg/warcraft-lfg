@@ -19,6 +19,9 @@ var applicationStorage = process.require('api/applicationStorage.js');
 var userSocket = process.require('sockets/userSocket.js');
 var characterSocket = process.require('sockets/characterSocket.js');
 var guildSocket = process.require('sockets/guildSocket.js');
+var redis = require('redis').createClient;
+var adapter = require('socket.io-redis');
+
 
 /**
  * WebServer creates an HTTP server for the application,
@@ -36,6 +39,17 @@ function WebServer(){
     this.server = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
     this.io = require('socket.io')(this.server);
     applicationStorage.setSocketIo(this.io);
+
+    //Start redis for socket.io
+    if(config.database.redis){
+        if (config.database.redis.password){
+            var pub = redis(config.database.redis.port, config.database.redis.host, { auth_pass: config.database.redis.password });
+            var sub = redis(config.database.redis.port, config.database.redis.host, { detect_buffers: true, auth_pass: config.database.redis.password });
+            this.io.adapter(adapter({ pubClient: pub, subClient: sub }));
+        }
+        else
+            this.io.adapter(adapter({ host: config.database.redis.host, port: config.database.redis.port }));
+    }
 
 }
 
@@ -86,9 +100,6 @@ WebServer.prototype.onDatabaseAvailable = function(db){
         res.redirect('/');
     });
 
-    //Create static repository
-    //this.app.use(express.static(path.join(process.root, "client")));
-    //this.app.use('/', express.static(process.root));
 
     this.app.use('/', express.static(path.join(process.root, "../client")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
