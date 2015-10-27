@@ -13,7 +13,7 @@
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="guildAd in guildAds">
                     <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">
-                        {{guildAd.name}} - {{guildAd.realm}} - {{guildAd.region}} - {{"UPDATED"|translate}} <span am-time-ago="guildAd.updated"></span>
+                        <span class="guild faction-{{character.bnet.faction}}">{{guildAd.name}}</span> - {{guildAd.realm}} - {{guildAd.region}} - {{"UPDATED"|translate}} <span am-time-ago="guildAd.updated"></span>
                     </a>
                 </li>
             </ul>
@@ -23,7 +23,7 @@
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="character in characters">
                     <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                        {{character.name}} - {{character.realm}} - {{character.region}} - {{"UPDATED"|translate}} <span am-time-ago="character.updated"></span>
+                        <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> - {{character.realm}} - {{character.region}} - {{"UPDATED"|translate}} <span am-time-ago="character.updated"></span>
                     </a>
                 </li>
             </ul>
