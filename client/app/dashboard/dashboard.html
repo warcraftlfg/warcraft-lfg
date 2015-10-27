@@ -11,9 +11,9 @@
         <div class="col-md-6">
             <h3>{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
             <ul class="list-group">
-                <li class="list-group-item" ng-repeat="guildAd in guildAds">
-                    <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">
-                        <span class="guild faction-{{character.bnet.faction}}">{{guildAd.name}}</span> - {{guildAd.realm}} - {{guildAd.region}} - {{"UPDATED"|translate}} <span am-time-ago="guildAd.updated"></span>
+                <li class="list-group-item" ng-repeat="guild in guilds">
+                    <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                        <span class="guild faction-{{guild.bnet.faction}}">{{guild.name}}</span> - {{guild.realm}} - {{guild.region}} - {{"UPDATED"|translate}} <span am-time-ago="guild.updated"></span>
                     </a>
                 </li>
             </ul>
