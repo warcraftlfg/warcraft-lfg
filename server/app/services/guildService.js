@@ -82,6 +82,9 @@ module.exports.emitCount = function(){
             return;
         }
         var socketIo = applicationStorage.getSocketIo();
+        //If socketIo undefined try io-emitter (for cron)
+        if(!socketIo)
+            var io = require('socket.io-emitter')();
         socketIo.emit('get:guildCount', count);
     });
 };

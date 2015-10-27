@@ -51,7 +51,7 @@ async.series([
     // Establish a connection to the database
     function(callback) {
 
-        var db = new MongoDatabase(config.database);
+        var db = new MongoDatabase(config.database.mongodb);
         // Establish connection to the database
         db.connect(function(error) {
             if (error) {
