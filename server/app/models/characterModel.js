@@ -28,10 +28,14 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
         return;
     }
 
+    //Force region to lower case
+    region = region.toLowerCase();
+
     var character ={}
     character.region = region;
     character.realm = realm;
     character.name = name;
+    character.updated = new Date().getTime();
 
     bnet.updated=new Date().getTime();
 
@@ -45,10 +49,10 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 
 
 module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
+
     var database = applicationStorage.getDatabase();
 
     //Normalize before insert
-    if (ad)
     ad = confine.normalize(ad,characterAdSchema);
 
     //Check for required attributes
@@ -70,6 +74,9 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     }
 
 
+//Force region to lower case
+    region = region.toLowerCase();
+
     characterService.isOwner(id,region,realm,name,function(error,isMyCharacter){
         if(error){
             callback(error);
@@ -83,10 +90,8 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
             character.id = id;
             character.updated = new Date().getTime();
 
-            if(ad) {
-                ad.updated = new Date().getTime();
-                character.ad = ad;
-            }
+            ad.updated = new Date().getTime();
+            character.ad = ad;
             database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
                 callback(error, result);
             });
@@ -105,23 +110,23 @@ module.exports.get = function(region,realm,name,callback){
     });
 };
 
-module.exports.getLastAds = function(number,callback){
+module.exports.getLastAds = function(number, filters, callback){
     var number = number || 10;
     var database = applicationStorage.getDatabase();
-
-    database.search("characters", {ad:{$exists:true}}, {_id: 0}, number, 1, {updated:-1}, function(error,characters){
+    var criteria ={ad:{$exists:true}};
+    var filters = filters || {};
+    if(filters.last){
+        criteria.updated={$lt:filters.last}
+    }
+    if(filters.lvlmax){
+        criteria["bnet.level"] = {$gte:100};
+    }
+    database.search("characters",criteria , {_id: 0}, number, 1, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
 
-module.exports.getLast = function(number,callback){
-    var number = number || 10;
-    var database = applicationStorage.getDatabase();
 
-    database.search("characters", {}, {_id: 0}, number, 1, {updated:-1}, function(error,characters){
-        callback(error, characters);
-    });
-};
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var database = applicationStorage.getDatabase();

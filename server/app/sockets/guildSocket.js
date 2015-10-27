@@ -19,7 +19,7 @@ module.exports.connect = function(){
          * All users
          */
         socket.on('get:lastGuildAds', function() {
-            guildModel.getLastAds(5,function(error,result){
+            guildModel.getLastAds(5,null,function(error,result){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -114,7 +114,7 @@ module.exports.emitGuildAdCount = function(){
 
 module.exports.emitLastGuildAds = function(){
     var io = applicationStorage.getSocketIo();
-    guildModel.getLast(5,function (error, guildAds) {
+    guildModel.getLastAds(5,null,function (error, guildAds) {
         if (error){
             return;
         }

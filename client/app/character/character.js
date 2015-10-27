@@ -17,11 +17,22 @@
 
         //Initialize $scope variables
         $scope.userCharacters = null;
+        var characterIds;
 
         socket.forward('get:userCharacters',$scope);
         $scope.$on('socket:get:userCharacters',function(ev,characters){
             $scope.$parent.loading = false;
             $scope.userCharacters = characters;
+        });
+
+        socket.forward('get:character',$scope);
+        $scope.$on('socket:get:character',function(ev,character){
+            if (character && character.ad)
+                socket.emit('put:characterAd',character);
+            else{
+                characterIds.ad = {};
+                socket.emit('put:characterAd',characterIds);
+            }
         });
 
         socket.forward('put:characterAd',$scope);
@@ -30,6 +41,7 @@
             $state.go("character-update",{region:character.region,realm:character.realm,name:character.name});
         });
 
+
         $scope.updateRegion = function(){
             $scope.$parent.loading = true;
             socket.emit('get:userCharacters',$scope.region);
@@ -37,8 +49,14 @@
 
         $scope.createCharacterAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            socket.emit('put:characterAd',{region:region,realm:realm,name:name,ad:{}});
-        }
+            characterIds = {region:region,realm:realm,name:name}
+            socket.emit('get:character',characterIds);
+
+        };
+
+
+
+
 
     }
 
@@ -116,13 +134,28 @@
         //Reset error message
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
-        $scope.recruit = true;
+        $scope.characters = [];
 
-        socket.emit('get:characters',$scope.recruit);
+        $scope.filters = {};
+        $scope.filters.lvlmax = true;
+
+        $scope.getMoreCharacters = function(){
+            if($scope.characters.length>0)
+                $scope.filters.last = $scope.characters[$scope.characters.length-1].updated
+            socket.emit('get:characters',$scope.filters);
+        };
+
+        $scope.updateFilters = function(){
+            $scope.$parent.loading = true;
+            $scope.characters =[];
+            socket.emit('get:characters',$scope.filters);
+
+        };
+
         socket.forward('get:characters',$scope);
         $scope.$on('socket:get:characters',function(ev,characters){
             $scope.$parent.loading = false;
-            $scope.characters = characters;
+            $scope.characters = $scope.characters.concat(characters);
         });
 
     }

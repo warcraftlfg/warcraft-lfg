@@ -9,3 +9,59 @@ body { color:#333; font-family: 'Open Sans', sans-serif;}
 .guild {font-weight:bold}
 .faction-1 { color: #CD2B00}
 .faction-0 { color: #0C81CE}
+
+/* None*/
+.class-0{color:#000000}
+/* Warrior */
+.class-1{color:#C79C6E 	}
+/* Paladin */
+.class-2{color:#F58CBA 	}
+/* Hunter */
+.class-3{color:#ABD473}
+/* Rogue */
+.class-4{color:#FFF569}
+/* Priest */
+.class-5{color:#bbb;}
+/* Death Knight */
+.class-6{color:#C41F3B }
+/* Shaman */
+.class-7{color:#0070DE}
+/* Mage */
+.class-8{color:#69CCF0}
+/* Warlock */
+.class-9{color:#9482C9 	}
+/* Monk */
+.class-10{color:#00FF96}
+/* Druid */
+.class-11{color:#FF7D0A}
+
+.icon {padding: 1px 0px 1px 25px;}
+
+/* Warrior */
+.icon.class-1{background: url('../images/icon/18/class-1.gif') left center no-repeat;}
+/* Paladin */
+.icon.class-2{background: url('../images/icon/18/class-2.gif') left center no-repeat;}
+/* Hunter */
+.icon.class-3{background: url('../images/icon/18/class-3.gif') left center no-repeat;}
+/* Rogue */
+.icon.class-4{background: url('../images/icon/18/class-4.gif') left center no-repeat;}
+/* Priest */
+.icon.class-5{background: url('../images/icon/18/class-5.gif') left center no-repeat;}
+/* Death Knight */
+.icon.class-6{background: url('../images/icon/18/class-6.gif') left center no-repeat;}
+/* Shaman */
+.icon.class-7{background: url('../images/icon/18/class-7.gif') left center no-repeat;}
+/* Mage */
+.icon.class-8{background: url('../images/icon/18/class-8.gif') left center no-repeat;}
+/* Warlock */
+.icon.class-9{background: url('../images/icon/18/class-9.gif') left center no-repeat;}
+/* Monk */
+.icon.class-10{background: url('../images/icon/18/class-10.gif') left center no-repeat;}
+/* Druid */
+.icon.class-11{background: url('../images/icon/18/class-11.gif') left center no-repeat;}
+
+
+.icon.armory {background: url('../images/icon/18/armory.png') left center no-repeat;}
+.icon.dps {background: url('../images/icon/18/dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+.icon.healing {background: url('../images/icon/18/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+.icon.tank {background: url('../images/icon/18/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}

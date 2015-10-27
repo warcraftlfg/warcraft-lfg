@@ -88,3 +88,13 @@ module.exports.isOwner = function (id,region,realm,name,callback){
         callback(error,isMyCharacter);
     });
 };
+
+module.exports.addCharacterUpdate = function (region, realm, name){
+    characterUpdateModel.insertOrUpdate({region:region,realm:realm,name:name},function(error){
+        if (error) {
+            logger.error(error.message);
+            return;
+        }
+        logger.info("Insert character to update "+ region +"-"+realm+"-"+name);
+    });
+};

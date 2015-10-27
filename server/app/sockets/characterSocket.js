@@ -20,7 +20,7 @@ module.exports.connect = function(){
          * Return last characters Ads
          */
         socket.on('get:lastCharacterAds', function() {
-            characterModel.getLastAds(5,function(error,characters){
+            characterModel.getLastAds(5,null,function(error,characters){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -60,8 +60,8 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:characters', function () {
-            characterModel.getLast(25,function (error, characters) {
+        socket.on('get:characters', function (filters) {
+            characterModel.getLastAds(30,filters,function (error, characters) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -129,7 +129,7 @@ module.exports.emitCharacterAdCount = function(){
 
 module.exports.emitLastCharacterAds = function() {
     var io = applicationStorage.getSocketIo();
-    characterModel.getLastAds(5, function (error, characterAds) {
+    characterModel.getLastAds(5, null,function (error, characterAds) {
         if (error) {
             return;
         }
