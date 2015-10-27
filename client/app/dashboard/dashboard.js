@@ -15,13 +15,13 @@
         $scope.$parent.error = null
 
         //Initialize $scope variables
-        $scope.guildAds = [];
+        $scope.guilds = [];
         $scope.characters = [];
 
         socket.emit('get:lastGuildAds');
         socket.forward('get:lastGuildAds',$scope);
-        $scope.$on('socket:get:lastGuildAds',function(ev,guildAds){
-            $scope.guildAds=guildAds;
+        $scope.$on('socket:get:lastGuildAds',function(ev,guilds){
+            $scope.guilds=guilds;
         });
         socket.emit('get:lastCharacterAds');
         socket.forward('get:lastCharacterAds',$scope);
