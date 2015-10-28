@@ -37,7 +37,6 @@
 
         socket.forward('put:characterAd',$scope);
         $scope.$on('socket:put:characterAd',function(ev,character){
-            $scope.$parent.loading = false;
             $state.go("character-update",{region:character.region,realm:character.realm,name:character.name});
         });
 

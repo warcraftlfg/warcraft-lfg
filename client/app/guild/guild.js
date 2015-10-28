@@ -38,7 +38,6 @@
 
         socket.forward('put:guildAd',$scope);
         $scope.$on('socket:put:guildAd',function(ev,guild){
-            $scope.$parent.loading = false;
             $state.go("guild-update",{region:guild.region,realm:guild.realm,name:guild.name});
         });
 
