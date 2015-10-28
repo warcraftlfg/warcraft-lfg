@@ -63,7 +63,7 @@ module.exports.updateGuild = function(guildUpdate,callback){
                             logger.error(error.message);
                             return;
                         }
-                        logger.info("Insert character to update "+ guildUpdate.region +"-"+member.realm+"-"+member.name);
+                        logger.info("Insert character to update "+ guildUpdate.region +"-"+member.character.realm+"-"+member.character.name);
                     });
                 });
 
@@ -112,4 +112,47 @@ module.exports.isMember = function (id,region,realm,name,callback){
     });
 };
 
+module.exports.insertOrUpdateGuildAd = function(region,realm,name,id,ad,callback){
+    this.isMember(id,region,realm,name,function(error,isMyGuild) {
+        if (isMyGuild) {
+            guildModel.insertOrUpdateGuildAd(region,realm,name,id,ad,function(error,result){
+                if(error){
+                    callback(error);
+                    return;
+                }
+                callback(result);
+            });
+        }
+        else {
+            //Remove user from guild (gquit / gkick)
+            guildModel.removeId(region,realm,name,id, function (error) {
+                if (error)
+                    logger.error(error.message);
+                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
+            });
+        }
+    });
+};
+
+module.exports.insertOrUpdateGuildBnet = function(region,realm,name,id,bnet,callback){
+    this.isMember(id,region,realm,name,function(error,isMyGuild) {
+        if (isMyGuild) {
+            guildModel.insertOrUpdateGuildBnet(region,realm,name,id,bnet,function(error,result){
+                if(error){
+                    callback(error);
+                    return;
+                }
+                callback(result);
+            });
+        }
+        else {
+            //Remove user from guild (gquit / gkick)
+            guildModel.removeId(region,realm,name,id, function (error) {
+                if (error)
+                    logger.error(error.message);
+                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
+            });
+        }
+    });
+};
 

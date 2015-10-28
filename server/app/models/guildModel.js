@@ -75,31 +75,19 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     //Force region to lower case
     region = region.toLowerCase();
 
-    guildService.isMember(id,region,realm,name,function(error,isMyGuild) {
-        if (isMyGuild) {
-            var guild ={}
-            guild.region = region;
-            guild.realm = realm;
-            guild.name = name;
-            guild.updated = new Date().getTime();
 
-            ad.updated = new Date().getTime();
-            guild.ad = ad;
+    var guild ={}
+    guild.region = region;
+    guild.realm = realm;
+    guild.name = name;
+    guild.updated = new Date().getTime();
 
-            database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$set: guild, $addToSet: {id: id}}, null, function (error,result) {
-                callback(error, result);
-            });
-        }
-        else {
-            //Remove user from guild (gquit / gkick)
-            database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$pull: {id: id}}, null, function (error) {
-                if (error)
-                    logger.error(error.message);
-                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
-            });
-        }
+    ad.updated = new Date().getTime();
+    guild.ad = ad;
+
+    database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$set: guild, $addToSet: {id: id}}, null, function (error,result) {
+        callback(error, result);
     });
-
 };
 
 module.exports.get = function(region,realm,name,callback){
@@ -148,4 +136,10 @@ module.exports.getAdsCount = function (callback){
     });
 };
 
+module.exports.removeId = function(region,realm,name,id, callback) {
+    var database = applicationStorage.getDatabase();
+    database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$pull: {id: id}}, null, function (error) {
+        callback(error);
+    });
+};
 

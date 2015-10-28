@@ -13,7 +13,7 @@
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="guild in guilds">
                     <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
-                        <span class="guild faction-{{guild.bnet.faction}}">{{guild.name}}</span> - {{guild.realm}} - {{guild.region}} - {{"UPDATED"|translate}} <span am-time-ago="guild.updated"></span>
+                        <span class="guild faction-{{guild.bnet.side}}">{{guild.name}}</span> - {{guild.realm}} - {{guild.region}} - {{"UPDATED"|translate}} <span am-time-ago="guild.updated"></span>
                     </a>
                 </li>
             </ul>
