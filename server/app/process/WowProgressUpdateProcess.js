@@ -27,15 +27,15 @@ WowProgressUpdateProcess.prototype.start = function(){
     logger.info("Starting WowProgressUpdateProcess");
 
     //Start Cron every sec
-    /*var self=this;
+    var self=this;
     new cronJob('0 * * * * *',
         function() {
             self.updateCharactersAd();
         },
         null,
         true
-    );*/
-    this.updateCharactersAd();
+    );
+
 };
 
 module.exports = WowProgressUpdateProcess;

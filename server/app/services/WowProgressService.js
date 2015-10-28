@@ -16,8 +16,6 @@ module.exports.parseWowProgress = function(){
             characterModel.get(wowProgressCharacter.region,wowProgressCharacter.realm,wowProgressCharacter.name,function(error,character){
 
                 if (!character || !character.ad){
-                    console.log(wowProgressCharacter);
-
                     characterModel.insertOrUpdateAd(wowProgressCharacter.region,wowProgressCharacter.realm,wowProgressCharacter.name,0,wowProgressCharacter,function(error,result){
                         characterUpdateModel.insertOrUpdate({region:wowProgressCharacter.region,realm:wowProgressCharacter.realm,name:wowProgressCharacter.name},function(error){
                             if (error) {
