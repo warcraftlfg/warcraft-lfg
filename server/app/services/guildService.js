@@ -6,7 +6,7 @@ var logger = process.require("api/logger.js").get("logger");
 var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildModel = process.require("models/guildModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
-var characterService =  process.require("services/characterService.js");
+var characterUpdateModel =  process.require("models/characterUpdateModel.js");
 var userService = process.require("services/userService.js");
 var async = require("async");
 
@@ -58,7 +58,13 @@ module.exports.updateGuild = function(guildUpdate,callback){
                     self.emitCount();
 
                 guild.members.forEach(function (member){
-                    characterService.addCharacterUpdate(guildUpdate.region,member.character.realm,member.character.name);
+                    characterUpdateModel.insertOrUpdate({region:guildUpdate.region,realm:member.character.realm,name:member.character.name},function(error){
+                        if (error) {
+                            logger.error(error.message);
+                            return;
+                        }
+                        logger.info("Insert character to update "+ guildUpdate.region +"-"+member.realm+"-"+member.name);
+                    });
                 });
 
             });

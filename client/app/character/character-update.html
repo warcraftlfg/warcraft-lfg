@@ -27,6 +27,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>{{"CHARACTER_ADD_RECRUITMENT_TRANSFERT"|translate}}</label>
+                    <div class="checkbox">
+                        <label>
+                            <input ng-model="character.ad.transfert" type="checkbox"> {{"ALLOW_TRANSFERT"|translate}}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>{{"CHARACTER_ADD_RAIDS_PER_WEEK"|translate}}</label>
                     <div ng-repeat="(key,value) in character.ad.raids_per_week" class="checkbox">
                         <label>

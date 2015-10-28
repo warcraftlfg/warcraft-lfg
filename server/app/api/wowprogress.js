@@ -26,7 +26,7 @@ module.exports.getWoWProgressPage = function(path,callback) {
     });
 };
 
-module.exports.getAds = function(){
+module.exports.getAds = function(callback){
     var self = this;
 
     this.getWoWProgressPage('/',function(error,body){
@@ -62,9 +62,7 @@ module.exports.getAds = function(){
                 callback();
             });
         },function(){
-            console.log(charactersResult);
-
-
+            callback(error,guildsResult,charactersResult);
         });
 
 
@@ -73,16 +71,113 @@ module.exports.getAds = function(){
 };
 
 module.exports.parseCharacterPage = function(url,callback) {
- this.getWoWProgressPage(url,function(error,body){
+    this.getWoWProgressPage(url,function(error,body){
 
-     var result = {};
-     var $body = cheerio.load(body);
-     result.name = $body('h1').text();
-     result.realm = $body('.nav_block .nav_link').text().split('-')[1];
-     result.region = $body('.nav_block .nav_link').text().split('-')[0];
-     result.language = $body('.language strong').text();
-     callback (null,result);
+        var result = {};
+        var $body = cheerio.load(body);
+        result.name = $body('h1').text();
 
- });
+        //For russian Ream wowprogress is bad ...
+        var russianRealms = {
+            "Гордунни":"Gordunni",
+            "Ревущий фьорд":"Howling Fjord",
+            "Черный Шрам":"Blackscar",
+            "Ясеневый лес":"Ashenvale",
+            "Свежеватель Душ":"Soulflayer",
+            "Разувий":"Razuvious",
+            "Азурегос":"Azuregos",
+            "Пиратская Бухта":"Booty Bay",
+            "Вечная Песня":"Eversong",
+            "Страж смерти":"Deathguard",
+            "Король-лич":"Lich King",
+            "Дракономор":"Fordragon",
+            "Борейская тундра":"Borean Tundra",
+            "Голдринн":"Goldrinn",
+            "Гром":"Grom",
+            "Галакронд":"Galakrond"
+        };
+        var realm = $body('.nav_block .nav_link').text().split('-')[1];
+
+        if(russianRealms[realm])
+            result.realm = russianRealms[realm];
+        else
+            result.realm = realm;
+
+        result.region = $body('.nav_block .nav_link').text().split('-')[0].toLowerCase();
+
+        var languageDivs = $body('.language').get();
+
+        var languages = {
+            "English": "en",
+            "German": "de",
+            "French": "fr",
+            "Spanish": "es",
+            "Russian": "ru",
+            "Bulgarian": "bg",
+            "Chinese": "zh",
+            "Croatian": "hr",
+            "Czech": "cs",
+            "Danish": "da",
+            "Dutch": "nl",
+            "Estonian": "et",
+            "Finnish": "fi",
+            "Greek": "el",
+            "Hebrew": "he",
+            "Hungarian": "hu",
+            "Italian": "it",
+            "Japanese": "ja",
+            "Korean": "ko",
+            "Latvian": "lv",
+            "Lithuanian": "lt",
+            "Norwegian": "no",
+            "Polish": "pl",
+            "Portuguese": "pt",
+            "Romanian": "ro",
+            "Slovenian": "sl",
+            "Swedish": "sw",
+            "Taiwanese": "tw",
+            "Turkish": "tr"
+        };
+        var language = cheerio.load(languageDivs[0])('strong').text();
+        if(languages[language])
+            result.language = languages[language];
+
+        var transfert = cheerio.load(languageDivs[1])('span').text();
+        if(transfert == "Yes, ready to transfer")
+            result.transfert = true;
+
+        var raidsPerWeek = cheerio.load(languageDivs[2])('strong').text().split(' - ');
+        result.raids_per_week = {};
+        if(raidsPerWeek.indexOf('1')!=-1)
+            result.raids_per_week["1_per_week"] = true;
+        if(raidsPerWeek.indexOf('2')!=-1)
+            result.raids_per_week["2_per_week"] = true;
+        if(raidsPerWeek.indexOf('3')!=-1)
+            result.raids_per_week["3_per_week"] = true;
+        if(raidsPerWeek.indexOf('4')!=-1)
+            result.raids_per_week["4_per_week"] = true;
+        if(raidsPerWeek.indexOf('5')!=-1)
+            result.raids_per_week["5_per_week"] = true;
+        if(raidsPerWeek.indexOf('6')!=-1)
+            result.raids_per_week["6_per_week"] = true;
+        if(raidsPerWeek.indexOf('7')!=-1)
+            result.raids_per_week["7_per_week"] = true;
+
+
+        var roles =  cheerio.load(languageDivs[3])('strong').text().split(', ');
+        result.role = {};
+        if(roles.indexOf("tank")!=-1)
+            result.role.tank = true;
+        if(roles.indexOf("dd")!=-1 || raidsPerWeek.indexOf("cac")!=-1)
+            result.role.dps = true;
+        if(roles.indexOf("healer")!=-1)
+            result.role.healer = true;
+
+
+        result.description = $body('.charCommentary').text();
+
+        callback (null,result);
+
+    });
 };
 
