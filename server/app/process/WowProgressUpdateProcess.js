@@ -36,6 +36,7 @@ WowProgressUpdateProcess.prototype.start = function(){
         true
     );
 
+
 };
 
 module.exports = WowProgressUpdateProcess;

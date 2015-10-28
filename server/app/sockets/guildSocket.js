@@ -6,6 +6,7 @@
 //Modules dependencies
 var async = require("async");
 var guildModel = process.require("models/guildModel.js");
+var guildService = process.require("services/guildService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
 
@@ -64,7 +65,7 @@ module.exports.connect = function(){
          */
         if (socket.request.user.logged_in){
             socket.on('put:guildAd', function(guild) {
-                guildModel.insertOrUpdateAd(guild.region, guild.realm, guild.name, socket.request.user.id, guild.ad,function(error){
+                guildService.insertOrUpdateGuildAd(guild.region, guild.realm, guild.name, socket.request.user.id, guild.ad,function(error){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;

@@ -11,6 +11,18 @@
                     <input ng-model="guild.realm" disabled class="form-control" id="characterRealmInput">
                 </div>
                 <div class="form-group">
+                    <label for="characterRegionInput">{{"SELECTED_GUILD_REGION"|translate}}</label>
+                    <input ng-model="guild.region"  disabled class="form-control" id="characterRegionInput">
+                </div>
+                <div class="form-group">
+                    <label>{{"GUILD_ADD_WEBSITE"|translate}}</label>
+                    <input ng-model="guild.ad.website" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>{{"GUILD_ADD_DESCRIPTION"|translate}}</label>
+                    <textarea ng-model="guild.ad.description" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
                     <label>{{"GUILD_ADD_RECRUITMENT_CLASS"|translate}}</label>
                     <div class="row">
                         <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3">
@@ -54,10 +66,6 @@
                             <input name="raiding_style" type="radio" value="casual" ng-model="guild.ad.raiding_style">{{"CASUAL"|translate}}
                         </label>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"GUILD_ADD_DESCRIPTION"|translate}}</label>
-                    <textarea ng-model="guild.ad.description" class="form-control" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
             </form>

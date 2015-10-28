@@ -93,7 +93,7 @@ module.exports.isOwner = function (id,region,realm,name,callback){
     });
 };
 
-module.exports.insertOrUpdateCharacterAd= function(region,realm,name,id,ad,callback){
+module.exports.insertOrUpdateCharacterAd = function(region,realm,name,id,ad,callback){
     this.isOwner(id,region,realm,name,function(error,isMyCharacter){
         if(error){
             callback(error);

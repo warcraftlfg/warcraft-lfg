@@ -13,6 +13,9 @@
     "description": {
       "type": "string"
     },
+    "website": {
+      "type": "string"
+    },
     "recruitment": {
       "type": "object",
       "properties": {
