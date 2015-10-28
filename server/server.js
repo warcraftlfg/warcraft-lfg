@@ -21,15 +21,19 @@ var config = process.require("config/config."+env+".json");
 var startWebserver = true;
 var startGuildUpdateProcess = true;
 var startCharacterUpdateProcess = true;
+var startWowProgressUpdateProcess = true;
 if(process.argv.length == 3 ){
     startWebserver = false;
     startGuildUpdateProcess = false;
     startCharacterUpdateProcess = false;
+    startWowProgressUpdateProcess = false;
 
     if(process.argv[2] ==="-gu")
         startGuildUpdateProcess=true;
     if(process.argv[2] ==="-cu")
         startCharacterUpdateProcess=true;
+    if(process.argv[2] ==="-wp")
+        startWowProgressUpdateProcess=true;
     if(process.argv[2] ==="-ws")
         startWebserver=true;
 }
@@ -46,6 +50,8 @@ var CharacterUpdateProcess = process.require("process/CharacterUpdateProcess.js"
 var characterUpdateProcess = new CharacterUpdateProcess();
 var GuildUpdateProcess = process.require("process/GuildUpdateProcess.js");
 var guildUpdateProcess = new GuildUpdateProcess();
+var WowProgressUpdateProcess = process.require("process/WowProgressUpdateProcess.js");
+var wowProgressUpdateProcess = new WowProgressUpdateProcess();
 
 async.series([
     // Establish a connection to the database
@@ -74,6 +80,8 @@ async.series([
             characterUpdateProcess.start();
         if (startGuildUpdateProcess)
             guildUpdateProcess.start();
+        if (startWowProgressUpdateProcess)
+            wowProgressUpdateProcess.start();
         callback();
     }
 ]);

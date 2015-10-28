@@ -7,7 +7,9 @@
   "dependencies": {
     "async": "latest",
     "body-parser": "latest",
+    "cheerio": "latest",
     "compression": "latest",
+    "confine": "latest",
     "connect-mongo": "latest",
     "cookie-parser": "latest",
     "cron": "latest",
@@ -18,12 +20,11 @@
     "passport": "latest",
     "passport-bnet": "latest",
     "passport.socketio": "latest",
-    "redis":"latest",
+    "redis": "latest",
     "request": "latest",
-    "confine": "latest",
     "socket.io": "latest",
-    "socket.io-redis": "latest",
     "socket.io-emitter": "latest",
+    "socket.io-redis": "latest",
     "winston": "latest"
   },
   "devDependencies": {

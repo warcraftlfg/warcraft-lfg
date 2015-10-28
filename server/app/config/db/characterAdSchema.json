@@ -13,6 +13,10 @@
     "description": {
       "type": "string"
     },
+    "transfert": {
+      "type": "boolean",
+      "default": false
+    },
     "role": {
       "type": "object",
       "properties": {

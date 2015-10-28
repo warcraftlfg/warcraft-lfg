@@ -76,31 +76,19 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
 
 //Force region to lower case
     region = region.toLowerCase();
+    var character ={}
+    character.region = region;
+    character.realm = realm;
+    character.name = name;
+    character.id = id;
+    character.updated = new Date().getTime();
 
-    characterService.isOwner(id,region,realm,name,function(error,isMyCharacter){
-        if(error){
-            callback(error);
-            return;
-        }
-        if(isMyCharacter){
-            var character ={}
-            character.region = region;
-            character.realm = realm;
-            character.name = name;
-            character.id = id;
-            character.updated = new Date().getTime();
-
-            ad.updated = new Date().getTime();
-            character.ad = ad;
-            database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
-                callback(error, result);
-            });
-        }
-        else
-        {
-            callback(new Error("CHARACTER_NOT_MEMBER_ERROR"));
-        }
+    ad.updated = new Date().getTime();
+    character.ad = ad;
+    database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
+        callback(error, result);
     });
+
 };
 
 module.exports.get = function(region,realm,name,callback){

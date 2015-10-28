@@ -30,6 +30,7 @@ module.exports.updateLastCharacter = function(callback){
     });
 };
 
+
 module.exports.updateCharacter = function(characterUpdate,callback) {
     var self = this;
     characterUpdateModel.delete(characterUpdate,function (error) {
@@ -92,12 +93,44 @@ module.exports.isOwner = function (id,region,realm,name,callback){
     });
 };
 
-module.exports.addCharacterUpdate = function (region, realm, name){
-    characterUpdateModel.insertOrUpdate({region:region,realm:realm,name:name},function(error){
-        if (error) {
-            logger.error(error.message);
+module.exports.insertOrUpdateCharacterAd= function(region,realm,name,id,ad,callback){
+    this.isOwner(id,region,realm,name,function(error,isMyCharacter){
+        if(error){
+            callback(error);
             return;
         }
-        logger.info("Insert character to update "+ region +"-"+realm+"-"+name);
+        if(isMyCharacter){
+            characterModel.insertOrUpdateCharacterAd(region,realm,name,id,ad,function(error,result){
+                if(error){
+                    callback(error);
+                    return;
+                }
+                callback(result);
+            });
+        }
+        else {
+            callback(new Error("CHARACTER_NOT_MEMBER_ERROR"));
+        }
+    });
+};
+
+module.exports.insertOrUpdateCharacterBnet= function(region,realm,name,id,bnet,callback){
+    this.isOwner(id,region,realm,name,function(error,isMyCharacter){
+        if(error){
+            callback(error);
+            return;
+        }
+        if(isMyCharacter){
+            characterModel.insertOrUpdateCharacterBnet(region,realm,name,id,bnet,function(error,result){
+                if(error){
+                    callback(error);
+                    return;
+                }
+                callback(result);
+            });
+        }
+        else {
+            callback(new Error("CHARACTER_NOT_MEMBER_ERROR"));
+        }
     });
 };

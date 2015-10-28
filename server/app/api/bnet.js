@@ -26,6 +26,7 @@ module.exports.getUserCharacters = function(region,accessToken,callback){
 
 module.exports.getCharacter = function(region,realm,name,callback){
     var url = encodeURI("https://"+region+".api.battle.net/wow/character/"+realm+"/"+name+"?fields=guild,items,progression&locale=en_GB&apikey="+config.oauth.bnet.client_id);
+
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body));
