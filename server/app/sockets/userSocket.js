@@ -7,8 +7,6 @@
 
 //Modules dependencies
 var userService = process.require("services/userService.js");
-
-//Configuration
 var logger = process.require("api/logger.js").get("logger");
 var applicationStorage = process.require("api/applicationStorage.js");
 

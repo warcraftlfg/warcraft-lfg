@@ -17,48 +17,45 @@ module.exports.parseWowProgress = function(){
             return;
         }
         wowProgressGuildAds.forEach(function(wowProgressGuild){
-            guildModel.get(wowProgressGuild.region,wowProgressGuild.realm,wowProgressGuild.name,function(error,guild){
+            guildService.get(wowProgressGuild.region,wowProgressGuild.realm,wowProgressGuild.name,function(error,guild){
                 if (error) {
                     logger.error(error.message);
                     return;
                 }
                 if (!guild || !guild.ad){
-                    guildModel.insertOrUpdateAd(wowProgressGuild.region,wowProgressGuild.realm,wowProgressGuild.name,0,wowProgressGuild,function(error){
+                    guildService.insertOrUpdateAd(wowProgressGuild.region,wowProgressGuild.realm,wowProgressGuild.name,0,wowProgressGuild,function(error){
                         if (error) {
                             logger.error(error.message);
                             return;
                         }
-                        guildUpdateModel.insertOrUpdate({region:wowProgressGuild.region,realm:wowProgressGuild.realm,name:wowProgressGuild.name},function(error){
+                        guildUpdateModel.insertOrUpdate(wowProgressGuild.region,wowProgressGuild.realm,wowProgressGuild.name,10,function(error){
                             if (error) {
                                 logger.error(error.message);
                                 return;
                             }
-                            guildService.emitCount();
                             logger.info("Insert guild to update "+ wowProgressGuild.region +"-"+wowProgressGuild.realm+"-"+wowProgressGuild.name);
                         });
                     });
                 }
             });
-
         });
         wowProgressCharacterAds.forEach(function(wowProgressCharacter){
-            characterModel.get(wowProgressCharacter.region,wowProgressCharacter.realm,wowProgressCharacter.name,function(error,character){
+            characterService.get(wowProgressCharacter.region,wowProgressCharacter.realm,wowProgressCharacter.name,function(error,character){
                 if (error) {
                     logger.error(error.message);
                     return;
                 }
                 if (!character || !character.ad){
-                    characterModel.insertOrUpdateAd(wowProgressCharacter.region,wowProgressCharacter.realm,wowProgressCharacter.name,0,wowProgressCharacter,function(error){
+                    characterService.insertOrUpdateAd(wowProgressCharacter.region,wowProgressCharacter.realm,wowProgressCharacter.name,0,wowProgressCharacter,function(error){
                         if (error) {
                             logger.error(error.message);
                             return;
                         }
-                        characterUpdateModel.insertOrUpdate({region:wowProgressCharacter.region,realm:wowProgressCharacter.realm,name:wowProgressCharacter.name},function(error){
+                        characterUpdateModel.insertOrUpdate(wowProgressCharacter.region,wowProgressCharacter.realm,wowProgressCharacter.name,10,function(error){
                             if (error) {
                                 logger.error(error.message);
                                 return;
                             }
-                            characterService.emitCount();
                             logger.info("Insert character to update "+ wowProgressCharacter.region +"-"+wowProgressCharacter.realm+"-"+wowProgressCharacter.name);
                         });
                     });

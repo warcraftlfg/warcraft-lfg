@@ -52,12 +52,7 @@
             socket.emit('get:character',characterIds);
 
         };
-
-
-
-
-
-    }
+    };
 
     CharacterRead.$inject = ["$scope","socket","$state","$stateParams"];
     function CharacterRead($scope,socket,$state,$stateParams) {
@@ -141,20 +136,19 @@
         $scope.getMoreCharacters = function(){
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].updated
-            socket.emit('get:characters',$scope.filters);
+            socket.emit('get:characterAds',$scope.filters);
         };
 
         $scope.updateFilters = function(){
             $scope.$parent.loading = true;
             $scope.filters.last = null;
             $scope.characters =[];
-            socket.emit('get:characters',$scope.filters);
+            socket.emit('get:characterAds',$scope.filters);
 
         };
 
-        socket.forward('get:characters',$scope);
-
-        $scope.$on('socket:get:characters',function(ev,characters){
+        socket.forward('get:characterAds',$scope);
+        $scope.$on('socket:get:characterAds',function(ev,characters){
             $scope.$parent.loading = false;
             $scope.characters = $scope.characters.concat(characters);
         });

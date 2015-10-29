@@ -10,15 +10,15 @@ var characterUpdateModel =  process.require("models/characterUpdateModel.js");
 var userService = process.require("services/userService.js");
 var async = require("async");
 
-module.exports.updateLastGuild = function(callback){
+module.exports.updateNext = function(callback){
     var self=this;
-    guildUpdateModel.getOldest(function(error,guildUpdate) {
+    guildUpdateModel.getNextToUpdate(function(error,guildUpdate) {
         if (error) {
             callback(error);
             return;
         }
         if (guildUpdate) {
-            self.updateGuild(guildUpdate, function (error,guild) {
+            self.update(guildUpdate.region,guildUpdate.realm,guildUpdate.name, function (error,guild) {
                 if (error) {
                     callback(error);
                     return;
@@ -32,38 +32,36 @@ module.exports.updateLastGuild = function(callback){
     });
 };
 
-module.exports.updateGuild = function(guildUpdate,callback){
+module.exports.update = function(region,realm,name,callback){
     var self=this;
-    guildUpdateModel.delete(guildUpdate,function (error) {
+    guildUpdateModel.delete(region,realm,name,function (error) {
         if (error) {
             callback(error);
             return;
         }
-        bnetAPI.getGuild(guildUpdate.region, guildUpdate.realm, guildUpdate.name, function (error,guild) {
+        bnetAPI.getGuild(region, realm, name, function (error,guild) {
             if (error) {
                 callback();
                 return;
             }
 
-            guildModel.insertOrUpdateBnet(guildUpdate.region,guild.realm,guild.name,guild,function (error,result){
+            guildModel.insertOrUpdateBnet(region,guild.realm,guild.name,guild,function (error,result){
                 if (error) {
                     callback(error);
                     return;
                 }
-                logger.info('insert/update guild: ' + guildUpdate.region + "-" + guild.realm + "-" + guild.name);
+                logger.info('insert/update guild: ' + region + "-" + guild.realm + "-" + guild.name);
                 callback(null,guild);
 
-                //Dispatch count to all users if new
-                if(result.result.nModified==0)
-                    self.emitCount();
+                self.emitCount();
 
                 guild.members.forEach(function (member){
-                    characterUpdateModel.insertOrUpdate({region:guildUpdate.region,realm:member.character.realm,name:member.character.name},function(error){
+                    characterUpdateModel.insertOrUpdate(region,member.character.realm,member.character.name,0,function(error){
                         if (error) {
                             logger.error(error.message);
                             return;
                         }
-                        logger.info("Insert character to update "+ guildUpdate.region +"-"+member.character.realm+"-"+member.character.name);
+                        logger.info("Insert character to update "+ region +"-"+member.character.realm+"-"+member.character.name);
                     });
                 });
 
@@ -78,49 +76,63 @@ module.exports.getCount = function(callback){
     });
 };
 
-
-
-
 module.exports.emitCount = function(){
-    this.getCount(function(error,count){
+    guildModel.getCount(function(error,count){
         if (error){
             logger.error(error.message);
             return;
         }
-        var socketIo = applicationStorage.getSocketIo();
+        var io = applicationStorage.getSocketIo();
         //If socketIo undefined try io-emitter (for cron)
-        if(!socketIo)
+        if(!io)
             var io = require('socket.io-emitter')();
-        socketIo.emit('get:guildCount', count);
+        io.emit('get:guildsCount', count);
     });
 };
 
-module.exports.isMember = function (id,region,realm,name,callback){
-
-    userService.getGuilds(region, id, function(error,guilds){
+module.exports.emitAdsCount = function(){
+    //Dispatch count to all users if new
+    guildModel.getAdsCount(function(error,count){
         if (error){
-            callback(error);
+            logger.error(error.message);
             return;
         }
-        var isMyCharacter = false;
-        async.forEach(guilds, function (guild, callback) {
-            if (guild.name == name && guild.realm == realm)
-                isMyCharacter = true;
-            callback();
-        });
-        callback(error,isMyCharacter);
+        var io = applicationStorage.getSocketIo();
+        if(!io)
+            var io = require('socket.io-emitter')();
+        io.emit('get:guildAdsCount', count);
     });
 };
 
-module.exports.insertOrUpdateGuildAd = function(region,realm,name,id,ad,callback){
-    this.isMember(id,region,realm,name,function(error,isMyGuild) {
+module.exports.emitLastAds = function(){
+    guildModel.getLastAds(function (error, characterAds) {
+        if (error) {
+            return;
+        }
+        var io = applicationStorage.getSocketIo();
+        if(!io)
+            var io = require('socket.io-emitter')();
+        io.emit('get:lastGuildAds', characterAds);
+    });
+
+};
+
+
+module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
+    var self=this;
+    userService.isMember(id,region,realm,name,function(error,isMyGuild) {
         if (isMyGuild) {
-            guildModel.insertOrUpdateGuildAd(region,realm,name,id,ad,function(error,result){
+            guildModel.insertOrUpdateAd(region,realm,name,id,ad,function(error,result){
                 if(error){
                     callback(error);
                     return;
                 }
-                callback(result);
+
+                self.emitAdsCount();
+                self.emitCount();
+                self.emitLastAds();
+
+                callback(error,result);
             });
         }
         else {
@@ -134,25 +146,68 @@ module.exports.insertOrUpdateGuildAd = function(region,realm,name,id,ad,callback
     });
 };
 
-module.exports.insertOrUpdateGuildBnet = function(region,realm,name,id,bnet,callback){
-    this.isMember(id,region,realm,name,function(error,isMyGuild) {
-        if (isMyGuild) {
-            guildModel.insertOrUpdateGuildBnet(region,realm,name,id,bnet,function(error,result){
-                if(error){
-                    callback(error);
-                    return;
-                }
-                callback(result);
-            });
-        }
-        else {
-            //Remove user from guild (gquit / gkick)
-            guildModel.removeId(region,realm,name,id, function (error) {
-                if (error)
-                    logger.error(error.message);
-                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
-            });
-        }
+module.exports.getLastAds = function(callback) {
+    guildModel.getLastAds(function (error, characters) {
+        if (error)
+            logger.error(error.message);
+        callback(error,characters);
+
     });
 };
 
+module.exports.getAds = function(number,filters,callback) {
+    guildModel.getAds(number,filters,function (error, characters) {
+        if (error)
+            logger.error(error.message);
+        callback(error,characters);
+
+    });
+};
+
+module.exports.get = function(region,realm,name,callback){
+    guildModel.get(region,realm,name,function(error,character){
+        if (error)
+            logger.error(error.message);
+        callback(error,character);
+    });
+};
+
+module.exports.getCount = function(callback){
+    guildModel.getCount(function (error, count) {
+        if (error)
+            logger.error(error.message);
+        callback(error,count);
+    });
+};
+
+module.exports.getAdsCount = function(callback){
+    guildModel.getAdsCount(function (error, count) {
+        if (error)
+            logger.error(error.message);
+        callback(error,count);
+    });
+};
+
+module.exports.deleteAd = function(region,realm,name,id,callback){
+    var self=this;
+    guildModel.deleteAd(region,realm,name,id,function(error){
+        if (error)
+            logger.error(error.message);
+
+        self.emitAdsCount();
+        self.emitCount();
+        self.emitLastAds();
+
+        callback(error);
+
+    });
+};
+
+module.exports.getUserAds = function(id,callback){
+    guildModel.getUserAds(id,function(error,ads){
+        if (error)
+            logger.error(error.message);
+
+        callback(error,ads);
+    });
+}

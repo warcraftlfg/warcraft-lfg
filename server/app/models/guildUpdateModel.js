@@ -1,52 +1,49 @@
 "use strict";
 
 //Defines dependencies
-var guildUpdateSchema = process.require('config/db/guildUpdateSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
-var Confine = require("confine");
 
-//Configuration
-var confine = new Confine();
-
-module.exports.insertOrUpdate = function (guildUpdate,callback) {
+module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     var database = applicationStorage.getDatabase();
 
-    guildUpdate = confine.normalize(guildUpdate,guildUpdateSchema);
-
     //Check for required attributes
-    if(guildUpdate.region == null){
+    if(region == null){
         callback(new Error('Field region is required in GuildUpdateModel'));
         return;
     }
-    if(guildUpdate.realm == null){
+    if(realm == null){
         callback(new Error('Field realm is required in GuildUpdateModel'));
         return;
     }
-    if(guildUpdate.name == null){
+    if(name == null){
         callback(new Error('Field name is required in GuildUpdateModel'));
+        return;
+    }
+    if(priority == null){
+        callback(new Error('Field priority is required in GuildUpdateModel'));
         return;
     }
 
 
     //Force region to lower case
-    guildUpdate.region = guildUpdate.region.toLowerCase();
+    region = region.toLowerCase();
 
     //Create or update guildUpdate
-    database.insertOrUpdate("guild-updates",{region:guildUpdate.region,realm:guildUpdate.realm,name:guildUpdate.name}, null, guildUpdate, function(error){
-        callback(error, guildUpdate);
+    database.insertOrUpdate("guild-updates",{region:region,realm:realm,name:name}, null, {region:region,realm:realm,name:name,priority:priority}, function(error){
+        callback(error);
     });
 };
 
-module.exports.delete = function (guildUpdate,callback) {
+module.exports.delete = function (region,realm,name,callback) {
     var database = applicationStorage.getDatabase();
-    database.remove("guild-updates",guildUpdate,function(error){
+    database.remove("guild-updates",{region:region,realm:realm,name:name},function(error){
         callback(error);
     });
 }
 
-module.exports.getOldest = function (callback){
+module.exports.getNextToUpdate = function (callback){
     var database = applicationStorage.getDatabase();
-    database.search("guild-updates", {}, {_id: 0}, 1, 1, {_id:1}, function(error,data){
+    database.search("guild-updates", {}, {_id: 0}, 1, 1, {priority:-1,_id:1}, function(error,data){
         if(error) {
             callback(error);
             return;

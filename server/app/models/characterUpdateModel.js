@@ -1,52 +1,51 @@
 "use strict";
 
 //Defines dependencies
-var characterUpdateSchema = process.require('config/db/characterUpdateSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
-var Confine = require("confine");
 
-//Configuration
-var confine = new Confine();
-
-module.exports.insertOrUpdate = function (characterUpdate,callback) {
+module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     var database = applicationStorage.getDatabase();
 
-    characterUpdate = confine.normalize(characterUpdate,characterUpdateSchema);
 
     //Check for required attributes
-    if(characterUpdate.region == null){
+    if(region == null){
         callback(new Error('Field region is required in CharacterUpdateModel'));
         return;
     }
-    if(characterUpdate.realm == null){
+    if(realm == null){
         callback(new Error('Field realm is required in CharacterUpdateModel'));
         return;
     }
-    if(characterUpdate.name == null){
+    if(name == null){
         callback(new Error('Field name is required in CharacterUpdateModel'));
         return;
     }
+    if(priority == null){
+        callback(new Error('Field priority is required in CharacterUpdateModel'));
+        return;
+    }
+
 
     //Force region to lower case
-    characterUpdate.region = characterUpdate.region.toLowerCase();
+    region = region.toLowerCase();
 
     //Create or update guildUpdate
-    database.insertOrUpdate("character-updates",{region:characterUpdate.region,realm:characterUpdate.realm,name:characterUpdate.name}, null, characterUpdate, function(error){
-        callback(error, characterUpdate);
-    });
-};
-
-module.exports.delete = function (characterUpdate,callback) {
-    var database = applicationStorage.getDatabase();
-
-    database.remove("character-updates",characterUpdate,function(error){
+    database.insertOrUpdate("character-updates",{region:region,realm:realm,name:name}, null, {region:region,realm:realm,name:name,priority:priority}, function(error){
         callback(error);
     });
 };
 
-module.exports.getOldest = function (callback){
+module.exports.delete = function (region,realm,name,callback) {
     var database = applicationStorage.getDatabase();
-    database.search("character-updates", {}, {_id: 0}, 1, 1, {_id:1}, function(error,characterUpdate){
+
+    database.remove("character-updates",{region:region,realm:realm,name:name},function(error){
+        callback(error);
+    });
+};
+
+module.exports.getNextToUpdate = function (callback){
+    var database = applicationStorage.getDatabase();
+    database.search("character-updates", {}, {_id: 0}, 1, 1, {priority:-1,_id:1}, function(error,characterUpdate){
         if(error) {
             callback(error);
             return;

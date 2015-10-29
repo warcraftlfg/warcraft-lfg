@@ -13,7 +13,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function(){
     var self = this;
     if (self.lock == false){
         self.lock = true;
-        characterService.updateLastCharacter(function(error){
+        characterService.updateNext(function(error){
             if (error){
                 logger.error(error.message);
             }

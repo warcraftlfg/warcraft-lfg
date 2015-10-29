@@ -98,7 +98,7 @@ module.exports.get = function(region,realm,name,callback){
     });
 };
 
-module.exports.getLastAds = function(number, filters, callback){
+module.exports.getAds = function(number, filters, callback){
     var number = number || 10;
     var database = applicationStorage.getDatabase();
     var criteria ={ad:{$exists:true}};
@@ -128,20 +128,25 @@ module.exports.getLastAds = function(number, filters, callback){
     });
 };
 
+module.exports.getLastAds = function(callback){
+    var database = applicationStorage.getDatabase();
+    database.search("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,updated:1,"bnet.class":1}, 5, 1, {"ad.updated":-1}, function(error,characters){
+        callback(error, characters);
+    });
+};
 
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var database = applicationStorage.getDatabase();
-    database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,{$unset: {ad:""}} ,null, function(error,result){
+    database.insertOrUpdate("characters", {region:region,realm:realm,name:name,id:id} ,{$unset: {ad:""}} ,null, function(error,result){
         callback(error, result);
     });
 };
 
-module.exports.getUserCharacterAds = function(id,callback){
+module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getDatabase();
-
-    database.search("characters", {id:id, ad:{$exists:true}}, {_id: 0}, -1, 1, {updated:-1}, function(error,result){
-        callback(error, result);
+    database.search("characters", {id:id, ad:{$exists:true}}, {region:1,realm:1,name:1,updated:1}, -1, 1, {updated:-1}, function(error,ads){
+        callback(error, ads);
     });
 };
 
