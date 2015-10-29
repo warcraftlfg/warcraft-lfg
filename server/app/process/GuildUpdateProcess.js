@@ -13,7 +13,7 @@ GuildUpdateProcess.prototype.updateGuild = function() {
     var self = this;
     if (self.lock == false) {
         self.lock = true;
-        guildService.updateLastGuild(function(error){
+        guildService.updateNext(function(error){
             if (error){
                 logger.error(error.message);
             }

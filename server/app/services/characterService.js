@@ -9,15 +9,15 @@ var applicationStorage = process.require("api/applicationStorage.js");
 var userService = process.require("services/userService.js");
 var async = require("async");
 
-module.exports.updateLastCharacter = function(callback){
+module.exports.updateNext = function(callback){
     var self=this;
-    characterUpdateModel.getOldest(function(error,characterUpdate) {
+    characterUpdateModel.getNextToUpdate(function(error,characterUpdate) {
         if (error) {
             callback(error);
             return;
         }
         if (characterUpdate) {
-            self.updateCharacter(characterUpdate, function (error,character) {
+            self.update(characterUpdate.region,characterUpdate.realm,characterUpdate.name, function (error,character) {
                 if (error) {
                     callback(error);
                     return;
@@ -31,28 +31,27 @@ module.exports.updateLastCharacter = function(callback){
 };
 
 
-module.exports.updateCharacter = function(characterUpdate,callback) {
+module.exports.update = function(region,realm,name,callback) {
     var self = this;
-    characterUpdateModel.delete(characterUpdate,function (error) {
+    characterUpdateModel.delete(region,realm,name,function (error) {
         if (error) {
             callback(error);
             return;
         }
-        bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, function (error, character) {
+        bnetAPI.getCharacter(region, realm, name, function (error, character) {
             if (error) {
                 callback();
                 return;
             }
 
-            characterModel.insertOrUpdateBnet(characterUpdate.region,character.realm,character.name,character,function (error, result) {
+            characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error, result) {
                 if (error) {
                     callback(error);
                     return;
                 }
-                logger.info('insert/update character: ' + characterUpdate.region + "-" + character.realm + "-" + character.name);
+                logger.info('insert/update character: ' + region + "-" + character.realm + "-" + character.name);
 
-                if(result.result.nModified==0)
-                    self.emitCount();
+                self.emitCount();
 
                 callback(null,character);
             });
@@ -69,68 +68,136 @@ module.exports.emitCount = function(){
             logger.error(error.message);
             return;
         }
-        var socketIo = applicationStorage.getSocketIo();
-        //If socketIo undefined try io-emitter (for cron)
-        if(!socketIo)
+        var io = applicationStorage.getSocketIo();
+        if(!io)
             var io = require('socket.io-emitter')();
-        socketIo.emit('get:characterCount', count);
+        io.emit('get:charactersCount', count);
     });
 };
 
-module.exports.isOwner = function (id,region,realm,name,callback){
-    userService.getCharacters(region,id,function (error,characters) {
+module.exports.emitAdsCount = function(){
+    //Dispatch count to all users if new
+    characterModel.getAdsCount(function(error,count){
+        if (error){
+            logger.error(error.message);
+            return;
+        }
+        var io = applicationStorage.getSocketIo();
+        if(!io)
+            var io = require('socket.io-emitter')();
+        io.emit('get:characterAdsCount', count);
+    });
+};
+
+module.exports.emitLastAds = function(){
+    characterModel.getLastAds(function (error, characterAds) {
         if (error) {
-            callback(error);
             return;
         }
-        var isMyCharacter = false;
-        async.forEach(characters, function (character, callback) {
-            if (character.name == name && character.realm == realm)
-                isMyCharacter = true;
-            callback();
-        });
-        callback(error,isMyCharacter);
+        var io = applicationStorage.getSocketIo();
+        if(!io)
+            var io = require('socket.io-emitter')();
+        io.emit('get:lastCharacterAds', characterAds);
     });
+
 };
 
-module.exports.insertOrUpdateCharacterAd = function(region,realm,name,id,ad,callback){
-    this.isOwner(id,region,realm,name,function(error,isMyCharacter){
+
+
+module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
+    var self = this;
+    userService.isOwner(id,region,realm,name,function(error,isMyCharacter){
         if(error){
+            logger.error(error.message);
             callback(error);
             return;
         }
         if(isMyCharacter){
-            characterModel.insertOrUpdateCharacterAd(region,realm,name,id,ad,function(error,result){
-                if(error){
-                    callback(error);
-                    return;
-                }
-                callback(result);
+            characterModel.insertOrUpdateAd(region,realm,name,id,ad,function(error){
+                if(error)
+                    logger.error(error.message);
+
+                self.emitAdsCount();
+                self.emitCount();
+                self.emitLastAds();
+
+                characterUpdateModel.insertOrUpdate(region,realm,name,10,function(error){
+                    if(error)
+                        logger.error(error.message);
+                });
+                callback(error);
             });
         }
         else {
-            callback(new Error("CHARACTER_NOT_MEMBER_ERROR"));
+            error = new Error("CHARACTER_NOT_MEMBER_ERROR");
+            logger.error(error.message);
+            callback(error);
         }
     });
 };
 
-module.exports.insertOrUpdateCharacterBnet= function(region,realm,name,id,bnet,callback){
-    this.isOwner(id,region,realm,name,function(error,isMyCharacter){
-        if(error){
-            callback(error);
-            return;
-        }
-        if(isMyCharacter){
-            characterModel.insertOrUpdateCharacterBnet(region,realm,name,id,bnet,function(error,result){
-                if(error){
-                    callback(error);
-                    return;
-                }
-                callback(result);
-            });
-        }
-        else {
-            callback(new Error("CHARACTER_NOT_MEMBER_ERROR"));
-        }
+module.exports.getLastAds = function(callback) {
+    characterModel.getLastAds(function (error, characters) {
+        if (error)
+            logger.error(error.message);
+        callback(error,characters);
+
     });
 };
+
+module.exports.getAds = function(number,filters,callback) {
+    characterModel.getAds(number,filters,function (error, characters) {
+        if (error)
+            logger.error(error.message);
+        callback(error,characters);
+
+    });
+};
+
+module.exports.get = function(region,realm,name,callback){
+    characterModel.get(region,realm,name,function(error,character){
+        if (error)
+            logger.error(error.message);
+        callback(error,character);
+    });
+};
+
+module.exports.getCount = function(callback){
+    characterModel.getCount(function (error, count) {
+        if (error)
+            logger.error(error.message);
+        callback(error,count);
+    });
+};
+
+module.exports.getAdsCount = function(callback){
+    characterModel.getAdsCount(function (error, count) {
+        if (error)
+            logger.error(error.message);
+        callback(error,count);
+    });
+};
+
+module.exports.deleteAd = function(region,realm,name,id,callback){
+    var self=this;
+    characterModel.deleteAd(region,realm,name,id,function(error){
+        if (error)
+            logger.error(error.message);
+
+        self.emitAdsCount();
+        self.emitCount();
+        self.emitLastAds();
+
+        callback(error);
+
+    });
+};
+
+module.exports.getUserAds = function(id,callback){
+    characterModel.getUserAds(id,function(error,ads){
+        if (error)
+            logger.error(error.message);
+
+        callback(error,ads);
+    });
+}

@@ -52,11 +52,53 @@ module.exports.importGuilds = function(id){
                 return;
             }
             guilds.forEach(function (guild) {
-                guildUpdateModel.insertOrUpdate({region:region.toLowerCase(), realm:guild.realm, name:guild.name},function(error,guildUpdate){
-                    logger.info("Insert guild  to update "+ guildUpdate.name+"-"+guildUpdate.realm+"-"+guildUpdate.region);
+                guildUpdateModel.insertOrUpdate(region, guild.realm, guild.name,0,function(error){
+                    logger.info("Insert guild  to update "+ region+"-"+guild.realm+"-"+guild.name);
                 });
             });
 
         });
+    });
+};
+
+module.exports.isOwner = function (id,region,realm,name,callback){
+    //Do not check if owner when id = 0
+    if(id==0){
+        callback(null,true);
+        return;
+    }
+    this.getCharacters(region,id,function (error,characters) {
+        if (error) {
+            callback(error);
+            return;
+        }
+        var isMyCharacter = false;
+        async.forEach(characters, function (character, callback) {
+            if (character.name == name && character.realm == realm)
+                isMyCharacter = true;
+            callback();
+        });
+        callback(error,isMyCharacter);
+    });
+};
+
+module.exports.isMember = function (id,region,realm,name,callback){
+    //Do not check if owner when id = 0
+    if(id==0){
+        callback(null,true);
+        return;
+    }
+    this.getGuilds(region, id, function(error,guilds){
+        if (error){
+            callback(error);
+            return;
+        }
+        var isMyCharacter = false;
+        async.forEach(guilds, function (guild, callback) {
+            if (guild.name == name && guild.realm == realm)
+                isMyCharacter = true;
+            callback();
+        });
+        callback(error,isMyCharacter);
     });
 };

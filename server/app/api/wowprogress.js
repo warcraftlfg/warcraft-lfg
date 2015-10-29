@@ -152,8 +152,8 @@ module.exports.parseCharacterPage = function(url,callback) {
         var languageDivs = $body('.language').get();
 
 
-        var language = cheerio.load(languageDivs[0])('strong').text();
-        if(languages[language])
+        var language = cheerio.load(languageDivs[0])('strong').text().split(', ');
+        if(languages[language[0]])
             result.language = languages[language];
 
         var transfert = cheerio.load(languageDivs[1])('span').text();

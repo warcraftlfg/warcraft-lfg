@@ -20,7 +20,7 @@ module.exports.connect = function(){
          * All users
          */
         socket.on('get:lastGuildAds', function() {
-            guildModel.getLastAds(5,null,function(error,result){
+            guildService.getLastAds(function(error,result){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -30,7 +30,7 @@ module.exports.connect = function(){
         });
 
         socket.on('get:guild', function(characterIds) {
-            guildModel.get(characterIds.region,characterIds.realm,characterIds.name,function(error,result){
+            guildService.get(characterIds.region,characterIds.realm,characterIds.name,function(error,result){
                 if (error){
                     socket.emit("global:error", error.message);
                     return;
@@ -39,23 +39,23 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:guildCount', function () {
-            guildModel.getCount(function (error, count) {
+        socket.on('get:guildsCount', function () {
+            guildService.getCount(function (error, count) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:guildCount', count);
+                socket.emit('get:guildsCount', count);
             });
         });
 
-        socket.on('get:guildAdCount', function () {
-            guildModel.getAdsCount(function (error, count) {
+        socket.on('get:guildAdsCount', function () {
+            guildService.getAdsCount(function (error, count) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
                 }
-                socket.emit('get:guildAdCount', count);
+                socket.emit('get:guildAdsCount', count);
             });
         });
 
@@ -65,31 +65,26 @@ module.exports.connect = function(){
          */
         if (socket.request.user.logged_in){
             socket.on('put:guildAd', function(guild) {
-                guildService.insertOrUpdateGuildAd(guild.region, guild.realm, guild.name, socket.request.user.id, guild.ad,function(error){
+                guildService.insertOrUpdateAd(guild.region, guild.realm, guild.name, socket.request.user.id, guild.ad,function(error){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
-                    self.emitLastGuildAds();
-                    self.emitGuildAdCount();
-
                     socket.emit('put:guildAd', guild);
                 });
             });
             socket.on('delete:guildAd', function(guild) {
-                guildModel.deleteAd(guild.region, guild.realm, guild.name,socket.request.user.id,function(error,result){
+                guildService.deleteAd(guild.region, guild.realm, guild.name,socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
                     }
                     socket.emit('delete:guildAd',result);
-                    self.emitGuildAdCount();
-                    self.emitLastGuildAds();
                 });
             });
 
             socket.on('get:userGuildAds', function() {
-                guildModel.getUserGuildAds(socket.request.user.id,function(error,result){
+                guildService.getUserAds(socket.request.user.id,function(error,result){
                     if (error){
                         socket.emit("global:error", error.message);
                         return;
@@ -100,28 +95,3 @@ module.exports.connect = function(){
         }
     });
 };
-
-module.exports.emitGuildAdCount = function(){
-    var io = applicationStorage.getSocketIo();
-    guildModel.getCount(function (error, count) {
-        if (error){
-            return;
-        }
-        io.emit('get:guildAdCount', count);
-    });
-
-
-};
-
-module.exports.emitLastGuildAds = function(){
-    var io = applicationStorage.getSocketIo();
-    guildModel.getLastAds(5,null,function (error, guildAds) {
-        if (error){
-            return;
-        }
-        io.emit('get:lastGuildAds', guildAds);
-    });
-
-};
-
-
