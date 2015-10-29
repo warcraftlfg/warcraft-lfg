@@ -146,12 +146,14 @@
 
         $scope.updateFilters = function(){
             $scope.$parent.loading = true;
+            $scope.filters.last = null;
             $scope.characters =[];
             socket.emit('get:characters',$scope.filters);
 
         };
 
         socket.forward('get:characters',$scope);
+
         $scope.$on('socket:get:characters',function(ev,characters){
             $scope.$parent.loading = false;
             $scope.characters = $scope.characters.concat(characters);

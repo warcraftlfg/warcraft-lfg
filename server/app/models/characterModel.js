@@ -114,11 +114,15 @@ module.exports.getLastAds = function(number, filters, callback){
         realm:1,
         region:1,
         updated:1,
-        "ad.language":1,
+        "ad":1,
         "bnet.level":1,
         "bnet.class":1,
+        "bnet.items.averageItemLevelEquipped":1,
+        "bnet.items.finger1":1,
+        "bnet.items.finger2":1,
         "bnet.faction":1,
         "bnet.guild.name":1
+
     }, number, 1, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });

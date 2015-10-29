@@ -63,5 +63,7 @@ body { color:#333; font-family: 'Open Sans', sans-serif;}
 
 .icon.armory {background: url('../images/icon/18/armory.png') left center no-repeat;}
 .icon.dps {background: url('../images/icon/18/dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
-.icon.healing {background: url('../images/icon/18/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+.icon.heal {background: url('../images/icon/18/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
 .icon.tank {background: url('../images/icon/18/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+
+.ring img{width:18px}
