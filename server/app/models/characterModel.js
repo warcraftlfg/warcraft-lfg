@@ -109,7 +109,17 @@ module.exports.getLastAds = function(number, filters, callback){
     if(filters.lvlmax){
         criteria["bnet.level"] = {$gte:100};
     }
-    database.search("characters",criteria , {_id: 0}, number, 1, {"ad.updated":-1}, function(error,characters){
+    database.search("characters",criteria , {
+        name:1,
+        realm:1,
+        region:1,
+        updated:1,
+        "ad.language":1,
+        "bnet.level":1,
+        "bnet.class":1,
+        "bnet.faction":1,
+        "bnet.guild.name":1
+    }, number, 1, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
