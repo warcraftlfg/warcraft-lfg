@@ -42,9 +42,10 @@ module.exports.insertOrUpdateWlogs = function(region,realm,name,wlogs,callback) 
     character.name = name;
     character.updated = new Date().getTime();
 
-    wlogs.updated=new Date().getTime();
 
-    character.wlogs = wlogs;
+    character.wlogs = {};
+    character.wlogs.updated = new Date().getTime();
+    character.wlogs.logs = wlogs;
 
     database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
         callback(error, result);
