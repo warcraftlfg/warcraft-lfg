@@ -33,6 +33,9 @@
       "callback_url": "https://localhost:3000/auth/bnet/callback"
     }
   },
+  "warcraftLogs": {
+    "api_key": ""
+  },
   "bnet_regions":["eu","kr","tw","us"]
 
 }

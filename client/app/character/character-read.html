@@ -27,6 +27,13 @@
             <div ng-if="!character.bnet">
                 This character is not yet in our database
             </div>
+            <h2>Character Wlogs</h2>
+            <div ng-if="character.wlogs">
+                <code>{{character.wlogs}}</code>
+            </div>
+            <div ng-if="!character.wlogs">
+                This character logs are not yet in our database or doesn't exist. Try update
+            </div>
         </div>
     </div>
 </div>
