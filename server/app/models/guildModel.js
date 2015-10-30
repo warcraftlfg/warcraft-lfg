@@ -3,20 +3,29 @@
 //Defines dependencies
 var guildAdSchema = process.require('config/db/guildAdSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
-var guildService = process.require("services/guildService.js");
 var Confine = require("confine");
 var async = require("async");
 
 //Configuration
 var confine = new Confine();
+var env = process.env.NODE_ENV || "dev";
+var config = process.require("config/config."+env+".json");
+
 
 module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 
     var database = applicationStorage.getDatabase();
 
+    //Force region tolowercase
+    region = region.toLowerCase();
+
     //Check for required attributes
     if(region == null){
         callback(new Error('Field region is required in GuildModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
     if(realm == null){
@@ -28,11 +37,7 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
         return;
     }
 
-
-    //Force region to lower case
-    region = region.toLowerCase();
-
-    var guild ={}
+    var guild ={};
     guild.region = region;
     guild.realm = realm;
     guild.name = name;
@@ -51,11 +56,18 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     var database = applicationStorage.getDatabase();
 
+    //Force region tolowercase
+    region = region.toLowerCase();
+
     ad = confine.normalize(ad,guildAdSchema);
 
     //Check for required attributes
     if(id == null){
         callback(new Error('Field id is required in GuildAdModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
     if(region == null){
@@ -71,12 +83,7 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
         return;
     }
 
-
-    //Force region to lower case
-    region = region.toLowerCase();
-
-
-    var guild ={}
+    var guild ={};
     guild.region = region;
     guild.realm = realm;
     guild.name = name;
