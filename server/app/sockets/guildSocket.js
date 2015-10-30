@@ -29,8 +29,8 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:guild', function(characterIds) {
-            guildService.get(characterIds.region,characterIds.realm,characterIds.name,function(error,result){
+        socket.on('get:guild', function(guildIds) {
+            guildService.get(guildIds.region,guildIds.realm,guildIds.name,function(error,result){
                 if (error){
                     socket.emit("global:error", error.message);
                     return;
@@ -56,6 +56,16 @@ module.exports.connect = function(){
                     return;
                 }
                 socket.emit('get:guildAdsCount', count);
+            });
+        });
+
+        socket.on('update:guild', function (guildIds) {
+            guildService.insertOrUpdateUpdate(guildIds.region,guildIds.realm,guildIds.name,function (error, position) {
+                if (error) {
+                    socket.emit("global:error", error.message);
+                    return;
+                }
+                socket.emit('update:guild', position);
             });
         });
 

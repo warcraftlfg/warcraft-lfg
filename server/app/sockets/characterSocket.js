@@ -67,6 +67,16 @@ module.exports.connect = function(){
             });
         });
 
+        socket.on('update:character', function (characterIds) {
+            characterService.insertOrUpdateUpdate(characterIds.region,characterIds.realm,characterIds.name,function (error, position) {
+                if (error) {
+                    socket.emit("global:error", error.message);
+                    return;
+                }
+                socket.emit('update:character', position);
+            });
+        });
+
 
         if (socket.request.user.logged_in){
             /**

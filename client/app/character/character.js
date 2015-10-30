@@ -66,12 +66,26 @@
 
         socket.forward('get:character',$scope);
         $scope.$on('socket:get:character',function(ev,character){
+            $scope.$parent.loading = false;
             $scope.character = character
 
-            // TODO Throw 404
+            //If not exit, redirect user to dashboard
+            if(character==null)
+                $state.go("dashboard");
+
+        });
+
+        $scope.updateCharacter = function(){
+            $scope.$parent.loading = true;
+            socket.emit('update:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        }
+
+        socket.forward('update:character',$scope);
+        $scope.$on('socket:update:character',function(ev,queuePosition){
+            $scope.queuePosition = queuePosition;
             $scope.$parent.loading = false;
 
-        }); 
+        });
     }
 
     CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES"];

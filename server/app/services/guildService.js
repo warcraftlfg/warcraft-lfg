@@ -76,6 +76,23 @@ module.exports.getCount = function(callback){
     });
 };
 
+module.exports.insertOrUpdateUpdate =  function(region,realm,name,callback) {
+    guildUpdateModel.insertOrUpdate(region, realm, name, 5, function (error) {
+        if (error){
+            logger.error(error.message);
+            callback(error);
+            return;
+        }
+        guildUpdateModel.getPosition(5,function(error,position){
+            if (error){
+                logger.error(error.message);
+            }
+            callback(error,position);
+        });
+    });
+};
+
+
 module.exports.emitCount = function(){
     guildModel.getCount(function(error,count){
         if (error){
