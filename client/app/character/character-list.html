@@ -6,6 +6,11 @@
             <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox"> Level 100
         </label>
     </div>
+    <div class="checkbox">
+        <label>
+            <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
+        </label>
+    </div>
 
     <table class="table table-condensed" >
         <thead>
@@ -19,7 +24,7 @@
             <th>Language</th>
             <th>Role</th>
             <th>Raids per week</th>
-            <th>Migration</th>
+            <th>Transfert</th>
             <th>Ring</th>
             <th>WarcraftLog</th>
             <th>Last update</th>

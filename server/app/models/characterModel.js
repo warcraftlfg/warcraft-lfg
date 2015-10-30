@@ -154,6 +154,9 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.lvlmax){
         criteria["bnet.level"] = {$gte:100};
     }
+    if(filters.transfert){
+        criteria["ad.transfert"] = filters.transfert;
+    }
     database.search("characters",criteria , {
         name:1,
         realm:1,
