@@ -58,3 +58,10 @@ module.exports.getNextToUpdate = function (callback){
         callback(null, characterUpdate[0]);
     });
 };
+
+module.exports.getPosition = function (priority,callback){
+    var database = applicationStorage.getDatabase();
+    database.count('character-updates',{priority:{$gte:priority}},function(error,count){
+        callback(error,count);
+    });
+};

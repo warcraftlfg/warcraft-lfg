@@ -59,6 +59,22 @@ module.exports.update = function(region,realm,name,callback) {
     });
 };
 
+module.exports.insertOrUpdateUpdate =  function(region,realm,name,callback) {
+    characterUpdateModel.insertOrUpdate(region, realm, name, 5, function (error) {
+        if (error){
+            logger.error(error.message);
+            callback(error);
+            return;
+        }
+        characterUpdateModel.getPosition(5,function(error,position){
+            if (error){
+                logger.error(error.message);
+            }
+            callback(error,position);
+        });
+    });
+};
+
 
 
 module.exports.emitCount = function(){
@@ -135,6 +151,17 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
         }
     });
 };
+
+
+module.exports.setId = function(region,realm,name,id,callback){
+    characterModel.setId(region,realm,name,id,function(error){
+        if(error)
+            logger.error(error.message);
+        callback(error);
+    });
+};
+
+
 
 module.exports.getLastAds = function(callback) {
     characterModel.getLastAds(function (error, characters) {

@@ -27,6 +27,8 @@ passport.use(new BnetStrategy({
                 return done(null,false);
             }
             userService.importGuilds(user.id);
+            userService.updateCharactersId(user.id);
+            userService.updateGuildsId(user.id);
             return done(null, user);
         });
     }

@@ -56,5 +56,12 @@ module.exports.getNextToUpdate = function (callback){
     });
 };
 
+module.exports.getPosition = function (priority,callback){
+    var database = applicationStorage.getDatabase();
+    database.count('guild-updates',{priority:{$gte:priority}},function(error,count){
+        callback(error,count);
+    });
+};
+
 
 

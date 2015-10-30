@@ -91,9 +91,7 @@ module.exports.getAds = function(callback){
                 var $guild = cheerio.load(guild);
                 var url = $guild('a').attr('href');
                 var name = $guild('a').text();
-                var realm = $guild('.realm').text().split('-')[1];
-                var region = $guild('.realm').text().split('-')[0].toLowerCase();
-                self.parseGuildPage(region,realm,name,url,function(error,guild){
+                self.parseGuildPage(name,url,function(error,guild){
                     guildsResult.push(guild);
                     callback();
                 });
@@ -102,8 +100,6 @@ module.exports.getAds = function(callback){
                 callback(error,guildsResult,charactersResult);
             });
         });
-
-
     });
 
 };
@@ -116,19 +112,21 @@ module.exports.parseCharacterPage = function(url,callback) {
         }
         var result = {};
         var $body = cheerio.load(body);
+        var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
+
         result.name = $body('h1').text();
+        result.realm = armoryUrl.match('battle.net/wow/character/(.*)/(.*)/')[1];
+        result.region = armoryUrl.match('http://(.*).battle.net/wow/character/')[1];
 
-        var realm = $body('.nav_block .nav_link').text().split('-')[1];
-        result.realm = realm;
-
-        result.region = $body('.nav_block .nav_link').text().split('-')[0].toLowerCase();
+        var guild = $body('.nav_block .guild nobr').text();
+        if (guild)
+            result.guild = guild;
 
         var languageDivs = $body('.language').get();
 
-
         var language = cheerio.load(languageDivs[0])('strong').text().split(', ');
         if(languages[language[0]])
-            result.language = languages[language];
+            result.language = languages[language[0]];
 
         var transfert = cheerio.load(languageDivs[1])('span').text();
         if(transfert == "Yes, ready to transfer")
@@ -171,7 +169,7 @@ module.exports.parseCharacterPage = function(url,callback) {
 
 };
 
-module.exports.parseGuildPage = function(region, realm, name, url, callback) {
+module.exports.parseGuildPage = function(name, url, callback) {
     this.getWoWProgressPage(url, function (error, body) {
         if (error) {
             callback(error);
@@ -179,9 +177,12 @@ module.exports.parseGuildPage = function(region, realm, name, url, callback) {
         }
         var result = {};
         var $body = cheerio.load(body);
-        result.region = region.toLowerCase();
-        result.realm = realm;
+
+        var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
+
         result.name = name;
+        result.realm = armoryUrl.match('battle.net/wow/guild/(.*)/(.*)/')[1];
+        result.region = armoryUrl.match('http://(.*).battle.net/wow/guild/')[1];
 
         var language = $body(".language").text().replace("Primary Language: ","");
         if(languages[language])
