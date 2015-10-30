@@ -3,6 +3,9 @@
 //Define dependencies
 var userModel = process.require("models/userModel.js");
 var guildUpdateModel = process.require("models/guildUpdateModel.js");
+var characterService = process.require("services/characterService.js");
+var guildService = process.require("services/guildService.js");
+
 var async = require("async");
 var bnetAPI = process.require("api/bnet.js");
 
@@ -60,6 +63,45 @@ module.exports.importGuilds = function(id){
         });
     });
 };
+
+module.exports.updateCharactersId = function(id){
+    var self = this;
+    config.bnet_regions.forEach(function(region) {
+        self.getCharacters(region,id,function(error,characters){
+            if (error){
+                logger.error(error);
+                return;
+            }
+            characters.forEach(function (character){
+                characterService.setId(region,character.realm,character.name,id,function(error){
+                    if (error)
+                        logger.error(error.mesage);
+                });
+            });
+        });
+    });
+};
+
+module.exports.updateGuildsId = function(id){
+    var self = this;
+    config.bnet_regions.forEach(function(region) {
+        self.getGuilds(region,id,function(error,guilds){
+            if (error){
+                logger.error(error);
+                return;
+            }
+            guilds.forEach(function (guild){
+
+                guildService.setId(region,guild.realm,guild.name,id,function(error){
+                    if (error)
+                        logger.error(error.message);
+                });
+            });
+        });
+    });
+};
+
+
 
 module.exports.isOwner = function (id,region,realm,name,callback){
     //Do not check if owner when id = 0

@@ -2,8 +2,6 @@
 var wowprogressAPI = process.require('api/wowprogress.js');
 var logger = process.require("api/logger.js").get("logger");
 var async = require('async');
-var characterModel = process.require("models/characterModel.js");
-var guildModel = process.require("models/guildModel.js");
 var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var characterService = process.require("services/characterService.js");
@@ -79,8 +77,19 @@ module.exports.parseWowProgress = function(){
                                 logger.info("Insert character to update " + wowProgressCharacter.region + "-" + wowProgressCharacter.realm + "-" + wowProgressCharacter.name);
                             });
                         });
+                        if (wowProgressCharacter.guild) {
+                            guildUpdateModel.insertOrUpdate(wowProgressCharacter.region, wowProgressCharacter.realm, wowProgressCharacter.guild, 10, function (error) {
+                                if (error) {
+                                    logger.error(error.message);
+                                    return;
+                                }
+                                logger.info("Insert guild to update " + wowProgressCharacter.region + "-" + wowProgressCharacter.realm + "-" + wowProgressCharacter.guild);
+                            });
+                        }
                     }
                 });
+
+
             });
         });
     });

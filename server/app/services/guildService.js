@@ -146,6 +146,16 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
     });
 };
 
+
+module.exports.setId = function(region,realm,name,id,callback){
+    guildModel.setId(region,realm,name,id,function(error){
+        if(error)
+            logger.error(error.message);
+        callback(error);
+    });
+};
+
+
 module.exports.getLastAds = function(callback) {
     guildModel.getLastAds(function (error, characters) {
         if (error)

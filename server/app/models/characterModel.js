@@ -100,6 +100,42 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
 
 };
 
+module.exports.setId = function(region,realm,name,id,callback){
+
+    var database = applicationStorage.getDatabase();
+
+    //Check for required attributes
+    if(id == null){
+        callback(new Error('Field id is required in CharacterModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
+        return;
+    }
+    if(region == null){
+        callback(new Error('Field region is required in CharacterModel'));
+        return;
+    }
+    if(realm == null){
+        callback(new Error('Field realm is required in CharacterModel'));
+        return;
+    }
+    if(name == null){
+        callback(new Error('Field name is required in CharacterModel'));
+        return;
+    }
+    var character = {};
+    character.region = region;
+    character.realm = realm;
+    character.name = name;
+    character.id = id;
+    database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
+        callback(error, result);
+    });
+
+};
+
 module.exports.get = function(region,realm,name,callback){
     var database = applicationStorage.getDatabase();
     database.get("characters",{"region":region,"realm":realm,"name":name},{_id: 0},1,function(error,character){
