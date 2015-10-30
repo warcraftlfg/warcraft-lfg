@@ -11,12 +11,12 @@
     "mongodb": {
       "host": "localhost",
       "port": 27017,
-      "database": "wow-finder",
+      "database": "warcraft-lfg",
       "username": "",
       "password": ""
     },
     "redis":{
-      "host:":"locahost",
+      "host:":"localhost",
       "port": 6379,
       "username": "",
       "password": ""

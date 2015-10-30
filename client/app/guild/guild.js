@@ -78,7 +78,7 @@
         $scope.updateGuild = function(){
             $scope.$parent.loading = true;
             socket.emit('update:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
-        }
+        };
 
         socket.forward('update:guild',$scope);
         $scope.$on('socket:update:guild',function(ev,queuePosition){

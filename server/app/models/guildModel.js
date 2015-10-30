@@ -131,7 +131,6 @@ module.exports.setId = function(region,realm,name,id,callback) {
     guild.region = region;
     guild.realm = realm;
     guild.name = name;
-console.log(guild);
     database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$set: guild, $addToSet: {id: id}}, null, function (error,result) {
         callback(error, result);
     });
@@ -153,7 +152,8 @@ module.exports.getAds = function (number,filter,callback) {
         name:1,
         realm:1,
         region:1,
-        "ad":1
+        "ad":1,
+        "bnet.side":1
     }, number, 1, {updated:-1}, function(error,guilds){
         callback(error, guilds);
     });
