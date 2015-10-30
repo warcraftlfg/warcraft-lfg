@@ -149,7 +149,7 @@
 
         $scope.getMoreCharacters = function(){
             if($scope.characters.length>0)
-                $scope.filters.last = $scope.characters[$scope.characters.length-1].updated
+                $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated
             socket.emit('get:characterAds',$scope.filters);
         };
 

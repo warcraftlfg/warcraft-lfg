@@ -1,2 +1,47 @@
-<div class="container">
+<div class="container" infinite-scroll="getMoreGuilds()">
+    <h1>Guilds</h1>
+    <table class="table table-condensed" >
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Realm</th>
+            <th>Region</th>
+            <th>Language</th>
+            <th>Raids per week</th>
+            <th>Last update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="guild in guilds">
+            <td>
+                <a class="guild faction-{{guild.bnet.side}}" href="#/character/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                    {{guild.name}}
+                </a>
+            </td>
+            <td>
+                {{guild.realm}}
+            </td>
+            <td>
+                {{guild.region}}
+            </td>
+            <td>
+                {{guild.ad.language}}
+            </td>
+            <td>
+                <span ng-if="guild.ad.raids_per_week['1_per_week']">1</span>
+                <span ng-if="guild.ad.raids_per_week['2_per_week']">2</span>
+                <span ng-if="guild.ad.raids_per_week['3_per_week']">3</span>
+                <span ng-if="guild.ad.raids_per_week['4_per_week']">4</span>
+                <span ng-if="guild.ad.raids_per_week['5_per_week']">5</span>
+                <span ng-if="guild.ad.raids_per_week['6_per_week']">6</span>
+                <span ng-if="guild.ad.raids_per_week['7_per_week']">7</span>
+            </td>
+            <td>
+                <span am-time-ago="guild.ad.updated"></span>
+            </td>
+
+        </tr>
+
+        </tbody>
+    </table>
 </div>
