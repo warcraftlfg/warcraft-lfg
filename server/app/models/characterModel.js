@@ -158,7 +158,6 @@ module.exports.getAds = function(number, filters, callback){
         name:1,
         realm:1,
         region:1,
-        updated:1,
         "ad":1,
         "bnet.level":1,
         "bnet.class":1,
