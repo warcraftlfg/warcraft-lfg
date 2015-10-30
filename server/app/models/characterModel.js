@@ -4,19 +4,26 @@
 var async = require("async");
 var characterAdSchema = process.require('config/db/characterAdSchema.json');
 var applicationStorage = process.require("api/applicationStorage.js");
-var characterService = process.require("services/characterService.js");
 var Confine = require("confine");
 
 //Configuration
 var confine = new Confine();
+var env = process.env.NODE_ENV || "dev";
+var config = process.require("config/config."+env+".json");
 
 module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
     var database = applicationStorage.getDatabase();
 
+    //Force region tolowercase
+    region = region.toLowerCase();
 
     //Check for required attributes
     if(region == null){
         callback(new Error('Field region is required in CharacterModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
     if(realm == null){
@@ -28,10 +35,7 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
         return;
     }
 
-    //Force region to lower case
-    region = region.toLowerCase();
-
-    var character ={}
+    var character ={};
     character.region = region;
     character.realm = realm;
     character.name = name;
@@ -52,12 +56,19 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
 
     var database = applicationStorage.getDatabase();
 
+    //Force region tolowercase
+    region = region.toLowerCase();
+
     //Normalize before insert
     ad = confine.normalize(ad,characterAdSchema);
 
     //Check for required attributes
     if(id == null){
         callback(new Error('Field id is required in CharacterModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
     if(region == null){
@@ -74,9 +85,7 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     }
 
 
-//Force region to lower case
-    region = region.toLowerCase();
-    var character ={}
+    var character ={};
     character.region = region;
     character.realm = realm;
     character.name = name;

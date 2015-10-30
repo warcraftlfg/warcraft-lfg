@@ -12,24 +12,6 @@ var async = require("async");
 
 
 //For russian Ream wowprogress is bad ...
-var russianRealms = {
-    "Гордунни":"Gordunni",
-    "Ревущий фьорд":"Howling Fjord",
-    "Черный Шрам":"Blackscar",
-    "Ясеневый лес":"Ashenvale",
-    "Свежеватель Душ":"Soulflayer",
-    "Разувий":"Razuvious",
-    "Азурегос":"Azuregos",
-    "Пиратская Бухта":"Booty Bay",
-    "Вечная Песня":"Eversong",
-    "Страж смерти":"Deathguard",
-    "Король-лич":"Lich King",
-    "Дракономор":"Fordragon",
-    "Борейская тундра":"Borean Tundra",
-    "Голдринн":"Goldrinn",
-    "Гром":"Grom",
-    "Галакронд":"Galakrond"
-};
 
 var languages = {
     "English": "en",
@@ -94,10 +76,6 @@ module.exports.getAds = function(callback){
         var $characters = cheerio.load(tables[1]);
         var characters = $characters('tr').get();
 
-
-
-
-
         var charactersResult = [];
         var guildsResult  = [];
         async.forEach(characters,function(character,callback){
@@ -141,11 +119,7 @@ module.exports.parseCharacterPage = function(url,callback) {
         result.name = $body('h1').text();
 
         var realm = $body('.nav_block .nav_link').text().split('-')[1];
-
-        if(russianRealms[realm])
-            result.realm = russianRealms[realm];
-        else
-            result.realm = realm;
+        result.realm = realm;
 
         result.region = $body('.nav_block .nav_link').text().split('-')[0].toLowerCase();
 
@@ -206,12 +180,7 @@ module.exports.parseGuildPage = function(region, realm, name, url, callback) {
         var result = {};
         var $body = cheerio.load(body);
         result.region = region.toLowerCase();
-
-        if(russianRealms[realm])
-            result.realm = russianRealms[realm];
-        else
-            result.realm = realm;
-
+        result.realm = realm;
         result.name = name;
 
         var language = $body(".language").text().replace("Primary Language: ","");
