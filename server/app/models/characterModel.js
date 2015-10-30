@@ -11,6 +11,47 @@ var confine = new Confine();
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
+
+module.exports.insertOrUpdateWlogs = function(region,realm,name,wlogs,callback) {
+    var database = applicationStorage.getDatabase();
+
+    //Force region tolowercase
+    region = region.toLowerCase();
+
+    //Check for required attributes
+    if(region == null){
+        callback(new Error('Field region is required in CharacterModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
+        return;
+    }
+    if(realm == null){
+        callback(new Error('Field realm is required in CharacterModel'));
+        return;
+    }
+    if(name == null){
+        callback(new Error('Field name is required in CharacterModel'));
+        return;
+    }
+
+    var character ={};
+    character.region = region;
+    character.realm = realm;
+    character.name = name;
+    character.updated = new Date().getTime();
+
+    wlogs.updated=new Date().getTime();
+
+    character.wlogs = wlogs;
+
+    database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
+        callback(error, result);
+    });
+
+};
+
 module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
     var database = applicationStorage.getDatabase();
 
