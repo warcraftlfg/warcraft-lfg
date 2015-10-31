@@ -42,11 +42,10 @@ module.exports.update = function(region,realm,name,callback) {
             return;
         }
         bnetAPI.getCharacter(region, realm, name, function (error, character) {
-            if (error) {
+            if (error || character.level<100) {
                 callback();
                 return;
             }
-
             characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
                 if (error) {
                     callback();

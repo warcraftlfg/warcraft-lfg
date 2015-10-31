@@ -51,7 +51,7 @@ module.exports.parseWowProgress = function(){
         wowProgressCharacterAds.forEach(function(wowProgressCharacter){
 
             bnetAPI.getCharacter(wowProgressCharacter.region, wowProgressCharacter.realm, wowProgressCharacter.name, function (error, character) {
-                if (error) {
+                if (error || character.level <=100) {
                     return;
                 }
                 //Force name with bnet response (case or russian realm name)

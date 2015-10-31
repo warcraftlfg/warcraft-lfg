@@ -41,7 +41,12 @@ module.exports.getCharacters = function(region,id,callback){
                 callback(error);
                 return;
             }
-            callback(null,characters);
+            var result = [];
+            characters.forEach(function(character){
+                if(character.level >= 100)
+                    result.push(character);
+            });
+            callback(null,result);
         });
     });
 };
