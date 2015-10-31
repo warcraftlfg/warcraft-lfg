@@ -219,7 +219,7 @@ module.exports.getAds = function(number, filters, callback){
 
 module.exports.getLastAds = function(callback){
     var database = applicationStorage.getDatabase();
-    database.search("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,updated:1,"bnet.class":1}, 5, 1, {"ad.updated":-1}, function(error,characters){
+    database.search("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, 1, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
