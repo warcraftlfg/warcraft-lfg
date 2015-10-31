@@ -145,7 +145,7 @@ module.exports.get = function(region,realm,name,callback){
     });
 };
 
-module.exports.getAds = function (number,filter,callback) {
+module.exports.getAds = function (number,filters,callback) {
     var number = number || 10;
     var database = applicationStorage.getDatabase();
     var criteria ={ad:{$exists:true}};
