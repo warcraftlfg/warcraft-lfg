@@ -232,6 +232,13 @@ module.exports.deleteAd = function(region,realm,name,id,callback){
     });
 };
 
+module.exports.deleteOldAds = function(timestamp,callback){
+    var database = applicationStorage.getDatabase();
+    database.insertOrUpdate("characters", {"ad.updated":{$lte:timestamp}} ,{$unset: {ad:""}} ,null, function(error,result){
+        callback(error, result);
+    });
+};
+
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getDatabase();
     database.search("characters", {id:id, ad:{$exists:true}}, {region:1,realm:1,name:1,updated:1}, -1, 1, {updated:-1}, function(error,ads){

@@ -173,6 +173,13 @@ module.exports.deleteAd = function(region,realm,name,id,callback){
     });
 };
 
+module.exports.deleteOldAds = function(timestamp,callback){
+    var database = applicationStorage.getDatabase();
+    database.insertOrUpdate("guilds", {"ad.updated":{$lte:timestamp}} ,{$unset: {ad:""}} ,null, function(error,result){
+        callback(error, result);
+    });
+};
+
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getDatabase();
     database.search("guilds", {id:id, ad:{$exists:true}}, {_id: 0}, -1, 1, {updated:-1}, function(error,result){
