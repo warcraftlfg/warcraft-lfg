@@ -155,7 +155,7 @@
 
         $scope.getMoreGuilds = function(){
             if($scope.guilds.length>0)
-                $scope.filters.last = $scope.guilds[$scope.guilds.length-1].ad.updated
+                $scope.filters.last = $scope.guilds[$scope.guilds.length-1].ad.updated;
             socket.emit('get:guildAds',$scope.filters);
         };
 
@@ -168,9 +168,9 @@
         };
 
         socket.forward('get:guildAds',$scope);
-        $scope.$on('socket:get:guildAds',function(ev,characters){
+        $scope.$on('socket:get:guildAds',function(ev,guilds){
             $scope.$parent.loading = false;
-            $scope.guilds = $scope.guilds.concat(characters);
+            $scope.guilds = $scope.guilds.concat(guilds);
         });
 
         

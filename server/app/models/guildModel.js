@@ -145,10 +145,15 @@ module.exports.get = function(region,realm,name,callback){
     });
 };
 
-module.exports.getAds = function (number,filter,callback) {
+module.exports.getAds = function (number,filters,callback) {
     var number = number || 10;
     var database = applicationStorage.getDatabase();
-    database.search("guilds", {ad:{$exists:true}}, {
+    var criteria ={ad:{$exists:true}};
+    var filters = filters || {};
+    if(filters.last){
+        criteria.updated={$lt:filters.last}
+    }
+    database.search("guilds", criteria, {
         name:1,
         realm:1,
         region:1,
