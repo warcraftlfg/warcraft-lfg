@@ -19,24 +19,21 @@ WowProgressUpdateProcess.prototype.updateCharactersAd = function() {
             }
             self.lock = false;
         });
-        self.lock = false;
     }
 };
 
 WowProgressUpdateProcess.prototype.start = function(){
     logger.info("Starting WowProgressUpdateProcess");
 
-    //Start Cron every sec
+    //Start Cron every minute
     var self=this;
-   /* new cronJob('0 * * * * *',
+    new cronJob('0 * * * * *',
         function() {
             self.updateCharactersAd();
         },
         null,
         true
-    );*/
-
-    self.updateCharactersAd();
+    );
 };
 
 module.exports = WowProgressUpdateProcess;

@@ -42,9 +42,10 @@ module.exports.insertOrUpdateWlogs = function(region,realm,name,wlogs,callback) 
     character.name = name;
     character.updated = new Date().getTime();
 
-    wlogs.updated=new Date().getTime();
 
-    character.wlogs = wlogs;
+    character.wlogs = {};
+    character.wlogs.updated = new Date().getTime();
+    character.wlogs.logs = wlogs;
 
     database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
         callback(error, result);
@@ -218,7 +219,7 @@ module.exports.getAds = function(number, filters, callback){
 
 module.exports.getLastAds = function(callback){
     var database = applicationStorage.getDatabase();
-    database.search("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,updated:1,"bnet.class":1}, 5, 1, {"ad.updated":-1}, function(error,characters){
+    database.search("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, 1, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
@@ -227,6 +228,13 @@ module.exports.getLastAds = function(callback){
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var database = applicationStorage.getDatabase();
     database.insertOrUpdate("characters", {region:region,realm:realm,name:name,id:id} ,{$unset: {ad:""}} ,null, function(error,result){
+        callback(error, result);
+    });
+};
+
+module.exports.deleteOldAds = function(timestamp,callback){
+    var database = applicationStorage.getDatabase();
+    database.insertOrUpdate("characters", {"ad.updated":{$lte:timestamp}} ,{$unset: {ad:""}} ,null, function(error,result){
         callback(error, result);
     });
 };
