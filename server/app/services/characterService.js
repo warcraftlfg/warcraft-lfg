@@ -248,4 +248,15 @@ module.exports.getUserAds = function(id,callback){
 
         callback(error,ads);
     });
-}
+};
+
+module.exports.deleteOldAds = function(callback){
+    var timestamp = new Date().getTime();
+    var oldTimestamp = timestamp - (30 * 24 * 3600 * 1000);
+    characterModel.deleteOldAds(oldTimestamp,function(error){
+        if (error){
+            logger.error(error.message);
+        }
+        callback(error);
+    });
+};
