@@ -154,7 +154,7 @@ module.exports.getAds = function (number,filter,callback) {
         region:1,
         "ad":1,
         "bnet.side":1
-    }, number, 1, {updated:-1}, function(error,guilds){
+    }, number, 1, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
