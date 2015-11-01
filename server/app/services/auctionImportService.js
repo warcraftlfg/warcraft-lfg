@@ -38,6 +38,9 @@ module.exports.importAuctions = function(){
                                         callback();
                                     });
                                 }
+                                else{
+                                    callback();
+                                }
                             });
                         });
                     },function(){
