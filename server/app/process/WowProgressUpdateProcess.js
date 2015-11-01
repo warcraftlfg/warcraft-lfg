@@ -6,20 +6,14 @@ var logger = process.require("api/logger.js").get("logger");
 var wowProgressService = process.require("services/wowProgressService.js");
 
 function WowProgressUpdateProcess(){
-    this.lock = false;
 }
 
 WowProgressUpdateProcess.prototype.updateCharactersAd = function() {
-    var self = this;
-    if (self.lock == false) {
-        self.lock = true;
-        wowProgressService.parseWowProgress(function(error){
-            if (error){
-                logger.error(error.message);
-            }
-            self.lock = false;
-        });
-    }
+    wowProgressService.parseWowProgress(function(error){
+        if (error) {
+            logger.error(error.message);
+        }
+    });
 };
 
 WowProgressUpdateProcess.prototype.start = function(){

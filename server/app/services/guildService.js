@@ -56,13 +56,14 @@ module.exports.update = function(region,realm,name,callback){
                 self.emitCount();
 
                 guild.members.forEach(function (member){
-                    characterUpdateModel.insertOrUpdate(region,member.character.realm,member.character.name,0,function(error){
-                        if (error) {
-                            logger.error(error.message);
-                            return;
-                        }
-                        logger.info("Insert character to update "+ region +"-"+member.character.realm+"-"+member.character.name);
-                    });
+                    if(member.character.level >= 100)
+                        characterUpdateModel.insertOrUpdate(region,member.character.realm,member.character.name,0,function(error){
+                            if (error) {
+                                logger.error(error.message);
+                                return;
+                            }
+                            logger.info("Insert character to update "+ region +"-"+member.character.realm+"-"+member.character.name);
+                        });
                 });
 
             });

@@ -41,7 +41,7 @@ module.exports.getCharacter = function(region,realm,name,callback){
     });
 };
 
-module.exports.getGuild= function(region,realm,name,callback){
+module.exports.getGuild = function(region,realm,name,callback){
     var url=encodeURI("https://"+region+".api.battle.net/wow/guild/"+realm+"/"+name+"?fields=members&locale=en_GB&apikey="+config.oauth.bnet.client_id);
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -56,3 +56,50 @@ module.exports.getGuild= function(region,realm,name,callback){
         }
     });
 };
+
+module.exports.getRealms = function(region,callback){
+    var url=encodeURI("https://"+region+".api.battle.net/wow/realm/status?locale=en_GB&apikey="+config.oauth.bnet.client_id);
+    request(url, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            callback(error,JSON.parse(body));
+        }
+        else{
+            if(error)
+                logger.error(error.message+" on fetching bnet api "+url);
+            else
+                logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+url);
+            callback(new Error("BNET_API_ERROR"));
+        }
+    });
+};
+
+module.exports.getAuctions = function(region,realm,callback){
+    var url=encodeURI("https://"+region+".api.battle.net/wow/auction/data/"+realm+"?locale=en_GB&apikey="+config.oauth.bnet.client_id);
+    request(url, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var auctionUrl = encodeURI(JSON.parse(body).files[0].url);
+            console.log(auctionUrl);
+            request(auctionUrl, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log('ici');
+                    callback(error,JSON.parse(body));
+                }
+                else{
+                    if(error)
+                        logger.error(error.message+" on fetching bnet api "+auctionUrl);
+                    else
+                        logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+auctionUrl);
+                    callback(new Error("BNET_API_ERROR"));
+                }
+            });
+        }
+        else{
+            if(error)
+                logger.error(error.message+" on fetching bnet api "+url);
+            else
+                logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+url);
+            callback(new Error("BNET_API_ERROR"));
+        }
+    });
+};
+

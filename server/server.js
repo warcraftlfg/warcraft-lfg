@@ -23,6 +23,8 @@ var startGuildUpdateProcess = true;
 var startCharacterUpdateProcess = true;
 var startWowProgressUpdateProcess = true;
 var startCleanerProcess = true;
+var startAuctionImportProcess = false;
+
 if(process.argv.length == 3 ){
     startWebserver = false;
     startGuildUpdateProcess = false;
@@ -37,9 +39,12 @@ if(process.argv.length == 3 ){
     if(process.argv[2] ==="-wp")
         startWowProgressUpdateProcess=true;
     if(process.argv[2] ==="-clean")
-        startCleanerProcess=true
+        startCleanerProcess=true;
+    if(process.argv[2] ==="-ai")
+        startAuctionImportProcess=true;
     if(process.argv[2] ==="-ws")
         startWebserver=true;
+
 }
 
 var logger = loggerAPI.get("logger",config.logger);
@@ -58,7 +63,8 @@ var WowProgressUpdateProcess = process.require("process/WowProgressUpdateProcess
 var wowProgressUpdateProcess = new WowProgressUpdateProcess();
 var CleanerProcess = process.require("process/CleanerProcess.js");
 var cleanerProcess = new CleanerProcess();
-
+var AuctionImportProcess = process.require("process/AuctionImportProcess.js");
+var auctionImportProcess = new AuctionImportProcess();
 
 async.series([
     // Establish a connection to the database
@@ -91,6 +97,8 @@ async.series([
             wowProgressUpdateProcess.start();
         if(startCleanerProcess)
             cleanerProcess.start();
+        if(startAuctionImportProcess)
+            auctionImportProcess.start();
         callback();
     }
 ]);

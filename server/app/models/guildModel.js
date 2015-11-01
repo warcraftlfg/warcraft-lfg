@@ -145,10 +145,15 @@ module.exports.get = function(region,realm,name,callback){
     });
 };
 
-module.exports.getAds = function (number,filter,callback) {
+module.exports.getAds = function (number,filters,callback) {
     var number = number || 10;
     var database = applicationStorage.getDatabase();
-    database.search("guilds", {ad:{$exists:true}}, {
+    var criteria ={ad:{$exists:true}};
+    var filters = filters || {};
+    if(filters.last){
+        criteria.updated={$lt:filters.last}
+    }
+    database.search("guilds", criteria, {
         name:1,
         realm:1,
         region:1,
@@ -182,7 +187,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getDatabase();
-    database.search("guilds", {id:id, ad:{$exists:true}}, {_id: 0}, -1, 1, {updated:-1}, function(error,result){
+    database.search("guilds", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, -1, 1, {updated:-1}, function(error,result){
         callback(error, result);
     });
 };
