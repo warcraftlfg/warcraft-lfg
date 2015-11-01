@@ -1,5 +1,5 @@
 "use strict";
-var wowprogressAPI = process.require('api/wowprogress.js');
+var wowprogressAPI = process.require('api/wowProgress.js');
 var logger = process.require("api/logger.js").get("logger");
 var async = require('async');
 var characterUpdateModel = process.require("models/characterUpdateModel.js");
