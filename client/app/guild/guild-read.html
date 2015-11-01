@@ -47,14 +47,21 @@
         <code>{{guild.ad}}</code>
     </div>
     <div ng-if="!guild.ad">
-        This character is not looking for a guild
+        This guild is not looking for a guild
     </div>
     <h2>Guild Data</h2>
     <div ng-if="guild.bnet">
         <code>{{guild.bnet}}</code>
     </div>
     <div ng-if="!guild.bnet">
-        This character is not yet in our database
+        This guild is not yet in our database
+    </div>
+    <h2>WowProgress rank Data</h2>
+    <div ng-if="guild.wowProgress">
+        <code>{{guild.wowProgress}}</code>
+    </div>
+    <div ng-if="!guild.wowProgress">
+        This guild is not yet in our database
     </div>
 
 </div>

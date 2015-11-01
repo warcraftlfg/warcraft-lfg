@@ -12,6 +12,48 @@ var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
 
+module.exports.insertOrUpdateWowProgress = function(region,realm,name,wowProgress,callback) {
+
+    var database = applicationStorage.getDatabase();
+
+    //Force region tolowercase
+    region = region.toLowerCase();
+
+    //Check for required attributes
+    if(region == null){
+        callback(new Error('Field region is required in GuildModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
+        return;
+    }
+    if(realm == null){
+        callback(new Error('Field realm is required in GuildModel'));
+        return;
+    }
+    if(name == null){
+        callback(new Error('Field name is required in GuildModel'));
+        return;
+    }
+
+    var guild ={};
+    guild.region = region;
+    guild.realm = realm;
+    guild.name = name;
+    guild.updated = new Date().getTime();
+
+    wowProgress.updated=new Date().getTime();
+
+    guild.wowProgress = wowProgress;
+
+    database.insertOrUpdate("guilds", {region:region,realm:realm,name:name} ,null ,guild, function(error,result){
+        callback(error, result);
+    });
+
+};
+
+
 module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 
     var database = applicationStorage.getDatabase();
@@ -100,7 +142,6 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
 module.exports.setId = function(region,realm,name,id,callback) {
     var database = applicationStorage.getDatabase();
 
-    console.log(id);
     //Force region tolowercase
     region = region.toLowerCase();
 
