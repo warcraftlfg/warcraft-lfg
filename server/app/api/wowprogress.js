@@ -45,6 +45,46 @@ var languages = {
     "Turkish": "tr"
 };
 
+//For russian Ream wowprogress is bad ...
+var russianRealms = {
+    "Gordunni":"Гордунни",
+    "Howling Fjord":"Ревущий фьорд",
+    "Blackscar":"Черный Шрам",
+    "Ashenvale":"Ясеневый лес",
+    "Soulflayer":"Свежеватель Душ",
+    "Razuvious":"Разувий",
+    "Azuregos":"Азурегос",
+    "Booty Bay":"Пиратская Бухта",
+    "Eversong":"Вечная Песня",
+    "Deathguard":"Страж смерти",
+    "Lich King":"Король-лич",
+    "Fordragon":"Дракономор",
+    "Borean Tundra":"Борейская тундра",
+    "Goldrinn":"Голдринн",
+    "Grom":"Гром",
+    "Galakrond":"Галакронд"
+};
+
+
+module.exports.getGuildRank = function(region,realm,name,callback){
+
+    if(region.toLowerCase() == "eu" && russianRealms[realm])
+        realm = russianRealms[realm];
+    var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name+"/json_rank");
+    request(url, function (error, response, body) {
+
+        if (!error && response.statusCode == 200) {
+            callback(error,JSON.parse(body));
+        }
+        else{
+            if(error)
+                logger.error(error.message+" on fetching wowprogress api "+url);
+            else
+                logger.warn("Error HTTP "+response.statusCode+" on fetching wowprogress api "+url);
+            callback(new Error("BNET_API_ERROR"));
+        }
+    });
+};
 
 module.exports.getWoWProgressPage = function(path,callback) {
     var url = "http://www.wowprogress.com"+path;

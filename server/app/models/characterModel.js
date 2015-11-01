@@ -12,7 +12,7 @@ var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
 
-module.exports.insertOrUpdateWlogs = function(region,realm,name,wlogs,callback) {
+module.exports.insertOrUpdateWarcraftLogs = function(region,realm,name,warcraftLogs,callback) {
     var database = applicationStorage.getDatabase();
 
     //Force region tolowercase
@@ -43,9 +43,9 @@ module.exports.insertOrUpdateWlogs = function(region,realm,name,wlogs,callback) 
     character.updated = new Date().getTime();
 
 
-    character.wlogs = {};
-    character.wlogs.updated = new Date().getTime();
-    character.wlogs.logs = wlogs;
+    character.warcraftLogs = {};
+    character.warcraftLogs.updated = new Date().getTime();
+    character.warcraftLogs.logs = warcraftLogs;
 
     database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
         callback(error, result);

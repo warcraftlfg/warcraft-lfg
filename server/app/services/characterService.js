@@ -2,7 +2,7 @@
 
 //Module dependencies
 var bnetAPI = process.require("api/bnet.js");
-var wlogsAPI = process.require("api/warcraftlogs.js");
+var warcraftLogsAPI = process.require("api/warcraftLogs.js");
 var logger = process.require("api/logger.js").get("logger");
 var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var characterModel = process.require("models/characterModel.js");
@@ -56,12 +56,12 @@ module.exports.update = function(region,realm,name,callback) {
                 self.emitCount();
 
                 //Get Wlogs only if character exist
-                wlogsAPI.getRankings(region,character.realm,character.name,function (error,wlogs) {
+                warcraftLogsAPI.getRankings(region,character.realm,character.name,function (error,warcraftLogs) {
                     if (error) {
                         callback();
                         return;
                     }
-                    characterModel.insertOrUpdateWlogs(region,character.realm,character.name,wlogs,function (error) {
+                    characterModel.insertOrUpdateWarcraftLogs(region,character.realm,character.name,warcraftLogs,function (error) {
                         if (error) {
                             callback();
                             return;

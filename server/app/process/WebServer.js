@@ -5,6 +5,7 @@ var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 var path = require("path");
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 var express = require("express");
 var cookieParser = require("cookie-parser");
@@ -30,14 +31,21 @@ var adapter = require('socket.io-redis');
  * @constructor
  */
 function WebServer(){
+
+
+
     //Configuration
     this.privateKey  = fs.readFileSync(config.server.key, 'utf8');
     this.certificate = fs.readFileSync(config.server.crt, 'utf8');
 
-    //Initialise Server
+    //Initialise HTTPS Server
     this.app = express();
-    this.server = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
-    this.io = require('socket.io')(this.server);
+    this.secureServer = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
+
+    //Initialise HTTP Server
+    this.server = http.createServer(this.app);
+
+    this.io = require('socket.io')(this.secureServer);
     applicationStorage.setSocketIo(this.io);
 
     //Start redis for socket.io
@@ -68,6 +76,17 @@ WebServer.prototype.onDatabaseAvailable = function(db){
     guildSocket.connect();
     //Create sessionStore inside Mongodb
     var sessionStore =  new MongoStore({db: db.db});
+
+
+    //Automatic redirect to https
+    this.app.use(function(req,res,next) {
+        if (!/https/.test(req.protocol)){
+            res.redirect("https://" + req.headers.host + req.url);
+        } else {
+            return next();
+        }
+    });
+
 
     //Update Session store with opened database connection
     //Allowed server to restart without loosing any session
@@ -124,7 +143,14 @@ WebServer.prototype.start = function(){
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
-        logger.info("Server listening on port %s", server.address().port);
+        logger.info("Server HTTP listening on port %s", server.address().port);
     });
+
+    var secureServer = this.secureServer.listen(config.server.securePort, function(){
+        logger.info("Server HTTPS listening on port %s", secureServer.address().port);
+    });
+
+
+
 
 };

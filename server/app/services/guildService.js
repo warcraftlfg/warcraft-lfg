@@ -2,6 +2,7 @@
 
 //Module dependencies
 var bnetAPI = process.require("api/bnet.js");
+var wowProgressAPI = process.require("api/wowProgress.js");
 var logger = process.require("api/logger.js").get("logger");
 var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildModel = process.require("models/guildModel.js");
@@ -45,15 +46,37 @@ module.exports.update = function(region,realm,name,callback){
                 return;
             }
 
-            guildModel.insertOrUpdateBnet(region,guild.realm,guild.name,guild,function (error,result){
+            guildModel.insertOrUpdateBnet(region,guild.realm,guild.name,guild,function (error){
                 if (error) {
                     callback(error);
                     return;
                 }
                 logger.info('insert/update guild: ' + region + "-" + guild.realm + "-" + guild.name);
-                callback(null,guild);
+
 
                 self.emitCount();
+
+
+
+                wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
+                    if (error) {
+                        callback(error);
+                        return;
+                    }
+                    if (!wowProgress){
+                        callback();
+                        return;
+                    }
+
+                    guildModel.insertOrUpdateWowProgress(region,guild.realm,guild.name,wowProgress,function (error){
+                        if (error) {
+                            callback(error);
+                            return;
+                        }
+                        callback(null);
+                    });
+
+                });
 
                 guild.members.forEach(function (member){
                     if(member.character.level >= 100)

@@ -94,3 +94,4 @@ module.exports.parseWowProgress = function(){
         });
     });
 };
+
