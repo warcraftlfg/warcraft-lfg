@@ -187,7 +187,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getDatabase();
-    database.search("guilds", {id:id, ad:{$exists:true}}, {_id: 0}, -1, 1, {updated:-1}, function(error,result){
+    database.search("guilds", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, -1, 1, {updated:-1}, function(error,result){
         callback(error, result);
     });
 };
