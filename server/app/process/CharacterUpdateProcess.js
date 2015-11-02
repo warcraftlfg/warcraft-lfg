@@ -15,6 +15,8 @@ CharacterUpdateProcess.prototype.updateCharacter = function(){
         self.lock = true;
         characterService.updateNext(function(){
             self.lock = false;
+            self.updateCharacter();
+
         });
     }
 };
@@ -22,15 +24,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function(){
 
 CharacterUpdateProcess.prototype.start = function(){
     logger.info("Starting CharacterUpdateProcess");
-    //Start Cron every sec
-    var self=this;
-    new cronJob('* * * * * *',
-        function() {
-            self.updateCharacter();
-        },
-        null,
-        true
-    );
+    this.updateCharacter();
 };
 
 module.exports = CharacterUpdateProcess;
