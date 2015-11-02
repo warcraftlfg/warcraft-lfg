@@ -41,18 +41,15 @@ module.exports.delete = function (region,realm,name,callback) {
     });
 }
 
+
 module.exports.getNextToUpdate = function (callback){
     var database = applicationStorage.getDatabase();
-    database.search("guild-updates", {}, {_id: 0}, 1, 1, {priority:-1,_id:1}, function(error,data){
+    database.findAndModify("guild-updates", {},{priority:-1,_id:1},null,{remove:true}, function(error,characterUpdate){
         if(error) {
             callback(error);
             return;
         }
-        if(data.length == 0 ) {
-            callback (null,null);
-            return;
-        }
-        callback(null, data[0]);
+        callback(null, characterUpdate.value);
     });
 };
 

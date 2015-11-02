@@ -35,61 +35,56 @@ module.exports.updateNext = function(callback){
 
 module.exports.update = function(region,realm,name,callback){
     var self=this;
-    guildUpdateModel.delete(region,realm,name,function (error) {
+
+    bnetAPI.getGuild(region, realm, name, function (error,guild) {
         if (error) {
-            callback(error);
+            callback();
             return;
         }
-        bnetAPI.getGuild(region, realm, name, function (error,guild) {
+
+        guildModel.insertOrUpdateBnet(region,guild.realm,guild.name,guild,function (error){
             if (error) {
-                callback();
+                callback(error);
                 return;
             }
+            logger.info('insert/update guild: ' + region + "-" + guild.realm + "-" + guild.name);
 
-            guildModel.insertOrUpdateBnet(region,guild.realm,guild.name,guild,function (error){
+
+            self.emitCount();
+
+
+
+            wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
                 if (error) {
                     callback(error);
                     return;
                 }
-                logger.info('insert/update guild: ' + region + "-" + guild.realm + "-" + guild.name);
+                if (!wowProgress){
+                    callback();
+                    return;
+                }
 
-
-                self.emitCount();
-
-
-
-                wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
+                guildModel.insertOrUpdateWowProgress(region,guild.realm,guild.name,wowProgress,function (error){
                     if (error) {
                         callback(error);
                         return;
                     }
-                    if (!wowProgress){
-                        callback();
-                        return;
-                    }
-
-                    guildModel.insertOrUpdateWowProgress(region,guild.realm,guild.name,wowProgress,function (error){
-                        if (error) {
-                            callback(error);
-                            return;
-                        }
-                        callback(null);
-                    });
-
-                });
-
-                guild.members.forEach(function (member){
-                    if(member.character.level >= 100)
-                        characterUpdateModel.insertOrUpdate(region,member.character.realm,member.character.name,0,function(error){
-                            if (error) {
-                                logger.error(error.message);
-                                return;
-                            }
-                            logger.info("Insert character to update "+ region +"-"+member.character.realm+"-"+member.character.name);
-                        });
+                    callback(null);
                 });
 
             });
+
+            guild.members.forEach(function (member){
+                if(member.character.level >= 100)
+                    characterUpdateModel.insertOrUpdate(region,member.character.realm,member.character.name,0,function(error){
+                        if (error) {
+                            logger.error(error.message);
+                            return;
+                        }
+                        logger.info("Insert character to update "+ region +"-"+member.character.realm+"-"+member.character.name);
+                    });
+            });
+
         });
     });
 };

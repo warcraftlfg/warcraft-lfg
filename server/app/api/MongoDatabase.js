@@ -55,18 +55,6 @@ MongoDatabase.prototype.connect = function(callback){
 
 };
 
-MongoDatabase.prototype.insert = function(collection, data, callback){
-    var collection = this.db.collection(collection);
-    collection.insert(data, function(error,result){
-        if(error){
-            logger.error(error.message);
-            error = new Error("DATABASE_ERROR");
-        }
-        callback(error,result);
-    });
-};
-
-
 MongoDatabase.prototype.remove = function(collection, criteria, callback){
     var collection = this.db.collection(collection);
     collection.remove(criteria, function(error,result){
@@ -90,6 +78,21 @@ MongoDatabase.prototype.insertOrUpdate = function(collection, criteria, document
         }
         callback(error,result);
     });
+};
+
+MongoDatabase.prototype.findAndModify = function(collection, criteria, sort, update, options,callback){
+    var collection = this.db.collection(collection);
+
+    var criteria = criteria || {};
+
+    collection.findAndModify(criteria, sort, update, options, function (error,result){
+        if(error){
+            logger.error(error.message);
+            error = new Error("DATABASE_ERROR");
+        }
+        callback(error,result);
+    });
+
 };
 
 
@@ -157,6 +160,7 @@ MongoDatabase.prototype.search = function(collection, criteria, projection, limi
         });
     }
 };
+
 
 MongoDatabase.prototype.count = function (collection,criteria, callback){
     var collection = this.db.collection(collection);

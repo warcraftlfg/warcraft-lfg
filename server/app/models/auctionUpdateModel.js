@@ -44,16 +44,11 @@ module.exports.delete = function (region,realm,name,callback) {
 
 module.exports.getNextToUpdate = function (callback){
     var database = applicationStorage.getDatabase();
-    database.search("auction-updates", {}, {_id: 0}, 1, 1, {priority:-1,_id:1}, function(error,auctionUpdate){
+    database.findAndModify("auction-updates", {},{priority:-1,_id:1},null,{remove:true}, function(error,characterUpdate){
         if(error) {
             callback(error);
             return;
         }
-        if(auctionUpdate.length == 0 ) {
-            callback (null,null);
-            return;
-        }
-
-        callback(null, auctionUpdate[0]);
+        callback(null, characterUpdate.value);
     });
 };
