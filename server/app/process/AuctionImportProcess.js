@@ -14,7 +14,7 @@ AuctionImportProcess.prototype.start = function(){
     logger.info("Starting AuctionImportProcess");
     //Start Cron every sec
     var self=this;
-    new cronJob('0 0 3 * * *',
+    new cronJob('0 0 3 * * 1',
         function() {
             self.importAuctions();
         },
