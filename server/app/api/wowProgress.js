@@ -130,8 +130,7 @@ module.exports.getAds = function(callback){
 
                 var $guild = cheerio.load(guild);
                 var url = $guild('a').attr('href');
-                var name = $guild('a').text();
-                self.parseGuildPage(name,url,function(error,guild){
+                self.parseGuildPage(url,function(error,guild){
                     guildsResult.push(guild);
                     callback();
                 });
@@ -209,7 +208,7 @@ module.exports.parseCharacterPage = function(url,callback) {
 
 };
 
-module.exports.parseGuildPage = function(name, url, callback) {
+module.exports.parseGuildPage = function( url, callback) {
     this.getWoWProgressPage(url, function (error, body) {
         if (error) {
             callback(error);
@@ -220,7 +219,7 @@ module.exports.parseGuildPage = function(name, url, callback) {
 
         var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
 
-        result.name = name;
+        result.name = $body('h1').text().match("“(.*)” WoW Guild")[1];
         result.realm = armoryUrl.match('battle.net/wow/guild/(.*)/(.*)/')[1];
         result.region = armoryUrl.match('http://(.*).battle.net/wow/guild/')[1];
 

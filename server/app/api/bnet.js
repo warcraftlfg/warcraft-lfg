@@ -81,7 +81,6 @@ module.exports.getAuctions = function(region,realm,callback){
             console.log(auctionUrl);
             request(auctionUrl, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    console.log('ici');
                     callback(error,JSON.parse(body));
                 }
                 else{
