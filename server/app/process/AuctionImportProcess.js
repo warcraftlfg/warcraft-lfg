@@ -21,7 +21,6 @@ AuctionImportProcess.prototype.start = function(){
         null,
         true
     );
-    self.importAuctions();
 };
 
 module.exports = AuctionImportProcess;
