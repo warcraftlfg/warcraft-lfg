@@ -23,7 +23,9 @@ var startGuildUpdateProcess = true;
 var startCharacterUpdateProcess = true;
 var startWowProgressUpdateProcess = true;
 var startCleanerProcess = true;
-var startAuctionImportProcess = false;
+var startAuctionImportProcess = true;
+var startAuctionUpdateProcess = true;
+
 
 if(process.argv.length == 3 ){
     startWebserver = false;
@@ -31,6 +33,8 @@ if(process.argv.length == 3 ){
     startCharacterUpdateProcess = false;
     startWowProgressUpdateProcess = false;
     startCleanerProcess = false;
+    startAuctionImportProcess = false;
+    startAuctionUpdateProcess = false;
 
     if(process.argv[2] ==="-gu")
         startGuildUpdateProcess=true;
@@ -42,6 +46,8 @@ if(process.argv.length == 3 ){
         startCleanerProcess=true;
     if(process.argv[2] ==="-ai")
         startAuctionImportProcess=true;
+    if(process.argv[2] ==="-au")
+        startAuctionUpdateProcess=true;
     if(process.argv[2] ==="-ws")
         startWebserver=true;
 
@@ -65,6 +71,8 @@ var CleanerProcess = process.require("process/CleanerProcess.js");
 var cleanerProcess = new CleanerProcess();
 var AuctionImportProcess = process.require("process/AuctionImportProcess.js");
 var auctionImportProcess = new AuctionImportProcess();
+var AuctionUpdateProcess = process.require("process/AuctionUpdateProcess.js");
+var auctionUpdateProcess = new AuctionUpdateProcess();
 
 async.series([
     // Establish a connection to the database
@@ -99,6 +107,8 @@ async.series([
             cleanerProcess.start();
         if(startAuctionImportProcess)
             auctionImportProcess.start();
+        if(startAuctionUpdateProcess)
+            auctionUpdateProcess.start();
         callback();
     }
 ]);
