@@ -35,28 +35,22 @@ module.exports.updateNext = function(callback){
 };
 
 module.exports.update = function(region,realm,name,callback){
-    auctionUpdateModel.delete(region,realm,name,function (error) {
-        if (error) {
+    bnetAPI.getCharacter(region, realm, name, function (error, character) {
+        if (error || !character.guild) {
             callback();
             return;
         }
-        bnetAPI.getCharacter(region, realm, name, function (error, character) {
-            if (error || !character.guild) {
-                callback();
-                return;
-            }
-            guildService.get(region, character.realm, character.guild.name,function(error,guild) {
-                var timestampWeekAgo = new Date().getTime() - (7 * 24 * 3600 * 1000);
-                if (guild == null || guild.bnet == null ||guild.bnet.updated < timestampWeekAgo) {
-                    guildUpdateModel.insertOrUpdate(region, character.realm, character.guild.name, 0, function (error) {
-                        logger.info("Insert guild  to update " + region + "-" + character.realm + "-" + character.guild.name);
-                        callback();
-                    });
-                }
-                else {
+        guildService.get(region, character.realm, character.guild.name,function(error,guild) {
+            var timestampWeekAgo = new Date().getTime() - (7 * 24 * 3600 * 1000);
+            if (guild == null || guild.bnet == null ||guild.bnet.updated < timestampWeekAgo) {
+                guildUpdateModel.insertOrUpdate(region, character.realm, character.guild.name, 0, function (error) {
+                    logger.info("Insert guild  to update " + region + "-" + character.realm + "-" + character.guild.name);
                     callback();
-                }
-            });
+                });
+            }
+            else {
+                callback();
+            }
         });
     });
 };

@@ -36,45 +36,35 @@ module.exports.updateNext = function(callback){
 
 module.exports.update = function(region,realm,name,callback) {
     var self = this;
-    characterUpdateModel.delete(region,realm,name,function (error) {
-        if (error) {
+    bnetAPI.getCharacter(region, realm, name, function (error, character) {
+        if (error || character.level<100) {
             callback();
             return;
         }
-        bnetAPI.getCharacter(region, realm, name, function (error, character) {
-            if (error || character.level<100) {
+        characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
+            if (error) {
                 callback();
                 return;
             }
-            characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
+            logger.info('insert/update character: ' + region + "-" + character.realm + "-" + character.name);
+
+            self.emitCount();
+
+            //Get Wlogs only if character exist
+            warcraftLogsAPI.getRankings(region,character.realm,character.name,function (error,warcraftLogs) {
                 if (error) {
                     callback();
                     return;
                 }
-                logger.info('insert/update character: ' + region + "-" + character.realm + "-" + character.name);
-
-                self.emitCount();
-
-                //Get Wlogs only if character exist
-                warcraftLogsAPI.getRankings(region,character.realm,character.name,function (error,warcraftLogs) {
+                characterModel.insertOrUpdateWarcraftLogs(region,character.realm,character.name,warcraftLogs,function (error) {
                     if (error) {
                         callback();
                         return;
                     }
-                    characterModel.insertOrUpdateWarcraftLogs(region,character.realm,character.name,warcraftLogs,function (error) {
-                        if (error) {
-                            callback();
-                            return;
-                        }
-                        logger.info('insert/update wlogs for character: ' + region + "-" + character.realm + "-" + character.name);
-                        callback();
-                    });
+                    logger.info('insert/update wlogs for character: ' + region + "-" + character.realm + "-" + character.name);
+                    callback();
                 });
             });
-
-
-
-
         });
     });
 };
