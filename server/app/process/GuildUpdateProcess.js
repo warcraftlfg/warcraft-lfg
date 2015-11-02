@@ -15,22 +15,15 @@ GuildUpdateProcess.prototype.updateGuild = function() {
         self.lock = true;
         guildService.updateNext(function(){
             self.lock = false;
+            self.updateGuild();
         });
     }
 };
 
 GuildUpdateProcess.prototype.start = function(){
     logger.info("Starting GuildUpdateProcess");
+    this.updateGuild();
 
-    //Start Cron every sec
-    var self=this;
-    new cronJob('* * * * * *',
-        function() {
-            self.updateGuild();
-        },
-        null,
-        true
-    );
 };
 
 module.exports = GuildUpdateProcess;
