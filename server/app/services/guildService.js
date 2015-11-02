@@ -69,21 +69,28 @@ module.exports.update = function(region,realm,name,callback){
                         callback(error);
                         return;
                     }
-                    callback(null);
+                    async.eachSeries(guild.members,function(member,callback){
+                        if(member.character.level >= 100) {
+                            characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
+                                if (error) {
+                                    logger.error(error.message);
+                                    return;
+                                }
+                                callback();
+                                logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
+                            });
+                        }
+                        else{
+                            callback();
+                        }
+                    },function(){
+                        callback(null);
+                    });
                 });
 
             });
 
-            guild.members.forEach(function (member){
-                if(member.character.level >= 100)
-                    characterUpdateModel.insertOrUpdate(region,member.character.realm,member.character.name,0,function(error){
-                        if (error) {
-                            logger.error(error.message);
-                            return;
-                        }
-                        logger.info("Insert character to update "+ region +"-"+member.character.realm+"-"+member.character.name);
-                    });
-            });
+
 
         });
     });

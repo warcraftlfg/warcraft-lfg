@@ -39,7 +39,7 @@ module.exports.delete = function (region,realm,name,callback) {
     database.remove("guild-updates",{region:region,realm:realm,name:name},function(error){
         callback(error);
     });
-}
+};
 
 
 module.exports.getNextToUpdate = function (callback){
