@@ -59,6 +59,7 @@ module.exports.update = function(region,realm,name,callback){
 
 
             self.emitCount();
+
             async.eachSeries(guild.members,function(member,callback){
                 if(member.character.level >= 100) {
                     characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
@@ -74,7 +75,7 @@ module.exports.update = function(region,realm,name,callback){
                 else{
                     callback();
                 }
-            },function(){
+            },function done(){
                 wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
                     if (error) {
                         callback(error);
@@ -90,12 +91,14 @@ module.exports.update = function(region,realm,name,callback){
                             callback(error);
                             return;
                         }
+                        callback(null);
 
                     });
 
                 });
-                callback(null);
             });
+
+
         });
     });
 };
