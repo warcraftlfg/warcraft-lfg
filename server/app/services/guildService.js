@@ -59,44 +59,42 @@ module.exports.update = function(region,realm,name,callback){
 
 
             self.emitCount();
-
-
-
-            wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
-                if (error) {
-                    callback(error);
-                    return;
+            async.eachSeries(guild.members,function(member,callback){
+                if(member.character.level >= 100) {
+                    characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
+                        if (error) {
+                            logger.error(error.message);
+                            callback();
+                            return;
+                        }
+                        callback();
+                        logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
+                    });
                 }
-                if (!wowProgress){
+                else{
                     callback();
-                    return;
                 }
-
-                guildModel.insertOrUpdateWowProgress(region,guild.realm,guild.name,wowProgress,function (error){
+            },function(){
+                wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
                     if (error) {
                         callback(error);
                         return;
                     }
-                    async.eachSeries(guild.members,function(member,callback){
-                        if(member.character.level >= 100) {
-                            characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
-                                if (error) {
-                                    logger.error(error.message);
-                                    callback();
-                                    return;
-                                }
-                                callback();
-                                logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
-                            });
-                        }
-                        else{
-                            callback();
-                        }
-                    },function(){
-                        callback(null);
-                    });
-                });
+                    if (!wowProgress){
+                        callback();
+                        return;
+                    }
 
+                    guildModel.insertOrUpdateWowProgress(region,guild.realm,guild.name,wowProgress,function (error){
+                        if (error) {
+                            callback(error);
+                            return;
+                        }
+
+                    });
+
+                });
+                callback(null);
             });
         });
     });
