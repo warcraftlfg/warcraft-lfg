@@ -28,7 +28,10 @@ module.exports.updateNext = function(callback){
             });
         }
         else{
-            callback();
+            setTimeout(function() {
+                logger.info("No characterUpdate ... waiting 3 sec");
+                callback();
+            }, 3000);
         }
     });
 };

@@ -71,9 +71,12 @@ RedisDatabase.prototype.getUpdate = function(type,priority,callback){
             if(error){
                 logger.error(error.message);
                 error = new Error("DATABASE_ERROR");
-                callback(error);
-                return;
+                return callback(error);
+
             }
+            if (value == null)
+                return callback();
+
             value = JSON.parse(value);
             self.db.del(key,function(error,result){
                 if(error){

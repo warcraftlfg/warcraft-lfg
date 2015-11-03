@@ -27,9 +27,12 @@ module.exports.updateNext = function(callback){
                 callback(null,guild);
             });
         }
-        else
-            callback();
-
+        else{
+            setTimeout(function() {
+                logger.info("No guildUpdate ... waiting 3 sec");
+                callback();
+            }, 3000);
+        }
     });
 };
 
@@ -90,9 +93,6 @@ module.exports.update = function(region,realm,name,callback){
                 });
 
             });
-
-
-
         });
     });
 };

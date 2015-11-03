@@ -5,6 +5,7 @@ var async = require("async");
 var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildService = process.require("services/guildService.js");
 var auctionUpdateModel = process.require("models/auctionUpdateModel.js")
+var auctionRealmUpdateModel = process.require("models/auctionRealmUpdateModel.js")
 
 //Configuration
 var env = process.env.NODE_ENV || 'dev';
@@ -16,7 +17,7 @@ module.exports.updateNext = function(callback){
     auctionUpdateModel.getNextToUpdate(function(error,auctionUpdate) {
         if (error) {
             logger.error(error.message);
-            callback();
+            callback(false);
             return;
         }
         if (auctionUpdate) {
@@ -25,11 +26,14 @@ module.exports.updateNext = function(callback){
                     logger.error(error.message);
                 }
 
-                callback();
+                callback(false);
             });
         }
         else{
-            callback();
+            setTimeout(function() {
+                logger.info("No AuctionUpdate ... waiting 3 sec");
+                callback(true);
+            }, 3000);
         }
     });
 };
@@ -55,7 +59,7 @@ module.exports.update = function(region,realm,name,callback){
     });
 };
 
-module.exports.importAuctions = function(){
+module.exports.importAuctionRealms = function(){
 
     async.eachSeries(config.bnet_regions,function(region,callback) {
         //Get Realms
@@ -64,25 +68,39 @@ module.exports.importAuctions = function(){
                 return;
             }
             async.eachSeries(realms.realms,function(realm,callback){
-                bnetAPI.getAuctions(region, realm.name, function (error, auctions) {
-                    if (error) {
-                        return;
-                    }
-                    async.eachSeries(auctions.auctions, function (auction, callback) {
-                        auctionUpdateModel.insertOrUpdate(region,auction.ownerRealm,auction.owner,0,function(){
-                            logger.info("Insert Auction  to update " + region + "-" + auction.ownerRealm + "-" + auction.owner);
-                            callback();
-                        });
-
-                    },function(){
-                        callback();
-                    });
+                auctionRealmUpdateModel.insertOrUpdate(region,realm.connected_realms[0],0,function(){
+                    logger.info("Insert Auction Realm to update " + region + "-" + realm.connected_realms[0]);
+                    callback();
                 });
             },function(){
                 callback();
             });
         });
     });
-
-
 };
+
+module.exports.importAuctionOwners = function() {
+    auctionRealmUpdateModel.getNextToUpdate(function (error, auctionRealmUpdate) {
+        if (error) {
+            logger.error(error.message);
+            callback();
+            return;
+        }
+        if (auctionRealmUpdate) {
+
+            bnetAPI.getAuctions(auctionRealmUpdate.region, auctionRealmUpdate.realm, function (error, auctions) {
+                if (error) {
+                    return;
+                }
+                async.eachSeries(auctions.auctions, function (auction, callback) {
+                    auctionUpdateModel.insertOrUpdate(auctionRealmUpdate.region, auction.ownerRealm, auction.owner, 0, function () {
+                        logger.info("Insert Auction  to update " + auctionRealmUpdate.region + "-" + auction.ownerRealm + "-" + auction.owner);
+                        callback();
+                    });
+
+                });
+            });
+        }
+    });
+};
+
