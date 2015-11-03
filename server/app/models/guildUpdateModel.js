@@ -32,7 +32,7 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     region = region.toLowerCase();
 
     //Create or update guildUpdate
-    database.setUpdate('au',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name},function(error,result){
+    database.setUpdate('gu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name},function(error,result){
         callback(error);
     });
 };
@@ -40,7 +40,7 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
 module.exports.getNextToUpdate = function (callback){
     var database = applicationStorage.getRedisDatabase();
     async.each(config.priorities,function(priority,callback){
-        database.getUpdate('au', priority, function (error, result) {
+        database.getUpdate('gu', priority, function (error, result) {
             if(error){
                 return callback({error:error});
             }
@@ -61,7 +61,7 @@ module.exports.getNextToUpdate = function (callback){
 
 module.exports.getPosition = function (priority,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.getUpdateCount('au',priority,function(error,count){
+    database.getUpdateCount('gu',priority,function(error,count){
         callback(error,count);
     });
 };
