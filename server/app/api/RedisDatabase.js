@@ -56,7 +56,7 @@ RedisDatabase.prototype.setUpdate = function(type,priority,key,value,callback){
 
 RedisDatabase.prototype.getUpdate = function(type,priority,callback){
     var self = this;
-    this.db.lpop(type+"_"+priority,function(error,key){
+    this.db.rpop(type+"_"+priority,function(error,key){
         if(error){
             logger.error(error.message);
             error = new Error("DATABASE_ERROR");
