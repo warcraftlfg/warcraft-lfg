@@ -12,9 +12,10 @@ AuctionUpdateProcess.prototype.updateAuction = function() {
     var self = this;
 
     auctionService.updateNext(function(empty){
-        console.log(empty);
         if(empty)
-            auctionService.importAuctionOwners();
+            auctionService.importAuctionOwners(function(){
+                self.updateAuction();
+            });
         else
             self.updateAuction();
     });

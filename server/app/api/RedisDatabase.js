@@ -75,7 +75,7 @@ RedisDatabase.prototype.getUpdate = function(type,priority,callback){
 
             }
             if (value == null)
-                return callback();
+                return callback(null,key);
 
             value = JSON.parse(value);
             self.db.del(key,function(error,result){

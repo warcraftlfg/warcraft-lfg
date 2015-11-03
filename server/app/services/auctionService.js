@@ -21,13 +21,17 @@ module.exports.updateNext = function(callback){
             return;
         }
         if (auctionUpdate) {
-            self.update(auctionUpdate.region,auctionUpdate.realm,auctionUpdate.name, function (error) {
-                if (error) {
-                    logger.error(error.message);
-                }
-
+            if(auctionUpdate.region && auctionUpdate.realm && auctionUpdate.name){
+                self.update(auctionUpdate.region,auctionUpdate.realm,auctionUpdate.name, function (error) {
+                    if (error) {
+                        logger.error(error.message);
+                    }
+                    callback(false);
+                });
+            }
+            else{
                 callback(false);
-            });
+            }
         }
         else{
             setTimeout(function() {
@@ -79,7 +83,7 @@ module.exports.importAuctionRealms = function(){
     });
 };
 
-module.exports.importAuctionOwners = function() {
+module.exports.importAuctionOwners = function(callback) {
     auctionRealmUpdateModel.getNextToUpdate(function (error, auctionRealmUpdate) {
         if (error) {
             logger.error(error.message);
@@ -98,8 +102,16 @@ module.exports.importAuctionOwners = function() {
                         callback();
                     });
 
+                }, function () {
+                    callback();
                 });
             });
+        }
+        else {
+            setTimeout(function () {
+                logger.info("No AuctionRealmUpdate ... waiting 3 sec");
+                callback();
+            }, 3000);
         }
     });
 };
