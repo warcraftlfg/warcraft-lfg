@@ -37,14 +37,14 @@ RedisDatabase.prototype.connect = function(callback){
 RedisDatabase.prototype.setUpdate = function(type,priority,key,value,callback){
     var self = this;
     value = JSON.stringify(value);
-    this.db.set(key,value,function(error){
+    this.db.set(type+'_'+key,value,function(error){
         if(error){
             logger.error(error.message);
             error = new Error("DATABASE_ERROR");
             callback(error);
             return;
         }
-        self.db.lpush(type+"_"+priority,key,function(error){
+        self.db.lpush(type+"_"+priority,type+'_'+key,function(error){
             if(error){
                 logger.error(error.message);
                 error = new Error("DATABASE_ERROR");

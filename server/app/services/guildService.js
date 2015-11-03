@@ -19,13 +19,18 @@ module.exports.updateNext = function(callback){
             return;
         }
         if (guildUpdate) {
-            self.update(guildUpdate.region,guildUpdate.realm,guildUpdate.name, function (error,guild) {
-                if (error) {
-                    callback(error);
-                    return;
-                }
-                callback(null,guild);
-            });
+            if(guildUpdate.region && guildUpdate.realm && guildUpdate.name) {
+                self.update(guildUpdate.region, guildUpdate.realm, guildUpdate.name, function (error, guild) {
+                    if (error) {
+                        callback(error);
+                        return;
+                    }
+                    callback(null, guild);
+                });
+            }
+            else{
+                callback();
+            }
         }
         else{
             setTimeout(function() {

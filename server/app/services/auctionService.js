@@ -92,20 +92,25 @@ module.exports.importAuctionOwners = function(callback) {
         }
         if (auctionRealmUpdate) {
 
-            bnetAPI.getAuctions(auctionRealmUpdate.region, auctionRealmUpdate.realm, function (error, auctions) {
-                if (error) {
-                    return;
-                }
-                async.eachSeries(auctions.auctions, function (auction, callback) {
-                    auctionUpdateModel.insertOrUpdate(auctionRealmUpdate.region, auction.ownerRealm, auction.owner, 0, function () {
-                        logger.info("Insert Auction  to update " + auctionRealmUpdate.region + "-" + auction.ownerRealm + "-" + auction.owner);
+            if(auctionRealmUpdate.region && auctionRealmUpdate.realm) {
+                bnetAPI.getAuctions(auctionRealmUpdate.region, auctionRealmUpdate.realm, function (error, auctions) {
+                    if (error) {
+                        return;
+                    }
+                    async.eachSeries(auctions.auctions, function (auction, callback) {
+                        auctionUpdateModel.insertOrUpdate(auctionRealmUpdate.region, auction.ownerRealm, auction.owner, 0, function () {
+                            logger.info("Insert Auction  to update " + auctionRealmUpdate.region + "-" + auction.ownerRealm + "-" + auction.owner);
+                            callback();
+                        });
+
+                    }, function () {
                         callback();
                     });
-
-                }, function () {
-                    callback();
                 });
-            });
+            }
+            else {
+                callback();
+            }
         }
         else {
             setTimeout(function () {

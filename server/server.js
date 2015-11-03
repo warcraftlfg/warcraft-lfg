@@ -106,12 +106,12 @@ async.series([
     function(callback){
         if(startWebserver)
             webServer.start();
-        /*if(startCharacterUpdateProcess)
-            characterUpdateProcess.start();*/
-        /*if (startGuildUpdateProcess)
-            guildUpdateProcess.start();*/
-        /*if (startWowProgressUpdateProcess)
-            wowProgressUpdateProcess.start();*/
+        if(startCharacterUpdateProcess)
+            characterUpdateProcess.start();
+        if (startGuildUpdateProcess)
+            guildUpdateProcess.start();
+        if (startWowProgressUpdateProcess)
+            wowProgressUpdateProcess.start();
         if(startCleanerProcess)
             cleanerProcess.start();
         if(startAuctionUpdateProcess)

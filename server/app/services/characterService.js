@@ -19,13 +19,18 @@ module.exports.updateNext = function(callback){
             return;
         }
         if (characterUpdate) {
-            self.update(characterUpdate.region,characterUpdate.realm,characterUpdate.name, function (error) {
-                if (error) {
-                    logger.error(error.message);
-                }
+            if(characterUpdate.region && characterUpdate.realm && characterUpdate.name ) {
+                self.update(characterUpdate.region, characterUpdate.realm, characterUpdate.name, function (error) {
+                    if (error) {
+                        logger.error(error.message);
+                    }
 
+                    callback();
+                });
+            }
+            else{
                 callback();
-            });
+            }
         }
         else{
             setTimeout(function() {
