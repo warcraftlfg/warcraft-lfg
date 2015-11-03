@@ -14,7 +14,7 @@ var config = process.require("config/config."+env+".json");
 
 module.exports.insertOrUpdateWowProgress = function(region,realm,name,wowProgress,callback) {
 
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
 
     //Force region tolowercase
     region = region.toLowerCase();
@@ -56,7 +56,7 @@ module.exports.insertOrUpdateWowProgress = function(region,realm,name,wowProgres
 
 module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
 
     //Force region tolowercase
     region = region.toLowerCase();
@@ -96,7 +96,7 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 };
 
 module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
 
     //Force region tolowercase
     region = region.toLowerCase();
@@ -140,7 +140,7 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
 };
 
 module.exports.setId = function(region,realm,name,id,callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
 
     //Force region tolowercase
     region = region.toLowerCase();
@@ -180,7 +180,7 @@ module.exports.setId = function(region,realm,name,id,callback) {
 
 
 module.exports.get = function(region,realm,name,callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.get("guilds",{"region":region,"realm":realm,"name":name},{_id: 0},1,function(error,guild){
         callback(error, guild && guild[0]);
     });
@@ -188,7 +188,7 @@ module.exports.get = function(region,realm,name,callback){
 
 module.exports.getAds = function (number,filters,callback) {
     var number = number || 10;
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     var criteria ={ad:{$exists:true}};
     var filters = filters || {};
     if(filters.last){
@@ -206,28 +206,28 @@ module.exports.getAds = function (number,filters,callback) {
 };
 
 module.exports.getLastAds = function (callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.search("guilds", {ad:{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, 1, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.insertOrUpdate("guilds", {region:region,realm:realm,name:name} ,{$unset: {ad:""}}  ,null, function(error,result){
         callback(error, result);
     });
 };
 
 module.exports.deleteOldAds = function(timestamp,callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.insertOrUpdate("guilds", {"ad.updated":{$lte:timestamp}} ,{$unset: {ad:""}} ,null, function(error,result){
         callback(error, result);
     });
 };
 
 module.exports.getUserAds = function(id,callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.search("guilds", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, -1, 1, {updated:-1}, function(error,result){
         callback(error, result);
     });
@@ -236,7 +236,7 @@ module.exports.getUserAds = function(id,callback){
 
 
 module.exports.getCount = function (callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.count('guilds',null,function(error,count){
         callback(error,count);
     });
@@ -244,14 +244,14 @@ module.exports.getCount = function (callback){
 
 
 module.exports.getAdsCount = function (callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.count('guilds',{ad:{$exists:true}},function(error,count){
         callback(error,count);
     });
 };
 
 module.exports.removeId = function(region,realm,name,id, callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$pull: {id: id}}, null, function (error) {
         callback(error);
     });

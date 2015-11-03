@@ -10,6 +10,8 @@ process.require = function(filePath){
 var path = require("path");
 var async = require('async');
 var MongoDatabase = process.require("api/MongoDatabase.js");
+var RedisDatabase = process.require("api/RedisDatabase.js");
+
 var loggerAPI = process.require("api/logger.js");
 var applicationStorage = process.require("api/applicationStorage");
 
@@ -78,19 +80,32 @@ async.series([
     // Establish a connection to the database
     function(callback) {
 
-        var db = new MongoDatabase(config.database.mongodb);
+        var mongoDb = new MongoDatabase(config.database.mongodb);
+        var redisDb = new RedisDatabase(config.database.redis);
         // Establish connection to the database
-        db.connect(function(error) {
+
+        mongoDb.connect(function(error) {
             if (error) {
                 logger.error(error.message);
                 process.exit(0);
             }
 
-            applicationStorage.setDatabase(db);
+            applicationStorage.setMongoDatabase(mongoDb);
             if(startWebserver)
-                webServer.onDatabaseAvailable(db);
+                webServer.onDatabaseAvailable(mongoDb);
 
-            callback();
+            redisDb.connect(function(error) {
+                if (error) {
+                    logger.error(error.message);
+                    process.exit(0);
+                }
+                applicationStorage.setRedisDatabase(redisDb);
+
+                callback();
+
+            });
+
+
         });
     },
     // Start Process
@@ -109,6 +124,8 @@ async.series([
             auctionImportProcess.start();
         if(startAuctionUpdateProcess)
             auctionUpdateProcess.start();
+
         callback();
     }
+
 ]);

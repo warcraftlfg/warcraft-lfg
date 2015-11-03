@@ -1,7 +1,6 @@
 "use strict";
 
 //Module dependencies
-var cronJob = require('cron').CronJob;
 var logger = process.require("api/logger.js").get("logger");
 var characterService = process.require("services/characterService.js");
 

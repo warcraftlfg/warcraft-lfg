@@ -5,7 +5,6 @@
  */
 
 // Module dependencies
-var util = require("util");
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 

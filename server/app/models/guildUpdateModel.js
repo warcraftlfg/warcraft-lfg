@@ -4,7 +4,7 @@
 var applicationStorage = process.require("api/applicationStorage");
 
 module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
 
     //Check for required attributes
     if(region == null){
@@ -35,7 +35,7 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
 };
 
 module.exports.delete = function (region,realm,name,callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.remove("guild-updates",{region:region,realm:realm,name:name},function(error){
         callback(error);
     });
@@ -43,7 +43,7 @@ module.exports.delete = function (region,realm,name,callback) {
 
 
 module.exports.getNextToUpdate = function (callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.findAndModify("guild-updates", {},{priority:-1,_id:1},null,{remove:true}, function(error,characterUpdate){
         if(error) {
             callback(error);
@@ -54,7 +54,7 @@ module.exports.getNextToUpdate = function (callback){
 };
 
 module.exports.getPosition = function (priority,callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.count('guild-updates',{priority:{$gte:priority}},function(error,count){
         callback(error,count);
     });
