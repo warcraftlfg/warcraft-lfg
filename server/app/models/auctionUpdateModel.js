@@ -32,7 +32,7 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     region = region.toLowerCase();
 
     //Create or update auctionUpdate
-    database.setUpdate('au',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name},function(error,result){
+    database.setUpdate('au',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name,priority:priority},function(error,result){
         callback(error);
     });
 };
@@ -44,8 +44,9 @@ module.exports.getNextToUpdate = function (callback){
             if(error){
                 return callback({error:error});
             }
-            if(result)
+            if(result){
                 callback({result:result});
+            }
             else
                 callback()
 
@@ -55,6 +56,7 @@ module.exports.getNextToUpdate = function (callback){
             return callback();
         if(result.error)
             return callback(result.error)
+
         callback(null,result.result);
     });
 };

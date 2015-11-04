@@ -8,6 +8,8 @@ var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var characterModel = process.require("models/characterModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var userService = process.require("services/userService.js");
+var auctionService = process.require("services/auctionService.js");
+
 var async = require("async");
 
 module.exports.updateNext = function(callback){
@@ -15,28 +17,46 @@ module.exports.updateNext = function(callback){
     characterUpdateModel.getNextToUpdate(function(error,characterUpdate) {
         if (error) {
             logger.error(error.message);
-            callback();
-            return;
+            return callback(error);
         }
         if (characterUpdate) {
+            //Get Character Update Result (json or key)
             if(characterUpdate.region && characterUpdate.realm && characterUpdate.name ) {
+                logger.info("Update Character "+characterUpdate.region+"-"+characterUpdate.realm+"-"+characterUpdate.name);
                 self.update(characterUpdate.region, characterUpdate.realm, characterUpdate.name, function (error) {
-                    if (error) {
-                        logger.error(error.message);
+                    if(error && error.message == "BNET_API_ERROR_DENY") {
+                        //Bnet API DENY reset the characterUpdateModel for after
+                        guildUpdateModel.insertOrUpdate(guildUpdate.region,guildUpdate.realm,guildUpdate.name,guildUpdate.priority,function(error){
+                            if(error) {
+                                logger.error(error.message);
+                                return callback();
+                            }
+                            logger.warn("Bnet Api Deny ... waiting 1 min");
+                            return setTimeout(function () {
+                                callback();
+                            }, 60000);
+                        });
                     }
-
+                    else if(error){
+                        //logger.error(error.message);
+                        return callback(error);
+                    }
                     callback();
                 });
             }
             else{
+                //Character Update is already parse before
                 callback();
             }
         }
         else{
-            setTimeout(function() {
-                logger.info("No characterUpdate ... waiting 3 sec");
-                callback();
-            }, 3000);
+            //Character Update is empty
+            logger.info("No characterUpdate Import Auction Owners and waiting 3 sec");
+            auctionService.importAuctionOwners(function(){
+                setTimeout(function() {
+                    callback();
+                }, 3000);
+            });
         }
     });
 };
@@ -45,30 +65,28 @@ module.exports.updateNext = function(callback){
 module.exports.update = function(region,realm,name,callback) {
     var self = this;
     bnetAPI.getCharacter(region, realm, name, function (error, character) {
-        if (error || character.level<100) {
-            callback();
-            return;
-        }
-        characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
-            if (error) {
-                callback();
-                return;
-            }
-            logger.info('insert/update character: ' + region + "-" + character.realm + "-" + character.name);
+        if (error)
+            return callback(error);
 
+        // Check if character have the level
+        if(character.level<100)
+            return callback();
+
+        characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
+            if (error)
+                return callback(error);
+
+            logger.info('insert/update character: ' + region + "-" + character.realm + "-" + character.name);
             self.emitCount();
 
             //Get Wlogs only if character exist
             warcraftLogsAPI.getRankings(region,character.realm,character.name,function (error,warcraftLogs) {
-                if (error) {
-                    callback();
-                    return;
-                }
+                if (error)
+                    return callback(error);
+
                 characterModel.insertOrUpdateWarcraftLogs(region,character.realm,character.name,warcraftLogs,function (error) {
-                    if (error) {
-                        callback();
-                        return;
-                    }
+                    if (error)
+                        return callback(error);
                     logger.info('insert/update wlogs for character: ' + region + "-" + character.realm + "-" + character.name);
                     callback();
                 });

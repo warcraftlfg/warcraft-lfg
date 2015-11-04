@@ -32,7 +32,7 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     //Force region to lower case
     region = region.toLowerCase();
 
-    database.setUpdate('cu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name},function(error,result){
+    database.setUpdate('cu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name,priority:priority},function(error,result){
         callback(error);
     });
 };

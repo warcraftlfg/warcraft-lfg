@@ -14,12 +14,18 @@ module.exports.getUserCharacters = function(region,accessToken,callback){
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body).characters);
         }
-        else{
-            if(error)
-                logger.error(error.message+" on fetching bnet api "+url);
-            else
-                logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+url);
-            callback(new Error("BNET_API_ERROR"));
+        else {
+            if (error) {
+                logger.error(error.message + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR"));
+            }
+            if (response.statusCode == 403) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR_DENY"));
+            }
+
+            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
+            return callback(new Error("BNET_API_ERROR"));
         }
     })
 };
@@ -31,12 +37,18 @@ module.exports.getCharacter = function(region,realm,name,callback){
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body));
         }
-        else{
-            if(error)
-                logger.error(error.message+" on fetching bnet api "+url);
-            else
-                logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+url);
-            callback(new Error("BNET_API_ERROR"));
+        else {
+            if (error) {
+                logger.verbose(error.message + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR"));
+            }
+            if (response.statusCode == 403) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR_DENY"));
+            }
+
+            logger.warn("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
+            return callback(new Error("BNET_API_ERROR"));
         }
     });
 };
@@ -47,12 +59,18 @@ module.exports.getGuild = function(region,realm,name,callback){
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body));
         }
-        else{
-            if(error)
-                logger.error(error.message+" on fetching bnet api "+url);
-            else
-                logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+url);
-            callback(new Error("BNET_API_ERROR"));
+        else {
+            if (error) {
+                logger.error(error.message + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR"));
+            }
+            if (response.statusCode == 403) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR_DENY"));
+            }
+
+            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
+            return callback(new Error("BNET_API_ERROR"));
         }
     });
 };
@@ -63,12 +81,18 @@ module.exports.getRealms = function(region,callback){
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body));
         }
-        else{
-            if(error)
-                logger.error(error.message+" on fetching bnet api "+url);
-            else
-                logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+url);
-            callback(new Error("BNET_API_ERROR"));
+        else {
+            if (error) {
+                logger.error(error.message + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR"));
+            }
+            if (response.statusCode == 403) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR_DENY"));
+            }
+
+            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
+            return callback(new Error("BNET_API_ERROR"));
         }
     });
 };
@@ -78,26 +102,37 @@ module.exports.getAuctions = function(region,realm,callback){
     request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var auctionUrl = encodeURI(JSON.parse(body).files[0].url);
-            console.log(auctionUrl);
             request(auctionUrl, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     callback(error,JSON.parse(body));
                 }
-                else{
-                    if(error)
-                        logger.error(error.message+" on fetching bnet api "+auctionUrl);
-                    else
-                        logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+auctionUrl);
-                    callback(new Error("BNET_API_ERROR"));
+                else {
+                    if (error) {
+                        logger.error(error.message + " on fetching bnet api " + auctionUrl);
+                        return callback(new Error("BNET_API_ERROR"));
+                    }
+                    if (response.statusCode == 403) {
+                        logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + auctionUrl);
+                        return callback(new Error("BNET_API_ERROR_DENY"));
+                    }
+
+                    logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + auctionUrl)
+                    return callback(new Error("BNET_API_ERROR"));
                 }
             });
         }
-        else{
-            if(error)
-                logger.error(error.message+" on fetching bnet api "+url);
-            else
-                logger.warn("Error HTTP "+response.statusCode+" on fetching bnet api "+url);
-            callback(new Error("BNET_API_ERROR"));
+        else {
+            if (error) {
+                logger.error(error.message + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR"));
+            }
+            if (response.statusCode == 403) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR_DENY"));
+            }
+
+            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
+            return callback(new Error("BNET_API_ERROR"));
         }
     });
 };
