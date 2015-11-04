@@ -60,7 +60,7 @@ module.exports.getNextToUpdate = function (callback){
 };
 
 module.exports.getPosition = function (priority,callback){
-    var database = applicationStorage.getMongoDatabase();
+    var database = applicationStorage.getRedisDatabase();
     database.getUpdateCount('gu',priority,function(error,count){
         callback(error,count);
     });
