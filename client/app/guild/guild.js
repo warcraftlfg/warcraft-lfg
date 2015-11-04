@@ -169,6 +169,7 @@
 
         socket.forward('get:guildAds',$scope);
         $scope.$on('socket:get:guildAds',function(ev,guilds){
+            console.log("ici");
             $scope.$parent.loading = false;
             $scope.guilds = $scope.guilds.concat(guilds);
         });

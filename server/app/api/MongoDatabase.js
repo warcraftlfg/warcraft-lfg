@@ -9,11 +9,12 @@ var mongodb = require("mongodb");
 var mongoClient = mongodb.MongoClient;
 
 // Configuration
-var logger = process.require("api/logger.js").get("logger");
+var logger;
 
 
 function MongoDatabase(databaseConf){
     this.conf = databaseConf;
+    logger = process.require("api/logger.js").get("logger");
 }
 
 module.exports = MongoDatabase;
