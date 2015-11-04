@@ -89,7 +89,7 @@ RedisDatabase.prototype.getUpdate = function(type,priority,callback){
     });
 };
 
-RedisDatabase.prototype.getUpdateCount = function(type,priority,callback){
+RedisDatabase.prototype.llen = function(type,priority,callback){
     this.db.llen(type+"_"+priority,function(error,value){
         if(error){
             logger.error(error.message);

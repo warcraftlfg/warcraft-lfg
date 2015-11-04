@@ -49,16 +49,14 @@ module.exports.updateNext = function(callback){
         }
         else{
             //Character Update is empty
-            logger.info("No characterUpdate Import Auction Owners and waiting 3 sec");
-            auctionService.importAuctionOwners(function(){
-                setTimeout(function() {
-                    callback();
-                }, 3000);
-            });
+            logger.info("No CharacterUpdate ... waiting 3 sec");
+            setTimeout(function() {
+                callback();
+            }, 3000);
+
         }
     });
 };
-
 
 module.exports.update = function(region,realm,name,callback) {
     var self = this;
@@ -92,6 +90,7 @@ module.exports.update = function(region,realm,name,callback) {
         });
     });
 };
+
 
 module.exports.insertOrUpdateUpdate =  function(region,realm,name,callback) {
     characterUpdateModel.insertOrUpdate(region, realm, name, 5, function (error) {

@@ -15,12 +15,19 @@ AuctionUpdateProcess.prototype.updateAuction = function() {
     });
 };
 
+AuctionUpdateProcess.prototype.feedAuctions = function(){
+    var self = this;
+    auctionService.feedAuctions(function(){
+        self.feedAuctions();
+    });
+};
+
 
 
 AuctionUpdateProcess.prototype.start = function(){
     logger.info("Starting AuctionUpdateProcess");
-    var self = this;
-    self.updateAuction();
+    this.updateAuction();
+    this.feedAuctions();
 };
 
 module.exports = AuctionUpdateProcess;

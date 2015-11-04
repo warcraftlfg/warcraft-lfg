@@ -87,6 +87,23 @@ module.exports.update = function(region,realm,name,callback){
     });
 };
 
+module.exports.feedAuctions = function(callback){
+    var self = this;
+    auctionUpdateModel.getCount(0,function(error,count){
+        if(error)
+        return callback(error);
+
+        if(count==0)
+            self.importAuctionOwners(function(error){
+                return callback(error);
+            });
+        else {
+            setTimeout(function() {
+                callback();
+            }, 3000);
+        }
+    });
+};
 module.exports.importAuctionRealms = function(callback){
 
     async.eachSeries(config.bnet_regions,function(region,callback) {
@@ -111,28 +128,21 @@ module.exports.importAuctionRealms = function(callback){
     });
 };
 
-module.exports.importAuctionOwnersLock = false;
 
 module.exports.importAuctionOwners = function(callback) {
     var self=this;
 
-    if(self.importAuctionOwnersLock)
-        return callback();
-
-    self.importAuctionOwnersLock = true;
     auctionRealmUpdateModel.getNextToUpdate(function (error, auctionRealmUpdate) {
         if (error) {
             logger.error(error.message);
-            self.importAuctionOwnersLock = false;
             return callback();
         }
         if (auctionRealmUpdate) {
             if(auctionRealmUpdate.region && auctionRealmUpdate.realm) {
                 bnetAPI.getAuctions(auctionRealmUpdate.region, auctionRealmUpdate.realm, function (error, auctions) {
-                    if (error) {
-                        self.importAuctionOwnersLock = false;
+                    if (error)
                         return callback(error);
-                    }
+
                     async.eachSeries(auctions.auctions, function (auction, callback) {
                         auctionUpdateModel.insertOrUpdate(auctionRealmUpdate.region, auction.ownerRealm, auction.owner, 0, function () {
                             logger.info("Insert Auction  to update " + auctionRealmUpdate.region + "-" + auction.ownerRealm + "-" + auction.owner);
@@ -140,20 +150,17 @@ module.exports.importAuctionOwners = function(callback) {
                         });
 
                     }, function () {
-                        self.importAuctionOwnersLock = false;
                         callback();
                     });
                 });
             }
             else {
-                self.importAuctionOwnersLock = false;
                 callback();
             }
         }
         else {
-            logger.info("No AuctionRealmUpdate ... ");
+            logger.info("No AuctionRealmUpdate found ... import them ");
             self.importAuctionRealms(function(){
-                self.importAuctionOwnersLock = false;
                 callback();
             });
         }
