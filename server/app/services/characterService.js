@@ -26,7 +26,7 @@ module.exports.updateNext = function(callback){
                 self.update(characterUpdate.region, characterUpdate.realm, characterUpdate.name, function (error) {
                     if(error && error.message == "BNET_API_ERROR_DENY") {
                         //Bnet API DENY reset the characterUpdateModel for after
-                        guildUpdateModel.insertOrUpdate(guildUpdate.region,guildUpdate.realm,guildUpdate.name,guildUpdate.priority,function(error){
+                        characterUpdateModel.insertOrUpdate(characterUpdate.region,characterUpdate.realm,characterUpdate.name,characterUpdate.priority,function(error){
                             if(error) {
                                 logger.error(error.message);
                                 return callback();
@@ -37,12 +37,10 @@ module.exports.updateNext = function(callback){
                             }, 60000);
                         });
                     }
-                    else if(error){
-                        //logger.error(error.message);
-                        return callback(error);
-                    }
-                    callback();
+                    else
+                        callback();
                 });
+
             }
             else{
                 //Character Update is already parse before

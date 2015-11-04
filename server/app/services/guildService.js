@@ -36,11 +36,8 @@ module.exports.updateNext = function(callback){
                             }, 60000);
                         });
                     }
-                    else if(error){
-                        //logger.error(error.message);
-                        return callback(error);
-                    }
-                    callback();
+                    else
+                        callback();
                 });
             }
             else{
