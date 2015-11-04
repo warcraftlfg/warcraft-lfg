@@ -19,7 +19,6 @@
     "redis":{
       "host:":"localhost",
       "port": 6379,
-      "username": "",
       "password": ""
     }
   },
@@ -37,6 +36,7 @@
   "warcraftLogs": {
     "api_key": ""
   },
-  "bnet_regions":["eu","kr","tw","us"]
+  "bnet_regions":["eu","kr","tw","us"],
+  "priorities": [10,5,0]
 
 }

@@ -1,37 +1,33 @@
 "use strict";
 
 //Module dependencies
-var cronJob = require('cron').CronJob;
 var logger = process.require("api/logger.js").get("logger");
-var auctionImportService = process.require("services/auctionImportService.js");
+var auctionService = process.require("services/auctionService.js");
 
 function AuctionUpdateProcess(){
-    this.lock = false;
 }
 
 AuctionUpdateProcess.prototype.updateAuction = function() {
     var self = this;
-    if (self.lock == false) {
-        self.lock = true;
-        auctionImportService.updateNext(function(){
-            self.lock = false;
-        });
-    }
+
+    auctionService.updateNext(function(){
+        self.updateAuction();
+    });
 };
+
+AuctionUpdateProcess.prototype.feedAuctions = function(){
+    var self = this;
+    auctionService.feedAuctions(function(){
+        self.feedAuctions();
+    });
+};
+
+
 
 AuctionUpdateProcess.prototype.start = function(){
     logger.info("Starting AuctionUpdateProcess");
-
-    //Start Cron every day at 4am
-    var self=this;
-    new cronJob('* * *  * * *',
-        function() {
-            self.updateAuction();
-        },
-        null,
-        true
-    );
-    self.updateAuction();
+    this.updateAuction();
+    this.feedAuctions();
 };
 
 module.exports = AuctionUpdateProcess;

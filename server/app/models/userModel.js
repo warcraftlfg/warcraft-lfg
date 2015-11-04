@@ -10,7 +10,7 @@ var confine = new Confine();
 
 
 module.exports.insertOrUpdate = function (user,callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
 
     //Sanitize json
     user =  confine.normalize(user,userSchema);
@@ -37,7 +37,7 @@ module.exports.insertOrUpdate = function (user,callback) {
 };
 
 module.exports.findById = function (id,callback){
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getMongoDatabase();
     database.get("users",{id:id},{_id: 0},1,function(error,user){
         if(error) {
             callback(error);

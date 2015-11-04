@@ -15,21 +15,43 @@ module.exports.updateNext = function(callback){
     var self=this;
     guildUpdateModel.getNextToUpdate(function(error,guildUpdate) {
         if (error) {
-            callback(error);
-            return;
+            logger.error(error.message);
+            return callback(error);
         }
         if (guildUpdate) {
-            self.update(guildUpdate.region,guildUpdate.realm,guildUpdate.name, function (error,guild) {
-                if (error) {
-                    callback(error);
-                    return;
-                }
-                callback(null,guild);
-            });
+            //Get Guild Update Result (json or key)
+            if(guildUpdate.region && guildUpdate.realm && guildUpdate.name) {
+                logger.info("Update Guild "+guildUpdate.region+"-"+guildUpdate.realm+"-"+guildUpdate.name);
+                self.update(guildUpdate.region, guildUpdate.realm, guildUpdate.name, function (error, guild) {
+                    if(error && error.message == "BNET_API_ERROR_DENY") {
+                        //Bnet API DENY reset the guildUpdateModel for after
+                        guildUpdateModel.insertOrUpdate(guildUpdate.region,guildUpdate.realm,guildUpdate.name,guildUpdate.priority,function(error){
+                            if(error) {
+                                logger.error(error.message);
+                                return callback();
+                            }
+                            logger.warn("Bnet Api Deny ... waiting 1 min");
+                            return setTimeout(function () {
+                                callback();
+                            }, 60000);
+                        });
+                    }
+                    else
+                        callback();
+                });
+            }
+            else{
+                //Guild Update is already parse before
+                callback();
+            }
         }
-        else
-            callback();
-
+        else{
+            //Guild Update is empty
+            logger.info("No guildUpdate ... waiting 3 sec");
+            setTimeout(function() {
+                callback();
+            }, 3000);
+        }
     });
 };
 
@@ -37,62 +59,45 @@ module.exports.update = function(region,realm,name,callback){
     var self=this;
 
     bnetAPI.getGuild(region, realm, name, function (error,guild) {
-        if (error) {
-            callback();
-            return;
-        }
+        if (error)
+            return callback(error);
 
         guildModel.insertOrUpdateBnet(region,guild.realm,guild.name,guild,function (error){
-            if (error) {
-                callback(error);
-                return;
-            }
-            logger.info('insert/update guild: ' + region + "-" + guild.realm + "-" + guild.name);
+            if (error)
+                return callback(error);
 
-
+            logger.info('insert/update guild bnet ' + region + "-" + guild.realm + "-" + guild.name);
             self.emitCount();
 
+            async.eachSeries(guild.members,function(member,callback){
+                if(member.character.level >= 100) {
+                    characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
+                        if (error)
+                            return callback(error);
 
-
-            wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
-                if (error) {
-                    callback(error);
-                    return;
+                        callback();
+                        logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
+                    });
                 }
-                if (!wowProgress){
+                else{
                     callback();
-                    return;
                 }
+            },function done(){
+                wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
+                    if (error)
+                        return callback(error);
 
-                guildModel.insertOrUpdateWowProgress(region,guild.realm,guild.name,wowProgress,function (error){
-                    if (error) {
-                        callback(error);
-                        return;
-                    }
-                    async.eachSeries(guild.members,function(member,callback){
-                        if(member.character.level >= 100) {
-                            characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
-                                if (error) {
-                                    logger.error(error.message);
-                                    callback();
-                                    return;
-                                }
-                                callback();
-                                logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
-                            });
-                        }
-                        else{
-                            callback();
-                        }
-                    },function(){
-                        callback(null);
+                    if (!wowProgress)
+                        return callback();
+
+                    guildModel.insertOrUpdateWowProgress(region,guild.realm,guild.name,wowProgress,function (error){
+                        if (error)
+                            return callback(error);
+                        logger.info("insert/update guild wowprogress"  + region + "-" +guild.realm +'-'+ guild.name);
+                        callback();
                     });
                 });
-
             });
-
-
-
         });
     });
 };

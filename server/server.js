@@ -10,6 +10,8 @@ process.require = function(filePath){
 var path = require("path");
 var async = require('async');
 var MongoDatabase = process.require("api/MongoDatabase.js");
+var RedisDatabase = process.require("api/RedisDatabase.js");
+
 var loggerAPI = process.require("api/logger.js");
 var applicationStorage = process.require("api/applicationStorage");
 
@@ -23,7 +25,6 @@ var startGuildUpdateProcess = true;
 var startCharacterUpdateProcess = true;
 var startWowProgressUpdateProcess = true;
 var startCleanerProcess = true;
-var startAuctionImportProcess = true;
 var startAuctionUpdateProcess = true;
 
 
@@ -33,7 +34,6 @@ if(process.argv.length == 3 ){
     startCharacterUpdateProcess = false;
     startWowProgressUpdateProcess = false;
     startCleanerProcess = false;
-    startAuctionImportProcess = false;
     startAuctionUpdateProcess = false;
 
     if(process.argv[2] ==="-gu")
@@ -44,8 +44,6 @@ if(process.argv.length == 3 ){
         startWowProgressUpdateProcess=true;
     if(process.argv[2] ==="-clean")
         startCleanerProcess=true;
-    if(process.argv[2] ==="-ai")
-        startAuctionImportProcess=true;
     if(process.argv[2] ==="-au")
         startAuctionUpdateProcess=true;
     if(process.argv[2] ==="-ws")
@@ -69,8 +67,6 @@ var WowProgressUpdateProcess = process.require("process/WowProgressUpdateProcess
 var wowProgressUpdateProcess = new WowProgressUpdateProcess();
 var CleanerProcess = process.require("process/CleanerProcess.js");
 var cleanerProcess = new CleanerProcess();
-var AuctionImportProcess = process.require("process/AuctionImportProcess.js");
-var auctionImportProcess = new AuctionImportProcess();
 var AuctionUpdateProcess = process.require("process/AuctionUpdateProcess.js");
 var auctionUpdateProcess = new AuctionUpdateProcess();
 
@@ -78,19 +74,32 @@ async.series([
     // Establish a connection to the database
     function(callback) {
 
-        var db = new MongoDatabase(config.database.mongodb);
+        var mongoDb = new MongoDatabase(config.database.mongodb);
+        var redisDb = new RedisDatabase(config.database.redis);
         // Establish connection to the database
-        db.connect(function(error) {
+
+        mongoDb.connect(function(error) {
             if (error) {
                 logger.error(error.message);
                 process.exit(0);
             }
 
-            applicationStorage.setDatabase(db);
+            applicationStorage.setMongoDatabase(mongoDb);
             if(startWebserver)
-                webServer.onDatabaseAvailable(db);
+                webServer.onDatabaseAvailable(mongoDb);
 
-            callback();
+            redisDb.connect(function(error) {
+                if (error) {
+                    logger.error(error.message);
+                    process.exit(0);
+                }
+                applicationStorage.setRedisDatabase(redisDb);
+
+                callback();
+
+            });
+
+
         });
     },
     // Start Process
@@ -105,10 +114,10 @@ async.series([
             wowProgressUpdateProcess.start();
         if(startCleanerProcess)
             cleanerProcess.start();
-        if(startAuctionImportProcess)
-            auctionImportProcess.start();
         if(startAuctionUpdateProcess)
             auctionUpdateProcess.start();
+
         callback();
     }
+
 ]);

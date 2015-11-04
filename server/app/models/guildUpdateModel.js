@@ -2,9 +2,12 @@
 
 //Defines dependencies
 var applicationStorage = process.require("api/applicationStorage");
+var env = process.env.NODE_ENV || "dev";
+var config = process.require("config/config."+env+".json");
+var async = require('async');
 
 module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
-    var database = applicationStorage.getDatabase();
+    var database = applicationStorage.getRedisDatabase();
 
     //Check for required attributes
     if(region == null){
@@ -29,33 +32,36 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     region = region.toLowerCase();
 
     //Create or update guildUpdate
-    database.insertOrUpdate("guild-updates",{region:region,realm:realm,name:name}, null, {region:region,realm:realm,name:name,priority:priority}, function(error){
+    database.setUpdate('gu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name,priority:priority},function(error,result){
         callback(error);
     });
 };
-
-module.exports.delete = function (region,realm,name,callback) {
-    var database = applicationStorage.getDatabase();
-    database.remove("guild-updates",{region:region,realm:realm,name:name},function(error){
-        callback(error);
-    });
-};
-
 
 module.exports.getNextToUpdate = function (callback){
-    var database = applicationStorage.getDatabase();
-    database.findAndModify("guild-updates", {},{priority:-1,_id:1},null,{remove:true}, function(error,characterUpdate){
-        if(error) {
-            callback(error);
-            return;
-        }
-        callback(null, characterUpdate.value);
+    var database = applicationStorage.getRedisDatabase();
+    async.each(config.priorities,function(priority,callback){
+        database.getUpdate('gu', priority, function (error, result) {
+            if(error){
+                return callback({error:error});
+            }
+            if(result)
+                callback({result:result});
+            else
+                callback()
+
+        });
+    },function(result){
+        if(!result)
+            return callback();
+        if(result.error)
+            return callback(result.error)
+        callback(null,result.result);
     });
 };
 
 module.exports.getPosition = function (priority,callback){
-    var database = applicationStorage.getDatabase();
-    database.count('guild-updates',{priority:{$gte:priority}},function(error,count){
+    var database = applicationStorage.getRedisDatabase();
+    database.getUpdateCount('gu',priority,function(error,count){
         callback(error,count);
     });
 };
