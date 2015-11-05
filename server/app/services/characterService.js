@@ -65,8 +65,8 @@ module.exports.update = function(region,realm,name,callback) {
             return callback(error);
 
         // Check if character have the level
-        if(character.level<100)
-            return callback();
+        /*if(character.level<100)
+            return callback();*/
 
         characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
             if (error)
