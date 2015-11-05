@@ -68,7 +68,7 @@ module.exports.getCount = function (priority,callback) {
         return;
     }
 
-    database.getUpdateCount("cu",priority,function(error,count){
+    database.getUpdateCount("au",priority,function(error,count){
         callback(error,count);
     });
 }
