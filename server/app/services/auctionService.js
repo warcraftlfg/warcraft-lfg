@@ -90,19 +90,22 @@ module.exports.update = function(region,realm,name,callback){
 
 module.exports.feedAuctions = function(callback){
     var self = this;
-    characterUpdateModel.getPosition(0,function(error,count){
+    characterUpdateModel.getPosition(0,function(error,characterUpdatecount){
         if(error)
-        return callback(error);
-
-        if(count==0)
-            self.importAuctionOwners(function(error){
+            return callback(error);
+        auctionUpdateModel.getPosition(0,function(error,auctionUpdatecount) {
+            if (error)
                 return callback(error);
-            });
-        else {
-            setTimeout(function() {
-                callback();
-            }, 3000);
-        }
+            if (characterUpdatecount == 0 && auctionUpdatecount == 0)
+                self.importAuctionOwners(function (error) {
+                    return callback(error);
+                });
+            else {
+                setTimeout(function () {
+                    callback();
+                }, 3000);
+            }
+        });
     });
 };
 module.exports.importAuctionRealms = function(callback){
