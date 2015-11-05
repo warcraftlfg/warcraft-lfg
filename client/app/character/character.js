@@ -68,11 +68,6 @@
         $scope.$on('socket:get:character',function(ev,character){
             $scope.$parent.loading = false;
             $scope.character = character
-
-            //If not exit, redirect user to dashboard
-            if(character==null)
-                $state.go("dashboard");
-
         });
 
         $scope.updateCharacter = function(){
