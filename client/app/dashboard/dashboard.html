@@ -1,9 +1,27 @@
 <div class="row dashboard-intro">
-    <div class="container text-center">
-        <h1>
-            <i class="fa fa-file-image-o"></i> [Warcraft LFG Logo]
-        </h1>
-        <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
+    <div class="container text-center" >
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                    <i class="fa fa-file-image-o"></i> [Warcraft LFG Logo]
+                </h1>
+                <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="characterSearchInput">{{"SEARCH_PLAYER"|translate}}</label>
+                    <input ng-model="guild.name" class="form-control" id="characterSearchInput">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="characterSearchInput">{{"SEARCH_GUILD"|translate}}</label>
+                    <input ng-model="guild.name" class="form-control" id="characterSearchInput">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row text-center dashboard-table">

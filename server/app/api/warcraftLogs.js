@@ -35,6 +35,7 @@ module.exports.getRankings = function(region,realm,name,callback) {
         realm = russianRealms[realm];
 
     realm = realm.replace(" ","-");
+    realm = realm.replace("'","");
 
     var url=encodeURI("https://www.warcraftlogs.com/v1/rankings/character/"+name+"/"+realm+"/"+region+"?api_key="+config.warcraftLogs.api_key);
 

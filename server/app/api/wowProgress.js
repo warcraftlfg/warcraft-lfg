@@ -72,6 +72,7 @@ module.exports.getGuildRank = function(region,realm,name,callback){
         realm = russianRealms[realm];
 
     realm = realm.replace(" ","-");
+    realm = realm.replace("'","-");
 
     var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name+"/json_rank");
     request(url, function (error, response, body) {
