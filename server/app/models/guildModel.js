@@ -194,20 +194,20 @@ module.exports.getAds = function (number,filters,callback) {
     if(filters.last){
         criteria.updated={$lt:filters.last}
     }
-    database.search("guilds", criteria, {
+    database.find("guilds", criteria, {
         name:1,
         realm:1,
         region:1,
         "ad":1,
         "bnet.side":1
-    }, number, 1, {"ad.updated":-1}, function(error,guilds){
+    }, number, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
 
 module.exports.getLastAds = function (callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.search("guilds", {ad:{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, 1, {"ad.updated":-1}, function(error,guilds){
+    database.find("guilds", {ad:{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
@@ -228,7 +228,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.search("guilds", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, -1, 1, {updated:-1}, function(error,result){
+    database.find("guilds", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 0,{updated:-1}, function(error,result){
         callback(error, result);
     });
 };
@@ -256,4 +256,22 @@ module.exports.removeId = function(region,realm,name,id, callback) {
         callback(error);
     });
 };
+
+module.exports.search = function(search, callback) {
+    if(!search || search.length <2){
+        callback(new Error('Field search is required with 2 or more characters'));
+        return;
+    }
+
+    var database = applicationStorage.getMongoDatabase();
+    database.find("guilds", {
+        $or:[
+            {name:{$regex:"^"+search+".*",$options:"i"}},
+            {realm:{$regex:"^"+search+".*",$options:"i"}},
+        ]
+    }, {name:1,realm:1,region:1,"bnet.side":1}, 3,{updated:-1}, function(error,result){
+        callback(error, result);
+    });
+};
+
 

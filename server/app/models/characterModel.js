@@ -199,7 +199,7 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.transfert){
         criteria["ad.transfert"] = filters.transfert;
     }
-    database.search("characters",criteria , {
+    database.find("characters",criteria , {
         name:1,
         realm:1,
         region:1,
@@ -212,14 +212,14 @@ module.exports.getAds = function(number, filters, callback){
         "bnet.faction":1,
         "bnet.guild.name":1
 
-    }, number, 1, {"ad.updated":-1}, function(error,characters){
+    }, number, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
 
 module.exports.getLastAds = function(callback){
     var database = applicationStorage.getMongoDatabase();
-    database.search("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, 1, {"ad.updated":-1}, function(error,characters){
+    database.find("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
@@ -241,7 +241,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.search("characters", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, -1, 1, {updated:-1}, function(error,ads){
+    database.find("characters", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 0, {updated:-1}, function(error,ads){
         callback(error, ads);
     });
 };
@@ -258,5 +258,22 @@ module.exports.getAdsCount = function (callback){
     var database = applicationStorage.getMongoDatabase();
     database.count('characters',{ad:{$exists:true}},function(error,count){
         callback(error,count);
+    });
+};
+
+module.exports.search = function(search, callback) {
+    if(!search || search.length <2){
+        callback(new Error('Field search is required with 2 or more characters'));
+        return;
+    }
+
+    var database = applicationStorage.getMongoDatabase();
+    database.find("characters", {
+        $or:[
+            {name:{$regex:"^"+search+".*",$options:"i"}},
+            {realm:{$regex:"^"+search+".*",$options:"i"}},
+        ]
+    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{updated:-1}, function(error,result){
+        callback(error, result);
     });
 };

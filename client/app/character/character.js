@@ -68,11 +68,6 @@
         $scope.$on('socket:get:character',function(ev,character){
             $scope.$parent.loading = false;
             $scope.character = character
-
-            //If not exit, redirect user to dashboard
-            if(character==null)
-                $state.go("dashboard");
-
         });
 
         $scope.updateCharacter = function(){
@@ -114,7 +109,7 @@
         $scope.$on('socket:put:characterAd',function(){
             $scope.$parent.loading = false;
             $state.go("account");
-        });         
+        });
     }
 
     CharacterDelete.$inject = ['$scope','socket','$state','$stateParams'];
@@ -143,11 +138,18 @@
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
         $scope.characters = [];
+        $scope.loading = false;
 
         $scope.filters = {};
         $scope.filters.lvlmax = true;
 
+
+
         $scope.getMoreCharacters = function(){
+            if($scope.loading)
+                return;
+
+            $scope.loading = true;
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated
             socket.emit('get:characterAds',$scope.filters);
@@ -163,6 +165,7 @@
 
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters){
+            $scope.loading = false;
             $scope.$parent.loading = false;
             $scope.characters = $scope.characters.concat(characters);
         });

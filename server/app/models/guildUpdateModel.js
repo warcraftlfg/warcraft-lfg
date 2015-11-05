@@ -32,7 +32,7 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     region = region.toLowerCase();
 
     //Create or update guildUpdate
-    database.setUpdate('gu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name},function(error,result){
+    database.setUpdate('gu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name,priority:priority},function(error,result){
         callback(error);
     });
 };
@@ -60,7 +60,11 @@ module.exports.getNextToUpdate = function (callback){
 };
 
 module.exports.getPosition = function (priority,callback){
-    var database = applicationStorage.getMongoDatabase();
+    var database = applicationStorage.getRedisDatabase();
+    if(priority == null){
+        callback(new Error('Field priority is required in guildUpdateModel'));
+        return;
+    }
     database.getUpdateCount('gu',priority,function(error,count){
         callback(error,count);
     });

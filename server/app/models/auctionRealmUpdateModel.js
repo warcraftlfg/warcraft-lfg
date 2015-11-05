@@ -27,7 +27,7 @@ module.exports.insertOrUpdate = function (region,realm,priority,callback) {
     region = region.toLowerCase();
 
     //Create or update auctionUpdate
-    database.setUpdate('aru',priority,region+'_'+realm,{region:region,realm:realm},function(error,result){
+    database.setUpdate('aru',priority,region+'_'+realm,{region:region,realm:realm,priority:priority},function(error,result){
         callback(error);
     });
 };

@@ -1,9 +1,37 @@
 <div class="row dashboard-intro">
-    <div class="container text-center">
-        <h1>
-            <i class="fa fa-file-image-o"></i> [Warcraft LFG Logo]
-        </h1>
-        <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
+    <div class="container text-center" >
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                    <i class="fa fa-file-image-o"></i> [Warcraft LFG Logo]
+                </h1>
+                <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+                <div class="form-group"  ng-blur="searchResult=null">
+                    <label for="searchInput">{{"SEARCH"|translate}}</label>
+                    <input ng-model="searchText" ng-change="search()" class="form-control" id="searchInput">
+                </div>
+                <div>
+                    <div ng-repeat="guild in searchResult.guilds">
+                        <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                            Guild - <span class="guild faction-{{guild.bnet.side}}">{{guild.name}}</span> on {{guild.realm}} ({{guild.region}})
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <div ng-repeat="character in searchResult.characters">
+                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                            Character - <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> on {{character.realm}} ({{character.region}})
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row text-center dashboard-table">
