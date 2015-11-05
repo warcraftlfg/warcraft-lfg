@@ -207,7 +207,7 @@ module.exports.getAds = function (number,filters,callback) {
 
 module.exports.getLastAds = function (callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.find("guilds", {ad:{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
+    database.find("guilds", {"ad.updated":{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
@@ -228,7 +228,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("guilds", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 0,{updated:-1}, function(error,result){
+    database.find("guilds", {id:id, "ad.updated":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 0,{updated:-1}, function(error,result){
         callback(error, result);
     });
 };
@@ -245,7 +245,7 @@ module.exports.getCount = function (callback){
 
 module.exports.getAdsCount = function (callback){
     var database = applicationStorage.getMongoDatabase();
-    database.count('guilds',{ad:{$exists:true}},function(error,count){
+    database.count('guilds',{"ad.updated":{$exists:true}},function(error,count){
         callback(error,count);
     });
 };

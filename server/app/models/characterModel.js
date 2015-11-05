@@ -219,7 +219,7 @@ module.exports.getAds = function(number, filters, callback){
 
 module.exports.getLastAds = function(callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters",{ad:{$exists:true}} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
+    database.find("characters",{"ad.updated":{$exists:true}} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
@@ -241,7 +241,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 0, {updated:-1}, function(error,ads){
+    database.find("characters", {id:id, "ad.updated":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 0, {updated:-1}, function(error,ads){
         callback(error, ads);
     });
 };
@@ -256,7 +256,7 @@ module.exports.getCount = function (callback){
 
 module.exports.getAdsCount = function (callback){
     var database = applicationStorage.getMongoDatabase();
-    database.count('characters',{ad:{$exists:true}},function(error,count){
+    database.count('characters',{"ad.updated":{$exists:true}},function(error,count){
         callback(error,count);
     });
 };
