@@ -153,6 +153,7 @@
             if($scope.loading)
                 return;
 
+            $scope.loading = true;
             if($scope.guilds.length>0)
                 $scope.filters.last = $scope.guilds[$scope.guilds.length-1].ad.updated;
             socket.emit('get:guildAds',$scope.filters);

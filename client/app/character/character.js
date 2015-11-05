@@ -149,6 +149,7 @@
             if($scope.loading)
                 return;
 
+            $scope.loading = true;
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated
             socket.emit('get:characterAds',$scope.filters);
