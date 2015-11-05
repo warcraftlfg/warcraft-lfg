@@ -123,7 +123,7 @@ MongoDatabase.prototype.get = function(collection, criteria, projection, limit, 
         });
 };
 
-MongoDatabase.prototype.search = function(collection, criteria, projection, limit, sort, callback){
+MongoDatabase.prototype.find = function(collection, criteria, projection, limit, sort, callback){
 
     var collection = this.db.collection(collection);
 

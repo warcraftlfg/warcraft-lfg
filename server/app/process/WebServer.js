@@ -17,6 +17,7 @@ var passportSocketIo = require("passport.socketio");
 var logger = process.require("api/logger.js").get("logger");
 var compress = require('compression');
 var applicationStorage = process.require('api/applicationStorage.js');
+var globalSocket = process.require('sockets/globalSocket.js');
 var userSocket = process.require('sockets/userSocket.js');
 var characterSocket = process.require('sockets/characterSocket.js');
 var guildSocket = process.require('sockets/guildSocket.js');
@@ -71,6 +72,7 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
+    globalSocket.connect();
     userSocket.connect();
     characterSocket.connect();
     guildSocket.connect();

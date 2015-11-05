@@ -8,8 +8,8 @@
     Dashboard.$inject = ['$scope','socket'];
     function Dashboard($scope,socket) {
 
-        /*jshint validthis: true */
-        var vm = this;
+
+        $scope.searchText="";
 
         //Reset error message
         $scope.$parent.error = null
@@ -28,7 +28,6 @@
         $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
             $scope.characters=characters;
         });
-
 
         socket.emit('get:charactersCount');
         socket.forward('get:charactersCount',$scope);
@@ -53,6 +52,18 @@
         $scope.$on('socket:get:guildAdsCount',function(ev,guildAdCount){
             $scope.guildAdCount=guildAdCount;
         });
+
+        socket.forward('get:search',$scope);
+        $scope.$on('socket:get:search',function(ev,searchResult){
+            console.log(searchResult);
+            $scope.searchResult=searchResult;
+        });
+
+        $scope.search = function(){
+            if($scope.searchText.length>=2)
+                socket.emit('get:search',$scope.searchText);
+        };
+
 
 
     }
