@@ -76,7 +76,7 @@ module.exports.update = function(region,realm,name,callback){
                 guildUpdateModel.insertOrUpdate(region, character.realm, character.guild.name, 0, function (error) {
                     if (error)
                         return callback(error);
-                    logger.info("Insert guild to update " + region + "-" + character.realm + "-" + character.guild.name);
+                    logger.info("Insert guild to update " + region + "-" + character.guild.realm + "-" + character.guild.name);
                     callback();
                 });
             }
