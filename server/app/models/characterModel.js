@@ -188,7 +188,7 @@ module.exports.get = function(region,realm,name,callback){
 module.exports.getAds = function(number, filters, callback){
     var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
-    var criteria ={ad:{$exists:true}};
+    var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
     if(filters.last){
         criteria.updated={$lt:filters.last}
