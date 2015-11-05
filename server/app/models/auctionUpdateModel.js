@@ -61,14 +61,3 @@ module.exports.getNextToUpdate = function (callback){
     });
 };
 
-module.exports.getCount = function (priority,callback) {
-    var database = applicationStorage.getRedisDatabase();
-    if(priority == null){
-        callback(new Error('Field priority is required in auctionUpdateModel'));
-        return;
-    }
-
-    database.getUpdateCount("au",priority,function(error,count){
-        callback(error,count);
-    });
-}

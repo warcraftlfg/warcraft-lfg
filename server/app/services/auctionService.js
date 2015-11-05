@@ -6,6 +6,7 @@ var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildService = process.require("services/guildService.js");
 var auctionUpdateModel = process.require("models/auctionUpdateModel.js")
 var auctionRealmUpdateModel = process.require("models/auctionRealmUpdateModel.js")
+var characterUpdateModel = process.require("models/characterUpdateModel.js");
 
 //Configuration
 var env = process.env.NODE_ENV || 'dev';
@@ -89,7 +90,7 @@ module.exports.update = function(region,realm,name,callback){
 
 module.exports.feedAuctions = function(callback){
     var self = this;
-    auctionUpdateModel.getCount(0,function(error,count){
+    characterUpdateModel.getPosition(0,function(error,count){
         if(error)
         return callback(error);
 
