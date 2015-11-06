@@ -12,22 +12,29 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-                <div class="form-group"  ng-blur="searchResult=null">
-                    <label for="searchInput">{{"SEARCH"|translate}}</label>
-                    <input ng-model="searchText" ng-change="search()" class="form-control" id="searchInput">
-                </div>
-                <div>
-                    <div ng-repeat="guild in searchResult.guilds">
-                        <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
-                            Guild - <span class="guild faction-{{guild.bnet.side}}">{{guild.name}}</span> on {{guild.realm}} ({{guild.region}})
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <div ng-repeat="character in searchResult.characters">
-                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                            Character - <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> on {{character.realm}} ({{character.region}})
-                        </a>
+                <div class="search-input-container">
+                    <div class="form-group has-feedback " >
+                        <label for="search-input">{{"SEARCH"|translate}}</label>
+                        <input ng-model="searchText" ng-model-options="{ debounce: 250 }" ng-change="search()" class="form-control" id="search-input" ng-blur="clearResult()">
+                        <i ng-if="searchLoading" class="fa fa-spinner fa-spin form-control-feedback"></i>
+                        <div class="search-results col-md-12 text-left" ng-if="searchResult">
+                            <div>
+                                <div class="search-results-guilds">
+                                    <div ng-repeat="guild in searchResult.guilds">
+                                        <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                                            Guild - <span class="guild faction-{{guild.bnet.side}}">{{guild.name}}</span> on {{guild.realm}} ({{guild.region}})
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="search-results-guilds">
+                                    <div ng-repeat="character in searchResult.characters">
+                                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                                            Character - <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> on {{character.realm}} ({{character.region}})
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

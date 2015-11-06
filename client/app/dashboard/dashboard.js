@@ -5,8 +5,8 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','socket'];
-    function Dashboard($scope,socket) {
+    Dashboard.$inject = ['$scope','$timeout','socket'];
+    function Dashboard($scope,$timeout,socket) {
 
 
         $scope.searchText="";
@@ -55,16 +55,22 @@
 
         socket.forward('get:search',$scope);
         $scope.$on('socket:get:search',function(ev,searchResult){
-            console.log(searchResult);
+            $scope.searchLoading = false;
             $scope.searchResult=searchResult;
         });
 
         $scope.search = function(){
-            if($scope.searchText.length>=2)
+            if($scope.searchText.length>=2){
                 socket.emit('get:search',$scope.searchText);
+                $scope.searchLoading = true;
+            }
         };
 
-
+        $scope.clearResult = function(){
+            $timeout(function(){
+               $scope.searchResult = null;
+            },125);
+        };
 
     }
 })();
