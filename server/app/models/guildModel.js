@@ -269,7 +269,7 @@ module.exports.search = function(search, callback) {
             {name:{$regex:"^"+search+".*",$options:"i"}},
             {realm:{$regex:"^"+search+".*",$options:"i"}},
         ]
-    }, {name:1,realm:1,region:1,"bnet.side":1}, 3,{updated:-1}, function(error,result){
+    }, {name:1,realm:1,region:1,"bnet.side":1}, 3,{}, function(error,result){
         callback(error, result);
     });
 };

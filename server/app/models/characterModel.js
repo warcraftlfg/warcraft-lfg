@@ -271,9 +271,9 @@ module.exports.search = function(search, callback) {
     database.find("characters", {
         $or:[
             {name:{$regex:"^"+search+".*",$options:"i"}},
-            {realm:{$regex:"^"+search+".*",$options:"i"}},
+            {realm:{$regex:"^"+search+".*",$options:"i"}}
         ]
-    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{updated:-1}, function(error,result){
+    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{}, function(error,result){
         callback(error, result);
     });
 };
