@@ -99,7 +99,6 @@
 
         socket.forward('get:guild',$scope);
         $scope.$on('socket:get:guild',function(ev,guild){
-        console.log(guild);
             $scope.$parent.loading = false;
             //If not exit, redirect user to dashboard
             if(guild==null)

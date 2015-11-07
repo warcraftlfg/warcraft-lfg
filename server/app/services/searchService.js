@@ -11,7 +11,6 @@ module.exports.search = function(search,callback){
             guildModel.search(search,function(error,guilds) {
                 if (error)
                     return callback(error);
-                console.log("guildModel")
                 callback(null,guilds);
             });
         },
@@ -19,13 +18,10 @@ module.exports.search = function(search,callback){
             characterModel.search(search,function(error,characters){
                 if (error)
                     return callback(error);
-                console.log("characterModel")
                 callback(null,characters);
             });
         }
     }, function(error,result){
-        console.log("tata"),
-        console.log(result);
         callback(error,result)
     });
 
