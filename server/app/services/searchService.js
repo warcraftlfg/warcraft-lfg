@@ -5,7 +5,6 @@ var async = require("async");
 
 module.exports.search = function(search,callback){
 
-
     async.parallel({
         guilds : function(callback){
             guildModel.search(search,function(error,guilds) {
