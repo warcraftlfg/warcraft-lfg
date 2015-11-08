@@ -1,3 +1,3 @@
-module.exports = [
-    'Gruntfile.js'
-];
+module.exports = {
+    all : ['client/app/**/*.js']
+};

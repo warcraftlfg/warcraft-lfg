@@ -48,8 +48,9 @@
 
         $scope.createGuildAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            guildIds = {region:region,realm:realm,name:name}
-            socket.emit('get:guild',guildIds);        }
+            guildIds = {region:region,realm:realm,name:name};
+            socket.emit('get:guild',guildIds);
+        };
 
     }
 
@@ -101,7 +102,7 @@
         $scope.$on('socket:get:guild',function(ev,guild){
             $scope.$parent.loading = false;
             //If not exit, redirect user to dashboard
-            if(guild==null)
+            if(guild===null)
                 $state.go("dashboard");
             $scope.guild = guild;
         });

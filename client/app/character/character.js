@@ -13,7 +13,7 @@
     CharacterCreate.$inject = ['$scope','socket','$state'];
     function CharacterCreate($scope, socket, $state) {
         //Reset error message
-        $scope.$parent.error=null
+        $scope.$parent.error=null;
 
         //Initialize $scope variables
         $scope.userCharacters = null;
@@ -48,16 +48,16 @@
 
         $scope.createCharacterAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            characterIds = {region:region,realm:realm,name:name}
+            characterIds = {region:region,realm:realm,name:name};
             socket.emit('get:character',characterIds);
 
         };
-    };
+    }
 
     CharacterRead.$inject = ["$scope","socket","$state","$stateParams"];
     function CharacterRead($scope,socket,$state,$stateParams) {
         //Reset error message
-        $scope.$parent.error=null
+        $scope.$parent.error=null;
 
         //Initialize $scope variables
         $scope.$parent.loading = true;
@@ -67,13 +67,13 @@
         socket.forward('get:character',$scope);
         $scope.$on('socket:get:character',function(ev,character){
             $scope.$parent.loading = false;
-            $scope.character = character
+            $scope.character = character;
         });
 
         $scope.updateCharacter = function(){
             $scope.$parent.loading = true;
             socket.emit('update:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
-        }
+        };
 
         socket.forward('update:character',$scope);
         $scope.$on('socket:update:character',function(ev,queuePosition){
@@ -86,7 +86,7 @@
     CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES"];
     function CharacterUpdate($scope,socket,$state,$stateParams,LANGUAGES) {
         //Reset error message
-        $scope.$parent.error=null
+        $scope.$parent.error=null;
 
         //Initialize $scope variables
         $scope.languages = LANGUAGES;
@@ -151,7 +151,7 @@
 
             $scope.loading = true;
             if($scope.characters.length>0)
-                $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated
+                $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated;
             socket.emit('get:characterAds',$scope.filters);
         };
 
