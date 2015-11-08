@@ -18,3 +18,6 @@ after_success:
   - ssh-add .travis/warcraftlfg
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - ssh warcraftlfg@warcraftlfg.com 'cd warcraft-lfg;git pull'
+
+notifications:
+  slack: wowfinder:hVSvnbLduJjFQQhen6qwFrT2
