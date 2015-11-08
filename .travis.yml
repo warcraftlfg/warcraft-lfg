@@ -4,10 +4,8 @@ services:
   - mongodb
 
 before_script:
-  - npm install -g bower mocha
-
-before_install:
   - openssl aes-256-cbc -K $encrypted_adb96b79157c_key -iv $encrypted_adb96b79157c_iv -in .travis/warcraftlfg.enc -out .travis/warcraftlfg -d
+  - npm install -g bower mocha
 
 install:
   - npm install
