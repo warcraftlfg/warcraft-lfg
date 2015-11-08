@@ -17,8 +17,6 @@ after_success:
   - chmod 600 .travis/warcraftlfg # this key should have push access
   - ssh-add .travis/warcraftlfg
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  - git config --global push.default simple
-  - git config --global user.email "travis@warcraftlfg.com"
-  - git config --global user.name "Travis CI"
-  - git remote add deploy ssh://warcraftlfg@warcraftlfg.com/home/warcraftlfg/warcraft-lfg
-  - git push deploy HEAD:deploy
+  - ssh warcraftlfg@warcraftlfg.com
+  - cd warcraft-lfg
+  - git pull
