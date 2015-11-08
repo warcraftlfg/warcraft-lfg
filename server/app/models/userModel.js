@@ -44,7 +44,7 @@ module.exports.findById = function (id,callback){
             return;
         }
         if(user.length == 0 ) {
-            callback(new Error('User ' + id + ' not found'));
+            callback(new Error('User not found'));
             return;
         }
         callback(null, user[0]);
