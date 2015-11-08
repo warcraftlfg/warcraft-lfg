@@ -6,5 +6,14 @@ services:
 before_script:
   - npm install -g bower mocha
 
+openssl aes-256-cbc -K $encrypted_adb96b79157c_key -iv $encrypted_adb96b79157c_iv -in .travis/warcraft_lfg.pem.enc -out .travis/warcraft_lfg.pem -d
+
 install:
   - npm install
+
+after_success:
+  - eval "$(ssh-agent -s)" #start the ssh agent
+  - chmod 600 .travis/warcraft_lfg.pem # this key should have push access
+  - ssh-add .travis/warcraft_lfg.pem
+  - git remote add deploy ssh://warcraftlfg@warcraftlfg.com/home/warcraftlfg/warcraft-lfg
+  - git push deploy
