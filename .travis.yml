@@ -20,4 +20,4 @@ after_success:
   - git config --global user.email "travis@warcraftlfg.com"
   - git config --global user.name "Travis CI"
   - git remote add deploy ssh://warcraftlfg@warcraftlfg.com/home/warcraftlfg/warcraft-lfg
-  - git push deploy
+  - git push deploy HEAD:deploy
