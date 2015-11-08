@@ -2,6 +2,7 @@ bower_components
 node_modules
 server/app/config/sslcert
 server/app/config/config.dev.json
+www
 
 logs
 .idea

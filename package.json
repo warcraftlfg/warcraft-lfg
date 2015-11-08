@@ -28,13 +28,20 @@
     "winston": "latest"
   },
   "devDependencies": {
-    "mocha": "latest",
-    "socket.io-client": "latest",
     "chai": "latest",
-    "proxyquire": "latest"
+    "grunt": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-watch": "^0.6.1",
+    "load-grunt-config": "latest",
+    "mocha": "latest",
+    "socket.io-client": "latest"
   },
   "scripts": {
-    "test": "mocha server/test"
+    "start": "node server/server.js",
+    "test": "mocha server/test",
+    "prestart": "grunt"
   },
   "author": "Bmagic <baptiste.routhieau@gmail.com>",
   "license": "AGPL-3.0"
