@@ -13,8 +13,8 @@ install:
 
 after_success:
   - eval "$(ssh-agent -s)" #start the ssh agent
-  - chmod 600 .travis/warcraft_lfg # this key should have push access
-  - ssh-add .travis/warcraft_lfg
+  - chmod 600 .travis/warcraftlfg # this key should have push access
+  - ssh-add .travis/warcraftlfg
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - git remote add deploy ssh://warcraftlfg@warcraftlfg.com/home/warcraft-lfg/warcraft-lfg
   - git push deploy master:deploy
