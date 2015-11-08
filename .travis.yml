@@ -1,0 +1,10 @@
+language: node_js
+
+services:
+  - mongodb
+
+before_script:
+  - npm install -g bower mocha
+
+install:
+  - npm install

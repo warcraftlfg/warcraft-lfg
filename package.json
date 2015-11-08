@@ -1,5 +1,5 @@
 {
-  "name": "wow-guild-recruit",
+  "name": "warcraftlfg",
   "version": "0.0.1",
   "description": "Guild recruitment tools for World of Warcraft",
   "private": true,
@@ -34,7 +34,7 @@
     "proxyquire": "latest"
   },
   "scripts": {
-    "postinstall": "bower install"
+    "test": "mocha server/test"
   },
   "author": "Bmagic <baptiste.routhieau@gmail.com>",
   "license": "AGPL-3.0"
