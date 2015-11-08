@@ -34,7 +34,6 @@
     "proxyquire": "latest"
   },
   "scripts": {
-    "postinstall": "bower install",
     "test": "mocha server/test"
   },
   "author": "Bmagic <baptiste.routhieau@gmail.com>",
