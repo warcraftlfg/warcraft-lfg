@@ -70,18 +70,18 @@ module.exports.update = function(region,realm,name,callback){
             self.emitCount();
 
             async.eachSeries(guild.members,function(member,callback){
-                if(member.character.level >= 100) {
-                    characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
-                        if (error)
-                            return callback(error);
+                //if(member.character.level >= 100) {
+                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
+                    if (error)
+                        return callback(error);
 
-                        callback();
-                        logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
-                    });
-                }
+                    callback();
+                    logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
+                });
+                /*}
                 else{
                     callback();
-                }
+                }*/
             },function done(){
                 wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
                     if (error)

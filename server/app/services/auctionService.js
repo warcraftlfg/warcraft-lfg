@@ -6,6 +6,7 @@ var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildService = process.require("services/guildService.js");
 var auctionUpdateModel = process.require("models/auctionUpdateModel.js")
 var auctionRealmUpdateModel = process.require("models/auctionRealmUpdateModel.js")
+var characterUpdateModel = process.require("models/characterUpdateModel.js");
 
 //Configuration
 var env = process.env.NODE_ENV || 'dev';
@@ -76,7 +77,7 @@ module.exports.update = function(region,realm,name,callback){
                 guildUpdateModel.insertOrUpdate(region, character.realm, character.guild.name, 0, function (error) {
                     if (error)
                         return callback(error);
-                    logger.info("Insert guild to update " + region + "-" + character.realm + "-" + character.guild.name);
+                    logger.info("Insert guild to update " + region + "-" + character.guild.realm + "-" + character.guild.name);
                     callback();
                 });
             }
@@ -89,19 +90,22 @@ module.exports.update = function(region,realm,name,callback){
 
 module.exports.feedAuctions = function(callback){
     var self = this;
-    auctionUpdateModel.getCount(0,function(error,count){
+    characterUpdateModel.getPosition(0,function(error,characterUpdatecount){
         if(error)
-        return callback(error);
-
-        if(count==0)
-            self.importAuctionOwners(function(error){
+            return callback(error);
+        auctionUpdateModel.getPosition(0,function(error,auctionUpdatecount) {
+            if (error)
                 return callback(error);
-            });
-        else {
-            setTimeout(function() {
-                callback();
-            }, 3000);
-        }
+            if (characterUpdatecount == 0 && auctionUpdatecount == 0)
+                self.importAuctionOwners(function (error) {
+                    return callback(error);
+                });
+            else {
+                setTimeout(function () {
+                    callback();
+                }, 3000);
+            }
+        });
     });
 };
 module.exports.importAuctionRealms = function(callback){

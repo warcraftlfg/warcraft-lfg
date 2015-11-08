@@ -189,12 +189,12 @@ module.exports.get = function(region,realm,name,callback){
 module.exports.getAds = function (number,filters,callback) {
     var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
-    var criteria ={ad:{$exists:true}};
+    var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
     if(filters.last){
         criteria.updated={$lt:filters.last}
     }
-    database.search("guilds", criteria, {
+    database.find("guilds", criteria, {
         name:1,
         realm:1,
         region:1,
@@ -207,7 +207,7 @@ module.exports.getAds = function (number,filters,callback) {
 
 module.exports.getLastAds = function (callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.search("guilds", {ad:{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
+    database.find("guilds", {"ad.updated":{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
@@ -228,7 +228,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.search("guilds", {id:id, ad:{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 0,{updated:-1}, function(error,result){
+    database.find("guilds", {id:id, "ad.updated":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 0,{updated:-1}, function(error,result){
         callback(error, result);
     });
 };
@@ -245,7 +245,7 @@ module.exports.getCount = function (callback){
 
 module.exports.getAdsCount = function (callback){
     var database = applicationStorage.getMongoDatabase();
-    database.count('guilds',{ad:{$exists:true}},function(error,count){
+    database.count('guilds',{"ad.updated":{$exists:true}},function(error,count){
         callback(error,count);
     });
 };
@@ -256,4 +256,19 @@ module.exports.removeId = function(region,realm,name,id, callback) {
         callback(error);
     });
 };
+
+module.exports.search = function(search, callback) {
+    if(!search || search.length <2){
+        callback(new Error('Field search is required with 2 or more characters'));
+        return;
+    }
+
+    var database = applicationStorage.getMongoDatabase();
+    database.find("guilds", {
+        name:{$regex:"^"+search+".*",$options:"i"}
+    }, {name:1,realm:1,region:1,"bnet.side":1}, 3,{}, function(error,result){
+        callback(error, result);
+    });
+};
+
 

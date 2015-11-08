@@ -67,11 +67,6 @@
         socket.forward('get:guild',$scope);
         $scope.$on('socket:get:guild',function(ev,guild){
             $scope.$parent.loading = false;
-
-            //If not exit, redirect user to dashboard
-            if(guild==null)
-                $state.go("dashboard");
-
             $scope.guild = guild;
         });
 
@@ -104,7 +99,6 @@
 
         socket.forward('get:guild',$scope);
         $scope.$on('socket:get:guild',function(ev,guild){
-        console.log(guild);
             $scope.$parent.loading = false;
             //If not exit, redirect user to dashboard
             if(guild==null)
@@ -150,10 +144,15 @@
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
         $scope.guilds = [];
+        $scope.loading = false;
 
         $scope.filters = {};
 
         $scope.getMoreGuilds = function(){
+            if($scope.loading)
+                return;
+
+            $scope.loading = true;
             if($scope.guilds.length>0)
                 $scope.filters.last = $scope.guilds[$scope.guilds.length-1].ad.updated;
             socket.emit('get:guildAds',$scope.filters);
@@ -169,7 +168,7 @@
 
         socket.forward('get:guildAds',$scope);
         $scope.$on('socket:get:guildAds',function(ev,guilds){
-            console.log("ici");
+            $scope.loading = false;
             $scope.$parent.loading = false;
             $scope.guilds = $scope.guilds.concat(guilds);
         });

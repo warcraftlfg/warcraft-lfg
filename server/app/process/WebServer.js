@@ -17,6 +17,7 @@ var passportSocketIo = require("passport.socketio");
 var logger = process.require("api/logger.js").get("logger");
 var compress = require('compression');
 var applicationStorage = process.require('api/applicationStorage.js');
+var globalSocket = process.require('sockets/globalSocket.js');
 var userSocket = process.require('sockets/userSocket.js');
 var characterSocket = process.require('sockets/characterSocket.js');
 var guildSocket = process.require('sockets/guildSocket.js');
@@ -35,17 +36,18 @@ function WebServer(){
 
 
     //Configuration
-    this.privateKey  = fs.readFileSync(config.server.key, 'utf8');
-    this.certificate = fs.readFileSync(config.server.crt, 'utf8');
 
-    //Initialise HTTPS Server
     this.app = express();
-    this.secureServer = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
 
-    //Initialise HTTP Server
-    this.server = http.createServer(this.app);
+    if(config.server.https){
+        this.privateKey  = fs.readFileSync(config.server.https.key, 'utf8');
+        this.certificate = fs.readFileSync(config.server.https.crt, 'utf8');
+        this.server = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
+    }
+    else
+        this.server = http.createServer(this.app);
 
-    this.io = require('socket.io')(this.secureServer);
+    this.io = require('socket.io')(this.server);
     applicationStorage.setSocketIo(this.io);
 
     //Start redis for socket.io
@@ -71,22 +73,12 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
+    globalSocket.connect();
     userSocket.connect();
     characterSocket.connect();
     guildSocket.connect();
     //Create sessionStore inside Mongodb
     var sessionStore =  new MongoStore({db: db.db});
-
-
-    //Automatic redirect to https
-    this.app.use(function(req,res,next) {
-        if (!/https/.test(req.protocol)){
-            res.redirect("https://" + req.headers.host + req.url);
-        } else {
-            return next();
-        }
-    });
-
 
     //Update Session store with opened database connection
     //Allowed server to restart without loosing any session
@@ -143,14 +135,9 @@ WebServer.prototype.start = function(){
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
-        logger.info("Server HTTP listening on port %s", server.address().port);
+        var protocol = config.server.https ? "HTTPS ": "HTTP"
+        logger.info("Server "+protocol+" listening on port %s", server.address().port);
     });
-
-    var secureServer = this.secureServer.listen(config.server.securePort, function(){
-        logger.info("Server HTTPS listening on port %s", secureServer.address().port);
-    });
-
-
 
 
 };

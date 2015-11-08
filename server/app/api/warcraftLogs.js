@@ -33,7 +33,12 @@ module.exports.getRankings = function(region,realm,name,callback) {
 
     if(region.toLowerCase() == "eu" && russianRealms[realm])
         realm = russianRealms[realm];
+
+    realm = realm.replace(" ","-");
+    realm = realm.replace("'","");
+
     var url=encodeURI("https://www.warcraftlogs.com/v1/rankings/character/"+name+"/"+realm+"/"+region+"?api_key="+config.warcraftLogs.api_key);
+
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body));

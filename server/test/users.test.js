@@ -9,32 +9,28 @@ process.require = function(filePath){
     return require(path.normalize(process.root + "/" + filePath));
 };
 
+var assert = require("chai").assert;
 var applicationStorage = process.require("api/applicationStorage.js");
 var MongoDatabase = process.require("api/MongoDatabase.js");
-var assert = require("chai").assert;
-var proxyquire =  require('proxyquire').noCallThru();
-
-var UserModel = proxyquire(process.root+"/models/UserModel.js", { bnetAPI: {bnetAPI:function(region,accessToken,callback){console.log("ICIIICI")}}});
-
-
+var userModel = process.require("models/userModel.js");
 
 describe("Users",function() {
 
-    var userModel;
     before(function(done){
         var db = new MongoDatabase({
-            "type": "mongodb",
                 "host": "localhost",
                 "port": 27017,
-                "database": "wow-guild-recruitment",
-                "username": "admin",
-                "password": "password"
+                "database": "warcraft-lfg-test"
         });
 
         db.connect(function(error) {
-            applicationStorage.setDatabase(db);
-            userModel = new UserModel();
-            db.remove("users",{},function (error,result){
+            if (error)
+                return console.error(error.message);
+
+            applicationStorage.setMongoDatabase(db);
+            db.remove("users",{},function (error){
+                if (error)
+                    return console.error(error.message);
                 done();
             });
 
@@ -42,7 +38,7 @@ describe("Users",function() {
     });
 
     it("Should create a new user", function (done) {
-        userModel.insertOrUpdate({id:1,battletag:"test#1234",accessToken:"123456789"},function(error,result){
+        userModel.insertOrUpdate({id:1,battleTag:"test#1234",accessToken:"123456789"},function(error){
             assert.equal(error, null);
             done();
         });
@@ -52,15 +48,15 @@ describe("Users",function() {
         userModel.findById(1,function(error,result){
             assert.equal(error, null);
             assert.equal(result.id, 1);
-            assert.equal(result.battletag, "test#1234");
-            assert.equal(result.accessToken, null);
+            assert.equal(result.battleTag, "test#1234");
+            assert.equal(result.accessToken, 123456789);
             assert.equal(result._id, null);
             done();
         });
     });
 
     it("Should update the user", function (done) {
-        userModel.insertOrUpdate({id:1,battletag:"test#4321",accessToken:"987654321"},function(error,result){
+        userModel.insertOrUpdate({id:1,battleTag:"test#4321",accessToken:"987654321"},function(error){
             assert.equal(error, null);
             done();
         });
@@ -68,7 +64,7 @@ describe("Users",function() {
 
     it("Should return nothing", function (done) {
         userModel.findById(2,function(error,result){
-            assert.equal(error, null);
+            assert.equal(error.message, "User not found");
             assert.equal(result, null);
             done();
         });
@@ -78,36 +74,10 @@ describe("Users",function() {
         userModel.findById(1,function(error,result){
             assert.equal(error, null);
             assert.equal(result.id, 1);
-            assert.equal(result.battletag, "test#4321");
-            assert.equal(result.accessToken, null);
+            assert.equal(result.battleTag, "test#4321");
+            assert.equal(result.accessToken, 987654321);
             assert.equal(result._id, null);
             done();
         });
     });
-
-    it("Should return the user accesstoken", function (done) {
-        userModel.getAccessToken(1,function(error,result){
-            assert.equal(error, null);
-            assert.equal(result, 987654321);
-            done();
-        });
-    });
-
-    //TODO Tester l'import de character avec un stub
-    it("Should return the user characters", function (done) {
-        userModel.getCharacters("EU",1,function(error,result){
-
-            done();
-        });
-    });
-
-
-
-
-
-
-
-
-
-
 });

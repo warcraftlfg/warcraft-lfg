@@ -64,6 +64,12 @@ module.exports.getNextToUpdate = function (callback){
 
 module.exports.getPosition = function (priority,callback){
     var database = applicationStorage.getRedisDatabase();
+
+    if(priority == null){
+        callback(new Error('Field priority is required in characterUpdateModel'));
+        return;
+    }
+
     database.getUpdateCount('cu',priority,function(error,count){
         callback(error,count);
     });

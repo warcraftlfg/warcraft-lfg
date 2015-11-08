@@ -5,11 +5,11 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','socket'];
-    function Dashboard($scope,socket) {
+    Dashboard.$inject = ['$scope','$timeout','socket'];
+    function Dashboard($scope,$timeout,socket) {
 
-        /*jshint validthis: true */
-        var vm = this;
+
+        $scope.searchText="";
 
         //Reset error message
         $scope.$parent.error = null
@@ -28,7 +28,6 @@
         $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
             $scope.characters=characters;
         });
-
 
         socket.emit('get:charactersCount');
         socket.forward('get:charactersCount',$scope);
@@ -54,6 +53,24 @@
             $scope.guildAdCount=guildAdCount;
         });
 
+        socket.forward('get:search',$scope);
+        $scope.$on('socket:get:search',function(ev,searchResult){
+            $scope.searchLoading = false;
+            $scope.searchResult=searchResult;
+        });
+
+        $scope.search = function(){
+            if($scope.searchText.length>=2){
+                socket.emit('get:search',$scope.searchText);
+                $scope.searchLoading = true;
+            }
+        };
+
+        $scope.clearResult = function(){
+            $timeout(function(){
+               $scope.searchResult = null;
+            },125);
+        };
 
     }
 })();
