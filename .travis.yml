@@ -17,4 +17,4 @@ after_success:
   - ssh-add .travis/warcraftlfg
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - git remote add deploy ssh://warcraftlfg@warcraftlfg.com/home/warcraftlfg/warcraft-lfg
-  - git push deploy master:deploy
+  - git push deploy
