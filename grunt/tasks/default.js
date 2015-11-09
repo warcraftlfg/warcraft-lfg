@@ -1,3 +1,3 @@
 module.exports = function(grunt) {
-    grunt.registerTask('default', ['clean','copy','jshint:all']);
+    grunt.registerTask('default', ['clean','copy']);
 };
