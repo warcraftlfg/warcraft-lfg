@@ -7,5 +7,12 @@ module.exports = {
             spawn: false,
         },
     },
+    css: {
+        files: ['client/assets/**/*.scss'],
+        tasks: ['sass:dev'],
+        options: {
+            spawn: false,
+        },
+    },
 
 };

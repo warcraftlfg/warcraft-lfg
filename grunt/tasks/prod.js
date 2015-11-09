@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    grunt.registerTask('prod', ['default']);
+    grunt.registerTask('prod', ['default','sass:prod']);
     //TODO Add uglify
     //TODO Add files inside index.html
 };
