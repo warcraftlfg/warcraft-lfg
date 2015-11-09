@@ -42,6 +42,7 @@
   "scripts": {
     "start": "node server/server.js",
     "test": "mocha server/test",
+    "postinstall": "bower install",
     "prestart": "grunt prod"
   },
   "author": "Bmagic <baptiste.routhieau@gmail.com>",
