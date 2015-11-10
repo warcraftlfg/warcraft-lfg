@@ -1,7 +1,7 @@
 module.exports = {
     dev: {
         files : {
-            'www/assets/css/main.css': 'client/assets/stylesheets/main.scss'
+            'client/assets/css/main.css': 'client/assets/stylesheets/main.scss'
         }
     },
     prod: {

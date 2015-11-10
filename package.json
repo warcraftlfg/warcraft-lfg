@@ -34,6 +34,7 @@
     "grunt-contrib-copy": "latest",
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-sass": "latest",
+    "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-mocha-test": "latest",
     "load-grunt-config": "latest",
