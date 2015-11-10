@@ -16,8 +16,6 @@ install:
   - npm install -g bower mocha grunt-cli
   - npm install
 
-before_script:
-  - npm start
 
 after_success:
   - eval "$(ssh-agent -s)" #start the ssh agent

@@ -35,13 +35,14 @@
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-sass": "latest",
     "grunt-contrib-watch": "latest",
+    "grunt-mocha-test": "latest",
     "load-grunt-config": "latest",
     "mocha": "latest",
     "socket.io-client": "latest"
   },
   "scripts": {
     "start": "node server/server.js",
-    "test": "mocha server/test",
+    "test": "grunt test",
     "postinstall": "bower install",
     "prestart": "grunt prod"
   },
