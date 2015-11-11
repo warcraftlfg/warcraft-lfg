@@ -1,5 +1,17 @@
 .dashboard-intro{
-  padding:100px 0;background-color:#354854;color:#fff;
+  color:#fff;
+  background: url('../images/dashboard-intro-bg.png') no-repeat center center;
+  background-size:contain;
+  height:391px;
+
+  h1{
+    background: url('../images/warcraftlfg-logo.png') no-repeat center center;
+    background-size:contain;
+    color:transparent;
+    height:82px;
+    margin:100px 0 0 0;
+  }
+
 }
 .dashboard-table{
   padding:70px 0;
