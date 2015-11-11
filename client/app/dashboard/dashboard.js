@@ -12,7 +12,7 @@
         $scope.searchText="";
 
         //Reset error message
-        $scope.$parent.error = null
+        $scope.$parent.error = null;
 
         //Initialize $scope variables
         $scope.guilds = [];
