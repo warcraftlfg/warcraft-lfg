@@ -4,24 +4,13 @@ Still in development
 
 ## Installation
 ###Requirements
-You need :
 * bower
-* nodejs
-* npm
-* mongodb
+* nodejs & npm
+* grunt
 
-###mongodb
-Add user
-```
-use wow-finder`
- db.createUser(
-   {
-     user: "admin",
-     pwd: "password",
-     roles: [ { role: "userAdmin", db: "wow-finder" } ]
-   }
- )
-```
+###Databases
+* mongodb
+* redis
 
 ###Download nodejs dependencies
 `npm install`
@@ -31,9 +20,16 @@ Generate Openssl Key & Cert. You need to specify their locations in config file.
 
 ##Configuration
 Edit and configure app/config.default.json and rename it to config.dev.json
+You need a bnet api key & warcraftlogs api key
+
+###Grunt Configuration
+If you need for production
+`grunt prod`
+
+If you need for dev
+`grunt`
 
 ##Launch
 Then go to : `https://localhost:3000/`
 
-##Cluster
-For cluster only install redis and add the redis credentials in config.
+
