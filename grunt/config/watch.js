@@ -4,6 +4,7 @@ module.exports = {
         files: ['client/app/**/*.js'],
         tasks: ['jshint'],
         options: {
+            atBegin:true,
             spawn: false,
         },
     },
@@ -11,6 +12,15 @@ module.exports = {
         files: ['client/assets/**/*.scss'],
         tasks: ['sass:dev'],
         options: {
+            atBegin:true,
+            spawn: false,
+        },
+    },
+    copy: {
+        files: ['client/**'],
+        tasks: ['copy:dev'],
+        options: {
+            atBegin:true,
             spawn: false,
         },
     },

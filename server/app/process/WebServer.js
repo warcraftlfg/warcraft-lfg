@@ -112,7 +112,7 @@ WebServer.prototype.onDatabaseAvailable = function(db){
     });
 
 
-    this.app.use('/', express.static(path.join(process.root, "../client")));
+    this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
 
 

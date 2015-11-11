@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-    grunt.registerTask('prod', ['clean','copy','sass:prod','uglify:my_target']);
-    //TODO Add uglify
-    //TODO Add files inside index.html
+    grunt.registerTask('prod', ['clean','copy:prod','sass:prod','useminPrepare','concat:generated','cssmin:generated','uglify:generated','usemin']);
+    //TODO Add filerev (not working ... )
 };

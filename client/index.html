@@ -10,7 +10,10 @@
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <!-- build:css assets/css/warcraftlfg.min.css -->
         <link href="/assets/css/main.css" rel="stylesheet">
+        <!-- endbuild -->
+
     </head>
 
     <body ng-cloak ng-controller="CoreController">
@@ -26,9 +29,9 @@
         <div data-ng-include="'app/layout/footer.html'"></div>
         <div class="modal-backdrop fade in" ng-if="loading"></div>
 
-
         <!-- Third party -->
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
         <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/vendor/moment/min/moment.min.js"></script>
@@ -40,13 +43,15 @@
         <script type="text/javascript" src="/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
         <script type="text/javascript" src="/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 
-        <!-- inject:js -->
+
+        <!-- build:js app/warcraftlfg.min.js -->
         <!-- Bootstrapping -->
         <script type="text/javascript" src="/app/app.module.js"></script>
 
         <!-- Reusable Blocks/Modules -->
         <script src="/app/blocks/socket/socket.module.js"></script>
         <script src="/app/blocks/socket/socket.js"></script>
+
 
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
@@ -77,5 +82,7 @@
         <script src="/app/guild/guild.module.js"></script>
         <script src="/app/guild/config.route.js"></script>
         <script src="/app/guild/guild.js"></script>
+        <!-- endbuild -->
+
     </body>
 </html>

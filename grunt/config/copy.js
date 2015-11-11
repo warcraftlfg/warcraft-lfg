@@ -1,5 +1,15 @@
 module.exports = {
-    copy: {
+    dev: {
+        files: [
+            {
+                expand:true,
+                cwd: 'client/',
+                src: ['**'],
+                dest: 'www/'
+            }
+        ]
+    },
+    prod: {
         files: [
             {
                 expand:true,

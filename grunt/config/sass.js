@@ -5,11 +5,8 @@ module.exports = {
         }
     },
     prod: {
-        options: {
-            style: 'compressed'
-        },
         files : {
-            'www/assets/css/main.css': 'client/assets/stylesheets/main.scss'
+            'client/assets/css/main.css': 'client/assets/stylesheets/main.scss'
         }
     }
 
