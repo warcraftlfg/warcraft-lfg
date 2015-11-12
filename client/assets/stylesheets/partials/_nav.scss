@@ -1,13 +1,19 @@
 .navbar {
   border-bottom:2px solid #fff;
+  background-color:#111;
   a {
     color: #fff;
+    margin-left:20px;
+  }
+  .navbar-header{
+    .navbar-toggle{
+      padding:0;
+    }
   }
   .navbar-brand {
     background: url('../images/warcraftlfg-logo-navbar.png') no-repeat center center ;
     height:100%;
     width:208px;
-    margin: 0 40px;
     color:transparent;
   }
 }

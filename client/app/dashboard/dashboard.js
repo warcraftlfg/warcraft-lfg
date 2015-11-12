@@ -5,14 +5,15 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','$timeout','socket'];
-    function Dashboard($scope,$timeout,socket) {
+    Dashboard.$inject = ['$scope','$timeout','socket','LANGUAGES'];
+    function Dashboard($scope,$timeout,socket,LANGUAGES) {
 
 
         $scope.searchText="";
 
         //Reset error message
         $scope.$parent.error = null;
+        $scope.languages = LANGUAGES;
 
         //Initialize $scope variables
         $scope.guilds = [];
