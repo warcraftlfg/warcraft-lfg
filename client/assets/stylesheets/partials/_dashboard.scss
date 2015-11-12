@@ -17,10 +17,20 @@
 .dashboard-form{
   padding:50px 0;
   background-color:#111;
+  .btn-default{
+    background-color:#111;
+    color:#fff;
+  }
 }
 
 .dashboard-table{
-  padding:50px 0;
+  padding:20px 0;
+  a {
+    color:#fff
+  }
+  .list-group-item{
+    background-color:#111
+  }
 }
 .dashboard-stats{
   padding:30px 0;
