@@ -12,55 +12,49 @@
         </label>
     </div>
 
-    <table class="table table-condensed" >
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Realm</th>
-            <th>Region</th>
-            <th>ilvl</th>
-            <th>Level</th>
-            <th>Guild</th>
-            <th>Language</th>
-            <th>Role</th>
-            <th>Raids per week</th>
-            <th>Transfert</th>
-            <th>Ring</th>
-            <th>WarcraftLog</th>
-            <th>Last update</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="character in characters">
-            <td>
+    <div class="row character" ng-repeat="character in characters">
+        <div class="col-md-1 faction-{{character.bnet.faction}}">
+                    <span ng-if="character.bnet.faction==1">
+                        HORDE
+                    </span>
+                   <span ng-if="character.bnet.faction==0">
+                        ALLIANCE
+                    </span>
+        </div>
+        <div class="col-md-3">
+            <div>
                 <a class="icon class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
                     {{character.name}}
                 </a>
-            </td>
-            <td>
-                {{character.realm}}
-            </td>
-            <td>
-                {{character.region|uppercase}}
-            </td>
-            <td>
-                {{character.bnet.items.averageItemLevelEquipped}}
-            </td>
-            <td>
-                {{character.bnet.level}}
-            </td>
-            <td class="guild faction-{{character.bnet.faction}}">
-                {{character.bnet.guild.name}}
-            </td>
-            <td>
-                {{character.ad.language}}
-            </td>
-            <td>
+            </div>
+            <div>
+                {{character.realm}} ({{character.region|uppercase}}) - lvl {{character.bnet.level}}
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div>
+                ilvl : {{character.bnet.items.averageItemLevelEquipped}}
+            </div>
+            <div>
+                <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
+                <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div>
+                Transfert : <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
+            </div>
+            <div>
+                Language : {{character.ad.language}}
+            </div>
+            <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
+                Role :
                 <span ng-if="character.ad.role.tank" class="icon tank"></span>
                 <span ng-if="character.ad.role.healer" class="icon heal"></span>
                 <span ng-if="character.ad.role.dps" class="icon dps"></span>
-            </td>
-            <td>
+            </div>
+            <div>
+                Raids per week :
                 <span ng-if="character.ad.raids_per_week['1_per_week']">1</span>
                 <span ng-if="character.ad.raids_per_week['2_per_week']">2</span>
                 <span ng-if="character.ad.raids_per_week['3_per_week']">3</span>
@@ -68,22 +62,25 @@
                 <span ng-if="character.ad.raids_per_week['5_per_week']">5</span>
                 <span ng-if="character.ad.raids_per_week['6_per_week']">6</span>
                 <span ng-if="character.ad.raids_per_week['7_per_week']">7</span>
-            </td>
-            <td>
-                <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
-            </td>
-            <td>
-                <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
-                <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
-            </td>
-            <td>
-                todo
-            </td>
-            <td>
-                <span am-time-ago="character.ad.updated"></span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div>
+                Warcraftlogs : (En dev)
+            </div>
+            <div>
+                Normal : <span class="icon heal">52%</span> <span class="icon dps">42%</span>
+            </div>
+            <div>
+                Heroic : <span class="icon heal">52%</span> <span class="icon dps">42%</span>
+            </div>
+            <div>
+                Mythic : <span class="icon heal">32%</span> <span class="icon tank">92%</span> <span class="icon dps">92%</span>
+            </div>
 
+        </div>
+        <div class="col-md-2">
+            Updated <span am-time-ago="character.ad.updated"></span>
+        </div>
+    </div>
 </div>
