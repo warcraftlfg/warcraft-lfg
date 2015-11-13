@@ -13,22 +13,23 @@
     </div>
 
     <div class="row character" ng-repeat="character in characters">
-        <div class="col-md-1 faction-{{character.bnet.faction}}">
-                    <span ng-if="character.bnet.faction==1">
-                        HORDE
-                    </span>
-                   <span ng-if="character.bnet.faction==0">
-                        ALLIANCE
-                    </span>
+        <div class="col-md-1">
+            <div class=" icon-large faction-{{character.bnet.faction}}"></div>
         </div>
         <div class="col-md-3">
             <div>
-                <a class="icon class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                    {{character.name}}
-                </a>
+                <h2>
+                    <a class="icon-medium class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                        {{character.name}}
+                    </a>
+                </h2>
+
             </div>
             <div>
                 {{character.realm}} ({{character.region|uppercase}}) - lvl {{character.bnet.level}}
+            </div>
+            <div>
+                Updated <span am-time-ago="character.ad.updated"></span>
             </div>
         </div>
         <div class="col-md-1">
@@ -49,9 +50,9 @@
             </div>
             <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
                 Role :
-                <span ng-if="character.ad.role.tank" class="icon tank"></span>
-                <span ng-if="character.ad.role.healer" class="icon heal"></span>
-                <span ng-if="character.ad.role.dps" class="icon dps"></span>
+                <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
+                <span ng-if="character.ad.role.healer" class="icon-small heal"></span>
+                <span ng-if="character.ad.role.dps" class="icon-small dps"></span>
             </div>
             <div>
                 Raids per week :
@@ -64,23 +65,8 @@
                 <span ng-if="character.ad.raids_per_week['7_per_week']">7</span>
             </div>
         </div>
-        <div class="col-md-3">
-            <div>
-                Warcraftlogs : (En dev)
-            </div>
-            <div>
-                Normal : <span class="icon heal">52%</span> <span class="icon dps">42%</span>
-            </div>
-            <div>
-                Heroic : <span class="icon heal">52%</span> <span class="icon dps">42%</span>
-            </div>
-            <div>
-                Mythic : <span class="icon heal">32%</span> <span class="icon tank">92%</span> <span class="icon dps">92%</span>
-            </div>
-
-        </div>
-        <div class="col-md-2">
-            Updated <span am-time-ago="character.ad.updated"></span>
+        <div class="col-md-5 character-class-{{character.bnet.class}}">
+            <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
         </div>
     </div>
 </div>
