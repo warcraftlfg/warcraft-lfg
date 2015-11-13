@@ -48,16 +48,18 @@ var winston = require("winston");
  *  - error
  */
 module.exports.get = function(name, conf){
-    if(conf){
-        // Create logger
-        winston.loggers.add(name, {
-            file: {
-                level: conf.level,
-                filename: conf.fileName,
-            }
+
+    if(conf) {
+        this.logger = new (winston.Logger)({
+            level: conf.level,
+            transports: [
+                new (winston.transports.Console)(),
+                new (winston.transports.File)({
+                    filename: conf.fileName,
+                    maxFileSize : 1048576
+                })
+            ]
         });
-
     }
-
-    return winston.loggers.get(name);
+   return this.logger;
 };

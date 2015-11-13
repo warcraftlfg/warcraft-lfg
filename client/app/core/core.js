@@ -10,7 +10,7 @@
     function Core($scope,$translate,socket) {
         $scope.setLanguage = function (key){
             $translate.use(key);
-        }
+        };
 
         $scope.user = undefined;
         

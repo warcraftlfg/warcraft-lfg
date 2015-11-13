@@ -5,41 +5,73 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','socket'];
-    function Dashboard($scope,socket) {
+    Dashboard.$inject = ['$scope','$timeout','socket','LANGUAGES'];
+    function Dashboard($scope,$timeout,socket,LANGUAGES) {
 
-        /*jshint validthis: true */
-        var vm = this;
+
+        $scope.searchText="";
 
         //Reset error message
-        $scope.$parent.error = null
+        $scope.$parent.error = null;
+        $scope.languages = LANGUAGES;
 
         //Initialize $scope variables
-        $scope.guildAds = [];
-        $scope.characterAds = [];
+        $scope.guilds = [];
+        $scope.characters = [];
 
-        socket.emit('get:guildAds');
-        socket.forward('get:guildAds',$scope);
-        $scope.$on('socket:get:guildAds',function(ev,guildAds){
-            $scope.guildAds=guildAds;
+        socket.emit('get:lastGuildAds');
+        socket.forward('get:lastGuildAds',$scope);
+        $scope.$on('socket:get:lastGuildAds',function(ev,guilds){
+            $scope.guilds=guilds;
         });
-        socket.emit('get:characterAds');
-        socket.forward('get:characterAds',$scope);
-        $scope.$on('socket:get:characterAds',function(ev,characterAds){
-            $scope.characterAds=characterAds;
+        socket.emit('get:lastCharacterAds');
+        socket.forward('get:lastCharacterAds',$scope);
+        $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
+            $scope.characters=characters;
         });
 
-
-        socket.emit('get:characterCount');
-        socket.forward('get:characterCount',$scope);
-        $scope.$on('socket:get:characterCount',function(ev,characterCount){
+        socket.emit('get:charactersCount');
+        socket.forward('get:charactersCount',$scope);
+        $scope.$on('socket:get:charactersCount',function(ev,characterCount){
             $scope.characterCount=characterCount;
         });
 
-        socket.emit('get:guildCount');
-        socket.forward('get:guildCount',$scope);
-        $scope.$on('socket:get:guildCount',function(ev,guildCount){
+        socket.emit('get:guildsCount');
+        socket.forward('get:guildsCount',$scope);
+        $scope.$on('socket:get:guildsCount',function(ev,guildCount){
             $scope.guildCount=guildCount;
         });
+
+        socket.emit('get:characterAdsCount');
+        socket.forward('get:characterAdsCount',$scope);
+        $scope.$on('socket:get:characterAdsCount',function(ev,characterAdCount){
+            $scope.characterAdCount=characterAdCount;
+        });
+
+        socket.emit('get:guildAdsCount');
+        socket.forward('get:guildAdsCount',$scope);
+        $scope.$on('socket:get:guildAdsCount',function(ev,guildAdCount){
+            $scope.guildAdCount=guildAdCount;
+        });
+
+        socket.forward('get:search',$scope);
+        $scope.$on('socket:get:search',function(ev,searchResult){
+            $scope.searchLoading = false;
+            $scope.searchResult=searchResult;
+        });
+
+        $scope.search = function(){
+            if($scope.searchText.length>=2){
+                socket.emit('get:search',$scope.searchText);
+                $scope.searchLoading = true;
+            }
+        };
+
+        $scope.clearResult = function(){
+            $timeout(function(){
+               $scope.searchResult = null;
+            },125);
+        };
+
     }
 })();

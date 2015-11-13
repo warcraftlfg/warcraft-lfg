@@ -1,17 +1,46 @@
-<div class="row">
-    <div class="col-md-12">
-        <h1>{{ characterAd.name }} - {{ characterAd.region }} {{ characterAd.realm }}</h1>
-        <h2>
-            Role : 
-            <span ng-repeat="(role,value) in characterAd.role" ng-if="value == true">{{ role|uppercase|translate }} </span>
-        </h2>
-        <h2>
-            Raid per week :
-            <span ng-repeat="(key,value) in characterAd.raids_per_week" ng-if="value == true">{{ key|uppercase|translate }} / </span>
-        </h2>
-        <h2>Primary language : {{ characterAd.language }} </h2>
-        <h2>Description : {{ characterAd.description }}</h2>
-        <h2>Battletag : {{ characterAd.user.battleTag}}</h2>
-        <code>{{characterAd.character}}</code>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
+                <i class="fa fa-refresh"></i> Update Character
+            </button>
+            <div ng-if="queuePosition">
+                <p>
+                    Position in queue :  {{queuePosition}}
+                </p>
+                <p>
+                    Please check back this page later
+                </p>
+            </div>
+            <div ng-if="!character">
+                <h1>Character not found</h1>
+                Try update to import
+            </div>
+            <div ng-if="character">
+                <h1>{{ character.name }} - {{ character.region }} {{ character.realm }}</h1>
+
+                <h2>Recruitment Data</h2>
+                <div ng-if="character.ad">
+                    <code>{{character.ad}}</code>
+                </div>
+                <div ng-if="!character.ad">
+                    This character is not looking for a guild
+                </div>
+                <h2>Character Data</h2>
+                <div ng-if="character.bnet">
+                    <code>{{character.bnet}}</code>
+                </div>
+                <div ng-if="!character.bnet">
+                    This character is not yet in our database
+                </div>
+                <h2>Character Wlogs</h2>
+                <div ng-if="character.warcraftLogs">
+                    <code>{{character.warcraftLogs}}</code>
+                </div>
+                <div ng-if="!character.warcraftLogs">
+                    This character logs are not yet in our database or doesn't exist. Try update
+                </div>
+            </div>
+        </div>
     </div>
 </div>

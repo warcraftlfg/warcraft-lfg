@@ -1,0 +1,86 @@
+
+<div class="container" infinite-scroll="getMoreCharacters()">
+    <h1>Characters</h1>
+    <div class="checkbox">
+        <label>
+            <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox"> Level 100
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
+        </label>
+    </div>
+
+    <div class="row character" ng-repeat="character in characters">
+        <div class="col-md-1 faction-{{character.bnet.faction}}">
+                    <span ng-if="character.bnet.faction==1">
+                        HORDE
+                    </span>
+                   <span ng-if="character.bnet.faction==0">
+                        ALLIANCE
+                    </span>
+        </div>
+        <div class="col-md-3">
+            <div>
+                <a class="icon class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                    {{character.name}}
+                </a>
+            </div>
+            <div>
+                {{character.realm}} ({{character.region|uppercase}}) - lvl {{character.bnet.level}}
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div>
+                ilvl : {{character.bnet.items.averageItemLevelEquipped}}
+            </div>
+            <div>
+                <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
+                <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div>
+                Transfert : <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
+            </div>
+            <div>
+                Language : {{character.ad.language}}
+            </div>
+            <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
+                Role :
+                <span ng-if="character.ad.role.tank" class="icon tank"></span>
+                <span ng-if="character.ad.role.healer" class="icon heal"></span>
+                <span ng-if="character.ad.role.dps" class="icon dps"></span>
+            </div>
+            <div>
+                Raids per week :
+                <span ng-if="character.ad.raids_per_week['1_per_week']">1</span>
+                <span ng-if="character.ad.raids_per_week['2_per_week']">2</span>
+                <span ng-if="character.ad.raids_per_week['3_per_week']">3</span>
+                <span ng-if="character.ad.raids_per_week['4_per_week']">4</span>
+                <span ng-if="character.ad.raids_per_week['5_per_week']">5</span>
+                <span ng-if="character.ad.raids_per_week['6_per_week']">6</span>
+                <span ng-if="character.ad.raids_per_week['7_per_week']">7</span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div>
+                Warcraftlogs : (En dev)
+            </div>
+            <div>
+                Normal : <span class="icon heal">52%</span> <span class="icon dps">42%</span>
+            </div>
+            <div>
+                Heroic : <span class="icon heal">52%</span> <span class="icon dps">42%</span>
+            </div>
+            <div>
+                Mythic : <span class="icon heal">32%</span> <span class="icon tank">92%</span> <span class="icon dps">92%</span>
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            Updated <span am-time-ago="character.ad.updated"></span>
+        </div>
+    </div>
+</div>

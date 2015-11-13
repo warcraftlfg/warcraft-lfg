@@ -4,18 +4,6 @@
   "description": "A WoWFinder Character Ad",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer"
-    },
-    "region": {
-      "type": "string"
-    },
-    "realm": {
-      "type": "string"
-    },
-    "name": {
-      "type": "string"
-    },
     "updated": {
       "type": "integer"
     },
@@ -24,6 +12,10 @@
     },
     "description": {
       "type": "string"
+    },
+    "transfert": {
+      "type": "boolean",
+      "default": false
     },
     "role": {
       "type": "object",

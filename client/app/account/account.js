@@ -13,7 +13,7 @@
         var vm = this;
 
         //Reset error message
-        $scope.$parent.error=null
+        $scope.$parent.error=null;
 
         //Initialize $scope variables
         $scope.$parent.loading = true;

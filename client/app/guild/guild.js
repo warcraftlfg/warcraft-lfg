@@ -18,16 +18,27 @@
         //Initialize $scope variables
         $scope.userGuilds = null;
 
+        var guildIds;
+
         socket.forward('get:userGuilds',$scope);
         $scope.$on('socket:get:userGuilds',function(ev,guilds){
             $scope.$parent.loading = false;
             $scope.userGuilds = guilds;
         });
 
+        socket.forward('get:guild',$scope);
+        $scope.$on('socket:get:guild',function(ev,guild){
+            if (guild && guild.ad)
+                socket.emit('put:guildAd',guild);
+            else{
+                guildIds.ad = {};
+                socket.emit('put:guildAd',guildIds);
+            }
+        });
+
         socket.forward('put:guildAd',$scope);
-        $scope.$on('socket:put:guildAd',function(ev,guildAd){
-            $scope.$parent.loading = false;
-            $state.go("guild-update",{region:guildAd.region,realm:guildAd.realm,name:guildAd.name});
+        $scope.$on('socket:put:guildAd',function(ev,guild){
+            $state.go("guild-update",{region:guild.region,realm:guild.realm,name:guild.name});
         });
 
         $scope.updateRegion = function(){
@@ -37,8 +48,9 @@
 
         $scope.createGuildAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            socket.emit('put:guildAd',{region:region,realm:realm,name:name});
-        }
+            guildIds = {region:region,realm:realm,name:name};
+            socket.emit('get:guild',guildIds);
+        };
 
     }
 
@@ -51,18 +63,26 @@
         $scope.guild_ad = null;
         $scope.$parent.loading = true;
 
-        socket.emit('get:guildAd',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:guildAd',$scope);
-        $scope.$on('socket:get:guildAd',function(ev,guildAd){
+        socket.forward('get:guild',$scope);
+        $scope.$on('socket:get:guild',function(ev,guild){
+            $scope.$parent.loading = false;
+            $scope.guild = guild;
+        });
+
+        $scope.updateGuild = function(){
+            $scope.$parent.loading = true;
+            socket.emit('update:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        };
+
+        socket.forward('update:guild',$scope);
+        $scope.$on('socket:update:guild',function(ev,queuePosition){
+            $scope.queuePosition = queuePosition;
             $scope.$parent.loading = false;
 
-            //If not exit, redirect user to dashboard
-            if(guildAd==null)
-                $state.go("dashboard");
-
-            $scope.guildAd = guildAd;
         });
+
 
     }
 
@@ -76,19 +96,19 @@
         $scope.$parent.loading = true;
 
 
-        socket.emit('get:guildAd',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:guildAd',$scope);
-        $scope.$on('socket:get:guildAd',function(ev,guildAd){
+        socket.forward('get:guild',$scope);
+        $scope.$on('socket:get:guild',function(ev,guild){
             $scope.$parent.loading = false;
             //If not exit, redirect user to dashboard
-            if(guildAd==null)
+            if(guild===null)
                 $state.go("dashboard");
-            $scope.guildAd = guildAd;
+            $scope.guild = guild;
         });
 
         $scope.save = function(){
-            socket.emit('put:guildAd',$scope.guildAd);
+            socket.emit('put:guildAd',$scope.guild);
             $scope.$parent.loading = true;
         };
 
@@ -105,15 +125,15 @@
         $scope.$parent.error=null;
 
         //Initialize var
-        $scope.guild_ad = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
+        $scope.guild = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
 
         $scope.delete = function(){
             $scope.$parent.loading = true;
-            socket.emit('delete:guildAd',$scope.guild_ad);
+            socket.emit('delete:guildAd',$scope.guild);
         };
 
         socket.forward('delete:guildAd',$scope);
-        $scope.$on('socket:delete:guildAd',function(ev,guild_ad){
+        $scope.$on('socket:delete:guildAd',function(ev,guild){
             $scope.$parent.loading = false;
             $state.go("account");
         });
@@ -121,6 +141,39 @@
 
     GuildList.$inject = ['$scope','socket'];
     function GuildList($scope, socket) {
+
+        $scope.$parent.error=null;
+        $scope.$parent.loading = true;
+        $scope.guilds = [];
+        $scope.loading = false;
+
+        $scope.filters = {};
+
+        $scope.getMoreGuilds = function(){
+            if($scope.loading)
+                return;
+
+            $scope.loading = true;
+            if($scope.guilds.length>0)
+                $scope.filters.last = $scope.guilds[$scope.guilds.length-1].ad.updated;
+            socket.emit('get:guildAds',$scope.filters);
+        };
+
+        $scope.updateFilters = function(){
+            $scope.$parent.loading = true;
+            $scope.filters.last = null;
+            $scope.guilds =[];
+            socket.emit('get:guildAds',$scope.filters);
+
+        };
+
+        socket.forward('get:guildAds',$scope);
+        $scope.$on('socket:get:guildAds',function(ev,guilds){
+            $scope.loading = false;
+            $scope.$parent.loading = false;
+            $scope.guilds = $scope.guilds.concat(guilds);
+        });
+
         
     }
 })();

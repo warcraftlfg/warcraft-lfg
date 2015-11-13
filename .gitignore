@@ -1,7 +1,10 @@
+bower_components
 node_modules
+client/assets/css
 server/app/config/sslcert
 server/app/config/config.dev.json
-server/app/logs/*.log
-bower_components
-
+www
+logs
+.tmp
+.sass-cache
 .idea

@@ -4,18 +4,6 @@
   "description": "A WoWFinder Guild Ad",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer"
-    },
-    "region": {
-      "type": "string"
-    },
-    "realm": {
-      "type": "string"
-    },
-    "name": {
-      "type": "string"
-    },
     "updated": {
       "type": "integer"
     },
@@ -23,6 +11,9 @@
       "type": "string"
     },
     "description": {
+      "type": "string"
+    },
+    "website": {
       "type": "string"
     },
     "recruitment": {

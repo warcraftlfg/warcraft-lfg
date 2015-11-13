@@ -1,0 +1,28 @@
+branches:
+  only:
+    - master
+
+language: node_js
+
+services:
+  - mongodb
+
+before_install:
+  - gem update --system
+  - gem install sass
+  - openssl aes-256-cbc -K $encrypted_2391dd8c7403_key -iv $encrypted_2391dd8c7403_iv -in .travis/warcraftlfg.enc -out .travis/warcraftlfg -d
+
+install:
+  - npm install -g bower mocha grunt-cli
+  - npm install
+
+
+after_success:
+  - eval "$(ssh-agent -s)" #start the ssh agent
+  - chmod 600 .travis/warcraftlfg # this key should have push access
+  - ssh-add .travis/warcraftlfg
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - ssh warcraftlfg@warcraftlfg.com 'cd warcraft-lfg;git pull;grunt prod'
+
+notifications:
+  slack: wowfinder:hVSvnbLduJjFQQhen6qwFrT2

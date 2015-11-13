@@ -1,0 +1,38 @@
+.dashboard-intro{
+  background: url('../images/dashboard-intro-bg.png') no-repeat center center $red;
+  background-size:contain;
+  height:391px;
+
+  h1{
+    background: url('../images/warcraftlfg-logo.png') no-repeat center center;
+    background-size:contain;
+    color:transparent;
+    height:82px;
+    margin:100px 0 0 0;
+  }
+
+}
+
+.dashboard-form{
+  padding:80px 0 0 0;
+  .btn-default{
+    background-color:#111;
+    color:#fff;
+  }
+}
+
+.dashboard-table{
+  padding:0 0 30px 0;
+  a {
+    color:#fff
+  }
+  .list-group-item{
+    background-color:$grey;
+    border:none;
+  }
+}
+.dashboard-stats{
+  padding:30px 0;
+  background-color:$white;
+  color:$red;
+}

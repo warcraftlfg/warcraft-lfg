@@ -1,57 +1,72 @@
 "use strict";
 
 //Defines dependencies
-var guildUpdateSchema = process.require('config/db/guildUpdateSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
-var Confine = require("confine");
+var env = process.env.NODE_ENV || "dev";
+var config = process.require("config/config."+env+".json");
+var async = require('async');
 
-//Configuration
-var confine = new Confine();
-
-module.exports.insertOrUpdate = function (guildUpdate,callback) {
-    var database = applicationStorage.getDatabase();
-
-    guildUpdate = confine.normalize(guildUpdate,guildUpdateSchema);
+module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
+    var database = applicationStorage.getRedisDatabase();
 
     //Check for required attributes
-    if(guildUpdate.region == null){
+    if(region == null){
         callback(new Error('Field region is required in GuildUpdateModel'));
         return;
     }
-    if(guildUpdate.realm == null){
+    if(realm == null){
         callback(new Error('Field realm is required in GuildUpdateModel'));
         return;
     }
-    if(guildUpdate.name == null){
+    if(name == null){
         callback(new Error('Field name is required in GuildUpdateModel'));
         return;
     }
+    if(priority == null){
+        callback(new Error('Field priority is required in GuildUpdateModel'));
+        return;
+    }
+
+
+    //Force region to lower case
+    region = region.toLowerCase();
 
     //Create or update guildUpdate
-    database.insertOrUpdate("guild-updates",{region:guildUpdate.region,realm:guildUpdate.realm,name:guildUpdate.name}, null, guildUpdate, function(error){
-        callback(error, guildUpdate);
+    database.setUpdate('gu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name,priority:priority},function(error,result){
+        callback(error);
     });
 };
 
-module.exports.delete = function (guildUpdate,callback) {
-    var database = applicationStorage.getDatabase();
-    database.remove("guild-updates",guildUpdate,function(error){
-        callback(error);
-    });
-}
+module.exports.getNextToUpdate = function (callback){
+    var database = applicationStorage.getRedisDatabase();
+    async.each(config.priorities,function(priority,callback){
+        database.getUpdate('gu', priority, function (error, result) {
+            if(error){
+                return callback({error:error});
+            }
+            if(result)
+                callback({result:result});
+            else
+                callback()
 
-module.exports.getOldest = function (callback){
-    var database = applicationStorage.getDatabase();
-    database.search("guild-updates", {}, {_id: 0}, 1, 1, {_id:1}, function(error,data){
-        if(error) {
-            callback(error);
-            return;
-        }
-        if(data.length == 0 ) {
-            callback (null,null);
-            return;
-        }
-        callback(null, data[0]);
+        });
+    },function(result){
+        if(!result)
+            return callback();
+        if(result.error)
+            return callback(result.error)
+        callback(null,result.result);
+    });
+};
+
+module.exports.getPosition = function (priority,callback){
+    var database = applicationStorage.getRedisDatabase();
+    if(priority == null){
+        callback(new Error('Field priority is required in guildUpdateModel'));
+        return;
+    }
+    database.getUpdateCount('gu',priority,function(error,count){
+        callback(error,count);
     });
 };
 

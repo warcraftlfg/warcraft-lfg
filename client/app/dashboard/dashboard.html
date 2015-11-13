@@ -1,36 +1,126 @@
-<div class="row">
-    <div class="col-md-6">
-        <h3>Dernières guildes inscrites </h3>
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="guildAd in guildAds">
-                <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">
-                    {{guildAd.name}} - {{guildAd.realm}} - {{guildAd.region}} - <span am-time-ago="guildAd.updated"></span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-6">
-        <h3>Derniers personnages inscrits </h3>
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="characterAd in characterAds">
-                <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/">
-                    {{characterAd.name}} - {{characterAd.realm}} - {{characterAd.region}} - <span am-time-ago="characterAd.updated"></span>
-                </a>
-            </li>
-        </ul>
+<div class="row dashboard-intro">
+    <div class="container text-center" >
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                    Warcraft LFG
+                </h1>
+                <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <div class="search-input-container">
+                    <div class="form-group has-feedback " >
+                        <input placeholder="Enter a player or guild name" ng-model="searchText" ng-model-options="{ debounce: 500 }" ng-change="search()" class="form-control" id="search-input" ng-blur="clearResult()">
+                        <i ng-if="searchLoading" class="fa fa-spinner fa-spin form-control-feedback"></i>
+                        <div class="search-results col-md-12 text-left" ng-if="searchResult">
+                            <div>
+                                <div class="search-results-guilds">
+                                    <div ng-repeat="guild in searchResult.guilds">
+                                        <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                                            Guild - <span class="guild faction-{{guild.bnet.side}}">{{guild.name}}</span> on {{guild.realm}} ({{guild.region}})
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="search-results-guilds">
+                                    <div ng-repeat="character in searchResult.characters">
+                                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                                            Character - <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> on {{character.realm}} ({{character.region}})
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div>
-    <h2>Stats</h2>
-        <ul>
-            <li>{{characterCount}} characters</li>
-            <li>{{guildCount}} guilds</li>
-        </ul>
+<div class="row dashboard-form">
+    <div class="container ">
+
+
+        <div class="col-md-offset-3 col-md-6">
+
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Searching for :</label>
+                    <div class="col-md-9">
+                        <select class="form-control">
+                            <option>a guild</option>
+                            <option>a character</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Zone :</label>
+                    <div class="col-md-9">
+                        <select class="form-control">
+                            <option>EU</option>
+                            <option>KR</option>
+                            <option>TW</option>
+                            <option>US</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Language :</label>
+                    <div class="col-md-9">
+                        <select class="form-control">
+                            <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="submit" class="btn btn-default">SEARCH</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row text-center dashboard-table">
+    <div class="container ">
+        <div class="col-md-6">
+            <h3>{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="guild in guilds">
+                    <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                        <span class="guild faction-{{guild.bnet.side}}">{{guild.name}}</span> - {{guild.realm}} - {{guild.region}} - {{"UPDATED"|translate}} <span am-time-ago="guild.ad.updated"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>{{"DASHBOARD_LAST_CHARACTERAD"|translate}}</h3>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="character in characters">
+                    <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                        <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> - {{character.realm}} - {{character.region}} - {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
 </div>
-
-<h2>Dashboard</h2>
-<code>
-    - Counters (Guild & Player search).<br/>
-    - Description
-</code>
+<div class="row text-center dashboard-stats">
+    <div class="container">
+        <h2>{{"LIVE_STATS"|translate}}</h2>
+        <div class="col-md-3">
+            <p class="lead">{{characterCount}} characters</p>
+        </div>
+        <div class="col-md-3">
+            <p class="lead">{{guildCount}} guilds</p>
+        </div>
+        <div class="col-md-3">
+            <p class="lead">{{characterAdCount}} characters Ads</p>
+        </div>
+        <div class="col-md-3">
+            <p class="lead">{{guildAdCount}} guilds Ads</p>
+        </div>
+    </div>
+</div>

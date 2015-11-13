@@ -5,44 +5,31 @@
  * able to share information between modules
  */
 
-var database;
+var mongoDatabase;
+var redisDatabase;
 var socketIo;
 
-/**
- * Gets the database.
- *
- * @method getDatabase
- * @return {Database} A Database object
- */
-module.exports.getDatabase = function(){
-    return database;
+
+module.exports.getMongoDatabase = function(){
+    return mongoDatabase;
 };
 
-/**
- * Sets the database.
- *
- * @method getDatabase
- * @param {Database} newDatabase The new database of the application
- */
-module.exports.setDatabase = function(newDatabase){
-    database = newDatabase;
+module.exports.setMongoDatabase = function(newDatabase){
+    mongoDatabase = newDatabase;
 };
-/**
- * Gets the socket.io
- *
- * @method getSocketIo
- * @return {Database} A Database object
- */
+
+module.exports.getRedisDatabase = function(){
+    return redisDatabase;
+};
+
+module.exports.setRedisDatabase = function(newDatabase){
+    redisDatabase = newDatabase;
+};
+
 module.exports.getSocketIo = function(){
     return socketIo;
 };
 
-/**
- * Sets the database.
- *
- * @method getDatabase
- * @param {Database} newDatabase The new database of the application
- */
 module.exports.setSocketIo = function(newsocketIo){
     socketIo = newsocketIo;
 };

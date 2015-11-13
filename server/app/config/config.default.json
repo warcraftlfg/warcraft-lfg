@@ -1,19 +1,27 @@
 {
   "server": {
     "port": 3000,
-    "key": "server/app/config/sslcert/server.key",
-    "crt": "server/app/config/sslcert/server.crt"
+    "https":{
+      "key": "server/app/config/sslcert/server.key",
+      "crt": "server/app/config/sslcert/server.crt"
+    }
   },
   "session": {
     "secret": "justbetweenyouandme"
   },
   "database": {
-    "type": "mongodb",
-    "host": "localhost",
-    "port": 27017,
-    "database": "wow-finder",
-    "username": "",
-    "password": ""
+    "mongodb": {
+      "host": "localhost",
+      "port": 27017,
+      "database": "warcraft-lfg",
+      "username": "",
+      "password": ""
+    },
+    "redis":{
+      "host:":"localhost",
+      "port": 6379,
+      "password": ""
+    }
   },
   "logger": {
     "fileName": "logs/all.log",
@@ -26,6 +34,10 @@
       "callback_url": "https://localhost:3000/auth/bnet/callback"
     }
   },
-  "bnet_regions":["eu","kr","tw","us"]
+  "warcraftLogs": {
+    "api_key": ""
+  },
+  "bnet_regions":["eu","kr","tw","us"],
+  "priorities": [10,5,0]
 
 }

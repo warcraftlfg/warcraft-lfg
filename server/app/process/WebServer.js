@@ -5,6 +5,7 @@ var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 var path = require("path");
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 var express = require("express");
 var cookieParser = require("cookie-parser");
@@ -16,6 +17,13 @@ var passportSocketIo = require("passport.socketio");
 var logger = process.require("api/logger.js").get("logger");
 var compress = require('compression');
 var applicationStorage = process.require('api/applicationStorage.js');
+var globalSocket = process.require('sockets/globalSocket.js');
+var userSocket = process.require('sockets/userSocket.js');
+var characterSocket = process.require('sockets/characterSocket.js');
+var guildSocket = process.require('sockets/guildSocket.js');
+var redis = require('redis').createClient;
+var adapter = require('socket.io-redis');
+
 
 /**
  * WebServer creates an HTTP server for the application,
@@ -24,15 +32,34 @@ var applicationStorage = process.require('api/applicationStorage.js');
  * @constructor
  */
 function WebServer(){
-    //Configuration
-    this.privateKey  = fs.readFileSync(config.server.key, 'utf8');
-    this.certificate = fs.readFileSync(config.server.crt, 'utf8');
 
-    //Initialise Server
+
+
+    //Configuration
+
     this.app = express();
-    this.server = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
+
+    if(config.server.https){
+        this.privateKey  = fs.readFileSync(config.server.https.key, 'utf8');
+        this.certificate = fs.readFileSync(config.server.https.crt, 'utf8');
+        this.server = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
+    }
+    else
+        this.server = http.createServer(this.app);
+
     this.io = require('socket.io')(this.server);
     applicationStorage.setSocketIo(this.io);
+
+    //Start redis for socket.io
+    if(config.database.redis){
+        if (config.database.redis.password){
+            var pub = redis(config.database.redis.port, config.database.redis.host, { auth_pass: config.database.redis.password });
+            var sub = redis(config.database.redis.port, config.database.redis.host, { detect_buffers: true, auth_pass: config.database.redis.password });
+            this.io.adapter(adapter({ pubClient: pub, subClient: sub }));
+        }
+        else
+            this.io.adapter(adapter({ host: config.database.redis.host, port: config.database.redis.port }));
+    }
 
 }
 
@@ -46,10 +73,10 @@ WebServer.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
-    process.require('sockets/userSocket.js')(this.io);
-    process.require('sockets/guildSocket.js')(this.io);
-    process.require('sockets/characterSocket.js')(this.io);
-
+    globalSocket.connect();
+    userSocket.connect();
+    characterSocket.connect();
+    guildSocket.connect();
     //Create sessionStore inside Mongodb
     var sessionStore =  new MongoStore({db: db.db});
 
@@ -84,11 +111,8 @@ WebServer.prototype.onDatabaseAvailable = function(db){
         res.redirect('/');
     });
 
-    //Create static repository
-    //this.app.use(express.static(path.join(process.root, "client")));
-    //this.app.use('/', express.static(process.root));
 
-    this.app.use('/', express.static(path.join(process.root, "../client")));
+    this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
 
 
@@ -111,7 +135,9 @@ WebServer.prototype.start = function(){
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
-        logger.info("Server listening on port %s", server.address().port);
+        var protocol = config.server.https ? "HTTPS ": "HTTP"
+        logger.info("Server "+protocol+" listening on port %s", server.address().port);
     });
+
 
 };
