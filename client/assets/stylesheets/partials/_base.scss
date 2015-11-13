@@ -5,9 +5,15 @@ $light: 100;
 $regular: 400;
 $bold: 600;
 
+$black: #151515;
+$grey: #252525;
+$red: #260303;
+$white: #fff;
+
+
 body{
-  color:#fff;
-  background-color:#222;
+  color: $white;
+  background-color:$black;
 }
 
 
