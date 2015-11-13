@@ -1,0 +1,10 @@
+<div class="warcraft-logs">
+    Warcraftlogs :
+    <div ng-if="difficulty[0] || difficulty[1] || difficulty[2] || difficulty[3]" ng-repeat="(key,difficulty) in warcraftLogs">
+            {{"RAID_DIFFICULTY_"+key|translate}}
+            <span ng-if="stat" ng-class="{legendary:stat>=95,epic:stat>=75&&stat<95,rare:stat>=50&&stat<75,uncommon:stat>=25&&stat<50,common:stat<25}" ng-repeat="(spec,stat) in difficulty" class=" icon-small spec-{{spec}}">{{stat}}%</span>
+    </div>
+    <div ng-if="warcraftLogs == null">
+        Logs not found ...
+    </div>
+</div>
