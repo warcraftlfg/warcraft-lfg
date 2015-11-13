@@ -1,6 +1,5 @@
 .dashboard-intro{
-  color:#fff;
-  background: url('../images/dashboard-intro-bg.png') no-repeat center center;
+  background: url('../images/dashboard-intro-bg.png') no-repeat center center $red;
   background-size:contain;
   height:391px;
 
@@ -15,8 +14,7 @@
 }
 
 .dashboard-form{
-  padding:50px 0;
-  background-color:#111;
+  padding:50px 0 0 0;
   .btn-default{
     background-color:#111;
     color:#fff;
@@ -29,10 +27,12 @@
     color:#fff
   }
   .list-group-item{
-    background-color:#111
+    background-color:$grey;
+    border:none;
   }
 }
 .dashboard-stats{
   padding:30px 0;
-  background-color:#111;
+  background-color:$white;
+  color:$red;
 }
