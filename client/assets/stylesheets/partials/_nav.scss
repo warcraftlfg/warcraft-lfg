@@ -1,9 +1,8 @@
 .navbar {
   margin-bottom:0px;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid $white;
   a {
-    color: #fff;
-    margin-left:20px;
+    color: $white;
   }
   .navbar-header{
     .navbar-toggle{
@@ -15,14 +14,15 @@
     height:100%;
     width:208px;
     color:transparent;
+    margin-right: 20px;
   }
 }
 
 .nav>li>a:focus, .nav>li>a:hover {
-  background-color: #333;
+  background-color: $hover;
 }
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
-  background-color: #333;
+  background-color: $hover;
 }
 

@@ -8,7 +8,7 @@
     background-size:contain;
     color:transparent;
     height:82px;
-    margin:110px 0 0 0;
+    margin:120px 0 0 0;
   }
   p {
     margin-top: 40px;
@@ -16,7 +16,7 @@
 }
 
 .dashboard-form{
-  padding: 60px 0 60px 0px;
+  padding: 30px 0px 30px 0px;
 
   .search-input-container i {
     color:black;
@@ -37,8 +37,6 @@
 }
 
 .dashboard-form{
-  padding:80px 0 0 0;
-
   .btn-default{
     background-color:#111;
     color:#fff;
@@ -46,7 +44,8 @@
 }
 
 .dashboard-table{
-  padding:0 0 30px 0;
+  padding:30px 0 30px 0;
+  /*background-color: #263238;*/
   a {
     color:#fff
   }
@@ -60,7 +59,7 @@
   }
 }
 .dashboard-stats{
-  padding:30px 0;
+  padding:20px 0 0 0;
   background-color:$white;
   color:$red;
 }

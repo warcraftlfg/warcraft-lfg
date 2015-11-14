@@ -7,6 +7,7 @@ $bold: 600;
 
 $black: #151515;
 $grey: #252525;
+$hover: #333333;
 $red: #260303;
 $white: #fff;
 
@@ -22,6 +23,28 @@ body{
 
 .list-group-item:first-child, .list-group-item:last-child {
 	border-radius: 0px;
+}
+
+.dropdown-menu {
+	border-radius: 0px;
+	background-color: #212121;
+	color: $white;
+	margin: 0px;
+	padding: 0px;
+}
+
+.dropdown-menu>li>a {
+	color: $white;
+	padding: 10px 20px
+}
+
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+	background-color: $hover;
+	color: $white;
+}
+
+.dropdown-menu .divider {
+	margin: 0px;
 }
 
 @import "../modules/all";
