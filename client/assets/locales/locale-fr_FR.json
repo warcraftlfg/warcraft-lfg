@@ -1,9 +1,9 @@
 {
   "CONNECT_BNET": "Connectez vous avec Battlenet",
   "ACCOUNT": "Mon compte",
-  "LOGOUT": "Déconnection",
-  "ACCOUNT_SEARCH_DESCRIPTION": "Vous êtes à la recherche d'une guilde ou de joueurs. Aller voir notre page 'Personnages' ou 'Guildes' et essayez de trouver ce qui vous correspond. Vous pouvez aussi cliquer sur les liens en dessous et améliorer votre visibilité.",
+  "LOGOUT": "DÃ©connection",
+  "ACCOUNT_SEARCH_DESCRIPTION": "Vous Ãªtes Ã  la recherche d'une guilde ou de joueurs. Aller voir notre page 'Personnages' ou 'Guildes' et essayez de trouver ce qui vous correspond. Vous pouvez aussi cliquer sur les liens en dessous et amÃ©liorer votre visibilitÃ©.",
   "ACCOUNT_SEARCH_GUILD": "Je recherche une guilde",
   "ACCOUNT_SEARCH_PLAYER": "Je recherce des joueurs",
-  "SELECT_REGION_GUILD":  "Selectionnez votre région et votre guilde"
+  "SELECT_REGION_GUILD":  "Selectionnez votre rÃ©gion et votre guilde"
 }

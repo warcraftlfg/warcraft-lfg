@@ -1,5 +1,6 @@
 .navbar {
   margin-bottom:0px;
+  border-bottom: 1px solid #fff;
   a {
     color: #fff;
     margin-left:20px;
@@ -16,3 +17,12 @@
     color:transparent;
   }
 }
+
+.nav>li>a:focus, .nav>li>a:hover {
+  background-color: #333;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+  background-color: #333;
+}
+

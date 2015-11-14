@@ -8,8 +8,15 @@
     background-size:contain;
     color:transparent;
     height:82px;
-    margin:100px 0 0 0;
+    margin:110px 0 0 0;
   }
+  p {
+    margin-top: 40px;
+  }
+}
+
+.dashboard-form{
+  padding: 60px 0 60px 0px;
 
   .search-input-container i {
     color:black;
@@ -43,9 +50,13 @@
   a {
     color:#fff
   }
+  .list-group-item:first-child {
+    border: none;
+  }
   .list-group-item{
     background-color:$grey;
     border:none;
+    border-top: 1px solid white;
   }
 }
 .dashboard-stats{
