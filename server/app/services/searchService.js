@@ -1,9 +1,11 @@
 "use strict";
 var guildModel = process.require("models/guildModel.js");
 var characterModel = process.require("models/characterModel.js");
+var realmModel = process.require("models/realmModel.js");
+
 var async = require("async");
 
-module.exports.search = function(search,callback){
+module.exports.searchGuildsAndCharacters = function(search,callback){
 
     async.parallel({
         guilds : function(callback){
@@ -24,5 +26,15 @@ module.exports.search = function(search,callback){
         callback(error,result)
     });
 
+
+};
+
+module.exports.searchRealms = function(search,callback){
+
+    realmModel.search(search,function(error,realms) {
+        if (error)
+            return callback(error);
+        callback(null,realms);
+    });
 
 };
