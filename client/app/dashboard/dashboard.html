@@ -26,7 +26,7 @@
                                 <div class="search-results-guilds">
                                     <div ng-repeat="character in searchResult.characters">
                                         <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                                            Character - <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> on {{character.realm}} ({{character.region}})
+                                            Character - <span class="icon-small class-{{character.bnet.class}}">{{character.name}}</span> on {{character.realm}} ({{character.region}})
                                         </a>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="character in characters">
                     <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                        <span class="icon class-{{character.bnet.class}}">{{character.name}}</span> - {{character.realm}} - {{character.region}} - {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
+                        <span class="icon-small class-{{character.bnet.class}}">{{character.name}}</span> - {{character.realm}} - {{character.region}} - {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
                     </a>
                 </li>
             </ul>
