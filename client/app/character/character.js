@@ -131,24 +131,23 @@
             $state.go("account");
         });
     }
-    CharacterList.$inject = ['$scope','socket'];
-    function CharacterList($scope, socket) {
+    CharacterList.$inject = ['$scope','socket','LANGUAGES'];
+    function CharacterList($scope, socket, LANGUAGES) {
 
         //Reset error message
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
         $scope.characters = [];
         $scope.loading = false;
+        $scope.languages = LANGUAGES;
 
         $scope.filters = {};
         $scope.filters.lvlmax = true;
-
-
+        $scope.filters.region = "";
 
         $scope.getMoreCharacters = function(){
             if($scope.loading)
                 return;
-
             $scope.loading = true;
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated;

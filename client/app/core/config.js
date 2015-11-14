@@ -12,11 +12,10 @@
             prefix: "assets/locales/locale-",
             suffix: ".json"
         });
-        $translateProvider.registerAvailableLanguageKeys(["en_US", "fr_FR"], {
-            "fr":"fr_FR",
+        $translateProvider.registerAvailableLanguageKeys(["en_US"], {
             "en":"en_US"
         });
-        $translateProvider.determinePreferredLanguage();
+        $translateProvider.preferredLanguage("en_US");
         $translateProvider.useSanitizeValueStrategy('escape');
 
         //Define routes

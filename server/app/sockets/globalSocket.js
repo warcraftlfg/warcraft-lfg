@@ -18,7 +18,7 @@ module.exports.connect = function(){
     io.on('connection', function(socket) {
 
         socket.on('get:search', function(search) {
-            searchService.search(search,function(error,result){
+            searchService.searchGuildsAndCharacters(search,function(error,result){
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;
@@ -26,5 +26,7 @@ module.exports.connect = function(){
                 socket.emit('get:search',result);
             });
         });
+
     });
 }
+

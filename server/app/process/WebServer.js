@@ -93,7 +93,6 @@ WebServer.prototype.onDatabaseAvailable = function(db){
     this.app.use(cookieParser());
     this.app.use(bodyParser.urlencoded({extended: true}));
     this.app.use(bodyParser.json());
-    //this.app.use(compress());            // Compress response data with gzip
     //passport Initialize : Need to be done after session settings DB
     this.app.use(passport.initialize());
     this.app.use(passport.session());

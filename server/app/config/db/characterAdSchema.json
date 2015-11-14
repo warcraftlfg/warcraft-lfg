@@ -66,6 +66,11 @@
           "default": false
         }
       }
+    },
+    "raiding_style": {
+      "type": "string",
+      "enum": ["casual","semi-hardcore", "hardcore"],
+      "default": "casual"
     }
   }
 }

@@ -58,7 +58,7 @@ module.exports.connect = function(){
         });
 
         socket.on('get:characterAds', function (filters) {
-            characterService.getAds(30,filters,function (error, characters) {
+            characterService.getAds(5,filters,function (error, characters) {
                 if (error) {
                     socket.emit("global:error", error.message);
                     return;

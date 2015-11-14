@@ -1,15 +1,39 @@
 
-<div class="container" infinite-scroll="getMoreCharacters()">
+<div class="container character-list" infinite-scroll="getMoreCharacters()">
     <h1>Characters</h1>
-    <div class="checkbox">
-        <label>
-            <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox"> Level 100
-        </label>
-    </div>
-    <div class="checkbox">
-        <label>
-            <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
-        </label>
+    <div class="form-inline filters">
+        <!--  / Class / Role  / raidperweek / ilvl -->
+        <div class="form-group">
+            <label>Region:</label>
+            <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
+                <option value=""></option>
+                <option value="eu">EU</option>
+                <option value="kr">KR</option>
+                <option value="tw">TW</option>
+                <option value="us">US</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Language :</label>
+            <select ng-model="filters.language"  ng-change="updateFilters()"  class="form-control">
+                <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    Level 100 <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    Transfert <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox">
+                </label>
+            </div>
+        </div>
+
     </div>
 
     <div class="row character" ng-repeat="character in characters">
