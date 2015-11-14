@@ -199,6 +199,12 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.transfert){
         criteria["ad.transfert"] = filters.transfert;
     }
+    if(filters.region && filters.region!=""){
+        criteria["region"] = filters.region;
+    }
+    if(filters.language && filters.language!=""){
+        criteria["ad.language"] = filters.language;
+    }
     database.find("characters",criteria , {
         name:1,
         realm:1,

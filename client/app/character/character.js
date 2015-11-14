@@ -131,46 +131,19 @@
             $state.go("account");
         });
     }
-    CharacterList.$inject = ['$scope','$timeout','socket'];
-    function CharacterList($scope, $timeout, socket) {
+    CharacterList.$inject = ['$scope','socket','LANGUAGES'];
+    function CharacterList($scope, socket, LANGUAGES) {
 
         //Reset error message
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
         $scope.characters = [];
         $scope.loading = false;
+        $scope.languages = LANGUAGES;
 
         $scope.filters = {};
         $scope.filters.lvlmax = true;
-
-
-        $scope.realmSearchText = "";
-
-        socket.forward('get:realmSearch',$scope);
-        $scope.$on('socket:get:realmSearch',function(ev,realmSearchResult){
-            console.log(realmSearchResult);
-            $scope.realmSearchLoading = false;
-            $scope.realmSearchResult=realmSearchResult;
-        });
-
-        $scope.realmSearch = function(){
-            if($scope.realmSearchText.length>=2){
-                socket.emit('get:realmSearch',$scope.realmSearchText);
-                $scope.realmSearchLoading = true;
-            }
-        };
-
-        $scope.clearRealmResult = function(){
-            $timeout(function(){
-                $scope.realmSearchResult = null;
-            },125);
-        };
-
-        $scope.setRealm = function(realm){
-            $scope.realmSearchText =  realm.name +' ('+realm.region.toUpperCase()+')';
-            $scope.filters.realm = {region:realm.region, name:realm.name};
-            $scope.updateFilters();
-        };
+        $scope.filters.region = "";
 
         $scope.getMoreCharacters = function(){
             if($scope.loading)

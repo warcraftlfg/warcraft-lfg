@@ -2,20 +2,22 @@
 <div class="container character-list" infinite-scroll="getMoreCharacters()">
     <h1>Characters</h1>
     <div class="form-inline filters">
+        <!--  / Class / Role  / raidperweek / ilvl -->
         <div class="form-group">
-            <div class="realm-search-input-container">
-                <div class="form-group has-feedback" >
-                    <input placeholder="Enter a realm name" ng-model="realmSearchText" ng-model-options="{ debounce: 500 }" ng-change="realmSearch()" class="form-control" id="realm-search-input" ng-blur="clearRealmResult()">
-                    <i ng-if="realmSearchLoading" class="fa fa-spinner fa-spin form-control-feedback"></i>
-                    <div class="realm-search-results col-md-12 text-left" ng-if="realmSearchResult">
-                        <div>
-                            <div class="realm" ng-click="setRealm(realm)" ng-repeat="realm in realmSearchResult">
-                                {{realm.name}} ({{realm.region|uppercase}})
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <label>Region:</label>
+            <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
+                <option value=""></option>
+                <option value="eu">EU</option>
+                <option value="kr">KR</option>
+                <option value="tw">TW</option>
+                <option value="us">US</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Language :</label>
+            <select ng-model="filters.language"  ng-change="updateFilters()"  class="form-control">
+                <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+            </select>
         </div>
         <div class="form-group">
             <div class="checkbox">
