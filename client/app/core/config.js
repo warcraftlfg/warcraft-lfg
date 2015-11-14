@@ -15,7 +15,7 @@
         $translateProvider.registerAvailableLanguageKeys(["en_US"], {
             "*":"en_US"
         });
-        $translateProvider.determinePreferredLanguage();
+        $translateProvider.preferredLanguage("en_US");
         $translateProvider.useSanitizeValueStrategy('escape');
 
         //Define routes

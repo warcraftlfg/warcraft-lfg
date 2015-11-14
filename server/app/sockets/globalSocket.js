@@ -27,16 +27,6 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:realmSearch', function(search) {
-            searchService.searchRealms(search,function(error,result){
-                if (error) {
-                    socket.emit("global:error", error.message);
-                    return;
-                }
-                console.log('ici');
-                socket.emit('get:realmSearch',result);
-            });
-        });
     });
 }
 
