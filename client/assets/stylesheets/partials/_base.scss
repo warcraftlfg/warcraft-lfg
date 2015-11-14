@@ -16,5 +16,12 @@ body{
   background-color:$black;
 }
 
+.form-control {
+	border-radius: 0px;
+}
+
+.list-group-item:first-child, .list-group-item:last-child {
+	border-radius: 0px;
+}
 
 @import "../modules/all";

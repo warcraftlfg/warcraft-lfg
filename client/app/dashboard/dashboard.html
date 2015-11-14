@@ -1,4 +1,4 @@
-<div class="row dashboard-intro">
+<div class="dashboard-intro">
     <div class="container text-center" >
         <div class="row">
             <div class="col-md-12">
@@ -8,11 +8,11 @@
                 <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
             </div>
         </div>
-        <div class="row">
+        <!--<div class="row">
             <div class="col-md-offset-3 col-md-6">
                 <div class="search-input-container">
                     <div class="form-group has-feedback " >
-                        <input placeholder="Enter a player or guild name" ng-model="searchText" ng-model-options="{ debounce: 500 }" ng-change="search()" class="form-control" id="search-input" ng-blur="clearResult()">
+                        <input placeholder="{{'DASHBOARD_SEARCH_PLACEHOLDER'|translate}}" ng-model="searchText" ng-model-options="{ debounce: 500 }" ng-change="search()" class="form-control" id="search-input" ng-blur="clearResult()">
                         <i ng-if="searchLoading" class="fa fa-spinner fa-spin form-control-feedback"></i>
                         <div class="search-results col-md-12 text-left" ng-if="searchResult">
                             <div>
@@ -35,27 +35,24 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
-<div class="row dashboard-form">
+<div class="dashboard-form">
     <div class="container ">
-
-
         <div class="col-md-offset-3 col-md-6">
-
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Searching for :</label>
+                    <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_TYPE"|translate}} :</label>
                     <div class="col-md-9">
                         <select class="form-control">
-                            <option>a guild</option>
-                            <option>a character</option>
+                            <option>{{"GUILD"|translate}}</option>
+                            <option>{{"PLAYER"|translate}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Zone :</label>
+                    <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_ZONE"|translate}} :</label>
                     <div class="col-md-9">
                         <select class="form-control">
                             <option>EU</option>
@@ -66,7 +63,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Language :</label>
+                    <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_LANGUAGE"|translate}} :</label>
                     <div class="col-md-9">
                         <select class="form-control">
                             <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
@@ -75,17 +72,17 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">
-                        <button type="submit" class="btn btn-default">SEARCH</button>
+                        <button type="submit" class="btn btn-default">{{"SEARCH"|translate}}</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<div class="row text-center dashboard-table">
+<div class="text-center dashboard-table">
     <div class="container ">
         <div class="col-md-6">
-            <h3>{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
+            <h3 class="m-b-20">{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="guild in guilds">
                     <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
@@ -95,11 +92,11 @@
             </ul>
         </div>
         <div class="col-md-6">
-            <h3>{{"DASHBOARD_LAST_CHARACTERAD"|translate}}</h3>
+            <h3 class="m-b-20">{{"DASHBOARD_LAST_CHARACTERAD"|translate}}</h3>
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="character in characters">
                     <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                        <span class="icon-small class-{{character.bnet.class}}">{{character.name}}</span> - {{character.realm}} - {{character.region}} - {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
+                        <span class="icon-small class-{{character.bnet.class}}">{{character.name}}</span> - {{character.realm}} - {{character.region|uppercase}} - {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
                     </a>
                 </li>
             </ul>
@@ -107,20 +104,20 @@
     </div>
 
 </div>
-<div class="row text-center dashboard-stats">
+<div class="text-center dashboard-stats">
     <div class="container">
         <h2>{{"LIVE_STATS"|translate}}</h2>
         <div class="col-md-3">
-            <p class="lead">{{characterCount}} characters</p>
+            <p class="lead">{{characterCount}} {{"CHARACTERS"|translate}}</p>
         </div>
         <div class="col-md-3">
-            <p class="lead">{{guildCount}} guilds</p>
+            <p class="lead">{{guildCount}} {{"GUILDS"|translate}}</p>
         </div>
         <div class="col-md-3">
-            <p class="lead">{{characterAdCount}} characters Ads</p>
+            <p class="lead">{{characterAdCount}} {{"CHARACTERS_ADS"|translate}}</p>
         </div>
         <div class="col-md-3">
-            <p class="lead">{{guildAdCount}} guilds Ads</p>
+            <p class="lead">{{guildAdCount}} {{"GUILDS_ADS"|translate}}</p>
         </div>
     </div>
 </div>
