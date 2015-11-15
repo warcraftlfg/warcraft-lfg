@@ -1,4 +1,24 @@
-<div class="jumbotron">
+<section class="header">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ "ACCOUNT"|translate}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ "ACCOUNT_DESCRIPTION"|translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--<div class="jumbotron">
     <div class="container">
         <h2>{{user.battletag}}</h2>
         <div class="row">
@@ -12,79 +32,93 @@
             </div>
         </div>
     </div>
-</div>
-<div class="text-center account-management">
+</div>-->
+<div class="account-management">
     <div class="container ">
-        <div class="col-md-6">
-            <h3 class="m-b-20">{{"ACCOUNT_MANAGE_GUILD_ADS"|translate}}</h3>
-            <table class="table">
-                <tr ng-repeat="guildAd in guildAds">
-                    <td class="faction-{{guildAd.bnet.side}}">
-                        <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/" class="txt-underline">
-                            {{guildAd.name}}
-                        </a>
-                    </td>
-                    <td>
-                        {{guildAd.realm}}
-                    </td>
-                    <td>
-                        {{guildAd.region|uppercase}}
-                    </td>
-                    <td>
-                        {{"UPDATED"|translate}} <span am-time-ago="guildAd.ad.updated"></span>
-                    </td>
-                    <td>
-                        <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/delete" tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr ng-show="!characterAds.length">
-                    <td>
-                        {{"NO_DATA"|translate}}
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-md-6">
-            <h3 class="m-b-20">{{"ACCOUNT_MANAGE_CHARACTER_ADS"|translate}}</h3>
-            <table class="table">
-                <tr ng-repeat="characterAd in characterAds">
-                    <td class="icon-small class-{{characterAd.bnet.class}}">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </td>
-                    <td class="class-{{characterAd.bnet.class}}">
-                        <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/" class="txt-underline">
-                            {{characterAd.name}}
-                        </a>
-                    </td>
-                    <td>
-                        {{characterAd.realm}}
-                    </td>
-                    <td>
-                        {{characterAd.region|uppercase}}
-                    </td>
-                    <td>
-                        {{"UPDATED"|translate}} <span am-time-ago="characterAd.ad.updated"></span>
-                    </td>
-                    <td>
-                        <a class="txt-no-decoration txt-white m-r-10 f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"  tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <a class="txt-no-decoration txt-white f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/delete" tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr ng-show="!characterAds.length">
-                    <td>
-                        {{"NO_DATA"|translate}}
-                    </td>
-                </tr>
-            </table>
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="m-b-20">{{"ACCOUNT_MANAGE_GUILD_ADS"|translate}}</h3>
+                <div class="m-b-15">
+                    <a class="btn btn-default" href="#/guild/create" role="button">
+                        <i class="fa fa-plus"></i> &nbsp;
+                        {{"ACCOUNT_SEARCH_PLAYER"|translate}}
+                    </a>
+                </div>
+                <table class="table">
+                    <tr ng-repeat="guildAd in guildAds">
+                        <td class="faction-{{guildAd.bnet.side}}">
+                            <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/" class="txt-underline">
+                                {{guildAd.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{guildAd.realm}}
+                        </td>
+                        <td>
+                            {{guildAd.region|uppercase}}
+                        </td>
+                        <td>
+                            {{"UPDATED"|translate}} <span am-time-ago="guildAd.ad.updated"></span>
+                        </td>
+                        <td>
+                            <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/delete" tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-show="characterAds.length <= 0">
+                        <td>
+                            {{"NO_DATA"|translate}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3 class="m-b-20">{{"ACCOUNT_MANAGE_CHARACTER_ADS"|translate}}</h3>
+                <div class="m-b-15">
+                    <a class="btn btn-default" href="#/character/create" role="button">
+                        <i class="fa fa-plus"></i> &nbsp;
+                        {{"ACCOUNT_SEARCH_GUILD"|translate}}
+                    </a>
+                </div>
+                <table class="table">
+                    <tr ng-repeat="characterAd in characterAds">
+                        <td class="icon-small class-{{characterAd.bnet.class}}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td class="class-{{characterAd.bnet.class}}">
+                            <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/" class="txt-underline">
+                                {{characterAd.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{characterAd.realm}}
+                        </td>
+                        <td>
+                            {{characterAd.region|uppercase}}
+                        </td>
+                        <td>
+                            {{"UPDATED"|translate}} <span am-time-ago="characterAd.ad.updated"></span>
+                        </td>
+                        <td>
+                            <a class="txt-no-decoration txt-white m-r-10 f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"  tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a class="txt-no-decoration txt-white f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/delete" tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-show="characterAds.length <= 0">
+                        <td>
+                            {{"NO_DATA"|translate}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

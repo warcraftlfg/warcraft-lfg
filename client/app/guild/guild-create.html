@@ -1,10 +1,32 @@
+
+<section class="header">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ "GUILD_CREATE_HEADER"|translate}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ "GUILD_CREATE_HEADER_DESCRIPTION"|translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <h2>{{"GUILD_ADD_STATE_1"|translate}}</h2>
+        <div class="col-md-4 col-lg-3">
             <form>
                 <div class="form-group">
-                    <select ng-model="region" ng-change="updateRegion()" class="form-control">
+                    <label for="region">{{ "REGION"|translate }}</label>
+                    <select ng-model="region" ng-change="updateRegion()" class="form-control" id="region">
+                        <option value=""><{{ "CHOOSE_REGION"|translate }}></option>
                         <option value="eu">EU</option>
                         <option value="kr">KR</option>
                         <option value="tw">TW</option>
@@ -12,9 +34,18 @@
                     </select>
                 </div>
             </form>
-            <p ng-repeat="guild in userGuilds">
-                <a class="btn btn-default" ng-click="createGuildAd(region,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
-            </p>
+            <div class="form-group">
+                <label for="region">{{ "GUILD_CHOOSE"|translate }}</label>
+                <p ng-if="!userGuilds.length">
+                    {{ "NO_GUILD_FOUND_FOR_REGION"|translate }}
+                </p>
+                <p ng-repeat="guild in userGuilds">
+                    <a class="btn btn-default" ng-click="createGuildAd(region,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-9">
+
         </div>
     </div>
 </div>
