@@ -142,8 +142,20 @@
         $scope.languages = LANGUAGES;
 
         $scope.filters = {};
+        $scope.filters.faction = "";
         $scope.filters.lvlmax = true;
         $scope.filters.region = "";
+        $scope.language = "";
+        $scope.filters.classes = {1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};
+        $scope.filters.role = "";
+        $scope.filters.raids_per_week = {min:1,max:7};
+
+        $scope.$watch('filters.raids_per_week.min', function() {
+            $scope.updateFilters();
+        });
+        $scope.$watch('filters.raids_per_week.max', function() {
+            $scope.updateFilters();
+        });
 
         $scope.getMoreCharacters = function(){
             if($scope.loading)

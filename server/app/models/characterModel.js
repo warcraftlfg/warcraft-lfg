@@ -196,6 +196,9 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.lvlmax){
         criteria["bnet.level"] = {$gte:100};
     }
+    if(filters.faction){
+        criteria["bnet.faction"] = parseInt(filters.faction);
+    }
     if(filters.transfert){
         criteria["ad.transfert"] = filters.transfert;
     }
@@ -204,6 +207,27 @@ module.exports.getAds = function(number, filters, callback){
     }
     if(filters.language && filters.language!=""){
         criteria["ad.language"] = filters.language;
+    }
+    if(filters.classes){
+        var classes = [];
+        for (var key in filters.classes ){
+            if(filters.classes[key]==true)
+                classes.push(parseInt(key));
+        }
+        if(classes.length >0 && classes.length <11)
+            criteria["bnet.class"] = { $in: classes};
+    }
+    if(filters.role && filters.role != ""){
+        criteria["ad.role."+filters.role] = true;
+    }
+    if(filters.raids_per_week && filters.raids_per_week.min && filters.raids_per_week.max){
+        var rpw = []
+        for(var i = filters.raids_per_week.min  ; i<=filters.raids_per_week.max; i++){
+            var obj = {};
+            obj["ad.raids_per_week."+i+"_per_week"] = true;
+            rpw.push(obj);
+        }
+        criteria["$or"] = rpw;
     }
     database.find("characters",criteria , {
         name:1,
