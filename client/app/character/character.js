@@ -15,6 +15,13 @@
         //Reset error message
         $scope.$parent.error=null;
 
+
+        //Redirect not logged_in users to home
+        $scope.$watch("$parent.user", function() {
+            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+                $state.go('dashboard');
+        });
+
         //Initialize $scope variables
         $scope.userCharacters = null;
         var characterIds;
@@ -88,6 +95,13 @@
         //Reset error message
         $scope.$parent.error=null;
 
+        //Redirect not logged_in users to home
+        $scope.$watch("$parent.user", function() {
+            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+                $state.go('dashboard');
+        });
+
+
         //Initialize $scope variables
         $scope.languages = LANGUAGES;
         $scope.$parent.loading = true;
@@ -116,6 +130,13 @@
     function CharacterDelete($scope, socket, $state, $stateParams) {
         //Reset error message
         $scope.$parent.error=null;
+
+
+        //Redirect not logged_in users to home
+        $scope.$watch("$parent.user", function() {
+            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+                $state.go('dashboard');
+        });
 
         //Initialize var
         $scope.characterAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};

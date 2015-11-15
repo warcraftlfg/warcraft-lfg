@@ -5,12 +5,18 @@
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope','socket'];
+    Account.$inject = ['$scope','$state', 'socket'];
 
-    function Account($scope,socket) {
+    function Account($scope,$state,socket) {
 
         /*jshint validthis: true */
         var vm = this;
+
+        //Redirect not logged_in users to home
+        $scope.$watch("$parent.user", function() {
+            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+                $state.go('dashboard');
+        });
 
         //Reset error message
         $scope.$parent.error=null;
