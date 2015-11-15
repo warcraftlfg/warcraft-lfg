@@ -5,12 +5,11 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','$timeout','socket','LANGUAGES'];
-    function Dashboard($scope,$timeout,socket,LANGUAGES) {
+    Dashboard.$inject = ['$scope','$state','$timeout','socket','LANGUAGES'];
+    function Dashboard($scope,$state,$timeout,socket,LANGUAGES) {
 
         $scope.$parent.loading = false;
 
-        $scope.searchText="";
 
         //Reset error message
         $scope.$parent.error = null;
@@ -19,6 +18,7 @@
         //Initialize $scope variables
         $scope.guilds = [];
         $scope.characters = [];
+        $scope.form = {type:"guild",region:"eu",language:"en"};
 
         socket.emit('get:lastGuildAds');
         socket.forward('get:lastGuildAds',$scope);
@@ -55,24 +55,31 @@
             $scope.guildAdCount=guildAdCount;
         });
 
-        socket.forward('get:search',$scope);
-        $scope.$on('socket:get:search',function(ev,searchResult){
-            $scope.searchLoading = false;
-            $scope.searchResult=searchResult;
-        });
-
-        $scope.search = function(){
-            if($scope.searchText.length>=2){
-                socket.emit('get:search',$scope.searchText);
-                $scope.searchLoading = true;
-            }
+        $scope.CTAFormSubmit = function(){
+            $state.go($scope.form.type+'-list',{region:$scope.form.region,language:$scope.form.language});
         };
 
-        $scope.clearResult = function(){
-            $timeout(function(){
-               $scope.searchResult = null;
-            },125);
-        };
+        /*
+         $scope.searchText="";
+
+         socket.forward('get:search',$scope);
+         $scope.$on('socket:get:search',function(ev,searchResult){
+         $scope.searchLoading = false;
+         $scope.searchResult=searchResult;
+         });
+
+         $scope.search = function(){
+         if($scope.searchText.length>=2){
+         socket.emit('get:search',$scope.searchText);
+         $scope.searchLoading = true;
+         }
+         };
+
+         $scope.clearResult = function(){
+         $timeout(function(){
+         $scope.searchResult = null;
+         },125);
+         };*/
 
     }
 })();

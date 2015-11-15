@@ -152,8 +152,9 @@
             $state.go("account");
         });
     }
-    CharacterList.$inject = ['$scope','socket','LANGUAGES'];
-    function CharacterList($scope, socket, LANGUAGES) {
+    CharacterList.$inject = ['$scope','$stateParams','socket','LANGUAGES'];
+    function CharacterList($scope ,$stateParams, socket, LANGUAGES) {
+
 
         //Reset error message
         $scope.$parent.error=null;
@@ -170,6 +171,12 @@
         $scope.filters.classes = {1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};
         $scope.filters.role = "";
         $scope.filters.raids_per_week = {min:1,max:7};
+
+        /* if params load filters */
+        if($stateParams.region)
+            $scope.filters.region = $stateParams.region;
+        if($stateParams.language)
+            $scope.filters.language = $stateParams.language;
 
         $scope.$watch('filters.raids_per_week.min', function() {
             $scope.updateFilters();

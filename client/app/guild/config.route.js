@@ -37,7 +37,7 @@
             })
             .state("guild-list", {
                 url: "/guild/list",
-                templateUrl: "app/guild/guild-list.html",
+                templateUrl: "app/guild/guild-list.html?region&language",
                 controlerAs: 'vm',
                 title: 'Guild list',
                 controller: "GuildListController"
