@@ -50,7 +50,7 @@
             "priest": {
               "type": "boolean",
               "default": false
-            }
+            },
             "paladin": {
               "type": "boolean",
               "default": false
