@@ -158,9 +158,7 @@
 
         //Reset error message
         $scope.$parent.error=null;
-        $scope.$parent.loading = true;
         $scope.characters = [];
-        $scope.loading = false;
         $scope.languages = LANGUAGES;
 
         $scope.filters = {};
@@ -186,15 +184,17 @@
         });
 
         $scope.getMoreCharacters = function(){
-            if($scope.loading)
+            if($scope.$parent.loading)
                 return;
-            $scope.loading = true;
+            $scope.$parent.loading = true;
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated;
             socket.emit('get:characterAds',$scope.filters);
         };
 
         $scope.updateFilters = function(){
+            if($scope.$parent.loading)
+                return;
             $scope.$parent.loading = true;
             $scope.filters.last = null;
             $scope.characters =[];
@@ -204,7 +204,6 @@
 
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters){
-            $scope.loading = false;
             $scope.$parent.loading = false;
             $scope.characters = $scope.characters.concat(characters);
         });
