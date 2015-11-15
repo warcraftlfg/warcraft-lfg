@@ -6,15 +6,31 @@ $regular: 400;
 $bold: 600;
 
 $black: #151515;
-$grey: #252525;
-$hover: #333333;
+$grey: #282828;
+$hover: #282828;
 $red: #260303;
 $white: #fff;
 
+* {
+	margin: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+.wrapper {
+	min-height: 100%;
+	margin: 0 auto -128px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.footer, .push {
+	height: 128px; /* .push must be the same height as .footer */
+}
 
 body{
   color: $white;
-  background-color:$black;
+  background-color: $grey;
 }
 
 .form-control {
@@ -45,6 +61,22 @@ body{
 
 .dropdown-menu .divider {
 	margin: 0px;
+}
+
+.table {
+  background-color: $black;
+  border-bottom: 1px solid white;
+  td.icon-small {
+    background-position: center center;
+  }
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	vertical-align: middle;
+}
+
+a, a:hover {
+	color: inherit;
 }
 
 @import "../modules/all";
