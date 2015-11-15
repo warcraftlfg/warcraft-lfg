@@ -160,6 +160,7 @@
         $scope.$parent.error=null;
         $scope.characters = [];
         $scope.languages = LANGUAGES;
+        $scope.loading = false;
 
         $scope.filters = {};
         $scope.filters.faction = "";
@@ -184,16 +185,17 @@
         });
 
         $scope.getMoreCharacters = function(){
-            if($scope.$parent.loading)
+            if($scope.$parent.loading || $scope.loading)
                 return;
-            $scope.$parent.loading = true;
+            $scope.loading = true;
+
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated;
             socket.emit('get:characterAds',$scope.filters);
         };
 
         $scope.updateFilters = function(){
-            if($scope.$parent.loading)
+            if($scope.$parent.loading || $scope.loading)
                 return;
             $scope.$parent.loading = true;
             $scope.filters.last = null;
@@ -205,6 +207,7 @@
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters){
             $scope.$parent.loading = false;
+            $scope.loading=false;
             $scope.characters = $scope.characters.concat(characters);
         });
 
