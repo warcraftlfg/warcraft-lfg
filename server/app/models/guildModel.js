@@ -187,12 +187,95 @@ module.exports.get = function(region,realm,name,callback){
 };
 
 module.exports.getAds = function (number,filters,callback) {
-    var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
     if(filters.last){
         criteria.updated={$lt:filters.last}
+    }
+    if(filters.faction){
+        criteria["bnet.side"] = parseInt(filters.faction);
+    }
+    if(filters.region && filters.region!=""){
+        criteria["region"] = filters.region;
+    }
+    if(filters.language && filters.language!=""){
+        criteria["ad.language"] = filters.language;
+    }
+    if(filters.raids_per_week && !(filters.raids_per_week.min==1 && filters.raids_per_week.max==7)){
+        var rpw = [];
+        for(var i = filters.raids_per_week.min  ; i<=filters.raids_per_week.max; i++){
+            var obj = {};
+            obj["ad.raids_per_week."+i+"_per_week"] = true;
+            rpw.push(obj);
+        }
+        criteria["$or"] = rpw;
+    }
+    if(filters.role!=null && filters.classes!=null){
+        //Horrible function for mapping role and classes ...
+        var classes = [];
+        var recruitment = [];
+
+        for (var key in filters.classes ){
+            if(filters.classes[key]==true)
+                classes.push(parseInt(key));
+        }
+
+        if(filters.role == 'tanks' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
+            if(filters.classes[1])
+                recruitment.push({"ad.recruitment.tanks.protection_warrior":true});
+            if(filters.classes[11])
+                recruitment.push({"ad.recruitment.tanks.guardian_druid":true});
+            if(filters.classes[2])
+                recruitment.push({"ad.recruitment.tanks.protection_paladin":true});
+            if(filters.classes[10])
+                recruitment.push({"ad.recruitment.tanks.brewmaster_monk":true});
+        }
+        if(filters.role == 'heals' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
+            if(filters.classes[11])
+                recruitment.push({"ad.recruitment.heals.restoration_druid":true});
+            if(filters.classes[5]) {
+                recruitment.push({"ad.recruitment.heals.discipline_priest": true});
+                recruitment.push({"ad.recruitment.heals.holy_priest": true});
+            }
+            if(filters.classes[2])
+                recruitment.push({"ad.recruitment.heals.holy_paladin":true});
+            if(filters.classes[7])
+                recruitment.push({"ad.recruitment.heals.restoration_chaman":true});
+            if(filters.classes[10])
+                recruitment.push({"ad.recruitment.heals.mistweaver_monk":true});
+        }
+        if(filters.role == 'melee_dps' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
+            if(filters.classes[11])
+                recruitment.push({"ad.recruitment.melee_dps.feral_druid":true});
+            if(filters.classes[6])
+                recruitment.push({"ad.recruitment.melee_dps.deathknight":true});
+            if(filters.classes[2])
+                recruitment.push({"ad.recruitment.melee_dps.retribution_paladin":true});
+            if(filters.classes[10])
+                recruitment.push({"ad.recruitment.melee_dps.windwalker_monk":true});
+            if(filters.classes[7])
+                recruitment.push({"ad.recruitment.melee_dps.enhancement_shaman":true});
+            if(filters.classes[1])
+                recruitment.push({"ad.recruitment.melee_dps.warrior":true});
+            if(filters.classes[4])
+                recruitment.push({"ad.recruitment.melee_dps.rogue":true});
+        }
+        if(filters.role == 'ranged_dps' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
+            if(filters.classes[5])
+                recruitment.push({"ad.recruitment.ranged_dps.shadow_priest":true});
+            if(filters.classes[7])
+                recruitment.push({"ad.recruitment.ranged_dps.elemental_shaman":true});
+            if(filters.classes[3])
+                recruitment.push({"ad.recruitment.ranged_dps.hunter":true});
+            if(filters.classes[9])
+                recruitment.push({"ad.recruitment.ranged_dps.warlock":true});
+            if(filters.classes[8])
+                recruitment.push({"ad.recruitment.ranged_dps.mage":true});
+        }
+        console.log(recruitment);
+        if(recruitment.length>0)
+            criteria["$or"] = recruitment;
     }
     database.find("guilds", criteria, {
         name:1,

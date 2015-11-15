@@ -45,34 +45,34 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_TYPE"|translate}} :</label>
                     <div class="col-md-9">
-                        <select class="form-control">
-                            <option>{{"GUILD"|lowercase|translate}}</option>
-                            <option>{{"PLAYER"|lowercase|translate}}</option>
+                        <select ng-model="form.type" class="form-control">
+                            <option value="guild">{{"GUILD"|translate}}</option>
+                            <option value="character">{{"PLAYER"|translate}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_ZONE"|translate}} :</label>
                     <div class="col-md-9">
-                        <select class="form-control">
-                            <option>EU</option>
-                            <option>KR</option>
-                            <option>TW</option>
-                            <option>US</option>
+                        <select ng-model="form.region"class="form-control">
+                            <option value="eu">EU</option>
+                            <option value="kr">KR</option>
+                            <option value="tw">TW</option>
+                            <option value="us">US</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_LANGUAGE"|translate}} :</label>
+                    <label  class="col-md-3 control-label">{{"DASHBOARD_SEARCH_LANGUAGE"|translate}} :</label>
                     <div class="col-md-9">
-                        <select class="form-control">
+                        <select ng-model="form.language" class="form-control">
                             <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group m-b-0">
                     <div class="col-md-offset-3 col-md-9">
-                        <button type="submit" class="btn btn-default">{{"SEARCH"|translate}}</button>
+                        <button type="submit" ng-click="CTAFormSubmit()" class="btn btn-default">{{"SEARCH"|translate}}</button>
                     </div>
                 </div>
             </form>
@@ -132,15 +132,35 @@
     <div class="container">
         <h2 class="m-b-20">{{"LIVE_STATS"|translate}}</h2>
         <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <div class="icon-large character"></div>
+                </div>
+            </div>
             <p class="lead">{{characterCount}} {{"CHARACTERS"|translate}}</p>
         </div>
         <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <div class="icon-large guild"></div>
+                </div>
+            </div>
             <p class="lead">{{guildCount}} {{"GUILDS"|translate}}</p>
         </div>
         <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <div class="icon-large ad"></div>
+                </div>
+            </div>
             <p class="lead">{{characterAdCount}} {{"CHARACTERS_ADS"|translate}}</p>
         </div>
         <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <div class="icon-large ad"></div>
+                </div>
+            </div>
             <p class="lead">{{guildAdCount}} {{"GUILDS_ADS"|translate}}</p>
         </div>
     </div>

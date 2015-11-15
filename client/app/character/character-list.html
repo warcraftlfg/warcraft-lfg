@@ -66,7 +66,6 @@
         <div class="form-group">
             <label>Raids per week</label>  {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
             <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
-
         </div>
     </div>
 
@@ -126,5 +125,8 @@
         <div class="col-md-5 character-class-{{character.bnet.class}}">
             <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
         </div>
+    </div>
+    <div class="row text-center">
+        <i class="fa fa-3x fa-spinner fa-spin" ng-if="loading"></i>
     </div>
 </div>

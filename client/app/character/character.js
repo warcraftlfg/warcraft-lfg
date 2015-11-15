@@ -152,14 +152,13 @@
             $state.go("account");
         });
     }
-    CharacterList.$inject = ['$scope','socket','LANGUAGES'];
-    function CharacterList($scope, socket, LANGUAGES) {
+    CharacterList.$inject = ['$scope','$stateParams','socket','LANGUAGES'];
+    function CharacterList($scope ,$stateParams, socket, LANGUAGES) {
+
 
         //Reset error message
         $scope.$parent.error=null;
-        $scope.$parent.loading = true;
         $scope.characters = [];
-        $scope.loading = false;
         $scope.languages = LANGUAGES;
 
         $scope.filters = {};
@@ -171,6 +170,12 @@
         $scope.filters.role = "";
         $scope.filters.raids_per_week = {min:1,max:7};
 
+        /* if params load filters */
+        if($stateParams.region)
+            $scope.filters.region = $stateParams.region;
+        if($stateParams.language)
+            $scope.filters.language = $stateParams.language;
+
         $scope.$watch('filters.raids_per_week.min', function() {
             $scope.updateFilters();
         });
@@ -179,15 +184,18 @@
         });
 
         $scope.getMoreCharacters = function(){
-            if($scope.loading)
+            if($scope.$parent.loading || $scope.loading)
                 return;
             $scope.loading = true;
+
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated;
             socket.emit('get:characterAds',$scope.filters);
         };
 
         $scope.updateFilters = function(){
+            if($scope.$parent.loading || $scope.loading)
+                return;
             $scope.$parent.loading = true;
             $scope.filters.last = null;
             $scope.characters =[];
@@ -197,8 +205,8 @@
 
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters){
-            $scope.loading = false;
             $scope.$parent.loading = false;
+            $scope.loading=false;
             $scope.characters = $scope.characters.concat(characters);
         });
 
