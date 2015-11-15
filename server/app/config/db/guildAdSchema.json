@@ -102,7 +102,7 @@
             }
           }
         },
-        "distant_dps": {
+        "ranged_dps": {
           "type": "object",
           "properties": {
             "shadow_priest": {
@@ -161,11 +161,6 @@
           "default": false
         }
       }
-    },
-    "raiding_style": {
-      "type": "string",
-      "enum": ["casual","semi-hardcore", "hardcore"],
-      "default": "casual"
     }
   }
 }

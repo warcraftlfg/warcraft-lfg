@@ -160,15 +160,20 @@
         });
     }
 
-    GuildList.$inject = ['$scope','$stateParams','socket'];
-    function GuildList($scope, $stateParams, socket) {
+    GuildList.$inject = ['$scope','$stateParams','socket','LANGUAGES'];
+    function GuildList($scope, $stateParams, socket,LANGUAGES) {
 
         $scope.$parent.error=null;
-        $scope.$parent.loading = true;
         $scope.guilds = [];
-        $scope.loading = false;
+        $scope.languages = LANGUAGES;
 
         $scope.filters = {};
+        $scope.filters.faction = "";
+        $scope.filters.region = "";
+        $scope.filters.language ="";
+        $scope.filters.classes = {1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};
+        $scope.filters.role = "";
+        $scope.filters.raids_per_week = {min:1,max:7};
 
         /* if params load filters */
         if($stateParams.region)
@@ -176,8 +181,15 @@
         if($stateParams.language)
             $scope.filters.language = $stateParams.language;
 
+        $scope.$watch('filters.raids_per_week.min', function() {
+            $scope.updateFilters();
+        });
+        $scope.$watch('filters.raids_per_week.max', function() {
+            $scope.updateFilters();
+        });
+
         $scope.getMoreGuilds = function(){
-            if($scope.loading)
+            if($scope.$parent.loading || $scope.loading)
                 return;
 
             $scope.loading = true;
@@ -187,6 +199,8 @@
         };
 
         $scope.updateFilters = function(){
+            if($scope.$parent.loading || $scope.loading)
+                return;
             $scope.$parent.loading = true;
             $scope.filters.last = null;
             $scope.guilds =[];
@@ -196,8 +210,8 @@
 
         socket.forward('get:guildAds',$scope);
         $scope.$on('socket:get:guildAds',function(ev,guilds){
-            $scope.loading = false;
             $scope.$parent.loading = false;
+            $scope.loading = false;
             $scope.guilds = $scope.guilds.concat(guilds);
         });
 

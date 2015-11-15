@@ -160,7 +160,6 @@
         $scope.$parent.error=null;
         $scope.characters = [];
         $scope.languages = LANGUAGES;
-        $scope.loading = false;
 
         $scope.filters = {};
         $scope.filters.faction = "";
