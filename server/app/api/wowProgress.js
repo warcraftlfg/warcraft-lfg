@@ -301,14 +301,11 @@ module.exports.parseGuildPage = function( url, callback) {
                 if(line.indexOf("priest")!=-1){
                     if(line.indexOf("(dd)")!=-1)
                         result.recruitment.ranged_dps.priest = true;
-                    else if(line.indexOf("(healer)")!=-1) {
-                        result.recruitment.heals.priest_discipline = true;
-                        result.recruitment.heals.priest_holy = true;
-                    }
+                    else if(line.indexOf("(healer)")!=-1)
+                        result.recruitment.heals.priest = true;
                     else {
                         result.recruitment.ranged_dps.priest = true;
-                        result.recruitment.heals.priest_discipline = true;
-                        result.recruitment.heals.priest_holy = true;
+                        result.recruitment.heals.priest = true;
                     }
                 }
                 if(line.indexOf("rogue")!=-1){

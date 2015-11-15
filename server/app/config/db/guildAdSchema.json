@@ -47,14 +47,10 @@
               "type": "boolean",
               "default": false
             },
-            "priest_discipline": {
+            "priest": {
               "type": "boolean",
               "default": false
-            },
-            "priest_holy": {
-              "type": "boolean",
-              "default": false
-            },
+            }
             "paladin": {
               "type": "boolean",
               "default": false

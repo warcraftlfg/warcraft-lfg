@@ -63,5 +63,14 @@
   "FOOTER_TERMS_OF_USE": "Terms of use",
   "FOOTER_COOKIES_POLICY": "Cookies policy",
   "FOOTER_WOW_LEGACY": "World of Warcraft and Blizzard Entertainment are all trademarks or registered trademarks of Blizzard Entertainment in the United States and/or other countries. These terms and all related materials, logos, and images are copyright  Blizzard Entertainment. This site is in no way associated with or endorsed by Blizzard Entertainment.",
-  "FOOTER_COPYRIGHT": "© 2015 warcraftlfg.com"
+  "FOOTER_COPYRIGHT": "© 2015 warcraftlfg.com",
+  "UPDATE_CHARACTER": "Update character",
+  "QUEUE_POSITION": "Position in queue :",
+  "QUEUE_CHECK_MESSAGE": "Please check back this page later.",
+  "CHARACTER_NOT_FOUND": "Character not found",
+  "TRY_UPDATE": "Try the update button to import",
+  "LANGUAGE": "Language:",
+  "TRANSFERT": "Transfert:",
+  "DESCRIPTION": "Description:",
+  "ROLES": "Roles"
 }

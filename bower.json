@@ -12,6 +12,6 @@
     "font-awesome": "latest",
     "jquery": "latest",
     "ngInfiniteScroll": "latest",
-    "angular-bootstrap": "~0.14.3"
+    "angular-bootstrap": "latest"
   }
 }
