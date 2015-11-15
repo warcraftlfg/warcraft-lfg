@@ -8,6 +8,7 @@
     Dashboard.$inject = ['$scope','$timeout','socket','LANGUAGES'];
     function Dashboard($scope,$timeout,socket,LANGUAGES) {
 
+        $scope.$parent.loading = false;
 
         $scope.searchText="";
 
