@@ -15,6 +15,13 @@
         //Reset error message
         $scope.$parent.error=null;
 
+
+        //Redirect not logged_in users to home
+        $scope.$watch("$parent.user", function() {
+            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+                $state.go('dashboard');
+        });
+
         //Initialize $scope variables
         $scope.userCharacters = null;
         var characterIds;
@@ -88,6 +95,13 @@
         //Reset error message
         $scope.$parent.error=null;
 
+        //Redirect not logged_in users to home
+        $scope.$watch("$parent.user", function() {
+            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+                $state.go('dashboard');
+        });
+
+
         //Initialize $scope variables
         $scope.languages = LANGUAGES;
         $scope.$parent.loading = true;
@@ -117,6 +131,13 @@
         //Reset error message
         $scope.$parent.error=null;
 
+
+        //Redirect not logged_in users to home
+        $scope.$watch("$parent.user", function() {
+            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+                $state.go('dashboard');
+        });
+
         //Initialize var
         $scope.characterAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
 
@@ -142,8 +163,20 @@
         $scope.languages = LANGUAGES;
 
         $scope.filters = {};
+        $scope.filters.faction = "";
         $scope.filters.lvlmax = true;
         $scope.filters.region = "";
+        $scope.language = "";
+        $scope.filters.classes = {1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};
+        $scope.filters.role = "";
+        $scope.filters.raids_per_week = {min:1,max:7};
+
+        $scope.$watch('filters.raids_per_week.min', function() {
+            $scope.updateFilters();
+        });
+        $scope.$watch('filters.raids_per_week.max', function() {
+            $scope.updateFilters();
+        });
 
         $scope.getMoreCharacters = function(){
             if($scope.loading)

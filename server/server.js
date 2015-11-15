@@ -36,7 +36,7 @@ if(process.argv.length == 3 ){
     startWowProgressUpdateProcess = false;
     startCleanerProcess = false;
     startAuctionUpdateProcess = false;
-    startRealmUpdateProcess = true;
+    startRealmUpdateProcess = false;
 
     if(process.argv[2] ==="-gu")
         startGuildUpdateProcess=true;

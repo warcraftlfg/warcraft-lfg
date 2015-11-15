@@ -1,8 +1,18 @@
 
 <div class="container character-list" infinite-scroll="getMoreCharacters()">
     <h1>Characters</h1>
-    <div class="form-inline filters">
-        <!--  / Class / Role  / raidperweek / ilvl -->
+    <div class="form filters">
+        <div class="form-group">
+            <label class="radio-inline">
+                <input type="radio" ng-model="filters.faction" value="" ng-change="updateFilters()" > All
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="filters.faction" value="0" ng-change="updateFilters()" > <span class="icon-small faction-0">{{"ALLIANCE"|translate}}</span>
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="filters.faction" value="1" ng-change="updateFilters()" > <span class="icon-small faction-1">{{"HORDE"|translate}}</span>
+            </label>
+        </div>
         <div class="form-group">
             <label>Region:</label>
             <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
@@ -20,20 +30,44 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="checkbox-inline" ng-repeat="(class_number,value) in filters.classes">
+                <input type="checkbox" ng-model="filters.classes[class_number]" ng-change="updateFilters()" > <span class="icon-small class-{{class_number}}">{{"CLASS_"+class_number|translate}}</span>
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="radio-inline">
+                <input type="radio" ng-model="filters.role" value="" ng-change="updateFilters()" > All
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="filters.role" value="tank" ng-change="updateFilters()" > <span class="icon-small tank">{{"TANK"|translate}}</span>
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="filters.role" value="healer" ng-change="updateFilters()" > <span class="icon-small healer">{{"HEALER"|translate}}</span>
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="filters.role" value="dps" ng-change="updateFilters()" > <span class="icon-small dps">{{"DPS"|translate}}</span>
+            </label>
+        </div>
+        <div class="form-group">
             <div class="checkbox">
                 <label>
-                    Level 100 <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">
+                    <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">  Level 100
                 </label>
             </div>
         </div>
         <div class="form-group">
             <div class="checkbox">
                 <label>
-                    Transfert <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox">
+                    <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
                 </label>
             </div>
         </div>
 
+        <div class="form-group">
+            <label>Raids per week</label>  {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
+            <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+
+        </div>
     </div>
 
     <div class="row character" ng-repeat="character in characters">
@@ -75,7 +109,7 @@
             <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
                 Role :
                 <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
-                <span ng-if="character.ad.role.healer" class="icon-small heal"></span>
+                <span ng-if="character.ad.role.healer" class="icon-small healer"></span>
                 <span ng-if="character.ad.role.dps" class="icon-small dps"></span>
             </div>
             <div>
