@@ -272,3 +272,22 @@ module.exports.deleteOldAds = function(callback){
         callback(error);
     });
 };
+
+module.exports.setAdsToUpdate = function(callback){
+
+    characterModel.getAds(0,null,function(error,guilds){
+        if(error){
+            logger.error(error.message);
+            return callback(error);
+        }
+        async.eachSeries(guilds,function(guild,callback){
+            characterUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,5,function(error){
+                if(error)
+                    logger.error(error.message);
+                logger.info("Insert character to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 5');
+                callback(error);
+            });
+        });
+    });
+
+};
