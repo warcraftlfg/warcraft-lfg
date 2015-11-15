@@ -1,51 +1,77 @@
-<div class="container">
+<div class="character-read container">
     <div class="row">
         <div class="col-md-12">
-            <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
-                <i class="fa fa-refresh"></i> Update Character
-            </button>
-            <div ng-if="queuePosition">
-                <p>
-                    Position in queue :  {{queuePosition}}
-                </p>
-                <p>
-                    Please check back this page later
-                </p>
-            </div>
-            <div ng-if="!character">
-                <h1>Character not found</h1>
-                Try update to import
-            </div>
-            <div ng-if="character">
-                <h1><span class="icon-medium class-{{character.bnet.class}}">{{ character.name }}</span> {{ character.realm }} ({{ character.region|uppercase }})</h1>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2>Recruitment</h2>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h3>Raids per week</h3>
-                                <div ng-repeat="(key,value) in character.ad.raids_per_week" >
-                                    {{key|uppercase|translate}}
-                                    <i class="fa fa-times" ng-if="!character.ad.raids_per_week[key]"></i>
-                                    <i class="fa fa-check" ng-if="character.ad.raids_per_week[key]"></i>
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div ng-if="character">
+                        <h1><span class="icon-medium class-{{character.bnet.class}}">{{ character.name }}</span> - {{ character.realm }} ({{ character.region|uppercase }})</h1>
+                    </div>
+                    <div ng-if="!character">
+                        <h1>{{"CHARACTER_NOT_FOUND"|translate}}</h1>
+                        {{"TRY_UPDATE"|translate}}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
+                        <i class="fa fa-refresh"></i> {{"UPDATE_CHARACTER"|translate}}
+                    </button>
+                    <div ng-if="queuePosition">
+                        <div>
+                            {{"QUEUE_POSITION"|translate}} {{queuePosition}}
                         </div>
-                        <div class="row">
-                            <div class="col-md-12" ng-if="character.ad.description!=''">
-                                <h3>Description</h3>
-                                <pre>{{character.ad.description}}</pre>
-                            </div>
+                        <div>
+                            {{"QUEUE_CHECK_MESSAGE"|translate}}
                         </div>
                     </div>
                 </div>
-                <h2>Recruitment Data</h2>
-                <div ng-if="character.ad">
-                    <code>{{character.ad}}</code>
+            </div>
+            <div ng-if="character.ad" class="row">
+                <div class="col-md-12">
+                    <h2>Recruitment</h2>
+                    <div class="row" ng-if="!character.ad">
+                        This character is not looking for a guild
+                    </div>
+                    <div class="row" ng-if="character.ad">
+                        <div class="col-md-3">
+                            <strong>Raids per week</strong>
+                            <ul>
+                                <li ng-repeat="(key,value) in character.ad.raids_per_week" >
+                                    {{key|uppercase|translate}}
+                                    <i class="fa fa-times" ng-if="!character.ad.raids_per_week[key]"></i>
+                                    <i class="fa fa-check" ng-if="character.ad.raids_per_week[key]"></i>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                <strong>{{"LANGUAGE"|translate}}</strong> {{"LANG_"+character.ad.language|uppercase|translate}}
+                            </p>
+                            <p>
+                                <strong>{{"TRANSFERT"|translate}}</strong>
+                                <i class="fa fa-times" ng-if="!character.ad.transfert"></i>
+                                <i class="fa fa-check" ng-if="character.ad.transfert"></i>
+                            </p>
+                            <p>
+                                <strong>{{"ROLES"|translate}}</strong>
+                                <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
+                                <span ng-if="character.ad.role.healer" class="icon-small healer"></span>
+                                <span ng-if="character.ad.role.dps" class="icon-small dps"></span>
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6" ng-if="character.ad.description!=''">
+                            <strong>{{"DESCRIPTION"|translate}}</strong>
+                            <pre>{{character.ad.description}}</pre>
+                        </div>
+                    </div>
                 </div>
-                <div ng-if="!character.ad">
-                    This character is not looking for a guild
+                <div class="col-md-12">
+                    <h2>Character</h2>
+                    //TODO les trucs du character
                 </div>
+
+
                 <h2>Character Data</h2>
                 <div ng-if="character.bnet">
                     <code>{{character.bnet}}</code>
