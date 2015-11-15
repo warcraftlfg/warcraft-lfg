@@ -234,10 +234,8 @@ module.exports.getAds = function (number,filters,callback) {
         if(filters.role == 'heals' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
             if(filters.classes[11])
                 recruitment.push({"ad.recruitment.heals.druid":true});
-            if(filters.classes[5]) {
-                recruitment.push({"ad.recruitment.heals.priest_discipline": true});
-                recruitment.push({"ad.recruitment.heals.priest_holy": true});
-            }
+            if(filters.classes[5])
+                recruitment.push({"ad.recruitment.heals.priest": true});
             if(filters.classes[2])
                 recruitment.push({"ad.recruitment.heals.paladin":true});
             if(filters.classes[7])
