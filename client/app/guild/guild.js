@@ -160,8 +160,8 @@
         });
     }
 
-    GuildList.$inject = ['$scope','socket'];
-    function GuildList($scope, socket) {
+    GuildList.$inject = ['$scope','$stateParams','socket'];
+    function GuildList($scope, $stateParams, socket) {
 
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
@@ -169,6 +169,12 @@
         $scope.loading = false;
 
         $scope.filters = {};
+
+        /* if params load filters */
+        if($stateParams.region)
+            $scope.filters.region = $stateParams.region;
+        if($stateParams.language)
+            $scope.filters.language = $stateParams.language;
 
         $scope.getMoreGuilds = function(){
             if($scope.loading)
