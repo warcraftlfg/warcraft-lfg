@@ -213,6 +213,7 @@ module.exports.parseCharacterPage = function(url,callback) {
 };
 
 module.exports.parseGuildPage = function( url, callback) {
+    var self=this;
     this.getWoWProgressPage(url, function (error, body) {
         if (error) {
             callback(error);
@@ -230,6 +231,117 @@ module.exports.parseGuildPage = function( url, callback) {
         var language = $body(".language").text().replace("Primary Language: ","");
         if(languages[language])
             result.language = languages[language];
+
+        var recrAll = $body(".recrClasses .recrAll").text();
+        if(recrAll == "all classes") {
+            result.recruitment = self.formatRecruitment(true);
+        }
+        else {
+            result.recruitment = self.formatRecruitment(false);
+            $body(".recrClasses tr").each(function(i, elem) {
+                var line = cheerio(this).text();
+                if(line.indexOf("deathknight")!=-1){
+                    if(line.indexOf("(dd)")!=-1)
+                        result.recruitment.melee_dps.deathknight = true;
+                    else if(line.indexOf("(tank)")!=-1)
+                        result.recruitment.tanks.deathknight = true;
+                    else {
+                        result.recruitment.melee_dps.deathknight = true;
+                        result.recruitment.tanks.deathknight = true;
+                    }
+                }
+                if(line.indexOf("druid")!=-1){
+                    if(line.indexOf("(balance)")!=-1)
+                        result.recruitment.ranged_dps.druid = true;
+                    else if(line.indexOf("(restoration)")!=-1)
+                        result.recruitment.heals.druid = true;
+                    else if(line.indexOf("(feral-dd)")!=-1)
+                        result.recruitment.melee_dps.druid = true;
+                    else if(line.indexOf("(feral-tank)")!=-1)
+                        result.recruitment.tanks.druid = true;
+                    else {
+                        result.recruitment.ranged_dps.druid = true;
+                        result.recruitment.heals.druid = true;
+                        result.recruitment.melee_dps.druid = true;
+                        result.recruitment.tanks.druid = true;
+                    }
+                }
+                if(line.indexOf("hunter")!=-1){
+                    result.recruitment.ranged_dps.hunter = true;
+                }
+                if(line.indexOf("mage")!=-1){
+                    result.recruitment.ranged_dps.mage = true;
+                }
+                if(line.indexOf("monk")!=-1){
+                    if(line.indexOf("(healer)")!=-1)
+                        result.recruitment.heals.monk = true;
+                    else if(line.indexOf("(dd)")!=-1)
+                        result.recruitment.melee_dps.monk = true;
+                    else if(line.indexOf("(tank)")!=-1)
+                        result.recruitment.tanks.monk = true;
+                    else {
+                        result.recruitment.heals.monk = true;
+                        result.recruitment.melee_dps.monk = true;
+                        result.recruitment.tanks.monk = true;
+                    }
+                }
+                if(line.indexOf("paladin")!=-1){
+                    if(line.indexOf("(holy)")!=-1)
+                        result.recruitment.heals.paladin = true;
+                    else if(line.indexOf("(retribution)")!=-1)
+                        result.recruitment.melee_dps.paladin = true;
+                    else if(line.indexOf("(protection)")!=-1)
+                        result.recruitment.tanks.paladin = true;
+                    else {
+                        result.recruitment.heals.paladin = true;
+                        result.recruitment.melee_dps.paladin = true;
+                        result.recruitment.tanks.paladin = true;
+                    }
+                }
+                if(line.indexOf("priest")!=-1){
+                    if(line.indexOf("(dd)")!=-1)
+                        result.recruitment.ranged_dps.priest = true;
+                    else if(line.indexOf("(healer)")!=-1) {
+                        result.recruitment.heals.priest_discipline = true;
+                        result.recruitment.heals.priest_holy = true;
+                    }
+                    else {
+                        result.recruitment.ranged_dps.priest = true;
+                        result.recruitment.heals.priest_discipline = true;
+                        result.recruitment.heals.priest_holy = true;
+                    }
+                }
+                if(line.indexOf("rogue")!=-1){
+                    result.recruitment.melee_dps.rogue = true;
+                }
+                if(line.indexOf("shaman")!=-1){
+                    if(line.indexOf("(elemental)")!=-1)
+                        result.recruitment.ranged_dps.shaman = true;
+                    else if(line.indexOf("(restoration)")!=-1)
+                        result.recruitment.heals.shaman = true;
+                    else if(line.indexOf("(enhancement)")!=-1)
+                        result.recruitment.melee_dps.shaman = true;
+                    else {
+                        result.recruitment.ranged_dps.shaman = true;
+                        result.recruitment.heals.shaman = true;
+                        result.recruitment.melee_dps.shaman = true;
+                    }
+                }
+                if(line.indexOf("warlock")!=-1){
+                    result.recruitment.ranged_dps.warlock = true;
+                }
+                if(line.indexOf("warrior")!=-1){
+                    if(line.indexOf("(dd)")!=-1)
+                        result.recruitment.melee_dps.warrior = true;
+                    else if(line.indexOf("(tank)")!=-1)
+                        result.recruitment.tanks.warrior = true;
+                    else {
+                        result.recruitment.melee_dps.warrior = true;
+                        result.recruitment.tanks.warrior = true;
+                    }
+                }
+            });
+        }
 
         var raidsPerWeek = $body(".raids_week").text().replace("Raids per week: ","").split(' - ');
         result.raids_per_week = {};
@@ -259,4 +371,39 @@ module.exports.parseGuildPage = function( url, callback) {
         callback (null,result);
 
     });
+};
+
+module.exports.formatRecruitment= function(defaultValue){
+    return {
+        tanks: {
+            warrior:defaultValue,
+            druid:defaultValue,
+            paladin:defaultValue,
+            monk:defaultValue
+        },
+        heals: {
+            druid:defaultValue,
+            priest_discipline:defaultValue,
+            priest_holy:defaultValue,
+            paladin:defaultValue,
+            chaman:defaultValue,
+            monk:defaultValue
+        },
+        melee_dps: {
+            druid:defaultValue,
+            deathknight:defaultValue,
+            paladin:defaultValue,
+            monk:defaultValue,
+            shaman:defaultValue,
+            warrior:defaultValue,
+            rogue:defaultValue
+        },
+        ranged_dps: {
+            priest:defaultValue,
+            shaman:defaultValue,
+            hunter:defaultValue,
+            warlock:defaultValue,
+            mage:defaultValue
+        }
+    };
 };

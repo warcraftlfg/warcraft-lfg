@@ -22,19 +22,19 @@
         "tanks": {
           "type": "object",
           "properties": {
-            "protection_warrior": {
+            "warrior": {
               "type": "boolean",
               "default": false
             },
-            "guardian_druid": {
+            "druid": {
               "type": "boolean",
               "default": false
             },
-            "protection_paladin": {
+            "paladin": {
               "type": "boolean",
               "default": false
             },
-            "brewmaster_monk": {
+            "monk": {
               "type": "boolean",
               "default": false
             }
@@ -43,27 +43,27 @@
         "heals": {
           "type": "object",
           "properties": {
-            "restoration_druid": {
+            "druid": {
               "type": "boolean",
               "default": false
             },
-            "discipline_priest": {
+            "priest_discipline": {
               "type": "boolean",
               "default": false
             },
-            "holy_priest": {
+            "priest_holy": {
               "type": "boolean",
               "default": false
             },
-            "holy_paladin": {
+            "paladin": {
               "type": "boolean",
               "default": false
             },
-            "restoration_chaman": {
+            "shaman": {
               "type": "boolean",
               "default": false
             },
-            "mistweaver_monk": {
+            "monk": {
               "type": "boolean",
               "default": false
             }
@@ -72,7 +72,7 @@
         "melee_dps": {
           "type": "object",
           "properties": {
-            "feral_druid": {
+            "druid": {
               "type": "boolean",
               "default": false
             },
@@ -80,15 +80,15 @@
               "type": "boolean",
               "default": false
             },
-            "retribution_paladin": {
+            "paladin": {
               "type": "boolean",
               "default": false
             },
-            "windwalker_monk": {
+            "monk": {
               "type": "boolean",
               "default": false
             },
-            "enhancement_shaman": {
+            "shaman": {
               "type": "boolean",
               "default": false
             },
@@ -105,11 +105,11 @@
         "ranged_dps": {
           "type": "object",
           "properties": {
-            "shadow_priest": {
+            "priest": {
               "type": "boolean",
               "default": false
             },
-            "elemental_shaman": {
+            "shaman": {
               "type": "boolean",
               "default": false
             },
