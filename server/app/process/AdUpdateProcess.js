@@ -18,7 +18,7 @@ AdUpdateProcess.prototype.setAdsToUpdate = function() {
 
 
 AdUpdateProcess.prototype.start = function(){
-    logger.info("Starting CharacterUpdateProcess");
+    logger.info("Starting AdUpdateProcess");
     //Start Cron every day at 4am
     var self=this;
     new cronJob('0 0 4 * * *',
