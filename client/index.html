@@ -29,7 +29,7 @@
         <meta name="msapplication-wide310x150logo" content="/assets/images/favicon/mstile-310x150.png" />
         <meta name="msapplication-square310x310logo" content="/assets/images/favicon/mstile-310x310.png" />
 
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
         <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="/vendor/angular-ranger/angular-ranger.min.css" rel="stylesheet">
@@ -48,7 +48,7 @@
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     {{error|translate}}
                 </div>
-                <div ui-view></div>
+                <div ui-view autoscroll="true"></div>
                 <!-- Modal -->
             </div>
             <div class="push"></div>
@@ -89,6 +89,11 @@
 
         <!-- layout -->
         <script src="/app/layout/layout.module.js"></script>
+
+        <!-- web -->
+        <script src="/app/web/web.module.js"></script>
+        <script src="/app/web/config.route.js"></script>
+        <script src="/app/web/web.js"></script>
 
         <!-- dashboard -->
         <script src="/app/dashboard/dashboard.module.js"></script>

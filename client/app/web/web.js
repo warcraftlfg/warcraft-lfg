@@ -1,0 +1,32 @@
+(function() {
+    'use strict';
+
+    angular
+        .module('app.web')
+        .controller('WebAboutController', About)
+        .controller('WebContactController', Contact)
+        .controller('WebPrivacyController', Privacy)
+        .controller('WebTermsController', Terms)
+        .controller('WebCookiesController', Cookies)
+    ;
+
+    About.$inject = ['$scope','socket','$state'];
+    function About($scope, socket, $state) {
+    }
+
+    Contact.$inject = ['$scope','socket','$state'];
+    function Contact($scope, socket, $state) {
+    }
+
+    Privacy.$inject = ['$scope','socket','$state'];
+    function Privacy($scope, socket, $state) {
+    }
+
+    Terms.$inject = ['$scope','socket','$state'];
+    function Terms($scope, socket, $state) {
+    }
+
+    Cookies.$inject = ['$scope','socket','$state'];
+    function Cookies($scope, socket, $state) {
+    }
+})();
