@@ -220,7 +220,7 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.role && filters.role != ""){
         criteria["ad.role."+filters.role] = true;
     }
-    if(filters.raids_per_week && filters.raids_per_week.min && filters.raids_per_week.max){
+    if(filters.raids_per_week && !(filters.raids_per_week.min==1 && filters.raids_per_week.max==7)){
         var rpw = []
         for(var i = filters.raids_per_week.min  ; i<=filters.raids_per_week.max; i++){
             var obj = {};
