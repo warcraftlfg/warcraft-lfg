@@ -223,39 +223,39 @@ module.exports.getAds = function (number,filters,callback) {
 
         if(filters.role == 'tanks' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
             if(filters.classes[1])
-                recruitment.push({"ad.recruitment.tanks.protection_warrior":true});
+                recruitment.push({"ad.recruitment.tanks.warrior":true});
             if(filters.classes[11])
-                recruitment.push({"ad.recruitment.tanks.guardian_druid":true});
+                recruitment.push({"ad.recruitment.tanks.druid":true});
             if(filters.classes[2])
-                recruitment.push({"ad.recruitment.tanks.protection_paladin":true});
+                recruitment.push({"ad.recruitment.tanks.paladin":true});
             if(filters.classes[10])
-                recruitment.push({"ad.recruitment.tanks.brewmaster_monk":true});
+                recruitment.push({"ad.recruitment.tanks.monk":true});
         }
         if(filters.role == 'heals' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
             if(filters.classes[11])
-                recruitment.push({"ad.recruitment.heals.restoration_druid":true});
+                recruitment.push({"ad.recruitment.heals.druid":true});
             if(filters.classes[5]) {
-                recruitment.push({"ad.recruitment.heals.discipline_priest": true});
-                recruitment.push({"ad.recruitment.heals.holy_priest": true});
+                recruitment.push({"ad.recruitment.heals.priest_discipline": true});
+                recruitment.push({"ad.recruitment.heals.priest_holy": true});
             }
             if(filters.classes[2])
-                recruitment.push({"ad.recruitment.heals.holy_paladin":true});
+                recruitment.push({"ad.recruitment.heals.paladin":true});
             if(filters.classes[7])
-                recruitment.push({"ad.recruitment.heals.restoration_chaman":true});
+                recruitment.push({"ad.recruitment.heals.shaman":true});
             if(filters.classes[10])
-                recruitment.push({"ad.recruitment.heals.mistweaver_monk":true});
+                recruitment.push({"ad.recruitment.heals.monk":true});
         }
         if(filters.role == 'melee_dps' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
             if(filters.classes[11])
-                recruitment.push({"ad.recruitment.melee_dps.feral_druid":true});
+                recruitment.push({"ad.recruitment.melee_dps.druid":true});
             if(filters.classes[6])
                 recruitment.push({"ad.recruitment.melee_dps.deathknight":true});
             if(filters.classes[2])
-                recruitment.push({"ad.recruitment.melee_dps.retribution_paladin":true});
+                recruitment.push({"ad.recruitment.melee_dps.paladin":true});
             if(filters.classes[10])
-                recruitment.push({"ad.recruitment.melee_dps.windwalker_monk":true});
+                recruitment.push({"ad.recruitment.melee_dps.monk":true});
             if(filters.classes[7])
-                recruitment.push({"ad.recruitment.melee_dps.enhancement_shaman":true});
+                recruitment.push({"ad.recruitment.melee_dps.shaman":true});
             if(filters.classes[1])
                 recruitment.push({"ad.recruitment.melee_dps.warrior":true});
             if(filters.classes[4])
@@ -263,9 +263,9 @@ module.exports.getAds = function (number,filters,callback) {
         }
         if(filters.role == 'ranged_dps' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
             if(filters.classes[5])
-                recruitment.push({"ad.recruitment.ranged_dps.shadow_priest":true});
+                recruitment.push({"ad.recruitment.ranged_dps.priest":true});
             if(filters.classes[7])
-                recruitment.push({"ad.recruitment.ranged_dps.elemental_shaman":true});
+                recruitment.push({"ad.recruitment.ranged_dps.shaman":true});
             if(filters.classes[3])
                 recruitment.push({"ad.recruitment.ranged_dps.hunter":true});
             if(filters.classes[9])
@@ -273,7 +273,6 @@ module.exports.getAds = function (number,filters,callback) {
             if(filters.classes[8])
                 recruitment.push({"ad.recruitment.ranged_dps.mage":true});
         }
-        console.log(recruitment);
         if(recruitment.length>0)
             criteria["$or"] = recruitment;
     }
