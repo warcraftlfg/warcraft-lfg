@@ -27,6 +27,7 @@ var startWowProgressUpdateProcess = true;
 var startCleanerProcess = true;
 var startAuctionUpdateProcess = true;
 var startRealmUpdateProcess = true;
+var startAdUpdateProcess = true;
 
 
 if(process.argv.length == 3 ){
@@ -37,6 +38,7 @@ if(process.argv.length == 3 ){
     startCleanerProcess = false;
     startAuctionUpdateProcess = false;
     startRealmUpdateProcess = false;
+    startAdUpdateProcess = false;
 
     if(process.argv[2] ==="-gu")
         startGuildUpdateProcess=true;
@@ -50,6 +52,8 @@ if(process.argv.length == 3 ){
         startCleanerProcess=true;
     if(process.argv[2] ==="-au")
         startAuctionUpdateProcess=true;
+    if(process.argv[2] ==="-adu")
+        startAdUpdateProcess=true;
     if(process.argv[2] ==="-ws")
         startWebserver=true;
 
@@ -75,6 +79,8 @@ var AuctionUpdateProcess = process.require("process/AuctionUpdateProcess.js");
 var auctionUpdateProcess = new AuctionUpdateProcess();
 var RealmUpdateProcess = process.require("process/RealmUpdateProcess.js");
 var realmUpdateProcess = new RealmUpdateProcess();
+var AdUpdateProcess = process.require("process/AdUpdateProcess.js");
+var adUpdateProcess = new AdUpdateProcess();
 
 async.series([
     // Establish a connection to the database
@@ -124,7 +130,8 @@ async.series([
             auctionUpdateProcess.start();
         if(startRealmUpdateProcess)
             realmUpdateProcess.start();
-
+        if(startAdUpdateProcess)
+            adUpdateProcess.start();
         callback();
     }
 

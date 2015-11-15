@@ -9,7 +9,7 @@ function RealmUpdateProcess(){
     this.lock = false;
 }
 
-RealmUpdateProcess.prototype.cleanAds = function() {
+RealmUpdateProcess.prototype.importRealms = function() {
     var self = this;
     if (self.lock == false) {
         self.lock = true;
@@ -26,12 +26,12 @@ RealmUpdateProcess.prototype.start = function(){
     var self=this;
     new cronJob('0 0 4 * * *',
         function() {
-            self.cleanAds();
+            self.importRealms();
         },
         null,
         true
     );
-    self.cleanAds();
+    self.importRealms();
 };
 
 module.exports = RealmUpdateProcess;

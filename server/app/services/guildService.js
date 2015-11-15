@@ -79,9 +79,9 @@ module.exports.update = function(region,realm,name,callback){
                     logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
                 });
                 /*}
-                else{
-                    callback();
-                }*/
+                 else{
+                 callback();
+                 }*/
             },function done(){
                 wowProgressAPI.getGuildRank(region,guild.realm,guild.name,function(error,wowProgress){
                     if (error)
@@ -280,4 +280,23 @@ module.exports.deleteOldAds = function(callback){
         }
         callback(error);
     });
+};
+
+module.exports.setAdsToUpdate = function(callback){
+
+    guildModel.getAds(0,null,function(error,guilds){
+        if(error){
+            logger.error(error.message);
+            return callback(error);
+        }
+        async.eachSeries(guilds,function(guild,callback){
+            guildUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,5,function(error){
+                if(error)
+                    logger.error(error.message);
+                logger.info("Insert guild to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 5');
+                callback(error);
+            });
+        });
+    });
+
 };
