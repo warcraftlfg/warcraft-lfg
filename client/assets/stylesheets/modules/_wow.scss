@@ -12,29 +12,29 @@
 .faction-0 { color: #0C81CE}
 
 /* None*/
-.class-0{color:#000000}
+.class-0,.class-none{color:#000000;}
 /* Warrior */
-.class-1{color:#C79C6E 	}
+.class-1,.class-warrior{color:#C79C6E;}
 /* Paladin */
-.class-2{color:#F58CBA 	}
+.class-2,.class-paladin{color:#F58CBA;}
 /* Hunter */
-.class-3{color:#ABD473}
+.class-3,.class-hunter{color:#ABD473;}
 /* Rogue */
-.class-4{color:#FFF569}
+.class-4,.class-rogue{color:#FFF569;}
 /* Priest */
-.class-5{color:#fff;}
+.class-5,.class-priest{color:#fff;}
 /* Death Knight */
-.class-6{color:#C41F3B }
+.class-6,.class-deathknight{color:#C41F3B }
 /* Shaman */
-.class-7{color:#0070DE}
+.class-7,.class-shaman{color:#0070DE}
 /* Mage */
-.class-8{color:#69CCF0}
+.class-8,.class-mage{color:#69CCF0}
 /* Warlock */
-.class-9{color:#9482C9 	}
+.class-9,.class-warlock{color:#9482C9 	}
 /* Monk */
-.class-10{color:#00FF96}
+.class-10,.class-monk{color:#00FF96}
 /* Druid */
-.class-11{color:#FF7D0A}
+.class-11,.class-druid{color:#FF7D0A}
 
 .icon-small {
   padding: 1px 0px 1px 25px;
@@ -61,9 +61,9 @@
   /* Druid */
   &.class-11{background: url('../images/icon/16/class-11.png') left center no-repeat;}
 
-  &.dps {background: url('../images/icon/16/dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
-  &.healer {background: url('../images/icon/16/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
-  &.tank {background: url('../images/icon/16/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.dps,&.melee_dps,&.ranged_dps {background: url('../images/icon/16/dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.healer,&.heals {background: url('../images/icon/16/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.tank,&.tanks {background: url('../images/icon/16/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}
 }
 
 

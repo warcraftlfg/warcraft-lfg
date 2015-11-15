@@ -37,5 +37,7 @@
             $scope.$parent.loading = false;
             $scope.characterAds = characterAds;
         });
+
+        // Guild add
     }
 })();
