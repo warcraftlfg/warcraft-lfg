@@ -1,13 +1,39 @@
+<section class="header">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ guild.name }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ guild.realm }} - {{ guild.region|uppercase }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-lg-9">
+        <div class="col-md-12">
             <form class="m-b-15">
-                <div class="form-group">
-                    <span class="f-28">{{ guild.name }} - {{ guild.realm }} - {{ guild.region|uppercase }}</span>
+                <div class="hide">
+                    <!--<span class="f-28">{{ guild.name }} - {{ guild.realm }} - {{ guild.region|uppercase }}</span>-->
 
                     <input ng-model="guild.name" disabled type="hidden" class="form-control" id="characterNameInput">
                     <input ng-model="guild.realm" disabled type="hidden" class="form-control" id="characterRealmInput">
                     <input ng-model="guild.region"  disabled type="hidden" class="form-control" id="characterRegionInput">
+                </div>
+                <div class="form-group">
+                    <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
+                    <select ng-model="guild.ad.language" class="form-control">
+                        <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_CREATE_WEBSITE"|translate}}</label>
@@ -18,12 +44,12 @@
                     <textarea ng-model="guild.ad.description" class="form-control" placeholder="{{'GUILD_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" rows="5"></textarea>
                 </div>
                 <div class="form-group">
-                    <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
+                   <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
                     <div class="row">
-                        <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3">
-                            <strong>{{role|uppercase|translate}}</strong>
+                        <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3 col-sm-4 col-xs-6">
+                            <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
                             <div ng-repeat="(class,value) in guild.ad.recruitment[role]" class="checkbox">
-                                <label class="{{ class|lowercase }}">
+                                <label class="class-{{ class|lowercase }}">
                                     <input ng-model="guild.ad.recruitment[role][class]" type="checkbox"> {{class|uppercase|translate}}
                                 </label>
                             </div>
@@ -32,17 +58,15 @@
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_CREATE_RAIDS_PER_WEEK"|translate}}</label>
-                    <div ng-repeat="(key,value) in guild.ad.raids_per_week" class="checkbox">
-                        <label>
-                            <input ng-model="guild.ad.raids_per_week[key]" type="checkbox"> {{key|uppercase|translate}}
-                        </label>
+                    <div class="row">
+                        <div ng-repeat="(key,value) in guild.ad.raids_per_week" class="col-md-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-model="guild.ad.raids_per_week[key]" type="checkbox"> {{key|uppercase|translate}}
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
-                    <select ng-model="guild.ad.language" class="form-control">
-                        <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                    </select>
                 </div>
                 <!--<div class="form-group">
                     <label>{{"GUILD_CREATE_RAIDING_STYLE"|translate}}</label>

@@ -1,17 +1,30 @@
+<section class="header">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ character.name }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ character.realm }} - {{ character.region|uppercase }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="container">
     <div row>
         <div class="col-md-12">
             <form>
-                <div class="form-group">
-                    <label for="characterNameInput">{{"CHARACTER_NAME"|translate}}</label>
+                <div class="hide">
                     <input ng-model="character.name" disabled class="form-control" id="characterNameInput">
-                </div>
-                <div class="form-group">
-                    <label for="characterRealmInput">{{"CHARACTER_REALM"|translate}}</label>
                     <input ng-model="character.realm" disabled class="form-control" id="characterRealmInput">
-                </div>
-                <div class="form-group">
-                    <label for="characterRegionInput">{{"CHARACTER_REGION"|translate}}</label>
                     <input ng-model="character.region" disabled class="form-control" id="characterRegionInput">
                 </div>
                 <div class="form-group">
