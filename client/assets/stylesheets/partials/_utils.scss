@@ -320,7 +320,7 @@
 /****  Background Colors  ****/
 .txt-gray  { color:#b6b6b6; }
 .txt-gray-light  { color:#cccccc; }
-.txt-red { color:#C75757; }
+.txt-red { color:$red; }
 .txt-white { color:#fff; }
 .txt-white-o { color:rgba(255,255,255,0.8)!important; }
 .txt-green  { color:#339966; }
@@ -403,6 +403,7 @@
 .pointer-auto{pointer-events: auto!important;}
 
 /****  Font Size  ****/
+.f-10{font-size:10px;}
 .f-12{font-size:12px;}
 .f-14{font-size:14px;}
 .f-15{font-size:15px;}

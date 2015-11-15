@@ -7,6 +7,28 @@
 
         <title>Warcraft LFG</title>
 
+        <!-- Fav icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/favicon/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/favicon/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/favicon/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/favicon/apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/favicon/apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/favicon/apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/favicon/apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/favicon/apple-touch-icon-152x152.png" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-128.png" sizes="128x128" />
+        <meta name="application-name" content="Warcraft LFG"/>
+        <meta name="msapplication-TileColor" content="#151515" />
+        <meta name="msapplication-TileImage" content="/assets/images/favicon/mstile-144x144.png" />
+        <meta name="msapplication-square70x70logo" content="/assets/images/favicon/mstile-70x70.png" />
+        <meta name="msapplication-square150x150logo" content="/assets/images/favicon/mstile-150x150.png" />
+        <meta name="msapplication-wide310x150logo" content="/assets/images/favicon/mstile-310x150.png" />
+        <meta name="msapplication-square310x310logo" content="/assets/images/favicon/mstile-310x310.png" />
+
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -17,16 +39,19 @@
     </head>
 
     <body ng-cloak ng-controller="CoreController">
-        <div data-ng-include="'app/layout/header.html'"></div>
-        <div class="content">
-            <div ng-if="error" class="alert alert-danger" role="alert">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                {{error|translate}}
+        <div class="wrapper">
+            <div data-ng-include="'app/layout/header.html'"></div>
+            <div class="content">
+                <div ng-if="error" class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    {{error|translate}}
+                </div>
+                <div ui-view></div>
+                <!-- Modal -->
             </div>
-            <div ui-view></div>
-            <!-- Modal -->
+            <div class="push"></div>
         </div>
-        <div data-ng-include="'app/layout/footer.html'"></div>
+        <div class="footer" data-ng-include="'app/layout/footer.html'"></div>
         <div class="modal-backdrop fade in" ng-if="loading"></div>
 
         <!-- Third party -->
@@ -42,7 +67,7 @@
         <script type="text/javascript" src="/vendor/angular-translate/angular-translate.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
         <script type="text/javascript" src="/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-
+        <script type="text/javascript" src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
         <!-- build:js app/warcraftlfg.min.js -->
         <!-- Bootstrapping -->

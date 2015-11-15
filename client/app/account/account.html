@@ -13,37 +13,78 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <div>
-        <h3>{{"ACCOUNT_USER_GUILD_ADS"|translate}}</h3>
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="guildAd in guildAds">
-                <div class="row">
-                    <div class="col-md-9">
-                        <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">{{guildAd.name}} - {{guildAd.realm}} - {{guildAd.region}} - <span am-time-ago="guildAd.updated"></span></a>
-                    </div>
-                    <div class="col-md-3">
-                        <a class="btn btn-default" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
-                        <a class="btn btn-danger" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/delete" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div>
-        <h3>{{"ACCOUNT_USER_CHARACTERS_ADS"|translate}}</h3>
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="characterAd in characterAds">
-                <div class="row">
-                    <div class="col-md-9">
-                        <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/">{{characterAd.name}} - {{characterAd.realm}} - {{characterAd.region}} - <span am-time-ago="characterAd.updated"></span></a>
-                    </div>
-                    <div class="col-md-3">
-                        <a class="btn btn-default" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update" role="button"><i class="fa fa-pencil"></i> {{"EDIT"|translate}}</a>
-                        <a class="btn btn-danger" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/delete" role="button"><i class="fa fa-trash-o"></i> {{"DELETE"|translate}}</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
+<div class="text-center account-management">
+    <div class="container ">
+        <div class="col-md-6">
+            <h3 class="m-b-20">{{"ACCOUNT_MANAGE_GUILD_ADS"|translate}}</h3>
+            <table class="table">
+                <tr ng-repeat="guildAd in guildAds">
+                    <td class="faction-{{guildAd.bnet.side}}">
+                        <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/" class="txt-underline">
+                            {{guildAd.name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{guildAd.realm}}
+                    </td>
+                    <td>
+                        {{guildAd.region|uppercase}}
+                    </td>
+                    <td>
+                        {{"UPDATED"|translate}} <span am-time-ago="guildAd.ad.updated"></span>
+                    </td>
+                    <td>
+                        <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/delete" tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="!characterAds.length">
+                    <td>
+                        {{"NO_DATA"|translate}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h3 class="m-b-20">{{"ACCOUNT_MANAGE_CHARACTER_ADS"|translate}}</h3>
+            <table class="table">
+                <tr ng-repeat="characterAd in characterAds">
+                    <td class="icon-small class-{{characterAd.bnet.class}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="class-{{characterAd.bnet.class}}">
+                        <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/" class="txt-underline">
+                            {{characterAd.name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{characterAd.realm}}
+                    </td>
+                    <td>
+                        {{characterAd.region|uppercase}}
+                    </td>
+                    <td>
+                        {{"UPDATED"|translate}} <span am-time-ago="characterAd.ad.updated"></span>
+                    </td>
+                    <td>
+                        <a class="txt-no-decoration txt-white m-r-10 f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"  tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a class="txt-no-decoration txt-white f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/delete" tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="!characterAds.length">
+                    <td>
+                        {{"NO_DATA"|translate}}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
