@@ -19,8 +19,24 @@
             <div ng-if="character">
                 <h1><span class="icon-medium class-{{character.bnet.class}}">{{ character.name }}</span> {{ character.realm }} ({{ character.region|uppercase }})</h1>
                 <div class="row">
-                    <div class="col-md-12" ng-if="character.ad.description!="">
-                        <textarea class="form-control" rows="3" disabled ng-model="character.ad.description"></textarea>
+                    <div class="col-md-12">
+                        <h2>Recruitment</h2>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3>Raids per week</h3>
+                                <div ng-repeat="(key,value) in character.ad.raids_per_week" >
+                                    {{key|uppercase|translate}}
+                                    <i class="fa fa-times" ng-if="!character.ad.raids_per_week[key]"></i>
+                                    <i class="fa fa-check" ng-if="character.ad.raids_per_week[key]"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" ng-if="character.ad.description!=''">
+                                <h3>Description</h3>
+                                <pre>{{character.ad.description}}</pre>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <h2>Recruitment Data</h2>
