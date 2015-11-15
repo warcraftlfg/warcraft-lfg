@@ -75,8 +75,22 @@ body{
 	vertical-align: middle;
 }
 
-a, a:hover {
+a, a:hover, a:focus {
 	color: inherit;
+}
+
+.content .title {
+	font-size: 30px;
+	margin-bottom: 15px;
+}
+
+.content .subtitle {
+	font-size: 25px;
+	margin-bottom: 15px;
+}
+
+.content .content {
+	margin-bottom: 15px;
 }
 
 @import "../modules/all";

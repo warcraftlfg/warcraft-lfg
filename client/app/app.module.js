@@ -20,11 +20,13 @@
         /*
          * Feature areas
          */
+        'app.web',
         'app.dashboard',
         'app.account',
         'app.character',
         'app.guild',
         'app.layout'
+
     ]);
 
 })();

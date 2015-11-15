@@ -46,8 +46,8 @@
                     <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_TYPE"|translate}} :</label>
                     <div class="col-md-9">
                         <select ng-model="form.type" class="form-control">
-                            <option value="guild">{{"GUILD"|translate}}</option>
-                            <option value="character">{{"PLAYER"|translate}}</option>
+                            <option value="guild">{{"GUILD"|translate|lowercase}}</option>
+                            <option value="character">{{"PLAYER"|translate|lowercase}}</option>
                         </select>
                     </div>
                 </div>
@@ -79,14 +79,16 @@
         </div>
     </div>
 </div>
-<div class="text-center dashboard-table">
+<div class="dashboard-table">
     <div class="container ">
         <div class="col-md-6">
             <h3 class="m-b-20">{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
             <table class="table table-condensed">
                 <tr ng-repeat="guild in guilds">
-                    <td class="faction-{{guild.bnet.side}}">
-                        {{guild.name}}
+                    <td>
+                        <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold txt-underline faction-{{guild.bnet.side}}">
+                            {{guild.name}}
+                        </a>
                     </td>
                     <td>
                         {{guild.realm}}
@@ -105,10 +107,12 @@
             <table class="table table-condensed">
                 <tr ng-repeat="character in characters">
                     <td class="icon-small class-{{character.bnet.class}}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;
                     </td>
-                    <td class="class-{{character.bnet.class}}">
-                        {{character.name}}
+                    <td>
+                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold txt-underline class-{{character.bnet.class}}">
+                            {{character.name}}
+                        </a>
                     </td>
                     <td>
                         {{character.realm}}
