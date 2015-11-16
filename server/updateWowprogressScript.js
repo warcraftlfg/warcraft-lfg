@@ -13,13 +13,14 @@ var MongoDatabase = process.require("api/MongoDatabase.js");
 var RedisDatabase = process.require("api/RedisDatabase.js");
 
 var applicationStorage = process.require("api/applicationStorage");
+;
 
 //Configuration
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
-
-var guildModel = process.require("models/guildModel.js");
-var characterModel = process.require("models/characterModel.js");
+var loggerAPI = process.require("api/logger.js");
+var logger = loggerAPI.get("logger",config.logger)
+var wowprogressAPI = process.require('api/wowProgress.js');
 
 async.series([
     // Establish a connection to the database
@@ -31,7 +32,7 @@ async.series([
 
         mongoDb.connect(function(error) {
             if (error) {
-                logger.error(error.message);
+                console.log(error.message);
                 process.exit(0);
             }
 
@@ -39,7 +40,7 @@ async.series([
 
             redisDb.connect(function(error) {
                 if (error) {
-                    logger.error(error.message);
+                    console.log(error.message);
                     process.exit(0);
                 }
                 applicationStorage.setRedisDatabase(redisDb);
@@ -53,20 +54,37 @@ async.series([
     },
     // Start Guild update
     function(callback){
-        guildModel.getAds(0,{},function(error,guilds){
-            console.log(guilds);
-            //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
+
+        var database = applicationStorage.getMongoDatabase();
+
+        database.find("guilds", {"ad.updated":{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,id:1}, 0, {"ad.updated":-1}, function(error,guilds){
+            callback(error, guilds);
+
+                //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
+                async.eachSeries(guilds,function(guild,callback){
+                    if(guild.id.indexOf(0)!=-1){
+                        wowprogressAPI.parseGuildPage("/"+guild.region+"/"+guild.realm+"/"+guild.name,function(error,guildAd){
+                            console.log(guildAd);
+                        });
+
+                    }
+                    else{
+                        console.log(guild.id);
+                    }
+                    callback();
+                });
+        },function(){
+            callback();
         });
 
 
-        callback();
+
+
     },
     // Start Characters update
     function(callback){
-        characterModel.getAds(0,{},function(error,characters){
-            console.log(characters);
+            //console.log(characters);
             //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
-        });
         callback();
     }
 
