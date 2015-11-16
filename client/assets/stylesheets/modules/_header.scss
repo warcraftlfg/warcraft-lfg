@@ -1,0 +1,45 @@
+.header {
+	height: 135px;
+	background-size: cover;
+	padding: 15px;
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.overlay {
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2));
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 5;
+	padding: 15px;
+}
+
+.header.header-account {
+	background: url(../images/header/account.png) center center no-repeat #260303;
+}
+
+.header.header-character {
+	background: url(../images/header/character.png) center center no-repeat #260303;
+}
+
+.header.header-guild {
+	background: url(../images/header/guild.png) center center no-repeat #260303;
+}
+
+.header.header-about {
+	background: url(../images/header/account.png) center center no-repeat #260303;
+}
+
+.header.header-terms {
+	background: url(../images/header/account.png) center center no-repeat #260303;
+}
+
+.header.header-privacy {
+	background: url(../images/header/account.png) center center no-repeat #260303;
+}
+
+.header.header-cookies {
+	background: url(../images/header/account.png) center center no-repeat #260303;
+}
