@@ -95,7 +95,7 @@
                             </a>
                         </td>
                     </tr>
-                    <tr ng-show="characterAds.length <= 0">
+                    <tr ng-if="!characterAds.length">
                         <td>
                             {{"NO_DATA"|translate}}
                         </td>
@@ -166,7 +166,7 @@
                             </a>
                         </td>
                     </tr>
-                    <tr ng-show="characterAds.length <= 0">
+                    <tr ng-if="!characterAds.length">
                         <td>
                             {{"NO_DATA"|translate}}
                         </td>
