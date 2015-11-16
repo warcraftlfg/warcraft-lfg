@@ -50,8 +50,12 @@
         </label>
     </div>
     <div class="form-group">
-        <label>Raids per week</label>  {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
-        <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+        <label>
+            <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
+        <div ng-if="filters.raids_per_week.active">
+            {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
+            <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+        </div>
     </div>
     <table class="table table-condensed" >
         <thead>
@@ -81,13 +85,7 @@
                 {{guild.ad.language}}
             </td>
             <td>
-                <span ng-if="guild.ad.raids_per_week['1_per_week']">1</span>
-                <span ng-if="guild.ad.raids_per_week['2_per_week']">2</span>
-                <span ng-if="guild.ad.raids_per_week['3_per_week']">3</span>
-                <span ng-if="guild.ad.raids_per_week['4_per_week']">4</span>
-                <span ng-if="guild.ad.raids_per_week['5_per_week']">5</span>
-                <span ng-if="guild.ad.raids_per_week['6_per_week']">6</span>
-                <span ng-if="guild.ad.raids_per_week['7_per_week']">7</span>
+                {{guild.ad.raids_per_week.min}} - {{guild.ad.raids_per_week.max}}
             </td>
             <td>
                 <span am-time-ago="guild.ad.updated"></span>
