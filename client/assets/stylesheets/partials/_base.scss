@@ -96,6 +96,7 @@ a, a:hover, a:focus {
 .content .title {
 	font-size: 30px;
 	margin-bottom: 15px;
+	font-weight: $bold;
 }
 
 .content .subtitle {
@@ -105,25 +106,6 @@ a, a:hover, a:focus {
 
 .content .content {
 	margin-bottom: 15px;
-}
-
-.header {
-	height: 135px;
-	background: url(../images/dashboard-intro-bg.png) center center no-repeat #260303;
-	background-size: cover;
-	padding: 15px;
-	position: relative;
-	margin-bottom: 20px;
-}
-
-.overlay {
-	background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2));
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 5;
-	padding: 15px;
 }
 
 @import "../modules/all";
