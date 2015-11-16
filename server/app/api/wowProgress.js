@@ -176,22 +176,11 @@ module.exports.parseCharacterPage = function(url,callback) {
             result.transfert = true;
 
         var raidsPerWeek = cheerio.load(languageDivs[2])('strong').text().split(' - ');
-        result.raids_per_week = {};
-        if(raidsPerWeek.indexOf('1')!=-1)
-            result.raids_per_week["1_per_week"] = true;
-        if(raidsPerWeek.indexOf('2')!=-1)
-            result.raids_per_week["2_per_week"] = true;
-        if(raidsPerWeek.indexOf('3')!=-1)
-            result.raids_per_week["3_per_week"] = true;
-        if(raidsPerWeek.indexOf('4')!=-1)
-            result.raids_per_week["4_per_week"] = true;
-        if(raidsPerWeek.indexOf('5')!=-1)
-            result.raids_per_week["5_per_week"] = true;
-        if(raidsPerWeek.indexOf('6')!=-1)
-            result.raids_per_week["6_per_week"] = true;
-        if(raidsPerWeek.indexOf('7')!=-1)
-            result.raids_per_week["7_per_week"] = true;
-
+        if(raidsPerWeek.length == 2) {
+            result.raids_per_week = {};
+            result.raids_per_week.min = parseInt(raidsPerWeek[0]);
+            result.raids_per_week.max = parseInt(raidsPerWeek[1]);
+        }
 
         var roles =  cheerio.load(languageDivs[3])('strong').text().split(', ');
         result.role = {};
@@ -341,21 +330,11 @@ module.exports.parseGuildPage = function( url, callback) {
         }
 
         var raidsPerWeek = $body(".raids_week").text().replace("Raids per week: ","").split(' - ');
-        result.raids_per_week = {};
-        if(raidsPerWeek.indexOf('1')!=-1)
-            result.raids_per_week["1_per_week"] = true;
-        if(raidsPerWeek.indexOf('2')!=-1)
-            result.raids_per_week["2_per_week"] = true;
-        if(raidsPerWeek.indexOf('3')!=-1)
-            result.raids_per_week["3_per_week"] = true;
-        if(raidsPerWeek.indexOf('4')!=-1)
-            result.raids_per_week["4_per_week"] = true;
-        if(raidsPerWeek.indexOf('5')!=-1)
-            result.raids_per_week["5_per_week"] = true;
-        if(raidsPerWeek.indexOf('6')!=-1)
-            result.raids_per_week["6_per_week"] = true;
-        if(raidsPerWeek.indexOf('7')!=-1)
-            result.raids_per_week["7_per_week"] = true;
+        if(raidsPerWeek.length == 1) {
+            result.raids_per_week = {};
+            result.raids_per_week.min = parseInt(raidsPerWeek[0]);
+            result.raids_per_week.max = parseInt(raidsPerWeek[0]);
+        }
 
         var description = $body(".guildDescription").text();
         result.description = description;

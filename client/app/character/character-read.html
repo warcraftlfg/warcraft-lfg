@@ -33,16 +33,9 @@
                     </div>
                     <div class="row" ng-if="character.ad">
                         <div class="col-md-3">
-                            <strong>Raids per week</strong>
-                            <ul>
-                                <li ng-repeat="(key,value) in character.ad.raids_per_week" >
-                                    {{key|uppercase|translate}}
-                                    <i class="fa fa-times" ng-if="!character.ad.raids_per_week[key]"></i>
-                                    <i class="fa fa-check" ng-if="character.ad.raids_per_week[key]"></i>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
+                            <p>
+                                <strong>Raids per week :</strong> {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
+                            </p>
                             <p>
                                 <strong>{{"LANGUAGE"|translate}}</strong> {{"LANG_"+character.ad.language|uppercase|translate}}
                             </p>
@@ -60,7 +53,7 @@
 
                         </div>
 
-                        <div class="col-md-6" ng-if="character.ad.description!=''">
+                        <div class="col-md-9" ng-if="character.ad.description!=''">
                             <strong>{{"DESCRIPTION"|translate}}</strong>
                             <pre>{{character.ad.description}}</pre>
                         </div>

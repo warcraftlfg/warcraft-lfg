@@ -220,14 +220,9 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.role && filters.role != ""){
         criteria["ad.role."+filters.role] = true;
     }
-    if(filters.raids_per_week && !(filters.raids_per_week.min==1 && filters.raids_per_week.max==7)){
-        var rpw = []
-        for(var i = filters.raids_per_week.min  ; i<=filters.raids_per_week.max; i++){
-            var obj = {};
-            obj["ad.raids_per_week."+i+"_per_week"] = true;
-            rpw.push(obj);
-        }
-        criteria["$or"] = rpw;
+    if(filters.raids_per_week && filters.raids_per_week.active){
+        criteria["ad.raids_per_week.min"] = {$lte:filters.raids_per_week.min};
+        criteria["ad.raids_per_week.max"] = {$gte:filters.raids_per_week.max};
     }
     database.find("characters",criteria , {
         name:1,
