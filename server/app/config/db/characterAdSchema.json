@@ -37,33 +37,17 @@
     "raids_per_week": {
       "type": "object",
       "properties": {
-        "1_per_week": {
-          "type": "boolean",
-          "default": false
+        "min": {
+          "type": "integer",
+          "default": 1,
+          "min":1,
+          "max":7
         },
-        "2_per_week": {
-          "type": "boolean",
-          "default": false
-        },
-        "3_per_week": {
-          "type": "boolean",
-          "default": false
-        },
-        "4_per_week": {
-          "type": "boolean",
-          "default": false
-        },
-        "5_per_week": {
-          "type": "boolean",
-          "default": false
-        },
-        "6_per_week": {
-          "type": "boolean",
-          "default": false
-        },
-        "7_per_week": {
-          "type": "boolean",
-          "default": false
+        "max": {
+          "type": "integer",
+          "default": 7,
+          "min":1,
+          "max":7
         }
       }
     }
