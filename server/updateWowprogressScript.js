@@ -13,7 +13,14 @@ var MongoDatabase = process.require("api/MongoDatabase.js");
 var RedisDatabase = process.require("api/RedisDatabase.js");
 
 var applicationStorage = process.require("api/applicationStorage");
-;
+
+var guildAdSchema = process.require('config/db/guildAdSchema.json');
+var characterAdSchema = process.require('config/db/characterAdSchema.json');
+
+var Confine = require("confine");
+
+//Configuration
+var confine = new Confine();
 
 //Configuration
 var env = process.env.NODE_ENV || "dev";
@@ -21,6 +28,28 @@ var config = process.require("config/config."+env+".json");
 var loggerAPI = process.require("api/logger.js");
 var logger = loggerAPI.get("logger",config.logger)
 var wowprogressAPI = process.require('api/wowProgress.js');
+var guildModel = process.require("models/guildModel.js");
+var characterModel = process.require("models/characterModel.js");
+
+
+var russianRealms = {
+    "Gordunni":"Гордунни",
+    "Howling Fjord":"Ревущий фьорд",
+    "Blackscar":"Черный Шрам",
+    "Ashenvale":"Ясеневый лес",
+    "Soulflayer":"Свежеватель Душ",
+    "Razuvious":"Разувий",
+    "Azuregos":"Азурегос",
+    "Booty Bay":"Пиратская Бухта",
+    "Eversong":"Вечная Песня",
+    "Deathguard":"Страж смерти",
+    "Lich King":"Король-лич",
+    "Fordragon":"Дракономор",
+    "Borean Tundra":"Борейская тундра",
+    "Goldrinn":"Голдринн",
+    "Grom":"Гром",
+    "Galakrond":"Галакронд"
+};
 
 async.series([
     // Establish a connection to the database
@@ -54,25 +83,42 @@ async.series([
     },
     // Start Guild update
     function(callback){
-
+        return callback();
         var database = applicationStorage.getMongoDatabase();
 
         database.find("guilds", {"ad.updated":{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,id:1}, 0, {"ad.updated":-1}, function(error,guilds){
             callback(error, guilds);
 
-                //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
-                async.eachSeries(guilds,function(guild,callback){
-                    if(guild.id.indexOf(0)!=-1){
-                        wowprogressAPI.parseGuildPage("/"+guild.region+"/"+guild.realm+"/"+guild.name,function(error,guildAd){
-                            console.log(guildAd);
+            //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
+            async.eachSeries(guilds,function(guild,callback){
+                if(guild.id.indexOf(0)!=-1){
+
+                    var realm = "";
+                    if(russianRealms[guild.realm] && guild.region =="eu")
+                        realm = russianRealms[guild.realm];
+                    else
+                        realm = guild.realm;
+
+                    realm = realm.split(" ").join("-");
+                    realm = realm.split("'").join("-");
+
+                    wowprogressAPI.parseGuildPage("/guild/"+guild.region+"/"+realm+"/"+guild.name,function(error,guildAd){
+                        console.log(guildAd);
+
+                        guild.ad = guildAd;
+
+                        database.insertOrUpdate("guilds", {region: guild.region, realm: guild.realm, name: guild.name}, {$set: guild}, null, function (error,result) {
+                            callback(error, result);
                         });
 
-                    }
-                    else{
-                        console.log(guild.id);
-                    }
-                    callback();
-                });
+                    });
+
+                }
+                else{
+                    console.log(guild.id);
+                    callback()
+                }
+            });
         },function(){
             callback();
         });
@@ -82,10 +128,58 @@ async.series([
 
     },
     // Start Characters update
-    function(callback){
-            //console.log(characters);
-            //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
-        callback();
+    function(callback) {
+        //console.log(characters);
+        //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
+
+        var database = applicationStorage.getMongoDatabase();
+
+        database.find("characters", {"ad.updated": {$exists: true}}, {
+            name: 1,
+            realm: 1,
+            region: 1,
+            "ad.updated": 1,
+            id: 1
+        }, 0, {"ad.updated": -1}, function (error, characters) {
+            callback(error, characters);
+
+            async.eachSeries(characters, function (character, callback) {
+                if (character.id == 0) {
+
+                    var realm = "";
+                    if (russianRealms[character.realm] && character.region == "eu")
+                        realm = russianRealms[character.realm];
+                    else
+                        realm = character.realm;
+
+                    realm = realm.split(" ").join("-");
+                    realm = realm.split("'").join("-");
+
+                    wowprogressAPI.parseCharacterPage("/character/" + character.region + "/" + realm + "/" + character.name, function (error, characterAd) {
+                        characterAd = confine.normalize(characterAd,characterAdSchema);
+                        character.ad = characterAd
+                        delete(character._id);
+                        console.log(character);
+
+                        database.insertOrUpdate("characters", {
+                            region: character.region,
+                            realm: character.realm,
+                            name: character.name
+                        }, null, character, function (error, result) {
+                            callback(error, result);
+                        });
+
+                    });
+
+                }
+                else {
+                    console.log(character.id);
+                    callback();
+                }
+            });
+        }, function () {
+            callback();
+        });
     }
 
 ]);

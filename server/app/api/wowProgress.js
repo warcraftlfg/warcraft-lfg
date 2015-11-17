@@ -71,8 +71,8 @@ module.exports.getGuildRank = function(region,realm,name,callback){
     if(region.toLowerCase() == "eu" && russianRealms[realm])
         realm = russianRealms[realm];
 
-    realm = realm.replace(" ","-");
-    realm = realm.replace("'","-");
+    realm = realm.split(" ").join("-");
+    realm = realm.split("'").join("-");
 
     var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name+"/json_rank");
     request(url, function (error, response, body) {
@@ -91,7 +91,7 @@ module.exports.getGuildRank = function(region,realm,name,callback){
 };
 
 module.exports.getWoWProgressPage = function(path,callback) {
-    var url = "http://www.wowprogress.com"+path;
+    var url = encodeURI("http://www.wowprogress.com"+path);
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error,body);
@@ -203,6 +203,8 @@ module.exports.parseCharacterPage = function(url,callback) {
 
 module.exports.parseGuildPage = function( url, callback) {
     var self=this;
+    console.log(url);
+
     this.getWoWProgressPage(url, function (error, body) {
         if (error) {
             callback(error);

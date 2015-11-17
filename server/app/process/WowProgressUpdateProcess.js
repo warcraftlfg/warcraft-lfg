@@ -28,7 +28,6 @@ WowProgressUpdateProcess.prototype.start = function(){
         null,
         true
     );
-    self.updateCharactersAd();
 };
 
 module.exports = WowProgressUpdateProcess;
