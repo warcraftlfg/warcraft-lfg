@@ -8,8 +8,8 @@
 
 .guild {font-weight:bold}
 
-.faction-1 { color: #CD2B00}
-.faction-0 { color: #0C81CE}
+.faction-1 { color: #B30000}
+.faction-0 { color: #0078FF}
 
 /* None*/
 .class-0,.class-none{color:#000000;}
@@ -64,8 +64,58 @@
   &.dps,&.melee_dps,&.ranged_dps {background: url('../images/icon/16/dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
   &.healer,&.heals {background: url('../images/icon/16/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
   &.tank,&.tanks {background: url('../images/icon/16/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+
+  &.faction-1{background: url('../images/icon/16/horde.png') left center no-repeat;}
+  &.faction-0{background: url('../images/icon/16/alliance.png') left center no-repeat;}
 }
 
+
+.icon-medium {
+  padding: 1px 0px 1px 40px;
+  /* Warrior */
+  &.class-1{background: url('../images/icon/32/class-1.png') left center no-repeat;}
+  /* Paladin */
+  &.class-2{background: url('../images/icon/32/class-2.png') left center no-repeat;}
+  /* Hunter */
+  &.class-3{background: url('../images/icon/32/class-3.png') left center no-repeat;}
+  /* Rogue */
+  &.class-4{background: url('../images/icon/32/class-4.png') left center no-repeat;}
+  /* Priest */
+  &.class-5{background: url('../images/icon/32/class-5.png') left center no-repeat;}
+  /* Death Knight */
+  &.class-6{background: url('../images/icon/32/class-6.png') left center no-repeat;}
+  /* Shaman */
+  &.class-7{background: url('../images/icon/32/class-7.png') left center no-repeat;}
+  /* Mage */
+  &.class-8{background: url('../images/icon/32/class-8.png') left center no-repeat;}
+  /* Warlock */
+  &.class-9{background: url('../images/icon/32/class-9.png') left center no-repeat;}
+  /* Monk */
+  &.class-10{background: url('../images/icon/32/class-10.png') left center no-repeat;}
+  /* Druid */
+  &.class-11{background: url('../images/icon/32/class-11.png') left center no-repeat;}
+
+
+}
+
+.icon-large {
+  padding:32px 32px;
+  &.faction-1{
+    background: url('../images/icon/64/horde.png') left center no-repeat;
+  }
+  &.faction-0{
+    background: url('../images/icon/64/alliance.png') left center no-repeat;
+  }
+  &.character{
+    background: url('../images/icon/64/character.png') left center no-repeat;
+  }
+  &.guild{
+    background: url('../images/icon/64/guild.png') left center no-repeat;
+  }
+  &.ad{
+    background: url('../images/icon/64/ad.png') left center no-repeat;
+  }
+}
 
 /*warrior*/
 .character-class-1{
@@ -181,55 +231,3 @@
 
 
 
-.icon-medium {
-  padding: 1px 0px 1px 40px;
-  /* Warrior */
-  &.class-1{background: url('../images/icon/32/class-1.png') left center no-repeat;}
-  /* Paladin */
-  &.class-2{background: url('../images/icon/32/class-2.png') left center no-repeat;}
-  /* Hunter */
-  &.class-3{background: url('../images/icon/32/class-3.png') left center no-repeat;}
-  /* Rogue */
-  &.class-4{background: url('../images/icon/32/class-4.png') left center no-repeat;}
-  /* Priest */
-  &.class-5{background: url('../images/icon/32/class-5.png') left center no-repeat;}
-  /* Death Knight */
-  &.class-6{background: url('../images/icon/32/class-6.png') left center no-repeat;}
-  /* Shaman */
-  &.class-7{background: url('../images/icon/32/class-7.png') left center no-repeat;}
-  /* Mage */
-  &.class-8{background: url('../images/icon/32/class-8.png') left center no-repeat;}
-  /* Warlock */
-  &.class-9{background: url('../images/icon/32/class-9.png') left center no-repeat;}
-  /* Monk */
-  &.class-10{background: url('../images/icon/32/class-10.png') left center no-repeat;}
-  /* Druid */
-  &.class-11{background: url('../images/icon/32/class-11.png') left center no-repeat;}
-
-
-}
-
-.icon-large {
-  padding:32px 32px;
-  &.faction-1{
-    background: url('../images/icon/64/horde.png') left center no-repeat;
-  }
-  &.faction-0{
-    background: url('../images/icon/64/alliance.png') left center no-repeat;
-  }
-  &.character{
-    background: url('../images/icon/64/character.png') left center no-repeat;
-  }
-  &.guild{
-    background: url('../images/icon/64/guild.png') left center no-repeat;
-  }
-  &.ad{
-    background: url('../images/icon/64/ad.png') left center no-repeat;
-  }
-}
-
-
-
-
-
-.ring img{width:18px}
