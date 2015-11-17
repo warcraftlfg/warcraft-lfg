@@ -91,7 +91,8 @@ module.exports.getGuildRank = function(region,realm,name,callback){
 };
 
 module.exports.getWoWProgressPage = function(path,callback) {
-    var url = encodeURI("http://www.wowprogress.com"+path);
+    var url = "http://www.wowprogress.com"+path;
+
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error,body);
@@ -125,6 +126,7 @@ module.exports.getAds = function(callback){
         async.forEach(characters,function(character,callback){
             var $character = cheerio.load(character);
             var url = $character('a').attr('href');
+
             self.parseCharacterPage(url,function(error,character){
                 charactersResult.push(character);
                 callback();
@@ -203,8 +205,6 @@ module.exports.parseCharacterPage = function(url,callback) {
 
 module.exports.parseGuildPage = function( url, callback) {
     var self=this;
-    console.log(url);
-
     this.getWoWProgressPage(url, function (error, body) {
         if (error) {
             callback(error);

@@ -83,7 +83,6 @@ async.series([
     },
     // Start Guild update
     function(callback){
-        return callback();
         var database = applicationStorage.getMongoDatabase();
 
         database.find("guilds", {"ad.updated":{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,id:1}, 0, {"ad.updated":-1}, function(error,guilds){
@@ -102,12 +101,14 @@ async.series([
                     realm = realm.split(" ").join("-");
                     realm = realm.split("'").join("-");
 
-                    wowprogressAPI.parseGuildPage("/guild/"+guild.region+"/"+realm+"/"+guild.name,function(error,guildAd){
-                        console.log(guildAd);
+                    wowprogressAPI.parseGuildPage(encodeURI("/guild/"+guild.region+"/"+realm+"/"+guild.name),function(error,guildAd){
+
+                        var date = guild.ad.updated;
+                        guildAd = confine.normalize(guildAd,guildAdSchema);
 
                         guild.ad = guildAd;
-
-                        database.insertOrUpdate("guilds", {region: guild.region, realm: guild.realm, name: guild.name}, {$set: guild}, null, function (error,result) {
+                        guild.ad.updated = date;
+                        database.insertOrUpdate("guilds", {region: guild.region, realm: guild.realm, name: guild.name},null , guild, function (error,result) {
                             callback(error, result);
                         });
 
@@ -155,12 +156,14 @@ async.series([
                     realm = realm.split(" ").join("-");
                     realm = realm.split("'").join("-");
 
-                    wowprogressAPI.parseCharacterPage("/character/" + character.region + "/" + realm + "/" + character.name, function (error, characterAd) {
+                    wowprogressAPI.parseCharacterPage(encodeURI("/character/" + character.region + "/" + realm + "/" + character.name), function (error, characterAd) {
                         characterAd = confine.normalize(characterAd,characterAdSchema);
-                        character.ad = characterAd
-                        delete(character._id);
-                        console.log(character);
 
+                        var date = character.ad.updated;
+                        character.ad = characterAd;
+                        character.ad.updated = date;
+
+                        console.log(character);
                         database.insertOrUpdate("characters", {
                             region: character.region,
                             realm: character.realm,
