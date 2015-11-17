@@ -98,7 +98,21 @@ module.exports.feedAuctions = function(callback){
                 return callback(error);
             if (characterUpdatecount == 0 && auctionUpdatecount == 0)
                 self.importAuctionOwners(function (error) {
-                    return callback(error);
+                    if(error && error.message == "BNET_API_ERROR_DENY") {
+                        //Reset the auctionUpdateModel
+                        auctionUpdateModel.insertOrUpdate(auctionUpdate.region,auctionUpdate.realm,auctionUpdate.name,auctionUpdate.priority,function(error){
+                            if(error) {
+                                logger.error(error.message);
+                                return callback();
+                            }
+                            logger.warn("Feeds Auction Bnet Api Deny ... waiting 1 min");
+                            return setTimeout(function () {
+                                callback();
+                            }, 60000);
+                        });
+                    }else {
+                        return callback(error);
+                    }
                 });
             else {
                 logger.info("Cannot Feed Auctions CharacterUpdate et auctionUpdate is not empty waiting 3 sec");
@@ -140,7 +154,7 @@ module.exports.importAuctionOwners = function(callback) {
     auctionRealmUpdateModel.getNextToUpdate(function (error, auctionRealmUpdate) {
         if (error) {
             logger.error(error.message);
-            return callback();
+            return callback(error);
         }
         if (auctionRealmUpdate) {
             if(auctionRealmUpdate.region && auctionRealmUpdate.realm) {
