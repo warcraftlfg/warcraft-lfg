@@ -4,15 +4,19 @@
     margin:10px 0;
     border:1px solid $white;
     border-radius: 3px;
+    background-color: $black;
 
     h2{
       margin-bottom:10px
     }
 
+    .ring img{width:16px}
+
     .warcraft-logs{
       .icon-small {margin-left:10px;}
     }
   }
+
   .filters {
     .realm-search-input-container i {
       color: black;
