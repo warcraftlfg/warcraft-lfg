@@ -51,7 +51,9 @@
                             <a class="btn btn-default" ng-click="createGuildAd(guildRegion,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
                         </p>
                     </div>
-
+                    <div>
+                        <button ng-click="characterAdBlockShow = !characterAdBlockShow" class="btn btn-default">{{ "CANCEL"|translate }}</button>
+                    </div>
                 </div>
                 <table class="table">
                     <tr ng-repeat="guildAd in guildAds">
@@ -116,7 +118,9 @@
                                 {{character.name}} ({{character.level}}) - {{character.realm}}
                             </a>
                         </p>
-
+                    </div>
+                    <div>
+                        <button ng-click="guildAdBlockShow = !guildAdBlockShow" class="btn btn-default">{{ "CANCEL"|translate }}</button>
                     </div>
                 </div>
                 <table class="table">
