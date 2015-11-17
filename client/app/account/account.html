@@ -24,16 +24,16 @@
             <div class="col-md-6">
                 <h3 class="m-b-20">{{"ACCOUNT_MANAGE_GUILD_ADS"|translate}}</h3>
                 <div class="m-b-15">
-                    <a class="btn btn-default" href="#/guild/create" role="button">
+                    <button class="btn btn-default" ng-click="characterAdBlockShow = !characterAdBlockShow">
                         <i class="fa fa-plus"></i> &nbsp;
                         {{"ACCOUNT_SEARCH_PLAYER"|translate}}
-                    </a>
+                    </button>
                 </div>
-                <div class="m-b-15 p-15 bd-s">
+                <div class="m-b-15 p-15 bd-s" ng-show="characterAdBlockShow">
                     <form>
                         <div class="form-group">
                             <label for="region">{{ "REGION"|translate }}</label>
-                            <select ng-model="region" ng-change="updateRegion()" class="form-control" id="region">
+                            <select ng-model="guildRegion" ng-change="updateGuildRegion()" class="form-control" id="region">
                                 <option value=""><{{ "CHOOSE_REGION"|translate }}></option>
                                 <option value="eu">EU</option>
                                 <option value="kr">KR</option>
@@ -43,17 +43,15 @@
                         </div>
                     </form>
                     <div class="form-group">
-                        <label for="region">{{ "GUILD_CREATE_CHOOSE"|translate }}</label>
-                        <p ng-if="!userGuilds.length">
+                        <label ng-show="userGuilds.length" for="region">{{ "GUILD_CREATE_CHOOSE"|translate }}</label>
+                        <p ng-show="!userGuilds.length && guildRegion!='' && !$parent.loading">
                             {{ "NO_GUILD_FOUND_FOR_REGION"|translate }}
                         </p>
                         <p ng-repeat="guild in userGuilds">
-                            <a class="btn btn-default" ng-click="createGuildAd(region,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
+                            <a class="btn btn-default" ng-click="createGuildAd(guildRegion,guild.realm,guild.name)" role="button">{{guild.name}} - {{guild.realm}}</a>
                         </p>
                     </div>
-                    <div class="">
-                        <button class="btn btn-default">{{ "CANCEL"|translate }}</button>
-                    </div>
+
                 </div>
                 <table class="table">
                     <tr ng-repeat="guildAd in guildAds">
@@ -90,16 +88,16 @@
             <div class="col-md-6">
                 <h3 class="m-b-20">{{"ACCOUNT_MANAGE_CHARACTER_ADS"|translate}}</h3>
                 <div class="m-b-15">
-                    <a class="btn btn-default" href="#/character/create" role="button">
+                    <button class="btn btn-default" ng-click="guildAdBlockShow = !guildAdBlockShow">
                         <i class="fa fa-plus"></i> &nbsp;
                         {{"ACCOUNT_SEARCH_GUILD"|translate}}
-                    </a>
+                    </button>
                 </div>
-                <div class="m-b-15 p-15 bd-s">
+                <div class="m-b-15 p-15 bd-s" ng-show="guildAdBlockShow">
                     <form>
                         <div class="form-group">
                             <label for="region">{{ "REGION"|translate }}</label>
-                            <select ng-model="region" ng-change="updateRegion()" class="form-control" id="region">
+                            <select ng-model="characterRegion" ng-change="updateCharacterRegion()" class="form-control" id="region">
                                 <option value=""><{{ "CHOOSE_REGION"|translate }}></option>
                                 <option value="eu">EU</option>
                                 <option value="kr">KR</option>
@@ -109,18 +107,16 @@
                         </div>
                     </form>
                     <div class="form-group">
-                        <label for="region">{{ "CHARACTER_CREATE_CHOOSE"|translate }}</label>
-                        <p ng-if="!userCharacters.length">
+                        <label ng-show="userCharacters.length" for="region">{{ "CHARACTER_CREATE_CHOOSE"|translate }}</label>
+                        <p ng-show="!userCharacters.length && characterRegion!='' && !$parent.loading">
                             {{ "NO_CHARACTER_FOUND_FOR_REGION"|translate }}
                         </p>
                         <p ng-repeat="character in userCharacters">
-                            <a class="btn btn-default" ng-click="createCharacterAd(region,character.realm,character.name)" role="button">
+                            <a class="btn btn-default" ng-click="createCharacterAd(characterRegion,character.realm,character.name)" role="button">
                                 {{character.name}} ({{character.level}}) - {{character.realm}}
                             </a>
                         </p>
-                    </div>
-                    <div class="">
-                        <button class="btn btn-default">{{ "CANCEL"|translate }}</button>
+
                     </div>
                 </div>
                 <table class="table">
