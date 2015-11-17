@@ -101,6 +101,7 @@ module.exports.feedAuctions = function(callback){
                     return callback(error);
                 });
             else {
+                logger.info("Cannot Feed Auctions CharacterUpdate et auctionUpdate is not empty waiting 3 sec");
                 setTimeout(function () {
                     callback();
                 }, 3000);

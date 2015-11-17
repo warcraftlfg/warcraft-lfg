@@ -23,7 +23,7 @@ WowProgressUpdateProcess.prototype.start = function(){
     var self=this;
     new cronJob('0 * * * * *',
         function() {
-            self.updateCharactersAd();
+          //  self.updateCharactersAd();
         },
         null,
         true
