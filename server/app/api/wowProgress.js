@@ -10,9 +10,6 @@ var logger = process.require("api/logger.js").get("logger");
 var cheerio = require("cheerio");
 var async = require("async");
 
-
-//For russian Ream wowprogress is bad ...
-
 var languages = {
     "English": "en",
     "German": "de",
@@ -45,7 +42,7 @@ var languages = {
     "Turkish": "tr"
 };
 
-//For russian Ream wowprogress is bad ...
+//For russian Ream wowprogress use ru locale ...
 var russianRealms = {
     "Gordunni":"Гордунни",
     "Howling Fjord":"Ревущий фьорд",

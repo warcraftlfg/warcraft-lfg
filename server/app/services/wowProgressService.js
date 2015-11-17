@@ -8,90 +8,136 @@ var characterService = process.require("services/characterService.js");
 var guildService = process.require("services/guildService.js");
 var bnetAPI = process.require("api/bnet.js");
 
-module.exports.parseWowProgress = function(){
-
-    wowprogressAPI.getAds(function(error,wowProgressGuildAds,wowProgressCharacterAds){
-        if (error){
-            logger.error(error.message);
-            return;
+module.exports.parseWowProgress = function(callback){
+    var self = this;
+    async.waterfall([
+        function(callback){
+            wowprogressAPI.getAds(function(error,wowProgressGuildAds,wowProgressCharacterAds) {
+                callback(error,wowProgressGuildAds,wowProgressCharacterAds);
+            });
+        },
+        function(wowProgressGuildAds, wowProgressCharacterAds, callback){
+            async.series([
+                function(callback) {
+                    async.eachSeries(wowProgressGuildAds, function (wowProgressGuildAd, callback) {
+                        self.insertWoWProgressGuildAd(wowProgressGuildAd,function(error){
+                            callback(error);
+                        });
+                    }, function (error) {
+                        callback(error);
+                    });
+                },
+                function(callback){
+                    async.eachSeries(wowProgressCharacterAds,function(wowProgressCharacterAd,callback){
+                        self.insertWoWProgressCharacterAd(wowProgressCharacterAd,function(error){
+                            callback(error);
+                        });
+                    },function(error){
+                        callback(error);
+                    });
+                }
+            ],function(error){
+                callback(error);
+            });
         }
+    ],function(error){
+        callback(error);
+    });
+};
 
-        wowProgressGuildAds.forEach(function(wowProgressGuild){
-            bnetAPI.getGuild(wowProgressGuild.region, wowProgressGuild.realm, wowProgressGuild.name, function (error,guild) {
-                if (error) {
-                    return;
-                }
-                //Force name with bnet response (case or russian realm name)
-                wowProgressGuild.realm = guild.realm;
-                wowProgressGuild.name = guild.name;
-
-                guildService.get(wowProgressGuild.region,wowProgressGuild.realm,wowProgressGuild.name,function(error,guild) {
-                    if (error) {
-                        logger.error(error.message);
-                        return;
-                    }
-                    if (!guild || !guild.ad) {
-                        guildService.insertOrUpdateAd(wowProgressGuild.region, wowProgressGuild.realm, wowProgressGuild.name, 0, wowProgressGuild, function (error) {
-                            if (error) {
-                                logger.error(error.message);
-                                return;
-                            }
-                            guildUpdateModel.insertOrUpdate(wowProgressGuild.region, wowProgressGuild.realm, wowProgressGuild.name, 10, function (error) {
-                                if (error) {
-                                    logger.error(error.message);
-                                    return;
-                                }
-                                logger.info("Insert guild to update " + wowProgressGuild.region + "-" + wowProgressGuild.realm + "-" + wowProgressGuild.name);
-                            });
+module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
+    async.waterfall([
+        function (callback) {
+            bnetAPI.getGuild(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, function (error, guild) {
+                callback(error, guild);
+            });
+        },
+        function (guild, callback) {
+            //Force name with bnet response (case or russian realm name)
+            wowProgressGuildAd.realm = guild.realm;
+            wowProgressGuildAd.name = guild.name;
+            guildService.get(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, function (error, guild) {
+                callback(error, guild);
+            });
+        },
+        function (guild, callback) {
+            if (!guild || (guild && !guild.ad))
+                async.parallel([
+                    function (callback) {
+                        guildService.insertOrUpdateAd(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 0, wowProgressGuildAd, function (error) {
+                            callback(error);
+                        });
+                    },
+                    function (callback) {
+                        guildUpdateModel.insertOrUpdate(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 10, function (error) {
+                            if (!error)
+                                logger.info("Insert guild to update " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.name + " priority 10");
+                            callback(error);
                         });
                     }
+                ], function (error) {
+                    callback(error)
                 });
+            else{
+                logger.debug("Guild is already in datase " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.guild);
+                callback();
+            }
+        }
+    ], function (error) {
+        callback(error);
+    });
+};
+
+module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,callback){
+    async.waterfall([
+        function(callback) {
+            bnetAPI.getCharacter(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, function (error, character) {
+                callback(error,character);
             });
-        });
-        wowProgressCharacterAds.forEach(function(wowProgressCharacter){
-
-            bnetAPI.getCharacter(wowProgressCharacter.region, wowProgressCharacter.realm, wowProgressCharacter.name, function (error, character) {
-                if (error){// || character.level <100) {
-                    return;
-                }
-                //Force name with bnet response (case or russian realm name)
-                wowProgressCharacter.realm = character.realm;
-                wowProgressCharacter.name = character.name;
-
-                characterService.get(wowProgressCharacter.region, wowProgressCharacter.realm, wowProgressCharacter.name, function (error, character) {
-                    if (error) {
-                        logger.error(error.message);
-                        return;
-                    }
-                    if (!character || !character.ad) {
-                        characterService.insertOrUpdateAd(wowProgressCharacter.region, wowProgressCharacter.realm, wowProgressCharacter.name, 0, wowProgressCharacter, function (error) {
-                            if (error) {
-                                logger.error(error.message);
-                                return;
-                            }
-                            characterUpdateModel.insertOrUpdate(wowProgressCharacter.region, wowProgressCharacter.realm, wowProgressCharacter.name, 10, function (error) {
-                                if (error) {
-                                    logger.error(error.message);
-                                    return;
-                                }
-                                logger.info("Insert character to update " + wowProgressCharacter.region + "-" + wowProgressCharacter.realm + "-" + wowProgressCharacter.name);
-                            });
+        },
+        function(character,callback) {
+            //Force name with bnet response (case or russian realm name)
+            wowProgressCharacterAd.realm = character.realm;
+            wowProgressCharacterAd.name = character.name;
+            characterService.get(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, function (error, character) {
+                callback(error,character);
+            });
+        },
+        function(character,callback) {
+            if (!character || (character && !character.ad))
+                async.parallel([
+                    function (callback) {
+                        characterService.insertOrUpdateAd(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, 0, wowProgressCharacterAd, function (error) {
+                            callback(error);
                         });
-                        if (wowProgressCharacter.guild) {
-                            guildUpdateModel.insertOrUpdate(wowProgressCharacter.region, wowProgressCharacter.realm, wowProgressCharacter.guild, 10, function (error) {
-                                if (error) {
-                                    logger.error(error.message);
-                                    return;
-                                }
-                                logger.info("Insert guild to update " + wowProgressCharacter.region + "-" + wowProgressCharacter.realm + "-" + wowProgressCharacter.guild);
+                    },
+                    function (callback) {
+                        characterUpdateModel.insertOrUpdate(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, 10, function (error) {
+                            if (!error)
+                                logger.info("Insert character to update " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.name+" priority 10");
+                            callback(error);
+                        });
+                    },
+                    function (callback) {
+                        if (wowProgressCharacterAd.guild)
+                            guildUpdateModel.insertOrUpdate(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.guild, 10, function (error) {
+                                if (!error)
+                                    logger.info("Insert guild to update " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.guild+" priority 10");
+                                callback(error);
                             });
-                        }
+                        else
+                            callback();
                     }
+                ], function (error) {
+                    callback(error);
                 });
-
-
-            });
-        });
+            else{
+                logger.debug("Character is already in datase " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.guild);
+                callback();
+            }
+        }
+    ],function(error){
+        callback(error);
     });
 };
 
