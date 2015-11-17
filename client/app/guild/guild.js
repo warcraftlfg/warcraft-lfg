@@ -3,63 +3,11 @@
 
     angular
         .module('app.guild')
-        .controller('GuildCreateController', GuildCreate)
         .controller('GuildReadController', GuildRead)
         .controller('GuildUpdateController', GuildUpdate)
         .controller('GuildDeleteController', GuildDelete)
         .controller('GuildListController', GuildList)
     ;
-
-    GuildCreate.$inject = ['$scope','socket','$state'];
-    function GuildCreate($scope, socket, $state) {
-        //Reset error message
-        $scope.$parent.error=null;
-
-
-        //Redirect not logged_in users to home
-        $scope.$watch("$parent.user", function() {
-            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
-                $state.go('dashboard');
-        });
-
-        //Initialize $scope variables
-        $scope.userGuilds = null;
-
-        var guildIds;
-
-        socket.forward('get:userGuilds',$scope);
-        $scope.$on('socket:get:userGuilds',function(ev,guilds){
-            $scope.$parent.loading = false;
-            $scope.userGuilds = guilds;
-        });
-
-        socket.forward('get:guild',$scope);
-        $scope.$on('socket:get:guild',function(ev,guild){
-            if (guild && guild.ad)
-                socket.emit('put:guildAd',guild);
-            else{
-                guildIds.ad = {};
-                socket.emit('put:guildAd',guildIds);
-            }
-        });
-
-        socket.forward('put:guildAd',$scope);
-        $scope.$on('socket:put:guildAd',function(ev,guild){
-            $state.go("guild-update",{region:guild.region,realm:guild.realm,name:guild.name});
-        });
-
-        $scope.updateRegion = function(){
-            $scope.$parent.loading = true;
-            socket.emit('get:userGuilds',$scope.region);
-        };
-
-        $scope.createGuildAd = function(region,realm,name){
-            $scope.$parent.loading = true;
-            guildIds = {region:region,realm:realm,name:name};
-            socket.emit('get:guild',guildIds);
-        };
-
-    }
 
     GuildRead.$inject = ["$scope","socket","$state","$stateParams"];
     function GuildRead($scope,socket,$state,$stateParams) {
@@ -146,7 +94,7 @@
         });
 
         //Initialize var
-        $scope.guild = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
+        $scope.guildAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
 
         $scope.delete = function(){
             $scope.$parent.loading = true;

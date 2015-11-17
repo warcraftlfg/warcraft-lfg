@@ -7,13 +7,6 @@
 
     function getRoutes($stateProvider) {
         $stateProvider
-            .state("character-create", {
-                url: "/character/create",
-                templateUrl: "app/character/character-create.html",
-                controllerAs: 'vm',
-                title: 'Character create',
-                controller: "CharacterCreateController"
-            })
             .state("character-read", {
                 url: "/character/:region/:realm/:name/",
                 templateUrl: "app/character/character-read.html",
