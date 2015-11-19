@@ -16,19 +16,29 @@ var logger = process.require("api/logger.js").get("logger");
 
 
 module.exports.getGuilds = function(region,id,callback){
-    this.getCharacters(region,id,function(error,characters){
-        var guilds = {};
-        //Fetch all characters and keep guild
-        async.forEach(characters,function(character,callback){
-            if(character.guild)
-                guilds[character.guild+character.guildRealm] = {name: character.guild, realm: character.guildRealm, region: region}
-            callback();
-        });
-        //Remove Key
-        var arr = Object.keys(guilds).map(function (key) {return guilds[key]});
-        callback(null,arr);
+    var self=this;
+    async.waterfall([
+        function(callback){
+            self.getCharacters(region,id,function(error,characters) {
+                callback(error,characters);
+            });
+        },
+        function(characters,callback){
+            var guilds = {};
+            //Fetch all characters and keep guild
+            async.each(characters,function(/*{guild,guildRealm}*/character,callback){
+                if(character.guild)
+                    guilds[character.guild+character.guildRealm] = {name: character.guild, realm: character.guildRealm, region: region};
+                callback();
+            },function(error){
+                //Remove Key
+                var guildArray = Object.keys(guilds).map(function (key) {return guilds[key]});
+                callback(error,guildArray);
+            });
+        }
+    ],function(error,guildArray){
+        callback(error,guildArray);
     });
-
 };
 
 module.exports.getCharacters = function(region,id,callback){
@@ -44,7 +54,7 @@ module.exports.getCharacters = function(region,id,callback){
             var result = [];
             characters.forEach(function(character){
                 //if(character.level >= 100)
-                    result.push(character);
+                result.push(character);
             });
             callback(null,result);
         });
@@ -53,6 +63,7 @@ module.exports.getCharacters = function(region,id,callback){
 
 module.exports.importGuilds = function(id){
     var self=this;
+    //noinspection JSUnresolvedVariable
     config.bnet_regions.forEach(function(region) {
         self.getGuilds(region,id,function(error,guilds) {
             if(error) {
@@ -60,7 +71,7 @@ module.exports.importGuilds = function(id){
                 return;
             }
             guilds.forEach(function (guild) {
-                guildUpdateModel.insertOrUpdate(region, guild.realm, guild.name,0,function(error){
+                guildUpdateModel.insertOrUpdate(region, guild.realm, guild.name,0,function(){
                     logger.info("Insert guild  to update "+ region+"-"+guild.realm+"-"+guild.name);
                 });
             });
@@ -71,6 +82,7 @@ module.exports.importGuilds = function(id){
 
 module.exports.updateCharactersId = function(id){
     var self = this;
+    //noinspection JSUnresolvedVariable
     config.bnet_regions.forEach(function(region) {
         self.getCharacters(region,id,function(error,characters){
             if (error){
@@ -80,7 +92,7 @@ module.exports.updateCharactersId = function(id){
             characters.forEach(function (character){
                 characterService.setId(region,character.realm,character.name,id,function(error){
                     if (error)
-                        logger.error(error.mesage);
+                        logger.error(error.message);
                 });
             });
         });
@@ -89,6 +101,7 @@ module.exports.updateCharactersId = function(id){
 
 module.exports.updateGuildsId = function(id){
     var self = this;
+    //noinspection JSUnresolvedVariable
     config.bnet_regions.forEach(function(region) {
         self.getGuilds(region,id,function(error,guilds){
             if (error){
