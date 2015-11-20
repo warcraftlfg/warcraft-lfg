@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 // Set module root directory and define a custom require function
 process.root = __dirname;
@@ -11,15 +11,12 @@ var path = require("path");
 var async = require('async');
 var MongoDatabase = process.require("api/MongoDatabase.js");
 var RedisDatabase = process.require("api/RedisDatabase.js");
-
 var loggerAPI = process.require("api/logger.js");
 var applicationStorage = process.require("api/applicationStorage");
-
-//Configuration
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
-//Check strat parameters
+//Check strat parameters default for dev is true
 var startWebserver = true;
 var startGuildUpdateProcess = true;
 var startCharacterUpdateProcess = true;
@@ -29,7 +26,7 @@ var startAuctionUpdateProcess = true;
 var startRealmUpdateProcess = true;
 var startAdUpdateProcess = true;
 
-
+//Check if an argument is provided
 if(process.argv.length == 3 ){
     startWebserver = false;
     startGuildUpdateProcess = false;
@@ -40,33 +37,48 @@ if(process.argv.length == 3 ){
     startRealmUpdateProcess = false;
     startAdUpdateProcess = false;
 
+    // -gu start GuildUpdateProcess
     if(process.argv[2] ==="-gu")
         startGuildUpdateProcess=true;
+
+    // -cu start CharacterUpdateProcess
     if(process.argv[2] ==="-cu")
         startCharacterUpdateProcess=true;
+
+    // -ru start RealmUpdateProcess
     if(process.argv[2] ==="-ru")
         startRealmUpdateProcess=true;
+
+    // -wp start WowProgressUpdateProcess
     if(process.argv[2] ==="-wp")
         startWowProgressUpdateProcess=true;
+
+    // -clean start CleanerProcess
     if(process.argv[2] ==="-clean")
         startCleanerProcess=true;
+
+    // -au start AuctionUpdateProcess
     if(process.argv[2] ==="-au")
         startAuctionUpdateProcess=true;
+
+    // -adu start AdUpdateProcess
     if(process.argv[2] ==="-adu")
         startAdUpdateProcess=true;
+
+    // -ws start webserver
     if(process.argv[2] ==="-ws")
         startWebserver=true;
 
 }
 
+//Initialize Logger
 var logger = loggerAPI.get("logger",config.logger);
-
 
 //Load WebServer
 var WebServer = process.require("process/WebServer.js");
 var webServer = new WebServer();
 
-//Load character update process
+//Load processes
 var CharacterUpdateProcess = process.require("process/CharacterUpdateProcess.js");
 var characterUpdateProcess = new CharacterUpdateProcess();
 var GuildUpdateProcess = process.require("process/GuildUpdateProcess.js");
@@ -90,29 +102,35 @@ async.series([
         var redisDb = new RedisDatabase(config.database.redis);
         // Establish connection to the database
 
-        mongoDb.connect(function(error) {
-            if (error) {
-                logger.error(error.message);
-                process.exit(0);
-            }
-
-            applicationStorage.setMongoDatabase(mongoDb);
-            if(startWebserver)
-                webServer.onDatabaseAvailable(mongoDb);
-
-            redisDb.connect(function(error) {
-                if (error) {
-                    logger.error(error.message);
-                    process.exit(0);
+        async.parallel([
+                function(callback){
+                    mongoDb.connect(function(error) {
+                        if (error) {
+                            logger.error(error.message);
+                            process.exit(0);
+                        }
+                        applicationStorage.setMongoDatabase(mongoDb);
+                        logger.debug("Mongodb connected");
+                        callback();
+                    });
+                },
+                function(callback) {
+                    redisDb.connect(function(error) {
+                        if (error) {
+                            logger.error(error.message);
+                            process.exit(0);
+                        }
+                        applicationStorage.setRedisDatabase(redisDb);
+                        logger.debug("Redis connected");
+                        callback();
+                    });
                 }
-                applicationStorage.setRedisDatabase(redisDb);
-
-                callback();
-
+            ],
+            function() {
+                if(startWebserver)
+                    webServer.onDatabaseAvailable(mongoDb);
+                callback()
             });
-
-
-        });
     },
     // Start Process
     function(callback){
@@ -134,5 +152,4 @@ async.series([
             adUpdateProcess.start();
         callback();
     }
-
 ]);

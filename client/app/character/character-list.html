@@ -1,129 +1,164 @@
-
-<div class="container character-list" infinite-scroll="getMoreCharacters()">
-    <h1>Characters</h1>
-    <div class="form filters">
-        <div class="form-group">
-            <label class="radio-inline">
-                <input type="radio" ng-model="filters.faction" value="" ng-change="updateFilters()" > All
-            </label>
-            <label class="radio-inline">
-                <input type="radio" ng-model="filters.faction" value="0" ng-change="updateFilters()" > <span class="icon-small faction-0">{{"ALLIANCE"|translate}}</span>
-            </label>
-            <label class="radio-inline">
-                <input type="radio" ng-model="filters.faction" value="1" ng-change="updateFilters()" > <span class="icon-small faction-1">{{"HORDE"|translate}}</span>
-            </label>
-        </div>
-        <div class="form-group">
-            <label>Region:</label>
-            <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
-                <option value=""></option>
-                <option value="eu">EU</option>
-                <option value="kr">KR</option>
-                <option value="tw">TW</option>
-                <option value="us">US</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Language :</label>
-            <select ng-model="filters.language"  ng-change="updateFilters()"  class="form-control">
-                <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="checkbox-inline" ng-repeat="(class_number,value) in filters.classes">
-                <input type="checkbox" ng-model="filters.classes[class_number]" ng-change="updateFilters()" > <span class="icon-small class-{{class_number}}">{{"CLASS_"+class_number|translate}}</span>
-            </label>
-        </div>
-        <div class="form-group">
-            <label class="radio-inline">
-                <input type="radio" ng-model="filters.role" value="" ng-change="updateFilters()" > All
-            </label>
-            <label class="radio-inline">
-                <input type="radio" ng-model="filters.role" value="tank" ng-change="updateFilters()" > <span class="icon-small tank">{{"TANK"|translate}}</span>
-            </label>
-            <label class="radio-inline">
-                <input type="radio" ng-model="filters.role" value="healer" ng-change="updateFilters()" > <span class="icon-small healer">{{"HEALER"|translate}}</span>
-            </label>
-            <label class="radio-inline">
-                <input type="radio" ng-model="filters.role" value="dps" ng-change="updateFilters()" > <span class="icon-small dps">{{"DPS"|translate}}</span>
-            </label>
-        </div>
-        <div class="form-group">
-            <div class="checkbox">
-                <label>
-                    <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">  Level 100
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="checkbox">
-                <label>
-                    <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>
-                <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
-            <div ng-if="filters.raids_per_week.active">
-                {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
-                <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+<section class="header header-character">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ "CHARACTERS"|translate}}</h1>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="row character" ng-repeat="character in characters">
-        <div class="col-md-1">
-            <div class=" icon-large faction-{{character.bnet.faction}}"></div>
-        </div>
-        <div class="col-md-3">
-            <div>
-                <h2>
-                    <a class="icon-medium class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                        {{character.name}}
-                    </a>
-                </h2>
-
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ "CHARACTERS_DESCRIPTION"|translate}}
+                </div>
             </div>
-            <div>
-                {{character.realm}} ({{character.region|uppercase}}) - lvl {{character.bnet.level}}
-            </div>
-            <div>
-                Updated <span am-time-ago="character.ad.updated"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div>
-                ilvl : {{character.bnet.items.averageItemLevelEquipped}}
-            </div>
-            <div>
-                <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
-                <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div>
-                Transfert : <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
-            </div>
-            <div>
-                Language : {{character.ad.language}}
-            </div>
-            <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
-                Role :
-                <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
-                <span ng-if="character.ad.role.healer" class="icon-small healer"></span>
-                <span ng-if="character.ad.role.dps" class="icon-small dps"></span>
-            </div>
-            <div>
-                Raids per week : {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
-            </div>
-        </div>
-        <div class="col-md-5 character-class-{{character.bnet.class}}">
-            <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
         </div>
     </div>
-    <div class="row text-center">
-        <i class="fa fa-3x fa-spinner fa-spin" ng-if="loading"></i>
+</section>
+<div class="character-list" infinite-scroll="getMoreCharacters()">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form filters">
+                    <div class="form-group row ">
+                        <div class="col-md-6">
+                            <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
+                                <option value="">{{"CHOOSE_REGION"|translate}}</option>
+                                <option value="eu">EU</option>
+                                <option value="kr">KR</option>
+                                <option value="tw">TW</option>
+                                <option value="us">US</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select ng-model="filters.language"  ng-change="updateFilters()"  class="form-control">
+                                <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="filters.faction" value="" ng-change="updateFilters()" > All
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="filters.faction" value="0" ng-change="updateFilters()" > <span class="icon-small faction-0">{{"ALLIANCE"|translate}}</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="filters.faction" value="1" ng-change="updateFilters()" > <span class="icon-small faction-1">{{"HORDE"|translate}}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="filters.role" value="" ng-change="updateFilters()" > All
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="filters.role" value="tank" ng-change="updateFilters()" > <span class="icon-small tank">{{"TANK"|translate}}</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="filters.role" value="healer" ng-change="updateFilters()" > <span class="icon-small healer">{{"HEALER"|translate}}</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="filters.role" value="dps" ng-change="updateFilters()" > <span class="icon-small dps">{{"DPS"|translate}}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">  Level 100
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-inline" ng-repeat="(class_number,value) in filters.classes">
+                        <input type="checkbox" ng-model="filters.classes[class_number]" ng-change="updateFilters()" > <span class="icon-small class-{{class_number}}">{{"CLASS_"+class_number|translate}}</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
+                    <div ng-if="filters.raids_per_week.active">
+                        {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
+                        <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="character" ng-repeat="character in characters">
+            <div class="row">
+                <div class="col-md-1 vertical-align">
+                    <div class="m-20  icon-large faction-{{character.bnet.faction}}"></div>
+                </div>
+                <div class="col-md-3">
+                    <div>
+                        <h2>
+                            <a class="icon-medium class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                                {{character.name}}
+                            </a>
+                        </h2>
+
+                    </div>
+                    <div>
+                        {{character.realm}} ({{character.region|uppercase}}) - lvl {{character.bnet.level}}
+                    </div>
+                    <div>
+                        Updated <span am-time-ago="character.ad.updated"></span>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div>
+                        ilvl : {{character.bnet.items.averageItemLevelEquipped}}
+                    </div>
+                    <div>
+                        <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
+                        <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div>
+                        Transfert : <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
+                    </div>
+                    <div>
+                        Language : {{character.ad.language}}
+                    </div>
+                    <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
+                        Role :
+                        <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
+                        <span ng-if="character.ad.role.healer" class="icon-small healer"></span>
+                        <span ng-if="character.ad.role.dps" class="icon-small dps"></span>
+                    </div>
+                    <div>
+                        Raids per week : {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
+                    </div>
+                </div>
+                <div class="col-md-5 character-class-{{character.bnet.class}}">
+                    <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="row text-center">
+            <i class="fa fa-3x fa-spinner fa-spin" ng-if="loading"></i>
+        </div>
     </div>
+
 </div>

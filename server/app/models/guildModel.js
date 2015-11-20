@@ -191,7 +191,7 @@ module.exports.getAds = function (number,filters,callback) {
     var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
     if(filters.last){
-        criteria.updated={$lt:filters.last}
+        criteria["ad.updated"]={$lt:filters.last}
     }
     if(filters.faction){
         criteria["bnet.side"] = parseInt(filters.faction);

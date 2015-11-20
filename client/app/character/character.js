@@ -3,63 +3,11 @@
 
     angular
         .module('app.dashboard')
-        .controller('CharacterCreateController', CharacterCreate)
         .controller('CharacterReadController', CharacterRead)
         .controller('CharacterUpdateController', CharacterUpdate)
         .controller('CharacterDeleteController', CharacterDelete)
         .controller('CharacterListController', CharacterList)
     ;
-
-    CharacterCreate.$inject = ['$scope','socket','$state'];
-    function CharacterCreate($scope, socket, $state) {
-        //Reset error message
-        $scope.$parent.error=null;
-
-
-        //Redirect not logged_in users to home
-        $scope.$watch("$parent.user", function() {
-            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
-                $state.go('dashboard');
-        });
-
-        //Initialize $scope variables
-        $scope.userCharacters = null;
-        var characterIds;
-
-        socket.forward('get:userCharacters',$scope);
-        $scope.$on('socket:get:userCharacters',function(ev,characters){
-            $scope.$parent.loading = false;
-            $scope.userCharacters = characters;
-        });
-
-        socket.forward('get:character',$scope);
-        $scope.$on('socket:get:character',function(ev,character){
-            if (character && character.ad)
-                socket.emit('put:characterAd',character);
-            else{
-                characterIds.ad = {};
-                socket.emit('put:characterAd',characterIds);
-            }
-        });
-
-        socket.forward('put:characterAd',$scope);
-        $scope.$on('socket:put:characterAd',function(ev,character){
-            $state.go("character-update",{region:character.region,realm:character.realm,name:character.name});
-        });
-
-
-        $scope.updateRegion = function(){
-            $scope.$parent.loading = true;
-            socket.emit('get:userCharacters',$scope.region);
-        };
-
-        $scope.createCharacterAd = function(region,realm,name){
-            $scope.$parent.loading = true;
-            characterIds = {region:region,realm:realm,name:name};
-            socket.emit('get:character',characterIds);
-
-        };
-    }
 
     CharacterRead.$inject = ["$scope","socket","$state","$stateParams"];
     function CharacterRead($scope,socket,$state,$stateParams) {

@@ -10,9 +10,6 @@ var logger = process.require("api/logger.js").get("logger");
 var cheerio = require("cheerio");
 var async = require("async");
 
-
-//For russian Ream wowprogress is bad ...
-
 var languages = {
     "English": "en",
     "German": "de",
@@ -45,7 +42,7 @@ var languages = {
     "Turkish": "tr"
 };
 
-//For russian Ream wowprogress is bad ...
+//For russian Ream wowprogress use ru locale ...
 var russianRealms = {
     "Gordunni":"Гордунни",
     "Howling Fjord":"Ревущий фьорд",
@@ -71,8 +68,8 @@ module.exports.getGuildRank = function(region,realm,name,callback){
     if(region.toLowerCase() == "eu" && russianRealms[realm])
         realm = russianRealms[realm];
 
-    realm = realm.replace(" ","-");
-    realm = realm.replace("'","-");
+    realm = realm.split(" ").join("-");
+    realm = realm.split("'").join("-");
 
     var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name+"/json_rank");
     request(url, function (error, response, body) {
@@ -92,6 +89,7 @@ module.exports.getGuildRank = function(region,realm,name,callback){
 
 module.exports.getWoWProgressPage = function(path,callback) {
     var url = "http://www.wowprogress.com"+path;
+
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error,body);
@@ -125,6 +123,7 @@ module.exports.getAds = function(callback){
         async.forEach(characters,function(character,callback){
             var $character = cheerio.load(character);
             var url = $character('a').attr('href');
+
             self.parseCharacterPage(url,function(error,character){
                 charactersResult.push(character);
                 callback();

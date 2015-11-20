@@ -28,7 +28,6 @@ AdUpdateProcess.prototype.start = function(){
         null,
         true
     );
-    self.setAdsToUpdate();
 
 };
 
