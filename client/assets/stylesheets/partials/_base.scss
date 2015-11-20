@@ -46,7 +46,7 @@ body{
 	color: #fff;
 }
 
-.btn-default:hover {
+.btn-default:hover, .btn-default:focus {
 	background-color: $red;
 	color: $white;
 }
