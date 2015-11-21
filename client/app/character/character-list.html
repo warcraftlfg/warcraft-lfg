@@ -103,40 +103,40 @@
 
         </div>
 
-        <div class="character" ng-repeat="character in characters">
-            <div class="row">
-                <div class="col-md-1 vertical-align">
-                    <div class="m-20  icon-large faction-{{character.bnet.faction}}"></div>
+        <div class="character row" ng-repeat="character in characters">
+            <!--<div class="row">-->
+                <div class="col-md-1 text-center vertical-align">
+                    <div class="icon-large faction-{{character.bnet.faction}}"></div>
                 </div>
                 <div class="col-md-3">
-                    <div>
-                        <h2>
-                            <a class="icon-medium class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                                {{character.name}}
-                            </a>
-                        </h2>
-
+                    <div class="name">
+                        <a class="icon-small class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                            {{character.name}}
+                        </a>
                     </div>
                     <div>
-                        {{character.realm}} ({{character.region|uppercase}}) - lvl {{character.bnet.level}}
+                        {{character.realm}} ({{character.region|uppercase}})
+                    </div>
+                    <div>
+                        Level {{character.bnet.level}}
                     </div>
                     <div>
                         Updated <span am-time-ago="character.ad.updated"></span>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div>
-                        ilvl : {{character.bnet.items.averageItemLevelEquipped}}
+                        iLvl : {{character.bnet.items.averageItemLevelEquipped}}
                     </div>
                     <div>
                         <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
                         <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
                     </div>
+                    <div>
+                        Upgrade: ??
+                    </div>
                 </div>
                 <div class="col-md-2">
-                    <div>
-                        Transfert : <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
-                    </div>
                     <div>
                         Language : {{character.ad.language}}
                     </div>
@@ -149,11 +149,14 @@
                     <div>
                         Raids per week : {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
                     </div>
+                    <div>
+                        Transfert : <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
+                    </div>
                 </div>
-                <div class="col-md-5 character-class-{{character.bnet.class}}">
+                <div class="col-md-4 character-class-{{character.bnet.class}}">
                     <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
                 </div>
-            </div>
+            <!--</div>-->
 
         </div>
         <div class="row text-center">

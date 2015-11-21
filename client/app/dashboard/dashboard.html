@@ -88,8 +88,8 @@
                 <h3 class="m-b-20">{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
                 <table class="table table-condensed">
                     <tr ng-repeat="guild in guilds">
-                        <td>
-                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold txt-underline faction-{{guild.bnet.side}}">
+                        <td class="faction-{{guild.bnet.side}}">
+                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold txt-underline">
                                 {{guild.name}}
                             </a>
                         </td>
@@ -112,7 +112,7 @@
                         <td class="icon-small class-{{character.bnet.class}}">
                                 &nbsp;&nbsp;
                         </td>
-                        <td>
+                        <td class="class-{{character.bnet.class}}">
                             <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold txt-underline class-{{character.bnet.class}}">
                                 {{character.name}}
                             </a>

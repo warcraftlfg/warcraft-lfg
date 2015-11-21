@@ -1,19 +1,18 @@
 .character-list {
   .character{
-    padding:20px 0;
+    padding:10px 0;
     margin:10px 0;
     border:1px solid $white;
-    border-radius: 3px;
     background-color: $black;
-
-    h2{
-      margin-bottom:10px
-    }
 
     .ring img{width:16px}
 
     .warcraft-logs{
       .icon-small {margin-left:10px;}
+    }
+
+    .name {
+      font-size: 16px;
     }
   }
 

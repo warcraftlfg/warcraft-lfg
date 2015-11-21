@@ -46,8 +46,13 @@ body{
 	color: #fff;
 }
 
-.btn-default:hover {
+.btn-default:hover, .btn-default:focus {
 	background-color: $red;
+	color: $white;
+}
+
+.btn-default:active:focus, .btn-default:active:hover {
+	background-color: $black;
 	color: $white;
 }
 
