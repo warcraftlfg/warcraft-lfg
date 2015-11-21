@@ -20,34 +20,6 @@
 </section>
 <div class="character-list" infinite-scroll="getMoreCharacters()">
     <div class="container">
-        <!--<div class="row">
-            <div class="col-md-12">
-                <div class="form filters">
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-                            <div class="radio">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="" ng-change="updateFilters()" > All
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="tank" ng-change="updateFilters()" > <span class="icon-small tank">{{"TANK"|translate}}</span>
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="healer" ng-change="updateFilters()" > <span class="icon-small healer">{{"HEALER"|translate}}</span>
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="dps" ng-change="updateFilters()" > <span class="icon-small dps">{{"DPS"|translate}}</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>-->
-
         <div class="row">
             <div class="col-md-3 col-lg-3 m-b-10">
                 <div class="filters p-10">
@@ -110,9 +82,7 @@
             </div>
             <div class="col-md-9 col-lg-9">
                 <div class="character row" ng-repeat="character in characters">
-                    <!--<div class="row">-->
                         <div class="col-sm-3 col-md-2 col-lg-1 text-center vertical-align">
-                            <!--<div class="icon-large faction-{{character.bnet.faction}}"></div>-->
                             <img src="/assets/images/icon/64/faction-{{character.bnet.faction}}.png" class="img-responsive" />
                         </div>
                         <div class="col-sm-3 col-md-4 col-lg-2">
@@ -124,15 +94,12 @@
                             <div>
                                 {{character.realm}} ({{character.region|uppercase}})
                             </div>
-                            <div class="faction-{{character.bnet.faction}}">
+                            <div class="name faction-{{character.bnet.faction}}">
                                      {{character.bnet.guild.name}}
                             </div>
                             <div>
                                 Level {{character.bnet.level}}
                             </div>
-                            <!--<div>
-                                Updated <span am-time-ago="character.ad.updated"></span>
-                            </div>-->
                         </div>
                         <div class="col-sm-3 col-md-2 col-lg-2">
                             <div>
@@ -144,6 +111,9 @@
                             </div>
                             <div>
                                 Upgrade: ??
+                            </div>
+                            <div>
+                                Audit: ??
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-4 col-lg-3">
@@ -171,7 +141,6 @@
                         <div class="col-md-12 text-right f-12 m-t-10 italic">
                             Updated <span am-time-ago="character.ad.updated"></span>
                         </div>
-                    <!--</div>-->
                 </div>
             </div>
         </div>

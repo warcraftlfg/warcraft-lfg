@@ -274,7 +274,8 @@ module.exports.getAds = function (number,filters,callback) {
         realm:1,
         region:1,
         "ad":1,
-        "bnet.side":1
+        "bnet.side":1,
+        "wowProgress":1 
     }, number, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
