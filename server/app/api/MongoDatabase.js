@@ -103,8 +103,7 @@ MongoDatabase.prototype.get = function(collection, criteria, projection, limit, 
 
     var criteria = criteria || {};
     var projection = projection || {};
-    var limit = limit || -1;
-
+    console.log(limit);
     if(limit === -1)
         collection.find(criteria, projection).toArray(function(error,result){
             if(error){
@@ -129,16 +128,26 @@ MongoDatabase.prototype.find = function(collection, criteria, projection, limit,
 
     var criteria = criteria || {};
     var projection = projection || {};
-    var limit = limit || 0;
+    var limit = limit || -1;
     var sort = sort || {};
-
-    collection.find(criteria, projection).sort(sort).limit(limit).toArray(function(error,result){
-        if(error){
-            logger.error(error.message);
-            error = new Error("DATABASE_ERROR");
-        }
-        callback(error,result);
-    });
+    if(limit === -1) {
+        collection.find(criteria, projection).sort(sort).toArray(function (error, result) {
+            if (error) {
+                logger.error(error.message);
+                error = new Error("DATABASE_ERROR");
+            }
+            callback(error, result);
+        });
+    }
+    else {
+        collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, result) {
+            if (error) {
+                logger.error(error.message);
+                error = new Error("DATABASE_ERROR");
+            }
+            callback(error, result);
+        });
+    }
 };
 
 

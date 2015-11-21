@@ -42,9 +42,14 @@
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
-                    <select ng-model="character.ad.language" class="form-control">
-                        <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                    </select>
+                    <div isteven-multi-select
+                         input-model="languages"
+                         output-model="selectedLanguages"
+                         button-label="name"
+                         item-label="name"
+                         output-properties="id"
+                         tick-property="selected">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_CREATE_RPW"|translate}}</label>

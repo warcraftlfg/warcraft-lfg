@@ -7,8 +7,12 @@
     "updated": {
       "type": "integer"
     },
-    "language": {
-      "type": "string"
+    "languages": {
+      "type": "array",
+      "items":{
+        "type":"string",
+        "enum":["en","de","fr","es","ru","bg","zh","hr","cs","da","nl","et","fi","el","he","hu","it","ja","ko","lv","lt","no","pl","pt","ro","sl","sv","tw","tr"]
+      }
     },
     "description": {
       "type": "string"
@@ -24,11 +28,15 @@
           "type": "boolean",
           "default": false
         },
-        "dps": {
+        "melee_dps": {
           "type": "boolean",
           "default": false
         },
-        "healer": {
+        "ranged_dps": {
+          "type": "boolean",
+          "default": false
+        },
+        "heal": {
           "type": "boolean",
           "default": false
         }
