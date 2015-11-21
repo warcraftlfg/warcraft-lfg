@@ -41,17 +41,11 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <div class="radio">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.faction" value="" ng-change="updateFilters()" > All
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.faction" value="0" ng-change="updateFilters()" > <span class="icon-small faction-0">{{"ALLIANCE"|translate}}</span>
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.faction" value="1" ng-change="updateFilters()" > <span class="icon-small faction-1">{{"HORDE"|translate}}</span>
-                                </label>
-                            </div>
+                            <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
+                                <option value="">{{"CHOOSE_FACTION"|translate}}</option>
+                                <option value="0">{{"ALLIANCE"|translate}}</option>
+                                <option value="1">{{"HORDE"|translate}}</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <div class="radio">
@@ -86,10 +80,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="checkbox-inline" ng-repeat="(class_number,value) in filters.classes">
-                        <input type="checkbox" ng-model="filters.classes[class_number]" ng-change="updateFilters()" > <span class="icon-small class-{{class_number}}">{{"CLASS_"+class_number|translate}}</span>
-                    </label>
+
+                <div
+                        isteven-multi-select
+                        input-model="classes"
+                        output-model="filters.classes"
+                        button-label="icon name"
+                        item-label="icon name"
+                        output-properties="id selected"
+                        tick-property="selected"
+                >
                 </div>
                 <div class="form-group">
                     <label>
