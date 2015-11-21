@@ -134,11 +134,12 @@
                             <div>
                                 Languages : <span ng-repeat="language in character.ad.languages"> {{"LANG_"+language|uppercase|translate}}</span>
                             </div>
-                            <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
+                            <div ng-if="character.ad.role.tank || character.ad.role.heal || character.ad.role.melee_dps || character.ad.role.ranged_dps">
                                 Role :
                                 <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
-                                <span ng-if="character.ad.role.healer" class="icon-small healer"></span>
-                                <span ng-if="character.ad.role.dps" class="icon-small dps"></span>
+                                <span ng-if="character.ad.role.healer" class="icon-small heal"></span>
+                                <span ng-if="character.ad.role.melee_dps" class="icon-small dps"></span>
+                                <span ng-if="character.ad.role.ranged_dps" class="icon-small dps"></span>
                             </div>
                             <div>
                                 Raids per week : {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
