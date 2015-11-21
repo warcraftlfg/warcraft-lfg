@@ -111,7 +111,7 @@
                     <!--<div class="row">-->
                         <div class="col-md-2 col-lg-1 text-center vertical-align">
                             <!--<div class="icon-large faction-{{character.bnet.faction}}"></div>-->
-                            <img src="/assets/images/icon/64/horde.png" class="img-responsive" />
+                            <img src="/assets/images/icon/64/faction-{{character.bnet.faction}}.png" class="img-responsive" />
                         </div>
                         <div class="col-md-4 col-lg-2">
                             <div class="name class-{{character.bnet.class}}">
@@ -121,6 +121,9 @@
                             </div>
                             <div>
                                 {{character.realm}} ({{character.region|uppercase}})
+                            </div>
+                            <div class="faction-{{character.bnet.faction}}">
+                                     {{character.bnet.guild.name}}
                             </div>
                             <div>
                                 Level {{character.bnet.level}}
