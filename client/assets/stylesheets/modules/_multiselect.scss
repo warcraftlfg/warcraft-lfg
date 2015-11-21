@@ -1,0 +1,9 @@
+.multiSelect {
+  .checkboxLayer {
+    background-color: $grey;
+  }
+  > button{
+    background-image: none;
+    background-color:$grey;
+  }
+}

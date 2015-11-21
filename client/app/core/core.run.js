@@ -9,9 +9,9 @@
 
 
     function runBlock($rootScope) {
-
         $rootScope.$on('$viewContentLoaded',function(){
             jQuery('html, body').animate({ scrollTop: 0 }, 200);
-        });    }
+        });
+    }
 
 })();

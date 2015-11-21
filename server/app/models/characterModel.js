@@ -210,10 +210,11 @@ module.exports.getAds = function(number, filters, callback){
     }
     if(filters.classes){
         var classes = [];
-        for (var key in filters.classes ){
-            if(filters.classes[key]==true)
-                classes.push(parseInt(key));
-        }
+        console.log(filters.classes);
+        filters.classes.forEach(function(item){
+            if(item.selected == true)
+                classes.push(item.id);
+        });
         if(classes.length >0 && classes.length <11)
             criteria["bnet.class"] = { $in: classes};
     }
