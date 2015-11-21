@@ -19,7 +19,7 @@
     "recruitment": {
       "type": "object",
       "properties": {
-        "tanks": {
+        "tank": {
           "type": "object",
           "properties": {
             "warrior": {
@@ -40,7 +40,7 @@
             }
           }
         },
-        "heals": {
+        "heal": {
           "type": "object",
           "properties": {
             "druid": {

@@ -208,17 +208,17 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.language && filters.language!=""){
         criteria["ad.language"] = filters.language;
     }
-    if(filters.classes){
+    if(filters.classes && filters.classes>0 && filters.classes < 11){
         var classes = [];
-        console.log(filters.classes);
         filters.classes.forEach(function(item){
             if(item.selected == true)
                 classes.push(item.id);
         });
-        if(classes.length >0 && classes.length <11)
-            criteria["bnet.class"] = { $in: classes};
+        criteria["bnet.class"] = { $in: classes};
     }
-    if(filters.role && filters.role != ""){
+    if(filters.roles && filters.roles.length > 0){
+        console.log(filters.roles);
+
         criteria["ad.role."+filters.role] = true;
     }
     if(filters.raids_per_week && filters.raids_per_week.active){

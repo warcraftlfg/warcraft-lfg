@@ -28,11 +28,15 @@
           "type": "boolean",
           "default": false
         },
-        "dps": {
+        "melee_dps": {
           "type": "boolean",
           "default": false
         },
-        "healer": {
+        "ranged_dps": {
+          "type": "boolean",
+          "default": false
+        },
+        "heal": {
           "type": "boolean",
           "default": false
         }

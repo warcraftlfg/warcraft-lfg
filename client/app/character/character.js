@@ -147,7 +147,7 @@
             ];
             $scope.roles = [
                 {id:'tank', name: translations.HEALER, icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-                {id:'healer', name: translations.TANK, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
+                {id:'heal', name: translations.TANK, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
                 {id:'dps', name: translations.DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false}
             ];
         });
