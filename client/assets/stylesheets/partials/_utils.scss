@@ -23,6 +23,7 @@
 .italic {font-style: italic;}
 
 /*** Overflow ***/
+.overflow {width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;display: block;}
 .o-scroll {overflow:scroll;}
 .o-scroll-x {overflow-x: scroll; overflow-y: hidden;}
 .o-scroll-y {overflow-y: scroll; overflow-x: hidden;}
