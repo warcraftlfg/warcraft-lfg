@@ -67,20 +67,33 @@
                     </select>
                 </div>
                 <div class="m-b-20">
-                    <select ng-model="filters.language"  ng-change="updateFilters()"  class="form-control">
-                        <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                    </select>
+                    <div isteven-multi-select
+                         input-model="languages"
+                         output-model="filters.languages"
+                         button-label="name"
+                         item-label="name"
+                         output-properties="id"
+                         tick-property="selected">
+                    </div>
                 </div>
                 <div class="m-b-20">
-                    <div
-                        isteven-multi-select
-                        input-model="classes"
-                        output-model="filters.classes"
-                        button-label="icon name"
-                        item-label="icon name"
-                        output-properties="id selected"
-                        tick-property="selected"
-                    >
+                    <div isteven-multi-select
+                         input-model="roles"
+                         output-model="filters.roles"
+                         button-label="icon name"
+                         item-label="icon name"
+                         output-properties="id selected"
+                         tick-property="selected">
+                    </div>
+                </div>
+                <div class="m-b-20">
+                    <div isteven-multi-select
+                         input-model="classes"
+                         output-model="filters.classes"
+                         button-label="icon name"
+                         item-label="icon name"
+                         output-properties="id selected"
+                         tick-property="selected">
                     </div>
                 </div>
                 <div class="m-b-20">

@@ -38,8 +38,8 @@
         });
     }
 
-    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES"];
-    function CharacterUpdate($scope,socket,$state,$stateParams,LANGUAGES) {
+    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES"];
+    function CharacterUpdate($scope,socket,$state,$stateParams,$translate,LANGUAGES) {
         //Reset error message
         $scope.$parent.error=null;
 
@@ -50,8 +50,18 @@
         });
 
 
+
+        $scope.$watch('selectedLanguages', function() {
+            if($scope.character) {
+                $scope.character.ad.languages = [];
+                $scope.selectedLanguages.forEach(function (language) {
+                    $scope.character.ad.languages.push(language.id);
+                });
+            }
+        });
+
+
         //Initialize $scope variables
-        $scope.languages = LANGUAGES;
         $scope.$parent.loading = true;
 
         socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
@@ -60,10 +70,17 @@
         $scope.$on('socket:get:character',function(ev,character){
             $scope.$parent.loading = false;
             $scope.character = character;
+            $scope.languages = [];
+            LANGUAGES.forEach(function(language){
+                $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase()),selected:$scope.character.ad.languages.indexOf(language)!=-1});
+            });
+
         });
 
         $scope.save = function(){
             $scope.$parent.loading = true;
+            console.log($scope.character);
+
             socket.emit('put:characterAd',$scope.character);
         };
 
@@ -107,9 +124,14 @@
         //Reset error message
         $scope.$parent.error=null;
         $scope.characters = [];
-        $scope.languages = LANGUAGES;
 
-        $translate(['CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
+        $scope.languages=[];
+        LANGUAGES.forEach(function(language){
+            $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase())});
+        });
+
+
+        $translate(['HEALER','TANK','DPS','CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
             $scope.classes = [
                 {id:1, name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
                 {id:2, name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
@@ -122,6 +144,11 @@
                 {id:9, name: "<span class='class-9'>"+translations.CLASS_9+"</span>", icon:"<img src='/assets/images/icon/16/class-9.png'>", selected:false},
                 {id:10, name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
                 {id:11, name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
+            ];
+            $scope.roles = [
+                {id:'tank', name: translations.HEALER, icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
+                {id:'healer', name: translations.TANK, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
+                {id:'dps', name: translations.DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false}
             ];
         });
 
@@ -147,8 +174,15 @@
             $scope.updateFilters();
         });
         $scope.$watch('filters.classes', function() {
-                $scope.updateFilters();
+            $scope.updateFilters();
         });
+        $scope.$watch('filters.roles', function() {
+            $scope.updateFilters();
+        });
+        $scope.$watch('filters.languages', function() {
+            $scope.updateFilters();
+        });
+
 
         $scope.getMoreCharacters = function(){
             if($scope.$parent.loading || $scope.loading)
