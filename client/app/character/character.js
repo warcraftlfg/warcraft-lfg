@@ -100,8 +100,8 @@
             $state.go("account");
         });
     }
-    CharacterList.$inject = ['$scope','$stateParams','socket','LANGUAGES'];
-    function CharacterList($scope ,$stateParams, socket, LANGUAGES) {
+    CharacterList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES'];
+    function CharacterList($scope ,$stateParams, $translate, socket, LANGUAGES) {
 
 
         //Reset error message
@@ -109,12 +109,27 @@
         $scope.characters = [];
         $scope.languages = LANGUAGES;
 
+        $translate(['CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
+            $scope.classes = [
+                {id:1, name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
+                {id:2, name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
+                {id:3, name: "<span class='class-3'>"+translations.CLASS_3+"</span>", icon:"<img src='/assets/images/icon/16/class-3.png'>", selected:false},
+                {id:4, name: "<span class='class-4'>"+translations.CLASS_4+"</span>", icon:"<img src='/assets/images/icon/16/class-4.png'>", selected:false},
+                {id:5, name: "<span class='class-5'>"+translations.CLASS_5+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>", selected:false},
+                {id:6, name: "<span class='class-6'>"+translations.CLASS_6+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>", selected:false},
+                {id:7, name: "<span class='class-7'>"+translations.CLASS_7+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
+                {id:8, name: "<span class='class-8'>"+translations.CLASS_8+"</span>", icon:"<img src='/assets/images/icon/16/class-8.png'>", selected:false},
+                {id:9, name: "<span class='class-9'>"+translations.CLASS_9+"</span>", icon:"<img src='/assets/images/icon/16/class-9.png'>", selected:false},
+                {id:10, name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
+                {id:11, name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
+            ];
+        });
+
         $scope.filters = {};
         $scope.filters.faction = "";
         $scope.filters.lvlmax = true;
         $scope.filters.region = "";
         $scope.language = "";
-        $scope.filters.classes = {1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};
         $scope.filters.role = "";
         $scope.filters.raids_per_week = {min:1,max:7};
 
@@ -124,11 +139,15 @@
         if($stateParams.language)
             $scope.filters.language = $stateParams.language;
 
+
         $scope.$watch('filters.raids_per_week.min', function() {
             $scope.updateFilters();
         });
         $scope.$watch('filters.raids_per_week.max', function() {
             $scope.updateFilters();
+        });
+        $scope.$watch('filters.classes', function() {
+                $scope.updateFilters();
         });
 
         $scope.getMoreCharacters = function(){

@@ -3,6 +3,7 @@
   "dependencies": {
     "angular": "latest",
     "angular-moment": "latest",
+    "angular-multi-select": "latest",
     "angular-ranger": "latest",
     "angular-ui-router": "latest",
     "angular-socket-io": "latest",
