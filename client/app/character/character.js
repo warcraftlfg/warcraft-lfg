@@ -131,7 +131,7 @@
         });
 
 
-        $translate(['HEALER','TANK','DPS','CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
+        $translate(['HEAL','TANK','RANGED_DPS','MELEE_DPS','CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
             $scope.classes = [
                 {id:1, name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
                 {id:2, name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
@@ -146,9 +146,11 @@
                 {id:11, name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
             ];
             $scope.roles = [
-                {id:'tank', name: translations.HEALER, icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-                {id:'heal', name: translations.TANK, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-                {id:'dps', name: translations.DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false}
+                {id:'tank', name: translations.TANK, icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
+                {id:'heal', name: translations.HEAL, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
+                {id:'ranged_dps', name: translations.RANGED_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
+                {id:'melee_dps', name: translations.MELEE_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false}
+
             ];
         });
 

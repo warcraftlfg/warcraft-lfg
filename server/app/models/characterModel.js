@@ -205,21 +205,32 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.region && filters.region!=""){
         criteria["region"] = filters.region;
     }
-    if(filters.language && filters.language!=""){
-        criteria["ad.language"] = filters.language;
+    if(filters.languages && filters.languages.length>0){
+        var languages = [];
+        filters.languages.forEach(function(item){
+            languages.push(item.id);
+        });
+        criteria["ad.languages"] = { $in: languages};
     }
-    if(filters.classes && filters.classes>0 && filters.classes < 11){
+    if(filters.classes && filters.classes.length>0 && filters.classes.length < 11){
         var classes = [];
         filters.classes.forEach(function(item){
-            if(item.selected == true)
                 classes.push(item.id);
         });
         criteria["bnet.class"] = { $in: classes};
     }
     if(filters.roles && filters.roles.length > 0){
-        console.log(filters.roles);
+        var roles = []
+        filters.roles.forEach(function(role){
+            var tmpObj = {};
+            tmpObj["ad.role."+role.id] = true;
+            roles.push(tmpObj);
+        });
+        if(criteria["$or"])
+            criteria["$or"].push(roles);
+        else
+            criteria["$or"]=roles;
 
-        criteria["ad.role."+filters.role] = true;
     }
     if(filters.raids_per_week && filters.raids_per_week.active){
         criteria["ad.raids_per_week.min"] = {$lte:filters.raids_per_week.min};

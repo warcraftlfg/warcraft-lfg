@@ -54,7 +54,7 @@
                          output-model="filters.roles"
                          button-label="icon name"
                          item-label="icon name"
-                         output-properties="id selected"
+                         output-properties="id"
                          tick-property="selected">
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                         </div>
                         <div class="col-md-4 col-lg-3">
                             <div>
-                                Language : {{character.ad.language|uppercase}}
+                                Languages : <span ng-repeat="language in character.ad.languages"> {{"LANG_"+language|uppercase|translate}}</span>
                             </div>
                             <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
                                 Role :
