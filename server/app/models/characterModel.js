@@ -237,6 +237,7 @@ module.exports.getAds = function(number, filters, callback){
         "bnet.items.finger2":1,
         "bnet.faction":1,
         "bnet.guild.name":1,
+        "bnet.progression.raids":1,
         "warcraftLogs.logs":1
 
     }, number, {"ad.updated":-1}, function(error,characters){

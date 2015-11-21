@@ -1,7 +1,10 @@
 <div class="wlfg-progress">
     <div class="row">
-        <div class="col-md-3">
-            Progress
+        <div class="col-md-12">
+            Progress : &nbsp;
+            <span tooltip-placement="bottom" uib-tooltip="">
+				<span>{{ progress.progress }}</span>/<span>{{ progress.total }}</span> ({{ progress.difficulty }})
+			</span>
         </div>
     </div>
 </div>
