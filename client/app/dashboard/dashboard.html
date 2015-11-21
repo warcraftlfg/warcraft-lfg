@@ -56,10 +56,11 @@
                         <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_ZONE"|translate}} :</label>
                         <div class="col-md-9">
                             <select ng-model="form.region"class="form-control">
+                                <option value="">{{"ALL_REGION"|translate}}</option>
+                                <option value="us">US</option>
                                 <option value="eu">EU</option>
                                 <option value="kr">KR</option>
                                 <option value="tw">TW</option>
-                                <option value="us">US</option>
                             </select>
                         </div>
                     </div>
