@@ -37,6 +37,8 @@
   "ALLOW_TRANSFERT": "Allow",
   "SAVE": "Save",
   "LIVE_STATS": "Live statistics",
+  "ALL_REGION": "All region",
+  "ALL_FACTION": "All faction",
   "LOGOUT": "Logout",
   "DASHBOARD_INTRO": "It's dangerous to go alone!",
   "DASHBOARD_SEARCH_TYPE": "Search for a",
