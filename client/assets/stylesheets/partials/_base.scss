@@ -51,6 +51,11 @@ body{
 	color: $white;
 }
 
+.btn-default:active:focus, .btn-default:active:hover {
+	background-color: $black;
+	color: $white;
+}
+
 .list-group-item:first-child, .list-group-item:last-child {
 	border-radius: 0px;
 }
