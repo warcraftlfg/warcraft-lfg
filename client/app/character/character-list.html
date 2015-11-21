@@ -18,36 +18,8 @@
         </div>
     </div>
 </section>
-<div class="character-list" infinite-scroll="getMoreCharacters()">
+<div class="character-list" >
     <div class="container">
-        <!--<div class="row">
-            <div class="col-md-12">
-                <div class="form filters">
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-                            <div class="radio">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="" ng-change="updateFilters()" > All
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="tank" ng-change="updateFilters()" > <span class="icon-small tank">{{"TANK"|translate}}</span>
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="healer" ng-change="updateFilters()" > <span class="icon-small healer">{{"HEALER"|translate}}</span>
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="filters.role" value="dps" ng-change="updateFilters()" > <span class="icon-small dps">{{"DPS"|translate}}</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>-->
-
         <div class="row">
             <div class="col-md-3 col-lg-3 filters">
                 <div class="m-b-20">
@@ -67,20 +39,33 @@
                     </select>
                 </div>
                 <div class="m-b-20">
-                    <select ng-model="filters.language"  ng-change="updateFilters()"  class="form-control">
-                        <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                    </select>
+                    <div isteven-multi-select
+                         input-model="languages"
+                         output-model="filters.languages"
+                         button-label="name"
+                         item-label="name"
+                         output-properties="id"
+                         tick-property="selected">
+                    </div>
                 </div>
                 <div class="m-b-20">
-                    <div
-                        isteven-multi-select
-                        input-model="classes"
-                        output-model="filters.classes"
-                        button-label="icon name"
-                        item-label="icon name"
-                        output-properties="id selected"
-                        tick-property="selected"
-                    >
+                    <div isteven-multi-select
+                         input-model="roles"
+                         output-model="filters.roles"
+                         button-label="icon name"
+                         item-label="icon name"
+                         output-properties="id"
+                         tick-property="selected">
+                    </div>
+                </div>
+                <div class="m-b-20">
+                    <div isteven-multi-select
+                         input-model="classes"
+                         output-model="filters.classes"
+                         button-label="icon name"
+                         item-label="icon name"
+                         output-properties="id selected"
+                         tick-property="selected">
                     </div>
                 </div>
                 <div class="m-b-20">
@@ -106,11 +91,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9 col-lg-9">
+            <div class="col-md-9 col-lg-9" infinite-scroll="getMoreCharacters()">
                 <div class="character row" ng-repeat="character in characters">
-                    <!--<div class="row">-->
                         <div class="col-md-2 col-lg-1 text-center vertical-align">
-                            <!--<div class="icon-large faction-{{character.bnet.faction}}"></div>-->
                             <img src="/assets/images/icon/64/faction-{{character.bnet.faction}}.png" class="img-responsive" />
                         </div>
                         <div class="col-md-4 col-lg-2">
@@ -128,9 +111,6 @@
                             <div>
                                 Level {{character.bnet.level}}
                             </div>
-                            <!--<div>
-                                Updated <span am-time-ago="character.ad.updated"></span>
-                            </div>-->
                         </div>
                         <div class="col-md-2 col-lg-2">
                             <div>
@@ -146,7 +126,7 @@
                         </div>
                         <div class="col-md-4 col-lg-3">
                             <div>
-                                Language : {{character.ad.language|uppercase}}
+                                Languages : <span ng-repeat="language in character.ad.languages"> {{"LANG_"+language|uppercase|translate}}</span>
                             </div>
                             <div ng-if="character.ad.role.tank || character.ad.role.healer || character.ad.role.dps">
                                 Role :
@@ -169,7 +149,6 @@
                         <div class="col-md-12 text-right f-12 m-t-10 italic">
                             Updated <span am-time-ago="character.ad.updated"></span>
                         </div>
-                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -177,5 +156,4 @@
             <i class="fa fa-3x fa-spinner fa-spin" ng-if="loading"></i>
         </div>
     </div>
-
 </div>

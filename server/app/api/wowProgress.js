@@ -167,8 +167,13 @@ module.exports.parseCharacterPage = function(url,callback) {
         var languageDivs = $body('.language').get();
 
         var language = cheerio.load(languageDivs[0])('strong').text().split(', ');
-        if(languages[language[0]])
-            result.language = languages[language[0]];
+        result.languages = [];
+        language.forEach(function(lang){
+            result.languages.push(languages[lang]);
+        });
+
+
+
 
         var transfert = cheerio.load(languageDivs[1])('span').text();
         if(transfert == "Yes, ready to transfer")
@@ -212,6 +217,8 @@ module.exports.parseGuildPage = function( url, callback) {
 
         var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
 
+        if (!$body('h1').text().match("“(.*)” WoW Guild"))
+            return callback();
         result.name = $body('h1').text().match("“(.*)” WoW Guild")[1];
         result.realm = armoryUrl.match('battle.net/wow/guild/(.*)/(.*)/')[1];
         result.region = armoryUrl.match('http://(.*).battle.net/wow/guild/')[1];
