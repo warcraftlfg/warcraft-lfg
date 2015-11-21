@@ -73,12 +73,12 @@
                         <img src="/assets/images/icon/64/faction-{{guild.bnet.side}}.png" class="img-responsive" />
                     </div>
                     <div class="col-sm-3 col-md-4 col-lg-2">
-                        <div class="name faction-{{guild.bnet.side}}">
+                        <div class="overflow faction-{{guild.bnet.side}}">
                             <a class="faction-{{guild.bnet.side}}" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
                                 {{guild.name}}
                             </a>
                         </div>
-                        <div>
+                        <div class="overflow">
                             {{guild.realm}} ({{guild.region|uppercase}})
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                         WoWProgress :
                         <div class="row">
                             <div class="col-sm-2 col-md-3">World</div>
-                            <div class="col-sm-10 col-md-9" ng-if="guild.wowProgress.world_rank" ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&stat>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank<=5000&&stat>2500,common:guild.wowProgress.world_rank<=10000&&guild.wowProgress.world_rank>5000}">
+                            <div class="col-sm-10 col-md-9" ng-if="guild.wowProgress.world_rank" ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank<=5000&&guild.wowProgress.world_rank>2500,common:guild.wowProgress.world_rank<=10000&&guild.wowProgress.world_rank>5000}">
                                 {{guild.wowProgress.world_rank}}
                             </div>
                             <div class="col-sm-10 col-md-9 common" ng-if="!guild.wowProgress.world_rank">

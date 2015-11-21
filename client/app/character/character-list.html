@@ -99,15 +99,15 @@
                         <img src="/assets/images/icon/64/faction-{{character.bnet.faction}}.png" class="img-responsive" />
                     </div>
                     <div class="col-sm-3 col-md-4 col-lg-2">
-                        <div class="name class-{{character.bnet.class}}">
+                        <div class="overflow class-{{character.bnet.class}}">
                             <a class="icon-small class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
                                 {{character.name}}
                             </a>
                         </div>
-                        <div>
+                        <div class="overflow">
                             {{character.realm}} ({{character.region|uppercase}})
                         </div>
-                        <div class="name faction-{{character.bnet.faction}}">
+                        <div class="overflow faction-{{character.bnet.faction}}">
                                  {{character.bnet.guild.name}}
                         </div>
                         <div>
