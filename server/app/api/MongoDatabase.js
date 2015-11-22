@@ -103,7 +103,6 @@ MongoDatabase.prototype.get = function(collection, criteria, projection, limit, 
 
     var criteria = criteria || {};
     var projection = projection || {};
-    console.log(limit);
     if(limit === -1)
         collection.find(criteria, projection).toArray(function(error,result){
             if(error){

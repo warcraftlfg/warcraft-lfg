@@ -29,8 +29,8 @@
                 controller: "GuildDeleteController"
             })
             .state("guild-list", {
-                url: "/guild/list",
-                templateUrl: "app/guild/guild-list.html?region&language",
+                url: "/guild/list?region&language&faction",
+                templateUrl: "app/guild/guild-list.html",
                 controlerAs: 'vm',
                 title: 'Guild list',
                 controller: "GuildListController"

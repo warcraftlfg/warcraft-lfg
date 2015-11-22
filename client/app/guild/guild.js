@@ -108,26 +108,72 @@
         });
     }
 
-    GuildList.$inject = ['$scope','$stateParams','socket','LANGUAGES'];
-    function GuildList($scope, $stateParams, socket,LANGUAGES) {
+    GuildList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES'];
+    function GuildList($scope, $stateParams, $translate, socket,LANGUAGES) {
 
         $scope.$parent.error=null;
         $scope.guilds = [];
-        $scope.languages = LANGUAGES;
+        $scope.languages = [];
+
+        angular.copy(LANGUAGES,$scope.languages);
+        $scope.languages.unshift("");
+
+
+        $translate(['ALL_CLASSES','SELECT_ALL','SELECT_NONE','RESET','SEARCH','HEALS','TANKS','RANGED_DPS','MELEE_DPS','CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
+            $scope.classes = [
+                {name: translations.TANKS, msGroup: true},
+                {id:1, role:"tank", name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
+                {id:11, role:"tank", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
+                {id:2, role:"tank", name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
+                {id:10, role:"tank", name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
+                { msGroup: false},
+                {name: translations.HEALS, msGroup: true},
+                {id:11, role:"heal", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
+                {id:5, role:"heal", name: "<span class='class-5'>"+translations.CLASS_5+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>", selected:false},
+                {id:2, role:"heal", name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
+                {id:7, role:"heal", name: "<span class='class-7'>"+translations.CLASS_7+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
+                {id:10, role:"heal", name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
+                { msGroup: false},
+                {name: translations.MELEE_DPS, msGroup: true},
+                {id:11, role:"melee_dps", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
+                {id:6, role:"melee_dps", name: "<span class='class-6'>"+translations.CLASS_6+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>", selected:false},
+                {id:2, role:"melee_dps", name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
+                {id:10, role:"melee_dps", name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
+                {id:7, role:"melee_dps", name: "<span class='class-7'>"+translations.CLASS_7+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
+                {id:1, role:"melee_dps", name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
+                {id:4, role:"melee_dps", name: "<span class='class-4'>"+translations.CLASS_4+"</span>", icon:"<img src='/assets/images/icon/16/class-4.png'>", selected:false},
+                { msGroup: false},
+                {name: translations.RANGED_DPS, msGroup: true},
+                {id:5, role:"ranged_dps", name: "<span class='class-5'>"+translations.CLASS_5+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>", selected:false},
+                {id:7, role:"ranged_dps", name: "<span class='class-7'>"+translations.CLASS_7+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
+                {id:3, role:"ranged_dps", name: "<span class='class-3'>"+translations.CLASS_3+"</span>", icon:"<img src='/assets/images/icon/16/class-3.png'>", selected:false},
+                {id:9, role:"ranged_dps", name: "<span class='class-9'>"+translations.CLASS_9+"</span>", icon:"<img src='/assets/images/icon/16/class-9.png'>", selected:false},
+                {id:8, role:"ranged_dps", name: "<span class='class-8'>"+translations.CLASS_8+"</span>", icon:"<img src='/assets/images/icon/16/class-8.png'>", selected:false},
+                { msGroup: false}
+            ];
+            $scope.localClasses = {
+                selectAll       : translations.SELECT_ALL,
+                selectNone      : translations.SELECT_NONE,
+                reset           : translations.RESET,
+                search          : translations.SEARCH,
+                nothingSelected : translations.ALL_CLASSES
+            };
+        });
 
         $scope.filters = {};
         $scope.filters.faction = "";
         $scope.filters.region = "";
         $scope.filters.language ="";
-        $scope.filters.classes = {1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};
-        $scope.filters.role = "";
-        $scope.filters.raids_per_week = {min:1,max:7};
+        $scope.filters.classes = [];
+
 
         /* if params load filters */
         if($stateParams.region)
             $scope.filters.region = $stateParams.region;
         if($stateParams.language)
             $scope.filters.language = $stateParams.language;
+        if($stateParams.faction)
+            $scope.filters.faction = $stateParams.faction;
 
         $scope.$watch('filters.raids_per_week.min', function() {
             $scope.updateFilters();
@@ -135,6 +181,10 @@
         $scope.$watch('filters.raids_per_week.max', function() {
             $scope.updateFilters();
         });
+        $scope.$watch('filters.classes', function() {
+            $scope.updateFilters();
+        });
+
 
         $scope.getMoreGuilds = function(){
             if($scope.$parent.loading || $scope.loading)
@@ -163,6 +213,6 @@
             $scope.guilds = $scope.guilds.concat(guilds);
         });
 
-        
+
     }
 })();

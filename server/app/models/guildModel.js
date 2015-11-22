@@ -206,66 +206,64 @@ module.exports.getAds = function (number,filters,callback) {
         criteria["ad.raids_per_week.min"] = {$lte:filters.raids_per_week.min};
         criteria["ad.raids_per_week.max"] = {$gte:filters.raids_per_week.max};
     }
-    if(filters.role!=null && filters.classes!=null){
+
+    if(filters.classes &&  filters.classes.length>0){
         //Horrible function for mapping role and classes ...
         var classes = [];
         var recruitment = [];
 
-        for (var key in filters.classes ){
-            if(filters.classes[key]==true)
-                classes.push(parseInt(key));
-        }
-
-        if(filters.role == 'tanks' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
-            if(filters.classes[1])
-                recruitment.push({"ad.recruitment.tanks.warrior":true});
-            if(filters.classes[11])
-                recruitment.push({"ad.recruitment.tanks.druid":true});
-            if(filters.classes[2])
-                recruitment.push({"ad.recruitment.tanks.paladin":true});
-            if(filters.classes[10])
-                recruitment.push({"ad.recruitment.tanks.monk":true});
-        }
-        if(filters.role == 'heals' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
-            if(filters.classes[11])
-                recruitment.push({"ad.recruitment.heals.druid":true});
-            if(filters.classes[5])
-                recruitment.push({"ad.recruitment.heals.priest": true});
-            if(filters.classes[2])
-                recruitment.push({"ad.recruitment.heals.paladin":true});
-            if(filters.classes[7])
-                recruitment.push({"ad.recruitment.heals.shaman":true});
-            if(filters.classes[10])
-                recruitment.push({"ad.recruitment.heals.monk":true});
-        }
-        if(filters.role == 'melee_dps' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
-            if(filters.classes[11])
-                recruitment.push({"ad.recruitment.melee_dps.druid":true});
-            if(filters.classes[6])
-                recruitment.push({"ad.recruitment.melee_dps.deathknight":true});
-            if(filters.classes[2])
-                recruitment.push({"ad.recruitment.melee_dps.paladin":true});
-            if(filters.classes[10])
-                recruitment.push({"ad.recruitment.melee_dps.monk":true});
-            if(filters.classes[7])
-                recruitment.push({"ad.recruitment.melee_dps.shaman":true});
-            if(filters.classes[1])
-                recruitment.push({"ad.recruitment.melee_dps.warrior":true});
-            if(filters.classes[4])
-                recruitment.push({"ad.recruitment.melee_dps.rogue":true});
-        }
-        if(filters.role == 'ranged_dps' || (filters.role =='' &&  classes.length >0 && classes.length <11)){
-            if(filters.classes[5])
-                recruitment.push({"ad.recruitment.ranged_dps.priest":true});
-            if(filters.classes[7])
-                recruitment.push({"ad.recruitment.ranged_dps.shaman":true});
-            if(filters.classes[3])
-                recruitment.push({"ad.recruitment.ranged_dps.hunter":true});
-            if(filters.classes[9])
-                recruitment.push({"ad.recruitment.ranged_dps.warlock":true});
-            if(filters.classes[8])
-                recruitment.push({"ad.recruitment.ranged_dps.mage":true});
-        }
+        filters.classes.forEach(function (classe){
+            if(classe.role == "tank"){
+                if(classe.id == 1)
+                    recruitment.push({"ad.recruitment.tank.warrior":true});
+                if(classe.id == 11)
+                    recruitment.push({"ad.recruitment.tank.druid":true});
+                if(classe.id == 2)
+                    recruitment.push({"ad.recruitment.tank.paladin":true});
+                if(classe.id == 10)
+                    recruitment.push({"ad.recruitment.tank.monk":true});
+            }
+            if(classe.role == "heal"){
+                if(classe.id == 11)
+                    recruitment.push({"ad.recruitment.heal.druid":true});
+                if(classe.id == 5)
+                    recruitment.push({"ad.recruitment.heal.priest": true});
+                if(classe.id == 2)
+                    recruitment.push({"ad.recruitment.heal.paladin":true});
+                if(classe.id == 7)
+                    recruitment.push({"ad.recruitment.heal.shaman":true});
+                if(classe.id == 10)
+                    recruitment.push({"ad.recruitment.heal.monk":true});
+            }
+            if(classe.role == "melee_dps"){
+                if(classe.id == 11)
+                    recruitment.push({"ad.recruitment.melee_dps.druid":true});
+                if(classe.id == 6)
+                    recruitment.push({"ad.recruitment.melee_dps.deathknight":true});
+                if(classe.id == 2)
+                    recruitment.push({"ad.recruitment.melee_dps.paladin":true});
+                if(classe.id == 10)
+                    recruitment.push({"ad.recruitment.melee_dps.monk":true});
+                if(classe.id == 7)
+                    recruitment.push({"ad.recruitment.melee_dps.shaman":true});
+                if(classe.id == 1)
+                    recruitment.push({"ad.recruitment.melee_dps.warrior":true});
+                if(classe.id == 4)
+                    recruitment.push({"ad.recruitment.melee_dps.rogue":true});
+            }
+            if(classe.role == "ranged_dps"){
+                if(classe.id == 5)
+                    recruitment.push({"ad.recruitment.ranged_dps.priest":true});
+                if(classe.id == 7)
+                    recruitment.push({"ad.recruitment.ranged_dps.shaman":true});
+                if(classe.id == 3)
+                    recruitment.push({"ad.recruitment.ranged_dps.hunter":true});
+                if(classe.id == 9)
+                    recruitment.push({"ad.recruitment.ranged_dps.warlock":true});
+                if(classe.id == 8)
+                    recruitment.push({"ad.recruitment.ranged_dps.mage":true});
+            }
+        });
         if(recruitment.length>0)
             criteria["$or"] = recruitment;
     }
@@ -275,7 +273,7 @@ module.exports.getAds = function (number,filters,callback) {
         region:1,
         "ad":1,
         "bnet.side":1,
-        "wowProgress":1 
+        "wowProgress":1
     }, number, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });

@@ -86,6 +86,7 @@ async.series([
         var database = applicationStorage.getMongoDatabase();
 
         database.find("guilds", {"ad.updated":{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,id:1}, -1, {"ad.updated":-1}, function(error,guilds){
+            return callback();
             //callback(error, guilds);
             //FOREACH GUILD GET WOWPROGRESS INFO ET SET THEM
             async.eachSeries(guilds,function(guild,callback){
@@ -145,8 +146,8 @@ async.series([
             region: 1,
             "ad.updated": 1,
             id: 1
-        }, 0, {"ad.updated": -1}, function (error, characters) {
-            callback(error, characters);
+        }, -1, {"ad.updated": -1}, function (error, characters) {
+            //callback(error, characters);
 
             async.eachSeries(characters, function (character, callback) {
                 if (character.id == 0) {
@@ -161,6 +162,9 @@ async.series([
                     realm = realm.split("'").join("-");
 
                     wowprogressAPI.parseCharacterPage(encodeURI("/character/" + character.region + "/" + realm + "/" + character.name), function (error, characterAd) {
+                        if(error)
+                            return callback();
+
                         characterAd = confine.normalize(characterAd,characterAdSchema);
 
                         var date = character.ad.updated;
