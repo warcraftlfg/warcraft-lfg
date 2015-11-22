@@ -1,0 +1,23 @@
+progress : { 
+    "Hellfire Citadel" : {
+        "id": 7545,
+        "bosses" : {
+            "Hellfire Assault" : {
+                id: 93023,
+                normalKills : [
+                        ...
+                    ]
+                }
+                heroicKills : [
+                    ...
+                ],
+                mythicKills : [
+                    ...
+                ]
+            }
+        }
+    }
+}
+
+Find and modify
+{name: Bmagic, guild: Bloodlust, realm : Archimonde, region:"eu",timestamp: 1416695809000, ilvl: 725, class: 5, spec:1},
