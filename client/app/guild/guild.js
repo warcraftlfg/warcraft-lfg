@@ -188,7 +188,6 @@
             $scope.updateFilters();
         });
 
-
         $scope.getMoreGuilds = function(){
             if($scope.$parent.loading || $scope.loading)
                 return;
@@ -208,14 +207,11 @@
             socket.emit('get:guildAds',$scope.filters);
 
         };
-
         socket.forward('get:guildAds',$scope);
         $scope.$on('socket:get:guildAds',function(ev,guilds){
             $scope.$parent.loading = false;
             $scope.loading = false;
             $scope.guilds = $scope.guilds.concat(guilds);
         });
-
-
     }
 })();

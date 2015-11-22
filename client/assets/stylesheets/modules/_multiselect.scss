@@ -3,7 +3,39 @@
     background-color: $grey;
   }
   > button{
-    background-image: none;
-    background-color:$grey;
+    background: $grey none;
+    min-height: 32px !important;
+    width: 100%;
+    border-radius: 0px;
+    text-align: left;
+    padding: 6px 40px 6px 15px;
+    border: 1px solid $grey;
+    color:$white;
+    &:hover{
+      color: $white;
+      background: $red none;
+    }
+  }
+
+  .caret {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width:32px;
+    height:32px;
+    background-color:$black;
+    border:none;
+  }
+  .caret::after{
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    position:absolute;
+    top: 14px;
+    left:12px;
+    border-top: 5px solid $white;
   }
 }
+
