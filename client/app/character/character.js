@@ -131,7 +131,7 @@
         });
 
 
-        $translate(['HEAL','TANK','RANGED_DPS','MELEE_DPS','CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
+        $translate(['ALL_CLASSES','ALL_ROLES','ALL_LANGUAGES','SELECT_ALL','SELECT_NONE','RESET','SEARCH','HEAL','TANK','RANGED_DPS','MELEE_DPS','CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
             $scope.classes = [
                 {id:1, name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
                 {id:2, name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
@@ -150,9 +150,30 @@
                 {id:'heal', name: translations.HEAL, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
                 {id:'ranged_dps', name: translations.RANGED_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
                 {id:'melee_dps', name: translations.MELEE_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false}
-
             ];
+            $scope.localClasses = {
+                selectAll       : translations.SELECT_ALL,
+                selectNone      : translations.SELECT_NONE,
+                reset           : translations.RESET,
+                search          : translations.SEARCH,
+                nothingSelected : translations.ALL_CLASSES
+            };
+            $scope.localLanguages = {
+                selectAll       : translations.SELECT_ALL,
+                selectNone      : translations.SELECT_NONE,
+                reset           : translations.RESET,
+                search          : translations.SEARCH,
+                nothingSelected : translations.ALL_LANGUAGES
+            };
+            $scope.localRoles = {
+                selectAll       : translations.SELECT_ALL,
+                selectNone      : translations.SELECT_NONE,
+                reset           : translations.RESET,
+                search          : translations.SEARCH,
+                nothingSelected : translations.ALL_ROLES
+            };
         });
+
 
         $scope.filters = {};
         $scope.filters.faction = "";
