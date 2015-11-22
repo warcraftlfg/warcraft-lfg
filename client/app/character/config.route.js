@@ -29,7 +29,7 @@
                 controller: "CharacterDeleteController"
             })
             .state("character-list", {
-                url: "/character/list?region&language",
+                url: "/character/list?region&language&faction",
                 templateUrl: "app/character/character-list.html",
                 controlerAs: 'vm',
                 title: 'Character list',

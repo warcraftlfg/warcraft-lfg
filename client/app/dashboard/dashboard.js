@@ -56,7 +56,7 @@
         });
 
         $scope.CTAFormSubmit = function(){
-            $state.go($scope.form.type+'-list',{region:$scope.form.region,language:$scope.form.language});
+            $state.go($scope.form.type+'-list',{region:$scope.form.region,language:$scope.form.language,faction:$scope.form.faction});
         };
 
         /*
