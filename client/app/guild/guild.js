@@ -111,6 +111,7 @@
     GuildList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES'];
     function GuildList($scope, $stateParams, $translate, socket,LANGUAGES) {
 
+
         $scope.$parent.error=null;
         $scope.guilds = [];
         $scope.languages = [];
@@ -165,7 +166,9 @@
         $scope.filters.region = "";
         $scope.filters.language ="";
         $scope.filters.classes = [];
-
+        $scope.filters.raids_per_week = {};
+        $scope.filters.raids_per_week.min = 1;
+        $scope.filters.raids_per_week.max = 7;
 
         /* if params load filters */
         if($stateParams.region)
