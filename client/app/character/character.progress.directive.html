@@ -2,9 +2,13 @@
     <div class="row">
         <div class="col-md-12">
             Progress : &nbsp;
-            <span tooltip-placement="bottom" uib-tooltip="">
+            <span  ng-if="progress.progress" tooltip-placement="bottom" uib-tooltip="">
 				<span>{{ progress.progress }}</span>/<span>{{ progress.total }}</span> ({{ progress.difficulty }})
 			</span>
+            <span  ng-if="!progress.progress">
+                Progress not found ...
+            </span>
+
         </div>
     </div>
 </div>

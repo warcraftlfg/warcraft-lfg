@@ -128,6 +128,8 @@
             $scope.filters.region = $stateParams.region;
         if($stateParams.language)
             $scope.filters.language = $stateParams.language;
+        if($stateParams.faction)
+            $scope.filters.faction = $stateParams.faction;
 
         $scope.$watch('filters.raids_per_week.min', function() {
             $scope.updateFilters();
