@@ -22,78 +22,80 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-lg-3">
-                <div class="m-b-20">
-                    <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
-                        <option value="">{{"ALL_REGION"|translate}}</option>
-                        <option value="us">US</option>
-                        <option value="eu">EU</option>
-                        <option value="kr">KR</option>
-                        <option value="tw">TW</option>
-                    </select>
-                </div>
-                <div class="m-b-20">
-                    <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
-                        <option value="">{{"ALL_FACTION"|translate}}</option>
-                        <option value="0">{{"ALLIANCE"|translate}}</option>
-                        <option value="1">{{"HORDE"|translate}}</option>
-                    </select>
-                </div>
-                <div class="m-b-20">
-                    <div isteven-multi-select
-                         input-model="languages"
-                         output-model="filters.languages"
-                         button-label="name"
-                         item-label="name"
-                         output-properties="id"
-                         tick-property="selected"
-                         translation="localLanguages"
-                    >
+                <div class="filters p-10">
+                    <div class="m-b-20">
+                        <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
+                            <option value="">{{"ALL_REGION"|translate}}</option>
+                            <option value="us">US</option>
+                            <option value="eu">EU</option>
+                            <option value="kr">KR</option>
+                            <option value="tw">TW</option>
+                        </select>
                     </div>
-                </div>
-                <div class="m-b-20">
-                    <div isteven-multi-select
-                         input-model="roles"
-                         output-model="filters.roles"
-                         button-label="icon name"
-                         item-label="icon name"
-                         output-properties="id"
-                         tick-property="selected"
-                         translation="localRoles"
-                    >
+                    <div class="m-b-20">
+                        <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
+                            <option value="">{{"ALL_FACTION"|translate}}</option>
+                            <option value="0">{{"ALLIANCE"|translate}}</option>
+                            <option value="1">{{"HORDE"|translate}}</option>
+                        </select>
                     </div>
-                </div>
-                <div class="m-b-20">
-                    <div isteven-multi-select
-                         input-model="classes"
-                         output-model="filters.classes"
-                         button-label="icon name"
-                         item-label="icon name"
-                         output-properties="id selected"
-                         tick-property="selected",
-                         translation="localClasses"
-                    >
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="languages"
+                             output-model="filters.languages"
+                             button-label="name"
+                             item-label="name"
+                             output-properties="id"
+                             tick-property="selected"
+                             translation="localLanguages"
+                        >
+                        </div>
                     </div>
-                </div>
-                <div class="m-b-20">
-                    <label>
-                        <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
-                    <div ng-if="filters.raids_per_week.active">
-                        {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
-                        <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="roles"
+                             output-model="filters.roles"
+                             button-label="icon name"
+                             item-label="icon name"
+                             output-properties="id"
+                             tick-property="selected"
+                             translation="localRoles"
+                        >
+                        </div>
                     </div>
-                </div>
-                <div class="m-b-20">
-                    <div class="checkbox">
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="classes"
+                             output-model="filters.classes"
+                             button-label="icon name"
+                             item-label="icon name"
+                             output-properties="id selected"
+                             tick-property="selected",
+                             translation="localClasses"
+                        >
+                        </div>
+                    </div>
+                    <div class="m-b-20">
                         <label>
-                            <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
-                        </label>
+                            <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
+                        <div ng-if="filters.raids_per_week.active">
+                            {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
+                            <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+                        </div>
                     </div>
-                </div>
-                <div class="m-b-20">
-                    <div class="checkbox">
-                        <label>
-                            <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">  Level 100
-                        </label>
+                    <div class="m-b-20">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
+                            </label>
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">  Level 100
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,15 +105,15 @@
                             <img src="/assets/images/icon/64/faction-{{character.bnet.faction}}.png" class="img-responsive" />
                         </div>
                         <div class="col-md-4 col-lg-2">
-                            <div class="name class-{{character.bnet.class}}">
+                            <div class="overflow class-{{character.bnet.class}}">
                                 <a class="icon-small class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
                                     {{character.name}}
                                 </a>
                             </div>
-                            <div>
+                            <div class="overflow">
                                 {{character.realm}} ({{character.region|uppercase}})
                             </div>
-                            <div class="faction-{{character.bnet.faction}}">
+                            <div class="overflow faction-{{character.bnet.faction}}">
                                      {{character.bnet.guild.name}}
                             </div>
                             <div>
@@ -127,7 +129,7 @@
                                 <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
                             </div>
                             <div>
-                                Upgrade: ??
+                                Audit: ??
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
