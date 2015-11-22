@@ -239,26 +239,26 @@ module.exports.parseGuildPage = function( url, callback) {
                     if(line.indexOf("(dd)")!=-1)
                         result.recruitment.melee_dps.deathknight = true;
                     else if(line.indexOf("(tank)")!=-1)
-                        result.recruitment.tanks.deathknight = true;
+                        result.recruitment.tank.deathknight = true;
                     else {
                         result.recruitment.melee_dps.deathknight = true;
-                        result.recruitment.tanks.deathknight = true;
+                        result.recruitment.tank.deathknight = true;
                     }
                 }
                 if(line.indexOf("druid")!=-1){
                     if(line.indexOf("(balance)")!=-1)
                         result.recruitment.ranged_dps.druid = true;
                     else if(line.indexOf("(restoration)")!=-1)
-                        result.recruitment.heals.druid = true;
+                        result.recruitment.heal.druid = true;
                     else if(line.indexOf("(feral-dd)")!=-1)
                         result.recruitment.melee_dps.druid = true;
                     else if(line.indexOf("(feral-tank)")!=-1)
-                        result.recruitment.tanks.druid = true;
+                        result.recruitment.tank.druid = true;
                     else {
                         result.recruitment.ranged_dps.druid = true;
-                        result.recruitment.heals.druid = true;
+                        result.recruitment.heal.druid = true;
                         result.recruitment.melee_dps.druid = true;
-                        result.recruitment.tanks.druid = true;
+                        result.recruitment.tank.druid = true;
                     }
                 }
                 if(line.indexOf("hunter")!=-1){
@@ -269,38 +269,38 @@ module.exports.parseGuildPage = function( url, callback) {
                 }
                 if(line.indexOf("monk")!=-1){
                     if(line.indexOf("(healer)")!=-1)
-                        result.recruitment.heals.monk = true;
+                        result.recruitment.heal.monk = true;
                     else if(line.indexOf("(dd)")!=-1)
                         result.recruitment.melee_dps.monk = true;
                     else if(line.indexOf("(tank)")!=-1)
-                        result.recruitment.tanks.monk = true;
+                        result.recruitment.tank.monk = true;
                     else {
-                        result.recruitment.heals.monk = true;
+                        result.recruitment.heal.monk = true;
                         result.recruitment.melee_dps.monk = true;
-                        result.recruitment.tanks.monk = true;
+                        result.recruitment.tank.monk = true;
                     }
                 }
                 if(line.indexOf("paladin")!=-1){
                     if(line.indexOf("(holy)")!=-1)
-                        result.recruitment.heals.paladin = true;
+                        result.recruitment.heal.paladin = true;
                     else if(line.indexOf("(retribution)")!=-1)
                         result.recruitment.melee_dps.paladin = true;
                     else if(line.indexOf("(protection)")!=-1)
-                        result.recruitment.tanks.paladin = true;
+                        result.recruitment.tank.paladin = true;
                     else {
-                        result.recruitment.heals.paladin = true;
+                        result.recruitment.heal.paladin = true;
                         result.recruitment.melee_dps.paladin = true;
-                        result.recruitment.tanks.paladin = true;
+                        result.recruitment.tank.paladin = true;
                     }
                 }
                 if(line.indexOf("priest")!=-1){
                     if(line.indexOf("(dd)")!=-1)
                         result.recruitment.ranged_dps.priest = true;
                     else if(line.indexOf("(healer)")!=-1)
-                        result.recruitment.heals.priest = true;
+                        result.recruitment.heal.priest = true;
                     else {
                         result.recruitment.ranged_dps.priest = true;
-                        result.recruitment.heals.priest = true;
+                        result.recruitment.heal.priest = true;
                     }
                 }
                 if(line.indexOf("rogue")!=-1){
@@ -310,12 +310,12 @@ module.exports.parseGuildPage = function( url, callback) {
                     if(line.indexOf("(elemental)")!=-1)
                         result.recruitment.ranged_dps.shaman = true;
                     else if(line.indexOf("(restoration)")!=-1)
-                        result.recruitment.heals.shaman = true;
+                        result.recruitment.heal.shaman = true;
                     else if(line.indexOf("(enhancement)")!=-1)
                         result.recruitment.melee_dps.shaman = true;
                     else {
                         result.recruitment.ranged_dps.shaman = true;
-                        result.recruitment.heals.shaman = true;
+                        result.recruitment.heal.shaman = true;
                         result.recruitment.melee_dps.shaman = true;
                     }
                 }
@@ -326,10 +326,10 @@ module.exports.parseGuildPage = function( url, callback) {
                     if(line.indexOf("(dd)")!=-1)
                         result.recruitment.melee_dps.warrior = true;
                     else if(line.indexOf("(tank)")!=-1)
-                        result.recruitment.tanks.warrior = true;
+                        result.recruitment.tank.warrior = true;
                     else {
                         result.recruitment.melee_dps.warrior = true;
-                        result.recruitment.tanks.warrior = true;
+                        result.recruitment.tank.warrior = true;
                     }
                 }
             });
@@ -357,13 +357,13 @@ module.exports.parseGuildPage = function( url, callback) {
 
 module.exports.formatRecruitment= function(defaultValue){
     return {
-        tanks: {
+        tank: {
             warrior:defaultValue,
             druid:defaultValue,
             paladin:defaultValue,
             monk:defaultValue
         },
-        heals: {
+        heal: {
             druid:defaultValue,
             priest_discipline:defaultValue,
             priest_holy:defaultValue,
