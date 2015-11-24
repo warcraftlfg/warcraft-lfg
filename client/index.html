@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Warcraft LFG</title>
+
+        <!-- Fav icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/favicon/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/favicon/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/favicon/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/favicon/apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/favicon/apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/favicon/apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/favicon/apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/favicon/apple-touch-icon-152x152.png" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-128.png" sizes="128x128" />
+        <meta name="application-name" content="Warcraft LFG"/>
+        <meta name="msapplication-TileColor" content="#151515" />
+        <meta name="msapplication-TileImage" content="/assets/images/favicon/mstile-144x144.png" />
+        <meta name="msapplication-square70x70logo" content="/assets/images/favicon/mstile-70x70.png" />
+        <meta name="msapplication-square150x150logo" content="/assets/images/favicon/mstile-150x150.png" />
+        <meta name="msapplication-wide310x150logo" content="/assets/images/favicon/mstile-310x150.png" />
+        <meta name="msapplication-square310x310logo" content="/assets/images/favicon/mstile-310x310.png" />
+
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+        <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/vendor/angular-multi-select/isteven-multi-select.css" rel="stylesheet">
+
+        <!-- build:css assets/css/warcraftlfg.min.css -->
+        <link href="/assets/css/main.css" rel="stylesheet">
+        <!-- endbuild -->
+
+    </head>
+
+    <body ng-cloak ng-controller="CoreController">
+        <div class="wrapper">
+            <div data-ng-include="'app/layout/header.html'"></div>
+            <div class="content">
+                <div ng-if="error" class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    {{error|translate}}
+                </div>
+                <div ui-view></div>
+                <!-- Modal -->
+            </div>
+            <div class="push"></div>
+        </div>
+        <div class="footer" data-ng-include="'app/layout/footer.html'"></div>
+        <div class="modal-backdrop fade in" ng-if="loading"></div>
+
+        <!-- Third party -->
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+        <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/vendor/moment/min/moment.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-multi-select/isteven-multi-select.js"></script>
+        <script type="text/javascript" src="/vendor/angular-ranger/angular-ranger.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-socket-io/socket.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-moment/angular-moment.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-translate/angular-translate.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+        <script type="text/javascript" src="/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <script type="text/javascript" src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+        <!-- build:js app/warcraftlfg.min.js -->
+        <!-- Bootstrapping -->
+        <script type="text/javascript" src="/app/app.module.js"></script>
+
+        <!-- Reusable Blocks/Modules -->
+        <script src="/app/blocks/socket/socket.module.js"></script>
+        <script src="/app/blocks/socket/socket.js"></script>
+
+        <!-- core module -->
+        <script src="/app/core/core.module.js"></script>
+        <script src="/app/core/core.js"></script>
+        <script src="/app/core/constants.js"></script>
+        <script src="/app/core/core.config.js"></script>
+        <script src="/app/core/core.run.js"></script>
+
+        <!-- layout -->
+        <script src="/app/layout/layout.module.js"></script>
+
+        <!-- web -->
+        <script src="/app/web/web.module.js"></script>
+        <script src="/app/web/config.route.js"></script>
+        <script src="/app/web/web.js"></script>
+
+        <!-- dashboard -->
+        <script src="/app/dashboard/dashboard.module.js"></script>
+        <script src="/app/dashboard/config.route.js"></script>
+        <script src="/app/dashboard/dashboard.js"></script>
+
+        <!-- account -->
+        <script src="/app/account/account.module.js"></script>
+        <script src="/app/account/config.route.js"></script>
+        <script src="/app/account/account.js"></script>
+
+        <!-- character -->
+        <script src="/app/character/character.module.js"></script>
+        <script src="/app/character/character.legendary-ring.directive.js"></script>
+        <script src="/app/character/character.warcraft-logs.directive.js"></script>
+        <script src="/app/character/character.progress.directive.js"></script>
+        <script src="/app/character/config.route.js"></script>
+        <script src="/app/character/character.js"></script>
+
+        <!-- guild -->
+        <script src="/app/guild/guild.module.js"></script>
+        <script src="/app/guild/config.route.js"></script>
+        <script src="/app/guild/guild.js"></script>
+        <!-- endbuild -->
+
+    </body>
+</html>

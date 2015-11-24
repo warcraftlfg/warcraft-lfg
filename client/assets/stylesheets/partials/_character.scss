@@ -1,0 +1,56 @@
+.character-list {
+  .character{
+    padding:10px 0 10px 0;
+    margin: 0 0 10px 0;
+    border:1px solid $white;
+    background-color: $black;
+
+    .ring img{width:16px}
+
+    .warcraft-logs{
+      .icon-small {margin-left:10px;}
+    }
+
+    .name {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+    }
+  }
+
+  .filters {
+    background-color: $black;
+    padding-top: 20px;
+
+    .realm-search-input-container i {
+      color: black;
+      margin-top: 10px;
+      with: auto;
+      height: auto
+    }
+    .realm-search-results {
+      position: absolute;
+      background-color: $black;
+      padding: 20px;
+      z-index: 1;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border: 1px solid #66AFE9;
+    }
+    .realm{
+      cursor:pointer;
+      padding:5px;
+      &:hover{
+        background-color:$red;
+      }
+    }
+
+  }
+
+}
+
+.character-read{
+
+}

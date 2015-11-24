@@ -1,0 +1,116 @@
+//Variables
+$font-family:  'Open Sans', sans-serif;
+
+$light: 100;
+$regular: 400;
+$bold: 600;
+
+$black: #151515;
+$grey: #282828;
+$hover: #282828;
+$red: #260303;
+$white: #fff;
+
+* {
+	margin: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+.wrapper {
+	min-height: 100%;
+	margin: 0 auto -128px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.footer, .push {
+	height: 128px; /* .push must be the same height as .footer */
+}
+
+body{
+  color: $white;
+  background-color: $grey;
+}
+
+.form-control {
+	border-radius: 0px;
+}
+
+.btn {
+	border-radius: 0px;
+}
+
+.btn-default {
+	background-color: $black;
+	color: #fff;
+}
+
+.btn-default:hover, .btn-default:focus {
+	background-color: $red;
+	color: $white;
+}
+
+.btn-default:active:focus, .btn-default:active:hover {
+	background-color: $black;
+	color: $white;
+}
+
+.list-group-item:first-child, .list-group-item:last-child {
+	border-radius: 0px;
+}
+
+.dropdown-menu {
+	border-radius: 0px;
+	background-color: #212121;
+	color: $white;
+	margin: 0px;
+	padding: 0px;
+}
+
+.dropdown-menu>li>a {
+	color: $white;
+	padding: 10px 20px
+}
+
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+	background-color: $hover;
+	color: $white;
+}
+
+.dropdown-menu .divider {
+	margin: 0px;
+}
+
+.table {
+  background-color: $black;
+  border-bottom: 1px solid white;
+  td.icon-small {
+    background-position: center center;
+  }
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	vertical-align: middle;
+}
+
+a, a:hover, a:focus {
+	color: inherit;
+}
+
+.content .title {
+	font-size: 30px;
+	margin-bottom: 15px;
+	font-weight: $bold;
+}
+
+.content .subtitle {
+	font-size: 25px;
+	margin-bottom: 15px;
+}
+
+.content .content {
+	margin-bottom: 15px;
+}
+
+@import "../modules/all";

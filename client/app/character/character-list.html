@@ -1,0 +1,173 @@
+<section class="header header-character">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ "CHARACTERS"|translate}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ "CHARACTERS_DESCRIPTION"|translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="character-list" >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-lg-3">
+                <div class="filters p-10">
+                    <div class="m-b-20">
+                        <span class="css3-metro-dropdown">
+                            <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
+                                <option value="">{{"ALL_REGION"|translate}}</option>
+                                <option value="us">US</option>
+                                <option value="eu">EU</option>
+                                <option value="kr">KR</option>
+                                <option value="tw">TW</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="m-b-20">
+                        <span class="css3-metro-dropdown">
+                            <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
+                                <option value="">{{"ALL_FACTION"|translate}}</option>
+                                <option value="0">{{"ALLIANCE"|translate}}</option>
+                                <option value="1">{{"HORDE"|translate}}</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="languages"
+                             output-model="filters.languages"
+                             button-label="name"
+                             item-label="name"
+                             output-properties="id"
+                             tick-property="selected"
+                             translation="localLanguages"
+                             max-height="300px"
+                        >
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="roles"
+                             output-model="filters.roles"
+                             button-label="icon name"
+                             item-label="icon name"
+                             output-properties="id"
+                             tick-property="selected"
+                             translation="localRoles"
+                        >
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="classes"
+                             output-model="filters.classes"
+                             button-label="icon name"
+                             item-label="icon name"
+                             output-properties="id selected"
+                             tick-property="selected",
+                             translation="localClasses"
+                        >
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <label>
+                            <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
+                        <div ng-if="filters.raids_per_week.active">
+                            {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
+                            <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
+                            </label>
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">  Level 100
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-9" infinite-scroll="getMoreCharacters()">
+                <div class="character row" ng-repeat="character in characters">
+                        <div class="col-md-2 col-lg-1 text-center vertical-align">
+                            <img src="/assets/images/icon/64/faction-{{character.bnet.faction}}.png" class="img-responsive" />
+                        </div>
+                        <div class="col-md-4 col-lg-2">
+                            <div class="overflow class-{{character.bnet.class}}">
+                                <a class="icon-small class-{{character.bnet.class}}" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                                    {{character.name}}
+                                </a>
+                            </div>
+                            <div class="overflow">
+                                {{character.realm}} ({{character.region|uppercase}})
+                            </div>
+                            <div class="overflow faction-{{character.bnet.faction}}">
+                                     {{character.bnet.guild.name}}
+                            </div>
+                            <div>
+                                Level {{character.bnet.level}}
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-lg-2">
+                            <div>
+                                iLvl : {{character.bnet.items.averageItemLevelEquipped}}
+                            </div>
+                            <div>
+                                <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
+                                <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
+                            </div>
+                            <div>
+                                Audit: ??
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <div>
+                                Languages : <span ng-repeat="language in character.ad.languages"> {{"LANG_"+language|uppercase|translate}}</span>
+                            </div>
+                            <div ng-if="character.ad.role.tank || character.ad.role.heal || character.ad.role.melee_dps || character.ad.role.ranged_dps">
+                                Role :
+                                <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
+                                <span ng-if="character.ad.role.heal" class="icon-small heal"></span>
+                                <span ng-if="character.ad.role.melee_dps" class="icon-small dps"></span>
+                                <span ng-if="character.ad.role.ranged_dps" class="icon-small dps"></span>
+                            </div>
+                            <div>
+                                Raids per week : {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
+                            </div>
+                            <div>
+                                Transfert : <i ng-class="character.ad.transfert ? 'fa-check' : 'fa-times'" class="fa "></i>
+                            </div>
+                        </div>
+                        <div class="col-md-12 visible-md visible-sm visible-xs">&nbsp;</div>
+                        <div class="col-lg-offset-0 col-md-offset-2 col-md-10 col-lg-4 character-class-{{character.bnet.class}}">
+                            <span wlfg-progress="{{character.bnet.progression.raids}}"></span>
+                            <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
+                        </div>
+                        <div class="col-md-12 text-right f-12 m-t-10 italic">
+                            Updated <span am-time-ago="character.ad.updated"></span>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <i class="fa fa-3x fa-spinner fa-spin" ng-if="loading"></i>
+        </div>
+    </div>
+</div>

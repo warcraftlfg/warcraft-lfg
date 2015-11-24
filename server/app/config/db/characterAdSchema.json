@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Character Ad",
+  "description": "A WoWFinder Character Ad",
+  "type": "object",
+  "properties": {
+    "updated": {
+      "type": "integer"
+    },
+    "languages": {
+      "type": "array",
+      "items":{
+        "type":"string",
+        "enum":["en","de","fr","es","ru","bg","zh","hr","cs","da","nl","et","fi","el","he","hu","it","ja","ko","lv","lt","no","pl","pt","ro","sl","sv","tw","tr"]
+      }
+    },
+    "description": {
+      "type": "string"
+    },
+    "transfert": {
+      "type": "boolean",
+      "default": false
+    },
+    "role": {
+      "type": "object",
+      "properties": {
+        "tank": {
+          "type": "boolean",
+          "default": false
+        },
+        "melee_dps": {
+          "type": "boolean",
+          "default": false
+        },
+        "ranged_dps": {
+          "type": "boolean",
+          "default": false
+        },
+        "heal": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "raids_per_week": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "integer",
+          "default": 1,
+          "min":1,
+          "max":7
+        },
+        "max": {
+          "type": "integer",
+          "default": 7,
+          "min":1,
+          "max":7
+        }
+      }
+    }
+  }
+}

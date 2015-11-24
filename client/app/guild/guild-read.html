@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ guild.name }} - {{ guild.region }} {{ guild.realm }}</h1>
+            <button ng-click="updateGuild()" type="button" class="btn btn-default" aria-label="Update Character">
+                <i class="fa fa-refresh"></i> Update Guild
+            </button>
+            <div ng-if="queuePosition">
+                <p>
+                    Position in queue :  {{queuePosition}}
+                </p>
+                <p>
+                    Please check back this page later
+                </p>
+            </div>
+            <div ng-if="!guild">
+                <h1>Guild not found</h1>
+                Try update to import
+            </div>
+            <div ng-if="guild">
+                <h2>Recruitment Data</h2>
+                <div ng-if="guild.ad">
+                    <code>{{guild.ad}}</code>
+                </div>
+                <div ng-if="!guild.ad">
+                    This guild is not looking for a guild
+                </div>
+                <h2>Guild Data</h2>
+                <div ng-if="guild.bnet">
+                    <code>{{guild.bnet}}</code>
+                </div>
+                <div ng-if="!guild.bnet">
+                    This guild is not yet in our database
+                </div>
+                <h2>WowProgress rank Data</h2>
+                <div ng-if="guild.wowProgress">
+                    <code>{{guild.wowProgress}}</code>
+                </div>
+                <div ng-if="!guild.wowProgress">
+                    This guild is not yet in our database
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

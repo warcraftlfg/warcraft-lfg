@@ -1,0 +1,111 @@
+.multiSelect {
+  .checkboxLayer {
+    background-color: $grey;
+    border-radius: 0px;
+    border: 1px solid #7B9DD4;
+  }
+  > button{
+    background: $grey none;
+    min-height: 32px !important;
+    width: 100%;
+    border-radius: 0px;
+    text-align: left;
+    padding: 6px 40px 6px 15px;
+    border: 1px solid $grey;
+    color:$white;
+    &:hover{
+      color: $white;
+      background: $red none;
+    }
+  }
+
+  .buttonLabel {
+    padding: 0px;
+  }
+
+  .helperButton {
+    border-radius: 0px;
+    background-color: $black;
+    color: white;
+  }
+
+  .inputFilter {
+    background-color: $black;
+    color: white;
+    border-radius: 0px;
+  }
+
+  .clearButton {
+    background-color: $black;
+    color: white;
+  }
+
+  .clearButton:hover {
+    background-color: $red;
+    color: white;
+  }
+
+  .helperButton:hover {
+    background-color: $red;
+    color: white;
+  }
+
+  .checkBoxContainer {
+    padding: 0px;
+  }
+
+  .multiSelectItem {
+    min-height: initial;
+    .acol {
+        label {
+          color: white;
+        }
+    }
+  }
+
+  .multiSelectItem:not(.multiSelectGroup).selected {
+    border: none;
+    background-color: $red;
+    background-image: none;
+  }
+
+  .tickMark {
+    color: white;
+  }
+
+  .multiSelectItem:hover {
+      background-color: $red;
+      background-image: none !important;
+      border: none !important;
+  }
+
+  .caret {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width:32px;
+    height:32px;
+    background-color:$black;
+    border:none;
+  }
+  .caret::after{
+    content:"\25bc";
+    background-color:$black;
+    margin:5px;
+    position:absolute;
+    display:block;
+    width:32px;
+    font-size:12px;
+    line-height:32px;
+    text-align:center;
+    font-size:10px;
+    -webkit-pointer-events:none;
+    -moz-pointer-events:none;
+    pointer-events:none;
+    position:absolute;
+    top: -5px;
+    left:-5px;
+
+  }
+}
+

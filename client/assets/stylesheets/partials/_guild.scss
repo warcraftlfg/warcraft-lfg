@@ -1,0 +1,47 @@
+.guild-list {
+  .guild{
+    padding:10px 0 10px 0;
+    margin: 0 0 10px 0;
+    border:1px solid $white;
+    background-color: $black;
+
+    .warcraft-logs{
+      .icon-small {margin-left:10px;}
+    }
+  }
+
+  .filters {
+    background-color: $black;
+    padding-top: 20px;
+
+    .realm-search-input-container i {
+      color: black;
+      margin-top: 10px;
+      with: auto;
+      height: auto
+    }
+    .realm-search-results {
+      position: absolute;
+      background-color: $black;
+      padding: 20px;
+      z-index: 1;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border: 1px solid #66AFE9;
+    }
+    .realm{
+      cursor:pointer;
+      padding:5px;
+      &:hover{
+        background-color:$red;
+      }
+    }
+
+  }
+
+
+}
+
+.character-read{
+
+}

@@ -1,0 +1,167 @@
+<div class="dashboard-intro">
+    <div class="container text-center" >
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                    Warcraft LFG
+                </h1>
+                <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dashboard-form">
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_TYPE"|translate}} :</label>
+                        <div class="col-md-9">
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.type" class="form-control">
+                                    <option value="guild">{{"GUILD"|translate|lowercase}}</option>
+                                    <option value="character">{{"PLAYER"|translate|lowercase}}</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_FACTION"|translate}} :</label>
+                        <div class="col-md-9">
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.faction" class="form-control">
+                                    <option value="">{{"ALL_FACTION"|translate}}</option>
+                                    <option value="0">{{"ALLIANCE"|translate}}</option>
+                                    <option value="1">{{"HORDE"|translate}}</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_ZONE"|translate}} :</label>
+                        <div class="col-md-9">
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.region"class="form-control">
+                                    <option value="">{{"ALL_REGION"|translate}}</option>
+                                    <option value="us">US</option>
+                                    <option value="eu">EU</option>
+                                    <option value="kr">KR</option>
+                                    <option value="tw">TW</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-md-3 control-label">{{"DASHBOARD_SEARCH_LANGUAGE"|translate}} :</label>
+                        <div class="col-md-9">
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.language" class="form-control">
+                                    <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" ng-click="CTAFormSubmit()" class="btn btn-default">{{"SEARCH"|translate}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dashboard-table">
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="m-b-20">{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
+                <table class="table table-condensed">
+                    <tr ng-repeat="guild in guilds">
+                        <td class="faction-{{guild.bnet.side}}">
+                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold txt-underline">
+                                {{guild.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{guild.realm}}
+                        </td>
+                        <td>
+                            {{guild.region|uppercase}}
+                        </td>
+                        <td>
+                            {{"UPDATED"|translate}} <span am-time-ago="guild.ad.updated"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3 class="m-b-20">{{"DASHBOARD_LAST_CHARACTERAD"|translate}}</h3>
+                <table class="table table-condensed">
+                    <tr ng-repeat="character in characters">
+                        <td class="icon-small class-{{character.bnet.class}}">
+                            &nbsp;&nbsp;
+                        </td>
+                        <td class="class-{{character.bnet.class}}">
+                            <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold txt-underline class-{{character.bnet.class}}">
+                                {{character.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{character.realm}}
+                        </td>
+                        <td>
+                            {{character.region|uppercase}}
+                        </td>
+                        <td>
+                            {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center dashboard-stats">
+    <div class="container">
+        <div class="row">
+            <h2 class="m-b-20">{{"LIVE_STATS"|translate}}</h2>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="icon-large character"></div>
+                    </div>
+                </div>
+                <p class="lead">{{characterCount}} {{"CHARACTERS"|translate}}</p>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="icon-large guild"></div>
+                    </div>
+                </div>
+                <p class="lead">{{guildCount}} {{"GUILDS"|translate}}</p>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="icon-large ad"></div>
+                    </div>
+                </div>
+                <p class="lead">{{characterAdCount}} {{"CHARACTERS_ADS"|translate}}</p>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="icon-large ad"></div>
+                    </div>
+                </div>
+                <p class="lead">{{guildAdCount}} {{"GUILDS_ADS"|translate}}</p>
+            </div>
+        </div>
+    </div>
+</div>

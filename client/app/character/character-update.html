@@ -1,0 +1,74 @@
+<section class="header  header-character">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ character.name }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ character.realm }} - {{ character.region|uppercase }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form>
+                <div class="hide">
+                    <input ng-model="character.name" disabled class="form-control" id="characterNameInput">
+                    <input ng-model="character.realm" disabled class="form-control" id="characterRealmInput">
+                    <input ng-model="character.region" disabled class="form-control" id="characterRegionInput">
+                </div>
+                <div class="form-group">
+                    <label>{{"CHARACTER_CREATE_ROLE"|translate}}</label>
+                    <div class="row">
+                        <div ng-repeat="(role,value) in character.ad.role" class="col-md-3">
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-model="character.ad.role[role]" type="checkbox"> 
+                                    <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{"CHARACTER_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
+                    <div isteven-multi-select
+                         input-model="languages"
+                         output-model="selectedLanguages"
+                         button-label="name"
+                         item-label="name"
+                         output-properties="id"
+                         tick-property="selected">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{"CHARACTER_CREATE_RPW"|translate}}</label>
+                    <angular-ranger min="1" max="7" step="1" min-value="character.ad.raids_per_week.min" max-value="character.ad.raids_per_week.max"></angular-ranger>
+                </div>
+                <div class="form-group">
+                    <label>{{"CHARACTER_CREATE_TRANSFERT"|translate}}</label>
+                    <div class="checkbox">
+                        <label>
+                            <input ng-model="character.ad.transfert" type="checkbox"> {{"ALLOW_TRANSFERT"|translate}}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{"CHARACTER_CREATE_DESCRIPTION"|translate}}</label>
+                    <textarea ng-model="character.ad.description" placeholder="{{'CHARACTER_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" class="form-control" rows="6"></textarea>
+                </div>
+                <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
+            </form>
+        </div>
+    </div>
+</div>

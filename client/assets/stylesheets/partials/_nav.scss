@@ -1,0 +1,29 @@
+.navbar {
+  margin-bottom:0px;
+  border-bottom: 1px solid $white;
+  background-color: $black;
+  a {
+    color: $white;
+  }
+  .navbar-header{
+    .navbar-toggle{
+      padding:0;
+    }
+  }
+  .navbar-brand {
+    background: url('../images/warcraftlfg-logo-navbar.png') no-repeat 15px center ;
+    height:100%;
+    width:223px;
+    color:transparent;
+    margin-right: 20px;
+  }
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+  background-color: $hover;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+  background-color: $hover;
+}
+

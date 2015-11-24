@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Guild Ad",
+  "description": "A WoWFinder Guild Ad",
+  "type": "object",
+  "properties": {
+    "updated": {
+      "type": "integer"
+    },
+    "language": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "recruitment": {
+      "type": "object",
+      "properties": {
+        "tank": {
+          "type": "object",
+          "properties": {
+            "warrior": {
+              "type": "boolean",
+              "default": false
+            },
+            "druid": {
+              "type": "boolean",
+              "default": false
+            },
+            "paladin": {
+              "type": "boolean",
+              "default": false
+            },
+            "monk": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "heal": {
+          "type": "object",
+          "properties": {
+            "druid": {
+              "type": "boolean",
+              "default": false
+            },
+            "priest": {
+              "type": "boolean",
+              "default": false
+            },
+            "paladin": {
+              "type": "boolean",
+              "default": false
+            },
+            "shaman": {
+              "type": "boolean",
+              "default": false
+            },
+            "monk": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "melee_dps": {
+          "type": "object",
+          "properties": {
+            "druid": {
+              "type": "boolean",
+              "default": false
+            },
+            "deathknight": {
+              "type": "boolean",
+              "default": false
+            },
+            "paladin": {
+              "type": "boolean",
+              "default": false
+            },
+            "monk": {
+              "type": "boolean",
+              "default": false
+            },
+            "shaman": {
+              "type": "boolean",
+              "default": false
+            },
+            "warrior": {
+              "type": "boolean",
+              "default": false
+            },
+            "rogue": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "ranged_dps": {
+          "type": "object",
+          "properties": {
+            "priest": {
+              "type": "boolean",
+              "default": false
+            },
+            "shaman": {
+              "type": "boolean",
+              "default": false
+            },
+            "hunter": {
+              "type": "boolean",
+              "default": false
+            },
+            "warlock": {
+              "type": "boolean",
+              "default": false
+            },
+            "mage": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+    "raids_per_week": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "integer",
+          "default": 1,
+          "min":1,
+          "max":7
+        },
+        "max": {
+          "type": "integer",
+          "default": 7,
+          "min":1,
+          "max":7
+        }
+      }
+    }
+  }
+}

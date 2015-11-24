@@ -1,0 +1,232 @@
+
+.legendary { color: rgb(255, 128, 0) }
+.epic { color: rgb(163, 53, 238) }
+.rare { color: rgb(0, 112, 255) }
+.uncommon { color: rgb(30, 255, 0) }
+.common { color: #666 }
+
+.faction-1 { color: #B30000}
+.faction-0 { color: #0078FF}
+
+/* None*/
+.class-0,.class-none{color:#000000;}
+/* Warrior */
+.class-1,.class-warrior{color:#C79C6E;}
+/* Paladin */
+.class-2,.class-paladin{color:#F58CBA;}
+/* Hunter */
+.class-3,.class-hunter{color:#ABD473;}
+/* Rogue */
+.class-4,.class-rogue{color:#FFF569;}
+/* Priest */
+.class-5,.class-priest{color:#fff;}
+/* Death Knight */
+.class-6,.class-deathknight{color:#C41F3B }
+/* Shaman */
+.class-7,.class-shaman{color:#0070DE}
+/* Mage */
+.class-8,.class-mage{color:#69CCF0}
+/* Warlock */
+.class-9,.class-warlock{color:#9482C9 	}
+/* Monk */
+.class-10,.class-monk{color:#00FF96}
+/* Druid */
+.class-11,.class-druid{color:#FF7D0A}
+
+.icon-small {
+  padding: 1px 0px 1px 25px;
+  /* Warrior */
+  &.class-1{background: url('../images/icon/16/class-1.png') left center no-repeat;}
+  /* Paladin */
+  &.class-2{background: url('../images/icon/16/class-2.png') left center no-repeat;}
+  /* Hunter */
+  &.class-3{background: url('../images/icon/16/class-3.png') left center no-repeat;}
+  /* Rogue */
+  &.class-4{background: url('../images/icon/16/class-4.png') left center no-repeat;}
+  /* Priest */
+  &.class-5{background: url('../images/icon/16/class-5.png') left center no-repeat;}
+  /* Death Knight */
+  &.class-6{background: url('../images/icon/16/class-6.png') left center no-repeat;}
+  /* Shaman */
+  &.class-7{background: url('../images/icon/16/class-7.png') left center no-repeat;}
+  /* Mage */
+  &.class-8{background: url('../images/icon/16/class-8.png') left center no-repeat;}
+  /* Warlock */
+  &.class-9{background: url('../images/icon/16/class-9.png') left center no-repeat;}
+  /* Monk */
+  &.class-10{background: url('../images/icon/16/class-10.png') left center no-repeat;}
+  /* Druid */
+  &.class-11{background: url('../images/icon/16/class-11.png') left center no-repeat;}
+
+  &.dps,&.melee_dps,&.ranged_dps {background: url('../images/icon/16/dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.heal,&.heals {background: url('../images/icon/16/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.tank,&.tanks {background: url('../images/icon/16/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+
+  &.faction-1{background: url('../images/icon/16/horde.png') left center no-repeat;}
+  &.faction-0{background: url('../images/icon/16/alliance.png') left center no-repeat;}
+}
+
+
+.icon-medium {
+  padding: 1px 0px 1px 40px;
+  /* Warrior */
+  &.class-1{background: url('../images/icon/32/class-1.png') left center no-repeat;}
+  /* Paladin */
+  &.class-2{background: url('../images/icon/32/class-2.png') left center no-repeat;}
+  /* Hunter */
+  &.class-3{background: url('../images/icon/32/class-3.png') left center no-repeat;}
+  /* Rogue */
+  &.class-4{background: url('../images/icon/32/class-4.png') left center no-repeat;}
+  /* Priest */
+  &.class-5{background: url('../images/icon/32/class-5.png') left center no-repeat;}
+  /* Death Knight */
+  &.class-6{background: url('../images/icon/32/class-6.png') left center no-repeat;}
+  /* Shaman */
+  &.class-7{background: url('../images/icon/32/class-7.png') left center no-repeat;}
+  /* Mage */
+  &.class-8{background: url('../images/icon/32/class-8.png') left center no-repeat;}
+  /* Warlock */
+  &.class-9{background: url('../images/icon/32/class-9.png') left center no-repeat;}
+  /* Monk */
+  &.class-10{background: url('../images/icon/32/class-10.png') left center no-repeat;}
+  /* Druid */
+  &.class-11{background: url('../images/icon/32/class-11.png') left center no-repeat;}
+
+  &.faction-1{background: url('../images/icon/32/horde.png') left center no-repeat;}
+  &.faction-0{background: url('../images/icon/32/alliance.png') left center no-repeat;}
+
+}
+
+.icon-large {
+  padding:32px 32px;
+  &.faction-1{
+    background: url('../images/icon/64/horde.png') left center no-repeat;
+  }
+  &.faction-0{
+    background: url('../images/icon/64/alliance.png') left center no-repeat;
+  }
+  &.character{
+    background: url('../images/icon/64/character.png') left center no-repeat;
+  }
+  &.guild{
+    background: url('../images/icon/64/guild.png') left center no-repeat;
+  }
+  &.ad{
+    background: url('../images/icon/64/ad.png') left center no-repeat;
+  }
+}
+
+/*warrior*/
+.character-class-1{
+  /*0 : Arms*/
+  .spec-0{background: url('../images/icon/16/class-1-0.png') left center no-repeat;}
+  /*1 : Fury*/
+  .spec-1{background: url('../images/icon/16/class-1-1.png') left center no-repeat;}
+  /*2 : Protection*/
+  .spec-2{background: url('../images/icon/16/class-1-2.png') left center no-repeat;}
+}
+
+/* paladin */
+.character-class-2 {
+  /*0 : Holy*/
+  .spec-0{background: url('../images/icon/16/class-2-0.png') left center no-repeat;}
+  /*1 : Protection*/
+  .spec-1{background: url('../images/icon/16/class-2-1.png') left center no-repeat;}
+  /*2 : Retribution*/
+  .spec-2{background: url('../images/icon/16/class-2-2.png') left center no-repeat;}
+}
+
+/*hunter*/
+.character-class-3 {
+  /*0 : Beast Mastery*/
+  .spec-0{background: url('../images/icon/16/class-3-0.png') left center no-repeat;}
+  /*1 : Marksmanship*/
+  .spec-1{background: url('../images/icon/16/class-3-1.png') left center no-repeat;}
+  /*2 : Survival*/
+  .spec-2{background: url('../images/icon/16/class-3-2.png') left center no-repeat;}
+}
+
+/*rogue*/
+.character-class-4 {
+  /*0 : Assassination*/
+  .spec-0{background: url('../images/icon/16/class-4-0.png') left center no-repeat;}
+  /*1 : Combat*/
+  .spec-1{background: url('../images/icon/16/class-4-1.png') left center no-repeat;}
+  /*2 : Subtlety*/
+  .spec-2{background: url('../images/icon/16/class-4-2.png') left center no-repeat;}
+}
+
+/*priest*/
+.character-class-5 {
+  /*0 : Discipline*/
+  .spec-0{background: url('../images/icon/16/class-5-0.png') left center no-repeat;}
+  /*1 : Holy*/
+  .spec-1{background: url('../images/icon/16/class-5-1.png') left center no-repeat;}
+  /*2 : Shadow*/
+  .spec-2{background: url('../images/icon/16/class-5-2.png') left center no-repeat;}
+}
+
+/*death-knight*/
+.character-class-6 {
+  /*0 : Blood*/
+  .spec-0{background: url('../images/icon/16/class-6-0.png') left center no-repeat;}
+  /*1 : Frost*/
+  .spec-1{background: url('../images/icon/16/class-6-1.png') left center no-repeat;}
+  /*2 : Unholy*/
+  .spec-2{background: url('../images/icon/16/class-6-2.png') left center no-repeat;}
+}
+
+/*shaman*/
+.character-class-7 {
+  /*0 : Elemental*/
+  .spec-0{background: url('../images/icon/16/class-7-0.png') left center no-repeat;}
+  /*1 : Enhancement*/
+  .spec-1{background: url('../images/icon/16/class-7-1.png') left center no-repeat;}
+  /*2 : Restoration*/
+  .spec-2{background: url('../images/icon/16/class-7-2.png') left center no-repeat;}
+}
+
+/*mage*/
+.character-class-8 {
+  /*0 : Arcane*/
+  .spec-0{background: url('../images/icon/16/class-8-0.png') left center no-repeat;}
+  /*1 : Fire*/
+  .spec-1{background: url('../images/icon/16/class-8-1.png') left center no-repeat;}
+  /*2 : Frost*/
+  .spec-2{background: url('../images/icon/16/class-8-2.png') left center no-repeat;}
+}
+
+/*warlock*/
+.character-class-9 {
+  /*0 : Affliction*/
+  .spec-0{background: url('../images/icon/16/class-9-0.png') left center no-repeat;}
+  /*1 : Demonology*/
+  .spec-1{background: url('../images/icon/16/class-9-1.png') left center no-repeat;}
+  /*2 : Destruction*/
+  .spec-2{background: url('../images/icon/16/class-9-2.png') left center no-repeat;}
+}
+
+/*monk*/
+.character-class-10 {
+  /*0 : Brewmaster*/
+  .spec-0{background: url('../images/icon/16/class-10-0.png') left center no-repeat;}
+  /*1 : Mistweaver*/
+  .spec-1{background: url('../images/icon/16/class-10-1.png') left center no-repeat;}
+  /*2 : Windwalker*/
+  .spec-2{background: url('../images/icon/16/class-10-2.png') left center no-repeat;}
+}
+
+/*druid*/
+.character-class-11 {
+  /*0 : Balance*/
+  .spec-0{background: url('../images/icon/16/class-11-0.png') left center no-repeat;}
+  /*1 : Feral*/
+  .spec-1{background: url('../images/icon/16/class-11-1.png') left center no-repeat;}
+  /*2 : Guardian*/
+  .spec-2{background: url('../images/icon/16/class-11-2.png') left center no-repeat;}
+  /*3 : Restoration*/
+  .spec-3{background: url('../images/icon/16/class-11-3.png') left center no-repeat;}
+}
+
+
+

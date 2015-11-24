@@ -1,0 +1,59 @@
+select{
+  &.form-control {
+    background-color: $grey;
+    border: 1px solid $grey;
+    position:relative;
+    color:$white;
+    &:focus{
+      border:none;
+      box-shadow: none;
+    }
+    &:after{
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      position:absolute;
+      top: 14px;
+      right:12px;
+      border-top: 5px solid $white;
+    }
+  }
+
+}
+
+/**
+ * Select
+ */
+:root .css3-metro-dropdown option,:root .css3-metro-dropdown:after,:root .css3-metro-dropdown::after,:root .css3-metro-dropdown select{color: #fff; margin-bottom: 0px;}
+:root .css3-metro-dropdown select,:root .css3-metro-dropdown:after,:root .css3-metro-dropdown::after{display: block; background: $grey;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
+:root .css3-metro-dropdown select,:root .css3-metro-dropdown option{padding: 6px 40px 6px 15px;}
+:root .css3-metro-dropdown{position: relative; display: inline-block; border: 0; width: 100%;}
+:root .css3-metro-dropdown::after{content:"\25bc";background-color:$black;margin:5px;position:absolute;top:-4px;right:-4px;display:block;width:32px;font-size:12px;line-height:32px;text-align:center;font-size:10px;-webkit-pointer-events:none;-moz-pointer-events:none;pointer-events:none}
+:root .css3-metro-dropdown select{height:34px;border:0;vertical-align:middle;outline:0;border:1px solid $grey;}
+:root .css3-metro-dropdown option{background:$grey;color:#fff}
+:root .css3-metro-dropdown select:hover, :root .css3-metro-dropdown:after:hover, :root .css3-metro-dropdown::after:hover {background:$red;}
+.css3-metro-dropdown {
+  .caret {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width:32px;
+    height:32px;
+    background-color: $black;
+    border: none;
+  }
+  .caret::after{
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid $white;
+    position:absolute;
+    top: 14px;
+    left:12px;
+
+  }
+}
