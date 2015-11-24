@@ -8,34 +8,6 @@
                 <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
             </div>
         </div>
-        <!--<div class="row">
-            <div class="col-md-offset-3 col-md-6">
-                <div class="search-input-container">
-                    <div class="form-group has-feedback " >
-                        <input placeholder="{{'DASHBOARD_SEARCH_PLACEHOLDER'|translate}}" ng-model="searchText" ng-model-options="{ debounce: 500 }" ng-change="search()" class="form-control" id="search-input" ng-blur="clearResult()">
-                        <i ng-if="searchLoading" class="fa fa-spinner fa-spin form-control-feedback"></i>
-                        <div class="search-results col-md-12 text-left" ng-if="searchResult">
-                            <div>
-                                <div class="search-results-guilds">
-                                    <div ng-repeat="guild in searchResult.guilds">
-                                        <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
-                                            Guild - <span class="guild faction-{{guild.bnet.side}}">{{guild.name}}</span> on {{guild.realm}} ({{guild.region}})
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="search-results-guilds">
-                                    <div ng-repeat="character in searchResult.characters">
-                                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                                            Character - <span class="icon-small class-{{character.bnet.class}}">{{character.name}}</span> on {{character.realm}} ({{character.region}})
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
     </div>
 </div>
 <div class="dashboard-form">
@@ -46,40 +18,48 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_TYPE"|translate}} :</label>
                         <div class="col-md-9">
-                            <select ng-model="form.type" class="form-control">
-                                <option value="guild">{{"GUILD"|translate|lowercase}}</option>
-                                <option value="character">{{"PLAYER"|translate|lowercase}}</option>
-                            </select>
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.type" class="form-control">
+                                    <option value="guild">{{"GUILD"|translate|lowercase}}</option>
+                                    <option value="character">{{"PLAYER"|translate|lowercase}}</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_FACTION"|translate}} :</label>
                         <div class="col-md-9">
-                            <select ng-model="form.faction" class="form-control">
-                                <option value="">{{"ALL_FACTION"|translate}}</option>
-                                <option value="0">{{"ALLIANCE"|translate}}</option>
-                                <option value="1">{{"HORDE"|translate}}</option>
-                            </select>
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.faction" class="form-control">
+                                    <option value="">{{"ALL_FACTION"|translate}}</option>
+                                    <option value="0">{{"ALLIANCE"|translate}}</option>
+                                    <option value="1">{{"HORDE"|translate}}</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_ZONE"|translate}} :</label>
                         <div class="col-md-9">
-                            <select ng-model="form.region"class="form-control">
-                                <option value="">{{"ALL_REGION"|translate}}</option>
-                                <option value="us">US</option>
-                                <option value="eu">EU</option>
-                                <option value="kr">KR</option>
-                                <option value="tw">TW</option>
-                            </select>
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.region"class="form-control">
+                                    <option value="">{{"ALL_REGION"|translate}}</option>
+                                    <option value="us">US</option>
+                                    <option value="eu">EU</option>
+                                    <option value="kr">KR</option>
+                                    <option value="tw">TW</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label  class="col-md-3 control-label">{{"DASHBOARD_SEARCH_LANGUAGE"|translate}} :</label>
                         <div class="col-md-9">
-                            <select ng-model="form.language" class="form-control">
-                                <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                            </select>
+                            <span class="css3-metro-dropdown">
+                                <select ng-model="form.language" class="form-control">
+                                    <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
