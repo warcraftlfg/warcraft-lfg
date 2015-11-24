@@ -8,7 +8,7 @@ var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var characterModel = process.require("models/characterModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var userService = process.require("services/userService.js");
-var auctionService = process.require("services/auctionService.js");
+var guildModel = process.require("models/guildModel.js");
 
 var async = require("async");
 
@@ -66,7 +66,7 @@ module.exports.update = function(region,realm,name,callback) {
 
         // Check if character have the level
         /*if(character.level<100)
-            return callback();*/
+         return callback();*/
 
         characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
             if (error)
@@ -84,7 +84,31 @@ module.exports.update = function(region,realm,name,callback) {
                     if (error)
                         return callback(error);
                     logger.info('insert/update wlogs for character: ' + region + "-" + character.realm + "-" + character.name);
-                    callback();
+
+                    if (character.guild && character.guild.name && character.guild.realm){
+
+                        async.forEachSeries(character.progression.raids,function(raid,callback){
+                            async.forEachSeries(raid.bosses,function(boss,callback){
+                                var progress = {name:character.name};
+                                guildModel.insertOrUpdateProgress(region,character.guild.realm,character.guild.name,raid.name,boss.name,"normal",boss.normalTimestamp,progress,function(error){
+                                    if(error)
+                                        logger.error(error.message)
+                                    logger.debug(progress);
+                                    callback(error);
+                                });
+                            },function(){
+                                logger.debug("ici");
+                                callback();
+                            });
+
+                        },function(){
+                            logger.debug("la");
+                            callback();
+                        });
+
+                    }
+                    else
+                        callback();
                 });
             });
         });
