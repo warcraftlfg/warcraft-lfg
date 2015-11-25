@@ -43,5 +43,18 @@
         </div>
     </div>
 </div>
-<code>{{guild.progress}}</code>
-
+<div ng-repeat="(raid,bosses) in guild.progress">
+    <h1>{{raid}}</h1>
+    <div ng-repeat="(boss,difficulties) in bosses">
+        <h2>{{boss}}</h2>
+        <div ng-repeat="(difficulty,timestamps) in difficulties">
+            <h3>{{difficulty}}</h3>
+            <div ng-repeat="(timestamp,roster) in timestamps">
+                <h4>{{timestamp}}</h4>
+                <div  ng-repeat="member in roster">
+                    {{member.name}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

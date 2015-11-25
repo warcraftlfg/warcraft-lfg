@@ -173,8 +173,6 @@ module.exports.parseCharacterPage = function(url,callback) {
         });
 
 
-
-
         var transfert = cheerio.load(languageDivs[1])('span').text();
         if(transfert == "Yes, ready to transfer")
             result.transfert = true;

@@ -162,16 +162,17 @@ module.exports.insertOrUpdateProgress = function(region,realm,name,raid,boss,dif
         return;
     }
 
-
-    var guild ={};
-    guild.progress = {};
-    guild.progress[raid]= {};
-    guild.progress[raid][boss] = {};
-    guild.progress[raid][boss][difficulty] = {};
-    guild.progress[raid][boss][difficulty][timestamp] = [progress];
+    var guildFilter= {};
+    guildFilter.region = region;
+    guildFilter.realm = realm;
+    guildFilter.name = name;
+    guildFilter["progress."+raid+"."+boss+"."+difficulty+"."+timestamp+".name"] = {$ne: progress.name};
 
 
-    database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$addToSet: guild }, null, function (error,result) {
+    var push = {};
+    push["progress."+raid+"."+boss+"."+difficulty+"."+timestamp] = progress;
+
+    database.insertOrUpdate("guilds",guildFilter,{$push: push}, null, function (error,result) {
         callback(error, result);
     });
 
@@ -219,7 +220,7 @@ module.exports.setId = function(region,realm,name,id,callback) {
 
 module.exports.get = function(region,realm,name,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.get("guilds",{"region":region,"realm":realm,"name":name},{_id: 0},1,function(error,guild){
+    database.get("guilds",{"region":region,"realm":realm,"name":name},{_id:0},1,function(error,guild){
         callback(error, guild && guild[0]);
     });
 };

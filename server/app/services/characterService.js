@@ -12,6 +12,10 @@ var guildModel = process.require("models/guildModel.js");
 
 var async = require("async");
 
+//Configuration
+var env = process.env.NODE_ENV || 'dev';
+var config = process.require('config/config.'+env+'.json');
+
 module.exports.updateNext = function(callback){
     var self=this;
     characterUpdateModel.getNextToUpdate(function(error,characterUpdate) {
@@ -87,25 +91,39 @@ module.exports.update = function(region,realm,name,callback) {
 
                     if (character.guild && character.guild.name && character.guild.realm){
 
-                        async.forEachSeries(character.progression.raids,function(raid,callback){
-                            async.forEachSeries(raid.bosses,function(boss,callback){
-                                var progress = {name:character.name};
-                                guildModel.insertOrUpdateProgress(region,character.guild.realm,character.guild.name,raid.name,boss.name,"normal",boss.normalTimestamp,progress,function(error){
-                                    if(error)
-                                        logger.error(error.message)
-                                    logger.debug(progress);
-                                    callback(error);
+                        async.forEachSeries(character.talents,function(talent,callback){
+                            if(!talent.selected ||!talent.spec || talent.spec.name ==null ||talent.spec.role ==null )
+                                return callback();
+                            async.forEachSeries(character.progression.raids,function(raid,callback){
+                                //Parse only raid in config
+                                if(config.progress.indexOf(raid.name) == -1)
+                                    return callback();
+                                async.forEachSeries(raid.bosses,function(boss,callback){
+                                    var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                    var difficulties = ["normal","heroic","mythic"];
+                                    async.forEachSeries(difficulties,function(difficulty,callback){
+                                        if(boss[difficulty+'Timestamp']==0)
+                                            return callback();
+                                        guildModel.insertOrUpdateProgress(region,character.guild.realm,character.guild.name,raid.name,boss.name,difficulty,boss[difficulty+'Timestamp'],progress,function(error){
+                                            if(error)
+                                                logger.error(error.message);
+                                            callback(error);
+                                        });
+                                    },function(){
+                                        callback();
+                                    });
+
+                                },function(){
+                                    callback();
                                 });
+
                             },function(){
-                                logger.debug("ici");
                                 callback();
                             });
 
                         },function(){
-                            logger.debug("la");
                             callback();
                         });
-
                     }
                     else
                         callback();
