@@ -166,11 +166,11 @@ module.exports.insertOrUpdateProgress = function(region,realm,name,raid,boss,dif
     guildFilter.region = region;
     guildFilter.realm = realm;
     guildFilter.name = name;
-    guildFilter["progress."+raid+"."+boss+"."+difficulty+"."+timestamp+".name"] = {$ne: progress.name};
+    guildFilter["progress."+raid+"."+difficulty+"."+boss+"."+timestamp+".name"] = {$ne: progress.name};
 
 
     var push = {};
-    push["progress."+raid+"."+boss+"."+difficulty+"."+timestamp] = progress;
+    push["progress."+raid+"."+difficulty+"."+boss+"."+timestamp] = progress;
 
     database.insertOrUpdate("guilds",guildFilter,{$push: push}, null, function (error,result) {
         callback(error, result);

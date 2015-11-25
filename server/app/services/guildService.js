@@ -224,32 +224,37 @@ module.exports.getAds = function(number,filters,callback) {
 };
 
 module.exports.get = function(region,realm,name,callback){
-    guildModel.get(region,realm,name,function(error,character){
+    guildModel.get(region,realm,name,function(error,guild){
         if (error)
             logger.error(error.message);
-        async.forEachOfSeries(character.progress,function(bosses,raid,callback){
-            async.forEachOfSeries(bosses,function(difficulties,boss,callback){
-                async.forEachOfSeries(difficulties,function(timestamps,difficulty,callback){
-                    async.forEachOfSeries(timestamps,function(roster,timestamp,callback){
-                        if(roster.length<16)
-                            delete character.progress[raid][boss][difficulty][timestamp];
-                        callback();
-                    },function(){
-                        if(Object.keys(character.progress[raid][boss][difficulty]).length == 0)
-                            delete character.progress[raid][boss][difficulty];
+        if(guild) {
+            async.forEachOfSeries(guild.progress, function (difficulties, raid, callback) {
+                async.forEachOfSeries(difficulties, function (bosses, difficulty, callback) {
+                    async.forEachOfSeries(bosses, function (timestamps, boss, callback) {
+                        async.forEachOfSeries(timestamps, function (roster, timestamp, callback) {
+                            console.log(guild.progress)
+                            if (roster.length < 16)
+                                delete guild.progress[raid][difficulty][boss][timestamp];
+                            callback();
+                        }, function () {
+                            if (Object.keys(guild.progress[raid][difficulty][boss]).length == 0)
+                                delete guild.progress[raid][difficulty][boss];
+                            callback();
+                        });
+                    }, function () {
                         callback();
                     });
-                },function(){
+                }, function () {
                     callback();
                 });
-            },function(){
-                callback();
+
+            }, function () {
+                callback(error, guild);
+
             });
-
-        },function(){
-            callback(error,character);
-
-        });
+        }
+        else
+            callback(error, guild);
 
     });
 };
