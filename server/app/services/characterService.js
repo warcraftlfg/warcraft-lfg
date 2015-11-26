@@ -8,7 +8,8 @@ var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var characterModel = process.require("models/characterModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var userService = process.require("services/userService.js");
-var guildModel = process.require("models/guildModel.js");
+var guildKillModel = process.require("models/guildKillModel.js");
+var guildProgressUpdateModel = process.require("models/guildProgressUpdateModel.js");
 
 var async = require("async");
 
@@ -92,8 +93,10 @@ module.exports.update = function(region,realm,name,callback) {
                     if (character.guild && character.guild.name && character.guild.realm){
 
                         async.forEachSeries(character.talents,function(talent,callback){
-                            if(!talent.selected ||!talent.spec || talent.spec.name ==null ||talent.spec.role ==null )
+
+                            if(!talent.selected || !talent.spec || talent.spec.name ==null ||talent.spec.role ==null )
                                 return callback();
+
                             async.forEachSeries(character.progression.raids,function(raid,callback){
                                 //Parse only raid in config
                                 if(config.progress.indexOf(raid.name) == -1)
@@ -104,10 +107,12 @@ module.exports.update = function(region,realm,name,callback) {
                                     async.forEachSeries(difficulties,function(difficulty,callback){
                                         if(boss[difficulty+'Timestamp']==0)
                                             return callback();
-                                        guildModel.insertOrUpdateProgress(region,character.guild.realm,character.guild.name,raid.name,boss.name,difficulty,boss[difficulty+'Timestamp'],progress,function(error){
-                                            if(error)
-                                                logger.error(error.message);
-                                            callback(error);
+                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,difficulty,boss[difficulty+'Timestamp'],progress,function(error) {
+                                            if (error)
+                                                return callback(error);
+                                            guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
+                                                callback(error);
+                                            });
                                         });
                                     },function(){
                                         callback();

@@ -22,7 +22,7 @@ module.exports.updateNext = function(callback){
             //Get Guild Update Result (json or key)
             if(guildUpdate.region && guildUpdate.realm && guildUpdate.name) {
                 logger.info("Update Guild "+guildUpdate.region+"-"+guildUpdate.realm+"-"+guildUpdate.name);
-                self.update(guildUpdate.region, guildUpdate.realm, guildUpdate.name,guildUpdate.priority, function (error, guild) {
+                self.update(guildUpdate.region, guildUpdate.realm, guildUpdate.name, function (error, guild) {
                     if(error && error.message == "BNET_API_ERROR_DENY") {
                         //Bnet API DENY reset the guildUpdateModel for after
                         guildUpdateModel.insertOrUpdate(guildUpdate.region,guildUpdate.realm,guildUpdate.name,guildUpdate.priority,function(error){
@@ -55,7 +55,7 @@ module.exports.updateNext = function(callback){
     });
 };
 
-module.exports.update = function(region,realm,name,priority,callback){
+module.exports.update = function(region,realm,name,callback){
     var self=this;
 
     bnetAPI.getGuild(region, realm, name, function (error,guild) {
@@ -71,7 +71,7 @@ module.exports.update = function(region,realm,name,priority,callback){
 
             async.eachSeries(guild.members,function(member,callback){
                 //if(member.character.level >= 100) {
-                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, priority, function (error) {
+                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
                     if (error)
                         return callback(error);
 
@@ -227,35 +227,7 @@ module.exports.get = function(region,realm,name,callback){
     guildModel.get(region,realm,name,function(error,guild){
         if (error)
             logger.error(error.message);
-        if(guild) {
-            async.forEachOfSeries(guild.progress, function (difficulties, raid, callback) {
-                async.forEachOfSeries(difficulties, function (bosses, difficulty, callback) {
-                    async.forEachOfSeries(bosses, function (timestamps, boss, callback) {
-                        async.forEachOfSeries(timestamps, function (roster, timestamp, callback) {
-                            console.log(guild.progress)
-                            if (roster.length < 16)
-                                delete guild.progress[raid][difficulty][boss][timestamp];
-                            callback();
-                        }, function () {
-                            if (Object.keys(guild.progress[raid][difficulty][boss]).length == 0)
-                                delete guild.progress[raid][difficulty][boss];
-                            callback();
-                        });
-                    }, function () {
-                        callback();
-                    });
-                }, function () {
-                    callback();
-                });
-
-            }, function () {
-                callback(error, guild);
-
-            });
-        }
-        else
             callback(error, guild);
-
     });
 };
 

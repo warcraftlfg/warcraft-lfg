@@ -39,20 +39,12 @@
                 <div ng-if="!guild.wowProgress">
                     This guild is not yet in our database
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div ng-repeat="(raid,difficulties) in guild.progress">
-    <h1>{{raid}}</h1>
-    <div ng-repeat="(difficulty,bosses) in difficulties">
-        <h2>{{difficulty}}</h2>
-        <div ng-repeat="(boss,timestamps) in bosses">
-            <h3>{{boss}}</h3>
-            <div ng-repeat="(timestamp,roster) in timestamps">
-                <h4>{{timestamp}}</h4>
-                <div  ng-repeat="member in roster">
-                    {{member.name}}
+                <h2>Progress</h2>
+                <div ng-if="guild.progress">
+                    <code>{{guild.progress}}</code>
+                </div>
+                <div ng-if="!guild.progress">
+                    This guild is not yet in our database
                 </div>
             </div>
         </div>

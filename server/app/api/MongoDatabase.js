@@ -163,3 +163,18 @@ MongoDatabase.prototype.count = function (collection,criteria, callback){
     });
 };
 
+MongoDatabase.prototype.mapReduce = function(collection, map, reduce, finalize, out, criteria,callback){
+    var collection = this.db.collection(collection);
+    var criteria = criteria || {};
+
+    collection.mapReduce(map,reduce,{out:out,finalize:finalize,query:criteria},function(err,result){
+        if(err){
+            logger.error(err.message);
+            err = new Error("DATABASE_ERROR");
+        }
+        callback(err, result);
+    });
+
+
+};
+
