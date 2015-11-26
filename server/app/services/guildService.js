@@ -224,10 +224,10 @@ module.exports.getAds = function(number,filters,callback) {
 };
 
 module.exports.get = function(region,realm,name,callback){
-    guildModel.get(region,realm,name,function(error,character){
+    guildModel.get(region,realm,name,function(error,guild){
         if (error)
             logger.error(error.message);
-        callback(error,character);
+            callback(error, guild);
     });
 };
 

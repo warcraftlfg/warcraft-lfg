@@ -31,7 +31,6 @@ RealmUpdateProcess.prototype.start = function(){
         null,
         true
     );
-    self.importRealms();
 };
 
 module.exports = RealmUpdateProcess;
