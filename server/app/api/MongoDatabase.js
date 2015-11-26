@@ -64,7 +64,6 @@ MongoDatabase.prototype.remove = function(collection, criteria, callback){
         }
         callback(error,result);
     });
-
 };
 
 
@@ -72,6 +71,18 @@ MongoDatabase.prototype.insertOrUpdate = function(collection, criteria, document
     var collection = this.db.collection(collection);
     var document = document || {$set : data}
     collection.update(criteria, document, {upsert:true, multi:true}, function(error,result){
+        if(error){
+            logger.error(error.message);
+            error = new Error("DATABASE_ERROR");
+        }
+        callback(error,result);
+    });
+};
+
+MongoDatabase.prototype.update = function(collection, criteria, document, data, callback){
+    var collection = this.db.collection(collection);
+    var document = document || {$set : data}
+    collection.update(criteria, document, {}, function(error,result){
         if(error){
             logger.error(error.message);
             error = new Error("DATABASE_ERROR");
@@ -163,11 +174,11 @@ MongoDatabase.prototype.count = function (collection,criteria, callback){
     });
 };
 
-MongoDatabase.prototype.mapReduce = function(collection, map, reduce, finalize, out, criteria,callback){
+MongoDatabase.prototype.mapReduce = function(collection, map, reduce, finalize, out, criteria, sort, callback){
     var collection = this.db.collection(collection);
     var criteria = criteria || {};
 
-    collection.mapReduce(map,reduce,{out:out,finalize:finalize,query:criteria},function(err,result){
+    collection.mapReduce(map,reduce,{out:out,finalize:finalize,query:criteria,sort:sort},function(err,result){
         if(err){
             logger.error(err.message);
             err = new Error("DATABASE_ERROR");

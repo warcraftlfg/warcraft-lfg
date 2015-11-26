@@ -8,7 +8,7 @@ var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
 
-module.exports.insertOrUpdate = function(region,realm,name,raid,boss,difficulty,timestamp,progress,callback) {
+module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,difficulty,timestamp,progress,callback) {
 
     var database = applicationStorage.getMongoDatabase();
 
@@ -38,10 +38,13 @@ module.exports.insertOrUpdate = function(region,realm,name,raid,boss,difficulty,
     guildKill.realm = realm;
     guildKill.name = name;
     guildKill.boss = boss;
+    guildKill.bossWeight = bossWeight;
     guildKill.difficulty  = difficulty;
     guildKill.timestamp = timestamp;
 
-    database.insertOrUpdate(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,"roster.name":{$ne:progress.name}} ,{$push:{roster:progress}} ,null, function(error,result){
-        callback(error, result);
+    database.insertOrUpdate(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp} ,{$set:guildKill} ,null, function(error,result){
+        database.update(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,"roster.name":{$ne:progress.name}} ,{$push:{roster:progress}} ,null, function(error,result) {
+            callback(error, result);
+        });
     });
 };

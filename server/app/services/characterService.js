@@ -101,13 +101,17 @@ module.exports.update = function(region,realm,name,callback) {
                                 //Parse only raid in config
                                 if(config.progress.indexOf(raid.name) == -1)
                                     return callback();
+
+                                var bossWeight = 0;
                                 async.forEachSeries(raid.bosses,function(boss,callback){
+
                                     var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+
                                     var difficulties = ["normal","heroic","mythic"];
                                     async.forEachSeries(difficulties,function(difficulty,callback){
                                         if(boss[difficulty+'Timestamp']==0)
                                             return callback();
-                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,difficulty,boss[difficulty+'Timestamp'],progress,function(error) {
+                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],progress,function(error) {
                                             if (error)
                                                 return callback(error);
                                             guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
@@ -115,6 +119,7 @@ module.exports.update = function(region,realm,name,callback) {
                                             });
                                         });
                                     },function(){
+                                        bossWeight++;
                                         callback();
                                     });
 
