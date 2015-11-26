@@ -32,6 +32,22 @@ module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,
         callback(new Error('Field name is required in GuildKillModel'));
         return;
     }
+    if(boss == null){
+        callback(new Error('Field boss is required in GuildKillModel'));
+        return;
+    }
+    if(difficulty == null){
+        callback(new Error('Field difficulty is required in GuildKillModel'));
+        return;
+    }
+    if(timestamp == null){
+        callback(new Error('Field timestamp is required in GuildKillModel'));
+        return;
+    }
+    if(raid == null){
+        callback(new Error('Field raid is required in GuildKillModel'));
+        return;
+    }
 
     var guildKill ={};
     guildKill.region = region;

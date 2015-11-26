@@ -175,16 +175,17 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
 
     var reduce = function(key,values){
         var reduced = {};
-        values.forEach(function(value) {
-            if(value.boss){
-                if(reduced[value.boss] == null) {
-                    reduced[value.boss] = {};
-                    reduced[value.boss].timestamps = [];
-                }
 
-                reduced[value.boss].timestamps.push(value.timestamp);
+        for (var idx = 0; idx < values.length; idx++) {
+            if (values[idx].boss) {
+                if (reduced[values[idx].boss] == null) {
+                    reduced[values[idx].boss] = {};
+                    reduced[values[idx].boss].timestamps = [];
+
+                }
+                reduced[values[idx].boss].timestamps.push(values[idx].timestamp);
             }
-        });
+        }
         return reduced;
     };
 
@@ -197,10 +198,11 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             region:region,
             name:name,
             realm:realm,
+
             $or:[
-                {$and:[{difficulty:"normal"},{roster:{$size:8}}]},
-                {$and:[{difficulty:"heroic"},{roster:{$size:8}}]},
-                {$and:[{difficulty:"mythic"},{roster:{$size:16}}]},
+                {$and:[{difficulty:"normal"},{$where:"this.roster.length > 8"}]},
+                {$and:[{difficulty:"heroic"},{$where:"this.roster.length > 8"}]},
+                {$and:[{difficulty:"mythic"},{$where:"this.roster.length > 16"}]},
             ]
         },
         { bossWeight:1,timestamp:1}
