@@ -49,6 +49,7 @@ module.exports.update = function(region,realm,name,callback) {
                 progress[obj._id+"count"] = Object.keys(obj.value).length;
                 callback();
             },function() {
+
                 guildModel.insertOrUpdateProgress(region, realm, name, progress, function (error, result) {
                     callback();
                 });
