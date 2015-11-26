@@ -22,7 +22,7 @@ module.exports.updateNext = function(callback){
             //Get Guild Update Result (json or key)
             if(guildUpdate.region && guildUpdate.realm && guildUpdate.name) {
                 logger.info("Update Guild "+guildUpdate.region+"-"+guildUpdate.realm+"-"+guildUpdate.name);
-                self.update(guildUpdate.region, guildUpdate.realm, guildUpdate.name, function (error, guild) {
+                self.update(guildUpdate.region, guildUpdate.realm, guildUpdate.name,guildUpdate.priority, function (error, guild) {
                     if(error && error.message == "BNET_API_ERROR_DENY") {
                         //Bnet API DENY reset the guildUpdateModel for after
                         guildUpdateModel.insertOrUpdate(guildUpdate.region,guildUpdate.realm,guildUpdate.name,guildUpdate.priority,function(error){
@@ -55,7 +55,7 @@ module.exports.updateNext = function(callback){
     });
 };
 
-module.exports.update = function(region,realm,name,callback){
+module.exports.update = function(region,realm,name,priority,callback){
     var self=this;
 
     bnetAPI.getGuild(region, realm, name, function (error,guild) {
@@ -71,7 +71,7 @@ module.exports.update = function(region,realm,name,callback){
 
             async.eachSeries(guild.members,function(member,callback){
                 //if(member.character.level >= 100) {
-                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, 0, function (error) {
+                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, priority==5?5:0, function (error) {
                     if (error)
                         return callback(error);
 

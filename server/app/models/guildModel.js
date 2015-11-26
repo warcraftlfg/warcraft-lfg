@@ -198,9 +198,9 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             name:name,
             realm:realm,
             $or:[
-                {$and:[{difficulty:"normal"},{roster:{$size:1}}]},
-                {$and:[{difficulty:"heroic"},{roster:{$size:1}}]},
-                {$and:[{difficulty:"mythic"},{roster:{$size:1}}]},
+                {$and:[{difficulty:"normal"},{roster:{$size:8}}]},
+                {$and:[{difficulty:"heroic"},{roster:{$size:8}}]},
+                {$and:[{difficulty:"mythic"},{roster:{$size:16}}]},
             ]
         },
         { bossWeight:1,timestamp:1}
