@@ -32,10 +32,11 @@
       font-size: 11px;
       position: absolute;
       transform: rotate(-90deg);
-      transform-origin: right;
-      display: inline-block;
-      right: 15px;
-      top: 21px;
+      display: flex;
+      align-items :center;
+      right: 0px;
+      top: 0px;
+      height:100%
     }
 
     .warcraft-logs{
