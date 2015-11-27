@@ -93,10 +93,10 @@
                     <div class="col-sm-3 col-md-2 col-lg-3">
                         <div>
                             Progress :
-                            <span ng-if="guild.progress.normalCount">NM:{{guild.progress.normalCount}}</span>
-                            <span ng-if="guild.progress.heroicCount">HM:{{guild.progress.heroicCount}}</span>
-                            <span ng-if="guild.progress.mythicCount">MM:{{guild.progress.mythicCount}}</span>
-                            <span ng-if="!guild.progress.normalCount && !guild.progress.heroicCount && !guild.progress.mythicCount">Progress not found</span>
+                            <span ng-if="guild.progress['Hellfire Citadel'].normalCount">NM:{{guild.progress['Hellfire Citadel'].normalCount}}</span>
+                            <span ng-if="guild.progress['Hellfire Citadel'].heroicCount">HM:{{guild.progress['Hellfire Citadel'].heroicCount}}</span>
+                            <span ng-if="guild.progress['Hellfire Citadel'].mythicCount">MM:{{guild.progress['Hellfire Citadel'].mythicCount}}</span>
+                            <span ng-if="!guild.progress['Hellfire Citadel'].normalCount && !guild.progress['Hellfire Citadel'].heroicCount && !guild.progress['Hellfire Citadel'].mythicCount">Progress not found</span>
                         </div>
                         <div>
                             Role :

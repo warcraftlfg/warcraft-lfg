@@ -333,10 +333,10 @@ module.exports.setAdsToUpdate = function(callback){
             return callback(error);
         }
         async.eachSeries(guilds,function(guild,callback){
-            characterUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,5,function(error){
+            characterUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,3,function(error){
                 if(error)
                     logger.error(error.message);
-                logger.info("Insert character to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 5');
+                logger.info("Insert character to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 3');
                 callback(error);
             });
         });

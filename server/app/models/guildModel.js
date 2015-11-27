@@ -210,7 +210,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
         });
 };
 
-module.exports.insertOrUpdateProgress = function(region,realm,name,progress,callback){
+module.exports.insertOrUpdateProgress = function(region,realm,name,raid, progress,callback){
     var database = applicationStorage.getMongoDatabase();
 
     //Force region tolowercase
@@ -241,7 +241,8 @@ module.exports.insertOrUpdateProgress = function(region,realm,name,progress,call
 
     progress.updated=new Date().getTime();
 
-    guild.progress = progress;
+    guild.progress = {};
+    guild.progress[raid] = progress;
 
     database.insertOrUpdate("guilds", {region:region,realm:realm,name:name} ,null ,guild, function(error,result){
         callback(error, result);
@@ -377,6 +378,22 @@ module.exports.getAds = function (number,filters,callback) {
         if(recruitment.length>0)
             criteria["$or"] = recruitment;
     }
+
+    var criteria  = {};
+    criteria["name"] = 1;
+    criteria["realm"] = 1;
+    criteria["region"] = 1;
+    criteria["ad"] = 1;
+    criteria["wowProgress"] = 1;
+    criteria["bnet.side"] = 1;
+    criteria["wowProgress"] = 1;
+
+    config.progress.forEach(function(raid){
+        criteria["progress."+raid+".normalCount"] = 1;
+        criteria["progress."+raid+".heroicCount"] = 1;
+        criteria["progress."+raid+".mythicCount"] = 1;
+    });
+
     database.find("guilds", criteria, {
         name:1,
         realm:1,
@@ -384,9 +401,9 @@ module.exports.getAds = function (number,filters,callback) {
         "ad":1,
         "bnet.side":1,
         "wowProgress":1,
-        "progress.normalCount":1,
-        "progress.heroicCount":1,
-        "progress.mythicCount":1
+        "progress.Hellfire Citadel.normalCount":1,
+        "progress.Hellfire Citadel.heroicCount":1,
+        "progress.Hellfire Citadel.mythicCount":1
     }, number, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });

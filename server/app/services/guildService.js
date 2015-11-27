@@ -71,10 +71,9 @@ module.exports.update = function(region,realm,name,priority,callback){
 
             async.eachSeries(guild.members,function(member,callback){
                 //if(member.character.level >= 100) {
-                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, priority==5?5:0, function (error) {
+                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, priority<=5?priority:0, function (error) {
                     if (error)
                         return callback(error);
-
                     callback();
                     logger.info("Insert character to update " + region + "-" + member.character.realm + "-" + member.character.name);
                 });
@@ -290,10 +289,10 @@ module.exports.setAdsToUpdate = function(callback){
             return callback(error);
         }
         async.eachSeries(guilds,function(guild,callback){
-            guildUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,5,function(error){
+            guildUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,3,function(error){
                 if(error)
                     logger.error(error.message);
-                logger.info("Insert guild to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 5');
+                logger.info("Insert guild to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 3');
                 callback(error);
             });
         });
