@@ -32,7 +32,7 @@ function warcraftLogs() {
                     for (var difficulty = 3; difficulty <= 5; difficulty++) {
                         for (var spec = 0; spec <= 3; spec++) {
                             if (sortedLogs[difficulty][spec].length > 0)
-                                scope.warcraftLogs[difficulty][spec] = Math.floor(median(sortedLogs[difficulty][spec]) * 100);
+                                scope.warcraftLogs[difficulty][spec] = {median:Math.floor(median(sortedLogs[difficulty][spec]) * 100),number:sortedLogs[difficulty][spec].length};
                         }
                     }
                 }
