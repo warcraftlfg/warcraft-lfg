@@ -140,6 +140,7 @@
   "PRIVACY": "Privacy statement",
   "PRIVACY_DESCRIPTION": "&nbsp;",
   "FOOTER_ABOUT": "About",
+  "FOOTER_ROADMAP": "Roadmap",
   "FOOTER_CONTACT_US": "Contact us",
   "FOOTER_PRIVACY_POLICY": "Privacy policy",
   "FOOTER_TERMS_OF_USE": "Terms of use",
@@ -154,5 +155,7 @@
   "LANGUAGE": "Language:",
   "TRANSFERT": "Transfert:",
   "DESCRIPTION": "Description:",
-  "ROLES": "Roles"
+  "ROLES": "Roles",
+  "ROADMAP":"Roadmap",
+  "ROADMAP_DESCRIPTION":"The same thing as every night, Minus: Try to conquer the world!"
 }

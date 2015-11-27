@@ -42,6 +42,12 @@
                 title: 'About us',
                 controller: "WebCookiesController"
             })
-        ;
+            .state("roadmap", {
+                url: "/roadmap",
+                templateUrl: "app/web/roadmap.html",
+                controllerAs: 'vm',
+                title: 'Roadmap',
+                controller: "WebRoadmapController"
+            });
     }
 })();
