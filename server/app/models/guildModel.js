@@ -379,32 +379,22 @@ module.exports.getAds = function (number,filters,callback) {
             criteria["$or"] = recruitment;
     }
 
-    var criteria  = {};
-    criteria["name"] = 1;
-    criteria["realm"] = 1;
-    criteria["region"] = 1;
-    criteria["ad"] = 1;
-    criteria["wowProgress"] = 1;
-    criteria["bnet.side"] = 1;
-    criteria["wowProgress"] = 1;
+    var projection  = {};
+    projection["name"] = 1;
+    projection["realm"] = 1;
+    projection["region"] = 1;
+    projection["ad"] = 1;
+    projection["wowProgress"] = 1;
+    projection["bnet.side"] = 1;
+    projection["wowProgress"] = 1;
 
     config.progress.forEach(function(raid){
-        criteria["progress."+raid+".normalCount"] = 1;
-        criteria["progress."+raid+".heroicCount"] = 1;
-        criteria["progress."+raid+".mythicCount"] = 1;
+        projection["progress."+raid+".normalCount"] = 1;
+        projection["progress."+raid+".heroicCount"] = 1;
+        projection["progress."+raid+".mythicCount"] = 1;
     });
 
-    database.find("guilds", criteria, {
-        name:1,
-        realm:1,
-        region:1,
-        "ad":1,
-        "bnet.side":1,
-        "wowProgress":1,
-        "progress.Hellfire Citadel.normalCount":1,
-        "progress.Hellfire Citadel.heroicCount":1,
-        "progress.Hellfire Citadel.mythicCount":1
-    }, number, {"ad.updated":-1}, function(error,guilds){
+    database.find("guilds", criteria,projection, number, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
