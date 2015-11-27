@@ -50,7 +50,7 @@ module.exports.update = function(region,realm,name,callback) {
                 callback();
             },function() {
 
-                guildModel.insertOrUpdateProgress(region, realm, name, progress, function (error, result) {
+                guildModel.insertOrUpdateProgress(region, realm, name, raid, progress, function (error, result) {
                     callback();
                 });
             });
