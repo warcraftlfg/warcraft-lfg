@@ -46,7 +46,7 @@ module.exports.update = function(region,realm,name,callback) {
             var progress = {};
             async.forEachSeries(result,function(obj,callback){
                 progress[obj._id] = obj.value;
-                progress[obj._id+"count"] = Object.keys(obj.value).length;
+                progress[obj._id+"Count"] = Object.keys(obj.value).length;
                 callback();
             },function() {
 
