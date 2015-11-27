@@ -4,14 +4,7 @@
   height:390px;
 
   h1{
-    background: url('../images/warcraftlfg-logo.png') no-repeat center center;
-    background-size:contain;
     color:transparent;
-    height:82px;
-    margin:120px 0 0 0;
-  }
-  p {
-    margin-top: 40px;
   }
 }
 
@@ -51,4 +44,12 @@
   padding:20px 0 0 0;
   background-color:$white;
   color:$red;
+  .character-picto{
+    height:64px;
+    background: url('../images/icon/64/character.png') center center no-repeat;
+  }
+  .guild-picto{
+    height:64px;
+    background: url('../images//icon/64/guild.png') center center no-repeat;
+  }
 }

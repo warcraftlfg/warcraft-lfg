@@ -8,9 +8,14 @@ var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var characterModel = process.require("models/characterModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var userService = process.require("services/userService.js");
-var auctionService = process.require("services/auctionService.js");
+var guildKillModel = process.require("models/guildKillModel.js");
+var guildProgressUpdateModel = process.require("models/guildProgressUpdateModel.js");
 
 var async = require("async");
+
+//Configuration
+var env = process.env.NODE_ENV || 'dev';
+var config = process.require('config/config.'+env+'.json');
 
 module.exports.updateNext = function(callback){
     var self=this;
@@ -66,7 +71,7 @@ module.exports.update = function(region,realm,name,callback) {
 
         // Check if character have the level
         /*if(character.level<100)
-            return callback();*/
+         return callback();*/
 
         characterModel.insertOrUpdateBnet(region,character.realm,character.name,character,function (error) {
             if (error)
@@ -84,7 +89,54 @@ module.exports.update = function(region,realm,name,callback) {
                     if (error)
                         return callback(error);
                     logger.info('insert/update wlogs for character: ' + region + "-" + character.realm + "-" + character.name);
-                    callback();
+
+                    if (character.guild && character.guild.name && character.guild.realm){
+
+                        async.forEachSeries(character.talents,function(talent,callback){
+
+                            if(!talent.selected || !talent.spec || talent.spec.name ==null ||talent.spec.role ==null )
+                                return callback();
+
+                            async.forEachSeries(character.progression.raids,function(raid,callback){
+                                //Parse only raid in config
+                                if(config.progress.indexOf(raid.name) == -1)
+                                    return callback();
+
+                                var bossWeight = 0;
+                                async.forEachSeries(raid.bosses,function(boss,callback){
+
+                                    var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+
+                                    var difficulties = ["normal","heroic","mythic"];
+                                    async.forEachSeries(difficulties,function(difficulty,callback){
+                                        if(boss[difficulty+'Timestamp']==0)
+                                            return callback();
+                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],progress,function(error) {
+                                            if (error)
+                                                return callback(error);
+                                            guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
+                                                callback(error);
+                                            });
+                                        });
+                                    },function(){
+                                        bossWeight++;
+                                        callback();
+                                    });
+
+                                },function(){
+                                    callback();
+                                });
+
+                            },function(){
+                                callback();
+                            });
+
+                        },function(){
+                            callback();
+                        });
+                    }
+                    else
+                        callback();
                 });
             });
         });
@@ -281,10 +333,10 @@ module.exports.setAdsToUpdate = function(callback){
             return callback(error);
         }
         async.eachSeries(guilds,function(guild,callback){
-            characterUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,5,function(error){
+            characterUpdateModel.insertOrUpdate(guild.region,guild.realm,guild.name,3,function(error){
                 if(error)
                     logger.error(error.message);
-                logger.info("Insert character to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 5');
+                logger.info("Insert character to update " + guild.region + "-" + guild.realm + "-" + guild.name + ' priority 3');
                 callback(error);
             });
         });

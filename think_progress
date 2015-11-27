@@ -1,23 +1,37 @@
-progress : { 
-    "Hellfire Citadel" : {
-        "id": 7545,
-        "bosses" : {
-            "Hellfire Assault" : {
-                id: 93023,
-                normalKills : [
-                        ...
-                    ]
-                }
-                heroicKills : [
-                    ...
-                ],
-                mythicKills : [
-                    ...
-                ]
-            }
+GuildKillModel.js
+
+*region
+*realm
+*name (guild)
+*difficulty
+*boss
+*timestamp
+roster: []
+
+(!!!!!!CREER UNE COLLECTION PAR RAID!!!!!!)
+
+
+Quand j'add un player dans un GuildKill je rajoute un GuildProgressUpdate pour la guilde
+Le GuildProgressUpdatedProcess va lui faire un map reduce de tous les kills de la guilde ayant plus de n player dans le roster et va rajouter le tout à la guilde
+
+region
+realm
+name
+ad
+bnet
+wowProgress
+progress: {
+    "HellFire Citadel": {
+        normalCount:13
+        normalTimestamp:(timestamp),
+        heroicCount:13,
+        heroicTimestamp:(timestamp),
+        mythicCount:9,
+        mythicTimestamp:(timestamp)
+        normal: {
+            Hellfire Assault: (timestamp)
+            ...
+            Archimonde : (timestamp)
         }
     }
 }
-
-Find and modify
-{name: Bmagic, guild: Bloodlust, realm : Archimonde, region:"eu",timestamp: 1416695809000, ilvl: 725, class: 5, spec:1},

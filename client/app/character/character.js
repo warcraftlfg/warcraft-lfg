@@ -146,8 +146,8 @@
             $scope.roles = [
                 {id:'tank', name: translations.TANK, icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
                 {id:'heal', name: translations.HEAL, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-                {id:'ranged_dps', name: translations.RANGED_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-                {id:'melee_dps', name: translations.MELEE_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false}
+                {id:'melee_dps', name: translations.MELEE_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
+                {id:'ranged_dps', name: translations.RANGED_DPS, icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
             ];
             $scope.localClasses = {
                 selectAll       : translations.SELECT_ALL,

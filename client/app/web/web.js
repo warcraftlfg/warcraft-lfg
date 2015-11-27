@@ -8,6 +8,8 @@
         .controller('WebPrivacyController', Privacy)
         .controller('WebTermsController', Terms)
         .controller('WebCookiesController', Cookies)
+        .controller('WebRoadmapController', Roadmap)
+
     ;
 
     About.$inject = ['$scope','socket','$state'];
@@ -28,5 +30,9 @@
 
     Cookies.$inject = ['$scope','socket','$state'];
     function Cookies($scope, socket, $state) {
+    }
+
+    Roadmap.$inject = ['$scope','socket','$state'];
+    function Roadmap($scope, socket, $state) {
     }
 })();

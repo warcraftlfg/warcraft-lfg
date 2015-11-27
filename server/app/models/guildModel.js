@@ -139,6 +139,117 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     });
 };
 
+module.exports.computeProgress = function(region,realm,name,raid,callback){
+    var database = applicationStorage.getMongoDatabase();
+
+
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
+        return;
+    }
+    if(region == null){
+        callback(new Error('Field region is required in GuildAdModel'));
+        return;
+    }
+    if(realm == null){
+        callback(new Error('Field realm is required in GuildAdModel'));
+        return;
+    }
+    if(name == null){
+        callback(new Error('Field name is required in GuildAdModel'));
+        return;
+    }
+    if(raid == null){
+        callback(new Error('Field raid is required in GuildAdModel'));
+        return;
+    }
+
+    var map = function(){
+        var mapped = {
+            timestamp : this.timestamp,
+            boss: this.boss
+        };
+        var key = this.difficulty;
+        emit(key, mapped);
+    };
+
+    var reduce = function(key,values){
+        var reduced = {};
+
+        for (var idx = 0; idx < values.length; idx++) {
+            if (values[idx].boss) {
+                if (reduced[values[idx].boss] == null) {
+                    reduced[values[idx].boss] = {};
+                    reduced[values[idx].boss].timestamps = [];
+
+                }
+                reduced[values[idx].boss].timestamps.push(values[idx].timestamp);
+            }
+        }
+        return reduced;
+    };
+
+    var finalize = function(key,value){
+        return value;
+    };
+
+    database.mapReduce(raid,map, reduce, finalize,  { inline: 1 },
+        {
+            region:region,
+            name:name,
+            realm:realm,
+            $or:[
+                {$and:[{roster : {$exists:true}},{difficulty:"normal"},{$where:"this.roster.length > 8"}]},
+                {$and:[{roster : {$exists:true}},{difficulty:"heroic"},{$where:"this.roster.length > 8"}]},
+                {$and:[{roster : {$exists:true}},{difficulty:"mythic"},{$where:"this.roster.length > 16"}]}
+            ]
+        },
+        { bossWeight:1,timestamp:1}
+        , function(err,result) {
+            callback(err,result);
+        });
+};
+
+module.exports.insertOrUpdateProgress = function(region,realm,name,raid, progress,callback){
+    var database = applicationStorage.getMongoDatabase();
+
+    //Force region tolowercase
+    region = region.toLowerCase();
+
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
+        return;
+    }
+    if(region == null){
+        callback(new Error('Field region is required in GuildAdModel'));
+        return;
+    }
+    if(realm == null){
+        callback(new Error('Field realm is required in GuildAdModel'));
+        return;
+    }
+    if(name == null){
+        callback(new Error('Field name is required in GuildAdModel'));
+        return;
+    }
+
+    var guild ={};
+    guild.region = region;
+    guild.realm = realm;
+    guild.name = name;
+    guild.updated = new Date().getTime();
+
+    progress.updated=new Date().getTime();
+
+    guild.progress = {};
+    guild.progress[raid] = progress;
+
+    database.insertOrUpdate("guilds", {region:region,realm:realm,name:name} ,null ,guild, function(error,result){
+        callback(error, result);
+    });
+
+};
+
 module.exports.setId = function(region,realm,name,id,callback) {
     var database = applicationStorage.getMongoDatabase();
 
@@ -181,7 +292,7 @@ module.exports.setId = function(region,realm,name,id,callback) {
 
 module.exports.get = function(region,realm,name,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.get("guilds",{"region":region,"realm":realm,"name":name},{_id: 0},1,function(error,guild){
+    database.get("guilds",{"region":region,"realm":realm,"name":name},{_id:0},1,function(error,guild){
         callback(error, guild && guild[0]);
     });
 };
@@ -267,14 +378,23 @@ module.exports.getAds = function (number,filters,callback) {
         if(recruitment.length>0)
             criteria["$or"] = recruitment;
     }
-    database.find("guilds", criteria, {
-        name:1,
-        realm:1,
-        region:1,
-        "ad":1,
-        "bnet.side":1,
-        "wowProgress":1
-    }, number, {"ad.updated":-1}, function(error,guilds){
+
+    var projection  = {};
+    projection["name"] = 1;
+    projection["realm"] = 1;
+    projection["region"] = 1;
+    projection["ad"] = 1;
+    projection["wowProgress"] = 1;
+    projection["bnet.side"] = 1;
+    projection["wowProgress"] = 1;
+
+    config.progress.forEach(function(raid){
+        projection["progress."+raid+".normalCount"] = 1;
+        projection["progress."+raid+".heroicCount"] = 1;
+        projection["progress."+raid+".mythicCount"] = 1;
+    });
+
+    database.find("guilds", criteria,projection, number, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };

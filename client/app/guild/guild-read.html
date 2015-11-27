@@ -39,8 +39,14 @@
                 <div ng-if="!guild.wowProgress">
                     This guild is not yet in our database
                 </div>
+                <h2>Progress</h2>
+                <div ng-if="guild.progress">
+                    <code>{{guild.progress}}</code>
+                </div>
+                <div ng-if="!guild.progress">
+                    This guild is not yet in our database
+                </div>
             </div>
         </div>
     </div>
 </div>
-
