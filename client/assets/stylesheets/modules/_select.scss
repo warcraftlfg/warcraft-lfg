@@ -57,3 +57,10 @@ select{
 
   }
 }
+
+:root .css3-metro-dropdown-inverse select,:root .css3-metro-dropdown-inverse:after,:root .css3-metro-dropdown-inverse::after{background: $black}
+:root .css3-metro-dropdown-inverse select{border:1px solid $black;}
+:root .css3-metro-dropdown-inverse::after{background-color:$grey;}
+:root .css3-metro-dropdown-inverse option{background:$black;color:#fff}
+.css3-metro-dropdown-inverse .caret {background-color: $grey;}
+

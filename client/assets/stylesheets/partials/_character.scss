@@ -1,14 +1,51 @@
 .character-list {
-  .character{
-    padding:10px 0 10px 0;
-    margin: 0 0 10px 0;
-    border:1px solid $white;
+  .cartouche {
     background-color: $black;
+    background-repeat-x: no-repeat;
+  }
+
+  .cartouche-faction-0 {
+    background-image: url(../images/border-alliance.png);
+  }
+
+  .cartouche-faction-1 {
+    background-image: url(../images/border-horde.png);
+  }
+
+  .character-faction-0 {
+    background: url(../images/cartouche-logo-alliance.png) 115px center no-repeat;
+  }
+
+  .character-faction-1 {
+    background: url(../images/cartouche-logo-horde.png) 115px center no-repeat;  
+  }
+
+  .character{
+    min-height: 128px;
+    position: relative;
+    padding: 10px 30px 10px 20px;
+    margin: 0 0 10px 0;
+    border:1px solid $black;
+
+    .character-info-padding {
+      padding-left: 41px;
+    }
 
     .ring img{width:16px}
 
     .warcraft-logs{
       .icon-small {margin-left:10px;}
+    }
+
+    .character-timestamp {
+      font-style: italic;
+      font-size: 11px;
+      position: absolute;
+      transform: rotate(-90deg);
+      transform-origin: right;
+      display: inline-block;
+      right: 15px;
+      top: 21px;
     }
 
     .name {

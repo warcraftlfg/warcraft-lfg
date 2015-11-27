@@ -302,7 +302,7 @@
 .bg-orange {background-color:#f27835 ; color:#fff;}
 .bg-purple  {background-color:#B57EE0; color:#fff;}
 .bg-dark  {background-color:#2B2E33; color:#fff;}
-.bg-black  {background-color:#000000; color:#fff ;}
+.bg-black  {background-color:$black; color:#fff;}
 .bg-yellow {background-color:#DDD333; color:#fff;}
 .bg-purple-gradient  {background: #bf9bdd;background: -moz-radial-gradient(center, ellipse cover,  #bf9bdd 27%, #9e52dd 100%);background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(27%,#bf9bdd), color-stop(100%,#9e52dd));background: -webkit-radial-gradient(center, ellipse cover,  #bf9bdd 27%,#9e52dd 100%); background: -o-radial-gradient(center, ellipse cover,  #bf9bdd 27%,#9e52dd 100%);background: -ms-radial-gradient(center, ellipse cover,  #bf9bdd 27%,#9e52dd 100%);background: radial-gradient(ellipse at center,  #bf9bdd 27%,#9e52dd 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf9bdd', endColorstr='#9e52dd',GradientType=1 ); }
 .bg-opacity-20 {background-color: rgba(0, 0, 0, 0.2);}
@@ -343,6 +343,7 @@
 /****  Opacity  ****/
 .opacity-0 {opacity:0;}
 .opacity-20 {opacity:.2;}
+.opacity-25 {opacity:.2;}
 .opacity-50 {opacity:.5;}
 .opacity-60 {opacity:.6;}
 .opacity-70 {opacity:.7;}
