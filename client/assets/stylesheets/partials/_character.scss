@@ -45,12 +45,15 @@
       font-style: italic;
       font-size: 11px;
       position: absolute;
-      transform: rotate(-90deg);
-      display: flex;
+      -moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+      -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+      transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
+      display: inline;
       align-items :center;
-      right: 0px;
-      top: 0px;
-      height:100%
+      left: 98%;
+      top: 50%;
+      width: 128px;
+      text-align: center;
     }
 
     .name {
