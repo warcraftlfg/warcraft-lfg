@@ -198,7 +198,6 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             region:region,
             name:name,
             realm:realm,
-
             $or:[
                 {$and:[{roster : {$exists:true}},{difficulty:"normal"},{$where:"this.roster.length > 8"}]},
                 {$and:[{roster : {$exists:true}},{difficulty:"heroic"},{$where:"this.roster.length > 8"}]},
@@ -384,7 +383,10 @@ module.exports.getAds = function (number,filters,callback) {
         region:1,
         "ad":1,
         "bnet.side":1,
-        "wowProgress":1
+        "wowProgress":1,
+        "progress.normalCount":1,
+        "progress.heroicCount":1,
+        "progress.mythicCount":1
     }, number, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });

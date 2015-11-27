@@ -93,20 +93,24 @@
                     <div class="col-sm-3 col-md-2 col-lg-3">
                         <div>
                             Progress :
+                            <span ng-if="guild.progress.normalCount">NM:{{guild.progress.normalCount}}</span>
+                            <span ng-if="guild.progress.heroicCount">NM:{{guild.progress.heroicCount}}</span>
+                            <span ng-if="guild.progress.mythicCount">NM:{{guild.progress.mythicCount}}</span>
+                            <span ng-if="guild.progress.normalCount && guild.progress.heroicCount && guild.progress.mythicCount">Progress not found</span>
                         </div>
                         <div>
-                            Role :
+                            <div ng-if="guild.ad.role.tank || guild.ad.role.healer || guild.ad.role.dps">
+                                Role :
+                                <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk" class="icon-small tank"></span>
+                                <span ng-if="guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk" class="icon-small healer"></span>
+                                <span ng-if="guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue"  class="icon-small dps"></span>
+                                <span ng-if="guild.ad.recruitment.heal.priest ||  guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.hunter || guild.ad.recruitment.heal.warlock || guild.ad.recruitment.heal.mage" class="icon-small dps"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-3 col-md-4 col-lg-3">
                         <div>
                             Language : {{guild.ad.language|uppercase}}
-                        </div>
-                        <div ng-if="guild.ad.role.tank || guild.ad.role.healer || guild.ad.role.dps">
-                            Role :
-                            <span ng-if="guild.ad.role.tank" class="icon-small tank"></span>
-                            <span ng-if="guild.ad.role.healer" class="icon-small healer"></span>
-                            <span ng-if="guild.ad.role.dps" class="icon-small dps"></span>
                         </div>
                         <div>
                             Raids per week : {{guild.ad.raids_per_week.min}} - {{guild.ad.raids_per_week.max}}
@@ -120,7 +124,7 @@
                                 {{guild.wowProgress.world_rank}}
                             </div>
                             <div class="col-sm-10 col-md-9 common" ng-if="!guild.wowProgress.world_rank">
-                                ??
+                                No rank found
                             </div>
                         </div>
                     </div>
