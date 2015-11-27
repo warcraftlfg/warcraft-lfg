@@ -109,8 +109,8 @@
                                 <div>
                                     Progress :
                                     <span ng-if="guild.progress['Hellfire Citadel'].mythicCount>0">{{guild.progress['Hellfire Citadel'].mythicCount}}/13 (M)</span>
-                                    <span ng-if="guild.progress['Hellfire Citadel'].heroicCount>0&&guild.progress['Hellfire Citadel'].mythicCount==0">{{guild.progress['Hellfire Citadel'].heroicCount}}/13 (H)</span>
-                                    <span ng-if="guild.progress['Hellfire Citadel'].normalCount>=0&&guild.progress['Hellfire Citadel'].mythicCount==0&&guild.progress['Hellfire Citadel'].heroicCount==0">{{guild.progress['Hellfire Citadel'].normalCount}}/13 (N)</span>
+                                    <span ng-if="guild.progress['Hellfire Citadel'].heroicCount>0&&!guild.progress['Hellfire Citadel'].mythicCount">{{guild.progress['Hellfire Citadel'].heroicCount}}/13 (H)</span>
+                                    <span ng-if="guild.progress['Hellfire Citadel'].normalCount>=0&&!guild.progress['Hellfire Citadel'].mythicCount&&!guild.progress['Hellfire Citadel'].heroicCount">{{guild.progress['Hellfire Citadel'].normalCount}}/13 (N)</span>
                                     <span ng-if="!guild.progress['Hellfire Citadel'].normalCount && !guild.progress['Hellfire Citadel'].heroicCount && !guild.progress['Hellfire Citadel'].mythicCount">0/13 (NM)</span>
                                 </div>
                                 WoWProgress :
