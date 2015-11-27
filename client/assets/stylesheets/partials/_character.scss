@@ -17,7 +17,7 @@
   }
 
   .character-faction-1 {
-    background: url(../images/cartouche-logo-horde.png) 115px center no-repeat;  
+    background: url(../images/cartouche-logo-horde.png) 115px center no-repeat;
   }
 
   .character{
@@ -34,7 +34,11 @@
     .ring img{width:16px}
 
     .warcraft-logs{
-      .icon-small {margin-left:10px;}
+      .icon-small {
+        margin-left:10px;
+        z-index:11;
+      }
+
     }
 
     .character-timestamp {

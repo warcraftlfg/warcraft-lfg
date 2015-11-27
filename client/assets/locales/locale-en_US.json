@@ -63,9 +63,9 @@
   "ACCOUNT_SEARCH_GUILD": "I'm searching for a guild",
   "ACCOUNT_SEARCH_PLAYER": "I'm searching for players",
   "SELECT_REGION_GUILD":  "Select your region and your guild",
-  "RAID_DIFFICULTY_3": "Normal",
-  "RAID_DIFFICULTY_4": "Heroic",
-  "RAID_DIFFICULTY_5": "Mythic",
+  "RAID_DIFFICULTY_3": "N",
+  "RAID_DIFFICULTY_4": "H",
+  "RAID_DIFFICULTY_5": "M",
   "LANG_": "All languages",
   "LANG_NONE": "n/a",
   "LANG_EN": "English",
@@ -157,5 +157,6 @@
   "DESCRIPTION": "Description:",
   "ROLES": "Roles",
   "ROADMAP":"Roadmap",
-  "ROADMAP_DESCRIPTION":"The same thing as every night, Minus: Try to conquer the world!"
+  "ROADMAP_DESCRIPTION":"The same thing as every night, Minus: Try to conquer the world!",
+  "LOGS":"Log(s)"
 }
