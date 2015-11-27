@@ -46,15 +46,28 @@ body{
 	color: #fff;
 }
 
-.btn-default:hover, .btn-default:focus {
-	background-color: $red;
-	color: $white;
-}
-
 .btn-default:active:focus, .btn-default:active:hover {
 	background-color: $black;
 	color: $white;
 }
+
+.btn-inverse {
+	background-color: $grey;
+	color: #fff;
+	border-color: #ccc;
+}
+
+.btn-inverse:active:focus, .btn-inverse:active:hover {
+	background-color: $grey;
+	color: $white;
+}
+
+
+.btn:hover, .btn:focus {
+	background-color: $red;
+	color: $white;
+}
+
 
 .list-group-item:first-child, .list-group-item:last-child {
 	border-radius: 0px;

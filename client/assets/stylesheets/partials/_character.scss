@@ -21,11 +21,12 @@
   }
 
   .character{
+    min-height: 128px;
     /*padding:10px 0 10px 0;*/
     position: relative;
     padding: 10px 30px 10px 20px;
     margin: 0 0 10px 0;
-    border:1px solid $white;
+    border:1px solid $black;
 
     .character-info-padding {
       padding-left: 41px;
@@ -38,13 +39,14 @@
     }
 
     .character-timestamp {
-      /*font-style: italic;
-      font-size: 12px;
+      font-style: italic;
+      font-size: 11px;
       position: absolute;
       transform: rotate(-90deg);
+      transform-origin: right;
       display: inline-block;
-      right: -30px;
-      top: 52px;*/
+      right: 15px;
+      top: 6px;
     }
 
     .name {

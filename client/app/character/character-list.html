@@ -35,15 +35,6 @@
                         </span>
                     </div>
                     <div class="m-b-20">
-                        <span class="css3-metro-dropdown">
-                            <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
-                                <option value="">{{"ALL_FACTION"|translate}}</option>
-                                <option value="0">{{"ALLIANCE"|translate}}</option>
-                                <option value="1">{{"HORDE"|translate}}</option>
-                            </select>
-                        </span>
-                    </div>
-                    <div class="m-b-20">
                         <div isteven-multi-select
                              input-model="languages"
                              output-model="filters.languages"
@@ -57,6 +48,25 @@
                         </div>
                     </div>
                     <div class="m-b-20">
+                        <span class="css3-metro-dropdown">
+                            <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
+                                <option value="">{{"ALL_FACTION"|translate}}</option>
+                                <option value="0">{{"ALLIANCE"|translate}}</option>
+                                <option value="1">{{"HORDE"|translate}}</option>
+                            </select>
+                        </span>
+                    </div>
+                    <!-- #TODO
+                    <div class="row m-b-20">
+                        <div class="col-md-6 text-center">
+                            <img src="/assets/images/icon/64/alliance.png" for="faction-horde" class="img-responsive center-block" />
+                        </div>
+                        <div class="col-md-6">
+                            <img src="/assets/images/icon/64/horde.png" class="img-responsive center-block" />
+                        </div>
+                    </div>
+                    -->
+                    <div class="m-b-20">
                         <div isteven-multi-select
                              input-model="roles"
                              output-model="filters.roles"
@@ -68,6 +78,22 @@
                         >
                         </div>
                     </div>
+                    <!-- #TODO
+                    <div class="row m-b-20">
+                        <div class="col-md-3 col-lg-3 text-center">
+                            <img src="/assets/images/icon/64/tank.png" class="img-responsive center-block" />
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <img src="/assets/images/icon/64/healing.png" class="img-responsive center-block" />
+                        </div>
+                        <div class="col-md-3 col-lg-3 text-center">
+                            <img src="/assets/images/icon/64/ranged-dps.png" class="img-responsive center-block" />
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <img src="/assets/images/icon/64/melee-dps.png" class="img-responsive center-block" />
+                        </div>
+                    </div>
+                    -->
                     <div class="m-b-20">
                         <div isteven-multi-select
                              input-model="classes"
@@ -124,7 +150,7 @@
                                     Level {{character.bnet.level}}
                                 </div>
                             </div>
-                            <div class="col-md-4 col-lg-4">
+                            <div class="col-md-3 col-lg-4">
                                 <div>
                                     Languages : 
                                     <span ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">{{"LANG_"+language|uppercase|translate}}</span>
@@ -154,13 +180,12 @@
                                     Audit: ??
                                 </div>
                             </div>
-                            <div class="col-md-12 visible-md visible-sm visible-xs">&nbsp;</div>
-                            <div class="col-lg-offset-0 col-md-offset-2 col-md-10 col-lg-4 character-class-{{character.bnet.class}}">
+                            <div class="col-md-5 col-lg-4 character-class-{{character.bnet.class}}">
                                 <span wlfg-progress="{{character.bnet.progression.raids}}"></span>
                                 <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
                             </div>
-                            <div class="character-timestamp col-md-12 text-right f-12 m-t-10 italic">
-                                Updated <span am-time-ago="character.ad.updated"></span>
+                            <div class="character-timestamp">
+                                <span am-time-ago="character.ad.updated|amSubtract : '1' : 'minutes'"></span>
                             </div>
                         </div>
                     </div>

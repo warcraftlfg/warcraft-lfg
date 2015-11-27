@@ -31,9 +31,11 @@
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
-                    <select ng-model="guild.ad.language" class="form-control">
-                        <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                    </select>
+                    <span class="css3-metro-dropdown css3-metro-dropdown-inverse">
+                        <select ng-model="guild.ad.language" class="form-control">
+                            <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                        </select>
+                    </span>
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_CREATE_WEBSITE"|translate}}</label>

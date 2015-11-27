@@ -109,3 +109,17 @@
   }
 }
 
+.multiselect-inverse {
+  button {
+    background-color: $black;
+    border: 1px solid $black;
+  }
+
+  .caret {
+    background-color: $grey;
+  }
+  .caret::after{
+    background-color: $grey;
+  }
+}
+
