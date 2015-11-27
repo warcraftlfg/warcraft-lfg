@@ -3,9 +3,8 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>
-                    Warcraft LFG
+                    Warcraft LFG (BETA)
                 </h1>
-                <p class="lead">{{"DASHBOARD_INTRO"|translate}}</p>
             </div>
         </div>
     </div>
@@ -129,38 +128,15 @@
 <div class="text-center dashboard-stats">
     <div class="container">
         <div class="row">
-            <h2 class="m-b-20">{{"LIVE_STATS"|translate}}</h2>
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-4">
-                        <div class="icon-large character"></div>
-                    </div>
-                </div>
-                <p class="lead">{{characterCount}} {{"CHARACTERS"|translate}}</p>
+            <div class="col-md-6">
+                <div class="character-picto"></div>
+                <div class="f-22">{{characterAdCount}} {{"CHARACTERS_ADS"|translate}}</div>
+                <div class="f-22 m-b-30">{{characterCount}} {{"CHARACTERS"|translate}}</div>
             </div>
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-4">
-                        <div class="icon-large guild"></div>
-                    </div>
-                </div>
-                <p class="lead">{{guildCount}} {{"GUILDS"|translate}}</p>
-            </div>
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-4">
-                        <div class="icon-large ad"></div>
-                    </div>
-                </div>
-                <p class="lead">{{characterAdCount}} {{"CHARACTERS_ADS"|translate}}</p>
-            </div>
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-4">
-                        <div class="icon-large ad"></div>
-                    </div>
-                </div>
-                <p class="lead">{{guildAdCount}} {{"GUILDS_ADS"|translate}}</p>
+            <div class="col-md-6">
+                <div class="guild-picto"></div>
+                <div class="f-22">{{guildAdCount}} {{"GUILDS_ADS"|translate}}</div>
+                <div class="f-22 m-b-30">{{guildCount}} {{"GUILDS"|translate}}</div>
             </div>
         </div>
     </div>
