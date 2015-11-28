@@ -5,10 +5,6 @@ angular
 function legendaryRing() {
     var directive = {
         link: link,
-        scope: {
-            wlfgLegendaryRing1: '@',
-            wlfgLegendaryRing2: '@'
-        },
         restrict: 'A',
         templateUrl: 'app/character/character.legendary-ring.directive.html'
     };
