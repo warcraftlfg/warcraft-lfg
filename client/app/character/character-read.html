@@ -75,6 +75,8 @@
                                 Progress -
                             </div>
                             <div class="panel-body">
+                                <span wlfg-progress="{{character.bnet.progression.raids}}"></span>
+
                             </div>
                         </div>
                     </div>
@@ -101,8 +103,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         Ring item level :
-                                        <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
-                                        <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
+                                        <span wlfg-legendary-ring wlfg-legendary-ring-1="{{character.bnet.items.finger1}}" wlfg-legendary-ring-2="{{character.bnet.items.finger2}}"></span>
                                     </div>
                                     <div class="col-md-2">
                                         T18 equipped :
