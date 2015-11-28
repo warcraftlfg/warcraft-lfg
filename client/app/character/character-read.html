@@ -72,11 +72,10 @@
                     <div class="col-md-6 col-lg-7">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Progress -
+                                Progress - <span wlfg-progress="character.bnet.progression.raids"></span>
                             </div>
                             <div class="panel-body">
-                                <span wlfg-progress="character.bnet.progression.raids"></span>
-
+                                
                             </div>
                         </div>
                     </div>
@@ -118,22 +117,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr ng-repeat="(key, item) in character.bnet.items" ng-if="$index > 1 && $index <= 8">
-                                        <td class="bold">
-                                            {{key}}
-                                        </td>
-                                        <td class="">
-                                            <a rel="item={{item.id}}" class="cursor-pointer">
-                                                <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
-                                            </a>
-                                        </td>
-                                        <td class="quality-{{item.quality}}">
-                                            <a rel="item={{item.id}}" class="cursor-pointer">{{item.name}}</a>
-                                        </td>
-                                        <td>
-                                            {{item.itemLevel}}
-                                        </td>
-                                    </tr>
+                                    <tr wlfg-item='character.bnet.items["head"]' slot="Head"></tr>
+                                    <tr wlfg-item='character.bnet.items["neck"]' slot="Neck"></tr>
+                                    <tr wlfg-item='character.bnet.items["shoulder"]' slot="Shoulder"></tr>
+                                    <tr wlfg-item='character.bnet.items["back"]' slot="Back"></tr>
+                                    <tr wlfg-item='character.bnet.items["chest"]' slot="Chest"></tr>
                                 </table>
                             </div>
                             <div class="col-md-6">
@@ -161,7 +149,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr wlfg-item="{{character.bnet.items['head']}}" slot="Head"></tr>
+                                    <tr wlfg-item='character.bnet.items["head"]' slot="Head"></tr>
                                 </table>
                             </div>
                             <div class="col-md-6">

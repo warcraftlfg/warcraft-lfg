@@ -16,5 +16,7 @@ function wlfgItem() {
                 scope.item = item;
             }
         }, true);
+
+        scope.slot = attrs.slot;
     }
 }
