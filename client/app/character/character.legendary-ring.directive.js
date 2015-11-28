@@ -11,17 +11,16 @@ function legendaryRing() {
     return directive;
 
     function link(scope, element, attrs) {
-        scope.$watch(attrs.wlfgLegendaryRing2, function (ring) {
-            setRing(ring, scope);
-        },true);
         scope.$watch(attrs.wlfgLegendaryRing1, function (ring) {
             setRing(ring, scope);
-        },true);
+        });
+        scope.$watch(attrs.wlfgLegendaryRing2, function (ring) {
+            setRing(ring, scope);
+        });
 
     }
 
     function setRing(ring,scope) {
-
         if (ring && ring.id >= 124634 && ring.id <= 124638) {
             scope.quality = "legendary";
             scope.itemLevel = ring.itemLevel;

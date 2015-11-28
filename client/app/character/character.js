@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.dashboard')
+        .module('app.character')
         .controller('CharacterReadController', CharacterRead)
         .controller('CharacterUpdateController', CharacterUpdate)
         .controller('CharacterDeleteController', CharacterDelete)
