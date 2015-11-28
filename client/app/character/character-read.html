@@ -40,7 +40,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="https://render-api-{{ character.region}}.worldofwarcraft.com/static-render/{{ character.region}}/{{character.bnet.thumbnail}}" alt="avatar" class="img-responsive" />
+                                        <img ng-src="https://render-api-{{ character.region}}.worldofwarcraft.com/static-render/{{ character.region}}/{{character.bnet.thumbnail}}" alt="avatar" class="img-responsive" />
                                     </div>
                                     <div class="col-md-5">
                                         <div class="class-{{character.bnet.class}} f-20 overflow">{{ character.name }}</div>
@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="m-t-10">
                                             <span class="m-l-10" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
-                                                <img src="/assets/images/flag/32/{{language|lowercase}}.png" alt="flag-{{language|lowercase}}" title="{{'LANG_'+language|uppercase|translate}}" />
+                                                <img ng-src="/assets/images/flag/32/{{language|lowercase}}.png" alt="flag-{{language|lowercase}}" title="{{'LANG_'+language|uppercase|translate}}" />
                                             </span>
                                         </div>
                                     </div>
@@ -124,7 +124,7 @@
                                         </td>
                                         <td class="">
                                             <a rel="item={{item.id}}" class="cursor-pointer">
-                                                <img src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
+                                                <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
                                             </a>
                                         </td>
                                         <td class="quality-{{item.quality}}">
@@ -144,7 +144,7 @@
                                         </td>
                                         <td class="">
                                             <a rel="item={{item.id}}" class="cursor-pointer">
-                                                <img src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
+                                                <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
                                             </a>
                                         </td>
                                         <td class="quality-{{item.quality}}">
@@ -172,7 +172,7 @@
                                         </td>
                                         <td class="">
                                             <a rel="item={{item.id}}" class="cursor-pointer">
-                                                <img src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
+                                                <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
                                             </a>
                                         </td>
                                         <td class="quality-{{item.quality}}">

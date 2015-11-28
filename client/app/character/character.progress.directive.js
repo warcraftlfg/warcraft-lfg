@@ -16,6 +16,7 @@ function wlfgProgress() {
                 progress = raids[raids.length-1];
                 var currentProgress = {'mythic':{'total': 0, 'bosses': {}}, 'heroic':{'total': 0, 'bosses': {}}, 'normal': {'total': 0, 'bosses': {}}, 'lfr': {'total': 0, 'bosses': {}}};
                 currentProgress.total = progress.bosses.length;
+                console.log(progress);
                 progress.bosses.forEach(function (boss) {
                     currentProgress.mythic.bosses[boss.name] = boss.mythicKills;
                     if (boss.mythicKills > 0) { currentProgress.mythic.total += 1; }
