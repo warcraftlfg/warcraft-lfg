@@ -5,10 +5,6 @@ angular
 function legendaryRing() {
     var directive = {
         link: link,
-        scope: {
-            wlfgLegendaryRing1: '@',
-            wlfgLegendaryRing2: '@'
-        },
         restrict: 'A',
         templateUrl: 'app/character/character.legendary-ring.directive.html'
     };
@@ -29,7 +25,6 @@ function legendaryRing() {
         if (ring && ring.id >= 124634 && ring.id <= 124638) {
             scope.quality = "legendary";
             scope.itemLevel = ring.itemLevel;
-            console.log(ring);
         } else if (ring && ring.id >= 118305 && ring.id <= 118309) {
             scope.quality = "epic";
             scope.itemLevel = ring.itemLevel;
