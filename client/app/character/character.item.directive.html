@@ -1,13 +1,15 @@
 <td class="bold">
-    {{item.slot}}
+    {{slot}}
 </td>
 <td class="">
     <a rel="item={{item.id}}" class="cursor-pointer">
-        <img src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{item.slot}}" title="{{item.name}}" />
+        <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{slot}}" title="{{item.name}}" />
     </a>
 </td>
 <td class="quality-{{item.quality}}">
-    <a rel="item={{item.id}}" class="cursor-pointer">{{item.name}}</a>
+    <a rel="item={{item.id}}" class="cursor-pointer">
+        {{item.name}}
+    </a>
 </td>
 <td>
     {{item.itemLevel}}

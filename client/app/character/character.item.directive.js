@@ -5,6 +5,10 @@ angular
 function wlfgItem() {
     var directive = {
         link: link,
+        scope: {
+            wlfgItem: '@',
+            slot: '@',
+        },
         restrict: 'A',
         templateUrl: 'app/character/character.item.directive.html'
     };
@@ -15,6 +19,6 @@ function wlfgItem() {
             if (item) {
                 scope.item = item;
             }
-        });
+        }, true);
     }
 }
