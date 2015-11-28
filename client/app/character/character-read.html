@@ -40,7 +40,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="http://render-api-{{ character.region}}.worldofwarcraft.com/static-render/{{ character.region}}/{{character.bnet.thumbnail}}" alt="avatar" class="img-responsive" />
+                                        <img src="https://render-api-{{ character.region}}.worldofwarcraft.com/static-render/{{ character.region}}/{{character.bnet.thumbnail}}" alt="avatar" class="img-responsive" />
                                     </div>
                                     <div class="col-md-5">
                                         <div class="class-{{character.bnet.class}} f-20 overflow">{{ character.name }}</div>
@@ -72,7 +72,7 @@
                     <div class="col-md-6 col-lg-7">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Progress - <span wlfg-progress="{{character.bnet.progression.raids}}"></span>
+                                Progress -
                             </div>
                             <div class="panel-body">
                             </div>
@@ -158,9 +158,9 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6" ng-class="{col-md-offset-3:!character.bnet.items[17]}">
+                            <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr ng-controller="CharacterReadItem" ng-init="items=character.bnet.items" ng-include="'app/character/character-read-item.html'"></tr>
+                                    <tr wlfg-item="{{character.bnet.items['head']}}"></tr>
                                 </table>
                             </div>
                             <div class="col-md-6">
