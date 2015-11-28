@@ -5,7 +5,14 @@ module.exports = {
         length: 10,
         summary: 'filerev'
     },
-    images: {
-        src: 'www/assets/**/*.{jpg,jpeg,gif,png,webp}',
+    source: {
+        files: [{
+            src: [
+                'www/assets/**/*.{jpg,png}',
+                'www/app/**/*.html',
+                'www/assets/css/warcraftlfg.min.css',
+                'www/app/warcraftlfg.min.js'
+            ]
+        }]
     }
 };
