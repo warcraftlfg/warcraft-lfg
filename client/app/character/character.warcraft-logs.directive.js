@@ -32,7 +32,7 @@ function warcraftLogs() {
                     for (var difficulty = 3; difficulty <= 5; difficulty++) {
                         for (var spec = 0; spec <= 3; spec++) {
                             if (sortedLogs[difficulty][spec].length > 0)
-                                scope.warcraftLogs[difficulty][spec] = {median:Math.floor(median(sortedLogs[difficulty][spec]) * 100),number:sortedLogs[difficulty][spec].length};
+                                scope.warcraftLogs[difficulty][spec] = {median:Math.floor(average(sortedLogs[difficulty][spec]) * 100),number:sortedLogs[difficulty][spec].length};
                         }
                     }
                 }
@@ -41,13 +41,12 @@ function warcraftLogs() {
         });
     }
 
-    function median(values) {
-        values.sort( function(a,b) {return a - b;} );
-        var half = Math.floor(values.length/2);
-        if(values.length % 2)
-            return values[half];
-        else
-            return (values[half-1] + values[half]) / 2.0;
+    function average(values) {
+        var sum = 0;
+        for( var i = 0; i < values.length; i++ ){
+            sum += values[i]; //don't forget to add the base
+        }
+        return sum/values.length;
     }
 
 }
