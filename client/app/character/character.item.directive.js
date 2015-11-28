@@ -6,6 +6,7 @@ function wlfgItem() {
     var directive = {
         link: link,
         restrict: 'A',
+        scope:true,
         templateUrl: 'app/character/character.item.directive.html'
     };
     return directive;
