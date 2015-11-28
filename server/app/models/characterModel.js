@@ -180,7 +180,13 @@ module.exports.setId = function(region,realm,name,id,callback){
 
 module.exports.get = function(region,realm,name,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.get("characters",{"region":region,"realm":realm,"name":name},{_id: 0},1,function(error,character){
+    database.get("characters", {
+        "region":region,
+        "realm":realm,
+        "name":name
+    }, {
+        _id: 0
+    }, 1, function(error,character){
         callback(error, character && character[0]);
     });
 };
