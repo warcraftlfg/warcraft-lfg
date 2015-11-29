@@ -6,6 +6,7 @@ function wlfgItemT18() {
     var directive = {
         link: link,
         restrict: 'A',
+        scope: true,
         templateUrl: 'app/character/character.item-t18.directive.html'
     };
     return directive;
@@ -27,10 +28,16 @@ function wlfgItemT18() {
             };
             var count = 0;
             if (items) {
-                items.forEach(function(item) {
-                    //if (attrs.)
+                angular.forEach(items, function(item) {
+                    if (item.name) {
+                        if (item.name.indexOf(t18[attrs.characterClass]) >= 0) {
+                            count++;
+                        }
+                    }
                 });
             }
+
+            scope.t18Count = count;
         }, true);
     }
 }

@@ -105,10 +105,10 @@
                                         <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        T18 equipped :
+                                        T18 equipped : <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        Audit : ??
+                                        Audit : <span wlfg-item-audit="character.bnet.items"></span>
                                     </div>
                                 </div>
                             </div>
@@ -122,54 +122,23 @@
                                     <tr wlfg-item='character.bnet.items["shoulder"]' slot="Shoulder"></tr>
                                     <tr wlfg-item='character.bnet.items["back"]' slot="Back"></tr>
                                     <tr wlfg-item='character.bnet.items["chest"]' slot="Chest"></tr>
+                                    <tr wlfg-item='character.bnet.items["shirt"]' slot="Shirt"></tr>
+                                    <tr wlfg-item='character.bnet.items["tabard"]' slot="Tabard"></tr>
+                                    <tr wlfg-item='character.bnet.items["wrist"]' slot="Wrist"></tr>
+                                    <tr wlfg-item='character.bnet.items["mainHand"]' slot="Mainhand"></tr>
                                 </table>
                             </div>
                             <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr ng-repeat="(key, item) in character.bnet.items" ng-if="$index > 8 && $index <= 16">
-                                        <td class="bold">
-                                            {{key}}
-                                        </td>
-                                        <td class="">
-                                            <a rel="item={{item.id}}" class="cursor-pointer">
-                                                <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
-                                            </a>
-                                        </td>
-                                        <td class="quality-{{item.quality}}">
-                                            <a rel="item={{item.id}}" class="cursor-pointer">{{item.name}}</a>
-                                        </td>
-                                        <td>
-                                            {{item.itemLevel}}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <table class="table table-condensed">
-                                    <tr wlfg-item='character.bnet.items["head"]' slot="Head"></tr>
-                                </table>
-                            </div>
-                            <div class="col-md-6">
-                                <table class="table table-condensed">
-                                    <tr ng-repeat="(key, item) in character.bnet.items" ng-if="$index > 17 && $index < 19">
-                                        <td class="bold">
-                                            {{key}}
-                                        </td>
-                                        <td class="">
-                                            <a rel="item={{item.id}}" class="cursor-pointer">
-                                                <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{key}}" title="{{item.name}}" />
-                                            </a>
-                                        </td>
-                                        <td class="quality-{{item.quality}}">
-                                            <a rel="item={{item.id}}" class="cursor-pointer">{{item.name}}</a>
-                                        </td>
-                                        <td>
-                                            {{item.itemLevel}}
-                                        </td>
-                                    </tr>
+                                    <tr wlfg-item='character.bnet.items["hands"]' slot="Hands"></tr>
+                                    <tr wlfg-item='character.bnet.items["waist"]' slot="Waist"></tr>
+                                    <tr wlfg-item='character.bnet.items["legs"]' slot="Legs"></tr>
+                                    <tr wlfg-item='character.bnet.items["feet"]' slot="Feet"></tr>
+                                    <tr wlfg-item='character.bnet.items["finger1"]' slot="Finger #1"></tr>
+                                    <tr wlfg-item='character.bnet.items["finger2"]' slot="Finger #2"></tr>
+                                    <tr wlfg-item='character.bnet.items["trinket1"]' slot="Trinket #1"></tr>
+                                    <tr wlfg-item='character.bnet.items["trinket2"]' slot="Trinket #2"></tr>
+                                    <tr wlfg-item='character.bnet.items["offHand"]' slot="Offhand"></tr>
                                 </table>
                             </div>
                         </div>
