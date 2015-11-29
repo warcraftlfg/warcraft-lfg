@@ -126,4 +126,26 @@ a, a:hover, a:focus {
 	margin-bottom: 15px;
 }
 
+.panel {
+	border-radius: 0px;
+	border: none;
+}
+
+.panel-default>.panel-heading {
+	border-radius: 0px;
+	background-color: $black;
+	color: white;
+}
+
+.panel-default .panel-body {
+	background-color: $black;
+}
+
+pre {
+	background-color: $grey;
+	border-radius: 0px;
+	border: none;
+	color: white;
+}
+
 @import "../modules/all";

@@ -18,7 +18,7 @@
         </div>
     </div>
 </section>
-<div class="container">
+<div class="container character-update">
     <div class="row">
         <div class="col-md-12">
             <form>
@@ -33,7 +33,7 @@
                         <div ng-repeat="(role,value) in character.ad.role" class="col-md-3">
                             <div class="checkbox">
                                 <label>
-                                    <input ng-model="character.ad.role[role]" type="checkbox"> 
+                                    <input ng-model="character.ad.role[role]" type="checkbox">
                                     <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
                                 </label>
                             </div>
@@ -68,6 +68,60 @@
                 <div class="form-group">
                     <label>{{"CHARACTER_CREATE_DESCRIPTION"|translate}}</label>
                     <textarea ng-model="character.ad.description" placeholder="{{'CHARACTER_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" class="form-control" rows="6"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>{{"CHARACTER_CREATE_PLAY_TIME"|translate}}</label>
+                    <table class="table table-condensed">
+                        <tr ng-class="{'played':obj.play===true}" ng-repeat="(day,obj) in character.ad.play_time">
+                            <td><input ng-model="obj.play" type="checkbox"></td>
+                            <td>{{day|uppercase|translate}}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="css3-metro-dropdown">
+                                            <select class="form-control">
+                                                <option value="00">00</option>
+                                                <option value="01">01</option>
+                                                <option value="02">02</option>
+                                                <option value="03">03</option>
+                                                <option value="04">04</option>
+                                                <option value="05">05</option>
+                                                <option value="06">06</option>
+                                                <option value="07">07</option>
+                                                <option value="08">08</option>
+                                                <option value="09">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="17">17</option>
+                                                <option value="18">18</option>
+                                                <option value="19">19</option>
+                                                <option value="20">20</option>
+                                                <option value="21">21</option>
+                                                <option value="22">22</option>
+                                                <option value="23">23</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="css3-metro-dropdown">
+                                            <select class="form-control">
+                                                <option value="00">00</option>
+                                                <option value="15">15</option>
+                                                <option value="30">30</option>
+                                                <option value="45">45</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{obj.end}}</td>
+                        </tr>
+                    </table>
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
             </form>

@@ -25,65 +25,130 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-10">
-                        <div ng-if="character">
-                        </div>
-                        <div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-2">
+                    <div class="col-md-12 m-b-20">
                         <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
                             <i class="fa fa-refresh"></i> {{"UPDATE_CHARACTER"|translate}}
                         </button>
-                        <div ng-if="queuePosition">
-                            <div>
-                                {{"QUEUE_POSITION"|translate}} {{queuePosition}}
+                        <span class="m-l-10" ng-if="queuePosition">
+                            {{"QUEUE_POSITION"|translate}} {{queuePosition}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-5">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img ng-src="https://render-api-{{ character.region}}.worldofwarcraft.com/static-render/{{ character.region}}/{{character.bnet.thumbnail}}" alt="avatar" class="img-responsive" />
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="class-{{character.bnet.class}} f-20 overflow">{{ character.name }}</div>
+                                        <div class="f-16 faction-{{character.bnet.faction}} overflow"> {{character.bnet.guild.name}}</div>
+                                        <div class="overflow">{{ character.realm }} - {{ character.region|uppercase}}</div>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <div ng-if="character.ad.role.tank||character.ad.role.healer||character.ad.role.melee_dps||character.ad.role.ranged_dps">
+                                            <span ng-if="character.ad.role.tank" class="m-l-10"><img src="/assets/images/icon/32/tank.png" /></span>
+                                            <span ng-if="character.ad.role.healer" class="m-l-10"><img src="/assets/images/icon/32/healing.png" /></span>
+                                            <span ng-if="character.ad.role.melee_dps" class="m-l-10"><img src="/assets/images/icon/32/dps.png" /></span>
+                                            <span ng-if="character.ad.role.ranged_dps" class="m-l-10"><img src="/assets/images/icon/32/melee-dps.png" /></span>
+                                        </div>
+                                        <div ng-if="!character.ad.role.tank&&!character.ad.role.healer&&!character.ad.role.melee_dps&&!character.ad.role.ranged_dps">
+                                            <span ng-if="talent.spec.name" ng-repeat="talent in character.bnet.talents" class="m-l-10">
+                                                <img ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/36/{{talent.spec.icon}}.jpg" alt="{{talent.spec.name}}" title="{{talent.spec.name}}" />
+                                            </span>
+                                        </div>
+                                        <div class="m-t-10">
+                                            <span class="m-l-10" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
+                                                <img ng-src="/assets/images/flag/32/{{language|lowercase}}.png" alt="flag-{{language|lowercase}}" title="{{'LANG_'+language|uppercase|translate}}" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="character.ad.description" class="row m-t-10">
+                                    <div class="col-md-12">
+                                        <pre class="m-t-5 m-b-0">{{character.ad.description}}</pre>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                {{"QUEUE_CHECK_MESSAGE"|translate}}
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-7">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Progress - <span wlfg-progress="character.bnet.progression.raids"></span>
+                            </div>
+                            <div class="panel-body">
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-                <div ng-if="character.ad" class="row">
+                <div class="row">
                     <div class="col-md-12">
-                        <h2>Recruitment</h2>
-                        <div class="row" ng-if="!character.ad">
-                            This character is not looking for a guild
-                        </div>
-                        <div class="row" ng-if="character.ad">
-                            <div class="col-md-3">
-                                <p>
-                                    <strong>Raids per week :</strong> {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
-                                </p>
-                                <p>
-                                    <strong>{{"LANGUAGE"|translate}}</strong> {{"LANG_"+character.ad.language|uppercase|translate}}
-                                </p>
-                                <p>
-                                    <strong>{{"TRANSFERT"|translate}}</strong>
-                                    <i class="fa fa-times" ng-if="!character.ad.transfert"></i>
-                                    <i class="fa fa-check" ng-if="character.ad.transfert"></i>
-                                </p>
-                                <p>
-                                    <strong>{{"ROLES"|translate}}</strong>
-                                    <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
-                                    <span ng-if="character.ad.role.healer" class="icon-small healer"></span>
-                                    <span ng-if="character.ad.role.dps" class="icon-small dps"></span>
-                                </p>
-
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        Item level :
+                                        <span ng-class="{legendary:character.bnet.items.averageItemLevelEquipped>=725,epic:character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,rare:character.bnet.items.averageItemLevelEquipped>=705&&character.bnet.items.averageItemLevelEquipped<715,uncommon:character.bnet.items.averageItemLevelEquipped<705}">
+                                            {{character.bnet.items.averageItemLevelEquipped}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        Item level bag :
+                                        <span ng-class="{legendary:character.bnet.items.averageItemLevel>=725,epic:character.bnet.items.averageItemLevel>=715&&character.bnet.items.averageItemLevel<725,rare:character.bnet.items.averageItemLevel>=705&&character.bnet.items.averageItemLevel<715,uncommon:character.bnet.items.averageItemLevel<705}">
+                                            {{character.bnet.items.averageItemLevel}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        Ring iLevel :
+                                        <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        Endles rune :
+                                    </div>
+                                    <div class="col-md-2">
+                                        T18 equipped : <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        Audit : <span wlfg-item-audit="character.bnet.items"></span>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="col-md-9" ng-if="character.ad.description!=''">
-                                <strong>{{"DESCRIPTION"|translate}}</strong>
-                                <pre>{{character.ad.description}}</pre>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-condensed">
+                                    <tr wlfg-item='character.bnet.items["head"]' slot="Head"></tr>
+                                    <tr wlfg-item='character.bnet.items["neck"]' slot="Neck"></tr>
+                                    <tr wlfg-item='character.bnet.items["shoulder"]' slot="Shoulder"></tr>
+                                    <tr wlfg-item='character.bnet.items["back"]' slot="Back"></tr>
+                                    <tr wlfg-item='character.bnet.items["chest"]' slot="Chest"></tr>
+                                    <tr wlfg-item='character.bnet.items["shirt"]' slot="Shirt"></tr>
+                                    <tr wlfg-item='character.bnet.items["tabard"]' slot="Tabard"></tr>
+                                    <tr wlfg-item='character.bnet.items["wrist"]' slot="Wrist"></tr>
+                                    <tr wlfg-item='character.bnet.items["mainHand"]' slot="Mainhand"></tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-condensed">
+                                    <tr wlfg-item='character.bnet.items["hands"]' slot="Hands"></tr>
+                                    <tr wlfg-item='character.bnet.items["waist"]' slot="Waist"></tr>
+                                    <tr wlfg-item='character.bnet.items["legs"]' slot="Legs"></tr>
+                                    <tr wlfg-item='character.bnet.items["feet"]' slot="Feet"></tr>
+                                    <tr wlfg-item='character.bnet.items["finger1"]' slot="Finger #1"></tr>
+                                    <tr wlfg-item='character.bnet.items["finger2"]' slot="Finger #2"></tr>
+                                    <tr wlfg-item='character.bnet.items["trinket1"]' slot="Trinket #1"></tr>
+                                    <tr wlfg-item='character.bnet.items["trinket2"]' slot="Trinket #2"></tr>
+                                    <tr wlfg-item='character.bnet.items["offHand"]' slot="Offhand"></tr>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <h2>Character</h2>
-                        //TODO les trucs du character
-                    </div>
+                </div>
 
 
                     <h2>Character Data</h2>

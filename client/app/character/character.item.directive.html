@@ -1,0 +1,17 @@
+<td class="bold">
+    {{slot}}
+</td>
+<td class="">
+    <a rel="item={{item.id}}" class="cursor-pointer">
+        <img ng-if="item.icon" ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{slot}}" title="{{item.name}}" />
+    </a>
+</td>
+<td class="quality-{{item.quality}}">
+    <a ng-if="item.name" rel="item={{item.id}}" class="cursor-pointer">
+        {{item.name}}
+    </a>
+    <span class="quality-1" ng-if="!item.name">n/a</span>
+</td>
+<td>
+    {{item.itemLevel}}
+</td>

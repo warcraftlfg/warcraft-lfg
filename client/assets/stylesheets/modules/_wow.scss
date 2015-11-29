@@ -1,9 +1,9 @@
 
-.legendary { color: rgb(255, 128, 0) }
-.epic { color: rgb(163, 53, 238) }
-.rare { color: rgb(0, 112, 255) }
-.uncommon { color: rgb(30, 255, 0) }
-.common { color: #666 }
+.legendary, .quality-5 { color: rgb(255, 128, 0) }
+.epic, .quality-4 { color: rgb(163, 53, 238) }
+.rare, .quality-3 { color: rgb(0, 112, 255) }
+.uncommon, .quality-2 { color: rgb(30, 255, 0) }
+.common, .quality-1 { color: #666 }
 
 .faction-1 { color: #B30000}
 .faction-0 { color: #0078FF}

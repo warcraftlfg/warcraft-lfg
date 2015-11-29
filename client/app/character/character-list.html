@@ -169,18 +169,25 @@
                                 </div>
                                 <div>
                                     iLvl : 
-                                    <span ng-class="{legendary:character.bnet.items.averageItemLevelEquipped>=725,epic:character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,rare:character.bnet.items.averageItemLevelEquipped>=705&&character.bnet.items.averageItemLevelEquipped<715,uncommon:character.bnet.items.averageItemLevelEquipped<705}">
+                                    <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=725,'epic':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'rare':character.bnet.items.averageItemLevelEquipped>=705&&character.bnet.items.averageItemLevelEquipped<715,'uncommon':character.bnet.items.averageItemLevelEquipped<705}">
                                         {{character.bnet.items.averageItemLevelEquipped}}
                                     </span>
                                 </div>
                                 <div>
-                                    <span wlfg-legendary-ring="{{character.bnet.items.finger1}}"></span>
-                                    <span wlfg-legendary-ring="{{character.bnet.items.finger2}}"></span>
+                                    Ring :&nbsp;
+                                    <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                 </div>
                             </div>
                             <div class="col-md-5 col-lg-4 character-class-{{character.bnet.class}}">
-                                <span wlfg-progress="{{character.bnet.progression.raids}}"></span>
-                                <span wlfg-warcraft-logs="{{character.warcraftLogs.logs}}"></span>
+                                <div class="wlfg-progress">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Progress : &nbsp;
+                                            <span wlfg-progress="character.bnet.progression.raids"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span wlfg-warcraft-logs="character.warcraftLogs.logs" character-class="character.bnet.class"></span>
                             </div>
                         </div>
                         <div class="character-timestamp">
