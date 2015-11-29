@@ -46,6 +46,7 @@
   "ALL_CLASSES": "All classes",
   "ALL_LANGUAGES": "All languages",
   "ALL_ROLES": "All roles",
+  "ALL_DAYS": "All days",
   "SELECT_ALL": "Select all",
   "SELECT_NONE": "Select none",
   "RESET": "Reset",
@@ -179,5 +180,12 @@
   "ROLES": "Roles",
   "ROADMAP":"Roadmap",
   "ROADMAP_DESCRIPTION":"And don't cha come back no more",
-  "LOGS":"Log(s)"
+  "LOGS":"Log(s)",
+  "MONDAY": "Monday",
+  "TUESDAY": "Tuesday",
+  "WEDNESDAY": "Wednesday",
+  "THURSDAY": "Thursday",
+  "FRIDAY": "Friday",
+  "SATURDAY": "Saturday",
+  "SUNDAY": "Sunday"
 }
