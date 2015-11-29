@@ -6,6 +6,7 @@ function legendaryRing() {
     var directive = {
         link: link,
         restrict: 'A',
+        scope: true,
         templateUrl: 'app/character/character.legendary-ring.directive.html'
     };
     return directive;
