@@ -15,6 +15,7 @@ function wlfgItem() {
         scope.$watch(attrs.wlfgItem, function(item){
             if (item) {
                 scope.item = item;
+                scope.bonus = item.bonusLists.join(':');
             }
         }, true);
 

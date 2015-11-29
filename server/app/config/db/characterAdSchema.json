@@ -67,15 +67,33 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -84,15 +102,33 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -101,15 +137,33 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -118,15 +172,33 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -135,15 +207,33 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -152,15 +242,33 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -169,15 +277,33 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         }

@@ -104,9 +104,19 @@
   tr{
     td {
       text-decoration: line-through;
+      &.start,&.end{
+        width:40%;
+      }
+      &.play{
+        width:10%;
+      }
     }
     &.played td {
       text-decoration:none;
+    }
+
+    label{
+      line-height:29px;
     }
   }
 }
