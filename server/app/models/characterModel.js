@@ -238,6 +238,20 @@ module.exports.getAds = function(number, filters, callback){
             criteria["$or"]=roles;
 
     }
+    if(filters.days && filters.days.length>0){
+        var days = [];
+        filters.days.forEach(function(day){
+            var tmpObj = {};
+            tmpObj["ad.play_time."+day.id+".play"] = true;
+            days.push(tmpObj);
+
+        });
+        if(criteria["$or"])
+            criteria["$or"].push(days);
+        else
+            criteria["$or"]=days;
+    }
+
     if(filters.raids_per_week && filters.raids_per_week.active){
         criteria["ad.raids_per_week.min"] = {$lte:filters.raids_per_week.min};
         criteria["ad.raids_per_week.max"] = {$gte:filters.raids_per_week.max};
