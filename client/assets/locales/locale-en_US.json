@@ -31,6 +31,7 @@
   "CHARACTER_CREATE_ROLE": "Role",
   "CHARACTER_CREATE_TRANSFERT": "Transfert",
   "CHARACTER_CREATE_RPW": "Number of day you want to raid (min / max)",
+  "CHARACTER_CREATE_PLAY_TIME": "Availability",
   "CHARACTER_CREATE_PRIMARY_LANGUAGE": "Primary language",
   "CHARACTER_CREATE_DESCRIPTION": "Description",
   "CHARACTER_CREATE_DESCRIPTION_PLACEHOLDER": "Let people know more about you ...",
