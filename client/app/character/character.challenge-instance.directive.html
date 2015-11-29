@@ -1,9 +1,10 @@
 <td class="bold">
-	{{ record.map.name }} {{ record.bestTime.time }} {{ record.map.goldCriteria.time }}
+	{{ record.map.name }}
 </td>
 <td>
 	{{ "MEDAL_"+record.bestMedal|translate }}
 </td>
-<td ng-class="{'epic':record.bestTime.time<=record.map.goldCriteria.time,'rare':record.bestTime.time<=record.map.silverCriteria.time&&record.bestTime.time>record.map.goldCriteria.time,'uncommon':record.bestTime.time<=record.map.bronzeCriteria.time&&record.bestTime.time>record.map.goldCriteria.time&&record.bestTime.time>record.map.silverCriteria.time,'common':record.bestTime.time>record.map.bronzeCriteria.time">
+<td ng-class="{'epic':record.bestTime.time<=record.map.goldCriteria.time,'rare':record.bestTime.time<=record.map.silverCriteria.time&&record.bestTime.time>record.map.goldCriteria.time,'uncommon':record.bestTime.time<=record.map.bronzeCriteria.time&&record.bestTime.time>record.map.goldCriteria.time&&record.bestTime.time>record.map.silverCriteria.time,'common':record.bestTime.time>record.map.bronzeCriteria.time}">
 	<span ng-if="record.bestTime.hours > 0">{{ record.bestTime.hours}}h</span> <span ng-if="record.bestTime.minutes > 0">{{ record.bestTime.minutes}}m</span> <span ng-if="record.bestTime.seconds > 0">{{ record.bestTime.seconds}}s</span>
+	<span ng-if="record.bestMedal=='NONE'" class="quality-1">n/a</span>
 </td>

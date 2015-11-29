@@ -87,8 +87,8 @@
                             <div class="col-md-6">
                                 <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
                                     <tr ng-repeat="boss in raid.bosses | limitTo:7">
-                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">{{ boss.name }}</td>
-                                        <td>
+                                        <td class="bold">{{ boss.name }}</td>
+                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
@@ -115,8 +115,8 @@
                             <div class="col-md-6">
                                 <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
                                     <tr ng-repeat="boss in raid.bosses | limitTo:-6">
-                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">{{ boss.name }}</td>
-                                        <td>
+                                        <td class="bold">{{ boss.name }}</td>
+                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
