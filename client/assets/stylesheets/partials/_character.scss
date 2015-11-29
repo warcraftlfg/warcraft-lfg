@@ -99,3 +99,14 @@
 .character-read{
 
 }
+
+.character-update{
+  tr{
+    td {
+      text-decoration: line-through;
+    }
+    &.played td {
+      text-decoration:none;
+    }
+  }
+}

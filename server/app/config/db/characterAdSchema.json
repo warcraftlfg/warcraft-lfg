@@ -58,6 +58,130 @@
           "max":7
         }
       }
+    },
+    "play_time": {
+      "type": "object",
+      "properties":{
+        "monday": {
+          "type": "object",
+          "properties": {
+            "play": {
+              "type": "boolean",
+              "default": "false"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0
+            },
+            "end": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        },
+        "tuesday": {
+          "type": "object",
+          "properties": {
+            "play": {
+              "type": "boolean",
+              "default": "false"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0
+            },
+            "end": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        },
+        "wednesday": {
+          "type": "object",
+          "properties": {
+            "play": {
+              "type": "boolean",
+              "default": "false"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0
+            },
+            "end": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        },
+        "thursday": {
+          "type": "object",
+          "properties": {
+            "play": {
+              "type": "boolean",
+              "default": "false"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0
+            },
+            "end": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        },
+        "friday": {
+          "type": "object",
+          "properties": {
+            "play": {
+              "type": "boolean",
+              "default": "false"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0
+            },
+            "end": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        },
+        "saturday": {
+          "type": "object",
+          "properties": {
+            "play": {
+              "type": "boolean",
+              "default": "false"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0
+            },
+            "end": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        },
+        "sunday": {
+          "type": "object",
+          "properties": {
+            "play": {
+              "type": "boolean",
+              "default": "false"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0
+            },
+            "end": {
+              "type": "integer",
+              "default": 0
+            }
+          }
+        }
+      }
     }
   }
 }
