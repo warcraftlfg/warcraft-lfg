@@ -71,7 +71,7 @@ module.exports.update = function(region,realm,name,priority,callback){
 
             async.eachSeries(guild.members,function(member,callback){
                 //if(member.character.level >= 100) {
-                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, priority<=5?priority:0, function (error) {
+                characterUpdateModel.insertOrUpdate(region, member.character.realm, member.character.name, priority<=5?priority:3, function (error) {
                     if (error)
                         return callback(error);
                     callback();
