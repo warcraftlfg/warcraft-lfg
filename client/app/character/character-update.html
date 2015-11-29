@@ -73,7 +73,7 @@
                     <label>{{"CHARACTER_CREATE_PLAY_TIME"|translate}}</label>
                     <table class="table table-condensed">
                         <tr ng-class="{'played':obj.play===true}" ng-repeat="(day,obj) in character.ad.play_time">
-                            <td class="play"><input ng-model="obj.play" type="checkbox"></td>
+                            <td class="play text-center"><input ng-model="obj.play" type="checkbox"></td>
                             <td class="day">{{day|uppercase|translate}}</td>
                             <td class="start">
                                 <div class="row" ng-show="obj.play">

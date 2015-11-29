@@ -378,6 +378,19 @@ module.exports.getAds = function (number,filters,callback) {
         if(recruitment.length>0)
             criteria["$or"] = recruitment;
     }
+    if(filters.days && filters.days.length>0){
+        var days = [];
+        filters.days.forEach(function(day){
+            var tmpObj = {};
+            tmpObj["ad.play_time."+day.id+".play"] = true;
+            days.push(tmpObj);
+
+        });
+        if(criteria["$or"])
+            criteria["$or"].push(days);
+        else
+            criteria["$or"]=days;
+    }
 
     var projection  = {};
     projection["name"] = 1;

@@ -61,8 +61,20 @@
                                 output-properties="id role"
                                 tick-property="selected"
                                 group-property="msGroup"
-                                translation="localClasses"
-                                >
+                                translation="localClasses">
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div
+                                isteven-multi-select
+                                input-model="days"
+                                output-model="filters.days"
+                                button-label="name"
+                                item-label="name"
+                                output-properties="id"
+                                tick-property="selected"
+                                group-property="msGroup"
+                                translation="localDays">
                         </div>
                     </div>
                     <div class="m-b-20">
@@ -97,7 +109,11 @@
                                 <div>
                                     Raids per week : {{guild.ad.raids_per_week.min}} - {{guild.ad.raids_per_week.max}}
                                 </div>
-                                <div>
+                                <div ng-if="
+                                guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk ||
+                                guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk ||
+                                guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue ||
+                                guild.ad.recruitment.heal.priest ||  guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.hunter || guild.ad.recruitment.heal.warlock || guild.ad.recruitment.heal.mage">
                                     Role :
                                     <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk" class="icon-small tank"></span>
                                     <span ng-if="guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk" class="icon-small heal"></span>
