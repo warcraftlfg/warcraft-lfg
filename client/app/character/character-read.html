@@ -75,7 +75,31 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                    <div class="col-md-6 col-lg-7">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                Raid per week : {{ character.ad.raids_per_week.min }} - {{ character.ad.raids_per_week.max }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-condensed">
+                                    <tr ng-repeat="(key, day) in character.ad.play_time" ng-if="day.play == true">
+                                        <td>
+                                            {{ 'DAY_'+key|uppercase|translate }}
+                                        </td>
+                                        <td>
+                                            {{ ("0"+day.start.hour).slice(-2) }}h {{ ("0"+day.start.min).slice(-2) }}
+                                        </td>
+                                        <td>
+                                            {{ ("0"+day.end.hour).slice(-2) }}h {{ ("0"+day.end.min).slice(-2) }}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
@@ -93,7 +117,7 @@
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
-                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">No kill</span>
                                         </td>
                                         <td>
                                             <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
@@ -121,7 +145,7 @@
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
-                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">No kill</span>
                                         </td>
                                         <td>
                                             <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
