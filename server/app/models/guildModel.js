@@ -181,7 +181,6 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                 if (reduced[values[idx].boss] == null) {
                     reduced[values[idx].boss] = {};
                     reduced[values[idx].boss].timestamps = [];
-
                 }
                 reduced[values[idx].boss].timestamps.push(values[idx].timestamp);
             }
@@ -190,6 +189,12 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
     };
 
     var finalize = function(key,value){
+        if(value.timestamp){
+            var obj = {};
+            obj[value.boss] = {};
+            obj[value.boss].timestamps = [value.timestamp];
+            value = obj;
+        }
         return value;
     };
 
