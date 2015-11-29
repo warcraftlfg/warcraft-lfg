@@ -95,8 +95,12 @@ function wlfgItemAudit() {
                     if (item.tooltipParams && item.tooltipParams.gem0) {
                         if (item.tooltipParams.gem0.indexOf(gemEnchant) == -1) {
                             errorCount++;
-                            errors.push('No/Low '+key+' gem');
+                            errors.push('Low '+key+' gem');
                         }
+                    }
+                    if (item.tooltipParams && item.tooltipParams.gem0 && item.bonusLists && item.bonusLists.indexOf(565) != -1 ){
+                        errorCount++;
+                        errors.push('No '+key+' gem');
                     }
                 });
             }
