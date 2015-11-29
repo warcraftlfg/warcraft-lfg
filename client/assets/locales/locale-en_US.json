@@ -24,6 +24,7 @@
   "GUILD_CREATE_DESCRIPTION_PLACEHOLDER": "Describe your guild and what you are looking for here ...",
   "GUILD_CREATE_RECRUITMENT_CLASS": "Recruitment",
   "GUILD_CREATE_RAIDS_PER_WEEK": "Raids per week",
+  "GUILD_CREATE_PLAY_TIME": "Raiding days",
   "GUILD_CREATE_PRIMARY_LANGUAGE": "Primary Language",
   "GUILD_CREATE_CHOOSE": "Choose a guild to add",
   "NO_GUILD_FOUND_FOR_REGION": "No guild found for this region",

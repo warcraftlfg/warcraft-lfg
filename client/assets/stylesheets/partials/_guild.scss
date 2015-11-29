@@ -79,6 +79,27 @@
 
 }
 
-.character-read{
+.guild-read{
 
+}
+
+.guild-update{
+  tr{
+    td {
+      text-decoration: line-through;
+      &.start,&.end{
+        width:40%;
+      }
+      &.play{
+        width:5%;
+      }
+    }
+    &.played td {
+      text-decoration:none;
+    }
+
+    label{
+      line-height:29px;
+    }
+  }
 }

@@ -120,7 +120,36 @@
         $scope.languages.unshift("");
 
 
-        $translate(['ALL_CLASSES','SELECT_ALL','SELECT_NONE','RESET','SEARCH','HEALS','TANKS','RANGED_DPS','MELEE_DPS','CLASS_1', 'CLASS_2', 'CLASS_3', 'CLASS_4', 'CLASS_5', 'CLASS_6', 'CLASS_7', 'CLASS_8', 'CLASS_9', 'CLASS_10', 'CLASS_11']).then(function (translations) {
+        $translate([
+            'ALL_CLASSES',
+            'ALL_DAYS',
+            'SELECT_ALL',
+            'SELECT_NONE',
+            'RESET',
+            'SEARCH',
+            'HEALS',
+            'TANKS',
+            'RANGED_DPS',
+            'MELEE_DPS',
+            'CLASS_1',
+            'CLASS_2',
+            'CLASS_3',
+            'CLASS_4',
+            'CLASS_5',
+            'CLASS_6',
+            'CLASS_7',
+            'CLASS_8',
+            'CLASS_9',
+            'CLASS_10',
+            'CLASS_11',
+            'MONDAY',
+            'TUESDAY',
+            'WEDNESDAY',
+            'THURSDAY',
+            'FRIDAY',
+            'SATURDAY',
+            'SUNDAY'
+        ]).then(function (translations) {
             $scope.classes = [
                 {name: '<span class="icon-small tank">'+translations.TANKS+'</span>', msGroup: true},
                 {id:1, role:"tank", name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
@@ -152,12 +181,28 @@
                 {id:8, role:"ranged_dps", name: "<span class='class-8'>"+translations.CLASS_8+"</span>", icon:"<img src='/assets/images/icon/16/class-8.png'>", selected:false},
                 { msGroup: false}
             ];
+            $scope.days = [
+                {id:'monday', name: translations.MONDAY, selected:false},
+                {id:'tuesday', name: translations.TUESDAY, selected:false},
+                {id:'wednesday', name: translations.WEDNESDAY, selected:false},
+                {id:'thursday', name: translations.THURSDAY, selected:false},
+                {id:'friday', name: translations.FRIDAY, selected:false},
+                {id:'saturday', name: translations.SATURDAY, selected:false},
+                {id:'sunday', name: translations.SUNDAY, selected:false},
+            ];
             $scope.localClasses = {
                 selectAll       : translations.SELECT_ALL,
                 selectNone      : translations.SELECT_NONE,
                 reset           : translations.RESET,
                 search          : translations.SEARCH,
                 nothingSelected : translations.ALL_CLASSES
+            };
+            $scope.localDays = {
+                selectAll       : translations.SELECT_ALL,
+                selectNone      : translations.SELECT_NONE,
+                reset           : translations.RESET,
+                search          : translations.SEARCH,
+                nothingSelected : translations.ALL_DAYS
             };
         });
 
@@ -169,6 +214,8 @@
         $scope.filters.raids_per_week = {};
         $scope.filters.raids_per_week.min = 1;
         $scope.filters.raids_per_week.max = 7;
+        $scope.filters.days = {};
+
 
         /* if params load filters */
         if($stateParams.region)
@@ -185,6 +232,9 @@
             $scope.updateFilters();
         });
         $scope.$watch('filters.classes', function() {
+            $scope.updateFilters();
+        });
+        $scope.$watch('filters.days', function() {
             $scope.updateFilters();
         });
 

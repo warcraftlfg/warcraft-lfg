@@ -181,7 +181,6 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                 if (reduced[values[idx].boss] == null) {
                     reduced[values[idx].boss] = {};
                     reduced[values[idx].boss].timestamps = [];
-
                 }
                 reduced[values[idx].boss].timestamps.push(values[idx].timestamp);
             }
@@ -190,6 +189,12 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
     };
 
     var finalize = function(key,value){
+        if(value.timestamp){
+            var obj = {};
+            obj[value.boss] = {};
+            obj[value.boss].timestamps = [value.timestamp];
+            value = obj;
+        }
         return value;
     };
 
@@ -199,9 +204,9 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             name:name,
             realm:realm,
             $or:[
-                {$and:[{roster : {$exists:true}},{difficulty:"normal"},{$where:"this.roster.length > 8"}]},
-                {$and:[{roster : {$exists:true}},{difficulty:"heroic"},{$where:"this.roster.length > 8"}]},
-                {$and:[{roster : {$exists:true}},{difficulty:"mythic"},{$where:"this.roster.length > 16"}]}
+                {$and:[{roster : {$exists:true}},{difficulty:"normal"},{$where:"this.roster.length >= 8"}]},
+                {$and:[{roster : {$exists:true}},{difficulty:"heroic"},{$where:"this.roster.length >= 8"}]},
+                {$and:[{roster : {$exists:true}},{difficulty:"mythic"},{$where:"this.roster.length >= 16"}]}
             ]
         },
         { bossWeight:1,timestamp:1}
@@ -377,6 +382,19 @@ module.exports.getAds = function (number,filters,callback) {
         });
         if(recruitment.length>0)
             criteria["$or"] = recruitment;
+    }
+    if(filters.days && filters.days.length>0){
+        var days = [];
+        filters.days.forEach(function(day){
+            var tmpObj = {};
+            tmpObj["ad.play_time."+day.id+".play"] = true;
+            days.push(tmpObj);
+
+        });
+        if(criteria["$or"])
+            criteria["$or"].push(days);
+        else
+            criteria["$or"]=days;
     }
 
     var projection  = {};
