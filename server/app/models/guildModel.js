@@ -199,9 +199,9 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             name:name,
             realm:realm,
             $or:[
-                {$and:[{roster : {$exists:true}},{difficulty:"normal"},{$where:"this.roster.length > 8"}]},
-                {$and:[{roster : {$exists:true}},{difficulty:"heroic"},{$where:"this.roster.length > 8"}]},
-                {$and:[{roster : {$exists:true}},{difficulty:"mythic"},{$where:"this.roster.length > 16"}]}
+                {$and:[{roster : {$exists:true}},{difficulty:"normal"},{$where:"this.roster.length >= 8"}]},
+                {$and:[{roster : {$exists:true}},{difficulty:"heroic"},{$where:"this.roster.length >= 8"}]},
+                {$and:[{roster : {$exists:true}},{difficulty:"mythic"},{$where:"this.roster.length >= 16"}]}
             ]
         },
         { bossWeight:1,timestamp:1}
