@@ -92,7 +92,6 @@ function wlfgItemAudit() {
                 }
 
                 angular.forEach(items, function(item, key) {
-                    console.log(item);
                     if (item.tooltipParams && item.tooltipParams.gem0) {
                         if (gemEnchant.indexOf(item.tooltipParams.gem0) == -1) {
                             errorCount++;
@@ -106,7 +105,6 @@ function wlfgItemAudit() {
                 });
             }
 
-            console.log(errors);
             scope.errorCount = errorCount;
             scope.errors = errors;
         }, true);

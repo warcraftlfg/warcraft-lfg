@@ -76,13 +76,13 @@
                             <td><input ng-model="obj.play" type="checkbox"></td>
                             <td>{{day|uppercase|translate}}</td>
                             <td>
-                                <div class="row">
+                                <div class="row" ng-show="obj.play">
                                     <div class="col-md-3">
                                         Start at
                                     </div>
                                     <div class="col-md-4">
                                         <div class="css3-metro-dropdown">
-                                            <select convert-to-number ng-model="obj.start.hour" class="form-control">
+                                            <select wlfg-convert-to-number ng-model="obj.start.hour" class="form-control">
                                                 <option value="0">00</option>
                                                 <option value="1">01</option>
                                                 <option value="2">02</option>
@@ -112,7 +112,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="css3-metro-dropdown">
-                                            <select convert-to-number ng-model="obj.start.min" class="form-control">
+                                            <select wlfg-convert-to-number ng-model="obj.start.min" class="form-control">
                                                 <option value="0">00</option>
                                                 <option value="15">15</option>
                                                 <option value="30">30</option>
@@ -123,13 +123,13 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="row">
+                                <div class="row" ng-show="obj.play">
                                     <div class="col-md-3">
                                         End at :
                                     </div>
                                     <div class="col-md-4">
                                         <div class="css3-metro-dropdown">
-                                            <select convert-to-number ng-model="obj.end.hour" class="form-control">
+                                            <select wlfg-convert-to-number ng-model="obj.end.hour" class="form-control">
                                                 <option value="0">00</option>
                                                 <option value="1">01</option>
                                                 <option value="2">02</option>
@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="css3-metro-dropdown">
-                                            <select convert-to-number ng-model="obj.end.min" class="form-control">
+                                            <select wlfg-convert-to-number ng-model="obj.end.min" class="form-control">
                                                 <option value="0">00</option>
                                                 <option value="15">15</option>
                                                 <option value="30">30</option>
