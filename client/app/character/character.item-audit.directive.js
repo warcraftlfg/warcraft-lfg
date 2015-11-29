@@ -30,9 +30,9 @@ function wlfgItemAudit() {
             var errors = [];
             if (items) {
                 if (items.neck && items.neck.tooltipParams.enchant) {
-                    if (item.neck.tooltipParams.enchant.indexOf(neckEnchant) == -1) {
+                    if (neckEnchant.indexOf(items.neck.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        error.push('Low neck enchant');
+                        errors.push('Low neck enchant');
                     }
                 } else {
                     errorCount++;
@@ -40,9 +40,9 @@ function wlfgItemAudit() {
                 }
 
                 if (items.back && items.back.tooltipParams.enchant) {
-                    if (item.back.tooltipParams.enchant.indexOf(backEnchant) == -1) {
+                    if (backEnchant.indexOf(items.back.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        error.push('Low back enchant');
+                        errors.push('Low back enchant');
                     }
                 } else {
                     errorCount++;
@@ -50,9 +50,9 @@ function wlfgItemAudit() {
                 }
 
                 if (items.finger1 && items.finger1.tooltipParams.enchant) {
-                    if (item.finger1.tooltipParams.enchant.indexOf(ringEnchant) == -1) {
+                    if (ringEnchant.indexOf(items.finger1.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        error.push('Low finger1 enchant');
+                        errors.push('Low finger1 enchant');
                     }
                 } else {
                     errorCount++;
@@ -60,9 +60,9 @@ function wlfgItemAudit() {
                 }
 
                 if (items.finger2 && items.finger2.tooltipParams.enchant) {
-                    if (item.finger2.tooltipParams.enchant.indexOf(ringEnchant) == -1) {
+                    if (ringEnchant.indexOf(items.finger2.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        error.push('Low finger2 enchant');
+                        errors.push('Low finger2 enchant');
                     }
                 } else {
                     errorCount++;
@@ -70,9 +70,9 @@ function wlfgItemAudit() {
                 }
 
                 if (items.mainHand && items.mainHand.tooltipParams.enchant) {
-                    if (item.mainHand.tooltipParams.enchant.indexOf(weaponEnchant) == -1) {
+                    if (weaponEnchant.indexOf(items.mainHand.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        error.push('Low mainHand enchant');
+                        errors.push('Low mainHand enchant');
                     }
                 } else {
                     errorCount++;
@@ -81,9 +81,9 @@ function wlfgItemAudit() {
 
                 if (items.offHand && items.offHand.weaponInfo) {
                     if (items.offHand.tooltipParams.enchant) {
-                        if (item.offhand.tooltipParams.enchant.indexOf(weaponEnchant) == -1) {
+                        if (weaponEnchant.indexOf(items.offhand.tooltipParams.enchant) == -1) {
                             errorCount++;
-                            error.push('Low offhand enchant');
+                            errors.push('Low offhand enchant');
                         }
                     } else {
                         errorCount++;
@@ -92,13 +92,14 @@ function wlfgItemAudit() {
                 }
 
                 angular.forEach(items, function(item, key) {
+                    console.log(item);
                     if (item.tooltipParams && item.tooltipParams.gem0) {
-                        if (item.tooltipParams.gem0.indexOf(gemEnchant) == -1) {
+                        if (gemEnchant.indexOf(item.tooltipParams.gem0) == -1) {
                             errorCount++;
                             errors.push('Low '+key+' gem');
                         }
                     }
-                    if (item.tooltipParams && item.tooltipParams.gem0 === null && item.bonusLists && item.bonusLists.indexOf(565) != -1 ){
+                    if (item.tooltipParams && !item.tooltipParams.gem0 && item.bonusLists && item.bonusLists.indexOf(565) != -1 ){
                         errorCount++;
                         errors.push('No '+key+' gem');
                     }
