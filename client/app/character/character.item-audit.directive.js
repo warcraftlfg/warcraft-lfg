@@ -98,7 +98,7 @@ function wlfgItemAudit() {
                             errors.push('Low '+key+' gem');
                         }
                     }
-                    if (item.tooltipParams && item.tooltipParams.gem0 == null && item.bonusLists && item.bonusLists.indexOf(565) != -1 ){
+                    if (item.tooltipParams && item.tooltipParams.gem0 === null && item.bonusLists && item.bonusLists.indexOf(565) != -1 ){
                         errorCount++;
                         errors.push('No '+key+' gem');
                     }
