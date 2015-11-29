@@ -26,56 +26,84 @@ function wlfgItemAudit() {
             var weaponEnchant = [5336, 5384, 5335, 5334, 5330, 5337, 5275, 5276, 3366, 3367, 3368, 3370, 3595, 3847];
             var gemEnchant = [127760, 127761, 127762, 127763, 127764, 127765];
 
-            var error = 0;
-            var error_msg = '';
+            var errorCount = 0;
+            var errors = [];
             if (items) {
                 if (items.neck && items.neck.tooltipParams.enchant) {
+                    if (!item.neck.tooltipParams.enchant.indexOf(neckEnchant) >= 0) {
+                        errorCount++;
+                        error.push('Low neck enchant');
+                    }
                 } else {
-                    error++;
-                    error_msg += 'No neck enchant.<br>';
+                    errorCount++;
+                    errors.push('No neck enchant.');
                 }
 
                 if (items.back && items.back.tooltipParams.enchant) {
-
+                    if (!item.back.tooltipParams.enchant.indexOf(backEnchant) >= 0) {
+                        errorCount++;
+                        error.push('Low back enchant');
+                    }
                 } else {
-                    error++;
-                    error_msg += 'No back enchant.<br>';
+                    errorCount++;
+                    errors.push('No back enchant.');
                 }
 
                 if (items.finger1 && items.finger1.tooltipParams.enchant) {
-
+                    if (!item.finger1.tooltipParams.enchant.indexOf(ringEnchant) >= 0) {
+                        errorCount++;
+                        error.push('Low finger1 enchant');
+                    }
                 } else {
-                    error++;
-                    error_msg += 'No finger2 enchant.<br>';
+                    errorCount++;
+                    errors.push('No finger1 enchant.');
                 }
 
                 if (items.finger2 && items.finger2.tooltipParams.enchant) {
-
+                    if (!item.finger2.tooltipParams.enchant.indexOf(ringEnchant) >= 0) {
+                        errorCount++;
+                        error.push('Low finger2 enchant');
+                    }
                 } else {
-                    error++;
-                    error_msg += 'No finger2 enchant.<br>';
+                    errorCount++;
+                    errors.push('No finger2 enchant.');
                 }
 
                 if (items.mainHand && items.mainHand.tooltipParams.enchant) {
-
+                    if (!item.mainHand.tooltipParams.enchant.indexOf(weaponEnchant) >= 0) {
+                        errorCount++;
+                        error.push('Low mainHand enchant');
+                    }
                 } else {
-                    error++;
-                    error_msg += 'No mainHand enchant.<br>';
+                    errorCount++;
+                    errors.push('No mainHand enchant.');
                 }
 
                 if (items.offHand && items.offHand.weaponInfo) {
                     if (items.offHand.tooltipParams.enchant) {
-
+                        if (!item.offhand.tooltipParams.enchant.indexOf(weaponEnchant) >= 0) {
+                            errorCount++;
+                            error.push('Low offhand enchant');
+                        }
                     } else {
-                        error++;
-                        error_msg += 'No offhand enchant.<br>';
+                        errorCount++;
+                        errors.push('No offhand enchant.');
                     }
                 }
+
+                angular.forEach(items, function(item, key) {
+                    if (item.tooltipParams && item.tooltipParams.gem0) {
+                        if (!item.tooltipParams.gem0.indexOf(gemEnchant) >= 0) {
+                            errorCount++;
+                            errors.push('No/Low '+key+' gem');
+                        }
+                    }
+                });
             }
 
-            error_msg = "toto";
-            scope.error = error;
-            scope.error_msg = error_msg;
+            console.log(errors);
+            scope.errorCount = errorCount;
+            scope.errors = errors;
         }, true);
     }
 }
