@@ -67,7 +67,7 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
               "type": "object",
@@ -102,7 +102,7 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
               "type": "object",
@@ -137,7 +137,7 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
               "type": "object",
@@ -172,7 +172,7 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
               "type": "object",
@@ -207,7 +207,7 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
               "type": "object",
@@ -242,7 +242,7 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
               "type": "object",
@@ -277,7 +277,7 @@
           "properties": {
             "play": {
               "type": "boolean",
-              "default": "false"
+              "default": false
             },
             "start": {
               "type": "object",

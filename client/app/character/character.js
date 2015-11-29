@@ -79,7 +79,6 @@
 
         $scope.save = function(){
             $scope.$parent.loading = true;
-            console.log($scope.character);
             socket.emit('put:characterAd',$scope.character);
         };
 
