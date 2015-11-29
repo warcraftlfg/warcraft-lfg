@@ -81,7 +81,7 @@ function wlfgItemAudit() {
 
                 if (items.offHand && items.offHand.weaponInfo) {
                     if (items.offHand.tooltipParams.enchant) {
-                        if (weaponEnchant.indexOf(items.offhand.tooltipParams.enchant) == -1) {
+                        if (weaponEnchant.indexOf(items.offHand.tooltipParams.enchant) == -1) {
                             errorCount++;
                             errors.push('Low offhand enchant');
                         }

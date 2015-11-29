@@ -44,8 +44,9 @@
                                     </div>
                                     <div class="col-md-5">
                                         <div class="class-{{character.bnet.class}} f-20 overflow">{{ character.name }}</div>
-                                        <div class="f-16 faction-{{character.bnet.faction}} overflow"> {{character.bnet.guild.name}}</div>
+                                        <div class="faction-{{character.bnet.faction}} overflow"> {{character.bnet.guild.name}}</div>
                                         <div class="overflow">{{ character.realm }} - {{ character.region|uppercase}}</div>
+                                         <div class="overflow">{{"RACE_"+character.bnet.race|translate }} - {{ character.bnet.level }}</div>
                                     </div>
                                     <div class="col-md-4 text-right">
                                         <div ng-if="character.ad.role.tank||character.ad.role.healer||character.ad.role.melee_dps||character.ad.role.ranged_dps">
@@ -74,17 +75,75 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-7">
+                </div>  
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Progress - <span wlfg-progress="character.bnet.progression.raids"></span>
-                            </div>
                             <div class="panel-body">
-                                
+                                Progress (T18) : <span wlfg-progress="character.bnet.progression.raids"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
+                                    <tr ng-repeat="boss in raid.bosses | limitTo:7">
+                                        <td class="bold">{{ boss.name }}</td>
+                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
+                                            <span ng-if="boss.mythicKills>0">Mythic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">{{boss.heroicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">{{boss.normalKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">{{boss.lfrKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">0</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0" am-time-ago="boss.mythicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0" am-time-ago="boss.heroicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0" am-time-ago="boss.normalTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0" am-time-ago="boss.lfrTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
+                                    <tr ng-repeat="boss in raid.bosses | limitTo:-6">
+                                        <td class="bold">{{ boss.name }}</td>
+                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
+                                            <span ng-if="boss.mythicKills>0">Mythic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">{{boss.heroicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">{{boss.normalKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">{{boss.lfrKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">0</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0" am-time-ago="boss.mythicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0" am-time-ago="boss.heroicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0" am-time-ago="boss.normalTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0" am-time-ago="boss.lfrTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
@@ -107,10 +166,10 @@
                                         <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        Endles rune :
+                                        T18 equipped : <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        T18 equipped : <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
+                                        Endless rune : <span wlfg-reputation-rune="character.bnet.reputation"></span>
                                     </div>
                                     <div class="col-md-2">
                                         Audit : <span wlfg-item-audit="character.bnet.items"></span>
@@ -150,20 +209,51 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        Gold :  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="gold"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        Silver :  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="silver"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        Bronze : <span wlfg-challenge-medal="character.bnet.achievements" medal-type="copper"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                       Tank : <span wlfg-achievement-pg="character.bnet.achievements" pg-type="tank"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        DPS : <span wlfg-achievement-pg="character.bnet.achievements" pg-type="dps"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        Healer : <span wlfg-achievement-pg="character.bnet.achievements" pg-type="healer"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <h2>Character Data</h2>
-                    <div ng-if="character.bnet">
-                        <code>{{character.bnet}}</code>
-                    </div>
-                    <div ng-if="!character.bnet">
-                        This character is not yet in our database
-                    </div>
-                    <h2>Character Wlogs</h2>
-                    <div ng-if="character.warcraftLogs">
-                        <code>{{character.warcraftLogs}}</code>
-                    </div>
-                    <div ng-if="!character.warcraftLogs">
-                        This character logs are not yet in our database or doesn't exist. Try update
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-condensed">
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1182"></tr>
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1208"></tr>
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1176"></tr>
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1279"></tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-condensed">
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1358"></tr>
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1195"></tr>
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1209"></tr>
+                                    <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1175"></tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
