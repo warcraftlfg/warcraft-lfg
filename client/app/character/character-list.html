@@ -56,16 +56,6 @@
                             </select>
                         </span>
                     </div>
-                    <!-- #TODO
-                    <div class="row m-b-20">
-                        <div class="col-md-6 text-center">
-                            <img src="/assets/images/icon/64/alliance.png" for="faction-horde" class="img-responsive center-block" />
-                        </div>
-                        <div class="col-md-6">
-                            <img src="/assets/images/icon/64/horde.png" class="img-responsive center-block" />
-                        </div>
-                    </div>
-                    -->
                     <div class="m-b-20">
                         <div isteven-multi-select
                              input-model="roles"
@@ -78,22 +68,6 @@
                         >
                         </div>
                     </div>
-                    <!-- #TODO
-                    <div class="row m-b-20">
-                        <div class="col-md-3 col-lg-3 text-center">
-                            <img src="/assets/images/icon/64/tank.png" class="img-responsive center-block" />
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <img src="/assets/images/icon/64/healing.png" class="img-responsive center-block" />
-                        </div>
-                        <div class="col-md-3 col-lg-3 text-center">
-                            <img src="/assets/images/icon/64/ranged-dps.png" class="img-responsive center-block" />
-                        </div>
-                        <div class="col-md-3 col-lg-3">
-                            <img src="/assets/images/icon/64/melee-dps.png" class="img-responsive center-block" />
-                        </div>
-                    </div>
-                    -->
                     <div class="m-b-20">
                         <div isteven-multi-select
                              input-model="classes"
@@ -101,9 +75,19 @@
                              button-label="icon name"
                              item-label="icon name"
                              output-properties="id selected"
-                             tick-property="selected",
-                             translation="localClasses"
-                        >
+                             tick-property="selected"
+                             translation="localClasses">
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="days"
+                             output-model="filters.days"
+                             button-label="name"
+                             item-label="name"
+                             output-properties="id"
+                             tick-property="selected"
+                             translation="localDays">
                         </div>
                     </div>
                     <div class="m-b-20">
