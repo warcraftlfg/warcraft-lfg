@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-lg-5">
+                    <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
@@ -69,21 +69,40 @@
                                 </div>
                                 <div ng-if="character.ad.description" class="row m-t-10">
                                     <div class="col-md-12">
-                                        <pre class="m-t-5 m-b-0">{{character.ad.description}}</pre>
+                                        <pre class="m-t-5 m-b-0">{{character.ad.description.trim() }}</pre>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-7">
+                    <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                Raid per week : {{ character.ad.raids_per_week.min }} - {{ character.ad.raids_per_week.max }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Ad updated : <span am-time-ago="{{character.ad.updated}}"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        Character updated :  <span am-time-ago="{{character.ad.updated| amSubtract : '1' : 'minute'}}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Raid per week : {{ character.ad.raids_per_week.min }} - {{ character.ad.raids_per_week.max }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        Time zone : 
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-condensed">
+                                <table class="table table-condensed" ng-if="character.ad.play_time">
                                     <tr ng-repeat="(key, day) in character.ad.play_time" ng-if="day.play == true">
                                         <td>
                                             {{ 'DAY_'+key|uppercase|translate }}
@@ -275,6 +294,27 @@
                                     <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1195"></tr>
                                     <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1209"></tr>
                                     <tr wlfg-challenge-instance='character.bnet.challenge.records' instance-id="1175"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="character.warcraftLogs.logs">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        WarcraftLogs
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-condensed character-class-{{character.bnet.class}}" wlfg-warcraft-logs-info="character.warcraftLogs.logs">
                                 </table>
                             </div>
                         </div>

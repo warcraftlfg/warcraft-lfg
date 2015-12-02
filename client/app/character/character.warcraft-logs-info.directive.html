@@ -1,0 +1,6 @@
+<tbody>
+ 	<tr ng-if="difficulty[0] || difficulty[1] || difficulty[2] || difficulty[3]" ng-repeat="(key,difficulty) in warcraftLogs">
+        <td class="bold">{{"RAID_DIFFICULTY_LONG_"+key|translate}}</td>
+        <td ng-if="stat" ng-class="{legendary:stat.median>=95,epic:stat.median>=75&&stat.median<95,rare:stat.median>=50&&stat.median<75,uncommon:stat.median>=25&&stat.median<50,common:stat.median<25}" ng-repeat="(spec,stat) in difficulty" class="icon-small spec-{{spec}}">{{stat.median}}%</td>
+    </tr>
+</tbody>
