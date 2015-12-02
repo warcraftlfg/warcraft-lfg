@@ -34,21 +34,20 @@
         $scope.$on('socket:update:character',function(ev,queuePosition){
             $scope.queuePosition = queuePosition;
             $scope.$parent.loading = false;
-
         });
     }
 
-    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES"];
-    function CharacterUpdate($scope,socket,$state,$stateParams,$translate,LANGUAGES) {
+    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES","TIMEZONES"];
+    function CharacterUpdate($scope,socket,$state,$stateParams,$translate,LANGUAGES,TIMEZONES) {
         //Reset error message
         $scope.$parent.error=null;
+        $scope.timezones = TIMEZONES;
 
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function() {
             if($scope.$parent.user && $scope.$parent.user.logged_in===false)
                 $state.go('dashboard');
         });
-
 
 
         $scope.$watch('selectedLanguages', function() {
@@ -115,8 +114,8 @@
             $state.go("account");
         });
     }
-    CharacterList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES'];
-    function CharacterList($scope ,$stateParams, $translate, socket, LANGUAGES) {
+    CharacterList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES','TIMEZONES'];
+    function CharacterList($scope ,$stateParams, $translate, socket, LANGUAGES,TIMEZONES) {
 
         //Reset error message
         $scope.$parent.error=null;
@@ -126,6 +125,8 @@
         LANGUAGES.forEach(function(language){
             $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase())});
         });
+
+        $scope.timezones= TIMEZONES;
 
         $translate([
             'ALL_DAYS',

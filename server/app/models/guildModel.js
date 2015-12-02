@@ -397,6 +397,10 @@ module.exports.getAds = function (number,filters,callback) {
             criteria["$or"]=days;
     }
 
+    if(filters.timezone && filters.timezone !=""){
+        criteria["ad.timezone"] = filters.timezone;
+    }
+
     var projection  = {};
     projection["name"] = 1;
     projection["realm"] = 1;
