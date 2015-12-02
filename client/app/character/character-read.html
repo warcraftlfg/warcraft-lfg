@@ -25,13 +25,22 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-12 m-b-20">
+                    <div class="col-md-6 m-b-20">
                         <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
                             <i class="fa fa-refresh"></i> {{"UPDATE_CHARACTER"|translate}}
                         </button>
                         <span class="m-l-10" ng-if="queuePosition">
                             {{"QUEUE_POSITION"|translate}} {{queuePosition}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
                         </span>
+                    </div>
+                    <div class="col-md-6 m-b-20 text-right">
+                        <a href="#" class="fa-icon">
+                            <i class="fa fa-facebook f-32"></i>
+                        </a>
+                        &nbsp; &nbsp;
+                        <a href="#" class="fa-icon">
+                            <i class="fa fa-twitter f-32"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -80,10 +89,10 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        Ad updated : <span am-time-ago="{{character.ad.updated}}"></span>
+                                        Ad updated : <span am-time-ago="character.ad.updated"></span>
                                     </div>
                                     <div class="col-md-6">
-                                        Character updated :  <span am-time-ago="{{character.ad.updated| amSubtract : '1' : 'minute'}}"></span>
+                                        Character updated :  <span am-time-ago="character.ad.updated"></span>
                                     </div>
                                 </div>
                             </div>

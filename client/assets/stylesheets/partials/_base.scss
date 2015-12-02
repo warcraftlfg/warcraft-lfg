@@ -148,4 +148,13 @@ pre {
 	color: white;
 }
 
+a i.fa:hover {
+	color: #ccc;
+	text-decoration: none;
+}
+
+a.fa-icon {
+	text-decoration: none;
+}
+
 @import "../modules/all";
