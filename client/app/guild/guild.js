@@ -41,10 +41,12 @@
 
     }
 
-    GuildUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES"];
-    function GuildUpdate($scope,socket,$state,$stateParams,LANGUAGES) {
+    GuildUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES","TIMEZONES"];
+    function GuildUpdate($scope,socket,$state,$stateParams,LANGUAGES,TIMEZONES) {
         //Reset error message
         $scope.$parent.error=null;
+
+        $scope.timezones = TIMEZONES;
 
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function() {
@@ -108,13 +110,15 @@
         });
     }
 
-    GuildList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES'];
-    function GuildList($scope, $stateParams, $translate, socket,LANGUAGES) {
+    GuildList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES','TIMEZONES'];
+    function GuildList($scope, $stateParams, $translate, socket,LANGUAGES,TIMEZONES) {
 
 
         $scope.$parent.error=null;
         $scope.guilds = [];
         $scope.languages = [];
+        $scope.timezones = TIMEZONES;
+
 
         angular.copy(LANGUAGES,$scope.languages);
         $scope.languages.unshift("");

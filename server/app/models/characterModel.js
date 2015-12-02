@@ -256,6 +256,9 @@ module.exports.getAds = function(number, filters, callback){
         criteria["ad.raids_per_week.min"] = {$lte:filters.raids_per_week.min};
         criteria["ad.raids_per_week.max"] = {$gte:filters.raids_per_week.max};
     }
+    if(filters.timezone && filters.timezone !=""){
+        criteria["ad.timezone"] = filters.timezone;
+    }
     database.find("characters",criteria , {
         name:1,
         realm:1,
