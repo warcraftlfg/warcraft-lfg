@@ -9,13 +9,14 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope","socket","$state","$stateParams"];
-    function CharacterRead($scope,socket,$state,$stateParams) {
+    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location"];
+    function CharacterRead($scope,socket,$state,$stateParams,$location) {
         //Reset error message
         $scope.$parent.error=null;
 
         //Initialize $scope variables
         $scope.$parent.loading = true;
+        $scope.current_url =  window.encodeURIComponent($location.absUrl());
 
         socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 

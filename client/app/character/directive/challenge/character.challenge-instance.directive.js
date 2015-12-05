@@ -7,7 +7,7 @@ function wlfgChallengeInstance() {
         link: link,
         restrict: 'A',
         scope: true,
-        templateUrl: 'app/character/character.challenge-instance.directive.html'
+        templateUrl: 'app/character/directive/challenge/character.challenge-instance.directive.html'
     };
     return directive;
 

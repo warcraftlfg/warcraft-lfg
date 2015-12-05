@@ -9,14 +9,15 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope","socket","$state","$stateParams"];
-    function GuildRead($scope,socket,$state,$stateParams) {
+    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location"];
+    function GuildRead($scope,socket,$state,$stateParams,$location) {
         //Reset error message
         $scope.$parent.error=null;
 
         //Initialize $scope variables
         $scope.guild_ad = null;
         $scope.$parent.loading = true;
+        $scope.current_url =  window.encodeURIComponent($location.absUrl());
 
         $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
 
