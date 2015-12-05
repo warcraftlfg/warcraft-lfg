@@ -37,6 +37,10 @@
             "monk": {
               "type": "boolean",
               "default": false
+            },
+            "deathknight": {
+              "type": "boolean",
+              "default": false
             }
           }
         },

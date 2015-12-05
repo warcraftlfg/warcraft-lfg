@@ -172,6 +172,7 @@
                 {id:11, role:"tank", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
                 {id:2, role:"tank", name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
                 {id:10, role:"tank", name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
+                {id:6, role:"tank", name: "<span class='class-6'>"+translations.CLASS_6+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>", selected:false},
                 { msGroup: false},
                 {name: '<span class="icon-small heal">'+translations.HEALS+'</span>', msGroup: true},
                 {id:11, role:"heal", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
