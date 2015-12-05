@@ -94,7 +94,6 @@
         //Reset error message
         $scope.$parent.error=null;
 
-
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function() {
             if($scope.$parent.user && $scope.$parent.user.logged_in===false)
