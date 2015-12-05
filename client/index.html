@@ -42,6 +42,7 @@
     </head>
 
     <body ng-cloak ng-controller="CoreController">
+        <div data-ng-include="'app/blocks/wlfgConfirm/warcraft-lfg.confirm.modal.html'"></div>
         <div class="wrapper">
             <div data-ng-include="'app/layout/header.html'"></div>
             <div class="content">
@@ -84,6 +85,8 @@
         <!-- Reusable Blocks/Modules -->
         <script src="/app/blocks/socket/socket.module.js"></script>
         <script src="/app/blocks/socket/socket.js"></script>
+        <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.module.js"></script>
+        <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.directive.js"></script>
         <script src="/app/blocks/select.convert-to-number.directive.js"></script>
 
         <!-- core module -->
