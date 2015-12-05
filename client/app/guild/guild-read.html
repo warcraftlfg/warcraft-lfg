@@ -59,15 +59,9 @@
                                 <div class=" overflow">Members : {{ guild.bnet.members.length }}</div>
                             </div>
                             <div class="col-md-4 text-right">
-                                <!--<div ng-if="guild.ad.role.tank||guild.ad.role.healer||guild.ad.role.melee_dps||guild.ad.role.ranged_dps">
-                                    <span ng-if="guild.ad.role.tank" class="m-l-10"><img src="/assets/images/icon/32/tank.png" /></span>
-                                    <span ng-if="guild.ad.role.healer" class="m-l-10"><img src="/assets/images/icon/32/healing.png" /></span>
-                                    <span ng-if="guild.ad.role.melee_dps" class="m-l-10"><img src="/assets/images/icon/32/dps.png" /></span>
-                                    <span ng-if="guild.ad.role.ranged_dps" class="m-l-10"><img src="/assets/images/icon/32/melee-dps.png" /></span>
-                                </div>-->
                                 <div class="">
-                                    <span class="m-l-10" ng-if="guild.ad.language">
-                                        <img ng-src="/assets/images/flag/32/{{guild.ad.language|lowercase}}.png" alt="flag-{{guild.ad.language|lowercase}}" title="{{'LANG_'+guild.ad.language|uppercase|translate}}" />
+                                    <span class="m-l-10 f32" ng-if="guild.ad.language">
+                                        <span class="flag {{guild.ad.language|lowercase}}">
                                     </span>
                                 </div>
                             </div>

@@ -30,7 +30,7 @@
             $scope.recruit = { 'tank': 0, 'heal': 0, 'melee_dps': 0, 'ranged_dps': 0};
             angular.forEach(guild.ad.recruitment, function(value, key) {
                 angular.forEach(value, function(status, test) {
-                    if (status == true) {
+                    if (status === true) {
                         $scope.recruit[key] += 1;
                     }
                 });
