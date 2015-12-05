@@ -134,12 +134,106 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                         <span class="icon-small tank"><strong> &nbsp;{{"TANKS"|translate}}</strong></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed">
+                            <tr ng-if="value == true" ng-repeat="(class,value) in guild.ad.recruitment.tank">
+                                <td class="class-{{ class|lowercase }}">
+                                    {{class|uppercase|translate}}
+                                </td>
+                            </tr>
+                            <tr ng-if="recruit.tank == 0">
+                                <td class="common">
+                                    None
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                         <span class="icon-small heal"><strong> &nbsp;{{"HEALS"|translate}}</strong></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed">
+                            <tr ng-if="value == true"  ng-repeat="(class,value) in guild.ad.recruitment.heal">
+                                <td class="class-{{ class|lowercase }}">
+                                    {{class|uppercase|translate}}
+                                </td>
+                            </tr>
+                            <tr ng-if="recruit.heal == 0">
+                                <td class="common">
+                                    None
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                         <span class="icon-small melee_dps"><strong> &nbsp;{{"MELEE_DPS"|translate}}</strong></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed">
+                            <tr ng-if="value == true"  ng-repeat="(class,value) in guild.ad.recruitment.melee_dps">
+                                <td class="class-{{ class|lowercase }}">
+                                    {{class|uppercase|translate}}
+                                </td>
+                            </tr>
+                            <tr ng-if="recruit.melee_dps == 0">
+                                <td class="common">
+                                    None
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                         <span class="icon-small ranged_dps"><strong> &nbsp;{{"RANGED_DPS"|translate}}</strong></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed">
+                            <tr ng-repeat="(class,value) in guild.ad.recruitment.ranged_dps">
+                                <td class="class-{{ class|lowercase }}">
+                                    {{class|uppercase|translate}}
+                                </td>
+                            </tr>
+                            <tr ng-if="recruit.ranged_dps == 0">
+                                <td class="common">
+                                    None
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
-                                Progress (T18) :
+                                Progress :
                                 <span ng-if="guild.progress['Hellfire Citadel'].mythicCount>0">{{guild.progress['Hellfire Citadel'].mythicCount}}/13 (M)</span>
                                 <span ng-if="guild.progress['Hellfire Citadel'].heroicCount>0&&!guild.progress['Hellfire Citadel'].mythicCount">{{guild.progress['Hellfire Citadel'].heroicCount}}/13 (H)</span>
                                 <span ng-if="guild.progress['Hellfire Citadel'].normalCount>=0&&!guild.progress['Hellfire Citadel'].mythicCount&&!guild.progress['Hellfire Citadel'].heroicCount">{{guild.progress['Hellfire Citadel'].normalCount}}/13 (N)</span>
@@ -164,6 +258,11 @@
                                 No rank found
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ guild.progress['Hellfire Citadel'] }}
                     </div>
                 </div>
                 <div class="row">
