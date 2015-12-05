@@ -276,7 +276,6 @@ module.exports.getAds = function(number, filters, callback){
             criteria["$and"].push({"$or":orVal});
         });
     }
-    console.log(criteria);
     database.find("characters",criteria , {
         name:1,
         realm:1,
