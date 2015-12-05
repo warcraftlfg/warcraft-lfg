@@ -92,7 +92,7 @@
                                         Ad updated : <span am-time-ago="character.ad.updated"></span>
                                     </div>
                                     <div class="col-md-6">
-                                        Character updated :  <span am-time-ago="character.ad.updated"></span>
+                                        Character updated :  <span am-time-ago="character.updated"></span>
                                     </div>
                                 </div>
                             </div>
@@ -100,11 +100,11 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         Raid per week : {{ character.ad.raids_per_week.min }} - {{ character.ad.raids_per_week.max }}
                                     </div>
-                                    <div class="col-md-6">
-                                        Time zone : 
+                                    <div class="col-md-12 m-t-10" ng-if="character.ad.timezone">
+                                        Timezone : {{"TIMEZONE_"+character.ad.timezone|uppercase|translate}}
                                     </div>
                                 </div>
                             </div>

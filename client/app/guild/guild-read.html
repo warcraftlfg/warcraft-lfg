@@ -1,50 +1,228 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>{{ guild.name }} - {{ guild.region }} {{ guild.realm }}</h1>
-            <button ng-click="updateGuild()" type="button" class="btn btn-default" aria-label="Update Character">
-                <i class="fa fa-refresh"></i> Update Guild
-            </button>
-            <div ng-if="queuePosition">
-                <p>
-                    Position in queue :  {{queuePosition}}
-                </p>
-                <p>
-                    Please check back this page later
-                </p>
+<section class="header header-guild">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 ng-if="guild"><span class="icon-medium faction-{{guild.bnet.side}}">{{ guild.name }}</span></h1>
+                    <h1  ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h1>
+                </div>
             </div>
-            <div ng-if="!guild">
-                <h1>Guild not found</h1>
-                Try update to import
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <span ng-if="guild">{{ guild.realm }} - {{ guild.region|uppercase}}</span>
+                    <span ng-if="!guild">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
+                </div>
             </div>
-            <div ng-if="guild">
-                <h2>Recruitment Data</h2>
-                <div ng-if="guild.ad">
-                    <code>{{guild.ad}}</code>
+        </div>
+    </div>
+</section>
+<div class="guild-read">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6 m-b-20">
+                        <button ng-click="updateGuild()" type="button" class="btn btn-default" aria-label="Update Guild">
+                            <i class="fa fa-refresh"></i> {{"UPDATE_GUILD"|translate}}
+                        </button>
+                        <span class="m-l-10" ng-if="queuePosition">
+                            {{"QUEUE_POSITION"|translate}} {{queuePosition}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
+                        </span>
+                    </div>
+                    <div class="col-md-6 m-b-20 text-right">
+                        <a href="#" class="fa-icon">
+                            <i class="fa fa-facebook f-32"></i>
+                        </a>
+                        &nbsp; &nbsp;
+                        <a href="#" class="fa-icon">
+                            <i class="fa fa-twitter f-32"></i>
+                        </a>
+                    </div>
                 </div>
-                <div ng-if="!guild.ad">
-                    This guild is not looking for a guild
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="icon-large center-block faction-{{guild.bnet.side}}">
+                            </div>
+                            <div class="col-md-5">
+                                <div class="faction-{{guild.bnet.side}} f-20 overflow">{{ guild.name }}</div>
+                                <div class="overflow">{{ guild.realm }} - {{ guild.region|uppercase}}</div>
+                                <div class=" overflow">Members : {{ guild.bnet.members.length }}</div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <!--<div ng-if="guild.ad.role.tank||guild.ad.role.healer||guild.ad.role.melee_dps||guild.ad.role.ranged_dps">
+                                    <span ng-if="guild.ad.role.tank" class="m-l-10"><img src="/assets/images/icon/32/tank.png" /></span>
+                                    <span ng-if="guild.ad.role.healer" class="m-l-10"><img src="/assets/images/icon/32/healing.png" /></span>
+                                    <span ng-if="guild.ad.role.melee_dps" class="m-l-10"><img src="/assets/images/icon/32/dps.png" /></span>
+                                    <span ng-if="guild.ad.role.ranged_dps" class="m-l-10"><img src="/assets/images/icon/32/melee-dps.png" /></span>
+                                </div>-->
+                                <div class="">
+                                    <span class="m-l-10" ng-if="guild.ad.language">
+                                        <img ng-src="/assets/images/flag/32/{{guild.ad.language|lowercase}}.png" alt="flag-{{guild.ad.language|lowercase}}" title="{{'LANG_'+guild.ad.language|uppercase|translate}}" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="guild.ad.website">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-9">
+                                <a href="{{ guild.ad.website}}" target="_blank">
+                                        {{ guild.ad.website}}
+                                </a>
+
+                            </div>
+                        </div>
+                        <div ng-if="guild.ad.description" class="row m-t-10">
+                            <div class="col-md-12">
+                                <pre class="m-t-5 m-b-0">{{guild.ad.description.trim() }}</pre>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h2>Guild Data</h2>
-                <div ng-if="guild.bnet">
-                    <code>{{guild.bnet}}</code>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                Ad updated : <span am-time-ago="guild.ad.updated"></span>
+                            </div>
+                            <div class="col-md-6">
+                                Guild updated :  <span am-time-ago="guild.updated"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div ng-if="!guild.bnet">
-                    This guild is not yet in our database
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Raid per week : {{ guild.ad.raids_per_week.min }} - {{ guild.ad.raids_per_week.max }}
+                            </div>
+                            <div class="col-md-12 m-t-10" ng-if="guild.ad.timezone">
+                                Timezone : {{"TIMEZONE_"+guild.ad.timezone|uppercase|translate}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h2>WowProgress rank Data</h2>
-                <div ng-if="guild.wowProgress">
-                    <code>{{guild.wowProgress}}</code>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed" ng-if="guild.ad.play_time">
+                            <tr ng-repeat="(key, day) in guild.ad.play_time" ng-if="day.play == true">
+                                <td>
+                                    {{ 'DAY_'+key|uppercase|translate }}
+                                </td>
+                                <td>
+                                    {{ ("0"+day.start.hour).slice(-2) }}h {{ ("0"+day.start.min).slice(-2) }}
+                                </td>
+                                <td>
+                                    {{ ("0"+day.end.hour).slice(-2) }}h {{ ("0"+day.end.min).slice(-2) }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <div ng-if="!guild.wowProgress">
-                    This guild is not yet in our database
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                Progress (T18) :
+                                <span ng-if="guild.progress['Hellfire Citadel'].mythicCount>0">{{guild.progress['Hellfire Citadel'].mythicCount}}/13 (M)</span>
+                                <span ng-if="guild.progress['Hellfire Citadel'].heroicCount>0&&!guild.progress['Hellfire Citadel'].mythicCount">{{guild.progress['Hellfire Citadel'].heroicCount}}/13 (H)</span>
+                                <span ng-if="guild.progress['Hellfire Citadel'].normalCount>=0&&!guild.progress['Hellfire Citadel'].mythicCount&&!guild.progress['Hellfire Citadel'].heroicCount">{{guild.progress['Hellfire Citadel'].normalCount}}/13 (N)</span>
+                                <span ng-if="!guild.progress['Hellfire Citadel'].normalCount && !guild.progress['Hellfire Citadel'].heroicCount && !guild.progress['Hellfire Citadel'].mythicCount">0/13 (NM)</span>
+                            </div>
+                            <div class="col-md-2" ng-if="guild.wowProgress.world_rank">
+                                World : <span ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
+                                    {{guild.wowProgress.world_rank}}
+                                </span>
+                            </div>
+                            <div class="col-md-2" ng-if="guild.wowProgress.area_rank">
+                                Region : <span ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
+                                    {{guild.wowProgress.area_rank}}
+                                </span>
+                            </div>
+                            <div class="col-md-2" ng-if="guild.wowProgress.area_rank">
+                                Realm : <span ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
+                                    {{guild.wowProgress.realm_rank}}
+                                </span>
+                            </div>
+                            <div class="col-md-2" class="common" ng-if="!guild.wowProgress.world_rank">
+                                No rank found
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h2>Progress</h2>
-                <div ng-if="guild.progress">
-                    <code>{{guild.progress}}</code>
-                </div>
-                <div ng-if="!guild.progress">
-                    This guild is not yet in our database
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
+                            <tr ng-repeat="boss in raid.bosses | limitTo:7">
+                                <td class="bold">{{ boss.name }}</td>
+                                <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
+                                    <span ng-if="boss.mythicKills>0">Mythic</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">No kill</span>
+                                </td>
+                                <td>
+                                    <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">{{boss.heroicKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">{{boss.normalKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">{{boss.lfrKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">0</span>
+                                </td>
+                                <td>
+                                    <span ng-if="boss.mythicKills>0" am-time-ago="boss.mythicTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills>0" am-time-ago="boss.heroicTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0" am-time-ago="boss.normalTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0" am-time-ago="boss.lfrTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
+                            <tr ng-repeat="boss in raid.bosses | limitTo:-6">
+                                <td class="bold">{{ boss.name }}</td>
+                                <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
+                                    <span ng-if="boss.mythicKills>0">Mythic</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">No kill</span>
+                                </td>
+                                <td>
+                                    <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">{{boss.heroicKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">{{boss.normalKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">{{boss.lfrKills}}</span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">0</span>
+                                </td>
+                                <td>
+                                    <span ng-if="boss.mythicKills>0" am-time-ago="boss.mythicTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills>0" am-time-ago="boss.heroicTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0" am-time-ago="boss.normalTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0" am-time-ago="boss.lfrTimestamp"></span>
+                                    <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
