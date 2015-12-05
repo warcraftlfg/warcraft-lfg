@@ -7,7 +7,7 @@ function wlfgItemAudit() {
         link: link,
         restrict: 'A',
         scope: true,
-        templateUrl: 'app/character/character.item-audit.directive.html'
+        templateUrl: 'app/character/directive/item/character.item-audit.directive.html'
     };
     return directive;
 

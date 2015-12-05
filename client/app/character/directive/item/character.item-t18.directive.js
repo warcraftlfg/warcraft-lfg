@@ -7,7 +7,7 @@ function wlfgItemT18() {
         link: link,
         restrict: 'A',
         scope: true,
-        templateUrl: 'app/character/character.item-t18.directive.html'
+        templateUrl: 'app/character/directive/item/character.item-t18.directive.html'
     };
     return directive;
 
