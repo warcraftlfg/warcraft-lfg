@@ -36,6 +36,22 @@
                     </div>
                     <div class="m-b-20">
                         <div isteven-multi-select
+                             input-model="realms"
+                             output-model="filters.realm"
+                             button-label="label"
+                             item-label="label"
+                             output-properties="region connected_realms"
+                             tick-property="selected"
+                             translation="localRealms"
+                             selection-mode="single"
+                             on-item-click="setRealm()"
+                             on-reset="resetRealm()"
+
+                        >
+                        </div>
+                    </div>
+                    <div class="m-b-20">
+                        <div isteven-multi-select
                              input-model="languages"
                              output-model="filters.languages"
                              button-label="name"
