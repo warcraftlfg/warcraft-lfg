@@ -5,7 +5,6 @@
         .module('app.guild')
         .controller('GuildReadController', GuildRead)
         .controller('GuildUpdateController', GuildUpdate)
-        .controller('GuildDeleteController', GuildDelete)
         .controller('GuildListController', GuildList)
     ;
 
@@ -90,33 +89,6 @@
 
         socket.forward('put:guildAd',$scope);
         $scope.$on('socket:put:guildAd',function(){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
-    }
-
-    GuildDelete.$inject = ['$scope','socket','$state','$stateParams'];
-    function GuildDelete($scope, socket, $state, $stateParams) {
-        //Reset error message
-        $scope.$parent.error=null;
-
-
-        //Redirect not logged_in users to home
-        $scope.$watch("$parent.user", function() {
-            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
-                $state.go('dashboard');
-        });
-
-        //Initialize var
-        $scope.guildAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
-
-        $scope.delete = function(){
-            $scope.$parent.loading = true;
-            socket.emit('delete:guildAd',$scope.guild);
-        };
-
-        socket.forward('delete:guildAd',$scope);
-        $scope.$on('socket:delete:guildAd',function(ev,guild){
             $scope.$parent.loading = false;
             $state.go("account");
         });
