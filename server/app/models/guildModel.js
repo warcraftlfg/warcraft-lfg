@@ -306,6 +306,7 @@ module.exports.getAds = function (number,filters,callback) {
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
+    var or = [];
     if(filters.last){
         criteria["ad.updated"]={$lt:filters.last}
     }
@@ -381,7 +382,7 @@ module.exports.getAds = function (number,filters,callback) {
             }
         });
         if(recruitment.length>0)
-            criteria["$or"] = recruitment;
+            or.push(recruitment);
     }
     if(filters.days && filters.days.length>0){
         var days = [];
@@ -391,14 +392,19 @@ module.exports.getAds = function (number,filters,callback) {
             days.push(tmpObj);
 
         });
-        if(criteria["$or"])
-            criteria["$or"].push(days);
-        else
-            criteria["$or"]=days;
+        or.push(days);
+
     }
 
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
+    }
+
+    if(or.length > 0 ){
+        criteria["$and"]=[];
+        or.forEach(function(orVal){
+            criteria["$and"].push({"$or":orVal});
+        });
     }
 
     var projection  = {};
