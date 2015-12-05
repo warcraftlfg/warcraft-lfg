@@ -7,7 +7,7 @@ function wlfgReputationRune() {
         link: link,
         restrict: 'A',
         scope:true,
-        templateUrl: 'app/character/character.reputation-rune.directive.html'
+        templateUrl: 'app/character/directive/reputation/character.reputation-rune.directive.html'
     };
     return directive;
 

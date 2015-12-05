@@ -7,7 +7,7 @@ function wlfgAchievementPg() {
         link: link,
         restrict: 'A',
         scope:true,
-        templateUrl: 'app/character/character.achievement-pg.directive.html'
+        templateUrl: 'app/character/directive/achievement/character.achievement-pg.directive.html'
     };
     return directive;
 

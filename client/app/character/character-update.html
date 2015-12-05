@@ -67,7 +67,12 @@
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_CREATE_RPW"|translate}}</label>
-                    <angular-ranger min="1" max="7" step="1" min-value="character.ad.raids_per_week.min" max-value="character.ad.raids_per_week.max"></angular-ranger>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{character.ad.raids_per_week.min}} - {{ character.ad.raids_per_week.max }}
+                            <angular-ranger class="ranger-inverse m-t-10" min="1" max="7" step="1" min-value="character.ad.raids_per_week.min" max-value="character.ad.raids_per_week.max"></angular-ranger>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_CREATE_PLAY_TIME"|translate}}</label>
@@ -174,7 +179,7 @@
                 </div>
                 <div class="form-group">
                     <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
-                    <div class="css3-metro-dropdown-inverse">
+                    <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
                         <select ng-model="character.ad.timezone" class="form-control">
                             <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
                         </select>

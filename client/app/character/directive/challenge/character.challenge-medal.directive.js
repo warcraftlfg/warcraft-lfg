@@ -7,7 +7,7 @@ function wlfgChallengeMedal() {
         link: link,
         restrict: 'A',
         scope: true,
-        templateUrl: 'app/character/character.challenge-medal.directive.html'
+        templateUrl: 'app/character/directive/challenge/character.challenge-medal.directive.html'
     };
     return directive;
 

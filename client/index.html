@@ -33,6 +33,7 @@
         <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="/vendor/angular-multi-select/isteven-multi-select.css" rel="stylesheet">
+        <link href="/vendor/world-flags-sprite/stylesheets/flags32.css" rel="stylesheet" type="text/css" />
 
         <!-- build:css assets/css/warcraftlfg.min.css -->
         <link href="/assets/css/main.css" rel="stylesheet">
@@ -57,8 +58,8 @@
         <div class="modal-backdrop fade in" ng-if="loading"></div>
 
         <!-- Third party -->
-        <script type="text/javascript" src="//static.wowhead.com/widgets/power.js" async></script>
-        <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
+        <script type="text/javascript" async src="//static.wowhead.com/widgets/power.js"></script>
+        <script>var wowhead_tooltips = { "colorlinks": false, "iconizelinks": false, "renamelinks": false }</script>
 
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
@@ -112,17 +113,17 @@
 
         <!-- character -->
         <script src="/app/character/character.module.js"></script>
-        <script src="/app/character/character.legendary-ring.directive.js"></script>
-        <script src="/app/character/character.warcraft-logs.directive.js"></script>
-        <script src="/app/character/character.warcraft-logs-info.directive.js"></script>
-        <script src="/app/character/character.progress.directive.js"></script>
-        <script src="/app/character/character.item.directive.js"></script>
-        <script src="/app/character/character.item-t18.directive.js"></script>
-        <script src="/app/character/character.item-audit.directive.js"></script>
-        <script src="/app/character/character.reputation-rune.directive.js"></script>
-        <script src="/app/character/character.achievement-pg.directive.js"></script>
-        <script src="/app/character/character.challenge-medal.directive.js"></script>
-        <script src="/app/character/character.challenge-instance.directive.js"></script>
+        <script src="/app/character/directive/item/character.legendary-ring.directive.js"></script>
+        <script src="/app/character/directive/wcl/character.warcraft-logs.directive.js"></script>
+        <script src="/app/character/directive/wcl/character.warcraft-logs-info.directive.js"></script>
+        <script src="/app/character/directive/progress/character.progress.directive.js"></script>
+        <script src="/app/character/directive/item/character.item.directive.js"></script>
+        <script src="/app/character/directive/item/character.item-t18.directive.js"></script>
+        <script src="/app/character/directive/item/character.item-audit.directive.js"></script>
+        <script src="/app/character/directive/reputation/character.reputation-rune.directive.js"></script>
+        <script src="/app/character/directive/achievement/character.achievement-pg.directive.js"></script>
+        <script src="/app/character/directive/challenge/character.challenge-medal.directive.js"></script>
+        <script src="/app/character/directive/challenge/character.challenge-instance.directive.js"></script>
         <script src="/app/character/config.route.js"></script>
         <script src="/app/character/character.js"></script>
 

@@ -6,7 +6,7 @@ function wlfgProgress() {
     var directive = {
         link: link,
         restrict: 'A',
-        templateUrl: 'app/character/character.progress.directive.html'
+        templateUrl: 'app/character/directive/progress/character.progress.directive.html'
     };
     return directive;
 
