@@ -145,6 +145,9 @@ pre {
 	background-color: $grey;
 	border-radius: 0px;
 	border: none;
+	word-break: initial;
+	word-wrap: normal;
+	white-space: pre-line;
 	color: white;
 }
 
