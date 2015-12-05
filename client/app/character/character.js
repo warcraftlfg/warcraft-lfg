@@ -129,6 +129,7 @@
         $scope.timezones= TIMEZONES;
 
         $translate([
+            'ALL_REALMS',
             'ALL_DAYS',
             'ALL_CLASSES',
             'ALL_ROLES',
@@ -216,6 +217,13 @@
                 search          : translations.SEARCH,
                 nothingSelected : translations.ALL_DAYS
             };
+            $scope.localRealms = {
+                selectAll       : translations.SELECT_ALL,
+                selectNone      : translations.SELECT_NONE,
+                reset           : translations.RESET,
+                search          : translations.SEARCH,
+                nothingSelected : translations.ALL_REALMS
+            };
         });
 
 
@@ -256,6 +264,9 @@
             $scope.updateFilters();
         });
 
+        $scope.$watch('filters.region', function() {
+            socket.emit('get:realms',$scope.filters.region);
+        });
 
         $scope.getMoreCharacters = function(){
             if($scope.$parent.loading || $scope.loading)
@@ -277,11 +288,38 @@
 
         };
 
+        $scope.setRealm = function(){
+            $scope.filters.realm = $scope.filters.realm[0];
+            $scope.filters.realm.connected_realms= $scope.connected_realms[$scope.filters.realm.connected_realms.join("")];
+            $scope.updateFilters();
+        };
+
+        $scope.resetRealm = function(){
+            $scope.filters.realm = undefined;
+            $scope.updateFilters();
+        };
+
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters){
             $scope.$parent.loading = false;
             $scope.loading=false;
             $scope.characters = $scope.characters.concat(characters);
+        });
+
+
+        socket.forward('get:realms',$scope);
+        $scope.$on('socket:get:realms',function(ev,realms){
+
+            $scope.connected_realms = {};
+            //Beurk !!!
+            realms.forEach(function(realm){
+                if( !$scope.connected_realms[realm.bnet.connected_realms.join("")])
+                    $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
+                $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
+                realm.label = realm.name+" ("+realm.region.toUpperCase()+")";
+                realm.connected_realms = realm.bnet.connected_realms;
+            });
+            $scope.realms = realms;
         });
 
     }

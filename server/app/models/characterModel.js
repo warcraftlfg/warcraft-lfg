@@ -196,6 +196,8 @@ module.exports.getAds = function(number, filters, callback){
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
+
+    var or = [];
     if(filters.last){
         criteria["ad.updated"]={$lt:filters.last}
     }
@@ -221,7 +223,7 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.classes && filters.classes.length>0 && filters.classes.length < 11){
         var classes = [];
         filters.classes.forEach(function(item){
-                classes.push(item.id);
+            classes.push(item.id);
         });
         criteria["bnet.class"] = { $in: classes};
     }
@@ -232,10 +234,8 @@ module.exports.getAds = function(number, filters, callback){
             tmpObj["ad.role."+role.id] = true;
             roles.push(tmpObj);
         });
-        if(criteria["$or"])
-            criteria["$or"].push(roles);
-        else
-            criteria["$or"]=roles;
+        or.push(roles);
+
 
     }
     if(filters.days && filters.days.length>0){
@@ -246,10 +246,8 @@ module.exports.getAds = function(number, filters, callback){
             days.push(tmpObj);
 
         });
-        if(criteria["$or"])
-            criteria["$or"].push(days);
-        else
-            criteria["$or"]=days;
+        or.push(days);
+
     }
 
     if(filters.raids_per_week && filters.raids_per_week.active){
@@ -259,6 +257,26 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
     }
+
+    if (filters.realm && filters.realm.connected_realms && filters.realm.region){
+        var realms = [];
+        filters.realm.connected_realms.forEach(function(realm){
+            var tmpObj = {};
+            tmpObj["realm"] = realm.name;
+            realms.push(tmpObj);
+
+        });
+        or.push(realms);
+        criteria["region"] = filters.realm.region;
+
+    }
+    if(or.length > 0 ){
+        criteria["$and"]=[];
+        or.forEach(function(orVal){
+            criteria["$and"].push({"$or":orVal});
+        });
+    }
+    console.log(criteria);
     database.find("characters",criteria , {
         name:1,
         realm:1,
