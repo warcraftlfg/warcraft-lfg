@@ -185,7 +185,24 @@ module.exports.get = function(region,realm,name,callback){
         "realm":realm,
         "name":name
     }, {
-        _id: 0
+        region:1,
+        realm:1,
+        name:1,
+        ad:1,
+        updated:1,
+        "bnet.faction":1,
+        "bnet.class":1,
+        "bnet.thumbnail":1,
+        "bnet.guild.name":1,
+        "bnet.race":1,
+        "bnet.level":1,
+        "bnet.talents":1,
+        "bnet.progression.raids":{$slice:-1},
+        "bnet.items":1,
+        "bnet.reputation":1,
+        "bnet.achievements":1,
+        "bnet.challenge.records":1,
+        "warcraftLogs.logs":1
     }, 1, function(error,character){
         callback(error, character && character[0]);
     });
