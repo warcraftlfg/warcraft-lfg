@@ -21,6 +21,7 @@ function wlfgConfirm($uibModal) {
                 templateUrl: 'app/blocks/wlfgConfirm/warcraft-lfg.confirm.modal.html',
                 controller: 'WlfgConfirmController',
                 animation: true,
+                size: 'sm',
                 resolve:{
                     wlfgConfirmTitle:function () {
                         return attrs.wlfgConfirmTitle;
