@@ -21,13 +21,6 @@
                 title: 'Guild update',
                 controller: "GuildUpdateController"
             })
-            .state("guild-delete", {
-                url: "/guild/:region/:realm/:name/delete",
-                templateUrl: "app/guild/guild-delete.html",
-                controlerAs: 'vm',
-                title: 'Guild delete',
-                controller: "GuildDeleteController"
-            })
             .state("guild-list", {
                 url: "/guild/list?region&language&faction",
                 templateUrl: "app/guild/guild-list.html",

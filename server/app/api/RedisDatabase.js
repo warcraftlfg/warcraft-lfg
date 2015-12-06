@@ -39,7 +39,6 @@ RedisDatabase.prototype.setUpdate = function(type,priority,key,value,callback){
     value = JSON.stringify(value);
     this.db.set(type+'_'+key,value,function(error){
         if(error){
-            logger.error(error.message);
             error = new Error("DATABASE_ERROR");
             callback(error);
             return;

@@ -118,5 +118,26 @@
             socket.emit('get:character',characterIds);
 
         };
+
+        $scope.deleteCharacterAd = function(region,realm,name){
+            $scope.$parent.loading = true;
+            socket.emit('delete:characterAd',{region:region,realm:realm,name:name});
+        };
+
+        socket.forward('delete:characterAd',$scope);
+        $scope.$on('socket:delete:characterAd',function(){
+            socket.emit('get:userCharacterAds');
+        });
+
+
+        $scope.deleteGuildAd = function(region,realm,name){
+            $scope.$parent.loading = true;
+            socket.emit('delete:guildAd',{region:region,realm:realm,name:name});
+        };
+
+        socket.forward('delete:guildAd',$scope);
+        $scope.$on('socket:delete:guildAd',function(){
+            socket.emit('get:userGuildAds');
+        });
     }
 })();

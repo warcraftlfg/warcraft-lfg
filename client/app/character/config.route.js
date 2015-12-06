@@ -21,13 +21,6 @@
                 title: 'Character update',
                 controller: "CharacterUpdateController"
             })
-            .state("character-delete", {
-                url: "/character/:region/:realm/:name/delete",
-                templateUrl: "app/character/character-delete.html",
-                controlerAs: 'vm',
-                title: 'Character delete',
-                controller: "CharacterDeleteController"
-            })
             .state("character-list", {
                 url: "/character/list?region&language&faction",
                 templateUrl: "app/character/character-list.html",

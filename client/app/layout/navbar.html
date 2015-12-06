@@ -19,7 +19,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="!user.logged_in">
-                    <a href="/auth/bnet"><i class="fa fa-lg fa-arrow-circle-right"></i> {{"CONNECT_BNET" | translate}}</a>
+                    <div><i class="fa fa-lg fa-arrow-circle-right"></i> {{"CONNECT_BNET" | translate}}</div>
                 </li>
                 <li ng-if="user.logged_in" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.battleTag}} <span class="caret"></span></a>

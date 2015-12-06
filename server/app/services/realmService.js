@@ -34,3 +34,9 @@ module.exports.importRealms = function(callback){
     });
 
 };
+
+module.exports.getRealms = function(region,callback){
+    realmModel.get(region,function(error,realms){
+        callback(error,realms);
+    });
+};
