@@ -46,8 +46,6 @@ CleanerProcess.prototype.start = function(){
         null,
         true
     );
-    self.cleanAds();
-    self.refreshWowProgress();
 };
 
 module.exports = CleanerProcess;
