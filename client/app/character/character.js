@@ -282,7 +282,7 @@
             $scope.characters = $scope.characters.concat(characters);
         });
 
-
+        socket.emit('get:realms');
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
 
