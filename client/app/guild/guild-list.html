@@ -26,7 +26,7 @@
                 <div class="filters p-10">
                     <div class="m-b-20">
                         <span class="css3-metro-dropdown">
-                            <select ng-model="filters.region" ng-change="updateFilters()" class="form-control">
+                            <select ng-model="filters.region" class="form-control">
                                 <option value="">{{"ALL_REGION"|translate}}</option>
                                 <option value="us">US</option>
                                 <option value="eu">EU</option>
@@ -34,6 +34,21 @@
                                 <option value="tw">TW</option>
                             </select>
                         </span>
+                    </div>
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="realms"
+                             output-model="filters.realm"
+                             button-label="label"
+                             item-label="label"
+                             output-properties="region connected_realms"
+                             tick-property="selected"
+                             translation="localRealms"
+                             selection-mode="single"
+                             on-item-click="setRealm()"
+                             on-reset="resetRealm()"
+                        >
+                        </div>
                     </div>
                     <div class="m-b-20">
                         <span class="css3-metro-dropdown">

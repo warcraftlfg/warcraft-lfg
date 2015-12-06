@@ -239,6 +239,8 @@
         });
 
         $scope.$watch('filters.region', function() {
+            $scope.filters.realm={};
+            $scope.updateFilters();
             socket.emit('get:realms',$scope.filters.region);
         });
 
