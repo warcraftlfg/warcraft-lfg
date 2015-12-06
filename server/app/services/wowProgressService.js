@@ -147,7 +147,6 @@ module.exports.refreshAll = function(callback){
     filters.wowProgress = true;
     async.waterfall([
         function(callback){
-            return callback();
             characterService.getAds(-1,filters,function(error,characterAds){
                 if(error)
                     return callback();
