@@ -45,8 +45,8 @@
 
     </head>
 
-    <body ng-cloak ng-controller="CoreController">
-        <div class="wrapper">
+    <body ng-controller="CoreController">
+        <div ng-cloak class="wrapper">
             <div data-ng-include="'app/layout/header.html'"></div>
             <div class="content">
                 <div ng-show="error" class="alert alert-danger" role="alert">
@@ -58,7 +58,9 @@
             <div class="push"></div>
         </div>
         <div class="footer" data-ng-include="'app/layout/footer.html'"></div>
-        <div class="modal-backdrop fade in" ng-if="loading"></div>
+        <div ng-if="loading" class="centered">
+            <i class="fa fa-refresh fa-spin f-150"></i>
+        </div>
 
         <!-- Third party -->
         <script type="text/javascript" async src="//static.wowhead.com/widgets/power.js"></script>

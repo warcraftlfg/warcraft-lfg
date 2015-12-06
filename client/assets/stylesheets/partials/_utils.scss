@@ -8,6 +8,7 @@
 
 
 /**** Vertical Align ***/
+.centered {position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);}
 .v-center {vertical-align: middle;}
 .v-top {vertical-align: top;}
 .v-bottom {vertical-align: bottom;}
