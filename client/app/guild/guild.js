@@ -212,6 +212,7 @@
         $scope.filters.raids_per_week.min = 1;
         $scope.filters.raids_per_week.max = 7;
         $scope.filters.days = {};
+        $scope.realms = [];
 
 
         /* if params load filters */
@@ -260,8 +261,8 @@
 
         };
 
-        $scope.setRealm = function(){
-            $scope.filters.realm = $scope.filters.realm[0];
+        $scope.setRealm = function(data){
+            $scope.filters.realm = data;
             $scope.filters.realm.connected_realms= $scope.connected_realms[$scope.filters.realm.connected_realms.join("")];
             $scope.updateFilters();
         };
@@ -278,20 +279,19 @@
             $scope.guilds = $scope.guilds.concat(guilds);
         });
 
-        socket.emit('get:realms');
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
 
+            $scope.realms = realms;
             $scope.connected_realms = {};
             //Beurk !!!
-            realms.forEach(function(realm){
+            angular.forEach(realms,function(realm){
                 if( !$scope.connected_realms[realm.bnet.connected_realms.join("")])
                     $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
                 $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
                 realm.label = realm.name+" ("+realm.region.toUpperCase()+")";
                 realm.connected_realms = realm.bnet.connected_realms;
             });
-            $scope.realms = realms;
         });
 
     }
