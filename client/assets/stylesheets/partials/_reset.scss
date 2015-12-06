@@ -4,3 +4,6 @@ h1,h2,h3{
 }
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none;
+}
