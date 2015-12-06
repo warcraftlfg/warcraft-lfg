@@ -77,9 +77,11 @@
                             <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <button class="txt-white m-r-10 f-18"  ng-click="deleteGuildAd(guildAd.region,guildAd.realm,guildAd.name)" wlfg-confirm-title="{{'CONFIRM_TITLE'|translate}}" wlfg-confirm  wlfg-confirm-content="{{'CONFIRM_CONTENT'|translate}}"  tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
-                                <i class="fa fa-trash-o"></i>
-                            </button>
+                            <span tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
+                                <span class="txt-white m-r-10 f-18 cursor-pointer" ng-click="deleteGuildAd(guildAd.region,guildAd.realm,guildAd.name)" wlfg-confirm  wlfg-confirm-content="{{'CONFIRM_DELETE_GUILD_AD'|translate}}">
+                                    <i class="fa fa-trash-o"></i>
+                                </span>
+                            </span>
                         </td>
                     </tr>
                     <tr ng-if="!guildAds.length">
@@ -150,9 +152,11 @@
                             <a class="txt-no-decoration txt-white m-r-10 f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"  tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <button class="txt-no-decoration txt-white f-18" ng-click="deleteCharacterAd(characterAd.region,characterAd.realm,characterAd.name)" wlfg-confirm wlfg-confirm-title="TITLE" wlfg-confirm-content="CONTENT" tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
-                                <i class="fa fa-trash-o"></i>
-                            </button>
+                            <span  tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
+                                <span class="txt-no-decoration txt-white f-18 cursor-pointer" ng-click="deleteCharacterAd(characterAd.region,characterAd.realm,characterAd.name)" wlfg-confirm wlfg-confirm-content="{{'CONFIRM_DELETE_CHARACTER_AD'|translate}}">
+                                    <i class="fa fa-trash-o"></i>
+                                </span>
+                            </span>
                         </td>
                     </tr>
                     <tr ng-if="!characterAds.length">

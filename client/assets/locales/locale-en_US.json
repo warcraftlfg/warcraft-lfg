@@ -1,4 +1,6 @@
 {
+  "NO": "No",
+  "YES": "Yes",
   "DELETE": "Delete",
   "EDIT": "Edit",
   "NO_DATA": "No data available",
@@ -17,6 +19,8 @@
   "ACCOUNT_DESCRIPTION": "Manage your ads",
   "ACCOUNT_MANAGE_GUILD_ADS": "Manage guild ads",
   "ACCOUNT_MANAGE_CHARACTER_ADS": "Manage character ads",
+  "CONFIRM_DELETE_GUILD_AD": "Are you sure you want to delete this guild ad ?",
+  "CONFIRM_DELETE_CHARACTER_AD": "Are you sure you want to delete this character ad ?",
   "GUILD_CREATE_HEADER": "Add your guild",
   "GUILD_CREATE_HEADER_DESCRIPTION": "Looking for more ? Let's find some player.",
   "GUILD_CREATE_WEBSITE": "Website",
