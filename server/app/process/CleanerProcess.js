@@ -5,19 +5,31 @@ var cronJob = require('cron').CronJob;
 var logger = process.require("api/logger.js").get("logger");
 var characterService = process.require("services/characterService.js");
 var guildService = process.require("services/guildService.js");
+var wowProgressService = process.require("services/wowProgressService.js");
 
 function CleanerProcess(){
-    this.lock = false;
+    this.lockCleaner = false;
+    this.lockRefreshWowProgress = false;
 }
 
 CleanerProcess.prototype.cleanAds = function() {
     var self = this;
-    if (self.lock == false) {
-        self.lock = true;
+    if (self.lockCleaner == false) {
+        self.lockCleaner = true;
         characterService.deleteOldAds(function(){
             guildService.deleteOldAds(function(){
-                self.lock = false;
+                self.lockCleaner = false;
             });
+        });
+    }
+};
+
+CleanerProcess.prototype.refreshWowProgress = function(){
+    var self = this;
+    if (self.lockRefreshWowProgress == false) {
+        self.lockRefreshWowProgress = true;
+        wowProgressService.refreshAll(function(){
+           self.lockRefreshWowProgress = false;
         });
     }
 };
@@ -35,6 +47,7 @@ CleanerProcess.prototype.start = function(){
         true
     );
     self.cleanAds();
+    self.refreshWowProgress();
 };
 
 module.exports = CleanerProcess;

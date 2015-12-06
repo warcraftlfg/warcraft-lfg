@@ -270,6 +270,9 @@ module.exports.getAds = function(number, filters, callback){
         criteria["region"] = filters.realm.region;
 
     }
+    if (filters.wowProgress ==true){
+        criteria["id"] = 0;
+    }
     if(or.length > 0 ){
         criteria["$and"]=[];
         or.forEach(function(orVal){
@@ -306,7 +309,7 @@ module.exports.getLastAds = function(callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.insertOrUpdate("characters", {region:region,realm:realm,name:name,id:id} ,{$unset: {ad:""}} ,null, function(error,result){
+    database.insertOrUpdate("characters", {region:region,realm:realm,name:name,id:id} ,{$unset: {ad:"",id:""}} ,null, function(error,result){
         callback(error, result);
     });
 };
