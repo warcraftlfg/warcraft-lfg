@@ -406,14 +406,23 @@ module.exports.getAds = function (number,filters,callback) {
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
     }
+    if (filters.realm && filters.realm.connected_realms && filters.realm.region){
+        var realms = [];
+        filters.realm.connected_realms.forEach(function(realm){
+            var tmpObj = {};
+            tmpObj["realm"] = realm.name;
+            realms.push(tmpObj);
 
+        });
+        or.push(realms);
+        criteria["region"] = filters.realm.region;
+
+    }
     if(or.length > 0 ){
         criteria["$and"]=[];
         or.forEach(function(orVal){
             criteria["$and"].push({"$or":orVal});
         });
-        console.log(criteria['$and'][0]);
-
     }
 
 
