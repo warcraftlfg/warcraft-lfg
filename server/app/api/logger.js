@@ -56,7 +56,7 @@ module.exports.get = function(name, conf){
                 new (winston.transports.Console)(),
                 new (winston.transports.File)({
                     filename: conf.fileName,
-                    maxsize : 1048576,
+                    maxsize : 104857600,
                     zippedArchive: true
                 })
             ]
