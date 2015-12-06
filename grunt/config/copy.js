@@ -36,6 +36,10 @@ module.exports = {
             {
                 src: 'client/robots.txt',
                 dest: 'www/robots.txt'
+            },
+            {
+                src: 'client/maintenance.html',
+                dest: 'www/maintenance.html'
             }
 
         ]
