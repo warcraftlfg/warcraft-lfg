@@ -226,7 +226,7 @@ module.exports.get = function(region,realm,name,callback){
     guildModel.get(region,realm,name,function(error,guild){
         if (error)
             logger.error(error.message);
-            callback(error, guild);
+        callback(error, guild);
     });
 };
 
@@ -248,16 +248,27 @@ module.exports.getAdsCount = function(callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var self=this;
-    guildModel.deleteAd(region,realm,name,id,function(error){
-        if (error)
-            logger.error(error.message);
+    userService.isMember(id,region,realm,name,function(error,isMyGuild) {
+        if(isMyGuild)
+            guildModel.deleteAd(region, realm, name, id, function (error) {
+                if (error)
+                    logger.error(error.message);
 
-        self.emitAdsCount();
-        self.emitCount();
-        self.emitLastAds();
+                self.emitAdsCount();
+                self.emitCount();
+                self.emitLastAds();
 
-        callback(error);
+                callback(error);
 
+            });
+        else {
+            //Remove user from guild (gquit / gkick)
+            guildModel.removeId(region,realm,name,id, function (error) {
+                if (error)
+                    logger.error(error.message);
+                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
+            });
+        }
     });
 };
 
