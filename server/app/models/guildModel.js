@@ -298,7 +298,12 @@ module.exports.setId = function(region,realm,name,id,callback) {
 module.exports.get = function(region,realm,name,callback){
     var database = applicationStorage.getMongoDatabase();
     database.get("guilds",{"region":region,"realm":realm,"name":name},{_id:0},1,function(error,guild){
-        callback(error, guild && guild[0]);
+        var result = undefined;
+        if(guild && guild[0]){
+            result =  guild[0];
+            result.ad = confine.normalize(result.ad,guildAdSchema);
+        }
+        callback(error, result);
     });
 };
 
@@ -306,6 +311,7 @@ module.exports.getAds = function (number,filters,callback) {
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
+    var or = [];
     if(filters.last){
         criteria["ad.updated"]={$lt:filters.last}
     }
@@ -338,6 +344,8 @@ module.exports.getAds = function (number,filters,callback) {
                     recruitment.push({"ad.recruitment.tank.paladin":true});
                 if(classe.id == 10)
                     recruitment.push({"ad.recruitment.tank.monk":true});
+                if(classe.id == 6)
+                    recruitment.push({"ad.recruitment.tank.deathknight":true});
             }
             if(classe.role == "heal"){
                 if(classe.id == 11)
@@ -381,7 +389,7 @@ module.exports.getAds = function (number,filters,callback) {
             }
         });
         if(recruitment.length>0)
-            criteria["$or"] = recruitment;
+            or.push(recruitment);
     }
     if(filters.days && filters.days.length>0){
         var days = [];
@@ -391,15 +399,23 @@ module.exports.getAds = function (number,filters,callback) {
             days.push(tmpObj);
 
         });
-        if(criteria["$or"])
-            criteria["$or"].push(days);
-        else
-            criteria["$or"]=days;
+        or.push(days);
+
     }
 
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
     }
+
+    if(or.length > 0 ){
+        criteria["$and"]=[];
+        or.forEach(function(orVal){
+            criteria["$and"].push({"$or":orVal});
+        });
+        console.log(criteria['$and'][0]);
+
+    }
+
 
     var projection  = {};
     projection["name"] = 1;

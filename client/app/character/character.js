@@ -5,7 +5,6 @@
         .module('app.character')
         .controller('CharacterReadController', CharacterRead)
         .controller('CharacterUpdateController', CharacterUpdate)
-        .controller('CharacterDeleteController', CharacterDelete)
         .controller('CharacterListController', CharacterList)
     ;
 
@@ -89,32 +88,6 @@
         });
     }
 
-    CharacterDelete.$inject = ['$scope','socket','$state','$stateParams'];
-    function CharacterDelete($scope, socket, $state, $stateParams) {
-        //Reset error message
-        $scope.$parent.error=null;
-
-
-        //Redirect not logged_in users to home
-        $scope.$watch("$parent.user", function() {
-            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
-                $state.go('dashboard');
-        });
-
-        //Initialize var
-        $scope.characterAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
-
-        $scope.delete = function(){
-            $scope.$parent.loading = true;
-            socket.emit('delete:characterAd',$scope.characterAd);
-        };
-
-        socket.forward('delete:characterAd',$scope);
-        $scope.$on('socket:delete:characterAd',function(ev,characterAd){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
-    }
     CharacterList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES','TIMEZONES'];
     function CharacterList($scope ,$stateParams, $translate, socket, LANGUAGES,TIMEZONES) {
 

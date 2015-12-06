@@ -5,7 +5,6 @@
         .module('app.guild')
         .controller('GuildReadController', GuildRead)
         .controller('GuildUpdateController', GuildUpdate)
-        .controller('GuildDeleteController', GuildDelete)
         .controller('GuildListController', GuildList)
     ;
 
@@ -95,33 +94,6 @@
         });
     }
 
-    GuildDelete.$inject = ['$scope','socket','$state','$stateParams'];
-    function GuildDelete($scope, socket, $state, $stateParams) {
-        //Reset error message
-        $scope.$parent.error=null;
-
-
-        //Redirect not logged_in users to home
-        $scope.$watch("$parent.user", function() {
-            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
-                $state.go('dashboard');
-        });
-
-        //Initialize var
-        $scope.guildAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
-
-        $scope.delete = function(){
-            $scope.$parent.loading = true;
-            socket.emit('delete:guildAd',$scope.guild);
-        };
-
-        socket.forward('delete:guildAd',$scope);
-        $scope.$on('socket:delete:guildAd',function(ev,guild){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
-    }
-
     GuildList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES','TIMEZONES'];
     function GuildList($scope, $stateParams, $translate, socket,LANGUAGES,TIMEZONES) {
 
@@ -172,6 +144,7 @@
                 {id:11, role:"tank", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
                 {id:2, role:"tank", name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
                 {id:10, role:"tank", name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
+                {id:6, role:"tank", name: "<span class='class-6'>"+translations.CLASS_6+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>", selected:false},
                 { msGroup: false},
                 {name: '<span class="icon-small heal">'+translations.HEALS+'</span>', msGroup: true},
                 {id:11, role:"heal", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
