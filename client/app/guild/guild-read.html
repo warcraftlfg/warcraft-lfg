@@ -142,7 +142,7 @@
                                     {{class|uppercase|translate}}
                                 </td>
                             </tr>
-                            <tr ng-if="recruit.tank == 0">
+                            <tr ng-if="recruit.tank === 0">
                                 <td class="common">
                                     None
                                 </td>
@@ -165,7 +165,7 @@
                                     {{class|uppercase|translate}}
                                 </td>
                             </tr>
-                            <tr ng-if="recruit.heal == 0">
+                            <tr ng-if="recruit.heal === 0">
                                 <td class="common">
                                     None
                                 </td>
@@ -188,7 +188,7 @@
                                     {{class|uppercase|translate}}
                                 </td>
                             </tr>
-                            <tr ng-if="recruit.melee_dps == 0">
+                            <tr ng-if="recruit.melee_dps === 0">
                                 <td class="common">
                                     None
                                 </td>
@@ -206,12 +206,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-condensed">
-                            <tr ng-repeat="(class,value) in guild.ad.recruitment.ranged_dps">
+                            <tr ng-if="value == true"  ng-repeat="(class,value) in guild.ad.recruitment.ranged_dps">
                                 <td class="class-{{ class|lowercase }}">
                                     {{class|uppercase|translate}}
                                 </td>
                             </tr>
-                            <tr ng-if="recruit.ranged_dps == 0">
+                            <tr ng-if="recruit.ranged_dps === 0">
                                 <td class="common">
                                     None
                                 </td>
