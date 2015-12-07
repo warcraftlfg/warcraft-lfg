@@ -61,7 +61,7 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
             });
         },
         function (guild, callback) {
-            if (!guild || (guild && !guild.ad))
+            if (guild==null || (guild!=null && guild.ad==null))
                 async.parallel([
                     function (callback) {
                         guildService.insertOrUpdateAd(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 0, wowProgressGuildAd, function (error) {
@@ -79,7 +79,7 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
                     callback(error)
                 });
             else{
-                logger.debug("Guild is already in datase " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.guild);
+                logger.debug("Guild is already in datase " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.name);
                 callback();
             }
         }
