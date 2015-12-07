@@ -204,14 +204,19 @@ module.exports.get = function(region,realm,name,callback){
         "bnet.challenge.records":1,
         "warcraftLogs.logs":1
     }, 1, function(error,character){
-        callback(error, character && character[0]);
+        var result = undefined;
+        if(character && character[0]){
+            result =  character[0];
+            result.ad = confine.normalize(result.ad,characterAdSchema);
+        }
+        callback(error, result);
     });
 };
 
 module.exports.getAds = function(number, filters, callback){
     var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
-    var criteria ={"ad.updated":{$exists:true}};
+    var criteria ={"ad.updated":{$exists:true},"ad.lfg":true};
     var filters = filters || {};
 
     var or = [];
@@ -318,7 +323,7 @@ module.exports.getAds = function(number, filters, callback){
 
 module.exports.getLastAds = function(callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters",{"ad.updated":{$exists:true}} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
+    database.find("characters",{"ad.updated":{$exists:true},"ad.lfg":true} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
     });
 };
@@ -333,7 +338,7 @@ module.exports.deleteAd = function(region,realm,name,id,callback){
 
 module.exports.deleteOldAds = function(timestamp,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.insertOrUpdate("characters", {"ad.updated":{$lte:timestamp}} ,{$unset: {ad:""}} ,null, function(error,result){
+    database.insertOrUpdate("characters", {"ad.updated":{$lte:timestamp},"ad.lfg":true} ,{$set: {"ad.lfg":false}} ,null, function(error,result){
         callback(error, result);
     });
 };
@@ -355,7 +360,7 @@ module.exports.getCount = function (callback){
 
 module.exports.getAdsCount = function (callback){
     var database = applicationStorage.getMongoDatabase();
-    database.count('characters',{"ad.updated":{$exists:true}},function(error,count){
+    database.count('characters',{"ad.updated":{$exists:true},"ad.lfg":true},function(error,count){
         callback(error,count);
     });
 };

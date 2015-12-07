@@ -30,6 +30,13 @@
                     <input ng-model="guild.region"  disabled type="hidden" class="form-control" id="characterRegionInput">
                 </div>
                 <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_LFG"|translate}}</strong></label>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
                     <span class="css3-metro-dropdown css3-metro-dropdown-inverse">
                         <select ng-model="guild.ad.language" class="form-control">
