@@ -105,6 +105,10 @@
         "ranged_dps": {
           "type": "object",
           "properties": {
+            "druid": {
+              "type": "boolean",
+              "default": false
+            },
             "priest": {
               "type": "boolean",
               "default": false

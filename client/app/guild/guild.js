@@ -164,6 +164,7 @@
                 {id:4, role:"melee_dps", name: "<span class='class-4'>"+translations.CLASS_4+"</span>", icon:"<img src='/assets/images/icon/16/class-4.png'>", selected:false},
                 { msGroup: false},
                 {name: '<span class="icon-small ranged-dps">'+translations.RANGED_DPS+'</span>', msGroup: true},
+                {id:11, role:"ranged_dps", name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false},
                 {id:5, role:"ranged_dps", name: "<span class='class-5'>"+translations.CLASS_5+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>", selected:false},
                 {id:7, role:"ranged_dps", name: "<span class='class-7'>"+translations.CLASS_7+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
                 {id:3, role:"ranged_dps", name: "<span class='class-3'>"+translations.CLASS_3+"</span>", icon:"<img src='/assets/images/icon/16/class-3.png'>", selected:false},
