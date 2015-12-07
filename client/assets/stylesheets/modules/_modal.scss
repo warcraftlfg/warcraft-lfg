@@ -1,0 +1,25 @@
+.modal-content {
+	border-radius: 0px;
+	background-color: $grey;
+}
+
+.modal-header {
+	border-bottom: 1px solid $black;
+}
+
+.modal-footer {
+	border-top: 1px solid $black;
+}
+
+.modal-header .close {
+	color: white;
+}
+
+.modal-header.modal-confirm {
+	font-size: 14px;
+	border-bottom: 0px solid white;
+}
+
+.modal-sm {
+	width: 450px;
+}

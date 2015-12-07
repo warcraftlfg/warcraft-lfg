@@ -146,6 +146,19 @@ module.exports.getAds = function(callback){
 
 };
 
+module.exports.parseCharacter = function(region,realm,name,callback) {
+
+    if (russianRealms[realm] && region == "eu")
+        realm = russianRealms[realm];
+
+    realm = realm.split(" ").join("-");
+    realm = realm.split("'").join("-");
+
+    this.parseCharacterPage(encodeURI("/character/" + region + "/" + realm + "/" + name), function (error, characterAd) {
+        callback(error,characterAd);
+    });
+};
+
 module.exports.parseCharacterPage = function(url,callback) {
     this.getWoWProgressPage(url,function(error,body){
         if (error) {
@@ -155,6 +168,10 @@ module.exports.parseCharacterPage = function(url,callback) {
         var result = {};
         var $body = cheerio.load(body);
         var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
+
+        if(armoryUrl=="undefined")
+            return callback(new Error('Armory link undefined'));
+
 
         result.name = $body('h1').text();
         result.realm = armoryUrl.match('battle.net/wow/character/(.*)/(.*)/')[1];
@@ -176,6 +193,11 @@ module.exports.parseCharacterPage = function(url,callback) {
         var transfert = cheerio.load(languageDivs[1])('span').text();
         if(transfert == "Yes, ready to transfer")
             result.transfert = true;
+
+        if(transfert.indexOf('Yes')!=-1)
+            result.lfg = true;
+        else
+            result.lfg = false;
 
         var raidsPerWeek = cheerio.load(languageDivs[2])('strong').text().split(' - ');
         if(raidsPerWeek.length == 2) {
@@ -203,6 +225,19 @@ module.exports.parseCharacterPage = function(url,callback) {
 
 };
 
+module.exports.parseGuild = function(region,realm,name,callback) {
+
+    if (russianRealms[realm] && region == "eu")
+        realm = russianRealms[realm];
+
+    realm = realm.split(" ").join("-");
+    realm = realm.split("'").join("-");
+
+    this.parseGuildPage(encodeURI("/guild/" + region + "/" + realm + "/" + name), function (error, guildAd) {
+        callback(error,guildAd);
+    });
+};
+
 module.exports.parseGuildPage = function( url, callback) {
     var self=this;
     this.getWoWProgressPage(url, function (error, body) {
@@ -214,6 +249,9 @@ module.exports.parseGuildPage = function( url, callback) {
         var $body = cheerio.load(body);
 
         var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
+
+        if(armoryUrl=="undefined")
+            return callback(new Error('Armory link undefined'));
 
         if (!$body('h1').text().match("“(.*)” WoW Guild"))
             return callback();
@@ -339,6 +377,14 @@ module.exports.parseGuildPage = function( url, callback) {
             result.raids_per_week.min = parseInt(raidsPerWeek[0]);
             result.raids_per_week.max = parseInt(raidsPerWeek[0]);
         }
+
+        var lfg = $body(".recruiting").text();
+        if(lfg.indexOf('closed')>=0)
+            result.lfg = false;
+        else
+            result.lfg = true;
+
+
 
         var description = $body(".guildDescription").text();
         result.description = description;

@@ -185,7 +185,24 @@ module.exports.get = function(region,realm,name,callback){
         "realm":realm,
         "name":name
     }, {
-        _id: 0
+        region:1,
+        realm:1,
+        name:1,
+        ad:1,
+        updated:1,
+        "bnet.faction":1,
+        "bnet.class":1,
+        "bnet.thumbnail":1,
+        "bnet.guild.name":1,
+        "bnet.race":1,
+        "bnet.level":1,
+        "bnet.talents":1,
+        "bnet.progression.raids":{$slice:-1},
+        "bnet.items":1,
+        "bnet.reputation":1,
+        "bnet.achievements":1,
+        "bnet.challenge.records":1,
+        "warcraftLogs.logs":1
     }, 1, function(error,character){
         callback(error, character && character[0]);
     });
@@ -196,6 +213,8 @@ module.exports.getAds = function(number, filters, callback){
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.updated":{$exists:true}};
     var filters = filters || {};
+
+    var or = [];
     if(filters.last){
         criteria["ad.updated"]={$lt:filters.last}
     }
@@ -221,7 +240,7 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.classes && filters.classes.length>0 && filters.classes.length < 11){
         var classes = [];
         filters.classes.forEach(function(item){
-                classes.push(item.id);
+            classes.push(item.id);
         });
         criteria["bnet.class"] = { $in: classes};
     }
@@ -232,10 +251,8 @@ module.exports.getAds = function(number, filters, callback){
             tmpObj["ad.role."+role.id] = true;
             roles.push(tmpObj);
         });
-        if(criteria["$or"])
-            criteria["$or"].push(roles);
-        else
-            criteria["$or"]=roles;
+        or.push(roles);
+
 
     }
     if(filters.days && filters.days.length>0){
@@ -246,10 +263,8 @@ module.exports.getAds = function(number, filters, callback){
             days.push(tmpObj);
 
         });
-        if(criteria["$or"])
-            criteria["$or"].push(days);
-        else
-            criteria["$or"]=days;
+        or.push(days);
+
     }
 
     if(filters.raids_per_week && filters.raids_per_week.active){
@@ -258,6 +273,28 @@ module.exports.getAds = function(number, filters, callback){
     }
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
+    }
+
+    if (filters.realm && filters.realm.connected_realms && filters.realm.region){
+        var realms = [];
+        filters.realm.connected_realms.forEach(function(realm){
+            var tmpObj = {};
+            tmpObj["realm"] = realm.name;
+            realms.push(tmpObj);
+
+        });
+        or.push(realms);
+        criteria["region"] = filters.realm.region;
+
+    }
+    if (filters.wowProgress ==true){
+        criteria["id"] = 0;
+    }
+    if(or.length > 0 ){
+        criteria["$and"]=[];
+        or.forEach(function(orVal){
+            criteria["$and"].push({"$or":orVal});
+        });
     }
     database.find("characters",criteria , {
         name:1,
@@ -289,7 +326,7 @@ module.exports.getLastAds = function(callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.insertOrUpdate("characters", {region:region,realm:realm,name:name,id:id} ,{$unset: {ad:""}} ,null, function(error,result){
+    database.insertOrUpdate("characters", {region:region,realm:realm,name:name,id:id} ,{$unset: {ad:"",id:""}} ,null, function(error,result){
         callback(error, result);
     });
 };

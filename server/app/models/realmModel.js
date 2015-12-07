@@ -37,18 +37,13 @@ module.exports.insertOrUpdateBnet = function (region,name,bnet,callback) {
     });
 };
 
-module.exports.search = function(search, callback) {
-    if(!search || search.length <2){
-        callback(new Error('Field search is required with 2 or more characters'));
-        return;
+module.exports.get = function(region, callback){
+    var criteria = {};
+    if (region){
+        criteria.region = region.toLowerCase();
     }
-
     var database = applicationStorage.getMongoDatabase();
-    database.find("realms", {
-        name:{$regex:"^"+search+".*",$options:"i"}
-    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{}, function(error,result){
+    database.find("realms",criteria, {name:1,region:1,"bnet.connected_realms":1,"bnet.slug":1}, -1,{name:1,region:1}, function(error,result){
         callback(error, result);
     });
 };
-
-

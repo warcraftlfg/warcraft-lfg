@@ -1,18 +1,17 @@
 angular
     .module('app.character')
-    .directive('wlfgWarcraftLogsInfo', warcraftLogsInfo);
+    .directive('wlfgWarcraftLogs', warcraftLogs);
 
-function warcraftLogsInfo() {
+function warcraftLogs() {
     var directive = {
         link: link,
         restrict: 'A',
-        scope: true,
-        templateUrl: 'app/character/character.warcraft-logs-info.directive.html'
+        templateUrl: 'app/character/directive/wcl/character.warcraft-logs.directive.html'
     };
     return directive;
 
     function link(scope, element, attrs) {
-        scope.$watch(attrs.wlfgWarcraftLogsInfo, function(logs){
+        scope.$watch(attrs.wlfgWarcraftLogs, function(logs){
             if (logs) {
                 var sortedLogs = {3:{0:[],'1':[],'2':[],'3':[]},4:{0:[],'1':[],'2':[],'3':[]},5:{0:[],'1':[],'2':[],'3':[]}};
                 var ratioFound = false;

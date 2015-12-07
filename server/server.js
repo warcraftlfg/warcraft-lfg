@@ -67,7 +67,7 @@ if(process.argv.length == 3 ){
     if(process.argv[2] ==="-adu")
         startAdUpdateProcess=true;
 
-    // -adu start GuildProgressUpdateProcess
+    // -gpu start GuildProgressUpdateProcess
     if(process.argv[2] ==="-gpu")
         startGuildProgressUpdateProcess=true;
 

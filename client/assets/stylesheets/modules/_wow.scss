@@ -59,9 +59,9 @@
   &.class-11{background: url('../images/icon/16/class-11.png') left center no-repeat;}
 
   &.dps,&.melee_dps {background: url('../images/icon/16/dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
-  &.ranged-dps,&.ranged_dps {background: url('../images/icon/16/ranged-dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
-  &.heal {background: url('../images/icon/16/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
-  &.tank {background: url('../images/icon/16/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.ranged-dps,&.ranged_dps,&.distant_dps {background: url('../images/icon/16/ranged-dps.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.heal,&.heals {background: url('../images/icon/16/healing.png') left center no-repeat;padding: 1px 0px 1px 20px;}
+  &.tank,&.tanks {background: url('../images/icon/16/tank.png') left center no-repeat;padding: 1px 0px 1px 20px;}
 
   &.faction-1{background: url('../images/icon/16/horde.png') left center no-repeat;}
   &.faction-0{background: url('../images/icon/16/alliance.png') left center no-repeat;}

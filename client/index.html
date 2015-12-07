@@ -7,6 +7,10 @@
 
         <title>Warcraft LFG</title>
 
+        <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard">
+        <meta name="description" content="WarcraftLFG strive to be the link between players and guilds: Our goal is to provide each party with a meaningful set of data to help you find your perfect guild mates.">
+        <meta name="robots" content="index,follow" />
+
         <!-- Fav icons -->
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/favicon/apple-touch-icon-57x57.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/favicon/apple-touch-icon-114x114.png" />
@@ -33,6 +37,7 @@
         <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="/vendor/angular-multi-select/isteven-multi-select.css" rel="stylesheet">
+        <link href="/vendor/world-flags-sprite/stylesheets/flags32.css" rel="stylesheet" type="text/css" />
 
         <!-- build:css assets/css/warcraftlfg.min.css -->
         <link href="/assets/css/main.css" rel="stylesheet">
@@ -40,16 +45,15 @@
 
     </head>
 
-    <body ng-cloak ng-controller="CoreController">
-        <div class="wrapper">
+    <body ng-controller="CoreController">
+        <div ng-cloak class="wrapper">
             <div data-ng-include="'app/layout/header.html'"></div>
             <div class="content">
-                <div ng-cloak ng-if="error" class="alert alert-danger" role="alert">
+                <div ng-show="error" class="alert alert-danger" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     {{error|translate}}
                 </div>
                 <div ui-view></div>
-                <!-- Modal -->
             </div>
             <div class="push"></div>
         </div>
@@ -83,6 +87,9 @@
         <!-- Reusable Blocks/Modules -->
         <script src="/app/blocks/socket/socket.module.js"></script>
         <script src="/app/blocks/socket/socket.js"></script>
+        <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.module.js"></script>
+        <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.directive.js"></script>
+        <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.controller.js"></script>
         <script src="/app/blocks/select.convert-to-number.directive.js"></script>
 
         <!-- core module -->
@@ -112,17 +119,17 @@
 
         <!-- character -->
         <script src="/app/character/character.module.js"></script>
-        <script src="/app/character/character.legendary-ring.directive.js"></script>
-        <script src="/app/character/character.warcraft-logs.directive.js"></script>
-        <script src="/app/character/character.warcraft-logs-info.directive.js"></script>
-        <script src="/app/character/character.progress.directive.js"></script>
-        <script src="/app/character/character.item.directive.js"></script>
-        <script src="/app/character/character.item-t18.directive.js"></script>
-        <script src="/app/character/character.item-audit.directive.js"></script>
-        <script src="/app/character/character.reputation-rune.directive.js"></script>
-        <script src="/app/character/character.achievement-pg.directive.js"></script>
-        <script src="/app/character/character.challenge-medal.directive.js"></script>
-        <script src="/app/character/character.challenge-instance.directive.js"></script>
+        <script src="/app/character/directive/item/character.legendary-ring.directive.js"></script>
+        <script src="/app/character/directive/wcl/character.warcraft-logs.directive.js"></script>
+        <script src="/app/character/directive/wcl/character.warcraft-logs-info.directive.js"></script>
+        <script src="/app/character/directive/progress/character.progress.directive.js"></script>
+        <script src="/app/character/directive/item/character.item.directive.js"></script>
+        <script src="/app/character/directive/item/character.item-t18.directive.js"></script>
+        <script src="/app/character/directive/item/character.item-audit.directive.js"></script>
+        <script src="/app/character/directive/reputation/character.reputation-rune.directive.js"></script>
+        <script src="/app/character/directive/achievement/character.achievement-pg.directive.js"></script>
+        <script src="/app/character/directive/challenge/character.challenge-medal.directive.js"></script>
+        <script src="/app/character/directive/challenge/character.challenge-instance.directive.js"></script>
         <script src="/app/character/config.route.js"></script>
         <script src="/app/character/character.js"></script>
 
@@ -131,6 +138,17 @@
         <script src="/app/guild/config.route.js"></script>
         <script src="/app/guild/guild.js"></script>
         <!-- endbuild -->
+
+        <!-- Google analytics -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-70750580-1', 'auto');
+          //ga('send', 'pageview');
+        </script>
 
     </body>
 </html>

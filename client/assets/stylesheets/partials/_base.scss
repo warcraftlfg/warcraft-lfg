@@ -19,6 +19,8 @@ html, body {
 	height: 100%;
 }
 
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 .wrapper {
 	min-height: 100%;
 	margin: 0 auto -128px; /* the bottom margin is the negative value of the footer's height */
@@ -145,6 +147,9 @@ pre {
 	background-color: $grey;
 	border-radius: 0px;
 	border: none;
+	word-break: initial;
+	word-wrap: normal;
+	white-space: pre-line;
 	color: white;
 }
 

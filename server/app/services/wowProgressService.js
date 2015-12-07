@@ -141,3 +141,61 @@ module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,ca
     });
 };
 
+module.exports.refreshAll = function(callback){
+
+    var filters = {};
+    filters.wowProgress = true;
+    async.waterfall([
+        function(callback){
+            characterService.getAds(-1,filters,function(error,characterAds){
+                if(error)
+                    return callback();
+                async.forEachSeries(characterAds,function(characterAd, callback) {
+                    logger.debug("Checking wowprogress update for character"+characterAd.region+"-"+characterAd.realm+"-"+characterAd.name);
+                    wowprogressAPI.parseCharacter(characterAd.region, characterAd.realm, characterAd.name, function (error, result) {
+                        if(result && result.lfg == false ){
+                            characterService.deleteAd(characterAd.region,characterAd.realm,characterAd.name,0,function(){
+                                logger.info("Delete wowprogress characterAd (no longer lfg) "+characterAd.region+"-"+characterAd.realm+"-"+characterAd.name);
+                                callback();
+                            });
+                        }
+                        else {
+                            logger.debug("Nothing todo "+characterAd.region+"-"+characterAd.realm+"-"+characterAd.name);
+                            callback();
+                        }
+                    });
+                }, function () {
+                    callback();
+                });
+            });
+        },
+        function(callback) {
+            guildService.getAds(-1, filters, function (error, guildAds) {
+                if (error)
+                    return callback();
+                async.forEachSeries(guildAds, function (guildAd, callback) {
+                    logger.debug("Checking wowprogress update for guild " + guildAd.region + "-" + guildAd.realm + "-" + guildAd.name);
+                    wowprogressAPI.parseGuild(guildAd.region, guildAd.realm, guildAd.name, function (error, result) {
+                        if (result && result.lfg == false) {
+                            guildService.deleteAd(guildAd.region, guildAd.realm, guildAd.name, 0, function () {
+                                logger.info("Delete wowprogress guildAd (no longer lfg) " + guildAd.region + "-" + guildAd.realm + "-" + guildAd.name);
+                                callback();
+                            });
+                        }
+                        else {
+                            logger.debug("Nothing todo " + guildAd.region + "-" + guildAd.realm + "-" + guildAd.name);
+                            callback();
+                        }
+                    });
+                },function(){
+                    callback();
+                });
+            });
+        }
+    ],function(){
+        callback();
+    });
+
+};
+
+

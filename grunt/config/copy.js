@@ -32,7 +32,12 @@ module.exports = {
             {
                 src: 'client/index.html',
                 dest: 'www/index.html'
+            },
+            {
+                src: 'client/robots.txt',
+                dest: 'www/robots.txt'
             }
+
         ]
 
     }

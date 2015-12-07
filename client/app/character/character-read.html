@@ -33,15 +33,15 @@
                             {{"QUEUE_POSITION"|translate}} {{queuePosition}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
                         </span>
                     </div>
-                    <div class="col-md-6 m-b-20 text-right">
-                        <a href="#" class="fa-icon">
+                    <!--<div class="col-md-6 m-b-20 text-right">
+                        <a data-url="{{ current_url }}" ng-click="" class="cursor-pointer fa-icon">
                             <i class="fa fa-facebook f-32"></i>
                         </a>
                         &nbsp; &nbsp;
-                        <a href="#" class="fa-icon">
+                        <a data-url="{{ current_url }}" ng-click="" class="cursor-pointer  fa-icon">
                             <i class="fa fa-twitter f-32"></i>
                         </a>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -70,8 +70,8 @@
                                             </span>
                                         </div>
                                         <div class="m-t-10">
-                                            <span class="m-l-10" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
-                                                <img ng-src="/assets/images/flag/32/{{language|lowercase}}.png" alt="flag-{{language|lowercase}}" title="{{'LANG_'+language|uppercase|translate}}" />
+                                            <span class="m-l-10 f32" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
+                                                <span class="flag {{language|lowercase}}">
                                             </span>
                                         </div>
                                     </div>
@@ -92,7 +92,7 @@
                                         Ad updated : <span am-time-ago="character.ad.updated"></span>
                                     </div>
                                     <div class="col-md-6">
-                                        Character updated :  <span am-time-ago="character.ad.updated"></span>
+                                        Character updated :  <span am-time-ago="character.updated"></span>
                                     </div>
                                 </div>
                             </div>
@@ -100,11 +100,11 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         Raid per week : {{ character.ad.raids_per_week.min }} - {{ character.ad.raids_per_week.max }}
                                     </div>
-                                    <div class="col-md-6">
-                                        Time zone : 
+                                    <div class="col-md-12 m-t-10" ng-if="character.ad.timezone">
+                                        Timezone : {{"TIMEZONE_"+character.ad.timezone|uppercase|translate}}
                                     </div>
                                 </div>
                             </div>

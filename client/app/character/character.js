@@ -5,17 +5,17 @@
         .module('app.character')
         .controller('CharacterReadController', CharacterRead)
         .controller('CharacterUpdateController', CharacterUpdate)
-        .controller('CharacterDeleteController', CharacterDelete)
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope","socket","$state","$stateParams"];
-    function CharacterRead($scope,socket,$state,$stateParams) {
+    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location"];
+    function CharacterRead($scope,socket,$state,$stateParams,$location) {
         //Reset error message
         $scope.$parent.error=null;
 
         //Initialize $scope variables
         $scope.$parent.loading = true;
+        $scope.current_url =  window.encodeURIComponent($location.absUrl());
 
         socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
@@ -88,32 +88,6 @@
         });
     }
 
-    CharacterDelete.$inject = ['$scope','socket','$state','$stateParams'];
-    function CharacterDelete($scope, socket, $state, $stateParams) {
-        //Reset error message
-        $scope.$parent.error=null;
-
-
-        //Redirect not logged_in users to home
-        $scope.$watch("$parent.user", function() {
-            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
-                $state.go('dashboard');
-        });
-
-        //Initialize var
-        $scope.characterAd = {name:$stateParams.name, realm:$stateParams.realm, region:$stateParams.region};
-
-        $scope.delete = function(){
-            $scope.$parent.loading = true;
-            socket.emit('delete:characterAd',$scope.characterAd);
-        };
-
-        socket.forward('delete:characterAd',$scope);
-        $scope.$on('socket:delete:characterAd',function(ev,characterAd){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
-    }
     CharacterList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES','TIMEZONES'];
     function CharacterList($scope ,$stateParams, $translate, socket, LANGUAGES,TIMEZONES) {
 
@@ -129,6 +103,7 @@
         $scope.timezones= TIMEZONES;
 
         $translate([
+            'ALL_REALMS',
             'ALL_DAYS',
             'ALL_CLASSES',
             'ALL_ROLES',
@@ -216,6 +191,13 @@
                 search          : translations.SEARCH,
                 nothingSelected : translations.ALL_DAYS
             };
+            $scope.localRealms = {
+                selectAll       : translations.SELECT_ALL,
+                selectNone      : translations.SELECT_NONE,
+                reset           : translations.RESET,
+                search          : translations.SEARCH,
+                nothingSelected : translations.ALL_REALMS
+            };
         });
 
 
@@ -256,6 +238,11 @@
             $scope.updateFilters();
         });
 
+        $scope.$watch('filters.region', function() {
+            $scope.filters.realm={};
+            $scope.updateFilters();
+            socket.emit('get:realms',$scope.filters.region);
+        });
 
         $scope.getMoreCharacters = function(){
             if($scope.$parent.loading || $scope.loading)
@@ -277,11 +264,38 @@
 
         };
 
+        $scope.setRealm = function(){
+            $scope.filters.realm = $scope.filters.realm[0];
+            $scope.filters.realm.connected_realms= $scope.connected_realms[$scope.filters.realm.connected_realms.join("")];
+            $scope.updateFilters();
+        };
+
+        $scope.resetRealm = function(){
+            $scope.filters.realm = undefined;
+            $scope.updateFilters();
+        };
+
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters){
             $scope.$parent.loading = false;
             $scope.loading=false;
             $scope.characters = $scope.characters.concat(characters);
+        });
+
+        socket.emit('get:realms');
+        socket.forward('get:realms',$scope);
+        $scope.$on('socket:get:realms',function(ev,realms){
+
+            $scope.connected_realms = {};
+            //Beurk !!!
+            realms.forEach(function(realm){
+                if( !$scope.connected_realms[realm.bnet.connected_realms.join("")])
+                    $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
+                $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
+                realm.label = realm.name+" ("+realm.region.toUpperCase()+")";
+                realm.connected_realms = realm.bnet.connected_realms;
+            });
+            $scope.realms = realms;
         });
 
     }
