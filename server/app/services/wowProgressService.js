@@ -61,7 +61,7 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
             });
         },
         function (guild, callback) {
-            if (guild==null || (guild!=null && guild.ad==null))
+            if (!guild || (guild && !guild.ad) ||(guild && guild.ad && !guild.ad.updated))
                 async.parallel([
                     function (callback) {
                         guildService.insertOrUpdateAd(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 0, wowProgressGuildAd, function (error) {
@@ -104,7 +104,7 @@ module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,ca
             });
         },
         function(character,callback) {
-            if (!character || (character && !character.ad))
+            if (!character || (character && !character.ad) || (character && character.ad && !character.ad.updated))
                 async.parallel([
                     function (callback) {
                         characterService.insertOrUpdateAd(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, 0, wowProgressCharacterAd, function (error) {
