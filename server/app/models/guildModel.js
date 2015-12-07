@@ -376,6 +376,8 @@ module.exports.getAds = function (number,filters,callback) {
                     recruitment.push({"ad.recruitment.melee_dps.rogue":true});
             }
             if(classe.role == "ranged_dps"){
+                if(classe.id == 11)
+                    recruitment.push({"ad.recruitment.ranged_dps.druid":true});
                 if(classe.id == 5)
                     recruitment.push({"ad.recruitment.ranged_dps.priest":true});
                 if(classe.id == 7)
