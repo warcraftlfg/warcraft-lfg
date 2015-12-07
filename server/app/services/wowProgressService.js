@@ -122,7 +122,7 @@ module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,ca
                         if (wowProgressCharacterAd.guild)
                             guildUpdateModel.insertOrUpdate(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.guild, 10, function (error) {
                                 if (!error)
-                                    logger.info("Insert guild to update " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.guild+" priority 10");
+                                    logger.info("Insert guild to update " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.name+" priority 10");
                                 callback(error);
                             });
                         else
