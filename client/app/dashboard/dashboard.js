@@ -28,7 +28,7 @@
         socket.emit('get:lastCharacterAds');
         socket.forward('get:lastCharacterAds',$scope);
         $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
-            $scope.characters=characters.toLocaleString();
+            $scope.characters=characters;
         });
 
         socket.emit('get:charactersCount');
