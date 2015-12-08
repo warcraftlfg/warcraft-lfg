@@ -61,7 +61,7 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
             });
         },
         function (guild, callback) {
-            if (!guild || (guild && !guild.ad))
+            if (!guild || (guild && !guild.ad) ||(guild && guild.ad && !guild.ad.updated))
                 async.parallel([
                     function (callback) {
                         guildService.insertOrUpdateAd(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 0, wowProgressGuildAd, function (error) {
@@ -79,7 +79,7 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
                     callback(error)
                 });
             else{
-                logger.debug("Guild is already in datase " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.guild);
+                logger.debug("Guild is already in datase " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.name);
                 callback();
             }
         }
@@ -104,7 +104,7 @@ module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,ca
             });
         },
         function(character,callback) {
-            if (!character || (character && !character.ad))
+            if (!character || (character && !character.ad) || (character && character.ad && !character.ad.updated))
                 async.parallel([
                     function (callback) {
                         characterService.insertOrUpdateAd(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, 0, wowProgressCharacterAd, function (error) {
@@ -122,7 +122,7 @@ module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,ca
                         if (wowProgressCharacterAd.guild)
                             guildUpdateModel.insertOrUpdate(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.guild, 10, function (error) {
                                 if (!error)
-                                    logger.info("Insert guild to update " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.guild+" priority 10");
+                                    logger.info("Insert guild to update " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.name+" priority 10");
                                 callback(error);
                             });
                         else

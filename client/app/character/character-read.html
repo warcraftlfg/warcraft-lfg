@@ -49,7 +49,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img ng-src="https://render-api-{{ character.region}}.worldofwarcraft.com/static-render/{{ character.region}}/{{character.bnet.thumbnail}}" alt="avatar" class="img-responsive" />
+                                        <img ng-src="//render-api-{{ character.region}}.worldofwarcraft.com/static-render/{{ character.region}}/{{character.bnet.thumbnail}}" alt="avatar" class="img-responsive" />
                                     </div>
                                     <div class="col-md-5">
                                         <div class="class-{{character.bnet.class}} f-20 overflow">{{ character.name }}</div>
@@ -70,8 +70,8 @@
                                             </span>
                                         </div>
                                         <div class="m-t-10">
-                                            <span class="m-l-10 f32" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
-                                                <span class="flag {{language|lowercase}}">
+                                            <span class="m-l-10" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
+                                                {{"LANG_"+language|uppercase|translate}}&nbsp;
                                             </span>
                                         </div>
                                     </div>

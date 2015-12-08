@@ -182,6 +182,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                     reduced[values[idx].boss] = {};
                     reduced[values[idx].boss].timestamps = [];
                 }
+
                 reduced[values[idx].boss].timestamps.push(values[idx].timestamp);
             }
         }
@@ -309,7 +310,7 @@ module.exports.get = function(region,realm,name,callback){
 
 module.exports.getAds = function (number,filters,callback) {
     var database = applicationStorage.getMongoDatabase();
-    var criteria ={"ad.updated":{$exists:true}};
+    var criteria ={"ad.updated":{$exists:true},"ad.lfg":true};
     var filters = filters || {};
     var or = [];
     if(filters.last){
@@ -376,6 +377,8 @@ module.exports.getAds = function (number,filters,callback) {
                     recruitment.push({"ad.recruitment.melee_dps.rogue":true});
             }
             if(classe.role == "ranged_dps"){
+                if(classe.id == 11)
+                    recruitment.push({"ad.recruitment.ranged_dps.druid":true});
                 if(classe.id == 5)
                     recruitment.push({"ad.recruitment.ranged_dps.priest":true});
                 if(classe.id == 7)
@@ -451,7 +454,7 @@ module.exports.getAds = function (number,filters,callback) {
 
 module.exports.getLastAds = function (callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.find("guilds", {"ad.updated":{$exists:true}},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
+    database.find("guilds", {"ad.updated":{$exists:true},"ad.lfg":true},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
         callback(error, guilds);
     });
 };
@@ -465,14 +468,14 @@ module.exports.deleteAd = function(region,realm,name,id,callback){
 
 module.exports.deleteOldAds = function(timestamp,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.insertOrUpdate("guilds", {"ad.updated":{$lte:timestamp}} ,{$unset: {ad:""}} ,null, function(error,result){
+    database.insertOrUpdate("guilds", {"ad.updated":{$lte:timestamp},"ad.lfg":true} ,{$set: {"ad.lfg":false}} ,null, function(error,result){
         callback(error, result);
     });
 };
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("guilds", {id:id, "ad.updated":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 0,{updated:-1}, function(error,result){
+    database.find("guilds", {id:id, "ad.updated":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1}, 0,{updated:-1}, function(error,result){
         callback(error, result);
     });
 };
@@ -489,7 +492,7 @@ module.exports.getCount = function (callback){
 
 module.exports.getAdsCount = function (callback){
     var database = applicationStorage.getMongoDatabase();
-    database.count('guilds',{"ad.updated":{$exists:true}},function(error,count){
+    database.count('guilds',{"ad.updated":{$exists:true},"ad.lfg":true},function(error,count){
         callback(error,count);
     });
 };

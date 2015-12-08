@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>{{ guild.name }}</h1>
+                    <h2>{{ guild.name }}</h2>
                 </div>
             </div>
         </div>
@@ -12,7 +12,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    {{ guild.realm }} - {{ guild.region|uppercase }}
+                	<span class="sectiontitle">
+                    	{{ guild.realm }} - {{ guild.region|uppercase }}
+                   </span>
                 </div>
             </div>
         </div>
@@ -28,6 +30,13 @@
                     <input ng-model="guild.name" disabled type="hidden" class="form-control" id="characterNameInput">
                     <input ng-model="guild.realm" disabled type="hidden" class="form-control" id="characterRealmInput">
                     <input ng-model="guild.region"  disabled type="hidden" class="form-control" id="characterRegionInput">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_LFG"|translate}}</strong></label>
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
