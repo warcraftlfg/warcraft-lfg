@@ -45,7 +45,7 @@
                              selection-mode="single"
                              on-item-click="setRealm(data)"
                              on-reset="resetRealm()"
-                        >
+                                >
                         </div>
                     </div>
                     <div class="m-b-20">
@@ -58,12 +58,14 @@
                              tick-property="selected"
                              translation="localLanguages"
                              max-height="300px"
-                        >
+                             on-reset="resetLanguages()"
+
+                                >
                         </div>
                     </div>
                     <div class="m-b-20">
                         <span class="css3-metro-dropdown">
-                            <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
+                            <select ng-model="filters.faction" class="form-control">
                                 <option value="">{{"ALL_FACTION"|translate}}</option>
                                 <option value="0">{{"ALLIANCE"|translate}}</option>
                                 <option value="1">{{"HORDE"|translate}}</option>
@@ -79,7 +81,9 @@
                              output-properties="id"
                              tick-property="selected"
                              translation="localRoles"
-                        >
+                             on-reset="resetRoles()"
+
+                                >
                         </div>
                     </div>
                     <div class="m-b-20">
@@ -90,7 +94,9 @@
                              item-label="icon name"
                              output-properties="id selected"
                              tick-property="selected"
-                             translation="localClasses">
+                             translation="localClasses"
+                             on-reset="resetClasses()"
+                                >
                         </div>
                     </div>
                     <div class="m-b-20">
@@ -101,19 +107,22 @@
                              item-label="name"
                              output-properties="id"
                              tick-property="selected"
-                             translation="localDays">
-                        </div>
+                             translation="localDays"
+                             on-reset="resetDays()"
+                                >
+
+                    </div>
                     </div>
                     <div class="m-b-20">
                         <span class="css3-metro-dropdown">
-                            <select ng-model="filters.timezone" ng-change="updateFilters()" class="form-control">
+                            <select ng-model="filters.timezone" class="form-control">
                                 <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
                             </select>
                         </span>
                     </div>
                     <div class="m-b-20">
                         <label>
-                            <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
+                            <input ng-model="filters.raids_per_week.active"  type="checkbox"> Raids per week</label>
                         <div ng-if="filters.raids_per_week.active">
                             {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
                             <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
@@ -122,14 +131,14 @@
                     <div class="m-b-20">
                         <div class="checkbox">
                             <label>
-                                <input ng-model="filters.transfert" ng-change="updateFilters()" type="checkbox"> Transfert
+                                <input ng-model="filters.transfert" type="checkbox"> Transfert
                             </label>
                         </div>
                     </div>
                     <div class="m-b-20">
                         <div class="checkbox">
                             <label>
-                                <input ng-model="filters.lvlmax" ng-change="updateFilters()" type="checkbox">  Level 100
+                                <input ng-model="filters.lvlmax" type="checkbox">  Level 100
                             </label>
                         </div>
                     </div>
@@ -150,7 +159,7 @@
                                     {{character.realm}} ({{character.region|uppercase}})
                                 </div>
                                 <div class="overflow character-info-padding faction-{{character.bnet.faction}}">
-                                         {{character.bnet.guild.name}}
+                                    {{character.bnet.guild.name}}
                                 </div>
                                 <div class="character-info-padding">
                                     Level {{character.bnet.level}}
@@ -158,7 +167,7 @@
                             </div>
                             <div class="col-md-3 col-lg-4">
                                 <div>
-                                    Languages : 
+                                    Languages :
                                     <span ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">{{"LANG_"+language|uppercase|translate}}&nbsp;</span>
                                     <span ng-if="!character.ad.languages.length">{{ "LANG_NONE"|translate }}</span>
                                 </div>
