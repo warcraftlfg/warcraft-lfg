@@ -60,8 +60,8 @@
                             </div>
                             <div class="col-md-4 text-right">
                                 <div class="">
-                                    <span class="m-l-10 f32" ng-if="guild.ad.language">
-                                        <span class="flag {{guild.ad.language|lowercase}}">
+                                    <span class="m-l-10" ng-if="guild.ad.language">
+                                        {{"LANG_"+guild.ad.language|uppercase|translate}}&nbsp;
                                     </span>
                                 </div>
                             </div>

@@ -127,7 +127,7 @@
                             </div>
                             <div class="col-sm-3 col-md-2 col-lg-4">
                                 <div>
-                                    Language : {{guild.ad.language|uppercase}}
+                                    Language : {{"LANG_"+guild.ad.language|uppercase|translate}}
                                 </div>
                                 <div>
                                     Raids per week : {{guild.ad.raids_per_week.min}} - {{guild.ad.raids_per_week.max}}

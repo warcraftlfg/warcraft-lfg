@@ -70,8 +70,8 @@
                                             </span>
                                         </div>
                                         <div class="m-t-10">
-                                            <span class="m-l-10 f32" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
-                                                <span class="flag {{language|lowercase}}">
+                                            <span class="m-l-10" ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">
+                                                {{"LANG_"+language|uppercase|translate}}&nbsp;
                                             </span>
                                         </div>
                                     </div>
