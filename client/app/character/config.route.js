@@ -22,7 +22,7 @@
                 controller: "CharacterUpdateController"
             })
             .state("character-list", {
-                url: "/character/list?region&language&faction",
+                url: "/character/list?region&languages&faction&realm_name&realm_region&connected_realms",
                 templateUrl: "app/character/character-list.html",
                 controlerAs: 'vm',
                 title: 'Character list',

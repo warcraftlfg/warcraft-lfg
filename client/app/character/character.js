@@ -88,19 +88,15 @@
         });
     }
 
-    CharacterList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES','TIMEZONES'];
-    function CharacterList($scope ,$stateParams, $translate, socket, LANGUAGES,TIMEZONES) {
+    CharacterList.$inject = ['$scope','$stateParams','$translate','$location','socket','LANGUAGES','TIMEZONES'];
+    function CharacterList($scope ,$stateParams, $translate, $location, socket, LANGUAGES,TIMEZONES) {
 
         //Reset error message
         $scope.$parent.error=null;
         $scope.characters = [];
 
-        $scope.languages=[];
-        LANGUAGES.forEach(function(language){
-            $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase())});
-        });
+        $scope.current_url =  window.encodeURIComponent($location.absUrl());
 
-        $scope.timezones= TIMEZONES;
 
         $translate([
             'ALL_REALMS',
@@ -200,22 +196,32 @@
             };
         });
 
-
         $scope.filters = {};
         $scope.filters.faction = "";
         $scope.filters.lvlmax = true;
         $scope.filters.region = "";
-        $scope.language = {};
         $scope.filters.role = "";
         $scope.filters.raids_per_week = {min:1,max:7};
         $scope.filters.days = {};
+        $scope.filters.languages = [];
         $scope.realms = [];
+
+        $scope.languages=[];
+        angular.forEach(LANGUAGES,function(language){
+            var tmplng = {id:language,name:$translate.instant("LANG_"+language.toUpperCase())};
+            if($stateParams.languages &&  $stateParams.languages.split("__").indexOf(language)!=-1) {
+                tmplng.selected = true;
+               $scope.filters.languages.push({id:language,selected:true});
+            }
+            $scope.languages.push(tmplng);
+        });
+
+        $scope.timezones= TIMEZONES;
 
         /* if params load filters */
         if($stateParams.region)
             $scope.filters.region = $stateParams.region;
-        if($stateParams.language)
-            $scope.filters.language = $stateParams.language;
+
         if($stateParams.faction)
             $scope.filters.faction = $stateParams.faction;
 
@@ -242,11 +248,12 @@
         $scope.$watch('filters.region', function() {
             $scope.filters.realm={};
             $scope.updateFilters();
+            console.log("REGION");
             socket.emit('get:realms',$scope.filters.region);
         });
 
         $scope.getMoreCharacters = function(){
-            if($scope.$parent.loading || $scope.loading)
+            if(($scope.$parent && $scope.$parent.loading) || $scope.loading)
                 return;
             $scope.loading = true;
 
@@ -256,11 +263,90 @@
         };
 
         $scope.updateFilters = function(){
+            console.log('update');
             if($scope.$parent.loading || $scope.loading)
                 return;
+            console.log('updateIN');
+
             $scope.$parent.loading = true;
             $scope.filters.last = null;
             $scope.characters =[];
+
+            //Beurk Filters !!!
+            if($scope.filters) {
+                var urlParams={};
+                //region
+                if ($scope.filters.region && $scope.filters.region !== "")
+                    urlParams.region = $scope.filters.region;
+                //realm (Array)
+                if ($scope.filters.realm && $scope.filters.realm.region)
+                    urlParams.realm_region = $scope.filters.realm.region;
+                if ($scope.filters.realm && $scope.filters.realm.name)
+                    urlParams.realm_name = $scope.filters.realm.name;
+                if ($scope.filters.realm && $scope.filters.realm.connected_realms){
+                    var connectedRealms = [];
+                    angular.forEach($scope.filters.realm.connected_realms,function(realm){
+                        connectedRealms.push(realm.name);
+                    });
+                    urlParams.connected_realms = connectedRealms.join('__');
+                }
+                //language (Array)
+                if ($scope.filters.languages && $scope.filters.languages.length>0){
+                    var tmpLanguages = [];
+                    angular.forEach($scope.filters.languages,function(language){
+                        tmpLanguages.push(language.id);
+                    });
+                    urlParams.languages = tmpLanguages.join('__');
+                }
+                //faction
+                if($scope.filters.faction)
+                    urlParams.faction = $scope.filters.faction;
+
+                //role (Array)
+                if($scope.filters.roles && $scope.filters.roles.length>0){
+                    var roles = [];
+                    angular.forEach($scope.filters.roles,function(role){
+                        roles.push(role.id);
+                    });
+                    urlParams.roles = roles.join('__');
+                }
+
+                //classes (Array)
+                if($scope.filters.classes && $scope.filters.classes.length>0){
+                    var classes = [];
+                    angular.forEach($scope.filters.classes,function(classe){
+                        classes.push(classe.id);
+                    });
+                    urlParams.classes = classes.join('__');
+                }
+
+                //day (Array)
+                if($scope.filters.days && $scope.filters.days.length>0){
+                    var days = [];
+                    angular.forEach($scope.filters.days,function(day){
+                        days.push(day.id);
+                    });
+                    urlParams.days = days.join('__');
+                }
+                //timezone
+                if($scope.filters.timezone)
+                    urlParams.timezone = $scope.filters.timezone;
+
+                //raids per week
+                if($scope.filters.raids_per_week && $scope.filters.raids_per_week.active){
+                    urlParams.raids_per_week = $scope.filters.raids_per_week.active.toString();
+                    urlParams.raids_per_week_min = $scope.filters.raids_per_week.min;
+                    urlParams.raids_per_week_max = $scope.filters.raids_per_week.max;
+                }
+                //transfert
+                if($scope.filters.transfert)
+                    urlParams.transfert = $scope.filters.transfert.toString();
+                //level100
+                if($scope.filters.lvlmax)
+                    urlParams.lvlmax = $scope.filters.lvlmax.toString();
+                $location.search(urlParams);
+            }
+
             socket.emit('get:characterAds',$scope.filters);
 
         };
@@ -285,17 +371,23 @@
 
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
-
+            console.log("GETREALM");
             $scope.realms = realms;
             $scope.connected_realms = {};
-                //Beurk !!!
-                angular.forEach(realms,function (realm) {
-                    if (!$scope.connected_realms[realm.bnet.connected_realms.join("")])
-                        $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
-                    $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
-                    realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
-                    realm.connected_realms = realm.bnet.connected_realms;
-                });
+            //Beurk !!!
+            angular.forEach(realms,function (realm) {
+                if (!$scope.connected_realms[realm.bnet.connected_realms.join("")])
+                    $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
+                $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
+                realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
+                realm.connected_realms = realm.bnet.connected_realms;
+                if($stateParams.realm_name && $stateParams.realm_name == realm.name &&  $stateParams.realm_region && $stateParams.realm_region==realm.region && $stateParams.connected_realms ) {
+                    realm.selected = true;
+                    $scope.filters.realm.region = $stateParams.realm_region;
+                    $scope.filters.realm.name = $stateParams.realm_name;
+                    $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
+                }
+            });
 
 
         });
