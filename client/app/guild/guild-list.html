@@ -133,15 +133,15 @@
                                     Raids per week : {{guild.ad.raids_per_week.min}} - {{guild.ad.raids_per_week.max}}
                                 </div>
                                 <div ng-if="
-                                guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk ||
+                                guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight ||
                                 guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk ||
                                 guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue ||
-                                guild.ad.recruitment.heal.priest ||  guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.hunter || guild.ad.recruitment.heal.warlock || guild.ad.recruitment.heal.mage">
+                                guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage">
                                     Role :&nbsp;
-                                    <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk" class="icon-small tank"></span>
+                                    <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight" class="icon-small tank"></span>
                                     <span ng-if="guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk" class="icon-small heal"></span>
                                     <span ng-if="guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue"  class="icon-small dps"></span>
-                                    <span ng-if="guild.ad.recruitment.heal.priest ||  guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.hunter || guild.ad.recruitment.heal.warlock || guild.ad.recruitment.heal.mage" class="icon-small ranged-dps"></span>
+                                    <span ng-if="guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage" class="icon-small ranged-dps"></span>
                                 </div>
                             </div>
                             <div class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-lg-offset-0 col-md-10 col-lg-3">
