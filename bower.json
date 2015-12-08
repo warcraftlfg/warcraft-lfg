@@ -14,6 +14,5 @@
     "jquery": "latest",
     "ngInfiniteScroll": "latest",
     "angular-bootstrap": "latest",
-    "world-flags-sprite": "*"
   }
 }
