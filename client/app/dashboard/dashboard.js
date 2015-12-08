@@ -28,31 +28,31 @@
         socket.emit('get:lastCharacterAds');
         socket.forward('get:lastCharacterAds',$scope);
         $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
-            $scope.characters=characters;
+            $scope.characters=characters.toLocaleString();
         });
 
         socket.emit('get:charactersCount');
         socket.forward('get:charactersCount',$scope);
         $scope.$on('socket:get:charactersCount',function(ev,characterCount){
-            $scope.characterCount=characterCount;
+            $scope.characterCount=characterCount.toLocaleString();
         });
 
         socket.emit('get:guildsCount');
         socket.forward('get:guildsCount',$scope);
         $scope.$on('socket:get:guildsCount',function(ev,guildCount){
-            $scope.guildCount=guildCount;
+            $scope.guildCount=guildCount.toLocaleString();
         });
 
         socket.emit('get:characterAdsCount');
         socket.forward('get:characterAdsCount',$scope);
         $scope.$on('socket:get:characterAdsCount',function(ev,characterAdCount){
-            $scope.characterAdCount=characterAdCount;
+            $scope.characterAdCount=characterAdCount.toLocaleString();
         });
 
         socket.emit('get:guildAdsCount');
         socket.forward('get:guildAdsCount',$scope);
         $scope.$on('socket:get:guildAdsCount',function(ev,guildAdCount){
-            $scope.guildAdCount=guildAdCount;
+            $scope.guildAdCount=guildAdCount.toLocaleString();
         });
 
         $scope.CTAFormSubmit = function(){
