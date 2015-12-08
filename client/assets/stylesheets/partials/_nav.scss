@@ -5,6 +5,17 @@
   a {
     color: $white;
   }
+  h1{
+    a{
+      height:100%;
+      width:223px;
+      display:block;
+      &:hover{
+        text-decoration:none;
+      }
+    }
+    margin:0;
+  }
   .navbar-header{
     .navbar-toggle{
       padding:0;
@@ -12,10 +23,11 @@
   }
   .navbar-brand {
     background: url('../images/warcraftlfg-logo-navbar.png') no-repeat 15px center ;
-    height:100%;
-    width:223px;
     color:transparent;
     margin-right: 20px;
+    height:100%;
+    width:223px;
+    
   }
 }
 
