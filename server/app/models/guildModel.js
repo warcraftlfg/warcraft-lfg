@@ -183,7 +183,6 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                     reduced[values[idx].boss].timestamps = [];
                 }
 
-                foreach
                 reduced[values[idx].boss].timestamps.push(values[idx].timestamp);
             }
         }
