@@ -3,8 +3,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 ng-if="guild"><span class="icon-medium faction-{{guild.bnet.side}}">{{ guild.name }}</span></h1>
-                    <h1  ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h1>
+                    <h2 ng-if="guild"><span class="icon-medium faction-{{guild.bnet.side}}">{{ guild.name }}</span></h2>
+                    <h2  ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h2>
                 </div>
             </div>
         </div>
@@ -60,8 +60,8 @@
                             </div>
                             <div class="col-md-4 text-right">
                                 <div class="">
-                                    <span class="m-l-10 f32" ng-if="guild.ad.language">
-                                        <span class="flag {{guild.ad.language|lowercase}}">
+                                    <span class="m-l-10" ng-if="guild.ad.language">
+                                        {{"LANG_"+guild.ad.language|uppercase|translate}}&nbsp;
                                     </span>
                                 </div>
                             </div>
