@@ -257,19 +257,12 @@ module.exports.getAds = function(number, filters, callback){
             roles.push(tmpObj);
         });
         or.push(roles);
-
-
     }
     if(filters.days && filters.days.length>0){
-        var days = [];
         filters.days.forEach(function(day){
             var tmpObj = {};
-            tmpObj["ad.play_time."+day.id+".play"] = true;
-            days.push(tmpObj);
-
+            criteria["ad.play_time."+day.id+".play"] = true;
         });
-        or.push(days);
-
     }
 
     if(filters.raids_per_week && filters.raids_per_week.active){
@@ -284,7 +277,7 @@ module.exports.getAds = function(number, filters, callback){
         var realms = [];
         filters.realm.connected_realms.forEach(function(realm){
             var tmpObj = {};
-            tmpObj["realm"] = realm.name;
+            tmpObj["realm"] = realm;
             realms.push(tmpObj);
 
         });
@@ -300,7 +293,10 @@ module.exports.getAds = function(number, filters, callback){
         or.forEach(function(orVal){
             criteria["$and"].push({"$or":orVal});
         });
+
+
     }
+
     database.find("characters",criteria , {
         name:1,
         realm:1,
