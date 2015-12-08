@@ -1,4 +1,4 @@
-# wow-finder
+# warcraft-lfg
 
 Still in development
 
@@ -39,15 +39,15 @@ then go to : `https://localhost:3000/`
 
 ###Prod
 If you need more crawler you can launch each one by one
-`node server/server.js -ws` Launch Webserver
-`node server/server.js -gu` Launch Guild Update Process (Import from Bnet guild info & WowProgress ranking) - Best effort
-`node server/server.js -cu` Launch Character Update Process (Import from Bnet info & Warcraftlogs info) - Best effort
-`node server/server.js -ru` Launch Realm Update Process (Import from Bnet info) - Each day at 4am
-`node server/server.js -wp` Launch Wowprogress Process (Import from WowProgress Player & Guild ads) - Each minute
-`node server/server.js -clean` Set lfg to false on old ads & check if the guild or character always lfg on WowProgress - Each day at 4am
-`node server/server.js -au` Feed the Guild Update & Character Update Process with Auction House players info - Best effort
-`node server/server.js -adu` Feed the CharacterUpdate et GuildUpdate Process with people/guild lfg - Each day at 4am
-`node server/server.js -gpu` Create Progress when a player/guild is updated - Best effort
+* `node server/server.js -ws` Launch Webserver 
+* `node server/server.js -gu` Launch Guild Update Process (Import from Bnet guild info & WowProgress ranking) - Best effort 
+* `node server/server.js -cu` Launch Character Update Process (Import from Bnet info & Warcraftlogs info) - Best effort 
+* `node server/server.js -ru` Launch Realm Update Process (Import from Bnet info) - Each day at 4am 
+* `node server/server.js -wp` Launch Wowprogress Process (Import from WowProgress Player & Guild ads) - Each minute 
+* `node server/server.js -clean` Set lfg to false on old ads & check if the guild or character always lfg on WowProgress - Each day at 4am 
+* `node server/server.js -au` Feed the Guild Update & Character Update Process with Auction House players info - Best effort 
+* `node server/server.js -adu` Feed the CharacterUpdate et GuildUpdate Process with people/guild lfg - Each day at 4am 
+* `node server/server.js -gpu` Create Progress when a player/guild is updated - Best effort 
 
 On production we have :
 * 8 -ws (with nginx proxy)
