@@ -79,12 +79,21 @@
             guildIds = {region:region,realm:realm,name:name};
             socket.emit('get:guild',guildIds);
         };
+        
+        //Sorts the character list by level descending (100, 90, 10)
+        function levelSort(a,b){
+        	if(a.level > b.level)
+        		return -1;
+        	if(a.level < b.level)
+        		return 1;
+        	return 0;
+        }
 
         //Character Create
         socket.forward('get:userCharacters',$scope);
         $scope.$on('socket:get:userCharacters',function(ev,characters){
             $scope.$parent.loading = false;
-            $scope.userCharacters = characters;
+            $scope.userCharacters = characters.sort(levelSort);
         });
 
         socket.forward('get:character',$scope);
