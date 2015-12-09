@@ -114,10 +114,12 @@
         $scope.filters.raids_per_week.min = 1;
         $scope.filters.raids_per_week.max = 7;
         $scope.filters.days = [];
+        $scope.filters.zones = [];
 
 
         $scope.languages = [];
         $scope.timezones = TIMEZONES;
+        $scope.realms =[];
 
         $scope.classes = [
             {name: '<span class="icon-small tank">'+$translate.instant("TANKS")+'</span>', msGroup: true},
@@ -198,6 +200,7 @@
             $scope.filters.region = $stateParams.region;
 
         if($stateParams.realm_region  &&   $stateParams.realm_name && $stateParams.connected_realms){
+
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;
             $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
@@ -255,6 +258,10 @@
         }
 
         if($stateParams.raids_per_week_max) {
+            $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
+        }
+
+        if($stateParams.zones) {
             $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
         }
 
