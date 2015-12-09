@@ -266,8 +266,8 @@ module.exports.getAds = function(number, filters, callback){
     }
 
     if(filters.raids_per_week && filters.raids_per_week.active){
-        criteria["ad.raids_per_week.min"] = {$lte:filters.raids_per_week.min};
-        criteria["ad.raids_per_week.max"] = {$gte:filters.raids_per_week.max};
+        criteria["ad.raids_per_week.min"] = {$lte:parseInt(filters.raids_per_week.min)};
+        criteria["ad.raids_per_week.max"] = {$gte:parseInt(filters.raids_per_week.max)};
     }
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
