@@ -413,16 +413,19 @@ module.exports.getAds = function (number,filters,callback) {
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
     }
+
+
     if (filters.realm && filters.realm.connected_realms && filters.realm.region){
         var realms = [];
         filters.realm.connected_realms.forEach(function(realm){
             var tmpObj = {};
-            tmpObj["realm"] = realm.name;
+            tmpObj["realm"] = realm;
             realms.push(tmpObj);
 
         });
         or.push(realms);
-        criteria["region"] = filters.realm.region;
+        console.log(realms);
+
 
     }
     if (filters.wowProgress ==true){
