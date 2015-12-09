@@ -424,9 +424,7 @@ module.exports.getAds = function (number,filters,callback) {
 
         });
         or.push(realms);
-        console.log(realms);
-
-
+        criteria["region"] = filters.realm.region;
     }
     if (filters.wowProgress ==true){
         criteria["id"] = {"$eq":0};
