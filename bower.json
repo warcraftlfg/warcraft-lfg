@@ -13,6 +13,6 @@
     "font-awesome": "latest",
     "jquery": "latest",
     "ngInfiniteScroll": "latest",
-    "angular-bootstrap": "latest",
+    "angular-bootstrap": "latest"
   }
 }
