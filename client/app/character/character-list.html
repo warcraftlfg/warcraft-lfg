@@ -131,7 +131,7 @@
                     <div class="m-b-20">
                         <div class="checkbox">
                             <label>
-                                <input ng-model="filters.transfert" type="checkbox"> Transfert
+                                <input ng-model="filters.transfert" type="checkbox"> {{"TRANSFERT"|translate}}
                             </label>
                         </div>
                     </div>
@@ -141,6 +141,9 @@
                                 <input ng-model="filters.lvlmax" type="checkbox">  Level 100
                             </label>
                         </div>
+                    </div>
+                    <div class="m-b-10 text-center">
+                        <div class="btn btn-inverse" ng-click="resetFilters()">{{"RESET_FILTER"|translate}}</div>
                     </div>
                 </div>
             </div>
