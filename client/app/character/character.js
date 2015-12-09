@@ -88,192 +88,338 @@
         });
     }
 
-    CharacterList.$inject = ['$scope','$stateParams','$translate','socket','LANGUAGES','TIMEZONES'];
-    function CharacterList($scope ,$stateParams, $translate, socket, LANGUAGES,TIMEZONES) {
+    CharacterList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES'];
+    function CharacterList($scope ,$stateParams, $translate,$state, socket, LANGUAGES,TIMEZONES) {
 
         //Reset error message
         $scope.$parent.error=null;
+        $scope.$parent.loading = true;
         $scope.characters = [];
-
-        $scope.languages=[];
-        LANGUAGES.forEach(function(language){
-            $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase())});
-        });
-
-        $scope.timezones= TIMEZONES;
-
-        $translate([
-            'ALL_REALMS',
-            'ALL_DAYS',
-            'ALL_CLASSES',
-            'ALL_ROLES',
-            'ALL_LANGUAGES',
-            'SELECT_ALL',
-            'SELECT_NONE',
-            'RESET',
-            'SEARCH',
-            'HEAL',
-            'TANK',
-            'RANGED_DPS',
-            'MELEE_DPS',
-            'CLASS_1',
-            'CLASS_2',
-            'CLASS_3',
-            'CLASS_4',
-            'CLASS_5',
-            'CLASS_6',
-            'CLASS_7',
-            'CLASS_8',
-            'CLASS_9',
-            'CLASS_10',
-            'CLASS_11',
-            'MONDAY',
-            'TUESDAY',
-            'WEDNESDAY',
-            'THURSDAY',
-            'FRIDAY',
-            'SATURDAY',
-            'SUNDAY'
-        ]).then(function (translations) {
-            $scope.classes = [
-                {id:1, name: "<span class='class-1'>"+translations.CLASS_1+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
-                {id:2, name: "<span class='class-2'>"+translations.CLASS_2+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
-                {id:3, name: "<span class='class-3'>"+translations.CLASS_3+"</span>", icon:"<img src='/assets/images/icon/16/class-3.png'>", selected:false},
-                {id:4, name: "<span class='class-4'>"+translations.CLASS_4+"</span>", icon:"<img src='/assets/images/icon/16/class-4.png'>", selected:false},
-                {id:5, name: "<span class='class-5'>"+translations.CLASS_5+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>", selected:false},
-                {id:6, name: "<span class='class-6'>"+translations.CLASS_6+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>", selected:false},
-                {id:7, name: "<span class='class-7'>"+translations.CLASS_7+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
-                {id:8, name: "<span class='class-8'>"+translations.CLASS_8+"</span>", icon:"<img src='/assets/images/icon/16/class-8.png'>", selected:false},
-                {id:9, name: "<span class='class-9'>"+translations.CLASS_9+"</span>", icon:"<img src='/assets/images/icon/16/class-9.png'>", selected:false},
-                {id:10, name: "<span class='class-10'>"+translations.CLASS_10+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
-                {id:11, name: "<span class='class-11'>"+translations.CLASS_11+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
-            ];
-            $scope.roles = [
-                {id:'tank', name: translations.TANK, icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-                {id:'heal', name: translations.HEAL, icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-                {id:'melee_dps', name: translations.MELEE_DPS, icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-                {id:'ranged_dps', name: translations.RANGED_DPS, icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
-            ];
-            $scope.days = [
-                {id:'monday', name: translations.MONDAY, selected:false},
-                {id:'tuesday', name: translations.TUESDAY, selected:false},
-                {id:'wednesday', name: translations.WEDNESDAY, selected:false},
-                {id:'thursday', name: translations.THURSDAY, selected:false},
-                {id:'friday', name: translations.FRIDAY, selected:false},
-                {id:'saturday', name: translations.SATURDAY, selected:false},
-                {id:'sunday', name: translations.SUNDAY, selected:false},
-            ];
-            $scope.localClasses = {
-                selectAll       : translations.SELECT_ALL,
-                selectNone      : translations.SELECT_NONE,
-                reset           : translations.RESET,
-                search          : translations.SEARCH,
-                nothingSelected : translations.ALL_CLASSES
-            };
-            $scope.localLanguages = {
-                selectAll       : translations.SELECT_ALL,
-                selectNone      : translations.SELECT_NONE,
-                reset           : translations.RESET,
-                search          : translations.SEARCH,
-                nothingSelected : translations.ALL_LANGUAGES
-            };
-            $scope.localRoles = {
-                selectAll       : translations.SELECT_ALL,
-                selectNone      : translations.SELECT_NONE,
-                reset           : translations.RESET,
-                search          : translations.SEARCH,
-                nothingSelected : translations.ALL_ROLES
-            };
-            $scope.localDays = {
-                selectAll       : translations.SELECT_ALL,
-                selectNone      : translations.SELECT_NONE,
-                reset           : translations.RESET,
-                search          : translations.SEARCH,
-                nothingSelected : translations.ALL_DAYS
-            };
-            $scope.localRealms = {
-                selectAll       : translations.SELECT_ALL,
-                selectNone      : translations.SELECT_NONE,
-                reset           : translations.RESET,
-                search          : translations.SEARCH,
-                nothingSelected : translations.ALL_REALMS
-            };
-        });
-
 
         $scope.filters = {};
         $scope.filters.faction = "";
         $scope.filters.lvlmax = true;
         $scope.filters.region = "";
-        $scope.language = {};
         $scope.filters.role = "";
-        $scope.filters.raids_per_week = {min:1,max:7};
-        $scope.filters.days = {};
+        $scope.filters.raids_per_week = {active:false,min:1,max:7};
+        $scope.filters.days = [];
+        $scope.filters.languages = [];
+        $scope.filters.realm = {};
+        $scope.filters.realm.connected_realms = [];
+        $scope.filters.roles = [];
+        $scope.filters.classes = [];
+        $scope.filters.transfert = false;
+
         $scope.realms = [];
+        $scope.languages=[];
+        $scope.timezones= TIMEZONES;
+        $scope.roles = [
+            {id:'tank', name: $translate.instant("TANK"), icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
+            {id:'heal', name: $translate.instant("HEAL"), icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
+            {id:'melee_dps', name: $translate.instant("MELEE_DPS"), icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
+            {id:'ranged_dps', name: $translate.instant("RANGED_DPS"), icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
+        ];
+        $scope.classes = [
+            {id:1, name: "<span class='class-1'>"+$translate.instant("CLASS_1")+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
+            {id:2, name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
+            {id:3, name: "<span class='class-3'>"+$translate.instant("CLASS_3")+"</span>", icon:"<img src='/assets/images/icon/16/class-3.png'>", selected:false},
+            {id:4, name: "<span class='class-4'>"+$translate.instant("CLASS_4")+"</span>", icon:"<img src='/assets/images/icon/16/class-4.png'>", selected:false},
+            {id:5, name: "<span class='class-5'>"+$translate.instant("CLASS_5")+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>", selected:false},
+            {id:6, name: "<span class='class-6'>"+$translate.instant("CLASS_6")+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>", selected:false},
+            {id:7, name: "<span class='class-7'>"+$translate.instant("CLASS_7")+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
+            {id:8, name: "<span class='class-8'>"+$translate.instant("CLASS_8")+"</span>", icon:"<img src='/assets/images/icon/16/class-8.png'>", selected:false},
+            {id:9, name: "<span class='class-9'>"+$translate.instant("CLASS_9")+"</span>", icon:"<img src='/assets/images/icon/16/class-9.png'>", selected:false},
+            {id:10, name: "<span class='class-10'>"+$translate.instant("CLASS_10")+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
+            {id:11, name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
+        ];
+        $scope.days = [
+            {id:'monday', name: $translate.instant("MONDAY"), selected:false},
+            {id:'tuesday', name: $translate.instant("TUESDAY"), selected:false},
+            {id:'wednesday', name: $translate.instant("WEDNESDAY"), selected:false},
+            {id:'thursday', name: $translate.instant("THURSDAY"), selected:false},
+            {id:'friday', name: $translate.instant("FRIDAY"), selected:false},
+            {id:'saturday', name: $translate.instant("SATURDAY"), selected:false},
+            {id:'sunday', name: $translate.instant("SUNDAY"), selected:false},
+        ];
+
+        $scope.localClasses = {
+            selectAll       : $translate.instant("SELECT_ALL"),
+            selectNone      : $translate.instant("SELECT_NONE"),
+            reset           : $translate.instant("RESET"),
+            search          : $translate.instant("SEARCH"),
+            nothingSelected : $translate.instant("ALL_CLASSES")
+        };
+        $scope.localLanguages = {
+            selectAll       : $translate.instant("SELECT_ALL"),
+            selectNone      : $translate.instant("SELECT_NONE"),
+            reset           : $translate.instant("RESET"),
+            search          : $translate.instant("SEARCH"),
+            nothingSelected : $translate.instant("ALL_LANGUAGES")
+        };
+        $scope.localRoles = {
+            selectAll       : $translate.instant("SELECT_ALL"),
+            selectNone      : $translate.instant("SELECT_NONE"),
+            reset           : $translate.instant("RESET"),
+            search          : $translate.instant("SEARCH"),
+            nothingSelected : $translate.instant("ALL_ROLES")
+        };
+        $scope.localDays = {
+            selectAll       : $translate.instant("SELECT_ALL"),
+            selectNone      : $translate.instant("SELECT_NONE"),
+            reset           : $translate.instant("RESET"),
+            search          : $translate.instant("SEARCH"),
+            nothingSelected : $translate.instant("ALL_DAYS")
+        };
+        $scope.localRealms = {
+            selectAll       : $translate.instant("SELECT_ALL"),
+            selectNone      : $translate.instant("SELECT_NONE"),
+            reset           : $translate.instant("RESET"),
+            search          : $translate.instant("SEARCH"),
+            nothingSelected : $translate.instant("ALL_REALMS")
+        };
 
         /* if params load filters */
         if($stateParams.region)
             $scope.filters.region = $stateParams.region;
-        if($stateParams.language)
-            $scope.filters.language = $stateParams.language;
+
+        if($stateParams.realm_region  &&   $stateParams.realm_name && $stateParams.connected_realms){
+            $scope.filters.realm.region = $stateParams.realm_region;
+            $scope.filters.realm.name = $stateParams.realm_name;
+            $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
+        }
+        angular.forEach(LANGUAGES,function(language){
+            var tmplng = {id:language,name:$translate.instant("LANG_"+language.toUpperCase())};
+            if($stateParams.languages &&  $stateParams.languages.split("__").indexOf(language)!=-1) {
+                tmplng.selected = true;
+                $scope.filters.languages.push({id:language,selected:true});
+            }
+            $scope.languages.push(tmplng);
+        });
+
         if($stateParams.faction)
             $scope.filters.faction = $stateParams.faction;
 
+        if($stateParams.roles){
+            var roles = $stateParams.roles.split("__");
 
-        $scope.$watch('filters.raids_per_week.min', function() {
-            $scope.updateFilters();
-        });
-        $scope.$watch('filters.raids_per_week.max', function() {
-            $scope.updateFilters();
-        });
-        $scope.$watch('filters.classes', function() {
-            $scope.updateFilters();
-        });
-        $scope.$watch('filters.roles', function() {
-            $scope.updateFilters();
-        });
-        $scope.$watch('filters.languages', function() {
-            $scope.updateFilters();
-        });
-        $scope.$watch('filters.days', function() {
-            $scope.updateFilters();
-        });
+            angular.forEach($scope.roles,function(role){
+                if(roles.indexOf(role.id)!=-1) {
+                    role.selected = true;
+                    $scope.filters.roles.push({id:role.id,selected:true});
+                }
+            });
+        }
+
+        if($stateParams.classes){
+            var classes = $stateParams.classes.split("__");
+            angular.forEach($scope.classes,function(clas){
+                if(classes.indexOf(clas.id.toString())!=-1) {
+                    clas.selected = true;
+                    $scope.filters.classes.push({id:clas.id,selected:true});
+                }
+            });
+        }
+
+        if($stateParams.days){
+            var days = $stateParams.days.split("__");
+            angular.forEach($scope.days,function(day){
+                if(days.indexOf(day.id)!=-1) {
+                    day.selected = true;
+                    $scope.filters.days.push({id:day.id,selected:true});
+                }
+            });
+        }
+
+        if($stateParams.timezone)
+            $scope.filters.timezone = $stateParams.timezone;
+
+        if($stateParams.raids_per_week_active)
+            $scope.filters.raids_per_week.active = $stateParams.raids_per_week_active==="true";
+
+        if($stateParams.raids_per_week_min)
+            $scope.filters.raids_per_week.min = $stateParams.raids_per_week_min;
+
+        if($stateParams.raids_per_week_max)
+            $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
+
+        if($stateParams.transfert)
+            $scope.filters.transfert = $stateParams.transfert==="true";
+
+        if($stateParams.lvlmax)
+            $scope.filters.lvlmax = $stateParams.lvlmax==="true";
+
+
+
+
+        socket.emit('get:characterAds',$scope.filters);
+        socket.emit('get:realms',$scope.filters.region);
+
 
         $scope.$watch('filters.region', function() {
-            $scope.filters.realm={};
-            $scope.updateFilters();
-            socket.emit('get:realms',$scope.filters.region);
+            if($scope.$parent.loading || $scope.loading)
+                return;
+
+            if($scope.filters.realm.region && $scope.filters.realm.region != $scope.filters.region){
+                $stateParams.realm_region = null;
+                $stateParams.realm_name = null;
+                $stateParams.connected_realms = null;
+            }
+            $stateParams.region = $scope.filters.region;
+            $state.go($state.current,$stateParams,{reload:true});
+
         });
 
-        $scope.getMoreCharacters = function(){
+        $scope.$watch('filters.realm',function(){
             if($scope.$parent.loading || $scope.loading)
+                return;
+            $stateParams.realm_region = $scope.filters.realm.region;
+            $stateParams.realm_name = $scope.filters.realm.name;
+            var connectedRealms = [];
+            angular.forEach($scope.filters.realm.connected_realms,function(realm){
+                connectedRealms.push(realm.name);
+            });
+            $stateParams.connected_realms = connectedRealms.join('__');
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+
+        $scope.$watch('filters.languages', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            var tmpLanguages = [];
+            angular.forEach($scope.filters.languages,function(language){
+                tmpLanguages.push(language.id);
+            });
+            $stateParams.languages = tmpLanguages.join('__');
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+
+        $scope.$watch('filters.faction', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            $stateParams.faction = $scope.filters.faction;
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+        $scope.$watch('filters.roles', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            var roles = [];
+            angular.forEach($scope.filters.roles,function(role){
+                roles.push(role.id);
+            });
+            $stateParams.roles = roles.join('__');
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+
+        $scope.$watch('filters.classes', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            var classes = [];
+            angular.forEach($scope.filters.classes,function(clas){
+                classes.push(clas.id);
+            });
+            $stateParams.classes = classes.join('__');
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+
+        $scope.$watch('filters.days', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            var days = [];
+            angular.forEach($scope.filters.days,function(day){
+                days.push(day.id);
+            });
+            $stateParams.days = days.join('__');
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+
+        $scope.$watch('filters.timezone', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            $stateParams.timezone = $scope.filters.timezone;
+            $state.go($state.current,$stateParams,{reload:true});
+        });
+
+        $scope.$watch('filters.raids_per_week.active', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+
+            if($scope.filters.raids_per_week.active===false){
+                $stateParams.raids_per_week_min = null;
+                $stateParams.raids_per_week_max = null;
+            }
+            $stateParams.raids_per_week_active = $scope.filters.raids_per_week.active===true ? true : null;
+            $state.go($state.current,$stateParams,{reload:true});
+        });
+
+        $scope.$watch('filters.raids_per_week.min', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            $stateParams.raids_per_week_min = $scope.filters.raids_per_week.min;
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+
+        $scope.$watch('filters.raids_per_week.max', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            $stateParams.raids_per_week_max = $scope.filters.raids_per_week.max;
+            $state.go($state.current,$stateParams,{reload:true});
+
+        });
+
+
+        $scope.$watch('filters.transfert', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            $stateParams.transfert = $scope.filters.transfert===true ? true : null;
+            $state.go($state.current,$stateParams,{reload:true});
+        });
+
+        $scope.$watch('filters.lvlmax', function() {
+            if($scope.$parent.loading || $scope.loading)
+                return;
+            $stateParams.lvlmax = $scope.filters.lvlmax===false ? false : null;
+            $state.go($state.current,$stateParams,{reload:true});
+        });
+
+
+        $scope.setRealm = function(data){
+            data.connected_realms = $scope.connected_realms[data.connected_realms.join("")];
+            $scope.filters.realm = data;
+        };
+
+        $scope.resetRealm = function(){
+            $scope.filters.realm = {};
+            $scope.filters.realm.connected_realms = [];
+        };
+
+        $scope.resetLanguages = function(){
+            $scope.filters.languages = [];
+        };
+        $scope.resetRoles = function(){
+            $scope.filters.roles = [];
+        };
+        $scope.resetClasses = function(){
+            $scope.filters.classes = [];
+        };
+        $scope.resetDays = function(){
+            $scope.filters.days = [];
+        };
+
+        $scope.getMoreCharacters = function(){
+            if(($scope.$parent && $scope.$parent.loading) || $scope.loading)
                 return;
             $scope.loading = true;
 
             if($scope.characters.length>0)
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated;
             socket.emit('get:characterAds',$scope.filters);
-        };
-
-        $scope.updateFilters = function(){
-            if($scope.$parent.loading || $scope.loading)
-                return;
-            $scope.$parent.loading = true;
-            $scope.filters.last = null;
-            $scope.characters =[];
-            socket.emit('get:characterAds',$scope.filters);
-
-        };
-
-        $scope.setRealm = function(data){
-            $scope.filters.realm = data;
-            $scope.filters.realm.connected_realms= $scope.connected_realms[$scope.filters.realm.connected_realms.join("")];
-            $scope.updateFilters();
-        };
-
-        $scope.resetRealm = function(){
-            $scope.filters.realm = undefined;
-            $scope.updateFilters();
         };
 
         socket.forward('get:characterAds',$scope);
@@ -285,19 +431,23 @@
 
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
-
             $scope.realms = realms;
             $scope.connected_realms = {};
-                //Beurk !!!
-                angular.forEach(realms,function (realm) {
-                    if (!$scope.connected_realms[realm.bnet.connected_realms.join("")])
-                        $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
-                    $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
-                    realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
-                    realm.connected_realms = realm.bnet.connected_realms;
-                });
-
-
+            //Beurk !!!
+            angular.forEach(realms,function (realm) {
+                if (!$scope.connected_realms[realm.bnet.connected_realms.join("")])
+                    $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
+                $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
+                realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
+                realm.connected_realms = realm.bnet.connected_realms;
+                if($stateParams.realm_name && $stateParams.realm_name == realm.name &&  $stateParams.realm_region && $stateParams.realm_region==realm.region && $stateParams.connected_realms ) {
+                    realm.selected = true;
+                    realm.connected_realms = $stateParams.connected_realms.split("__");
+                    $scope.filters.realm.region = $stateParams.realm_region;
+                    $scope.filters.realm.name = $stateParams.realm_name;
+                    $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
+                }
+            });
         });
 
     }
