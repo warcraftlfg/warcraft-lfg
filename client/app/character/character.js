@@ -230,34 +230,38 @@
             });
         }
 
-        if($stateParams.timezone)
+        if($stateParams.timezone) {
             $scope.filters.timezone = $stateParams.timezone;
+        }
 
-        if($stateParams.raids_per_week_active)
+        if($stateParams.raids_per_week_active) {
             $scope.filters.raids_per_week.active = $stateParams.raids_per_week_active==="true";
+        }
 
-        if($stateParams.raids_per_week_min)
+        if($stateParams.raids_per_week_min) {
             $scope.filters.raids_per_week.min = $stateParams.raids_per_week_min;
+        }
 
-        if($stateParams.raids_per_week_max)
+        if($stateParams.raids_per_week_max) {
             $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
+        }
 
-        if($stateParams.transfert)
+        if($stateParams.transfert) {
             $scope.filters.transfert = $stateParams.transfert==="true";
+        }
 
-        if($stateParams.lvlmax)
+        if($stateParams.lvlmax) {
             $scope.filters.lvlmax = $stateParams.lvlmax==="true";
-
-
-
+        }
 
         socket.emit('get:characterAds',$scope.filters);
         socket.emit('get:realms',$scope.filters.region);
 
 
         $scope.$watch('filters.region', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
 
             if($scope.filters.realm.region && $scope.filters.realm.region != $scope.filters.region){
                 $stateParams.realm_region = null;
@@ -270,8 +274,9 @@
         });
 
         $scope.$watch('filters.realm',function(){
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             $stateParams.realm_region = $scope.filters.realm.region;
             $stateParams.realm_name = $scope.filters.realm.name;
             var connectedRealms = [];
@@ -284,8 +289,9 @@
         });
 
         $scope.$watch('filters.languages', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             var tmpLanguages = [];
             angular.forEach($scope.filters.languages,function(language){
                 tmpLanguages.push(language.id);
@@ -296,15 +302,17 @@
         });
 
         $scope.$watch('filters.faction', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             $stateParams.faction = $scope.filters.faction;
             $state.go($state.current,$stateParams,{reload:true});
 
         });
         $scope.$watch('filters.roles', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             var roles = [];
             angular.forEach($scope.filters.roles,function(role){
                 roles.push(role.id);
@@ -315,8 +323,9 @@
         });
 
         $scope.$watch('filters.classes', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             var classes = [];
             angular.forEach($scope.filters.classes,function(clas){
                 classes.push(clas.id);
@@ -339,15 +348,17 @@
         });
 
         $scope.$watch('filters.timezone', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             $stateParams.timezone = $scope.filters.timezone;
             $state.go($state.current,$stateParams,{reload:true});
         });
 
         $scope.$watch('filters.raids_per_week.active', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
 
             if($scope.filters.raids_per_week.active===false){
                 $stateParams.raids_per_week_min = null;
@@ -358,16 +369,18 @@
         });
 
         $scope.$watch('filters.raids_per_week.min', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             $stateParams.raids_per_week_min = $scope.filters.raids_per_week.min;
             $state.go($state.current,$stateParams,{reload:true});
 
         });
 
         $scope.$watch('filters.raids_per_week.max', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             $stateParams.raids_per_week_max = $scope.filters.raids_per_week.max;
             $state.go($state.current,$stateParams,{reload:true});
 
@@ -375,15 +388,17 @@
 
 
         $scope.$watch('filters.transfert', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             $stateParams.transfert = $scope.filters.transfert===true ? true : null;
             $state.go($state.current,$stateParams,{reload:true});
         });
 
         $scope.$watch('filters.lvlmax', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if($scope.$parent.loading || $scope.loading) {
                 return;
+            }
             $stateParams.lvlmax = $scope.filters.lvlmax===false ? false : null;
             $state.go($state.current,$stateParams,{reload:true});
         });
@@ -412,13 +427,19 @@
             $scope.filters.days = [];
         };
 
+        $scope.resetFilters = function(){
+           $state.go($state.current,null,{reload:true,inherit: false});
+        };
+
         $scope.getMoreCharacters = function(){
-            if(($scope.$parent && $scope.$parent.loading) || $scope.loading)
+            if(($scope.$parent && $scope.$parent.loading) || $scope.loading) {
                 return;
+            }
             $scope.loading = true;
 
-            if($scope.characters.length>0)
+            if($scope.characters.length>0) {
                 $scope.filters.last = $scope.characters[$scope.characters.length-1].ad.updated;
+            }
             socket.emit('get:characterAds',$scope.filters);
         };
 
@@ -435,8 +456,9 @@
             $scope.connected_realms = {};
             //Beurk !!!
             angular.forEach(realms,function (realm) {
-                if (!$scope.connected_realms[realm.bnet.connected_realms.join("")])
+                if (!$scope.connected_realms[realm.bnet.connected_realms.join("")]) {
                     $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
+                }
                 $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
                 realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
                 realm.connected_realms = realm.bnet.connected_realms;
