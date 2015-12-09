@@ -116,7 +116,6 @@
         $scope.filters.days = [];
 
 
-        $scope.realms = [];
         $scope.languages = [];
         $scope.timezones = TIMEZONES;
 
@@ -202,6 +201,10 @@
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;
             $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
+
+            $scope.realms= [{label:$stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",selected:true}];
+            console.log($scope.realm);
+
         }
 
         angular.forEach(LANGUAGES,function(language){
@@ -422,7 +425,8 @@
 
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
-            $scope.realms = realms;
+            console.log(realms);
+
             $scope.connected_realms = {};
             //Beurk !!!
             angular.forEach(realms,function (realm) {
@@ -434,12 +438,13 @@
                 realm.connected_realms = realm.bnet.connected_realms;
                 if($stateParams.realm_name && $stateParams.realm_name == realm.name &&  $stateParams.realm_region && $stateParams.realm_region==realm.region && $stateParams.connected_realms ) {
                     realm.selected = true;
-                    realm.connected_realms = $stateParams.connected_realms.split("__");
                     $scope.filters.realm.region = $stateParams.realm_region;
                     $scope.filters.realm.name = $stateParams.realm_name;
                     $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
                 }
             });
+            $scope.realms = realms;
+
         });
 
     }
