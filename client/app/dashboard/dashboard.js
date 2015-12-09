@@ -18,7 +18,7 @@
         //Initialize $scope variables
         $scope.guilds = [];
         $scope.characters = [];
-        $scope.form = {type:"guild",region:"eu",language:"en"};
+        $scope.form = {type:"guild",region:"",language:"en"};
 
         socket.emit('get:lastGuildAds');
         socket.forward('get:lastGuildAds',$scope);
