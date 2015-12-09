@@ -22,7 +22,7 @@
                 controller: "GuildUpdateController"
             })
             .state("guild-list", {
-                url: "/guild/list?region&language&faction",
+                url: "/guild/list?region&languages&faction",
                 templateUrl: "app/guild/guild-list.html",
                 controlerAs: 'vm',
                 title: 'Guild list',

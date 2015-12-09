@@ -18,7 +18,7 @@
         //Initialize $scope variables
         $scope.guilds = [];
         $scope.characters = [];
-        $scope.form = {type:"guild",region:"eu",language:"en"};
+        $scope.form = {type:"guild",region:"",language:""};
 
         socket.emit('get:lastGuildAds');
         socket.forward('get:lastGuildAds',$scope);
@@ -56,7 +56,7 @@
         });
 
         $scope.CTAFormSubmit = function(){
-            $state.go($scope.form.type+'-list',{region:$scope.form.region,language:$scope.form.language,faction:$scope.form.faction});
+            $state.go($scope.form.type+'-list',{region:$scope.form.region,languages:$scope.form.language,faction:$scope.form.faction});
         };
 
         /*

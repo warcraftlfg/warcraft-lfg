@@ -56,6 +56,7 @@
                         <div class="col-md-9">
                             <span class="css3-metro-dropdown">
                                 <select ng-model="form.language" class="form-control">
+                                    <option value="">{{"LANG_"|uppercase|translate}}</option>
                                     <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
                                 </select>
                             </span>

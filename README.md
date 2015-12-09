@@ -20,7 +20,9 @@ Generate Openssl Key & Cert. You need to specify their locations in config file.
 
 ##Configuration
 Edit and configure app/config.default.json and rename it to config.dev.json
-You need a bnet api key & warcraftlogs api key
+
+1. For steps on setting up and configuring the battle.net API key, please see [bnet setup](bnetsetup.md)
+2. You will need to setup a WarcraftLogs API key, which can be done from their [Settings page](https://www.warcraftlogs.com/accounts/changeuser) near the bottom
 
 ###Grunt Configuration
 If you need for production
