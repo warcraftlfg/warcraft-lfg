@@ -49,6 +49,15 @@
                         </div>
                     </div>
                     <div class="m-b-20">
+                        <span class="css3-metro-dropdown">
+                            <select ng-model="filters.faction" class="form-control">
+                                <option value="">{{"ALL_FACTION"|translate}}</option>
+                                <option value="0">{{"ALLIANCE"|translate}}</option>
+                                <option value="1">{{"HORDE"|translate}}</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="m-b-20">
                         <div isteven-multi-select
                              input-model="languages"
                              output-model="filters.languages"
@@ -59,18 +68,8 @@
                              translation="localLanguages"
                              max-height="300px"
                              on-reset="resetLanguages()"
-
                                 >
                         </div>
-                    </div>
-                    <div class="m-b-20">
-                        <span class="css3-metro-dropdown">
-                            <select ng-model="filters.faction" class="form-control">
-                                <option value="">{{"ALL_FACTION"|translate}}</option>
-                                <option value="0">{{"ALLIANCE"|translate}}</option>
-                                <option value="1">{{"HORDE"|translate}}</option>
-                            </select>
-                        </span>
                     </div>
                     <div class="m-b-20">
                         <div isteven-multi-select

@@ -322,12 +322,16 @@ module.exports.getAds = function (number,filters,callback) {
     if(filters.region && filters.region!=""){
         criteria["region"] = filters.region;
     }
-    if(filters.language && filters.language!=""){
-        criteria["ad.language"] = filters.language;
+    if(filters.languages && filters.languages.length>0){
+        var languages = [];
+        filters.languages.forEach(function(item){
+            languages.push(item.id);
+        });
+        criteria["ad.language"] = { $in: languages};
     }
     if(filters.raids_per_week && filters.raids_per_week.active){
-        criteria["ad.raids_per_week.min"] = {$lte:filters.raids_per_week.min};
-        criteria["ad.raids_per_week.max"] = {$gte:filters.raids_per_week.max};
+        criteria["ad.raids_per_week.min"] = {$gte:parseInt(filters.raids_per_week.min)};
+        criteria["ad.raids_per_week.max"] = {$lte:parseInt(filters.raids_per_week.max)};
     }
 
     if(filters.classes &&  filters.classes.length>0){
@@ -409,17 +413,18 @@ module.exports.getAds = function (number,filters,callback) {
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;
     }
+
+
     if (filters.realm && filters.realm.connected_realms && filters.realm.region){
         var realms = [];
         filters.realm.connected_realms.forEach(function(realm){
             var tmpObj = {};
-            tmpObj["realm"] = realm.name;
+            tmpObj["realm"] = realm;
             realms.push(tmpObj);
 
         });
         or.push(realms);
         criteria["region"] = filters.realm.region;
-
     }
     if (filters.wowProgress ==true){
         criteria["id"] = {"$eq":0};

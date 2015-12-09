@@ -53,7 +53,7 @@
                     </div>
                     <div class="m-b-20">
                         <span class="css3-metro-dropdown">
-                            <select ng-model="filters.faction" ng-change="updateFilters()" class="form-control">
+                            <select ng-model="filters.faction" class="form-control">
                                 <option value="">{{"ALL_FACTION"|translate}}</option>
                                 <option value="0">{{"ALLIANCE"|translate}}</option>
                                 <option value="1">{{"HORDE"|translate}}</option>
@@ -61,23 +61,32 @@
                         </span>
                     </div>
                     <div class="m-b-20">
-                        <span class="css3-metro-dropdown">
-                            <select ng-model="filters.language"  ng-change="updateFilters()"  class="form-control">
-                                <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                            </select>
-                        </span>
+                        <div isteven-multi-select
+                             input-model="languages"
+                             output-model="filters.languages"
+                             button-label="name"
+                             item-label="name"
+                             output-properties="id"
+                             tick-property="selected"
+                             translation="localLanguages"
+                             max-height="300px"
+                             on-reset="resetLanguages()"
+                                >
+                        </div>
                     </div>
                     <div class="m-b-20">
                         <div
                                 isteven-multi-select
                                 input-model="classes"
                                 output-model="filters.classes"
-                                button-label="icon name"
+                                button-label="iconrole name"
                                 item-label="icon name"
                                 output-properties="id role"
                                 tick-property="selected"
                                 group-property="msGroup"
-                                translation="localClasses">
+                                translation="localClasses"
+                                on-reset="resetClasses()"
+                                >
                         </div>
                     </div>
                     <div class="m-b-20">
@@ -90,23 +99,27 @@
                                 output-properties="id"
                                 tick-property="selected"
                                 group-property="msGroup"
-                                translation="localDays">
+                                translation="localDays"
+                                on-reset="resetDays()">
                         </div>
                     </div>
                     <div class="m-b-20">
                         <span class="css3-metro-dropdown">
-                            <select ng-model="filters.timezone" ng-change="updateFilters()" class="form-control">
+                            <select ng-model="filters.timezone" class="form-control">
                                 <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
                             </select>
                         </span>
                     </div>
                     <div class="m-b-20">
                         <label>
-                            <input ng-model="filters.raids_per_week.active" ng-change="updateFilters()" type="checkbox"> Raids per week</label>
+                            <input ng-model="filters.raids_per_week.active" type="checkbox"> Raids per week</label>
                         <div ng-if="filters.raids_per_week.active">
                             {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
                             <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
                         </div>
+                    </div>
+                    <div class="m-b-10 text-center">
+                        <div class="btn btn-inverse" ng-click="resetFilters()">{{"RESET_FILTER"|translate}}</div>
                     </div>
                 </div>
             </div>

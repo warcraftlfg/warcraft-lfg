@@ -113,6 +113,7 @@
         $scope.realms = [];
         $scope.languages=[];
         $scope.timezones= TIMEZONES;
+
         $scope.roles = [
             {id:'tank', name: $translate.instant("TANK"), icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
             {id:'heal', name: $translate.instant("HEAL"), icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
@@ -186,7 +187,10 @@
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;
             $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
+            $scope.realms= [{label:$stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",selected:true}];
+
         }
+
         angular.forEach(LANGUAGES,function(language){
             var tmplng = {id:language,name:$translate.instant("LANG_"+language.toUpperCase())};
             if($stateParams.languages &&  $stateParams.languages.split("__").indexOf(language)!=-1) {
@@ -405,7 +409,7 @@
 
 
         $scope.setRealm = function(data){
-            data.connected_realms = $scope.connected_realms[data.connected_realms.join("")];
+            data.connected_realms = $scope.connected_realms[data.region+data.connected_realms.join("")];
             $scope.filters.realm = data;
         };
 
@@ -456,15 +460,14 @@
             $scope.connected_realms = {};
             //Beurk !!!
             angular.forEach(realms,function (realm) {
-                if (!$scope.connected_realms[realm.bnet.connected_realms.join("")]) {
-                    $scope.connected_realms[realm.bnet.connected_realms.join("")] = [];
+                if (!$scope.connected_realms[realm.region+realm.bnet.connected_realms.join("")]) {
+                    $scope.connected_realms[realm.region+realm.bnet.connected_realms.join("")] = [];
                 }
-                $scope.connected_realms[realm.bnet.connected_realms.join("")].push(realm);
+                $scope.connected_realms[realm.region+realm.bnet.connected_realms.join("")].push(realm);
                 realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
                 realm.connected_realms = realm.bnet.connected_realms;
                 if($stateParams.realm_name && $stateParams.realm_name == realm.name &&  $stateParams.realm_region && $stateParams.realm_region==realm.region && $stateParams.connected_realms ) {
                     realm.selected = true;
-                    realm.connected_realms = $stateParams.connected_realms.split("__");
                     $scope.filters.realm.region = $stateParams.realm_region;
                     $scope.filters.realm.name = $stateParams.realm_name;
                     $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
