@@ -219,8 +219,8 @@
         /* if params load filters */
         if($stateParams.region)
             $scope.filters.region = $stateParams.region;
-        if($stateParams.language)
-            $scope.filters.language = $stateParams.language;
+        if($stateParams.languages)
+            $scope.filters.language = $stateParams.languages;
         if($stateParams.faction)
             $scope.filters.faction = $stateParams.faction;
 
