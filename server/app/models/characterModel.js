@@ -185,6 +185,7 @@ module.exports.get = function(region,realm,name,callback){
         "realm":realm,
         "name":name
     }, {
+        id:1,
         region:1,
         realm:1,
         name:1,
