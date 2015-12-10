@@ -317,7 +317,7 @@ module.exports.getAds = function (number,filters,callback) {
         criteria["ad.updated"]={$lt:filters.last}
     }
     if(filters.faction){
-        criteria["bnet.side"] = parseInt(filters.faction);
+        criteria["bnet.side"] = parseInt(filters.faction,10);
     }
     if(filters.region && filters.region!=""){
         criteria["region"] = filters.region;
@@ -330,8 +330,8 @@ module.exports.getAds = function (number,filters,callback) {
         criteria["ad.language"] = { $in: languages};
     }
     if(filters.raids_per_week && filters.raids_per_week.active){
-        criteria["ad.raids_per_week.min"] = {$gte:parseInt(filters.raids_per_week.min)};
-        criteria["ad.raids_per_week.max"] = {$lte:parseInt(filters.raids_per_week.max)};
+        criteria["ad.raids_per_week.min"] = {$gte:parseInt(filters.raids_per_week.min,10)};
+        criteria["ad.raids_per_week.max"] = {$lte:parseInt(filters.raids_per_week.max,10)};
     }
 
     if(filters.classes &&  filters.classes.length>0){

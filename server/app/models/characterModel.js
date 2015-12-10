@@ -227,7 +227,7 @@ module.exports.getAds = function(number, filters, callback){
         criteria["bnet.level"] = {$gte:100};
     }
     if(filters.faction){
-        criteria["bnet.faction"] = parseInt(filters.faction);
+        criteria["bnet.faction"] = parseInt(filters.faction,10);
     }
     if(filters.transfert){
         criteria["ad.transfert"] = filters.transfert;
@@ -266,8 +266,8 @@ module.exports.getAds = function(number, filters, callback){
     }
 
     if(filters.raids_per_week && filters.raids_per_week.active){
-        criteria["ad.raids_per_week.min"] = {$lte:parseInt(filters.raids_per_week.min)};
-        criteria["ad.raids_per_week.max"] = {$gte:parseInt(filters.raids_per_week.max)};
+        criteria["ad.raids_per_week.min"] = {$lte:parseInt(filters.raids_per_week.min,10)};
+        criteria["ad.raids_per_week.max"] = {$gte:parseInt(filters.raids_per_week.max,10)};
     }
     if(filters.timezone && filters.timezone !=""){
         criteria["ad.timezone"] = filters.timezone;

@@ -202,8 +202,8 @@ module.exports.parseCharacterPage = function(url,callback) {
         var raidsPerWeek = cheerio.load(languageDivs[2])('strong').text().split(' - ');
         if(raidsPerWeek.length == 2) {
             result.raids_per_week = {};
-            result.raids_per_week.min = parseInt(raidsPerWeek[0]);
-            result.raids_per_week.max = parseInt(raidsPerWeek[1]);
+            result.raids_per_week.min = parseInt(raidsPerWeek[0],10);
+            result.raids_per_week.max = parseInt(raidsPerWeek[1],10);
         }
 
         var roles =  cheerio.load(languageDivs[3])('strong').text().split(', ');
@@ -374,8 +374,8 @@ module.exports.parseGuildPage = function( url, callback) {
         var raidsPerWeek = $body(".raids_week").text().replace("Raids per week: ","").split(' - ');
         if(raidsPerWeek.length == 1) {
             result.raids_per_week = {};
-            result.raids_per_week.min = parseInt(raidsPerWeek[0]);
-            result.raids_per_week.max = parseInt(raidsPerWeek[0]);
+            result.raids_per_week.min = parseInt(raidsPerWeek[0],10);
+            result.raids_per_week.max = parseInt(raidsPerWeek[0],10);
         }
 
         var lfg = $body(".recruiting").text();
