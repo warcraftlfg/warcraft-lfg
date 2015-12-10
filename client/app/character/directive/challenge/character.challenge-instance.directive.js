@@ -15,7 +15,7 @@ function wlfgChallengeInstance() {
         scope.$watch(attrs.wlfgChallengeInstance, function(records){
             if (records) {
                 records.forEach(function(record) {
-                    if (record.map && record.map.id == parseInt(attrs.instanceId)) {
+                    if (record.map && record.map.id == parseInt(attrs.instanceId,10)) {
                         scope.record = record;
                     }
                 });
