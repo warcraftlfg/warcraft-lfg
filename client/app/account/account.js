@@ -5,9 +5,9 @@
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope','$state', 'socket'];
+    Account.$inject = ['$scope','$state','$filter', 'socket'];
 
-    function Account($scope,$state,socket) {
+    function Account($scope,$state,$filter,socket) {
 
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function() {
@@ -84,7 +84,7 @@
         socket.forward('get:userCharacters',$scope);
         $scope.$on('socket:get:userCharacters',function(ev,characters){
             $scope.$parent.loading = false;
-            $scope.userCharacters = characters;
+            $scope.userCharacters = $filter('orderBy')(  characters, ['-level','name']);
         });
 
         socket.forward('get:character',$scope);
