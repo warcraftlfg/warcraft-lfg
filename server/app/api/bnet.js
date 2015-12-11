@@ -46,6 +46,10 @@ module.exports.getCharacter = function(region,realm,name,callback){
                 logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
                 return callback(new Error("BNET_API_ERROR_DENY"));
             }
+            if (response.statusCode == 404) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_CHARACTER_NOT_FOUND"));
+            }
 
             logger.warn("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
             return callback(new Error("BNET_API_ERROR"));
@@ -67,6 +71,10 @@ module.exports.getGuild = function(region,realm,name,callback){
             if (response.statusCode == 403) {
                 logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
                 return callback(new Error("BNET_API_ERROR_DENY"));
+            }
+            if (response.statusCode == 404) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_GUILD_NOT_FOUND"));
             }
 
             logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
