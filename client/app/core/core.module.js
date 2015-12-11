@@ -14,6 +14,6 @@
         /*
          * 3rd Party modules
          */
-        'ui.router', 'pascalprecht.translate', 'btford.socket-io', 'angularMoment', 'infinite-scroll', 'ui.bootstrap', 'angular-ranger','isteven-multi-select'
+        'ui.router', 'pascalprecht.translate', 'btford.socket-io', 'angularMoment', 'infinite-scroll', 'ui.bootstrap', 'angular-ranger', 'isteven-multi-select', 'hc.marked'
     ]);
 })();

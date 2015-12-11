@@ -5,7 +5,7 @@
 
     core.config(configure);
 
-	function configure($translateProvider,$urlRouterProvider,$stateProvider) {
+	function configure($translateProvider,$urlRouterProvider,$stateProvider,markedProvider) {
 
         //Translation Property
         $translateProvider.useStaticFilesLoader({
@@ -20,6 +20,12 @@
 
         //Define routes
         $urlRouterProvider.otherwise("/");
+
+        // Override markdown href
+        markedProvider.setRenderer({
+            link: function(href, title, text) {
+                return "<a href='" + href + "'" + (title ? " title='" + title + "'" : '') + " target='_blank'>" + text + "</a>";
+            }
+        });
     }
-    
 })();
