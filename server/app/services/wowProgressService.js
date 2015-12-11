@@ -91,7 +91,7 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
 module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,callback){
     async.waterfall([
         function(callback) {
-            bnetAPI.getCharacter(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, function (error, character) {
+            bnetAPI.getCharacterWithParams(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, [],function (error, character) {
                 callback(error,character);
             });
         },

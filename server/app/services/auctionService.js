@@ -60,7 +60,7 @@ module.exports.updateNext = function(callback){
 };
 
 module.exports.update = function(region,realm,name,callback){
-    bnetAPI.getCharacter(region, realm, name, function (error, character) {
+    bnetAPI.getCharacterWithParams(region, realm, name, [],function (error, character) {
         if (error)
             return callback(error);
 
