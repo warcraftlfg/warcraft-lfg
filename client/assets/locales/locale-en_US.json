@@ -58,6 +58,7 @@
   "ALL_ROLES": "No role selected",
   "ALL_DAYS": "No day selected",
   "ALL_REALMS": "No realm selected",
+  "ALL_REALMZONES": "No realm zones selected",
   "SELECT_ALL": "Select all",
   "SELECT_NONE": "Select none",
   "RESET": "Reset",
@@ -243,5 +244,18 @@
   "BNET_API_CHARACTER_NOT_FOUND": "Unable to find this player on Battle.net.",
   "BNET_API_GUILD_NOT_FOUND": "Unable to find this guild on Battle.net.",
   "BNET_API_ERROR_DENY": "Authentication error with Battle.net. Please try later or check your security settings on Battle.net",
-  "BNET_API_ERROR": "Battle.net is currently unavaillable. Please try again later."
+  "BNET_API_ERROR": "Battle.net is currently unavaillable. Please try again later.",
+  "EU--DE_DE--EUROPE--PARIS":"German",
+  "EU--EN_GB--EUROPE--PARIS":"English",
+  "EU--ES_ES--EUROPE--PARIS":"Spanish",
+  "EU--FR_FR--EUROPE--PARIS":"French",
+  "EU--IT_IT--EUROPE--PARIS":"Italian",
+  "EU--PT_BR--EUROPE--PARIS":"Portuguese",
+  "EU--RU_RU--EUROPE--PARIS":"Russian",
+  "KR--KO_KR--ASIA--SEOUL": "Korean",
+  "TW--ZH_TW--ASIA--TAIPEI": "Taiwanese",
+  "US--EN_US--AMERICA--CHICAGO::LOS_ANGELES::NEW_YORK::DENVER":"United States",
+  "US--EN_US--AUSTRALIA--MELBOURNE": "Oceanic",
+  "US--ES_MX--AMERICA--CHICAGO": "Latin America",
+  "US--PT_BR--AMERICA--SAO_PAULO": "Brazil"
 }

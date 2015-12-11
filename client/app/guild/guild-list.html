@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-md-3 col-lg-3 m-b-10">
                 <div class="filters p-10">
-                    <div class="m-b-20">
+                    <!--div class="m-b-20">
                         <span class="css3-metro-dropdown">
                             <select ng-model="filters.region" class="form-control">
                                 <option value="">{{"ALL_REGION"|translate}}</option>
@@ -36,6 +36,20 @@
                                 <option value="tw">TW</option>
                             </select>
                         </span>
+                    </div-->
+                    <div class="m-b-20">
+                        <div isteven-multi-select
+                             input-model="realmZones"
+                             button-label="name"
+                             item-label="name"
+                             output-properties="region locale zone subzones"
+                             tick-property="selected"
+                             group-property="msGroup"
+                             translation="localRealmZones"
+                             on-item-click="setRealmZones(data)"
+                             on-reset="resetRealmZones()"
+                                >
+                        </div>
                     </div>
                     <div class="m-b-20">
                         <div isteven-multi-select
