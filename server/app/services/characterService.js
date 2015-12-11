@@ -214,7 +214,7 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
             return;
         }
         if(isMyCharacter){
-            bnetAPI.getCharacter(region,realm,name,function(error,character){
+            bnetAPI.getCharacterWithParams(region,realm,name,[],function(error,character){
                 if (error)
                     return callback(error);
                 characterModel.insertOrUpdateAd(region,character.realm,character.name,id,ad,function(error){

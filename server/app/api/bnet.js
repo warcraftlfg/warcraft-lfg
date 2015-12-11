@@ -29,33 +29,19 @@ module.exports.getUserCharacters = function(region,accessToken,callback){
         }
     })
 };
-
 module.exports.getCharacter = function(region,realm,name,callback){
-    var url = encodeURI("https://"+region+".api.battle.net/wow/character/"+realm+"/"+name+"?fields=guild,items,progression,talents,achievements,statistics,challenge,pvp,reputation,stats&locale=en_GB&apikey="+config.oauth.bnet.client_id);
-
-    request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            callback(error,JSON.parse(body));
-        }
-        else {
-            if (error) {
-                logger.verbose(error.message + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR"));
-            }
-            if (response.statusCode == 403) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR_DENY"));
-            }
-            if (response.statusCode == 404) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_CHARACTER_NOT_FOUND"));
-            }
-
-            logger.warn("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
-            return callback(new Error("BNET_API_ERROR"));
-        }
+    var params = ["guild","items","progression","talents","achievements","statistics","challenge","pvp","reputation","stats"];
+    this.getCharacterWithParams(region,realm,name,params,function(error,results){
+        callback(error,results);
     });
 };
+
+module.exports.getCharacterWithParams= function(region,realm,name,params,callback){
+    var url = encodeURI("https://"+region+".api.battle.net/wow/character/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.client_id);
+    getCharacter(url,function(error,results){
+        callback(error,results);
+    });
+}
 
 module.exports.getGuild = function(region,realm,name,callback){
     var url=encodeURI("https://"+region+".api.battle.net/wow/guild/"+realm+"/"+name+"?fields=members&locale=en_GB&apikey="+config.oauth.bnet.client_id);
@@ -144,4 +130,29 @@ module.exports.getAuctions = function(region,realm,callback){
         }
     });
 };
+
+function getCharacter(url,callback){
+    request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            callback(error,JSON.parse(body));
+        }
+        else {
+            if (error) {
+                logger.verbose(error.message + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR"));
+            }
+            if (response.statusCode == 403) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_ERROR_DENY"));
+            }
+            if (response.statusCode == 404) {
+                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+                return callback(new Error("BNET_API_CHARACTER_NOT_FOUND"));
+            }
+
+            logger.warn("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
+            return callback(new Error("BNET_API_ERROR"));
+        }
+    });
+}
 
