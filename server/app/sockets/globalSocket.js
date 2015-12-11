@@ -18,8 +18,8 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:realms', function(region) {
-            realmService.getRealms(region,function(error,result){
+        socket.on('get:realms', function(realmZones) {
+            realmService.getFromRealmZones(realmZones,function(error,result){
                 if (error)
                     return socket.emit("global:error", error.message);
                 socket.emit('get:realms',result);

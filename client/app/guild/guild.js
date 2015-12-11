@@ -246,7 +246,10 @@
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;
 
-            $scope.realms= [{label:$stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",selected:true}];
+            $scope.realms = [{
+                label: $stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",
+                selected: true
+            }];
         }
 
         angular.forEach(LANGUAGES,function(language){
@@ -265,7 +268,6 @@
             var classes = $stateParams.classes.split("__");
 
             angular.forEach($scope.classes,function(clas){
-                console.log(clas);
                 if(classes.indexOf(clas.id+'--'+clas.role)!=-1) {
                     clas.selected = true;
                     $scope.filters.classes.push({id:clas.id,role:clas.role,selected:true});
@@ -306,9 +308,21 @@
                 return;
 
             var realmZones=[];
+            var realmInRegion = false;
+
             angular.forEach($scope.filters.realmZones,function(realmZone){
+
+                if(realmZone.region == $scope.filters.realm_region)
+                    realmInRegion=true;
+
                 realmZones.push(realmZone.region +'--'+realmZone.locale+"--"+realmZone.zone+"--"+realmZone.cities.join('::'));
+
             });
+
+            if (!realmInRegion && $scope.filters.realmZones.length>0) {
+                $stateParams.realm_region=null;
+                $stateParams.realm_name=null;
+            }
 
             $stateParams.realm_zones = realmZones.join('__');
             $state.go($state.current,$stateParams,{reload:true});
@@ -413,19 +427,9 @@
         });
 
         socket.emit('get:guildAds',$scope.filters);
-        socket.emit('get:realms',"");
+        socket.emit('get:realms',$scope.filters.realmZones);
 
 
-        $scope.setRealmZones = function(data){
-            if(data.msGroup === true)
-                angular.forEach($scope.realmZones,function(realmZone){
-                    if(realmZone.region ===data.name.toLowerCase())
-                        $scope.filters.realmZones.push(realmZone);
-
-                });
-            else
-                $scope.filters.realmZones.push(data);
-        };
         $scope.setRealm = function(data){
             $scope.filters.realm = data;
         };

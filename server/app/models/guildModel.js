@@ -319,9 +319,6 @@ module.exports.getAds = function (number,filters,callback) {
     if(filters.faction){
         criteria["bnet.side"] = parseInt(filters.faction,10);
     }
-    if(filters.region && filters.region!=""){
-        criteria["region"] = filters.region;
-    }
     if(filters.languages && filters.languages.length>0){
         var languages = [];
         filters.languages.forEach(function(item){
@@ -415,16 +412,16 @@ module.exports.getAds = function (number,filters,callback) {
     }
 
 
-    if (filters.realm && filters.realm.connected_realms && filters.realm.region){
+    if (filters.realmList ){
         var realms = [];
-        filters.realm.connected_realms.forEach(function(realm){
+        filters.realmList.forEach(function(realm){
             var tmpObj = {};
-            tmpObj["realm"] = realm;
+            tmpObj["$and"] = [{realm:realm.name,region:realm.region}];
             realms.push(tmpObj);
 
         });
         or.push(realms);
-        criteria["region"] = filters.realm.region;
+
     }
     if (filters.wowProgress ==true){
         criteria["id"] = {"$eq":0};

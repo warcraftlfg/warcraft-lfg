@@ -18,25 +18,55 @@ module.exports.importRealms = function(callback){
                 logger.error(error.message);
                 return callback();
             }
-            async.eachSeries(realms.realms,function(realm,callback){
-                realmModel.insertOrUpdateBnet(region, realm.name, realm,function(error){
-                    if(error)
-                        return callback(error);
-                    logger.info("Insert Realm " + region + "-" + realm.connected_realms[0]);
-                    callback();
-                });
-            },function(error){
-                if(error)
-                    logger.error(error.message);
-                callback();
+            async.waterfall([
+                function(callback){
+                    var connectedRealms=[];
+                    async.eachSeries(realms.realms,function(realm,callback){
+                        var key = realm.connected_realms.join("__");
+                        if(!connectedRealms[key])
+                            connectedRealms[key] = [realm.name];
+                        else
+                            connectedRealms[key].push(realm.name);
+                        callback();
+                    },function(error){
+                        callback(error,connectedRealms)
+                    });
+
+                },function(connectedRealms,callback){
+                    async.eachSeries(realms.realms,function(realm,callback){
+                        var connected_realms = connectedRealms[realm.connected_realms.join("__")];
+                        realmModel.insertOrUpdateBnet(region, realm.name,connected_realms, realm,function(error){
+                            if(error)
+                                return callback(error);
+                            logger.info("Insert Realm " + region + "-" + realm.connected_realms[0]);
+                            callback();
+                        });
+                    },function(error){
+                        if(error)
+                            logger.error(error.message);
+                        callback();
+                    });
+                }
+            ],function(error){
+                callback(error);
             });
         })
     });
 
 };
 
-module.exports.getRealms = function(region,callback){
-    realmModel.get(region,function(error,realms){
+module.exports.getFromRealmZones = function(realmZones,callback){
+    realmModel.getFromRealmZones(realmZones,function(error,realms){
         callback(error,realms);
     });
 };
+
+module.exports.get = function(region,name,callback){
+
+    realmModel.get(region,name,function(error,realm){
+        callback(error,realm);
+    });
+};
+
+
+

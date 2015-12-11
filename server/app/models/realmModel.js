@@ -6,7 +6,7 @@ var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 var async = require('async');
 
-module.exports.insertOrUpdateBnet = function (region,name,bnet,callback) {
+module.exports.insertOrUpdateBnet = function (region,name,connected_realms,bnet,callback) {
     var database = applicationStorage.getMongoDatabase();
 
     //Check for required attributes
@@ -25,6 +25,7 @@ module.exports.insertOrUpdateBnet = function (region,name,bnet,callback) {
     var realm ={};
     realm.region = region;
     realm.name = name;
+    realm.connected_realms = connected_realms;
     realm.updated = new Date().getTime();
 
     bnet.updated=new Date().getTime();
@@ -37,13 +38,43 @@ module.exports.insertOrUpdateBnet = function (region,name,bnet,callback) {
     });
 };
 
-module.exports.get = function(region, callback){
-    var criteria = {};
-    if (region){
-        criteria.region = region.toLowerCase();
-    }
+module.exports.getFromRealmZones = function(filters, callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("realms",criteria, {name:1,region:1,"bnet.connected_realms":1,"bnet.slug":1}, -1,{name:1,region:1}, function(error,result){
-        callback(error, result);
+
+    var criteria = {};
+    var realmZonesCriteria = [];
+    async.forEach(filters,function(filter,callback){
+        var realmZoneCriteria = {};
+        if (filter.region){
+            criteria.region = filter.region.toLowerCase();
+        }
+        if (filter.locale){
+            realmZoneCriteria["bnet.locale"] = filter.locale;
+        }
+        if (filter.zone && filter.cities && filter.cities.length > 0){
+            var or = [];
+            async.forEach(filter.cities,function(city,callback){
+                or.push({"bnet.timezone":filter.zone+"/"+city});
+                callback();
+            });
+            realmZoneCriteria["$or"] = or;
+        }
+        realmZonesCriteria.push(realmZoneCriteria);
+        callback();
+    });
+    if (realmZonesCriteria.length>0)
+        criteria["$or"]=realmZonesCriteria;
+
+    database.find("realms",criteria, {name:1,region:1,_id:0}, -1,{name:1,region:1}, function(error,realms){
+        callback(error, realms);
+    });
+};
+
+module.exports.get = function(region,name, callback){
+    var database = applicationStorage.getMongoDatabase();
+
+
+    database.find("realms",{region:region,name:name}, {name:1,region:1,"connected_realms":1}, -1,{}, function(error,realms){
+        callback(error, realms && realms[0]);
     });
 };

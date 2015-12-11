@@ -41,13 +41,13 @@
                         <div isteven-multi-select
                              input-model="realmZones"
                              button-label="name"
+                             output-model="filters.realmZones"
                              item-label="name"
-                             output-properties="region locale zone subzones"
+                             output-properties="region locale zone cities"
                              tick-property="selected"
                              group-property="msGroup"
-                             translation="localRealmZones"
-                             on-item-click="setRealmZones(data)"
                              on-reset="resetRealmZones()"
+                             translation="localRealmZones"
                                 >
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                              input-model="realms"
                              button-label="label"
                              item-label="label"
-                             output-properties="region connected_realms"
+                             output-properties="region"
                              tick-property="selected"
                              translation="localRealms"
                              selection-mode="single"
