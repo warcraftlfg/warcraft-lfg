@@ -206,8 +206,6 @@
             $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
 
             $scope.realms= [{label:$stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",selected:true}];
-            console.log($scope.realm);
-
         }
 
         angular.forEach(LANGUAGES,function(language){
@@ -226,7 +224,6 @@
             var classes = $stateParams.classes.split("__");
 
             angular.forEach($scope.classes,function(clas){
-                console.log(clas);
                 if(classes.indexOf(clas.id+'--'+clas.role)!=-1) {
                     clas.selected = true;
                     $scope.filters.classes.push({id:clas.id,role:clas.role,selected:true});
@@ -432,8 +429,6 @@
 
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
-            console.log(realms);
-
             $scope.connected_realms = {};
             //Beurk !!!
             angular.forEach(realms,function (realm) {

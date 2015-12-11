@@ -5,9 +5,11 @@
         .module('app.core')
         .controller('CoreController', Core);
 
-    Core.$inject = ['$scope','$translate','socket'];
+    Core.$inject = ['$scope','$translate','socket','wlfgAppTitle'];
 
-    function Core($scope,$translate,socket) {
+    function Core($scope,$translate,socket,wlfgAppTitle) {
+        $scope.wlfgAppTitle = wlfgAppTitle;
+
         $scope.setLanguage = function (key){
             $translate.use(key);
         };
