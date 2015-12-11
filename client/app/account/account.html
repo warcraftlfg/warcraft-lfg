@@ -22,11 +22,11 @@
     <div class="container ">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="m-b-20">{{"ACCOUNT_MANAGE_GUILD_ADS"|translate}}</h3>
+                <h3 class="m-b-20">{{"ACCOUNT_MANAGE_MY_GUILDS"|translate}}</h3>
                 <div class="m-b-15">
                     <button class="btn btn-default" ng-click="characterAdBlockShow = !characterAdBlockShow">
                         <i class="fa fa-plus"></i> &nbsp;
-                        {{"ACCOUNT_SEARCH_PLAYER"|translate}}
+                        {{"ACCOUNT_ADD_GUILD"|translate}}
                     </button>
                 </div>
                 <div class="m-b-15 p-15 bg-black" ng-show="characterAdBlockShow">
@@ -71,7 +71,9 @@
                             {{guildAd.region|uppercase}}
                         </td>
                         <td>
-                            {{"UPDATED"|translate}} <span am-time-ago="guildAd.ad.updated"></span>
+                             <span ng-if="guildAd.ad.lfg">
+                                {{"EXPIRE"|translate}} <span am-time-ago="{{guildAd.ad.updated|amAdd:'30':'days'}}"></span>
+                            </span>
                         </td>
                         <td>
                             <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
@@ -92,11 +94,11 @@
                 </table>
             </div>
             <div class="col-md-6">
-                <h3 class="m-b-20">{{"ACCOUNT_MANAGE_CHARACTER_ADS"|translate}}</h3>
+                <h3 class="m-b-20">{{"ACCOUNT_MANAGE_MY_CHARACTERS"|translate}}</h3>
                 <div class="m-b-15">
                     <button class="btn btn-default" ng-click="guildAdBlockShow = !guildAdBlockShow">
                         <i class="fa fa-plus"></i> &nbsp;
-                        {{"ACCOUNT_SEARCH_GUILD"|translate}}
+                        {{"ACCOUNT_ADD_CHARACTER"|translate}}
                     </button>
                 </div>
                 <div class="m-b-15 p-15 bg-black" ng-show="guildAdBlockShow">
@@ -146,7 +148,9 @@
                             {{characterAd.region|uppercase}}
                         </td>
                         <td>
-                            {{"UPDATED"|translate}} <span am-time-ago="characterAd.ad.updated"></span>
+                            <span ng-if="characterAd.ad.lfg">
+                                {{"EXPIRE"|translate}} <span am-time-ago="{{characterAd.ad.updated|amAdd:'30':'days'}}"></span>
+                            </span>
                         </td>
                         <td>
                             <a class="txt-no-decoration txt-white m-r-10 f-18" href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"  tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
