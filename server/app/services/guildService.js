@@ -170,18 +170,24 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
     var self=this;
     userService.isMember(id,region,realm,name,function(error,isMyGuild) {
         if (isMyGuild) {
-            guildModel.insertOrUpdateAd(region,realm,name,id,ad,function(error,result){
-                if(error){
-                    callback(error);
-                    return;
-                }
 
-                self.emitAdsCount();
-                self.emitCount();
-                self.emitLastAds();
+            bnetAPI.getGuild(region,realm,name,function(error,guild){
+                if(error)
+                    return callback(error);
+                guildModel.insertOrUpdateAd(region,guild.realm,guild.name,id,ad,function(error,result){
+                    if(error){
+                        callback(error);
+                        return;
+                    }
 
-                callback(error,result);
+                    self.emitAdsCount();
+                    self.emitCount();
+                    self.emitLastAds();
+
+                    callback(error,result);
+                });
             });
+
         }
         else {
             //Remove user from guild (gquit / gkick)

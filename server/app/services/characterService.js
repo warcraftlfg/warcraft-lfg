@@ -214,20 +214,25 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
             return;
         }
         if(isMyCharacter){
-            characterModel.insertOrUpdateAd(region,realm,name,id,ad,function(error){
-                if(error)
-                    logger.error(error.message);
-
-                self.emitAdsCount();
-                self.emitCount();
-                self.emitLastAds();
-
-                characterUpdateModel.insertOrUpdate(region,realm,name,10,function(error){
+            bnetAPI.getCharacter(region,realm,name,function(error,character){
+                if (error)
+                    return callback(error);
+                characterModel.insertOrUpdateAd(region,character.realm,character.name,id,ad,function(error){
                     if(error)
                         logger.error(error.message);
+
+                    self.emitAdsCount();
+                    self.emitCount();
+                    self.emitLastAds();
+
+                    characterUpdateModel.insertOrUpdate(region,realm,name,10,function(error){
+                        if(error)
+                            logger.error(error.message);
+                    });
+                    callback(error);
                 });
-                callback(error);
             });
+
         }
         else {
             error = new Error("CHARACTER_NOT_MEMBER_ERROR");
