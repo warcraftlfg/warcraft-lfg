@@ -59,9 +59,6 @@
                 </div>
                 <table class="table">
                     <tr ng-repeat="guildAd in guildAds">
-                        <!--<td>
-                            <i class="fa fa-square"></i>
-                        </td>-->
                         <td class="faction-{{guildAd.bnet.side}}">
                             <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/" class="txt-underline">
                                 {{guildAd.name}}
@@ -136,9 +133,6 @@
                 </div>
                 <table class="table">
                     <tr ng-repeat="characterAd in characterAds">
-                        <!--<td class="text-none">
-                            <i class="fa fa-square"></i>
-                        </td>-->
                         <td class="icon-small class-{{characterAd.bnet.class}}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
