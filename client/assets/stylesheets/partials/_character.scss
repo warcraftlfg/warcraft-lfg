@@ -96,8 +96,15 @@
 
 }
 
-.character-read{
+.character-read {
+  .character-description {
+    padding: 10px;
+    background: $grey;
 
+    p:last-child {
+      margin-bottom: 0px;
+    }
+  }
 }
 
 .character-update{
