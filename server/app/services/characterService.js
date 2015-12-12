@@ -8,6 +8,7 @@ var characterUpdateModel = process.require("models/characterUpdateModel.js");
 var characterModel = process.require("models/characterModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var userService = process.require("services/userService.js");
+var realmService = process.require("services/realmService.js")
 var guildKillModel = process.require("models/guildKillModel.js");
 var guildProgressUpdateModel = process.require("models/guildProgressUpdateModel.js");
 
@@ -263,11 +264,51 @@ module.exports.getLastAds = function(callback) {
 };
 
 module.exports.getAds = function(number,filters,callback) {
-    characterModel.getAds(number,filters,function (error, characters) {
-        if (error)
-            logger.error(error.message);
-        callback(error,characters);
+    filters.realmList = [];
+    async.waterfall([
+        function(callback){
+            async.waterfall([
+                function(callback){
+                    if(filters.realmZones && filters.realmZones && filters.realmZones.length>0){
+                        realmService.getFromRealmZones(filters.realmZones,function(error,realms){
+                            filters.realmList = realms;
+                            callback();
+                        });
+                    }
+                    else
+                        callback()
+                },
+                function(callback){
+                    if(filters.realm && filters.realm.region && filters.realm.name ){
+                        realmService.get(filters.realm.region,filters.realm.name,function(error,realm){
+                            if(!realm)
+                                return callback();
 
+                            async.forEach(realm.connected_realms,function(name,callback){
+                                filters.realmList =[{name:name,region:filters.realm.region}];
+                                callback();
+
+                            },function(){
+                                callback();
+                            })
+                        });
+                    }
+                    else
+                        callback();
+                }
+            ],function(){
+                callback();
+            });
+        },
+        function(callback){
+            characterModel.getAds(number,filters,function (error, characters) {
+                if (error)
+                    logger.error(error.message);
+                callback(error,characters);
+            });
+        }
+    ],function(error,characters){
+        callback(error,characters)
     });
 };
 
