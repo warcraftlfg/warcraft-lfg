@@ -40,15 +40,17 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">{{"DASHBOARD_SEARCH_ZONE"|translate}} :</label>
                         <div class="col-md-9">
-                            <span class="css3-metro-dropdown">
-                                <select ng-model="form.region"class="form-control">
-                                    <option value="">{{"ALL_REGION"|translate}}</option>
-                                    <option value="us">US</option>
-                                    <option value="eu">EU</option>
-                                    <option value="kr">KR</option>
-                                    <option value="tw">TW</option>
-                                </select>
-                            </span>
+                            <div isteven-multi-select
+                                 input-model="realmZones"
+                                 button-label="name"
+                                 output-model="form.realmZones"
+                                 item-label="name"
+                                 output-properties="region locale zone cities"
+                                 tick-property="selected"
+                                 group-property="msGroup"
+                                 translation="localRealmZones"
+                            >
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
