@@ -245,7 +245,6 @@
         if($stateParams.realm_name && $stateParams.realm_region){
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;
-            $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
             $scope.realms= [{label:$stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",selected:true}];
         }
 
@@ -472,7 +471,6 @@
 
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
-            $scope.connected_realms = {};
             $scope.realms = realms;
             angular.forEach(realms,function (realm) {
                 realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
