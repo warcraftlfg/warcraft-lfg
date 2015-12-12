@@ -11,7 +11,8 @@ module.exports = {
                         ],
                         js: [
                                 [/["']([^:"']+\.(?:png|gif|jpe?g))["']/img, 'Image replacement in js files'],
-                                [/["']([^:"']+\.html)["']/img, '>HTML replacement in js files']
+                                [/["']([^:"']+\.html)["']/img, '>HTML replacement in js files'],
+                                [/["']([^:"']+\.json)["']/img, '>JSON replacement in js files']
                         ],
                         html:[
                                 [/["']([^:"']+\.(?:png|gif|jpe?g))["']/img, 'Image replacement in html files'],

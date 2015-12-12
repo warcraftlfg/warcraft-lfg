@@ -11,7 +11,8 @@ module.exports = {
                 'www/assets/**/*.{jpg,png}',
                 'www/app/**/*.html',
                 'www/assets/css/warcraftlfg.min.css',
-                'www/app/warcraftlfg.min.js'
+                'www/app/warcraftlfg.min.js',
+                'www/assets/**/*.json'
             ]
         }]
     }
