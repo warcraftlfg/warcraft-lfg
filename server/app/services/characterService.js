@@ -269,14 +269,23 @@ module.exports.getAds = function(number,filters,callback) {
         function(callback){
             async.waterfall([
                 function(callback){
+                    if(filters.realmZones && filters.realmZones && filters.realmZones.length>0){
+                        realmService.getFromRealmZones(filters.realmZones,function(error,realms){
+                            filters.realmList = realms;
+                            callback();
+                        });
+                    }
+                    else
+                        callback()
+                },
+                function(callback){
                     if(filters.realm && filters.realm.region && filters.realm.name ){
-
                         realmService.get(filters.realm.region,filters.realm.name,function(error,realm){
                             if(!realm)
                                 return callback();
 
                             async.forEach(realm.connected_realms,function(name,callback){
-                                filters.realmList.push({name:name,region:filters.realm.region});
+                                filters.realmList =[{name:name,region:filters.realm.region}];
                                 callback();
 
                             },function(){
@@ -286,16 +295,6 @@ module.exports.getAds = function(number,filters,callback) {
                     }
                     else
                         callback();
-                },
-                function(callback){
-                    if(filters.realmZones && filters.realmZones && filters.realmZones.length>0){
-                        realmService.getFromRealmZones(filters.realmZones,function(error,realms){
-                            filters.realmList = filters.realmList.concat(realms);
-                            callback();
-                        });
-                    }
-                    else
-                        callback()
                 }
             ],function(){
                 callback();
