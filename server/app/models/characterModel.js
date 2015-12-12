@@ -232,9 +232,19 @@ module.exports.getAds = function(number, filters, callback){
     if(filters.transfert){
         criteria["ad.transfert"] = filters.transfert;
     }
-    if(filters.region && filters.region!=""){
-        criteria["region"] = filters.region;
+
+    if (filters.realmList &&  filters.realmList.length>0){
+        var realms = [];
+        filters.realmList.forEach(function(realm){
+            var tmpObj = {};
+            tmpObj["$and"] = [{realm:realm.name,region:realm.region}];
+            realms.push(tmpObj);
+
+        });
+        or.push(realms);
+
     }
+
     if(filters.languages && filters.languages.length>0){
         var languages = [];
         filters.languages.forEach(function(item){

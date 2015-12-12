@@ -333,7 +333,6 @@ module.exports.getAds = function (number,filters,callback) {
 
     if(filters.classes &&  filters.classes.length>0){
         //Horrible function for mapping role and classes ...
-        var classes = [];
         var recruitment = [];
 
         filters.classes.forEach(function (classe){

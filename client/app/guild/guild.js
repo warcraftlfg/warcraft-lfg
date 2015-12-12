@@ -239,7 +239,6 @@
                     }
                 });
             });
-
         }
 
         if($stateParams.realm_name && $stateParams.realm_region){
@@ -430,13 +429,14 @@
         socket.emit('get:realms',$scope.filters.realmZones);
 
 
+        $scope.resetRealmZones = function(){
+            $scope.filters.realmZones = [];
+        };
+
         $scope.setRealm = function(data){
             $scope.filters.realm = data;
         };
 
-        $scope.resetRealmZones = function(){
-            $scope.filters.realmZones = [];
-        };
         $scope.resetRealm = function(){
             $scope.filters.realm = {};
         };

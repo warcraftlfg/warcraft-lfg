@@ -259,14 +259,14 @@ module.exports.getAds = function(number,filters,callback) {
             });
         },
         function(callback){
-            guildModel.getAds(number,filters,function (error, characters) {
+            guildModel.getAds(number,filters,function (error, guilds) {
                 if (error)
                     logger.error(error.message);
-                callback(error,characters);
+                callback(error,guilds);
             });
         }
-    ],function(error,characters){
-        callback(error,characters)
+    ],function(error,guilds){
+        callback(error,guilds)
     });
 };
 
