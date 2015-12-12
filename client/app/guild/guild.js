@@ -9,7 +9,7 @@
     ;
 
     GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle"];
-    function GuildRead($scope,socket,$state,$stateParams,$location,"wlfgAppTitle") {
+    function GuildRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle) {
         wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
@@ -95,9 +95,9 @@
         });
     }
 
-    GuildList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES'];
-    function GuildList($scope, $stateParams, $translate,$state, socket,LANGUAGES,TIMEZONES) {
-
+    GuildList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle"];
+    function GuildList($scope, $stateParams, $translate,$state, socket,LANGUAGES,TIMEZONES,wlfgAppTitle) {
+        wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error=null;
         $scope.$parent.loading = true;

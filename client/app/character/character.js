@@ -89,8 +89,9 @@
         });
     }
 
-    CharacterList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES'];
-    function CharacterList($scope ,$stateParams, $translate,$state, socket, LANGUAGES,TIMEZONES) {
+    CharacterList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle"];
+    function CharacterList($scope ,$stateParams, $translate,$state, socket, LANGUAGES,TIMEZONES,wlfgAppTitle) {
+        wlfgAppTitle.setTitle('Characters LFG');
 
         //Reset error message
         $scope.$parent.error=null;
