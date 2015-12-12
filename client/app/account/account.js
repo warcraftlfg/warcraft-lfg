@@ -5,9 +5,10 @@
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope','$state','$filter', 'socket'];
+    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle"];
 
-    function Account($scope,$state,$filter,socket) {
+    function Account($scope,$state,$filter,socket,wlfgAppTitle) {
+        wlfgAppTitle.setTitle('Account');
 
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function() {

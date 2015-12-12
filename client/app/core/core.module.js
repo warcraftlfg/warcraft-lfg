@@ -9,7 +9,7 @@
         /*
          * Our reusable cross app code modules
          */
-        'blocks.socket', 'blocks.wlfgConfirm',
+        'blocks.socket', 'blocks.wlfgConfirm', 'blocks.wlfgAppTitle',
         //'blocks.exception', 'blocks.logger', 'blocks.router',
         /*
          * 3rd Party modules

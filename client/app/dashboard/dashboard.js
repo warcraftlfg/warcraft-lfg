@@ -5,9 +5,10 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','$state','$translate','socket','LANGUAGES'];
-    function Dashboard($scope,$state,$translate,socket,LANGUAGES) {
-
+    Dashboard.$inject = ['$scope','$state','$translate','socket','LANGUAGES',"wlfgAppTitle"];
+    function Dashboard($scope,$state,$translate,socket,LANGUAGES,wlfgAppTitle) {
+        wlfgAppTitle.setTitle('Home');
+        
         $scope.$parent.loading = false;
 
         $scope.realmZones = [

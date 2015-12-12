@@ -8,8 +8,9 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location"];
-    function CharacterRead($scope,socket,$state,$stateParams,$location) {
+    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle"];
+    function CharacterRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle) {
+        wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
 
@@ -88,8 +89,9 @@
         });
     }
 
-    CharacterList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES'];
-    function CharacterList($scope ,$stateParams, $translate,$state, socket, LANGUAGES,TIMEZONES) {
+    CharacterList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle"];
+    function CharacterList($scope ,$stateParams, $translate,$state, socket, LANGUAGES,TIMEZONES,wlfgAppTitle) {
+        wlfgAppTitle.setTitle('Characters LFG');
 
         //Reset error message
         $scope.$parent.error=null;

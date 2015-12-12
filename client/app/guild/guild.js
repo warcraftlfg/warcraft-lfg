@@ -8,8 +8,9 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location"];
-    function GuildRead($scope,socket,$state,$stateParams,$location) {
+    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle"];
+    function GuildRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle) {
+        wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
 
@@ -94,9 +95,9 @@
         });
     }
 
-    GuildList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES'];
-    function GuildList($scope, $stateParams, $translate,$state, socket,LANGUAGES,TIMEZONES) {
-
+    GuildList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle"];
+    function GuildList($scope, $stateParams, $translate,$state, socket,LANGUAGES,TIMEZONES,wlfgAppTitle) {
+        wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
@@ -244,11 +245,8 @@
         if($stateParams.realm_name && $stateParams.realm_region){
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;
-
-            $scope.realms = [{
-                label: $stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",
-                selected: true
-            }];
+            $scope.filters.realm.connected_realms = $stateParams.connected_realms.split("__");
+            $scope.realms= [{label:$stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",selected:true}];
         }
 
         angular.forEach(LANGUAGES,function(language){
