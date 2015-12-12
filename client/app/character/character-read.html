@@ -15,6 +15,9 @@
                 <div class="col-md-12">
                     <span ng-if="character">{{ character.realm }} - {{ character.region|uppercase}}</span>
                     <span ng-if="!character">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
+                    <a class="f-right" ng-if="user.logged_in && character.id == user.id" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
+                        <i class="fa fa-edit f-20"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -78,7 +81,7 @@
                                 </div>
                                 <div ng-if="character.ad.description" class="row m-t-10">
                                     <div class="col-md-12">
-                                        <pre class="m-t-5 m-b-0">{{character.ad.description.trim() }}</pre>
+                                        <div class="character-description" marked="character.ad.description"></div>
                                     </div>
                                 </div>
                             </div>

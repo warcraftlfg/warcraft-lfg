@@ -79,8 +79,15 @@
 
 }
 
-.guild-read{
+.guild-read {
+  .guild-description {
+    padding: 10px;
+    background: $grey;
 
+    p:last-child {
+      margin-bottom: 0px;
+    }
+  }
 }
 
 .guild-update{
