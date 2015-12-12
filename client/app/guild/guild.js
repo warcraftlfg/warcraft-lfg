@@ -8,8 +8,9 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location"];
-    function GuildRead($scope,socket,$state,$stateParams,$location) {
+    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle"];
+    function GuildRead($scope,socket,$state,$stateParams,$location,"wlfgAppTitle") {
+        wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
 
