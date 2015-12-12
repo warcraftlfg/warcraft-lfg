@@ -48,7 +48,7 @@ module.exports.getRankings = function(region,realm,name,callback) {
                 logger.error(error.message+" on fetching warcraftlogs api "+url);
             else
                 logger.warn("Error HTTP "+response.statusCode+" on fetching warcraftlogs api "+url);
-            callback(new Error("BNET_API_ERROR"));
+            callback(new Error("WARCRAFTLOGS_API_ERROR"));
         }
     });
 };

@@ -39,10 +39,12 @@ module.exports.updateNext = function(callback){
     });
 };
 module.exports.update = function(region,realm,name,callback) {
-    async.eachSeries(config.progress,function(raid,callback){
-        guildModel.computeProgress(region,realm,name,raid,function(error,result){
+    async.eachSeries(config.progress.raids,function(raid,callback){
+        guildModel.computeProgress(region,realm,name,raid.name,function(error,result){
             if (error)
                 return callback(error);
+
+
             var progress = {};
             async.forEachSeries(result,function(obj,callback){
                 progress[obj._id] = obj.value;
@@ -50,7 +52,7 @@ module.exports.update = function(region,realm,name,callback) {
                 callback();
             },function() {
 
-                guildModel.insertOrUpdateProgress(region, realm, name, raid, progress, function (error, result) {
+                guildModel.insertOrUpdateProgress(region, realm, name, raid.name, progress, function (error, result) {
                     callback();
                 });
             });

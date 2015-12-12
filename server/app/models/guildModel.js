@@ -174,18 +174,37 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
     };
 
     var reduce = function(key,values){
-        var reduced = {};
 
-        for (var idx = 0; idx < values.length; idx++) {
-            if (values[idx].boss) {
-                if (reduced[values[idx].boss] == null) {
-                    reduced[values[idx].boss] = {};
-                    reduced[values[idx].boss].timestamps = [];
+        var reduced = {test:[]};
+
+        values.forEach(function(value) {
+            if (value.boss) {
+                if (reduced[value.boss] == null) {
+                    reduced[value.boss] = {timestamps:[]};
                 }
 
-                reduced[values[idx].boss].timestamps.push(values[idx].timestamp);
+                //For each timestamps
+                var toInsert = false;
+
+                reduced[value.boss].timestamps.forEach(function(timestamps){
+                    timestamps.forEach(function(timestamp,index){
+                        if((timestamp+1000) <=  value.timestamp
+                            && value.timestamp >=(timestamp-1000)) {
+                            toInsert = index;
+                        }
+                    });
+                });
+
+
+                if(toInsert!=false)
+                    reduced[value.boss].timestamps[toInsert].push(values.timestamp);
+                else
+                    reduced[value.boss].timestamps.push([values.timestamp]);
+
             }
-        }
+            reduced.test.push(value.boss);
+
+        });
         return reduced;
     };
 
@@ -203,15 +222,11 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
         {
             region:region,
             name:name,
-            realm:realm,
-            $or:[
-                {$and:[{roster : {$exists:true}},{difficulty:"normal"},{$where:"this.roster.length >= 8"}]},
-                {$and:[{roster : {$exists:true}},{difficulty:"heroic"},{$where:"this.roster.length >= 8"}]},
-                {$and:[{roster : {$exists:true}},{difficulty:"mythic"},{$where:"this.roster.length >= 16"}]}
-            ]
+            realm:realm
         },
         { bossWeight:1,timestamp:1}
         , function(err,result) {
+            console.log(result[1].value.test);
             callback(err,result);
         });
 };
@@ -441,10 +456,10 @@ module.exports.getAds = function (number,filters,callback) {
     projection["bnet.side"] = 1;
     projection["wowProgress"] = 1;
 
-    config.progress.forEach(function(raid){
-        projection["progress."+raid+".normalCount"] = 1;
-        projection["progress."+raid+".heroicCount"] = 1;
-        projection["progress."+raid+".mythicCount"] = 1;
+    config.progress.raids.forEach(function(raid){
+        projection["progress."+raid.name+".normalCount"] = 1;
+        projection["progress."+raid.name+".heroicCount"] = 1;
+        projection["progress."+raid.name+".mythicCount"] = 1;
     });
 
     database.find("guilds", criteria,projection, number, {"ad.updated":-1}, function(error,guilds){
