@@ -221,13 +221,13 @@ module.exports.getLastAds = function(callback) {
 };
 
 module.exports.getAds = function(number,filters,callback) {
-
+    filters.realmList = [];
     async.waterfall([
         function(callback){
             async.waterfall([
                 function(callback){
                     if(filters.realm && filters.realm.region && filters.realm.name ){
-                        filters.realmList = [];
+
                         realmService.get(filters.realm.region,filters.realm.name,function(error,realm){
                             if(!realm)
                                 return callback();
@@ -247,7 +247,7 @@ module.exports.getAds = function(number,filters,callback) {
                 function(callback){
                     if(filters.realmZones && filters.realmZones && filters.realmZones.length>0){
                         realmService.getFromRealmZones(filters.realmZones,function(error,realms){
-                            filters.realmList = realms;
+                            filters.realmList = filters.realmList.concat(realms);
                             callback();
                         });
                     }

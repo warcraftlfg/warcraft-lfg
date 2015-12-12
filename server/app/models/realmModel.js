@@ -38,23 +38,23 @@ module.exports.insertOrUpdateBnet = function (region,name,connected_realms,bnet,
     });
 };
 
-module.exports.getFromRealmZones = function(filters, callback){
+module.exports.getFromRealmZones = function(realmZones, callback){
     var database = applicationStorage.getMongoDatabase();
 
     var criteria = {};
     var realmZonesCriteria = [];
-    async.forEach(filters,function(filter,callback){
+    async.forEach(realmZones,function(realmZone,callback){
         var realmZoneCriteria = {};
-        if (filter.region){
-            criteria.region = filter.region.toLowerCase();
+        if (realmZone.region){
+            realmZoneCriteria.region = realmZone.region.toLowerCase();
         }
-        if (filter.locale){
-            realmZoneCriteria["bnet.locale"] = filter.locale;
+        if (realmZone.locale){
+            realmZoneCriteria["bnet.locale"] = realmZone.locale;
         }
-        if (filter.zone && filter.cities && filter.cities.length > 0){
+        if (realmZone.zone && realmZone.cities && realmZone.cities.length > 0){
             var or = [];
-            async.forEach(filter.cities,function(city,callback){
-                or.push({"bnet.timezone":filter.zone+"/"+city});
+            async.forEach(realmZone.cities,function(city,callback){
+                or.push({"bnet.timezone":realmZone.zone+"/"+city});
                 callback();
             });
             realmZoneCriteria["$or"] = or;
@@ -62,10 +62,13 @@ module.exports.getFromRealmZones = function(filters, callback){
         realmZonesCriteria.push(realmZoneCriteria);
         callback();
     });
+
+    console.log(realmZonesCriteria);
     if (realmZonesCriteria.length>0)
         criteria["$or"]=realmZonesCriteria;
 
     database.find("realms",criteria, {name:1,region:1,_id:0}, -1,{name:1,region:1}, function(error,realms){
+
         callback(error, realms);
     });
 };
