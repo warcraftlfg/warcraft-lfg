@@ -411,8 +411,7 @@ module.exports.getAds = function (number,filters,callback) {
         criteria["ad.timezone"] = filters.timezone;
     }
 
-
-    if (filters.realmList ){
+    if (filters.realmList &&  filters.realmList.length>0){
         var realms = [];
         filters.realmList.forEach(function(realm){
             var tmpObj = {};

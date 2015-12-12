@@ -57,7 +57,8 @@ module.exports.getFromRealmZones = function(realmZones, callback){
                 or.push({"bnet.timezone":realmZone.zone+"/"+city});
                 callback();
             });
-            realmZoneCriteria["$or"] = or;
+            if(or.length > 0)
+                realmZoneCriteria["$or"] = or;
         }
         realmZonesCriteria.push(realmZoneCriteria);
         callback();
