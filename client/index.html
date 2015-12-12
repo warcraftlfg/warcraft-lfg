@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en" ng-app="app" ng-cloak ng-controller="CoreController">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
 
-        <title>Warcraft LFG</title>
+        <title ng-bind="wlfgAppTitle.title()">WarcraftLFG</title>
 
         <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard">
         <meta name="description" content="WarcraftLFG strive to be the link between players and guilds: Our goal is to provide each party with a meaningful set of data to help you find your perfect guild mates.">
@@ -45,8 +45,8 @@
 
     </head>
 
-    <body ng-controller="CoreController">
-        <div ng-cloak class="wrapper">
+    <body>
+        <div class="wrapper">
             <div data-ng-include="'app/layout/header.html'"></div>
             <div class="content">
                 <div ng-show="error" class="alert alert-danger" role="alert">
@@ -89,6 +89,8 @@
         <!-- Reusable Blocks/Modules -->
         <script src="/app/blocks/socket/socket.module.js"></script>
         <script src="/app/blocks/socket/socket.js"></script>
+        <script src="/app/blocks/wlfgAppTitle/warcraft-lfg.app.title.module.js"></script>
+        <script src="/app/blocks/wlfgAppTitle/warcraft-lfg.app.title.js"></script>
         <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.module.js"></script>
         <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.directive.js"></script>
         <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.controller.js"></script>
