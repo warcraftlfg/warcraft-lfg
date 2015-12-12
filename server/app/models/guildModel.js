@@ -166,67 +166,54 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
 
     var map = function(){
         var mapped = {
-            timestamp : this.timestamp,
-            boss: this.boss
+            timestamp:this.timestamp,
+            roster:this.roster.length
         };
-        var key = this.difficulty;
+        var key = {difficulty:this.difficulty,boss:this.boss};
         emit(key, mapped);
     };
 
     var reduce = function(key,values){
+        var reduced = {timestamps:[]};
 
-        var reduced = {test:[]};
+        for(var idx=0;idx<values.length;idx++){
 
-        values.forEach(function(value) {
-            if (value.boss) {
-                if (reduced[value.boss] == null) {
-                    reduced[value.boss] = {timestamps:[]};
-                }
-
-                //For each timestamps
-                var toInsert = false;
-
-                reduced[value.boss].timestamps.forEach(function(timestamps){
-                    timestamps.forEach(function(timestamp,index){
-                        if((timestamp+1000) <=  value.timestamp
-                            && value.timestamp >=(timestamp-1000)) {
-                            toInsert = index;
-                        }
-                    });
-                });
-
-
-                if(toInsert!=false)
-                    reduced[value.boss].timestamps[toInsert].push(values.timestamp);
-                else
-                    reduced[value.boss].timestamps.push([values.timestamp]);
-
+            if(idx<values.length-1 && values[idx].timestamp+2000 >= values[idx+1].timestamp) {
+                var rosterLength = values[idx].roster + values[idx+1].roster;
+                if((key.difficulty == "mythic" && rosterLength>=16) ||
+                    ((key.difficulty == "normal" || key.difficulty =="heroic")&& values[idx].roster >=8))
+                    reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
+                idx++;
             }
-            reduced.test.push(value.boss);
+            else{
+                if((key.difficulty == "mythic" && values[idx].roster >=16 ) ||
+                    ((key.difficulty == "normal" || key.difficulty =="heroic")&& values[idx].roster >=8 ))
+                    reduced.timestamps.push([values[idx].timestamp]);
+            }
+        }
 
-        });
         return reduced;
     };
 
     var finalize = function(key,value){
         if(value.timestamp){
-            var obj = {};
-            obj[value.boss] = {};
-            obj[value.boss].timestamps = [value.timestamp];
-            value = obj;
+            if((key.difficulty == "mythic" && value.roster >=16 ) ||
+                ((key.difficulty == "normal" || key.difficulty =="heroic")&& value.roster >=8 ))
+                return [value];
+            else
+                return null;
         }
         return value;
     };
 
-    database.mapReduce(raid,map, reduce, finalize,  { inline: 1 },
+    database.mapReduce(raid, map, reduce, finalize, { inline: 1},
         {
             region:region,
-            name:name,
-            realm:realm
+            realm:realm,
+            name:name
         },
-        { bossWeight:1,timestamp:1}
+        {bossWeight:1,timestamp:1}
         , function(err,result) {
-            console.log(result[1].value.test);
             callback(err,result);
         });
 };

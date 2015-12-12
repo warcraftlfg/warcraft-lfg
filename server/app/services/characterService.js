@@ -115,7 +115,7 @@ module.exports.update = function(region,realm,name,callback) {
                                         var bossWeight = 0;
                                         async.forEachSeries(raid.bosses,function(boss,callback){
 
-                                            var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                            var progress = {source:"progress",name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
 
                                             var difficulties = ["normal","heroic","mythic"];
                                             async.forEachSeries(difficulties,function(difficulty,callback){
@@ -151,7 +151,7 @@ module.exports.update = function(region,realm,name,callback) {
                                             var achievementPosition = character.achievements.achievementsCompleted.indexOf(boss.player_mythic_achievement_id)
                                             if(achievementPosition !=-1){
                                                 var timestamp =character.achievements.achievementsCompletedTimestamp[achievementPosition];
-                                                var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                                var progress = {source:"achievement",name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
 
                                                 async.series([
                                                     function(callback){

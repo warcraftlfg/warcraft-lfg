@@ -47,10 +47,15 @@ module.exports.update = function(region,realm,name,callback) {
 
             var progress = {};
             async.forEachSeries(result,function(obj,callback){
-                progress[obj._id] = obj.value;
-                progress[obj._id+"Count"] = Object.keys(obj.value).length;
+
+                if(!progress[obj._id.difficulty])
+                    progress[obj._id.difficulty] = {};
+
+                progress[obj._id.difficulty][obj._id.boss] = obj.value;
+                progress[obj._id.difficulty+"Count"] = Object.keys(progress[obj._id.difficulty]).length;
                 callback();
             },function() {
+                console.log(progress);
 
                 guildModel.insertOrUpdateProgress(region, realm, name, raid.name, progress, function (error, result) {
                     callback();
