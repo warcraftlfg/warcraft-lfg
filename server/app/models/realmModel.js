@@ -63,7 +63,6 @@ module.exports.getFromRealmZones = function(realmZones, callback){
         callback();
     });
 
-    console.log(realmZonesCriteria);
     if (realmZonesCriteria.length>0)
         criteria["$or"]=realmZonesCriteria;
 
