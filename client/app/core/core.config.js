@@ -9,11 +9,11 @@
 
         //Translation Property
         $translateProvider.useStaticFilesLoader({
-            prefix: "assets/locales/locale-",
-            suffix: ".json"
+            prefix: "",
+            suffix: ""
         });
-        $translateProvider.registerAvailableLanguageKeys(["en_US"], {
-            "*":"en_US"
+        $translateProvider.registerAvailableLanguageKeys(["assets/locales/locale-en_US.json"], {
+            "*":"assets/locales/locale-en_US.json"
         });
         $translateProvider.preferredLanguage("en_US");
         $translateProvider.useSanitizeValueStrategy('escape');
