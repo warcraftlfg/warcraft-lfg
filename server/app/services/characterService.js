@@ -115,7 +115,7 @@ module.exports.update = function(region,realm,name,callback) {
                                         var bossWeight = 0;
                                         async.forEachSeries(raid.bosses,function(boss,callback){
 
-                                            var progress = {source:"progress",name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                            var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
 
                                             var difficulties = ["normal","heroic","mythic"];
                                             async.forEachSeries(difficulties,function(difficulty,callback){
@@ -154,7 +154,7 @@ module.exports.update = function(region,realm,name,callback) {
 
                                             if(achievementPosition>=0){
                                                 var timestamp =character.achievements.achievementsCompletedTimestamp[achievementPosition];
-                                                var progress = {source:"player_achievement",name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                                var progress = {name:character.name, realm:character.realm, region:region,faction:character.faction,class:character.class};
 
                                                 async.series([
                                                     function(callback){
