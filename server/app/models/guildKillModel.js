@@ -8,7 +8,7 @@ var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
 
-module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,difficulty,timestamp,progress,callback) {
+module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,difficulty,timestamp,source,progress,callback) {
 
     var database = applicationStorage.getMongoDatabase();
 
@@ -59,7 +59,7 @@ module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,
     guildKill.timestamp = timestamp;
     guildKill.updated = new Date().getTime();
 
-    database.insertOrUpdate(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp} ,{$set:guildKill} ,null, function(error,result){
+    database.insertOrUpdate(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp} ,{$set:guildKill,$addToSet:{source:source}} ,null, function(error,result){
         database.update(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,"roster.name":{$ne:progress.name}} ,{$push:{roster:progress}} ,null, function(error,result) {
             callback(error, result);
         });

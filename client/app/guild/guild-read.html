@@ -259,23 +259,23 @@
                         <table class="table table-condensed" ng-repeat="raid in guild.progress | limitTo:-1">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:7">
                                 <td class="bold">{{ boss }}</td>
-                                <td ng-class="{'legendary':raid.mythic[boss].timestamps.length>0,'epic':raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0,'rare':raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0,'common':raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length>0}">
-                                    <span ng-if="raid.mythic[boss].timestamps.length>0">Mythic</span>
-                                    <span ng-if="raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0">Heroic</span>
-                                    <span ng-if="raid.normal[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0">Normal</span>
-                                    <span ng-if="raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length==0">No kill</span>
+                                <td ng-class="{'legendary':raid.mythic[boss],'epic':raid.heroic[boss]&&!raid.mythic[boss],'rare':raid.heroic[boss]&&!raid.mythic[boss]&&!raid.heroic[boss],'common':!raid.mythic[boss]&&!raid.heroic[boss]&&raid.normal[boss]}">
+                                    <span ng-if="raid.mythic[boss]">Mythic</span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">Heroic</span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">Normal</span>
+                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">No kill</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss].timestamps.length>0">{{ raid.mythic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0">{{ raid.heroic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.normal[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0">{{ raid.normal[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length==0">0</span>
+                                    <span ng-if="raid.mythic[boss]">{{ raid.mythic[boss].timestamps.length }}</span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">{{ raid.heroic[boss].timestamps.length }}</span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">{{ raid.normal[boss].timestamps.length }}</span>
+                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">0</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss].timestamps.length>0" am-time-ago="raid.mythic[boss].timestamps[raid.mythic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0" am-time-ago="raid.heroic[boss].timestamps[raid.heroic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.normal[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0" am-time-ago="raid.normal[boss].timestamps[raid.normal[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length==0">&nbsp;</span>
+                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[raid.mythic[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[raid.heroic[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[raid.normal[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>
@@ -284,23 +284,23 @@
                         <table class="table table-condensed" ng-repeat="raid in guild.progress | limitTo:-1">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:-6">
                                 <td class="bold">{{ boss }}</td>
-                                <td ng-class="{'legendary':raid.mythic[boss].timestamps.length>0,'epic':raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0,'rare':raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0,'common':raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length>0}">
-                                    <span ng-if="raid.mythic[boss].timestamps.length>0">Mythic</span>
-                                    <span ng-if="raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0">Heroic</span>
-                                    <span ng-if="raid.normal[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0">Normal</span>
-                                    <span ng-if="raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length==0">No kill</span>
+                                <td ng-class="{'legendary':raid.mythic[boss],'epic':raid.heroic[boss]&&!raid.mythic[boss],'rare':raid.heroic[boss]&&!raid.mythic[boss]&&!raid.heroic[boss],'common':!raid.mythic[boss]&&!raid.heroic[boss]&&raid.normal[boss]}">
+                                    <span ng-if="raid.mythic[boss]">Mythic</span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">Heroic</span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">Normal</span>
+                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">No kill</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss].timestamps.length>0">{{ raid.mythic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0">{{ raid.heroic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.normal[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0">{{ raid.normal[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length==0">0</span>
+                                    <span ng-if="raid.mythic[boss]">{{ raid.mythic[boss].timestamps.length }}</span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">{{ raid.heroic[boss].timestamps.length }}</span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">{{ raid.normal[boss].timestamps.length }}</span>
+                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">0</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss].timestamps.length>0" am-time-ago="raid.mythic[boss].timestamps[raid.mythic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.heroic[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0" am-time-ago="raid.heroic[boss].timestamps[raid.heroic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.normal[boss].timestamps.length>0&&raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0" am-time-ago="raid.normal[boss].timestamps[raid.normal[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.mythic[boss].timestamps.length==0&&raid.heroic[boss].timestamps.length==0&&raid.normal[boss].timestamps.length==0">&nbsp;</span>
+                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[raid.mythic[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[raid.heroic[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[raid.normal[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>
