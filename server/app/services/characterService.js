@@ -146,9 +146,12 @@ module.exports.update = function(region,realm,name,callback) {
                                         });
                                     },
                                     function(callback){
+                                        //Disable because of bug ...
+                                        return callback();
                                         //Raid progression with mythic achievement
                                         async.forEachOf(raidConfig.bosses,function(boss,bossWeight,callback){
                                             var achievementPosition = character.achievements.achievementsCompleted.indexOf(boss.player_mythic_achievement_id);
+
                                             if(achievementPosition>=0){
                                                 var timestamp =character.achievements.achievementsCompletedTimestamp[achievementPosition];
                                                 var progress = {source:"achievement",name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
