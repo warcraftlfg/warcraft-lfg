@@ -186,8 +186,8 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                 idx++;
             }
             else{
-                if((key.difficulty == "mythic" && values[idx].roster.length >=16) ||
-                    ((key.difficulty == "normal" || key.difficulty =="heroic")&& values[idx].roster.length >=8 ))
+                if(values[idx].roster && ((key.difficulty == "mythic" && values[idx].roster.length >=16) ||
+                    ((key.difficulty == "normal" || key.difficulty =="heroic") && values[idx].roster.length >=8 )))
                     reduced.timestamps.push([values[idx].timestamp]);
             }
         }
