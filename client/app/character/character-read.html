@@ -40,7 +40,7 @@
                         <a href="https://www.askmrrobot.com/wow/player/{{ character.region }}/{{ character.realm }}/{{ character.name }}" target="_blank" class="m-l-10 href-icon">
                             <img src="/assets/images/external/amr.png" class="external-icon" width="34" />
                         </a>
-                        <a href="https://www.warcraftlogs.com/rankings/character_name/{{ character.name }}/{{ character.realm }}/{{ character.region|uppercase }}#boss=0" target="_blank" class="m-l-10 href-icon">
+                        <a ng-if="character.warcraftLogs.logs" href="https://www.warcraftlogs.com/rankings/character_name/{{ character.name }}/{{ character.realm }}/{{ character.region|uppercase }}#boss=0" target="_blank" class="m-l-10 href-icon">
                             <img src="/assets/images/external/wcl.png" width="34" />
                         </a>
                         <a href="http://{{ character.region }}.battle.net/wow/en/character/{{ character.realm }}/{{ character.name }}/advanced" target="_blank" class="m-l-10 href-icon">
