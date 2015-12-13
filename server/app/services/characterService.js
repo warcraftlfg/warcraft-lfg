@@ -97,7 +97,6 @@ module.exports.update = function(region,realm,name,callback) {
                             //Raid progression with kill
                             async.forEachSeries(character.progression.raids,function(raid,callback){
                                 //Parse only raid in config
-
                                 var raidConfig = null;
                                 async.forEach(config.progress.raids,function(obj,callback){
                                     if(obj.name == raid.name)
@@ -109,77 +108,67 @@ module.exports.update = function(region,realm,name,callback) {
                                 if(raidConfig==null)
                                     return callback();
 
-                                async.series([
-                                    function(callback){
-                                        //Raid progression from character progress bnet
-                                        var bossWeight = 0;
-                                        async.forEachSeries(raid.bosses,function(boss,callback){
+                                //Raid progression from character progress bnet
+                                var bossWeight = 0;
+                                async.forEachSeries(raid.bosses,function(boss,callback){
 
-                                            var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
 
-                                            var difficulties = ["normal","heroic","mythic"];
-                                            async.forEachSeries(difficulties,function(difficulty,callback){
-                                                if(boss[difficulty+'Timestamp']==0)
-                                                    return callback();
+                                    var difficulties = ["normal","heroic","mythic"];
+                                    async.forEachSeries(difficulties,function(difficulty,callback){
+                                        if(boss[difficulty+'Timestamp']==0)
+                                            return callback();
 
-                                                async.series([
-                                                    function(callback){
-                                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
-                                                            callback(error);
-                                                        });
-                                                    },
-                                                    function(callback){
-                                                        guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
-                                                            callback(error);
-                                                        });
-                                                    }
-                                                ],function(error){
+                                        async.series([
+                                            function(callback){
+                                                //ADD PROGRESS
+                                                var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                                guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
                                                     callback(error);
                                                 });
-                                            },function(){
-                                                bossWeight++;
-                                                callback();
-                                            });
+                                            },
+                                            function(callback){
+                                                //ADD PLAYER ACHIEVEMENT MYTHIC
+                                                if(difficulty == "mythic"){
 
-                                        },function(){
-                                            callback();
-                                        });
-                                    },
-                                    function(callback){
-                                        //Disable because of bug ...
-                                        return callback();
-                                        //Raid progression with mythic achievement
-                                        async.forEachOf(raidConfig.bosses,function(boss,bossWeight,callback){
-                                            var achievementPosition = character.achievements.achievementsCompleted.indexOf(boss.player_mythic_achievement_id);
+                                                    async.forEachOf(raidConfig.bosses,function(bossConfig,bossWeight,callback){
+                                                        if(boss.name != bossConfig.name)
+                                                            return callback();
+                                                        var achievementPosition = character.achievements.achievementsCompleted.indexOf(bossConfig.player_mythic_achievement_id);
 
-                                            if(achievementPosition>=0){
-                                                var timestamp =character.achievements.achievementsCompletedTimestamp[achievementPosition];
-                                                var progress = {name:character.name, realm:character.realm, region:region,faction:character.faction,class:character.class};
-
-                                                async.series([
-                                                    function(callback){
-                                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,'mythic',timestamp,"player_achievement",progress,function(error) {
-                                                            callback(error);
-                                                        });
-                                                    },
-                                                    function(callback){
-                                                        guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
-                                                            callback(error);
-                                                        });
-                                                    }
-                                                ],function(error){
+                                                        if(achievementPosition>=0){
+                                                            var timestamp =character.achievements.achievementsCompletedTimestamp[achievementPosition];
+                                                            var progress = {name:character.name, realm:character.realm, region:region,faction:character.faction,class:character.class};
+                                                            guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,'mythic',timestamp,"character_achievement",progress,function(error) {
+                                                                callback(error);
+                                                            });
+                                                        }
+                                                        else
+                                                            callback()
+                                                    },function(error){
+                                                        callback(error);
+                                                    });
+                                                }
+                                                else {
+                                                    callback();
+                                                }
+                                            },
+                                            function(callback){
+                                                guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
                                                     callback(error);
                                                 });
                                             }
-                                            else
-                                                callback()
-                                        },function(error){
+                                        ],function(error){
                                             callback(error);
                                         });
-                                    }
-                                ],function(error){
-                                    callback(error);
+                                    },function(){
+                                        bossWeight++;
+                                        callback();
+                                    });
+
+                                },function(){
+                                    callback();
                                 });
+
 
 
 
