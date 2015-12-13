@@ -44,21 +44,25 @@ module.exports.update = function(region,realm,name,callback) {
             if (error)
                 return callback(error);
             var progress = {};
-            async.forEachSeries(result,function(obj,callback){
+            async.forEachSeries(result,function(obj,callback) {
 
-                if(!progress[obj._id.difficulty])
-                    progress[obj._id.difficulty] = {};
+                if (obj.value && obj.value.timestamps && obj.value.timestamps.length >0) {
 
-                progress[obj._id.difficulty][obj._id.boss] = obj.value;
+                    if (!progress[obj._id.difficulty])
+                        progress[obj._id.difficulty] = {};
 
-                if(!progress[obj._id.difficulty+"Count"])
-                    progress[obj._id.difficulty+"Count"] =0;
 
-                if(obj.value.timestamps.length>0)
-                    progress[obj._id.difficulty+"Count"]++;
+                    progress[obj._id.difficulty][obj._id.boss] = obj.value;
 
+                    if (!progress[obj._id.difficulty + "Count"])
+                        progress[obj._id.difficulty + "Count"] = 0;
+
+                    if (obj.value.timestamps.length > 0)
+                        progress[obj._id.difficulty + "Count"]++;
+                }
                 callback();
             },function() {
+                console.log(progress);
                 guildModel.insertOrUpdateProgress(region, realm, name, raid.name, progress, function (error, result) {
                     callback();
                 });

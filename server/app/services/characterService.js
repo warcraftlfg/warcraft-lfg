@@ -124,7 +124,7 @@ module.exports.update = function(region,realm,name,callback) {
 
                                                 async.series([
                                                     function(callback){
-                                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],progress,function(error) {
+                                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
                                                             callback(error);
                                                         });
                                                     },
@@ -154,11 +154,11 @@ module.exports.update = function(region,realm,name,callback) {
 
                                             if(achievementPosition>=0){
                                                 var timestamp =character.achievements.achievementsCompletedTimestamp[achievementPosition];
-                                                var progress = {source:"achievement",name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                                var progress = {source:"player_achievement",name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
 
                                                 async.series([
                                                     function(callback){
-                                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,'mythic',timestamp,progress,function(error) {
+                                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,'mythic',timestamp,"player_achievement",progress,function(error) {
                                                             callback(error);
                                                         });
                                                     },
