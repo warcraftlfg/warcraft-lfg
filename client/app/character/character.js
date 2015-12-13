@@ -513,7 +513,6 @@
 
         socket.forward('get:realms',$scope);
         $scope.$on('socket:get:realms',function(ev,realms){
-            $scope.connected_realms = {};
             $scope.realms = realms;
             angular.forEach(realms,function (realm) {
                 realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
