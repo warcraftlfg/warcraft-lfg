@@ -57,6 +57,7 @@ module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,
     guildKill.bossWeight = bossWeight;
     guildKill.difficulty  = difficulty;
     guildKill.timestamp = timestamp;
+    guildKill.updated = new Date().getTime();
 
     database.insertOrUpdate(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp} ,{$set:guildKill} ,null, function(error,result){
         database.update(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,"roster.name":{$ne:progress.name}} ,{$push:{roster:progress}} ,null, function(error,result) {
