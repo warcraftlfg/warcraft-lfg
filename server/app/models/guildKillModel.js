@@ -48,6 +48,10 @@ module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,
         callback(new Error('Field raid is required in GuildKillModel'));
         return;
     }
+    if(source == null){
+        callback(new Error('Field source is required in GuildKillModel'));
+        return;
+    }
 
     var guildKill ={};
     guildKill.region = region;
@@ -57,10 +61,12 @@ module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,
     guildKill.bossWeight = bossWeight;
     guildKill.difficulty  = difficulty;
     guildKill.timestamp = timestamp;
+    guildKill.source = source;
+
     guildKill.updated = new Date().getTime();
 
-    database.insertOrUpdate(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp} ,{$set:guildKill,$addToSet:{source:source}} ,null, function(error,result){
-        database.update(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,"roster.name":{$ne:progress.name}} ,{$push:{roster:progress}} ,null, function(error,result) {
+    database.insertOrUpdate(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,source:source} ,{$set:guildKill} ,null, function(error,result){
+        database.update(raid, {region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,source:source,"roster.name":{$ne:progress.name}} ,{$push:{roster:progress}} ,null, function(error,result) {
             callback(error, result);
         });
     });
