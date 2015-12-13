@@ -71,10 +71,7 @@
                         <div class="row" ng-if="guild.ad.website">
                             <div class="col-md-3"></div>
                             <div class="col-md-9">
-                                <a href="{{ guild.ad.website}}" class="overflow" target="_blank">
-                                        {{ guild.ad.website}}
-                                </a>
-
+                                <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
                             </div>
                         </div>
                         <div ng-if="guild.ad.description" class="row m-t-10">
