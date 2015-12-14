@@ -178,8 +178,27 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
         var reduced = {timestamps:[]};
 
         for(var idx=0;idx<values.length;idx++){
-            if(values[idx].source == "progress") {
-                if (idx < values.length - 1 && values[idx].timestamp + 2000 >= values[idx + 1].timestamp) {
+            if(values[idx].source == "character_achievement"){
+                if (idx < values.length - 1 && values[idx].timestamp + 60000 >= values[idx + 1].timestamp) {
+                    //The next timestamp is in the minute
+                    if(values[idx+1].source =="progress"){
+                        //The next timestamp is in the minute and is a progress
+                        //DO Nothing
+                    }else if(values[idx+1].source =="character_achievement"){
+                        //The next timestamp is in the minute and is a character achievement
+                        //TODO something compliqué !!!
+                    }
+                }
+                else{
+                    //I'm the only achievement in the minute
+                    if (values[idx].roster &&
+                        ((key.difficulty == "mythic" && values[idx].roster.length >= 16) ||
+                        ((key.difficulty == "normal" || key.difficulty == "heroic") && values[idx].roster.length >= 8 )))
+                        reduced.timestamps.push([values[idx].timestamp]);
+                }
+            }
+            else if(values[idx].source == "progress") {
+                if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
                     var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
                     if ((key.difficulty == "mythic" && rosterLength >= 16) ||
                         ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8))
@@ -215,7 +234,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             realm:realm,
             name:name
         },
-        {bossWeight:1,timestamp:1}
+        {bossWeight:1,timestamp:1,source:1}
         , function(err,result) {
             callback(err,result);
         });
