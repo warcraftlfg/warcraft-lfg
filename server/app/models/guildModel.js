@@ -167,7 +167,8 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
     var map = function(){
         var mapped = {
             timestamp:this.timestamp,
-            roster:this.roster
+            roster:this.roster,
+            source:this.source
         };
         var key = {difficulty:this.difficulty,boss:this.boss};
         emit(key, mapped);
@@ -177,21 +178,21 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
         var reduced = {timestamps:[]};
 
         for(var idx=0;idx<values.length;idx++){
-
-            if(idx<values.length-1 && values[idx].timestamp+2000 >= values[idx+1].timestamp) {
-                var rosterLength = values[idx].roster.length + values[idx+1].roster.length;
-                if((key.difficulty == "mythic" && rosterLength>=16) ||
-                    ((key.difficulty == "normal" || key.difficulty =="heroic")&& rosterLength>=8))
+            if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
+                var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
+                if ((key.difficulty == "mythic" && rosterLength >= 16) ||
+                    ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8))
                     reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
                 idx++;
             }
-            else{
-                if(values[idx].roster &&
-                    ((key.difficulty == "mythic" && values[idx].roster.length >=16) ||
-                    ((key.difficulty == "normal" || key.difficulty =="heroic") && values[idx].roster.length >=8 )))
+            else {
+                if (values[idx].roster &&
+                    ((key.difficulty == "mythic" && values[idx].roster.length >= 16) ||
+                    ((key.difficulty == "normal" || key.difficulty == "heroic") && values[idx].roster.length >= 8 )))
                     reduced.timestamps.push([values[idx].timestamp]);
             }
         }
+
 
         return reduced;
     };
@@ -213,7 +214,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             realm:realm,
             name:name
         },
-        {bossWeight:1,timestamp:1}
+        {bossWeight:1,timestamp:1,source:1}
         , function(err,result) {
             callback(err,result);
         });
