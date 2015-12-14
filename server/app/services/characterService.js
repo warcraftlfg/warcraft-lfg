@@ -118,46 +118,9 @@ module.exports.update = function(region,realm,name,callback) {
                                         if(boss[difficulty+'Timestamp']==0)
                                             return callback();
 
-                                        async.series([
-                                            function(callback){
-                                                //ADD PROGRESS
-                                                var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
-                                                guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
-                                                    callback(error);
-                                                });
-                                            },
-                                            function(callback){
-                                                //ADD PLAYER ACHIEVEMENT MYTHIC
-                                                if(difficulty == "mythic"){
-
-                                                    async.forEachOf(raidConfig.bosses,function(bossConfig,bossWeight,callback){
-                                                        if(boss.name != bossConfig.name)
-                                                            return callback();
-                                                        var achievementPosition = character.achievements.achievementsCompleted.indexOf(bossConfig.player_mythic_achievement_id);
-
-                                                        if(achievementPosition>=0){
-                                                            var timestamp =character.achievements.achievementsCompletedTimestamp[achievementPosition];
-                                                            var progress = {name:character.name, realm:character.realm, region:region,faction:character.faction,class:character.class};
-                                                            guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,'mythic',timestamp,"character_achievement",progress,function(error) {
-                                                                callback(error);
-                                                            });
-                                                        }
-                                                        else
-                                                            callback()
-                                                    },function(error){
-                                                        callback(error);
-                                                    });
-                                                }
-                                                else {
-                                                    callback();
-                                                }
-                                            },
-                                            function(callback){
-                                                guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
-                                                    callback(error);
-                                                });
-                                            }
-                                        ],function(error){
+                                        //ADD PROGRESS
+                                        var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
                                             callback(error);
                                         });
                                     },function(){
