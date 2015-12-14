@@ -118,9 +118,20 @@ module.exports.update = function(region,realm,name,callback) {
                                         if(boss[difficulty+'Timestamp']==0)
                                             return callback();
 
-                                        //ADD PROGRESS
-                                        var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
-                                        guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
+                                        async.series([
+                                            function(callback){
+                                                //ADD PROGRESS
+                                                var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
+                                                guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
+                                                    callback(error);
+                                                });
+                                            },
+                                            function(callback){
+                                                guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
+                                                    callback(error);
+                                                });
+                                            }
+                                        ],function(error){
                                             callback(error);
                                         });
                                     },function(){
