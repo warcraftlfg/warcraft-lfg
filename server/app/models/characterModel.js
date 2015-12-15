@@ -240,7 +240,6 @@ module.exports.getAds = function(number, filters, callback){
             var tmpObj = {};
             tmpObj["$and"] = [{realm:realm.name,region:realm.region}];
             realms.push(tmpObj);
-
         });
         or.push(realms);
 
@@ -284,18 +283,6 @@ module.exports.getAds = function(number, filters, callback){
         criteria["ad.timezone"] = filters.timezone;
     }
 
-    if (filters.realm && filters.realm.connected_realms && filters.realm.region){
-        var realms = [];
-        filters.realm.connected_realms.forEach(function(realm){
-            var tmpObj = {};
-            tmpObj["realm"] = realm;
-            realms.push(tmpObj);
-
-        });
-        or.push(realms);
-        criteria["region"] = filters.realm.region;
-
-    }
     if (filters.wowProgress ==true){
         criteria["id"] = 0;
     }

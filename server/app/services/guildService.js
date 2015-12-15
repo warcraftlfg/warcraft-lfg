@@ -221,6 +221,7 @@ module.exports.getLastAds = function(callback) {
 };
 
 module.exports.getAds = function(number,filters,callback) {
+    filters.realmList = [];
     async.waterfall([
         function(callback){
             async.waterfall([
@@ -239,9 +240,8 @@ module.exports.getAds = function(number,filters,callback) {
                         realmService.get(filters.realm.region,filters.realm.name,function(error,realm){
                             if(!realm)
                                 return callback();
-
                             async.forEach(realm.connected_realms,function(name,callback){
-                                filters.realmList =[{name:name,region:filters.realm.region}];
+                                filters.realmList.push({name:name,region:filters.realm.region});
                                 callback();
 
                             },function(){
