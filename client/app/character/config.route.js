@@ -26,7 +26,8 @@
                 templateUrl: "app/character/character-list.html",
                 controlerAs: 'vm',
                 title: 'Character list',
-                controller: "CharacterListController"
+                controller: "CharacterListController",
+                reloadOnSearch: false
             })
         ;
     }

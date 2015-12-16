@@ -89,8 +89,8 @@
         });
     }
 
-    CharacterList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle"];
-    function CharacterList($scope ,$stateParams, $translate,$state, socket, LANGUAGES,TIMEZONES,wlfgAppTitle) {
+    CharacterList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle",'$location'];
+    function CharacterList($scope ,$stateParams, $translate,$state, socket, LANGUAGES,TIMEZONES,wlfgAppTitle,$location) {
         wlfgAppTitle.setTitle('Characters LFG');
 
         //Reset error message
@@ -249,8 +249,9 @@
             $scope.languages.push(tmplng);
         });
 
-        if($stateParams.faction)
+        if($stateParams.faction) {
             $scope.filters.faction = $stateParams.faction;
+        }
 
         if($stateParams.roles){
             var roles = $stateParams.roles.split("__");
@@ -287,7 +288,7 @@
             $scope.filters.timezone = $stateParams.timezone;
         }
 
-        if($stateParams.raids_per_week_active) {
+        if ($stateParams.raids_per_week_active) {
             $scope.filters.raids_per_week.active = $stateParams.raids_per_week_active==="true";
         }
 
@@ -308,8 +309,9 @@
         }
 
         $scope.$watch('filters.realmZones',function(){
-            if($scope.$parent.loading || $scope.loading)
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
+            }
 
             var realmZones=[];
             var realmInRegion = false;
@@ -328,53 +330,110 @@
                 $stateParams.realm_name=null;
             }
 
-            $stateParams.realm_zones = realmZones.join('__');
-            $state.go($state.current,$stateParams,{reload:true});
+            if (realmZones.length > 0) {
+                $location.search('realm_zones', realmZones.join('__'));
+            } else {
+                $location.search('realm_zones', null);
+            }
 
-        },true);
+            // We can do better ...
+            $scope.filters.realm = null;
+            $location.search('realm_name', null);
+            $location.search('realm_region', null);
 
-        $scope.$watch('filters.realm',function(){
-            if($scope.$parent.loading || $scope.loading)
-                return;
+            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:realms',$scope.filters.realmZones);
 
-            $stateParams.realm_region = $scope.filters.realm.region;
-            $stateParams.realm_name = $scope.filters.realm.name;
-
-            $state.go($state.current,$stateParams,{reload:true});
+            /*$stateParams.realm_zones = realmZones.join('__');
+            $state.go($state.current,$stateParams,{reload:true});*/
 
         });
 
-        $scope.$watch('filters.languages', function() {
-            if($scope.$parent.loading || $scope.loading) {
+        $scope.$watch('filters.realm',function(){
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-            var tmpLanguages = [];
-            angular.forEach($scope.filters.languages,function(language){
-                tmpLanguages.push(language.id);
-            });
-            $stateParams.languages = tmpLanguages.join('__');
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if ($scope.filters.realm && $scope.filters.realm.region) {
+                $location.search('realm_region', $scope.filters.realm.region);
+            } else {
+                $location.search('realm_region', null);
+            }
+
+            if ($scope.filters.realm && $scope.filters.realm.name) {
+                $location.search('realm_name', $scope.filters.realm.name);
+            } else {
+                $location.search('realm_name', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            /*$stateParams.realm_region = $scope.filters.realm.region;
+            $stateParams.realm_name = $scope.filters.realm.name;
+
+            $state.go($state.current,$stateParams,{reload:true});*/
 
         });
 
         $scope.$watch('filters.faction', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-            $stateParams.faction = $scope.filters.faction;
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if ($scope.filters.faction) {
+                $location.search('faction', $scope.filters.faction);
+            } else {
+                $location.search('faction', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+            /*$stateParams.faction = $scope.filters.faction;
+            $state.go($state.current,$stateParams,{reload:true});*/
 
         });
-        $scope.$watch('filters.roles', function() {
-            if($scope.$parent.loading || $scope.loading) {
+
+        $scope.$watch('filters.languages', function() {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
+
+            var tmpLanguages = [];
+            angular.forEach($scope.filters.languages,function(language){
+                tmpLanguages.push(language.id);
+            });
+
+            if (tmpLanguages.length > 0) {
+                 $location.search('languages', tmpLanguages.join('__'));
+            } else {
+                $location.search('languages', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+            
+            /*$stateParams.languages = tmpLanguages.join('__');
+            $state.go($state.current,$stateParams,{reload:true});*/
+        });
+
+        $scope.$watch('filters.roles', function() {
+            if( $scope.$parent.loading || $scope.loading) {
+                return;
+            }
+
             var roles = [];
             angular.forEach($scope.filters.roles,function(role){
                 roles.push(role.id);
             });
-            $stateParams.roles = roles.join('__');
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if (roles.length > 0) {
+                 $location.search('roles', roles.join('__'));
+            } else {
+                $location.search('roles', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);      
+
+            //$stateParams.roles = roles.join('__');
+            //$state.go($state.current,$stateParams,{reload:true});
 
         });
 
@@ -382,33 +441,63 @@
             if($scope.$parent.loading || $scope.loading) {
                 return;
             }
+
             var classes = [];
             angular.forEach($scope.filters.classes,function(clas){
                 classes.push(clas.id);
             });
-            $stateParams.classes = classes.join('__');
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if (classes.length > 0) {
+                 $location.search('classes', classes.join('__'));
+            } else {
+                $location.search('classes', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.classes = classes.join('__');
+            //$state.go($state.current,$stateParams,{reload:true});
 
         });
 
         $scope.$watch('filters.days', function() {
-            if($scope.$parent.loading || $scope.loading)
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
+            }
+
             var days = [];
             angular.forEach($scope.filters.days,function(day){
                 days.push(day.id);
             });
-            $stateParams.days = days.join('__');
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if (days.length > 0) {
+                $location.search('days', days.join('__'));
+            } else {
+                $location.search('days', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.days = days.join('__');
+            //$state.go($state.current,$stateParams,{reload:true});
 
         });
 
         $scope.$watch('filters.timezone', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-            $stateParams.timezone = $scope.filters.timezone;
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if ($scope.filters.timzeone) {
+                $location.search('timzeone', $scope.filters.timzeone);
+            } else {
+                $location.search('timzeone', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.timzeone = $scope.filters.timezone;
+            //$state.go($state.current,$stateParams,{reload:true});
         });
 
         $scope.$watch('filters.raids_per_week.active', function() {
@@ -416,47 +505,88 @@
                 return;
             }
 
-            if($scope.filters.raids_per_week.active===false){
-                $stateParams.raids_per_week_min = null;
-                $stateParams.raids_per_week_max = null;
+            if ($scope.filters.raids_per_week.active === false) {
+                $location.search('raids_per_week_min', null);
+                $location.search('raids_per_week_max', null);
+                $location.search('raids_per_week_active', null);
+            } else {
+                $location.search('raids_per_week_active', true);
             }
-            $stateParams.raids_per_week_active = $scope.filters.raids_per_week.active===true ? true : null;
-            $state.go($state.current,$stateParams,{reload:true});
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.raids_per_week_active = $scope.filters.raids_per_week.active===true ? true : null;
+            //$state.go($state.current,$stateParams,{reload:true});
         });
 
         $scope.$watch('filters.raids_per_week.min', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-            $stateParams.raids_per_week_min = $scope.filters.raids_per_week.min;
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if ($scope.filters.raids_per_week.min) {
+                $location.search('raids_per_week_min', $scope.filters.raids_per_week.min);
+            } else {
+                $location.search('raids_per_week_min', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.raids_per_week_min = $scope.filters.raids_per_week.min;
+            //$state.go($state.current,$stateParams,{reload:true});
 
         });
 
         $scope.$watch('filters.raids_per_week.max', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-            $stateParams.raids_per_week_max = $scope.filters.raids_per_week.max;
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if ($scope.filters.raids_per_week.max) {
+                $location.search('raids_per_week_max', $scope.filters.raids_per_week.max);
+            } else {
+                $location.search('raids_per_week_max', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.raids_per_week_max = $scope.filters.raids_per_week.max;
+            //$state.go($state.current,$stateParams,{reload:true});
 
         });
 
-
         $scope.$watch('filters.transfert', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-            $stateParams.transfert = $scope.filters.transfert===true ? true : null;
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if ($scope.filters.transfert) {
+                $location.search('transfert', true);
+            } else {
+                $location.search('transfert', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.transfert = $scope.filters.transfert===true ? true : null;
+            //$state.go($state.current,$stateParams,{reload:true});
         });
 
         $scope.$watch('filters.lvlmax', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-            $stateParams.lvlmax = $scope.filters.lvlmax===false ? false : null;
-            $state.go($state.current,$stateParams,{reload:true});
+
+            if ($scope.filters.lvlmax === false) {
+                $location.search('lvlmax', false);
+            } else {
+                $location.search('lvlmax', null);
+            }
+
+            socket.emit('get:characterAds',$scope.filters, true);
+
+            //$stateParams.lvlmax = $scope.filters.lvlmax===false ? false : null;
+            //$state.go($state.current,$stateParams,{reload:true});
         });
 
 
@@ -505,10 +635,14 @@
         };
 
         socket.forward('get:characterAds',$scope);
-        $scope.$on('socket:get:characterAds',function(ev,characters){
+        $scope.$on('socket:get:characterAds',function(ev,characters, filtering){
             $scope.$parent.loading = false;
             $scope.loading=false;
-            $scope.characters = $scope.characters.concat(characters);
+            if (filtering) {
+                $scope.characters = $scope.characters.characters = characters;
+            } else {
+                $scope.characters = $scope.characters.concat(characters);
+            }
         });
 
         socket.forward('get:realms',$scope);
