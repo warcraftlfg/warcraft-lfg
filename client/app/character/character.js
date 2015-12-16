@@ -209,27 +209,6 @@
 
 
         /* if params load filters */
-        if($stateParams.realm_zones){
-            var realmZones = $stateParams.realm_zones.split('__');
-            angular.forEach($scope.realmZones,function(realmZone){
-
-                angular.forEach(realmZones,function(realmZoneStr){
-                    var params = realmZoneStr.split('--');
-                    if (params.length == 4) {
-                        var realmZoneTmp = {};
-                        realmZoneTmp.region = params[0];
-                        realmZoneTmp.locale = params[1];
-                        realmZoneTmp.zone = params[2];
-                        realmZoneTmp.cities = params[3].split('::');
-                        if(realmZone.region == realmZoneTmp.region && realmZone.locale == realmZoneTmp.locale && realmZone.zone == realmZoneTmp.zone && angular.equals(realmZone.cities,realmZoneTmp.cities)){
-                            $scope.filters.realmZones.push(realmZoneTmp);
-                            realmZone.selected = true;
-                        }
-                    }
-                });
-            });
-        }
-
         if($stateParams.realm_name && $stateParams.realm_region){
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;
@@ -307,73 +286,6 @@
         if($stateParams.lvlmax) {
             $scope.filters.lvlmax = $stateParams.lvlmax==="true";
         }
-
-        $scope.$watch('filters.realmZones',function(){
-            if ($scope.$parent.loading || $scope.loading) {
-                return;
-            }
-
-            var realmZones=[];
-            var realmInRegion = false;
-
-            angular.forEach($scope.filters.realmZones,function(realmZone){
-
-                if(realmZone.region == $scope.filters.realm_region)
-                    realmInRegion=true;
-
-                realmZones.push(realmZone.region +'--'+realmZone.locale+"--"+realmZone.zone+"--"+realmZone.cities.join('::'));
-
-            });
-
-            if (!realmInRegion && $scope.filters.realmZones.length>0) {
-                $stateParams.realm_region=null;
-                $stateParams.realm_name=null;
-            }
-
-            if (realmZones.length > 0) {
-                $location.search('realm_zones', realmZones.join('__'));
-            } else {
-                $location.search('realm_zones', null);
-            }
-
-            // We can do better ...
-            $scope.filters.realm = null;
-            $location.search('realm_name', null);
-            $location.search('realm_region', null);
-
-            socket.emit('get:characterAds',$scope.filters, true);
-            //socket.emit('get:realms',$scope.filters.realmZones);
-
-            /*$stateParams.realm_zones = realmZones.join('__');
-            $state.go($state.current,$stateParams,{reload:true});*/
-
-        });
-
-        $scope.$watch('filters.realm',function(){
-            if ($scope.$parent.loading || $scope.loading) {
-                return;
-            }
-
-            if ($scope.filters.realm && $scope.filters.realm.region) {
-                $location.search('realm_region', $scope.filters.realm.region);
-            } else {
-                $location.search('realm_region', null);
-            }
-
-            if ($scope.filters.realm && $scope.filters.realm.name) {
-                $location.search('realm_name', $scope.filters.realm.name);
-            } else {
-                $location.search('realm_name', null);
-            }
-
-            socket.emit('get:characterAds',$scope.filters, true);
-
-            /*$stateParams.realm_region = $scope.filters.realm.region;
-            $stateParams.realm_name = $scope.filters.realm.name;
-
-            $state.go($state.current,$stateParams,{reload:true});*/
-
-        });
 
         $scope.$watch('filters.faction', function() {
             if ($scope.$parent.loading || $scope.loading) {
@@ -590,6 +502,8 @@
         });
 
 
+        console.log($scope.filters);
+
         socket.emit('get:characterAds',$scope.filters);
         socket.emit('get:realms',$scope.filters.realmZones);
 
@@ -623,9 +537,10 @@
         };
 
         $scope.getMoreCharacters = function(){
-            if(($scope.$parent && $scope.$parent.loading) || $scope.loading) {
+            if (($scope.$parent && $scope.$parent.loading) || $scope.loading) {
                 return;
             }
+
             $scope.loading = true;
 
             if($scope.characters.length>0) {

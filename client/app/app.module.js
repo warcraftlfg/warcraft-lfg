@@ -21,6 +21,7 @@
          * Feature areas
          */
         'app.web',
+        'app.filter',
         'app.dashboard',
         'app.account',
         'app.character',
