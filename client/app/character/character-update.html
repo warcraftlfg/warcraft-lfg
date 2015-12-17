@@ -69,6 +69,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>{{"BATTLE_TAG"|translate}} ({{user.battleTag}})</label>
+                    <div class="checkbox">
+                        <label>
+                            <input ng-model="character.ad.btag_display" type="checkbox"> {{"DISPLAY_ON_PROFILE"|translate}}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>{{"CHARACTER_CREATE_DESCRIPTION"|translate}}</label>
                     <textarea ng-model="character.ad.description" placeholder="{{'CHARACTER_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" class="form-control" rows="6"></textarea>
                     <a href="https://help.github.com/articles/markdown-basics/" class="f-right m-t-5 txt-underline" target="_blank">{{"HELP_FORMATTING"|translate}}</a>
