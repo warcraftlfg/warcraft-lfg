@@ -85,13 +85,13 @@ module.exports.getGuildRank = function (id,region,realm,name,callback){
         },
         function(guild,callback){
             var lowestRankNum = null;
-            if (guild) {
+            if (guild && guild.bnet) {
                 async.each(guild.bnet.members,function(member,callback) {
                     isOwner(member.character, function (error, isOwnCharacter) {
                         if (isOwnCharacter && (lowestRankNum === null || member.rank < lowestRankNum)) {
                             lowestRankNum = member.rank;
                         }
-                        callback();
+                        callback(error);
                     });
                 }, function (error) {
                     callback(null, lowestRankNum);
@@ -105,7 +105,39 @@ module.exports.getGuildRank = function (id,region,realm,name,callback){
     });
 };
 
-module.exports.canEditGuild = function (id,region,realm,name,callback){
+module.exports.hasGuildRankPermission = function (id,region,realm,name,permAttr,callback) {
+    var self=this;
+    var getGuildPerm = function(guild,permAttr) {
+        var perm = guild.perms;
+        for (var i in permAttr) {
+            perm = perm[permAttr[i]];
+            if (!perm)
+                break;
+        }
+        return perm || [];
+    };
+    self.isMember(id,region,realm,name,function(error,isMyGuild) {
+        if (isMyGuild) {
+            self.getGuildRank(id,region,realm,name,function(error,rank) {
+                if (rank === null) {
+                    // Guild not scanned yet, allow permission.
+                    callback(error, true);
+                } else {
+                    guildService.get(region,realm,name,function(error,guild) {
+                        if (!guild || !guild.perms) {
+                            // Shouldn't happen if the rank call above succeeded
+                            callback(error, true);
+                        } else {
+                            var perm = getGuildPerm(guild, permAttr);
+                            callback(error, perm.indexOf(rank) !== -1);
+                        }
+                    });
+                }
+            });
+        } else {
+            callback(error, false);
+        }
+    });
 };
 
 module.exports.importGuilds = function(id){
@@ -156,7 +188,6 @@ module.exports.updateGuildsId = function(id){
                 return;
             }
             guilds.forEach(function (guild){
-
                 guildService.setId(region,guild.realm,guild.name,id,function(error){
                     if (error)
                         logger.error(error.message);
