@@ -208,7 +208,7 @@
                         </tr>
                         <tr ng-repeat="rank in guildRankPerms">
                             <td>{{rank.id}}</td>
-                            <td class="rank-size" data-size="{{rank.size}}">{{rank.size}}</td>
+                            <td class="rank-size" data-size="{{rank.size}}"><span uib-tooltip-html="rank.tooltip">{{rank.size}}</span></td>
                             <td>
                                 <div class="checkbox">
                                     <label><input ng-model="rank.ad.edit" type="checkbox" ng-disabled="rank.id === 0">Can edit ad</label>

@@ -95,9 +95,21 @@
                         return function (member) { return member.rank === i; };
                     };
                     for (var i = 0; i < 10; i++) {
+                        var members = $.grep(guild.bnet.members, isOfRank(i));
+                        members.sort(function (a,b) {
+                            var c1 = a.character, c2 = b.character;
+                            var ret = ((c1.level > c2.level) ? -1 : ((c1.level < c2.level) ? 1 : 0));
+                            if (ret === 0)
+                                ret = ((c1.name < c2.name) ? -1 : ((c1.name > c2.name) ? 1 : 0));
+                            return ret;
+                        });
+                        var tooltip = '<div>' + $.map(members.slice(0, 5), function (member) {
+                            return '<div class="class-' + member.character.class + '">' + member.character.name + '-' + member.character.realm + '</div>';
+                        }).join('') + (members.length > 5 ? '<div>...</div>' : '') + '</div>';
                         perms.push({
                             id: i,
-                            size: $.grep(guild.bnet.members, isOfRank(i)).length,
+                            size: members.length,
+                            tooltip: tooltip,
                             ad: {
                                 del: $.inArray(i, guild.perms.ad.del) !== -1,
                                 edit: $.inArray(i, guild.perms.ad.edit) !== -1
