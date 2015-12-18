@@ -378,16 +378,30 @@ module.exports.getAdsCount = function(callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var self=this;
-    characterModel.deleteAd(region,realm,name,id,function(error){
-        if (error)
+    userService.isOwner(id,region,realm,name,function(error,isMyCharacter){
+        if(error){
             logger.error(error.message);
+            callback(error);
+            return;
+        }
+        if(isMyCharacter){
+            characterModel.deleteAd(region,realm,name,id,function(error){
+                if (error)
+                    logger.error(error.message);
 
-        self.emitAdsCount();
-        self.emitCount();
-        self.emitLastAds();
+                self.emitAdsCount();
+                self.emitCount();
+                self.emitLastAds();
 
-        callback(error);
+                callback(error);
 
+            });
+        }
+        else {
+            error = new Error("CHARACTER_NOT_MEMBER_ERROR");
+            logger.error(error.message);
+            callback(error);
+        }
     });
 };
 
