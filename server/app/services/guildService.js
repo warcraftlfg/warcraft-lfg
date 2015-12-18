@@ -301,7 +301,7 @@ module.exports.getAdsCount = function(callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var self=this;
-    userService.hasGuildRankPermission(id,region,realm,name,['ad', 'edit'],function(error, hasPerm) {
+    userService.hasGuildRankPermission(id,region,realm,name,['ad', 'del'],function(error, hasPerm) {
         if(hasPerm)
             guildModel.deleteAd(region, realm, name, id, function (error) {
                 if (error)
