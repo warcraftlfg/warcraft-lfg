@@ -198,21 +198,21 @@
     <div class="row" ng-if="guildRank === 0">
         <div class="col-md-12">
             <fieldset>
-                <legend>Guild Permissions</legend>
+                <legend>{{"GUILD_PERMISSIONS"|translate}}</legend>
                 <form class="m-b-15">
                     <table id="rank-permissions" class="table">
                         <tr>
-                            <th>Rank</th>
-                            <th>Members</th>
-                            <th>Permissions</th>
+                            <th>{{"RANK"|translate}}</th>
+                            <th>{{"MEMBERS"|translate}}</th>
+                            <th>{{"PERMISSIONS"|translate}}</th>
                         </tr>
                         <tr ng-repeat="rank in guildRankPerms">
                             <td>{{rank.id}}</td>
                             <td class="rank-size" data-size="{{rank.size}}"><span uib-tooltip-html="rank.tooltip">{{rank.size}}</span></td>
                             <td>
                                 <div class="checkbox">
-                                    <label><input ng-model="rank.ad.edit" type="checkbox" ng-disabled="rank.id === 0">Can edit ad</label>
-                                    <label><input ng-model="rank.ad.del" type="checkbox" ng-disabled="rank.id === 0">Can delete ad</label>
+                                    <label><input ng-model="rank.ad.edit" type="checkbox" ng-disabled="rank.id === 0">{{"GUILD_PERMISSION_EDIT_AD"|translate}}</label>
+                                    <label><input ng-model="rank.ad.del" type="checkbox" ng-disabled="rank.id === 0">{{"GUILD_PERMISSION_DELETE_AD"|translate}}</label>
                                 </div>
                             </td>
                         </tr>
