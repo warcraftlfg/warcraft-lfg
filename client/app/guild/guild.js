@@ -76,20 +76,67 @@
 
         socket.forward('get:guild',$scope);
         $scope.$on('socket:get:guild',function(ev,guild){
-            $scope.$parent.loading = false;
             //If not exit, redirect user to dashboard
             if(guild===null)
                 $state.go("dashboard");
             $scope.guild = guild;
+
+            socket.emit('get:userGuildRank',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+
+            socket.forward('get:userGuildRank',$scope);
+            $scope.$on('socket:get:userGuildRank',function(ev,rank){
+                $scope.$parent.loading = false;
+                $scope.guildRank = rank;
+
+                if (rank === 0) {
+                    // This is the guild leader, put the rank permissions in an easier form for table rendering
+                    var perms = $scope.guildRankPerms = [];
+                    var isOfRank = function(i) {
+                        return function (member) { return member.rank === i; };
+                    };
+                    for (var i = 0; i < 10; i++) {
+                        perms.push({
+                            id: i,
+                            size: $.grep(guild.bnet.members, isOfRank(i)).length,
+                            ad: {
+                                del: $.inArray(i, guild.perms.ad.del) !== -1,
+                                edit: $.inArray(i, guild.perms.ad.edit) !== -1
+                            }
+                        });
+                    }
+                }
+            });
         });
 
-        $scope.save = function(){
+        $scope.saveAd = function(){
             socket.emit('put:guildAd',$scope.guild);
             $scope.$parent.loading = true;
         };
 
         socket.forward('put:guildAd',$scope);
         $scope.$on('socket:put:guildAd',function(){
+            $scope.$parent.loading = false;
+            $state.go("account");
+        });
+
+        $scope.savePerms = function(){
+            var perms = $scope.guildRankPerms;
+            if (!perms) { return; }
+
+            // Put permissions back into array-of-rank-ids format
+            $scope.guild.perms.ad.del = $.grep($.map(perms, function (rank) {
+                return rank.ad.del ? rank.id : null;
+            }), function (id) { return id !== null; });
+            $scope.guild.perms.ad.edit = $.grep($.map(perms, function (rank) {
+                return rank.ad.edit ? rank.id : null;
+            }), function (id) { return id !== null; });
+
+            socket.emit('put:guildPerms',$scope.guild);
+            $scope.$parent.loading = true;
+        };
+
+        socket.forward('put:guildPerms',$scope);
+        $scope.$on('socket:put:guildPerms',function(){
             $scope.$parent.loading = false;
             $state.go("account");
         });

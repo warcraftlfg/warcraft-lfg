@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Guild Permissions",
+  "description": "A WarcraftLFG guild's permissions",
+  "type": "object",
+  "properties": {
+    "ad": {
+      "type": "object",
+      "properties": {
+        "del": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "min": 0,
+            "max": 9
+          },
+          "default": [0, 1]
+        },
+        "edit": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "min": 0,
+            "max": 9
+          },
+          "default": [0, 1]
+        }
+      }
+    }
+  }
+}

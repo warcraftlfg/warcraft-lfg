@@ -2,6 +2,7 @@
 
 //Defines dependencies
 var guildAdSchema = process.require('config/db/guildAdSchema.json');
+var guildPermsSchema = process.require('config/db/guildPermsSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
 var Confine = require("confine");
 var async = require("async");
@@ -135,6 +136,43 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     guild.ad = ad;
 
     database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$set: guild, $addToSet: {id: id}}, null, function (error,result) {
+        callback(error, result);
+    });
+};
+
+module.exports.insertOrUpdatePerms = function(region,realm,name,id,perms,callback) {
+    var database = applicationStorage.getMongoDatabase();
+
+    //Force region tolowercase
+    region = region.toLowerCase();
+
+    //Check for required attributes
+    if(id == null){
+        callback(new Error('Field id is required in GuildPermsModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
+        return;
+    }
+    if(region == null){
+        callback(new Error('Field region is required in GuildPermsModel'));
+        return;
+    }
+    if(realm == null){
+        callback(new Error('Field realm is required in GuildPermsModel'));
+        return;
+    }
+    if(name == null){
+        callback(new Error('Field name is required in GuildPermsModel'));
+        return;
+    }
+
+    var guild = {
+        perms: confine.normalize(perms,guildPermsSchema)
+    };
+
+    database.insertOrUpdate("guilds", {region: region, realm: realm, name: name}, {$set: guild}, null, function (error,result) {
         callback(error, result);
     });
 };
@@ -307,6 +345,7 @@ module.exports.get = function(region,realm,name,callback){
         if(guild && guild[0]){
             result =  guild[0];
             result.ad = confine.normalize(result.ad,guildAdSchema);
+            result.perms = confine.normalize(result.perms,guildPermsSchema);
         }
         callback(error, result);
     });

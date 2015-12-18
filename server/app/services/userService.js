@@ -61,6 +61,53 @@ module.exports.getCharacters = function(region,id,callback){
     });
 };
 
+module.exports.getGuildRank = function (id,region,realm,name,callback){
+    var self=this;
+    //Do not check if owner when id = 0
+    if(id==0){
+        callback(null,0);
+        return;
+    }
+
+    function isOwner(character, callback) {
+        characterService.get(region,character.realm,character.name,function(error,character) {
+            if (error)
+                callback(error, null);
+            callback(null, character && character.id === id);
+        });
+    }
+
+    async.waterfall([
+        function(callback){
+            guildService.get(region,realm,name,function(error,guild) {
+                callback(error,guild);
+            });
+        },
+        function(guild,callback){
+            var lowestRankNum = null;
+            if (guild) {
+                async.each(guild.bnet.members,function(member,callback) {
+                    isOwner(member.character, function (error, isOwnCharacter) {
+                        if (isOwnCharacter && (lowestRankNum === null || member.rank < lowestRankNum)) {
+                            lowestRankNum = member.rank;
+                        }
+                        callback();
+                    });
+                }, function (error) {
+                    callback(null, lowestRankNum);
+                });
+            } else {
+                callback(null, lowestRankNum);
+            }
+        }
+    ],function(error,lowestRankNum){
+        callback(error,lowestRankNum);
+    });
+};
+
+module.exports.canEditGuild = function (id,region,realm,name,callback){
+};
+
 module.exports.importGuilds = function(id){
     var self=this;
     //noinspection JSUnresolvedVariable
@@ -118,8 +165,6 @@ module.exports.updateGuildsId = function(id){
         });
     });
 };
-
-
 
 module.exports.isOwner = function (id,region,realm,name,callback){
     //Do not check if owner when id = 0

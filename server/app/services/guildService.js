@@ -202,6 +202,20 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
 };
 
 
+module.exports.insertOrUpdatePerms = function(region,realm,name,id,perms,callback){
+    userService.getGuildRank(id,region,realm,name,function(error,rank) {
+        if (rank === 0) {
+            guildModel.insertOrUpdatePerms(region,realm,name,id,perms,function(error,result){
+                callback(error,result);
+            });
+        }
+        else {
+            callback(new Error("GUILD_NOT_LEADER_ERROR"));
+        }
+    });
+};
+
+
 module.exports.setId = function(region,realm,name,id,callback){
     guildModel.setId(region,realm,name,id,function(error){
         if(error)

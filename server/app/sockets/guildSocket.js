@@ -75,6 +75,16 @@ module.exports.connect = function(){
                 });
             });
 
+            socket.on('put:guildPerms', function(guild) {
+                guildService.insertOrUpdatePerms(guild.region, guild.realm, guild.name, socket.request.user.id, guild.perms,function(error){
+                    if (error){
+                        socket.emit("global:error", error.message);
+                        return;
+                    }
+                    socket.emit('put:guildPerms', guild);
+                });
+            });
+
             socket.on('delete:guildAd', function(guild) {
                 guildService.deleteAd(guild.region, guild.realm, guild.name,socket.request.user.id,function(error,result){
                     if (error)

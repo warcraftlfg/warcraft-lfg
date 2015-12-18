@@ -23,173 +23,203 @@
 <div class="container guild-update">
     <div class="row">
         <div class="col-md-12">
-            <form class="m-b-15">
-                <div class="hide">
-                    <!--<span class="f-28">{{ guild.name }} - {{ guild.realm }} - {{ guild.region|uppercase }}</span>-->
+            <fieldset>
+                <legend>Guild Ad</legend>
+                <form class="m-b-15">
+                    <div class="hide">
+                        <!--<span class="f-28">{{ guild.name }} - {{ guild.realm }} - {{ guild.region|uppercase }}</span>-->
 
-                    <input ng-model="guild.name" disabled type="hidden" class="form-control" id="characterNameInput">
-                    <input ng-model="guild.realm" disabled type="hidden" class="form-control" id="characterRealmInput">
-                    <input ng-model="guild.region"  disabled type="hidden" class="form-control" id="characterRegionInput">
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_LFG"|translate}}</strong></label>
-                        </label>
+                        <input ng-model="guild.name" disabled type="hidden" class="form-control">
+                        <input ng-model="guild.realm" disabled type="hidden" class="form-control">
+                        <input ng-model="guild.region"  disabled type="hidden" class="form-control">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
-                    <span class="css3-metro-dropdown css3-metro-dropdown-inverse">
-                        <select ng-model="guild.ad.language" class="form-control">
-                            <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="form-group">
-                    <label>{{"GUILD_CREATE_WEBSITE"|translate}}</label>
-                    <input ng-model="guild.ad.website" placeholder="http://www.example.com" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>{{"GUILD_CREATE_DESCRIPTION"|translate}}</label>
-                    <textarea ng-model="guild.ad.description" class="form-control" placeholder="{{'GUILD_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" rows="5"></textarea>
-                    <a href="https://help.github.com/articles/markdown-basics/" class="f-right m-t-5 txt-underline" target="_blank">{{"HELP_FORMATTING"|translate}}</a>
-                </div>
-                <div class="form-group">
-                   <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
-                    <div class="row">
-                        <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3 col-sm-4 col-xs-6">
-                            <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
-                            <div ng-repeat="(class,value) in guild.ad.recruitment[role]" class="checkbox">
-                                <label class="class-{{ class|lowercase }}">
-                                    <input ng-model="guild.ad.recruitment[role][class]" type="checkbox"> {{class|uppercase|translate}}
-                                </label>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_LFG"|translate}}</strong>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
+                        <span class="css3-metro-dropdown css3-metro-dropdown-inverse">
+                            <select ng-model="guild.ad.language" class="form-control">
+                                <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>{{"GUILD_CREATE_WEBSITE"|translate}}</label>
+                        <input ng-model="guild.ad.website" placeholder="http://www.example.com" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>{{"GUILD_CREATE_DESCRIPTION"|translate}}</label>
+                        <textarea ng-model="guild.ad.description" class="form-control" placeholder="{{'GUILD_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" rows="5"></textarea>
+                        <a href="https://help.github.com/articles/markdown-basics/" class="f-right m-t-5 txt-underline" target="_blank">{{"HELP_FORMATTING"|translate}}</a>
+                    </div>
+                    <div class="form-group">
+                       <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
+                        <div class="row">
+                            <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3 col-sm-4 col-xs-6">
+                                <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
+                                <div ng-repeat="(class,value) in guild.ad.recruitment[role]" class="checkbox">
+                                    <label class="class-{{ class|lowercase }}">
+                                        <input ng-model="guild.ad.recruitment[role][class]" type="checkbox"> {{class|uppercase|translate}}
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"GUILD_CREATE_RAIDS_PER_WEEK"|translate}}</label>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{guild.ad.raids_per_week.min}} - {{ guild.ad.raids_per_week.max }}
-                            <angular-ranger min="1" max="7" class="ranger-inverse m-t-10" step="1" min-value="guild.ad.raids_per_week.min" max-value="guild.ad.raids_per_week.max"></angular-ranger>
+                    <div class="form-group">
+                        <label>{{"GUILD_CREATE_RAIDS_PER_WEEK"|translate}}</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{guild.ad.raids_per_week.min}} - {{ guild.ad.raids_per_week.max }}
+                                <angular-ranger min="1" max="7" class="ranger-inverse m-t-10" step="1" min-value="guild.ad.raids_per_week.min" max-value="guild.ad.raids_per_week.max"></angular-ranger>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"GUILD_CREATE_PLAY_TIME"|translate}}</label>
-                    <table class="table table-condensed">
-                        <tr ng-class="{'played':obj.play===true}" ng-repeat="(day,obj) in guild.ad.play_time">
-                            <td class="play text-center"><input ng-model="obj.play" type="checkbox"></td>
-                            <td class="day">{{day|uppercase|translate}}</td>
-                            <td class="start">
-                                <div class="row" ng-show="obj.play">
-                                    <div class="col-md-3 text-right">
-                                        <label>Start at :</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="css3-metro-dropdown">
-                                            <select wlfg-convert-to-number ng-model="obj.start.hour" class="form-control">
-                                                <option value="0">00</option>
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                                <option value="5">05</option>
-                                                <option value="6">06</option>
-                                                <option value="7">07</option>
-                                                <option value="8">08</option>
-                                                <option value="9">09</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14">14</option>
-                                                <option value="15">15</option>
-                                                <option value="16">16</option>
-                                                <option value="17">17</option>
-                                                <option value="18">18</option>
-                                                <option value="19">19</option>
-                                                <option value="20">20</option>
-                                                <option value="21">21</option>
-                                                <option value="22">22</option>
-                                                <option value="23">23</option>
-                                            </select>
+                    <div class="form-group">
+                        <label>{{"GUILD_CREATE_PLAY_TIME"|translate}}</label>
+                        <table id="raid-schedule" class="table table-condensed">
+                            <tr ng-class="{'played':obj.play===true}" ng-repeat="(day,obj) in guild.ad.play_time">
+                                <td class="play text-center"><input ng-model="obj.play" type="checkbox"></td>
+                                <td class="day">{{day|uppercase|translate}}</td>
+                                <td class="start">
+                                    <div class="row" ng-show="obj.play">
+                                        <div class="col-md-3 text-right">
+                                            <label>Start at :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="css3-metro-dropdown">
+                                                <select wlfg-convert-to-number ng-model="obj.start.hour" class="form-control">
+                                                    <option value="0">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="css3-metro-dropdown">
+                                                <select wlfg-convert-to-number ng-model="obj.start.min" class="form-control">
+                                                    <option value="0">00</option>
+                                                    <option value="15">15</option>
+                                                    <option value="30">30</option>
+                                                    <option value="45">45</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="css3-metro-dropdown">
-                                            <select wlfg-convert-to-number ng-model="obj.start.min" class="form-control">
-                                                <option value="0">00</option>
-                                                <option value="15">15</option>
-                                                <option value="30">30</option>
-                                                <option value="45">45</option>
-                                            </select>
+                                </td>
+                                <td class="end">
+                                    <div class="row" ng-show="obj.play">
+                                        <div class="col-md-3 text-right">
+                                            <label>End at :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="css3-metro-dropdown">
+                                                <select wlfg-convert-to-number ng-model="obj.end.hour" class="form-control">
+                                                    <option value="0">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="css3-metro-dropdown">
+                                                <select wlfg-convert-to-number ng-model="obj.end.min" class="form-control">
+                                                    <option value="0">00</option>
+                                                    <option value="15">15</option>
+                                                    <option value="30">30</option>
+                                                    <option value="45">45</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="end">
-                                <div class="row" ng-show="obj.play">
-                                    <div class="col-md-3 text-right">
-                                        <label>End at :</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="css3-metro-dropdown">
-                                            <select wlfg-convert-to-number ng-model="obj.end.hour" class="form-control">
-                                                <option value="0">00</option>
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                                <option value="5">05</option>
-                                                <option value="6">06</option>
-                                                <option value="7">07</option>
-                                                <option value="8">08</option>
-                                                <option value="9">09</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14">14</option>
-                                                <option value="15">15</option>
-                                                <option value="16">16</option>
-                                                <option value="17">17</option>
-                                                <option value="18">18</option>
-                                                <option value="19">19</option>
-                                                <option value="20">20</option>
-                                                <option value="21">21</option>
-                                                <option value="22">22</option>
-                                                <option value="23">23</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="css3-metro-dropdown">
-                                            <select wlfg-convert-to-number ng-model="obj.end.min" class="form-control">
-                                                <option value="0">00</option>
-                                                <option value="15">15</option>
-                                                <option value="30">30</option>
-                                                <option value="45">45</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--div class="form-group">
+                        <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
+                        <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
+                            <select ng-model="guild.ad.timezone" class="form-control">
+                                <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
+                            </select>
+                        </div>
+                    </div-->
+                    <button type="submit" class="btn btn-default" ng-click="saveAd()">{{"SAVE"|translate}}</button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row" ng-if="guildRank === 0">
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Guild Permissions</legend>
+                <form class="m-b-15">
+                    <table id="rank-permissions" class="table">
+                        <tr>
+                            <th>Rank</th>
+                            <th>Members</th>
+                            <th>Permissions</th>
+                        </tr>
+                        <tr ng-repeat="rank in guildRankPerms">
+                            <td>{{rank.id}}</td>
+                            <td class="rank-size" data-size="{{rank.size}}">{{rank.size}}</td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input ng-model="rank.ad.edit" type="checkbox" ng-disabled="rank.id === 0">Can edit ad</label>
+                                    <label><input ng-model="rank.ad.del" type="checkbox" ng-disabled="rank.id === 0">Can delete ad</label>
                                 </div>
                             </td>
                         </tr>
                     </table>
-                </div>
-                <!--div class="form-group">
-                    <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
-                    <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
-                        <select ng-model="guild.ad.timezone" class="form-control">
-                            <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
-                        </select>
-                    </div>
-                </div-->
-                <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
-            </form>
+                    <button type="submit" class="btn btn-default" ng-click="savePerms()">{{"SAVE"|translate}}</button>
+                </form>
+            </fieldset>
         </div>
     </div>
 </div>

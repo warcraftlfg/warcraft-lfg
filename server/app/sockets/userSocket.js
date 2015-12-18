@@ -33,6 +33,14 @@ module.exports.connect = function(){
                     socket.emit("get:userCharacters", characters);
                 });
             });
+
+            socket.on('get:userGuildRank', function(guild) {
+                userService.getGuildRank(socket.request.user.id,guild.region,guild.realm,guild.name, function (error,rank) {
+                    if (error)
+                        return socket.emit("global:error", error.message);
+                    socket.emit("get:userGuildRank", rank);
+                });
+            });
         }
     });
 };
