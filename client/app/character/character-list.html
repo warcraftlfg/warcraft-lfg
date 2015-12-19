@@ -23,116 +23,17 @@
         <div class="row">
             <div class="col-md-3 col-lg-3">
                 <div class="filters p-10">
-                    <div class="m-b-20" wlfg-filter-realm>
-
-                    </div>
-                    <div class="m-b-20">
-                        <div isteven-multi-select
-                             input-model="realms"
-                             button-label="label"
-                             item-label="label"
-                             output-properties="region connected_realms"
-                             tick-property="selected"
-                             translation="localRealms"
-                             selection-mode="single"
-                             on-item-click="setRealm(data)"
-                             on-reset="resetRealm()"
-                                >
-                        </div>
-                    </div>
-                    <div class="m-b-20">
-                        <span class="css3-metro-dropdown">
-                            <select ng-model="filters.faction" class="form-control">
-                                <option value="">{{"ALL_FACTION"|translate}}</option>
-                                <option value="0">{{"ALLIANCE"|translate}}</option>
-                                <option value="1">{{"HORDE"|translate}}</option>
-                            </select>
-                        </span>
-                    </div>
-                    <div class="m-b-20">
-                        <div isteven-multi-select
-                             input-model="languages"
-                             output-model="filters.languages"
-                             button-label="name"
-                             item-label="name"
-                             output-properties="id"
-                             tick-property="selected"
-                             translation="localLanguages"
-                             max-height="300px"
-                             on-reset="resetLanguages()"
-                                >
-                        </div>
-                    </div>
-                    <div class="m-b-20">
-                        <div isteven-multi-select
-                             input-model="roles"
-                             output-model="filters.roles"
-                             button-label="icon name"
-                             item-label="icon name"
-                             output-properties="id"
-                             tick-property="selected"
-                             translation="localRoles"
-                             on-reset="resetRoles()"
-
-                                >
-                        </div>
-                    </div>
-                    <div class="m-b-20">
-                        <div isteven-multi-select
-                             input-model="classes"
-                             output-model="filters.classes"
-                             button-label="icon name"
-                             item-label="icon name"
-                             output-properties="id selected"
-                             tick-property="selected"
-                             translation="localClasses"
-                             on-reset="resetClasses()"
-                                >
-                        </div>
-                    </div>
-                    <div class="m-b-20">
-                        <div isteven-multi-select
-                             input-model="days"
-                             output-model="filters.days"
-                             button-label="name"
-                             item-label="name"
-                             output-properties="id"
-                             tick-property="selected"
-                             translation="localDays"
-                             on-reset="resetDays()"
-                                >
-
-                    </div>
-                    </div>
-                    <!--div class="m-b-20">
-                        <span class="css3-metro-dropdown">
-                            <select ng-model="filters.timezone" class="form-control">
-                                <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
-                            </select>
-                        </span>
-                    </div-->
-                    <div class="m-b-20">
-                        <label>
-                            <input ng-model="filters.raids_per_week.active"  type="checkbox"> Raids per week</label>
-                        <div ng-if="filters.raids_per_week.active">
-                            {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
-                            <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
-                        </div>
-                    </div>
-                    <div class="m-b-20">
-                        <div class="checkbox">
-                            <label>
-                                <input ng-model="filters.transfert" type="checkbox"> {{"TRANSFERT"|translate}}
-                            </label>
-                        </div>
-                    </div>
-                    <div class="m-b-20">
-                        <div class="checkbox">
-                            <label>
-                                <input ng-model="filters.lvlmax" type="checkbox">  Level 100
-                            </label>
-                        </div>
-                    </div>
+                    <div class="m-b-20" wlfg-filter-realm-zone></div>
+                    <div class="m-b-20" wlfg-filter-realm></div>
+                    <div class="m-b-20" wlfg-filter-faction></div>
+                    <div class="m-b-20" wlfg-filter-language></div>
+                    <div class="m-b-20" wlfg-filter-role></div>
+                    <div class="m-b-20" wlfg-filter-class></div>
+                    <div class="m-b-20" wlfg-filter-day></div>
+                    <!--div class="m-b-20" wlfg-filter-timezone></div-->
+                    <div class="m-b-20" wlfg-filter-rpw></div>
+                    <div class="m-b-20" wlfg-filter-transfer></div>
+                    <div class="m-b-20" wlfg-filter-level-max></div>
                     <div class="m-b-10 text-center">
                         <div class="btn btn-inverse" ng-click="resetFilters()">{{"RESET_FILTER"|translate}}</div>
                     </div>

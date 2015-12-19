@@ -1,0 +1,5 @@
+<span class="css3-metro-dropdown">
+    <select ng-model="filters.timezone" class="form-control">
+        <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
+    </select>
+</span>
