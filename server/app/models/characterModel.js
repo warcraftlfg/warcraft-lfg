@@ -214,27 +214,30 @@ module.exports.get = function(region,realm,name,callback){
     });
 };
 
-module.exports.getAds = function(number, filters, callback){
+module.exports.getAds = function(number, filters, callback) {
     var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.updated":{$exists:true},"ad.lfg":true};
     var filters = filters || {};
 
     var or = [];
-    if(filters.last){
+    if (filters.last) {
         criteria["ad.updated"]={$lt:filters.last}
     }
-    if(filters.lvlmax){
+
+    if (filters.lvlmax) {
         criteria["bnet.level"] = {$gte:100};
     }
-    if(filters.faction){
+
+    if (filters.faction) {
         criteria["bnet.faction"] = parseInt(filters.faction,10);
     }
-    if(filters.transfert){
+
+    if (filters.transfert) {
         criteria["ad.transfert"] = filters.transfert;
     }
 
-    if (filters.realmList &&  filters.realmList.length>0){
+    if (filters.realmList && filters.realmList.length>0) {
         var realms = [];
         filters.realmList.forEach(function(realm){
             var tmpObj = {};
@@ -246,21 +249,23 @@ module.exports.getAds = function(number, filters, callback){
 
     }
 
-    if(filters.languages && filters.languages.length>0){
+    if (filters.languages && filters.languages.length>0) {
         var languages = [];
         filters.languages.forEach(function(item){
             languages.push(item.id);
         });
         criteria["ad.languages"] = { $in: languages};
     }
-    if(filters.classes && filters.classes.length>0 && filters.classes.length < 11){
+
+    if (filters.classes && filters.classes.length>0 && filters.classes.length < 11) {
         var classes = [];
-        filters.classes.forEach(function(item){
+        filters.classes.forEach(function(item) {
             classes.push(item.id);
         });
         criteria["bnet.class"] = { $in: classes};
     }
-    if(filters.roles && filters.roles.length > 0){
+
+    if (filters.roles && filters.roles.length > 0) {
         var roles = []
         filters.roles.forEach(function(role){
             var tmpObj = {};
@@ -269,24 +274,30 @@ module.exports.getAds = function(number, filters, callback){
         });
         or.push(roles);
     }
-    if(filters.days && filters.days.length>0){
+
+    if (filters.days && filters.days.length>0) {
         filters.days.forEach(function(day){
             var tmpObj = {};
             criteria["ad.play_time."+day.id+".play"] = true;
         });
     }
 
-    if(filters.raids_per_week && filters.raids_per_week.active){
+    if (filters.raids_per_week && filters.raids_per_week.active) {
         criteria["ad.raids_per_week.min"] = {$lte:parseInt(filters.raids_per_week.min,10)};
         criteria["ad.raids_per_week.max"] = {$gte:parseInt(filters.raids_per_week.max,10)};
     }
-    if(filters.timezone && filters.timezone !=""){
+
+    if (filters.ilevel && filters.ilevel.active) {
+        criteria["bnet.items.averageItemLevelEquipped"] = {$lte:parseInt(filters.ilevel.max,10), $gte:parseInt(filters.ilevel.min,10)};
+    }
+
+    if (filters.timezone && filters.timezone !="") {
         criteria["ad.timezone"] = filters.timezone;
     }
 
-    if (filters.realm && filters.realm.connected_realms && filters.realm.region){
+    if (filters.realm && filters.realm.connected_realms && filters.realm.region) {
         var realms = [];
-        filters.realm.connected_realms.forEach(function(realm){
+        filters.realm.connected_realms.forEach(function(realm) {
             var tmpObj = {};
             tmpObj["realm"] = realm;
             realms.push(tmpObj);
@@ -296,10 +307,12 @@ module.exports.getAds = function(number, filters, callback){
         criteria["region"] = filters.realm.region;
 
     }
-    if (filters.wowProgress ==true){
+
+    if (filters.wowProgress ==true) {
         criteria["id"] = 0;
     }
-    if(or.length > 0 ){
+
+    if(or.length > 0 ) {
         criteria["$and"]=[];
         or.forEach(function(orVal){
             criteria["$and"].push({"$or":orVal});
@@ -308,7 +321,7 @@ module.exports.getAds = function(number, filters, callback){
 
     }
 
-    database.find("characters",criteria , {
+    database.find("characters", criteria, {
         name:1,
         realm:1,
         region:1,
@@ -323,12 +336,12 @@ module.exports.getAds = function(number, filters, callback){
         "bnet.progression.raids":{$slice:-1},
         "warcraftLogs.logs":1
 
-    }, number, {"ad.updated":-1}, function(error,characters){
+    }, number, {"ad.updated":-1}, function(error,characters) {
         callback(error, characters);
     });
 };
 
-module.exports.getLastAds = function(callback){
+module.exports.getLastAds = function(callback) {
     var database = applicationStorage.getMongoDatabase();
     database.find("characters",{"ad.updated":{$exists:true},"ad.lfg":true} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
         callback(error, characters);
@@ -336,28 +349,28 @@ module.exports.getLastAds = function(callback){
 };
 
 
-module.exports.deleteAd = function(region,realm,name,id,callback){
+module.exports.deleteAd = function(region,realm,name,id,callback) {
     var database = applicationStorage.getMongoDatabase();
     database.insertOrUpdate("characters", {region:region,realm:realm,name:name,id:id} ,{$unset: {ad:"",id:""}} ,null, function(error,result){
         callback(error, result);
     });
 };
 
-module.exports.deleteOldAds = function(timestamp,callback){
+module.exports.deleteOldAds = function(timestamp,callback) {
     var database = applicationStorage.getMongoDatabase();
     database.insertOrUpdate("characters", {"ad.updated":{$lte:timestamp},"ad.lfg":true} ,{$set: {"ad.lfg":false}} ,null, function(error,result){
         callback(error, result);
     });
 };
 
-module.exports.getUserAds = function(id,callback){
+module.exports.getUserAds = function(id,callback) {
     var database = applicationStorage.getMongoDatabase();
     database.find("characters", {id:id, "ad.updated":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, 0, {"ad.updated":-1}, function(error,ads){
         callback(error, ads);
     });
 };
 
-module.exports.getCount = function (callback){
+module.exports.getCount = function (callback) {
     var database = applicationStorage.getMongoDatabase();
     database.count('characters',null,function(error,count){
         callback(error,count);
@@ -365,7 +378,7 @@ module.exports.getCount = function (callback){
 };
 
 
-module.exports.getAdsCount = function (callback){
+module.exports.getAdsCount = function (callback) {
     var database = applicationStorage.getMongoDatabase();
     database.count('characters',{"ad.updated":{$exists:true},"ad.lfg":true},function(error,count){
         callback(error,count);

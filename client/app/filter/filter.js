@@ -21,6 +21,7 @@
         filters.region = "";
         filters.role = "";
         filters.raids_per_week = {active:false,min:1,max:7};
+        filters.ilevel = {active:false,min:575,max:750};
         filters.days = [];
         filters.languages = [];
         filters.realm = {};

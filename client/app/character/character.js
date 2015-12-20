@@ -99,6 +99,7 @@
         $scope.$parent.error=null;
         $scope.$parent.loading = true;
         $scope.characters = [];
+        $scope.sort = "date";
 
         $scope.filters = filter.initFilter();
         //$scope.filters = filter.stateParamsFilter();
@@ -113,6 +114,7 @@
             {id:'melee_dps', name: $translate.instant("MELEE_DPS"), icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
             {id:'ranged_dps', name: $translate.instant("RANGED_DPS"), icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
         ];
+        
         $scope.classes = [
             {id:1, name: "<span class='class-1'>"+$translate.instant("CLASS_1")+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
             {id:2, name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
@@ -197,7 +199,6 @@
             search          : $translate.instant("SEARCH"),
             nothingSelected : $translate.instant("ALL_REALMZONES")
         };
-
 
         /* if params load filters */
         if ($stateParams.realm_zones) {
@@ -289,6 +290,18 @@
 
         if($stateParams.raids_per_week_max) {
             $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
+        }
+
+        if ($stateParams.ilevel_active) {
+            $scope.filters.ilevel.active = $stateParams.ilevel_active==="true";
+        }
+
+        if($stateParams.ilevel_min) {
+            $scope.filters.ilevel.min = $stateParams.ilevel_min;
+        }
+
+        if($stateParams.ilevel_max) {
+            $scope.filters.ilevel.max = $stateParams.ilevel_max;
         }
 
         if($stateParams.transfert) {

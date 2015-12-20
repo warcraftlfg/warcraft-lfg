@@ -208,13 +208,13 @@
                                 <div class="row">
                                     <div class="col-md-2">
                                         Item level :
-                                        <span ng-class="{legendary:character.bnet.items.averageItemLevelEquipped>=725,epic:character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,rare:character.bnet.items.averageItemLevelEquipped>=705&&character.bnet.items.averageItemLevelEquipped<715,uncommon:character.bnet.items.averageItemLevelEquipped<705}">
+                                        <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                             {{character.bnet.items.averageItemLevelEquipped}}
                                         </span>
                                     </div>
                                     <div class="col-md-2">
                                         Item level bag :
-                                        <span ng-class="{legendary:character.bnet.items.averageItemLevel>=725,epic:character.bnet.items.averageItemLevel>=715&&character.bnet.items.averageItemLevel<725,rare:character.bnet.items.averageItemLevel>=705&&character.bnet.items.averageItemLevel<715,uncommon:character.bnet.items.averageItemLevel<705}">
+                                        <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                             {{character.bnet.items.averageItemLevel}}
                                         </span>
                                     </div>
