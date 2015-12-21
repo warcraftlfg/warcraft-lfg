@@ -22,8 +22,17 @@
 
         socket.forward('get:character',$scope);
         $scope.$on('socket:get:character',function(ev,character){
-            $scope.$parent.loading = false;
             $scope.character = character;
+            if (character.ad.btag_display) {
+                socket.emit('get:characterBattleTag', character._id);
+                socket.forward('get:characterBattleTag',$scope);
+                $scope.$on('socket:get:characterBattleTag',function(ev,battleTag){
+                    $scope.$parent.loading = false;
+                    $scope.character.battleTag = battleTag;
+                });
+            } else {
+                $scope.$parent.loading = false;
+            }
         });
 
         $scope.updateCharacter = function(){
