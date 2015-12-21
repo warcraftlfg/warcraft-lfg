@@ -79,7 +79,7 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
                     callback(error)
                 });
             else{
-                logger.debug("Guild is already in datase " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.name);
+                logger.debug("Guild is already in database " + wowProgressGuildAd.region + "-" + wowProgressGuildAd.realm + "-" + wowProgressGuildAd.name);
                 callback();
             }
         }
@@ -132,7 +132,7 @@ module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,ca
                     callback(error);
                 });
             else{
-                logger.debug("Character is already in datase " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.guild);
+                logger.debug("Character is already in database " + wowProgressCharacterAd.region + "-" + wowProgressCharacterAd.realm + "-" + wowProgressCharacterAd.guild);
                 callback();
             }
         }
