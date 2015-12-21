@@ -13,24 +13,24 @@ function wlfgFilterDay(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.$watch('filters.classes', function() {
+        $scope.$watch('filters.days', function() {
             if($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            var classes = [];
-            angular.forEach($scope.filters.classes,function(clas){
-                classes.push(clas.id);
+            var days = [];
+            angular.forEach($scope.filters.days,function(day){
+                days.push(day.id);
             });
 
-            if (classes.length > 0) {
-                 $location.search('classes', classes.join('__'));
+            if (days.length > 0) {
+                 $location.search('days', days.join('__'));
             } else {
-                $location.search('classes', null);
+                $location.search('days', null);
             }
 
             socket.emit('get:characterAds',$scope.filters, true);
-        });
+        },true);
 
         $scope.resetDays = function(){
             $scope.filters.days = [];

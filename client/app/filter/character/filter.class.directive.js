@@ -13,24 +13,26 @@ function wlfgFilterClass(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.$watch('filters.days', function() {
+
+        $scope.$watch('filters.classes', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            var days = [];
-            angular.forEach($scope.filters.days,function(day){
-                days.push(day.id);
+            var classes = [];
+            angular.forEach($scope.filters.classes,function(classe){
+                classes.push(classe.id);
             });
 
-            if (days.length > 0) {
-                $location.search('days', days.join('__'));
+            if (classes.length > 0) {
+                $location.search('classes', classes.join('__'));
             } else {
-                $location.search('days', null);
+                $location.search('classes', null);
             }
 
             socket.emit('get:characterAds',$scope.filters, true);
-        });
+
+        },true);
 
         $scope.resetClasses = function(){
             $scope.filters.classes = [];

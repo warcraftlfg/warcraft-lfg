@@ -304,6 +304,8 @@ module.exports.getLastAds = function(callback) {
 };
 
 module.exports.getAds = function(number,filters,callback) {
+    logger.info('get:characterAds' + new Date());
+
     filters.realmList = [];
     async.waterfall([
         function(callback){
