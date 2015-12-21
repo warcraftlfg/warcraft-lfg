@@ -26,7 +26,7 @@ function wlfgFilterRealm(socket, $stateParams, $location) {
 
         $scope.setRealm = function(data){
             $scope.filters.realm = data;
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         };
 
         $scope.resetRealm = function(){

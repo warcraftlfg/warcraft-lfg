@@ -29,7 +29,7 @@ function wlfgFilterRole(socket, $stateParams, $location) {
                 $location.search('roles', null);
             }
 
-            socket.emit('get:characterAds', $scope.filters, true);
+            ////socket.emit('get:characterAds', $scope.filters, true);
         },true);
 
         $scope.resetRoles = function(){

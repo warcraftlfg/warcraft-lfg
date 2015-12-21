@@ -46,7 +46,7 @@ function wlfgFilterRealmZone(socket, $stateParams, $location) {
             $location.search('realm_name', null);
             $location.search('realm_region', null);
 
-            socket.emit('get:characterAds', $scope.filters, true);
+            //socket.emit('get:characterAds', $scope.filters, true);
         },true);
 
         $scope.resetRealmZones = function(){

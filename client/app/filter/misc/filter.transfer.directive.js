@@ -24,7 +24,7 @@ function wlfgFilterTransfer(socket, $stateParams, $location) {
                 $location.search('transfert', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }

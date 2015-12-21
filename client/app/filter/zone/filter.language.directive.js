@@ -29,7 +29,7 @@ function wlfgFilterLanguage(socket, $stateParams, $location) {
                 $location.search('languages', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
 
         $scope.resetLanguages = function(){

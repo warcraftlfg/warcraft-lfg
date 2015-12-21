@@ -24,7 +24,7 @@ function wlfgFilterTimezone(socket, $stateParams, $location) {
                 $location.search('timzeone', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }

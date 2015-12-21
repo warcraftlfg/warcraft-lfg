@@ -24,7 +24,7 @@ function wlfgFilterLevelMax(socket, $stateParams, $location) {
                 $location.search('lvlmax', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }

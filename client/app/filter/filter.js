@@ -29,7 +29,7 @@
         filters.roles = [];
         filters.classes = [];
         filters.transfert = false;
-
+        filters.states = {};
         return filters;
     }
 

@@ -26,7 +26,7 @@ function wlfgFilterRpw(socket, $stateParams, $location) {
                 $location.search('raids_per_week_active', true);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
 
         $scope.$watch('filters.raids_per_week.min', function() {
@@ -40,7 +40,7 @@ function wlfgFilterRpw(socket, $stateParams, $location) {
                 $location.search('raids_per_week_min', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
 
         $scope.$watch('filters.raids_per_week.max', function() {
@@ -54,7 +54,7 @@ function wlfgFilterRpw(socket, $stateParams, $location) {
                 $location.search('raids_per_week_max', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }

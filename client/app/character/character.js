@@ -114,20 +114,8 @@
             {id:'melee_dps', name: $translate.instant("MELEE_DPS"), icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
             {id:'ranged_dps', name: $translate.instant("RANGED_DPS"), icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
         ];
-        
-        $scope.classes = [
-            {id:1, name: "<span class='class-1'>"+$translate.instant("CLASS_1")+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
-            {id:2, name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
-            {id:3, name: "<span class='class-3'>"+$translate.instant("CLASS_3")+"</span>", icon:"<img src='/assets/images/icon/16/class-3.png'>", selected:false},
-            {id:4, name: "<span class='class-4'>"+$translate.instant("CLASS_4")+"</span>", icon:"<img src='/assets/images/icon/16/class-4.png'>", selected:false},
-            {id:5, name: "<span class='class-5'>"+$translate.instant("CLASS_5")+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>", selected:false},
-            {id:6, name: "<span class='class-6'>"+$translate.instant("CLASS_6")+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>", selected:false},
-            {id:7, name: "<span class='class-7'>"+$translate.instant("CLASS_7")+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>", selected:false},
-            {id:8, name: "<span class='class-8'>"+$translate.instant("CLASS_8")+"</span>", icon:"<img src='/assets/images/icon/16/class-8.png'>", selected:false},
-            {id:9, name: "<span class='class-9'>"+$translate.instant("CLASS_9")+"</span>", icon:"<img src='/assets/images/icon/16/class-9.png'>", selected:false},
-            {id:10, name: "<span class='class-10'>"+$translate.instant("CLASS_10")+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>", selected:false},
-            {id:11, name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
-        ];
+
+
         $scope.days = [
             {id:'monday', name: $translate.instant("MONDAY"), selected:false},
             {id:'tuesday', name: $translate.instant("TUESDAY"), selected:false},
@@ -157,13 +145,7 @@
             {name:$translate.instant("KR--KO_KR--ASIA--SEOUL"), region:"kr", locale:"ko_KR", zone:"Asia", cities:["Seoul"], selected:false}
         ];
 
-        $scope.localClasses = {
-            selectAll       : $translate.instant("SELECT_ALL"),
-            selectNone      : $translate.instant("SELECT_NONE"),
-            reset           : $translate.instant("RESET"),
-            search          : $translate.instant("SEARCH"),
-            nothingSelected : $translate.instant("ALL_CLASSES")
-        };
+
         $scope.localLanguages = {
             selectAll       : $translate.instant("SELECT_ALL"),
             selectNone      : $translate.instant("SELECT_NONE"),
@@ -256,15 +238,7 @@
             });
         }
 
-        if($stateParams.classes){
-            var classes = $stateParams.classes.split("__");
-            angular.forEach($scope.classes,function(clas){
-                if(classes.indexOf(clas.id.toString())!=-1) {
-                    clas.selected = true;
-                    $scope.filters.classes.push({id:clas.id,selected:true});
-                }
-            });
-        }
+
 
         if($stateParams.days){
             var days = $stateParams.days.split("__");
@@ -312,11 +286,24 @@
             $scope.filters.lvlmax = $stateParams.lvlmax==="true";
         }
 
-        socket.emit('get:characterAds',$scope.filters);
+        // socket.emit('get:characterAds',$scope.filters);
         socket.emit('get:realms',$scope.filters.realmZones);
 
+        $scope.$watch('filters', function() {
+
+            var filtersReady = true;
+            angular.forEach($scope.filters.states, function(key,value){
+                filtersReady = filtersReady && key;
+                console.log(key);
+
+            });
+
+            if(filtersReady &&    Object.keys($scope.filters.states).length > 0)
+                socket.emit('get:characterAds',$scope.filters,true);
+        },true);
+
         $scope.resetFilters = function(){
-           $state.go($state.current,null,{reload:true,inherit: false});
+            $state.go($state.current,null,{reload:true,inherit: false});
         };
 
         $scope.getMoreCharacters = function(){

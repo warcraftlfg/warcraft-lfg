@@ -29,7 +29,7 @@ function wlfgFilterDay(socket, $stateParams, $location) {
                 $location.search('days', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         },true);
 
         $scope.resetDays = function(){

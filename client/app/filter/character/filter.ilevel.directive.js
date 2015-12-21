@@ -26,7 +26,7 @@ function wlfgFilterIlevel(socket, $stateParams, $location) {
                 $location.search('ilevel_active', true);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
 
         $scope.$watch('filters.ilevel.min', function() {
@@ -40,7 +40,7 @@ function wlfgFilterIlevel(socket, $stateParams, $location) {
                 $location.search('ilevel_min', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
 
         $scope.$watch('filters.ilevel.max', function() {
@@ -54,7 +54,7 @@ function wlfgFilterIlevel(socket, $stateParams, $location) {
                 $location.search('ilevel_max', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }

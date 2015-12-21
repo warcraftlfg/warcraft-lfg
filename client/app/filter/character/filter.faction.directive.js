@@ -24,7 +24,7 @@ function wlfgFilterFaction(socket, $stateParams, $location) {
                 $location.search('faction', null);
             }
 
-            socket.emit('get:characterAds',$scope.filters, true);
+            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }
