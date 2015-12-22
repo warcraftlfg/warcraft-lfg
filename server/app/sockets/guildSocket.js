@@ -3,6 +3,7 @@
 //Modules dependencies
 var async = require("async");
 var guildService = process.require("services/guildService.js");
+var userService = process.require("services/userService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
 module.exports.connect = function(){
@@ -75,6 +76,16 @@ module.exports.connect = function(){
                 });
             });
 
+            socket.on('put:guildPerms', function(guild) {
+                guildService.insertOrUpdatePerms(guild.region, guild.realm, guild.name, socket.request.user.id, guild.perms,function(error){
+                    if (error){
+                        socket.emit("global:error", error.message);
+                        return;
+                    }
+                    socket.emit('put:guildPerms', guild);
+                });
+            });
+
             socket.on('delete:guildAd', function(guild) {
                 guildService.deleteAd(guild.region, guild.realm, guild.name,socket.request.user.id,function(error,result){
                     if (error)
@@ -87,7 +98,16 @@ module.exports.connect = function(){
                 guildService.getUserAds(socket.request.user.id,function(error,result){
                     if (error)
                         return socket.emit("global:error", error.message);
-                    socket.emit('get:userGuildAds',result);
+                    async.each(result, function(guild, callback) {
+                        userService.getGuildRank(socket.request.user.id,guild.region,guild.realm,guild.name,function(error,rank){
+                            guild.rank = rank;
+                            callback(error);
+                        });
+                    }, function (error) {
+                        if (error)
+                            return socket.emit("global:error", error.message);
+                        socket.emit('get:userGuildAds',result);
+                    });
                 });
             });
         }

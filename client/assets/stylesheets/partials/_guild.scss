@@ -96,22 +96,38 @@
 }
 
 .guild-update{
-  tr{
-    td {
-      text-decoration: line-through;
-      &.start,&.end{
-        width:40%;
+  #raid-schedule {
+    tr{
+      td {
+        text-decoration: line-through;
+        &.start,&.end{
+          width:40%;
+        }
+        &.play{
+          width:5%;
+        }
       }
-      &.play{
-        width:5%;
+      &.played td {
+        text-decoration:none;
       }
-    }
-    &.played td {
-      text-decoration:none;
-    }
 
-    label{
-      line-height:29px;
+      label{
+        line-height:29px;
+      }
+    }
+  }
+  #rank-permissions {
+    margin-top: 10px;
+    td {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    td.rank-size:not([data-size="0"]) {
+      text-decoration: underline;
+    }
+    label {
+      padding-right: 10px;
+      margin-right: 5px;
     }
   }
 }

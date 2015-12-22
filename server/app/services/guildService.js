@@ -169,9 +169,8 @@ module.exports.emitLastAds = function(){
 
 module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
     var self=this;
-    userService.isMember(id,region,realm,name,function(error,isMyGuild) {
-        if (isMyGuild) {
-
+    userService.hasGuildRankPermission(id,region,realm,name,['ad', 'edit'],function(error, hasPerm) {
+        if (hasPerm) {
             bnetAPI.getGuild(region,realm,name,function(error,guild){
                 if(error)
                     return callback(error);
@@ -188,15 +187,22 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback){
                     callback(error,result);
                 });
             });
+        } else {
+            callback(new Error("GUILD_NOT_OFFICER_ERROR"));
+        }
+    });
+};
 
+
+module.exports.insertOrUpdatePerms = function(region,realm,name,id,perms,callback){
+    userService.getGuildRank(id,region,realm,name,function(error,rank) {
+        if (rank === 0) {
+            guildModel.insertOrUpdatePerms(region,realm,name,id,perms,function(error,result){
+                callback(error,result);
+            });
         }
         else {
-            //Remove user from guild (gquit / gkick)
-            guildModel.removeId(region,realm,name,id, function (error) {
-                if (error)
-                    logger.error(error.message);
-                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
-            });
+            callback(new Error("GUILD_NOT_LEADER_ERROR"));
         }
     });
 };
@@ -295,8 +301,8 @@ module.exports.getAdsCount = function(callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var self=this;
-    userService.isMember(id,region,realm,name,function(error,isMyGuild) {
-        if(isMyGuild)
+    userService.hasGuildRankPermission(id,region,realm,name,['ad', 'del'],function(error, hasPerm) {
+        if(hasPerm)
             guildModel.deleteAd(region, realm, name, id, function (error) {
                 if (error)
                     logger.error(error.message);
@@ -306,15 +312,9 @@ module.exports.deleteAd = function(region,realm,name,id,callback){
                 self.emitLastAds();
 
                 callback(error);
-
             });
         else {
-            //Remove user from guild (gquit / gkick)
-            guildModel.removeId(region,realm,name,id, function (error) {
-                if (error)
-                    logger.error(error.message);
-                callback(new Error("GUILD_NOT_MEMBER_ERROR"));
-            });
+            callback(new Error("GUILD_NOT_OFFICER_ERROR"));
         }
     });
 };
