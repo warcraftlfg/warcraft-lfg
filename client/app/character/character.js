@@ -246,13 +246,7 @@
         socket.emit('get:realms',$scope.filters.realmZones);
 
         $scope.$watch('filters', function() {
-
-            var filtersReady = true;
-            angular.forEach($scope.filters.states, function(key,value){
-                filtersReady = filtersReady && key;
-            });
-
-            if(filtersReady && Object.keys($scope.filters.states).length > 0) {
+            if($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel) {
                 socket.emit('get:characterAds',$scope.filters,true);
             }
         },true);

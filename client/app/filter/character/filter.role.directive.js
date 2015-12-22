@@ -31,7 +31,10 @@ function wlfgFilterRole($translate, $stateParams, $location) {
                     $scope.filters.roles.push({id:role.id,selected:true});
                 }
             });
+
         }
+        $scope.filters.states.role = true;
+
 
         $scope.localRoles = {
             selectAll       : $translate.instant("SELECT_ALL"),
@@ -41,7 +44,6 @@ function wlfgFilterRole($translate, $stateParams, $location) {
             nothingSelected : $translate.instant("ALL_ROLES")
         };
 
-        $scope.filters.states.role = true;
 
         $scope.$watch('filters.roles', function() {
             if( $scope.$parent.loading || $scope.loading) {
