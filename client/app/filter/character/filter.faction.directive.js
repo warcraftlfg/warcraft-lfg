@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterFaction', wlfgFilterFaction);
 
-wlfgFilterFaction.$inject = ['socket', '$stateParams', '$location'];
-function wlfgFilterFaction(socket, $stateParams, $location) {
+wlfgFilterFaction.$inject = ['$stateParams', '$location'];
+function wlfgFilterFaction($stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,14 @@ function wlfgFilterFaction(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.filters.states.faction = false;
+
+        if ($stateParams.faction) {
+            $scope.filters.faction = $stateParams.faction;
+        }
+
+        $scope.filters.states.faction = true;
+
         $scope.$watch('filters.faction', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
@@ -23,8 +31,6 @@ function wlfgFilterFaction(socket, $stateParams, $location) {
             } else {
                 $location.search('faction', null);
             }
-
-            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }

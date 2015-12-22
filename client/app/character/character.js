@@ -108,14 +108,6 @@
         $scope.languages=[];
         $scope.timezones= TIMEZONES;
 
-        $scope.roles = [
-            {id:'tank', name: $translate.instant("TANK"), icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-            {id:'heal', name: $translate.instant("HEAL"), icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-            {id:'melee_dps', name: $translate.instant("MELEE_DPS"), icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:'ranged_dps', name: $translate.instant("RANGED_DPS"), icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
-        ];
-
-
         $scope.days = [
             {id:'monday', name: $translate.instant("MONDAY"), selected:false},
             {id:'tuesday', name: $translate.instant("TUESDAY"), selected:false},
@@ -152,13 +144,6 @@
             reset           : $translate.instant("RESET"),
             search          : $translate.instant("SEARCH"),
             nothingSelected : $translate.instant("ALL_LANGUAGES")
-        };
-        $scope.localRoles = {
-            selectAll       : $translate.instant("SELECT_ALL"),
-            selectNone      : $translate.instant("SELECT_NONE"),
-            reset           : $translate.instant("RESET"),
-            search          : $translate.instant("SEARCH"),
-            nothingSelected : $translate.instant("ALL_ROLES")
         };
         $scope.localDays = {
             selectAll       : $translate.instant("SELECT_ALL"),
@@ -223,23 +208,6 @@
             $scope.languages.push(tmplng);
         });
 
-        if($stateParams.faction) {
-            $scope.filters.faction = $stateParams.faction;
-        }
-
-        if($stateParams.roles){
-            var roles = $stateParams.roles.split("__");
-
-            angular.forEach($scope.roles,function(role){
-                if(roles.indexOf(role.id)!=-1) {
-                    role.selected = true;
-                    $scope.filters.roles.push({id:role.id,selected:true});
-                }
-            });
-        }
-
-
-
         if($stateParams.days){
             var days = $stateParams.days.split("__");
             angular.forEach($scope.days,function(day){
@@ -266,18 +234,6 @@
             $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
         }
 
-        if ($stateParams.ilevel_active) {
-            $scope.filters.ilevel.active = $stateParams.ilevel_active==="true";
-        }
-
-        if($stateParams.ilevel_min) {
-            $scope.filters.ilevel.min = $stateParams.ilevel_min;
-        }
-
-        if($stateParams.ilevel_max) {
-            $scope.filters.ilevel.max = $stateParams.ilevel_max;
-        }
-
         if($stateParams.transfert) {
             $scope.filters.transfert = $stateParams.transfert==="true";
         }
@@ -294,12 +250,11 @@
             var filtersReady = true;
             angular.forEach($scope.filters.states, function(key,value){
                 filtersReady = filtersReady && key;
-                console.log(key);
-
             });
 
-            if(filtersReady &&    Object.keys($scope.filters.states).length > 0)
+            if(filtersReady && Object.keys($scope.filters.states).length > 0) {
                 socket.emit('get:characterAds',$scope.filters,true);
+            }
         },true);
 
         $scope.resetFilters = function(){

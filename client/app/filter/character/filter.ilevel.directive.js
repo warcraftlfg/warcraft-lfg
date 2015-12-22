@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterIlevel', wlfgFilterIlevel);
 
-wlfgFilterIlevel.$inject = ['socket', '$stateParams', '$location'];
-function wlfgFilterIlevel(socket, $stateParams, $location) {
+wlfgFilterIlevel.$inject = ['$stateParams', '$location'];
+function wlfgFilterIlevel($stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,22 @@ function wlfgFilterIlevel(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.filters.states.ilevel = false;
+
+        if ($stateParams.ilevel_active) {
+            $scope.filters.ilevel.active = $stateParams.ilevel_active==="true";
+        }
+
+        if($stateParams.ilevel_min) {
+            $scope.filters.ilevel.min = $stateParams.ilevel_min;
+        }
+
+        if($stateParams.ilevel_max) {
+            $scope.filters.ilevel.max = $stateParams.ilevel_max;
+        }
+
+        $scope.filters.states.ilevel = true;
+
         $scope.$watch('filters.ilevel.active', function() {
             if($scope.$parent.loading || $scope.loading) {
                 return;
@@ -25,8 +41,6 @@ function wlfgFilterIlevel(socket, $stateParams, $location) {
             } else {
                 $location.search('ilevel_active', true);
             }
-
-            //socket.emit('get:characterAds',$scope.filters, true);
         });
 
         $scope.$watch('filters.ilevel.min', function() {
@@ -39,8 +53,6 @@ function wlfgFilterIlevel(socket, $stateParams, $location) {
             } else {
                 $location.search('ilevel_min', null);
             }
-
-            //socket.emit('get:characterAds',$scope.filters, true);
         });
 
         $scope.$watch('filters.ilevel.max', function() {
@@ -53,8 +65,6 @@ function wlfgFilterIlevel(socket, $stateParams, $location) {
             } else {
                 $location.search('ilevel_max', null);
             }
-
-            //socket.emit('get:characterAds',$scope.filters, true);
         });
     }
 }

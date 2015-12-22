@@ -16,7 +16,6 @@ function wlfgFilterClass($translate, $stateParams, $location) {
 
         $scope.filters.states.classes = false;
 
-
         $scope.classes = [
             {id:1, name: "<span class='class-1'>"+$translate.instant("CLASS_1")+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
             {id:2, name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},
@@ -38,14 +37,9 @@ function wlfgFilterClass($translate, $stateParams, $location) {
                 if(classes.indexOf(clas.id.toString())!=-1) {
                     clas.selected = true;
                     $scope.filters.classes.push({id:clas.id,selected:true});
-                    console.log("PAF");
                 }
             });
-            $scope.filters.states.classes = true;
-
         }
-
-
 
         $scope.localClasses = {
             selectAll       : $translate.instant("SELECT_ALL"),
@@ -55,6 +49,7 @@ function wlfgFilterClass($translate, $stateParams, $location) {
             nothingSelected : $translate.instant("ALL_CLASSES")
         };
 
+        $scope.filters.states.classes = true;
 
         $scope.$watch('filters.classes', function() {
             if ($scope.$parent.loading || $scope.loading) {
@@ -71,9 +66,6 @@ function wlfgFilterClass($translate, $stateParams, $location) {
             } else {
                 $location.search('classes', null);
             }
-
-            //socket.emit('get:characterAds',$scope.filters, true);
-
         },true);
 
         $scope.resetClasses = function(){
