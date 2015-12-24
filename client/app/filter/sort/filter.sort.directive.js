@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgSort', wlfgSort);
 
-wlfgSort.$inject = ['socket', '$stateParams', '$location'];
-function wlfgSort(socket, $stateParams, $location) {
+wlfgSort.$inject = ['$stateParams', '$location'];
+function wlfgSort($stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,14 +13,20 @@ function wlfgSort(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.$watch('sort', function() {
-            if($scope.$parent.loading || $scope.loading) {
+        $scope.filters.sort = "date";
+
+        if ($stateParams.sort) {
+            $scope.filters.sort = $stateParams.sort;
+        }
+
+        $scope.filters.states.sort = true;
+
+        $scope.$watch('filters.sort', function() {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            $location.search('sort', $scope.sort);
-
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $location.search('sort', $scope.filters.sort);
         });
     }
 }

@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterTransfer', wlfgFilterTransfer);
 
-wlfgFilterTransfer.$inject = ['socket', '$stateParams', '$location'];
-function wlfgFilterTransfer(socket, $stateParams, $location) {
+wlfgFilterTransfer.$inject = ['$stateParams', '$location'];
+function wlfgFilterTransfer($stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,13 @@ function wlfgFilterTransfer(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+
+        if ($stateParams.transfert) {
+            $scope.filters.transfert = $stateParams.transfert==="true";
+        }
+
+        $scope.filters.states.transfert = true;
+
         $scope.$watch('filters.transfert', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;

@@ -13,9 +13,6 @@ function wlfgFilterClass($translate, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-
-        $scope.filters.states.classes = false;
-
         $scope.classes = [
             {id:1, name: "<span class='class-1'>"+$translate.instant("CLASS_1")+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>", selected:false},
             {id:2, name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>", selected:false},

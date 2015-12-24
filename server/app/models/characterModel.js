@@ -219,12 +219,10 @@ module.exports.getAds = function(number, filters, callback) {
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.updated":{$exists:true},"ad.lfg":true};
     var filters = filters || {};
+    var sort = {"ad.updated":-1};
 
+    // Filter
     var or = [];
-    if (filters.last) {
-        criteria["ad.updated"]={$lt:filters.last}
-    }
-
     if (filters.lvlmax) {
         criteria["bnet.level"] = {$gte:100};
     }
@@ -317,9 +315,24 @@ module.exports.getAds = function(number, filters, callback) {
         or.forEach(function(orVal){
             criteria["$and"].push({"$or":orVal});
         });
-
-
     }
+
+    // Sort 
+    if (filters.sort && filters.sort == "ilevel") {
+        sort = {"bnet.items.averageItemLevelEquipped": -1};
+        if (filters.last) {
+            criteria["bnet.items.averageItemLevelEquipped"] = {$lte:filters.last.ilevel}
+        }
+    }
+
+    // Get more
+    if (filters.last && filters.last.updated) {
+        criteria["ad.updated"]={$lt:filters.last.updated}
+    }
+
+    console.log(criteria);
+
+    console.log(sort);
 
     database.find("characters", criteria, {
         name:1,
@@ -336,7 +349,7 @@ module.exports.getAds = function(number, filters, callback) {
         "bnet.progression.raids":{$slice:-1},
         "warcraftLogs.logs":1
 
-    }, number, {"ad.updated":-1}, function(error,characters) {
+    }, number, sort, function(error,characters) {
         callback(error, characters);
     });
 };

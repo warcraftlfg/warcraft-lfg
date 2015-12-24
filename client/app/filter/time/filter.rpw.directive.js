@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRpw', wlfgFilterRpw);
 
-wlfgFilterRpw.$inject = ['socket', '$stateParams', '$location'];
-function wlfgFilterRpw(socket, $stateParams, $location) {
+wlfgFilterRpw.$inject = ['$stateParams', '$location'];
+function wlfgFilterRpw($stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,20 @@ function wlfgFilterRpw(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        if ($stateParams.raids_per_week_active) {
+            $scope.filters.raids_per_week.active = $stateParams.raids_per_week_active==="true";
+        }
+
+        if ($stateParams.raids_per_week_min) {
+            $scope.filters.raids_per_week.min = $stateParams.raids_per_week_min;
+        }
+
+        if ($stateParams.raids_per_week_max) {
+            $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
+        }
+
+        $scope.filters.states.rpw = true;
+
         $scope.$watch('filters.raids_per_week.active', function() {
             if($scope.$parent.loading || $scope.loading) {
                 return;

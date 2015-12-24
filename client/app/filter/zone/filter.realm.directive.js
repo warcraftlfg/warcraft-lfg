@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRealm', wlfgFilterRealm);
 
-wlfgFilterRealm.$inject = ['socket', '$stateParams', '$location'];
-function wlfgFilterRealm(socket, $stateParams, $location) {
+wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location'];
+function wlfgFilterRealm($translate, $stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,28 @@ function wlfgFilterRealm(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.realms = [];
+
+        $scope.localRealms = {
+            selectAll       : $translate.instant("SELECT_ALL"),
+            selectNone      : $translate.instant("SELECT_NONE"),
+            reset           : $translate.instant("RESET"),
+            search          : $translate.instant("SEARCH"),
+            nothingSelected : $translate.instant("ALL_REALMS")
+        };
+
+        if ($stateParams.realm_name && $stateParams.realm_region) {
+            $scope.filters.realm.region = $stateParams.realm_region;
+            $scope.filters.realm.name = $stateParams.realm_name;
+
+            $scope.realms = [{
+                label: $stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",
+                selected: true
+            }];
+        }
+
+        $scope.filters.states.realm = true;
+
         $scope.$watch('filters.realm',function(){
             if($scope.$parent.loading || $scope.loading)
                 return;
@@ -21,12 +43,10 @@ function wlfgFilterRealm(socket, $stateParams, $location) {
                 $location.search('realm_name', $scope.filters.realm.name);
                 $location.search('realm_region', $scope.filters.realm.region);
             }
-            // socket.emit('get:characterAds', $scope.filters, true);
         },true);
 
         $scope.setRealm = function(data){
             $scope.filters.realm = data;
-            //socket.emit('get:characterAds',$scope.filters, true);
         };
 
         $scope.resetRealm = function(){

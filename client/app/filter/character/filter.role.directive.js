@@ -13,8 +13,6 @@ function wlfgFilterRole($translate, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.filters.states.role = false;
-
         $scope.roles = [
             {id:'tank', name: $translate.instant("TANK"), icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
             {id:'heal', name: $translate.instant("HEAL"), icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
@@ -33,8 +31,8 @@ function wlfgFilterRole($translate, $stateParams, $location) {
             });
 
         }
-        $scope.filters.states.role = true;
 
+        $scope.filters.states.role = true;
 
         $scope.localRoles = {
             selectAll       : $translate.instant("SELECT_ALL"),

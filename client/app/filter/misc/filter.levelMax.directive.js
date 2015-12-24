@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterLevelMax', wlfgFilterLevelMax);
 
-wlfgFilterLevelMax.$inject = ['socket', '$stateParams', '$location'];
-function wlfgFilterLevelMax(socket, $stateParams, $location) {
+wlfgFilterLevelMax.$inject = ['$stateParams', '$location'];
+function wlfgFilterLevelMax($stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,13 @@ function wlfgFilterLevelMax(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+
+        if ($stateParams.lvlmax) {
+            $scope.filters.lvlmax = $stateParams.lvlmax==="true";
+        }
+
+        $scope.filters.states.levelMax = true;
+
         $scope.$watch('filters.lvlmax', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;

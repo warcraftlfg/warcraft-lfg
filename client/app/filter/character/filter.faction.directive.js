@@ -13,16 +13,12 @@ function wlfgFilterFaction($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.filters.states.faction = false;
-
         if ($stateParams.faction) {
             $scope.filters.faction = $stateParams.faction;
             $scope.filters.states.faction = true;
         }
-        else {
-            $scope.filters.states.faction = true;
-        }
 
+        $scope.filters.states.faction = true;
 
         $scope.$watch('filters.faction', function() {
             if ($scope.$parent.loading || $scope.loading) {

@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterLanguage', wlfgFilterLanguage);
 
-wlfgFilterLanguage.$inject = ['socket', '$stateParams', '$location'];
-function wlfgFilterLanguage(socket, $stateParams, $location) {
+wlfgFilterLanguage.$inject = ['$translate', '$stateParams', '$location', 'LANGUAGES'];
+function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,27 @@ function wlfgFilterLanguage(socket, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.languages = [];
+
+        $scope.localLanguages = {
+            selectAll       : $translate.instant("SELECT_ALL"),
+            selectNone      : $translate.instant("SELECT_NONE"),
+            reset           : $translate.instant("RESET"),
+            search          : $translate.instant("SEARCH"),
+            nothingSelected : $translate.instant("ALL_LANGUAGES")
+        };
+
+        angular.forEach(LANGUAGES,function(language){
+            var tmplng = {id:language,name:$translate.instant("LANG_"+language.toUpperCase())};
+            if($stateParams.languages &&  $stateParams.languages.split("__").indexOf(language)!=-1) {
+                tmplng.selected = true;
+                $scope.filters.languages.push({id:language,selected:true});
+            }
+            $scope.languages.push(tmplng);
+        });
+
+        $scope.filters.states.languages = true;
+
         $scope.$watch('filters.languages', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
