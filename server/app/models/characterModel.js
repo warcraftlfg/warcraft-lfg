@@ -217,7 +217,7 @@ module.exports.get = function(region,realm,name,callback){
 module.exports.getAds = function(number, filters, callback) {
     var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
-    var criteria ={"ad.updated":{$exists:true},"ad.lfg":true};
+    var criteria = {"ad.updated":{$exists:true}, "ad.lfg":true};
     var filters = filters || {};
     var sort = {"ad.updated":-1};
 
@@ -319,19 +319,42 @@ module.exports.getAds = function(number, filters, callback) {
 
     // Sort 
     if (filters.sort && filters.sort == "ilevel") {
-        sort = {"bnet.items.averageItemLevelEquipped": -1};
+        sort = {"bnet.items.averageItemLevelEquipped": -1, "_id": -1};
         if (filters.last) {
-            criteria["bnet.items.averageItemLevelEquipped"] = {$lte:filters.last.ilevel}
+            var orSort = [];
+            var tmp = {};
+            tmp["bnet.items.averageItemLevelEquipped"] = {$lt:filters.last.ilevel};
+            orSort.push(tmp);
+            tmp = {};
+            tmp["bnet.items.averageItemLevelEquipped"] = filters.last.ilevel;
+            tmp["_id"] = {$lt: filters.last.id};
+            orSort.push(tmp);
+            if (!criteria["$and"]) {
+                criteria["$and"] = [];
+            }
+            criteria["$and"].push({"$or": orSort});
         }
     }
 
-    // Get more
-    if (filters.last && filters.last.updated) {
-        criteria["ad.updated"]={$lt:filters.last.updated}
+    if (filters.sort &&  filters.sort == "date") {
+        sort = {"ad.updated": -1, "_id": -1};
+        if (filters.last) {
+            var orSort = [];
+            var tmp = {};
+            tmp["ad.updated"] = {$lt:filters.last.updated};
+            orSort.push(tmp);
+            tmp = {};
+            tmp["ad.updated"] = filters.last.updated;
+            tmp["_id"] = {$lt: filters.last.id};
+            if (!criteria["$and"]) {
+                criteria["$and"] = [];
+            }
+            criteria["$and"].push({"$or": orSort});
+        }
     }
 
     console.log(criteria);
-
+    console.log('-------------')
     console.log(sort);
 
     database.find("characters", criteria, {

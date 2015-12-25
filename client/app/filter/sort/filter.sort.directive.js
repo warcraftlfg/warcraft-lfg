@@ -13,7 +13,7 @@ function wlfgSort($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.filters.sort = "date";
+        $scope.filters.sort = "ilevel";
 
         if ($stateParams.sort) {
             $scope.filters.sort = $stateParams.sort;

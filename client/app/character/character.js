@@ -92,7 +92,6 @@
     CharacterList.$inject = ['$scope', '$stateParams', '$translate', '$state', 'socket', "wlfgAppTitle", '$location', 'filter'];
     function CharacterList($scope, $stateParams, $translate ,$state, socket, wlfgAppTitle, $location, filter) {
         wlfgAppTitle.setTitle('Characters LFG');
-
         //Reset error message
         $scope.$parent.error = null;
         $scope.$parent.loading = true;
@@ -104,10 +103,7 @@
         socket.emit('get:realms',$scope.filters.realmZones);
 
         $scope.$watch('filters', function() {
-            console.log($scope.filters.states);
-            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax
-                && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm
-                && $scope.filters.states.realmZones && $scope.filters.states.sort) {
+            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort) {
                 // && $scope.filters.states.timezone
                 socket.emit('get:characterAds', $scope.filters);
             }
@@ -127,6 +123,7 @@
             if ($scope.characters.length>0) {
                 $scope.last.updated = $scope.characters[$scope.characters.length-1].ad.updated;
                 $scope.last.ilevel = $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped;
+                $scope.last.id = $scope.characters[$scope.characters.length-1]._id;
             }
 
             socket.emit('get:characterAds', $scope.filters, $scope.last);
