@@ -119,42 +119,40 @@ module.exports.update = function(region,realm,name,callback) {
                                 if (boss.mythicKills > 0) { pveScore += 10000000; }
 
                                 var difficulties = ["normal","heroic","mythic"];
-                                async.forEachSeries(difficulties, function(difficulty, callback) {
-                                    if(boss[difficulty+'Timestamp'] == 0) {
-                                        return callback();
-                                    }
+                                if (character.guild && character.guild.name && character.guild.realm) {
+                                    async.forEachSeries(difficulties, function(difficulty, callback) {
+                                        if(boss[difficulty+'Timestamp'] == 0) {
+                                            return callback();
+                                        }
 
-                                    async.series([
-                                        function(callback){
-                                            if (character.guild && character.guild.name && character.guild.realm) {
+                                        async.series([
+                                            function(callback){
                                                 //ADD PROGRESS
                                                 var progress = {name:character.name, realm:character.realm, region:region,spec:talent.spec.name,role:talent.spec.role,level:character.level,faction:character.faction,class:character.class,averageItemLevelEquipped:character.items.averageItemLevelEquipped};
                                                 guildKillModel.insertOrUpdate(region,character.guild.realm,character.guild.name,raid.name,boss.name,bossWeight,difficulty,boss[difficulty+'Timestamp'],"progress",progress,function(error) {
                                                     callback(error);
                                                 });
-                                            } else {
-                                                callback();
-                                            }
-                                        },
-                                        function(callback){
-                                            if (character.guild && character.guild.name && character.guild.realm) {
+                                            },
+                                            function(callback){
                                                 guildProgressUpdateModel.insertOrUpdate(region, character.guild.realm, character.guild.name, 0, function (error) {
                                                     callback(error);
                                                 });
-                                            } else {
-                                                callback();
                                             }
-                                        }
-                                    ],function(error){
-                                        callback(error);
-                                    });
-                                },function(){
-                                    bossWeight++;
-                                    callback();
-                                });
+                                        ],function(error){
+                                            callback(error);
+                                        });
 
+                                    },function(){
+                                        bossWeight++;
+                                        callback();
+                                    });
+                                } else {
+                                    callback();
+                                }
                             },function(){
-                                characterModel.insertOrUpdatePveScore(region, character.realm, character.name, pveScore, function (error) {
+                                var progress = {};
+                                progress[raid.name] = { 'score': pveScore };
+                                characterModel.insertOrUpdatePveScore(region, character.realm, character.name, progress, function (error) {
                                     callback(error);
                                 });
                             });

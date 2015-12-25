@@ -124,7 +124,7 @@
                 $scope.last.updated = $scope.characters[$scope.characters.length-1].ad.updated;
                 $scope.last.ilevel = $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped;
                 $scope.last.id = $scope.characters[$scope.characters.length-1]._id;
-                $scope.last.pveScore = $scope.characters[$scope.characters.length-1].pveScore;
+                $scope.last.pveScore = $scope.characters[$scope.characters.length-1].progress[Object.keys($scope.characters[$scope.characters.length-1].progress)[0]].score;
             }
 
             socket.emit('get:characterAds', $scope.filters, $scope.last);
@@ -132,6 +132,7 @@
 
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters, last){
+            console.log(characters);
             $scope.$parent.loading = false;
             $scope.loading = false;
             if (!last) {

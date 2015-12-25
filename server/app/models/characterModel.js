@@ -93,7 +93,7 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 
 };
 
-module.exports.insertOrUpdatePveScore = function(region,realm,name,pveScore,callback) {
+module.exports.insertOrUpdatePveScore = function(region,realm,name, progress,callback) {
     var database = applicationStorage.getMongoDatabase();
 
     //Force region tolowercase
@@ -123,7 +123,7 @@ module.exports.insertOrUpdatePveScore = function(region,realm,name,pveScore,call
     character.name = name;
     character.updated = new Date().getTime();
 
-    character.pveScore = pveScore;
+    character.progress = progress;
 
     database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
         callback(error, result);
@@ -257,7 +257,8 @@ module.exports.getAds = function(number, filters, callback) {
     var database = applicationStorage.getMongoDatabase();
     var criteria = {"ad.updated":{$exists:true}, "ad.lfg":true};
     var filters = filters || {};
-    var sort = {"ad.updated":-1};
+    var sort = {};
+    var raid = config.progress.raids[0];
 
     // Filter
     var or = [];
@@ -375,14 +376,15 @@ module.exports.getAds = function(number, filters, callback) {
     }
 
     if (filters.sort && filters.sort == "progress") {
-        sort = {"pveScore": -1, "_id": -1};
+        sort["progress."+raid.name+".score"] = -1;
+        sort["_id"] = 1;
         if (filters.last) {
             var orSort = [];
             var tmp = {};
-            tmp["pveScore"] = {$lt:filters.last.pveScore};
+            tmp["progress."+raid.name+".score"] = {$lt:filters.last.pveScore};
             orSort.push(tmp);
             tmp = {};
-            tmp["pveScore"] = filters.last.pveScore;
+            tmp["progress."+raid.name+".score"] = filters.last.pveScore;
             tmp["_id"] = {$lt: filters.last.id};
             orSort.push(tmp);
             if (!criteria["$and"]) {
@@ -409,22 +411,32 @@ module.exports.getAds = function(number, filters, callback) {
         }
     }
 
-    database.find("characters", criteria, {
-        name:1,
-        realm:1,
-        region:1,
-        "ad":1,
-        "bnet.level":1,
-        "bnet.class":1,
-        "bnet.items.averageItemLevelEquipped":1,
-        "bnet.items.finger1":1,
-        "bnet.items.finger2":1,
-        "bnet.faction":1,
-        "bnet.guild.name":1,
-        "bnet.progression.raids":{$slice:-1},
-        "warcraftLogs.logs":1
+    console.log(sort);
+    console.log('-----------');
+    console.log(orSort);
+    console.log('-----------');
+    console.log(criteria);
+    console.log('###########');
 
-    }, number, sort, function(error,characters) {
+    // Projection
+    var projection  = {};
+    projection["name"] = 1;
+    projection["realm"] = 1;
+    projection["region"] = 1;
+    projection["ad"] = 1;
+    projection["bnet.level"] = 1;
+    projection["bnet.class"] = 1;
+    projection["bnet.items.averageItemLevelEquipped"] = 1;
+
+    projection["bnet.items.finger1"] = 1;
+    projection["bnet.items.finger2"] = 1;
+    projection["bnet.faction"] = 1;
+    projection["bnet.guild.name"] = 1;
+    projection["bnet.progression.raids"] = 1;
+    projection["warcraftLogs.logs"] = 1;
+    projection["progress."+raid.name+".score"] = 1;
+
+    database.find("characters", criteria, projection, number, sort, function(error,characters) {
         callback(error, characters);
     });
 };
