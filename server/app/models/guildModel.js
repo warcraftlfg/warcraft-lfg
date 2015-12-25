@@ -43,7 +43,7 @@ module.exports.insertOrUpdateWowProgress = function(region,realm,name,wowProgres
     guild.name = name;
     guild.updated = new Date().getTime();
 
-    wowProgress.updated=new Date().getTime();
+    wowProgress.updated = new Date().getTime();
 
     guild.wowProgress = wowProgress;
 

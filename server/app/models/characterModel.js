@@ -93,6 +93,44 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
 
 };
 
+module.exports.insertOrUpdatePveScore = function(region,realm,name,pveScore,callback) {
+    var database = applicationStorage.getMongoDatabase();
+
+    //Force region tolowercase
+    region = region.toLowerCase();
+
+    //Check for required attributes
+    if(region == null){
+        callback(new Error('Field region is required in CharacterModel'));
+        return;
+    }
+    if(config.bnet_regions.indexOf(region)==-1){
+        callback(new Error('Region '+ region +' is not allowed'));
+        return;
+    }
+    if(realm == null){
+        callback(new Error('Field realm is required in CharacterModel'));
+        return;
+    }
+    if(name == null){
+        callback(new Error('Field name is required in CharacterModel'));
+        return;
+    }
+
+    var character ={};
+    character.region = region;
+    character.realm = realm;
+    character.name = name;
+    character.updated = new Date().getTime();
+
+    character.pveScore = pveScore;
+
+    database.insertOrUpdate("characters", {region:region,realm:realm,name:name} ,null ,character, function(error,result){
+        callback(error, result);
+    });
+
+};
+
 
 module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
 
@@ -336,6 +374,24 @@ module.exports.getAds = function(number, filters, callback) {
         }
     }
 
+    if (filters.sort && filters.sort == "progress") {
+        sort = {"pveScore": -1, "_id": -1};
+        if (filters.last) {
+            var orSort = [];
+            var tmp = {};
+            tmp["pveScore"] = {$lt:filters.last.pveScore};
+            orSort.push(tmp);
+            tmp = {};
+            tmp["pveScore"] = filters.last.pveScore;
+            tmp["_id"] = {$lt: filters.last.id};
+            orSort.push(tmp);
+            if (!criteria["$and"]) {
+                criteria["$and"] = [];
+            }
+            criteria["$and"].push({"$or": orSort});
+        }
+    }
+
     if (filters.sort &&  filters.sort == "date") {
         sort = {"ad.updated": -1, "_id": -1};
         if (filters.last) {
@@ -352,10 +408,6 @@ module.exports.getAds = function(number, filters, callback) {
             criteria["$and"].push({"$or": orSort});
         }
     }
-
-    console.log(criteria);
-    console.log('-------------')
-    console.log(sort);
 
     database.find("characters", criteria, {
         name:1,

@@ -19,7 +19,7 @@ var env = process.env.NODE_ENV || 'dev';
 var config = process.require('config/config.'+env+'.json');
 
 module.exports.updateNext = function(callback){
-    var self=this;
+    var self = this;
     characterUpdateModel.getNextToUpdate(function(error,characterUpdate) {
         if (error) {
             logger.error(error.message);
@@ -86,37 +86,44 @@ module.exports.update = function(region,realm,name,callback) {
                 },
                 function(callback){
                     //Insert character progress in database
-                    if (character.guild && character.guild.name && character.guild.realm){
+                    if (character.guild && character.guild.name && character.guild.realm) {
                         //Loop on talents
-                        async.forEachSeries(character.talents,function(talent,callback){
+                        async.forEachSeries(character.talents,function(talent,callback) {
 
-                            if(!talent.selected || !talent.spec || talent.spec.name ==null ||talent.spec.role ==null )
+                            if(!talent.selected || !talent.spec || talent.spec.name == null ||talent.spec.role == null) {
                                 return callback();
-
+                            }
 
                             //Raid progression with kill
-                            async.forEachSeries(character.progression.raids,function(raid,callback){
+                            async.forEachSeries(character.progression.raids,function(raid,callback) {
                                 //Parse only raid in config
                                 var raidConfig = null;
                                 async.forEach(config.progress.raids,function(obj,callback){
-                                    if(obj.name == raid.name)
+                                    if (obj.name == raid.name) {
                                         raidConfig = obj;
+                                    }
                                     callback();
 
                                 });
 
-                                if(raidConfig==null)
+                                if (raidConfig == null) {
                                     return callback();
+                                }
 
                                 //Raid progression from character progress bnet
                                 var bossWeight = 0;
+                                var pveScore = 0;
                                 async.forEachSeries(raid.bosses,function(boss,callback){
-
+                                    if (boss.lfrKills > 0) { pveScore += 10; }
+                                    if (boss.normalKills > 0) { pveScore += 1000; }
+                                    if (boss.heroicKills > 0) { pveScore += 100000; }
+                                    if (boss.mythicKills > 0) { pveScore += 10000000; }
 
                                     var difficulties = ["normal","heroic","mythic"];
-                                    async.forEachSeries(difficulties,function(difficulty,callback){
-                                        if(boss[difficulty+'Timestamp']==0)
+                                    async.forEachSeries(difficulties, function(difficulty, callback) {
+                                        if(boss[difficulty+'Timestamp'] == 0) {
                                             return callback();
+                                        }
 
                                         async.series([
                                             function(callback){
@@ -140,12 +147,10 @@ module.exports.update = function(region,realm,name,callback) {
                                     });
 
                                 },function(){
-                                    callback();
+                                    characterModel.insertOrUpdatePveScore(region, character.realm, character.name, pveScore, function (error) {
+                                        callback(error);
+                                    });
                                 });
-
-
-
-
                             },function(){
                                 callback();
                             });
@@ -154,8 +159,9 @@ module.exports.update = function(region,realm,name,callback) {
                             callback();
                         });
                     }
-                    else
+                    else {
                         callback();
+                    }
 
                 },
                 function(callback) {

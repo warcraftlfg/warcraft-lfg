@@ -124,6 +124,7 @@
                 $scope.last.updated = $scope.characters[$scope.characters.length-1].ad.updated;
                 $scope.last.ilevel = $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped;
                 $scope.last.id = $scope.characters[$scope.characters.length-1]._id;
+                $scope.last.pveScore = $scope.characters[$scope.characters.length-1].pveScore;
             }
 
             socket.emit('get:characterAds', $scope.filters, $scope.last);
