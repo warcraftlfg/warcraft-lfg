@@ -151,6 +151,7 @@ module.exports.update = function(region,realm,name,callback) {
                                 }
                             },function(){
                                 var progress = {};
+                                progress.pveScore = pveScore;
                                 progress[raid.name] = { 'score': pveScore };
                                 characterModel.insertOrUpdatePveScore(region, character.realm, character.name, progress, function (error) {
                                     callback(error);

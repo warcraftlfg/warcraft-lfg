@@ -5,7 +5,7 @@ var async = require("async");
 var characterAdSchema = process.require('config/db/characterAdSchema.json');
 var applicationStorage = process.require("api/applicationStorage.js");
 var Confine = require("confine");
-
+var ObjectID = require('mongodb').ObjectID;
 //Configuration
 var confine = new Confine();
 var env = process.env.NODE_ENV || "dev";
@@ -328,6 +328,21 @@ module.exports.getAds = function(number, filters, callback) {
         criteria["bnet.items.averageItemLevelEquipped"] = {$lte:parseInt(filters.ilevel.max,10), $gte:parseInt(filters.ilevel.min,10)};
     }
 
+    if (filters.progress && filters.progress.active) {
+        var progressFactor;
+        if (filters.progress.difficulty == "lfr") {
+            progressFactor = 10;
+        } else if (filters.progress.difficulty == "normal") {
+            progressFactor = 1000;
+        } else if (filters.progress.difficulty == "heroic") {
+            progressFactor = 100000;
+        } else {
+            progressFactor = 10000000;
+        }
+
+        criteria["progress."+raid.name+".score"] = {$lt: (parseInt(filters.progress.kill)+1)*progressFactor};
+    }
+
     if (filters.timezone && filters.timezone !="") {
         criteria["ad.timezone"] = filters.timezone;
     }
@@ -366,7 +381,7 @@ module.exports.getAds = function(number, filters, callback) {
             orSort.push(tmp);
             tmp = {};
             tmp["bnet.items.averageItemLevelEquipped"] = filters.last.ilevel;
-            tmp["_id"] = {$lt: filters.last.id};
+            tmp["_id"] = {$lt: new ObjectID(filters.last.id)};
             orSort.push(tmp);
             if (!criteria["$and"]) {
                 criteria["$and"] = [];
@@ -377,7 +392,7 @@ module.exports.getAds = function(number, filters, callback) {
 
     if (filters.sort && filters.sort == "progress") {
         sort["progress."+raid.name+".score"] = -1;
-        sort["_id"] = 1;
+        sort["_id"] =  -1;
         if (filters.last) {
             var orSort = [];
             var tmp = {};
@@ -385,7 +400,7 @@ module.exports.getAds = function(number, filters, callback) {
             orSort.push(tmp);
             tmp = {};
             tmp["progress."+raid.name+".score"] = filters.last.pveScore;
-            tmp["_id"] = {$lt: filters.last.id};
+            tmp["_id"] = {$lt: new ObjectID(filters.last.id)};
             orSort.push(tmp);
             if (!criteria["$and"]) {
                 criteria["$and"] = [];
@@ -403,20 +418,13 @@ module.exports.getAds = function(number, filters, callback) {
             orSort.push(tmp);
             tmp = {};
             tmp["ad.updated"] = filters.last.updated;
-            tmp["_id"] = {$lt: filters.last.id};
+            tmp["_id"] = {$lt: new ObjectID(filters.last.id)};
             if (!criteria["$and"]) {
                 criteria["$and"] = [];
             }
             criteria["$and"].push({"$or": orSort});
         }
     }
-
-    console.log(sort);
-    console.log('-----------');
-    console.log(orSort);
-    console.log('-----------');
-    console.log(criteria);
-    console.log('###########');
 
     // Projection
     var projection  = {};

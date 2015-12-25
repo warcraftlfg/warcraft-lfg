@@ -103,7 +103,7 @@
         socket.emit('get:realms',$scope.filters.realmZones);
 
         $scope.$watch('filters', function() {
-            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort) {
+            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
                 // && $scope.filters.states.timezone
                 socket.emit('get:characterAds', $scope.filters);
             }
@@ -132,7 +132,6 @@
 
         socket.forward('get:characterAds',$scope);
         $scope.$on('socket:get:characterAds',function(ev,characters, last){
-            console.log(characters);
             $scope.$parent.loading = false;
             $scope.loading = false;
             if (!last) {
