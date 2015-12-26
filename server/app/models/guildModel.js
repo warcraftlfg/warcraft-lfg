@@ -490,14 +490,14 @@ module.exports.getAds = function (number,filters,callback) {
         projection["progress."+raid.name+".mythicCount"] = 1;
     });
 
-    database.find("guilds", criteria,projection, number, {"ad.updated":-1}, function(error,guilds){
+    database.find("guilds", criteria,projection, number, {"ad.updated":-1}, {"ad.lfg":1}, function(error,guilds){
         callback(error, guilds);
     });
 };
 
 module.exports.getLastAds = function (callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.find("guilds", {"ad.lfg":true},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1}, function(error,guilds){
+    database.find("guilds", {"ad.lfg":true},{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1}, 5, {"ad.updated":-1},"ad.lfg_1", function(error,guilds){
         callback(error, guilds);
     });
 };
@@ -518,7 +518,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("guilds", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1,"perms":1}, 0,{"ad.updated":-1}, function(error,result){
+    database.find("guilds", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1,"perms":1}, 0,{"ad.updated":-1},{"ad.lfg":1},function(error,result){
         if (error) {
             callback(error, null);
             return;
@@ -563,7 +563,7 @@ module.exports.search = function(search, callback) {
     var database = applicationStorage.getMongoDatabase();
     database.find("guilds", {
         name:{$regex:"^"+search+".*",$options:"i"}
-    }, {name:1,realm:1,region:1,"bnet.side":1}, 3,{}, function(error,result){
+    }, {name:1,realm:1,region:1,"bnet.side":1}, 3,{},null, function(error,result){
         callback(error, result);
     });
 };

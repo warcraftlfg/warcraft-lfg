@@ -67,7 +67,7 @@ module.exports.getFromRealmZones = function(realmZones, callback){
     if (realmZonesCriteria.length>0)
         criteria["$or"]=realmZonesCriteria;
 
-    database.find("realms",criteria, {name:1,region:1,_id:0}, -1,{name:1,region:1}, function(error,realms){
+    database.find("realms",criteria, {name:1,region:1,_id:0}, -1,{name:1,region:1},null, function(error,realms){
 
         callback(error, realms);
     });
@@ -77,7 +77,7 @@ module.exports.get = function(region,name, callback){
     var database = applicationStorage.getMongoDatabase();
 
 
-    database.find("realms",{region:region,name:name}, {name:1,region:1,"connected_realms":1}, -1,{}, function(error,realms){
+    database.find("realms",{region:region,name:name}, {name:1,region:1,"connected_realms":1}, -1,{},null, function(error,realms){
         callback(error, realms && realms[0]);
     });
 };
