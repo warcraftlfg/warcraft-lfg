@@ -430,7 +430,7 @@ module.exports.getAds = function(number, filters, callback) {
     projection["warcraftLogs.logs"] = 1;
     projection["progress."+raid.name+".score"] = 1;
 
-    database.find("characters", criteria, projection, number, sort, function(error,characters) {
+    database.find("characters", criteria, projection, number, sort, {"ad.lfg":1}, function(error,characters) {
         callback(error, characters);
     });
 };
@@ -459,7 +459,7 @@ module.exports.deleteOldAds = function(timestamp,callback) {
 
 module.exports.getUserAds = function(id,callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, 0, {"ad.updated":-1},{"ad.lfg":1}, function(error,ads){
+    database.find("characters", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, -1, {"ad.updated":-1},{"ad.lfg":1}, function(error,ads){
         callback(error, ads);
     });
 };

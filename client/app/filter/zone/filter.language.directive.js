@@ -24,15 +24,17 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
         };
 
         $scope.filters.languages = [];
-
-        angular.forEach(LANGUAGES,function(language){
-            var tmplng = {id:language,name:$translate.instant("LANG_"+language.toUpperCase())};
-            if($stateParams.languages &&  $stateParams.languages.split("__").indexOf(language)!=-1) {
-                tmplng.selected = true;
-                $scope.filters.languages.push({id:language,selected:true});
-            }
-            $scope.languages.push(tmplng);
-        });
+        initLanguages();
+        function initLanguages() {
+            angular.forEach(LANGUAGES, function (language) {
+                var tmplng = {id: language, name: $translate.instant("LANG_" + language.toUpperCase())};
+                if ($stateParams.languages && $stateParams.languages.split("__").indexOf(language) != -1) {
+                    tmplng.selected = true;
+                    $scope.filters.languages.push({id: language, selected: true});
+                }
+                $scope.languages.push(tmplng);
+            });
+        }
 
         $scope.filters.states.languages = true;
 
@@ -56,6 +58,9 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
         });
 
         $scope.resetLanguages = function(){
+            $location.search('languages', null);
+            $stateParams.languages = null;
+            initLanguages();
             $scope.filters.languages = [];
         };
     }
