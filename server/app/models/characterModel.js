@@ -6,6 +6,7 @@ var characterAdSchema = process.require('config/db/characterAdSchema.json');
 var applicationStorage = process.require("api/applicationStorage.js");
 var Confine = require("confine");
 var ObjectID = require('mongodb').ObjectID;
+
 //Configuration
 var confine = new Confine();
 var env = process.env.NODE_ENV || "dev";
@@ -476,6 +477,20 @@ module.exports.getAdsCount = function (callback) {
     var database = applicationStorage.getMongoDatabase();
     database.count('characters',{"ad.lfg":true},function(error,count){
         callback(error,count);
+    });
+};
+
+module.exports.getBattleTag = function (characterId,callback){
+    var database = applicationStorage.getMongoDatabase();
+    database.get("characters", ObjectID(characterId), null, -1, function(error, characters){
+        var character = characters[0];
+        if (error || !character || !character.ad.btag_display) {
+            callback(error, null);
+        } else {
+            database.get("users", {id:character.id}, null, -1, function(error, users){
+                callback(error, (users[0] && !error) ? users[0].battleTag : null);
+            });
+        }
     });
 };
 

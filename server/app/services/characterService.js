@@ -453,3 +453,11 @@ module.exports.setAdsToUpdate = function(callback){
     });
 
 };
+
+module.exports.getBattleTag = function (id, callback){
+    characterModel.getBattleTag(id,function(error,battleTag){
+        if (error)
+            logger.error(error.message);
+        callback(error,battleTag);
+    });
+};
