@@ -586,7 +586,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("guilds", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1,"perms":1}, 0,{"ad.updated":-1},{"ad.lfg":1},function(error,result){
+    database.find("guilds", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1,"perms":1}, -1,{"ad.updated":-1},{"ad.lfg":1},function(error,result){
         if (error) {
             callback(error, null);
             return;

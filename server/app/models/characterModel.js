@@ -463,7 +463,7 @@ module.exports.deleteOldAds = function(timestamp,callback) {
 
 module.exports.getUserAds = function(id,callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, 0, {"ad.updated":-1},{"ad.lfg":1}, function(error,ads){
+    database.find("characters", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, -1, {"ad.updated":-1},{"ad.lfg":1}, function(error,ads){
         callback(error, ads);
     });
 };
