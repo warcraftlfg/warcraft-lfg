@@ -558,7 +558,7 @@ module.exports.getAds = function (number,filters,callback) {
         projection["progress."+raid.name+".mythicCount"] = 1;
     });
 
-    database.find("guilds", criteria,projection, number, {"ad.updated":-1}, {"ad.lfg":1}, function(error,guilds){
+    database.find("guilds", criteria, projection, number, sort, {"ad.lfg":1}, function(error,guilds){
         callback(error, guilds);
     });
 };
