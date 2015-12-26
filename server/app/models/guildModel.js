@@ -482,6 +482,21 @@ module.exports.getAds = function (number,filters,callback) {
         criteria["ad.timezone"] = filters.timezone;
     }
 
+    if (filters.progress && filters.progress.active) {
+        var progressFactor;
+        if (filters.progress.difficulty == "lfr") {
+            progressFactor = 10;
+        } else if (filters.progress.difficulty == "normal") {
+            progressFactor = 1000;
+        } else if (filters.progress.difficulty == "heroic") {
+            progressFactor = 100000;
+        } else {
+            progressFactor = 10000000;
+        }
+
+        criteria["progress."+raid.name+".score"] = {$lt: (parseInt(filters.progress.kill)+1)*progressFactor};
+    }
+
     if (filters.realmList && filters.realmList.length > 0) {
         var realms = [];
         filters.realmList.forEach(function(realm){

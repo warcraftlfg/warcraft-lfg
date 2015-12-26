@@ -413,9 +413,6 @@ module.exports.getAds = function(number, filters, callback) {
         }
     }
 
-    console.log(criteria);
-    console.log('###########');
-
     // Projection
     var projection  = {};
     projection["name"] = 1;
