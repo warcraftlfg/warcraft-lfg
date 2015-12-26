@@ -76,10 +76,11 @@
                             </span>
                         </td>
                         <td>
-                            <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update" tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
+                            <a class="txt-white m-r-10 f-18" href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update"
+                                ng-if="guildAd.perms.ad.edit" tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <span tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
+                            <span tooltip-placement="top" ng-if="guildAd.perms.ad.del" uib-tooltip="{{'DELETE'|translate }}">
                                 <span class="txt-white m-r-10 f-18 cursor-pointer" ng-click="deleteGuildAd(guildAd.region,guildAd.realm,guildAd.name)" wlfg-confirm  wlfg-confirm-content="{{'CONFIRM_DELETE_GUILD_AD'|translate}}">
                                     <i class="fa fa-trash-o"></i>
                                 </span>

@@ -319,6 +319,7 @@ module.exports.getAds = function(number,filters,callback) {
             async.waterfall([
                 function(callback){
                     if(filters.realmZones && filters.realmZones && filters.realmZones.length>0){
+                        filters.realmList = [];
                         realmService.getFromRealmZones(filters.realmZones,function(error,realms){
                             filters.realmList = realms;
                             callback();
@@ -329,12 +330,12 @@ module.exports.getAds = function(number,filters,callback) {
                 },
                 function(callback){
                     if(filters.realm && filters.realm.region && filters.realm.name ){
+                        filters.realmList = [];
                         realmService.get(filters.realm.region,filters.realm.name,function(error,realm){
                             if(!realm)
                                 return callback();
-
                             async.forEach(realm.connected_realms,function(name,callback){
-                                filters.realmList =[{name:name,region:filters.realm.region}];
+                                filters.realmList.push({name:name,region:filters.realm.region});
                                 callback();
 
                             },function(){
@@ -387,16 +388,30 @@ module.exports.getAdsCount = function(callback){
 
 module.exports.deleteAd = function(region,realm,name,id,callback){
     var self=this;
-    characterModel.deleteAd(region,realm,name,id,function(error){
-        if (error)
+    userService.isOwner(id,region,realm,name,function(error,isMyCharacter){
+        if(error){
             logger.error(error.message);
+            callback(error);
+            return;
+        }
+        if(isMyCharacter){
+            characterModel.deleteAd(region,realm,name,id,function(error){
+                if (error)
+                    logger.error(error.message);
 
-        self.emitAdsCount();
-        self.emitCount();
-        self.emitLastAds();
+                self.emitAdsCount();
+                self.emitCount();
+                self.emitLastAds();
 
-        callback(error);
+                callback(error);
 
+            });
+        }
+        else {
+            error = new Error("CHARACTER_NOT_MEMBER_ERROR");
+            logger.error(error.message);
+            callback(error);
+        }
     });
 };
 

@@ -34,6 +34,11 @@
         $scope.$on('socket:get:userGuildAds',function(ev,guildAds){
             $scope.$parent.loading = false;
             $scope.guildAds = guildAds;
+
+            $.each(guildAds, function (i, guild) {
+                guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
+                guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
+            });
         });
 
         socket.emit('get:userCharacterAds');
@@ -62,7 +67,20 @@
 
         socket.forward('put:guildAd',$scope);
         $scope.$on('socket:put:guildAd',function(ev,guild){
-            $state.go("guild-update",{region:guild.region,realm:guild.realm,name:guild.name});
+            socket.emit('get:userGuildRank',{"region":guild.region,"realm":guild.realm,"name":guild.name});
+            socket.forward('get:userGuildRank',$scope);
+            $scope.$on('socket:get:userGuildRank',function(ev,rank){
+                // Err on the side of caution if this is the first time we've seen this guild and
+                // don't have rank info for it yet. Worst case scenario someone who isn't an
+                // officer gets to update the profile for the short period of time between the ad
+                // getting created and the guild being scanned for the first time.
+                if (!guild.perms || rank === null || $.inArray(rank, guild.perms.ad.edit) !== -1) {
+                    $state.go("guild-update",{region:guild.region,realm:guild.realm,name:guild.name});
+                } else {
+                    // $route.reload() is suggested, but we don't inject $route here
+                    window.location.reload();
+                }
+            });
         });
 
         $scope.updateGuildRegion = function(){

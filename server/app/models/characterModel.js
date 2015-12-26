@@ -255,7 +255,7 @@ module.exports.get = function(region,realm,name,callback){
 module.exports.getAds = function(number, filters, callback) {
     var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
-    var criteria = {"ad.updated":{$exists:true}, "ad.lfg":true};
+    var criteria ={"ad.lfg":true};
     var filters = filters || {};
     var sort = {};
     var raid = config.progress.raids[0];
@@ -357,7 +357,7 @@ module.exports.getAds = function(number, filters, callback) {
         });
     }
 
-    // Sort 
+    // Sort
     if (filters.sort && filters.sort == "ilevel") {
         sort = {"bnet.items.averageItemLevelEquipped": -1, "_id": -1};
         if (filters.last) {
@@ -437,7 +437,7 @@ module.exports.getAds = function(number, filters, callback) {
 
 module.exports.getLastAds = function(callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters",{"ad.updated":{$exists:true},"ad.lfg":true} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
+    database.find("characters",{"ad.lfg":true} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1},{"ad.lfg":1}, function(error,characters){
         callback(error, characters);
     });
 };
@@ -459,7 +459,7 @@ module.exports.deleteOldAds = function(timestamp,callback) {
 
 module.exports.getUserAds = function(id,callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters", {id:id, "ad.updated":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, 0, {"ad.updated":-1}, function(error,ads){
+    database.find("characters", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, 0, {"ad.updated":-1},{"ad.lfg":1}, function(error,ads){
         callback(error, ads);
     });
 };
@@ -474,7 +474,7 @@ module.exports.getCount = function (callback) {
 
 module.exports.getAdsCount = function (callback) {
     var database = applicationStorage.getMongoDatabase();
-    database.count('characters',{"ad.updated":{$exists:true},"ad.lfg":true},function(error,count){
+    database.count('characters',{"ad.lfg":true},function(error,count){
         callback(error,count);
     });
 };
@@ -488,7 +488,7 @@ module.exports.search = function(search, callback) {
     var database = applicationStorage.getMongoDatabase();
     database.find("characters", {
         name:{$regex:"^"+search+".*",$options:"i"}
-    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{}, function(error,result){
+    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{},null, function(error,result){
         callback(error, result);
     });
 };

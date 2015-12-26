@@ -132,7 +132,7 @@ MongoDatabase.prototype.get = function(collection, criteria, projection, limit, 
         });
 };
 
-MongoDatabase.prototype.find = function(collection, criteria, projection, limit, sort, callback){
+MongoDatabase.prototype.find = function(collection, criteria, projection, limit, sort, hint, callback){
 
     var collection = this.db.collection(collection);
 
@@ -140,8 +140,10 @@ MongoDatabase.prototype.find = function(collection, criteria, projection, limit,
     var projection = projection || {};
     var limit = limit || -1;
     var sort = sort || {};
+    var hint = hint || {};
+
     if(limit === -1) {
-        collection.find(criteria, projection).sort(sort).toArray(function (error, result) {
+        collection.find(criteria, projection).hint(hint).sort(sort).toArray(function (error, result) {
             if (error) {
                 logger.error(error.message);
                 error = new Error("DATABASE_ERROR");
@@ -150,7 +152,7 @@ MongoDatabase.prototype.find = function(collection, criteria, projection, limit,
         });
     }
     else {
-        collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, result) {
+        collection.find(criteria, projection).hint(hint).sort(sort).limit(limit).toArray(function (error, result) {
             if (error) {
                 logger.error(error.message);
                 error = new Error("DATABASE_ERROR");
