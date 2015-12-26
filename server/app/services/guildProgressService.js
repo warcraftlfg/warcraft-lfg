@@ -41,24 +41,36 @@ module.exports.updateNext = function(callback){
 module.exports.update = function(region,realm,name,callback) {
     async.eachSeries(config.progress.raids,function(raid,callback){
         guildModel.computeProgress(region,realm,name,raid.name,function(error,result){
-            if (error)
+            if (error) {
                 return callback(error);
+            }
+
             var progress = {};
+            progress.score = 0;
             async.forEachSeries(result,function(obj,callback) {
+                if (obj.value && obj.value.timestamps && obj.value.timestamps.length > 0) {
 
-                if (obj.value && obj.value.timestamps && obj.value.timestamps.length >0) {
-
-                    if (!progress[obj._id.difficulty])
+                    if (!progress[obj._id.difficulty]) {
                         progress[obj._id.difficulty] = {};
+                    }
 
 
                     progress[obj._id.difficulty][obj._id.boss] = obj.value;
 
-                    if (!progress[obj._id.difficulty + "Count"])
+                    if (!progress[obj._id.difficulty + "Count"]) {
                         progress[obj._id.difficulty + "Count"] = 0;
+                    }
 
-                    if (obj.value.timestamps.length > 0)
+                    if (obj.value.timestamps.length > 0) {
                         progress[obj._id.difficulty + "Count"]++;
+                        if (obj._id.difficulty == "normal") {
+                            progress.score += 1000;
+                        } else if (obj._id.difficulty == "heroic") {
+                            progress.score += 100000;
+                        } else {
+                            progress.score += 10000000;
+                        }
+                    }
                 }
                 callback();
             },function() {

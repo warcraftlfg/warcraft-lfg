@@ -31,6 +31,8 @@ function wlfgFilterDay($translate, $stateParams, $location) {
             nothingSelected : $translate.instant("ALL_DAYS")
         };
 
+        $scope.filters.days = [];
+
         if($stateParams.days){
             var days = $stateParams.days.split("__");
             angular.forEach($scope.days,function(day){

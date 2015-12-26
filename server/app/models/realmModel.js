@@ -57,17 +57,19 @@ module.exports.getFromRealmZones = function(realmZones, callback){
                 or.push({"bnet.timezone":realmZone.zone+"/"+city});
                 callback();
             });
-            if(or.length > 0)
+            if (or.length > 0) {
                 realmZoneCriteria["$or"] = or;
+            }
         }
         realmZonesCriteria.push(realmZoneCriteria);
         callback();
     });
 
-    if (realmZonesCriteria.length>0)
+    if (realmZonesCriteria.length > 0) {
         criteria["$or"]=realmZonesCriteria;
+    }
 
-    database.find("realms",criteria, {name:1,region:1,_id:0}, -1,{name:1,region:1}, function(error,realms){
+    database.find("realms", criteria, {name:1,region:1,_id:0}, -1, {name:1,region:1}, function(error, realms){
 
         callback(error, realms);
     });

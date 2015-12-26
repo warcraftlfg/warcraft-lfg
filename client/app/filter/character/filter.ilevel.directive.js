@@ -13,6 +13,8 @@ function wlfgFilterIlevel($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.filters.ilevel = {active:false,min:575,max:750};
+        
         if ($stateParams.ilevel_active) {
             $scope.filters.ilevel.active = $stateParams.ilevel_active==="true";
         }

@@ -20,6 +20,8 @@ function wlfgFilterRole($translate, $stateParams, $location) {
             {id:'ranged_dps', name: $translate.instant("RANGED_DPS"), icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
         ];
 
+        $scope.filters.roles = [];
+
         if($stateParams.roles){
             var roles = $stateParams.roles.split("__");
 

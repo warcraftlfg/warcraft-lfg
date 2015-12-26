@@ -1,19 +1,19 @@
 angular
     .module('app.filter')
-    .directive('wlfgSort', wlfgSort);
+    .directive('wlfgSortCharacter', wlfgSortCharacter);
 
-wlfgSort.$inject = ['$stateParams', '$location'];
-function wlfgSort($stateParams, $location) {
+wlfgSortCharacter.$inject = ['$stateParams', '$location'];
+function wlfgSortCharacter($stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
-        templateUrl: 'app/filter/sort/filter.sort.directive.html'
+        templateUrl: 'app/filter/sort/filter.sort.character.directive.html'
     };
 
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.filters.sort = "ilevel";
+        $scope.filters.sort = "date";
 
         if ($stateParams.sort) {
             $scope.filters.sort = $stateParams.sort;

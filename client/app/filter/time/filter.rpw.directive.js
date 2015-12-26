@@ -13,6 +13,8 @@ function wlfgFilterRpw($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.filters.raids_per_week = {active:false,min:1,max:7};
+
         if ($stateParams.raids_per_week_active) {
             $scope.filters.raids_per_week.active = $stateParams.raids_per_week_active==="true";
         }

@@ -13,6 +13,7 @@ function wlfgFilterLevelMax($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.filters.lvlmax = true;
 
         if ($stateParams.lvlmax) {
             $scope.filters.lvlmax = $stateParams.lvlmax==="true";

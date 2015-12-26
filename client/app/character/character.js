@@ -89,18 +89,18 @@
         });
     }
 
-    CharacterList.$inject = ['$scope', '$stateParams', '$translate', '$state', 'socket', "wlfgAppTitle", '$location', 'filter'];
-    function CharacterList($scope, $stateParams, $translate ,$state, socket, wlfgAppTitle, $location, filter) {
+    CharacterList.$inject = ['$scope', '$stateParams', '$state', 'socket', "wlfgAppTitle"];
+    function CharacterList($scope, $stateParams, $state, socket, wlfgAppTitle) {
         wlfgAppTitle.setTitle('Characters LFG');
         //Reset error message
         $scope.$parent.error = null;
         $scope.$parent.loading = true;
         $scope.characters = [];
         $scope.last = {};
+        $scope.filters = {};
+        $scope.filters.states = {};
 
-        $scope.filters = filter.initFilter();
-
-        socket.emit('get:realms',$scope.filters.realmZones);
+        socket.emit('get:realms', $scope.filters.realmZones);
 
         $scope.$watch('filters', function() {
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
@@ -120,29 +120,35 @@
 
             $scope.loading = true;
 
-            if ($scope.characters.length>0) {
+            if ($scope.characters.length > 0) {
                 $scope.last.updated = $scope.characters[$scope.characters.length-1].ad.updated;
                 $scope.last.ilevel = $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped;
                 $scope.last.id = $scope.characters[$scope.characters.length-1]._id;
-                $scope.last.pveScore = $scope.characters[$scope.characters.length-1].progress[Object.keys($scope.characters[$scope.characters.length-1].progress)[0]].score;
+                if ($scope.characters[$scope.characters.length-1].progress) {
+                    $scope.last.pveScore = $scope.characters[$scope.characters.length-1].progress[Object.keys($scope.characters[$scope.characters.length-1].progress)[0]].score;
+                } else {
+                    $scope.last.pveScore = 0;
+                }
             }
 
             socket.emit('get:characterAds', $scope.filters, $scope.last);
         };
 
         socket.forward('get:characterAds',$scope);
-        $scope.$on('socket:get:characterAds',function(ev,characters, last){
+        $scope.$on('socket:get:characterAds',function(ev, characters, last){
             $scope.$parent.loading = false;
             $scope.loading = false;
+
             if (!last) {
-                $scope.characters = $scope.characters.characters = characters;
+                $scope.characters = characters;
             } else {
                 $scope.characters = $scope.characters.concat(characters);
             }
         });
 
         socket.forward('get:realms',$scope);
-        $scope.$on('socket:get:realms',function(ev,realms){
+        $scope.$on('socket:get:realms', function(ev, realms) {
+            console.log(realms);
             $scope.realms = realms;
             angular.forEach(realms,function (realm) {
                 realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";

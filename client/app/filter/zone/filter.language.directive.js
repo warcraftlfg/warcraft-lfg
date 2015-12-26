@@ -23,6 +23,8 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
             nothingSelected : $translate.instant("ALL_LANGUAGES")
         };
 
+        $scope.filters.languages = [];
+
         angular.forEach(LANGUAGES,function(language){
             var tmplng = {id:language,name:$translate.instant("LANG_"+language.toUpperCase())};
             if($stateParams.languages &&  $stateParams.languages.split("__").indexOf(language)!=-1) {

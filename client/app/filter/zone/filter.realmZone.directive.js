@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRealmZone', wlfgFilterRealmZone);
 
-wlfgFilterRealmZone.$inject = ['$translate', '$stateParams', '$location'];
-function wlfgFilterRealmZone($translate, $stateParams, $location) {
+wlfgFilterRealmZone.$inject = ['$translate', '$stateParams', '$location', 'socket'];
+function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -39,6 +39,8 @@ function wlfgFilterRealmZone($translate, $stateParams, $location) {
             search          : $translate.instant("SEARCH"),
             nothingSelected : $translate.instant("ALL_REALMZONES")
         };
+
+        $scope.filters.realmZones = [];
 
         $scope.filters.states.realmZones = true;
 

@@ -23,6 +23,8 @@ function wlfgFilterRealm($translate, $stateParams, $location) {
             nothingSelected : $translate.instant("ALL_REALMS")
         };
 
+        $scope.filters.realm = {};
+
         if ($stateParams.realm_name && $stateParams.realm_region) {
             $scope.filters.realm.region = $stateParams.realm_region;
             $scope.filters.realm.name = $stateParams.realm_name;

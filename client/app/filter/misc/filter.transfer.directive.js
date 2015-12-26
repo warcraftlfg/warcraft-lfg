@@ -18,6 +18,8 @@ function wlfgFilterTransfer($stateParams, $location) {
             $scope.filters.transfert = $stateParams.transfert==="true";
         }
 
+        $scope.filters.transfert = false;
+
         $scope.filters.states.transfert = true;
 
         $scope.$watch('filters.transfert', function() {

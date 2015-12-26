@@ -27,6 +27,7 @@ function wlfgFilterClass($translate, $stateParams, $location) {
             {id:11, name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
         ];
 
+        $scope.filters.classes = [];
 
         if($stateParams.classes){
             var classes = $stateParams.classes.split("__");

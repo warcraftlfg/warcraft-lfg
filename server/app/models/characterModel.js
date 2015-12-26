@@ -19,19 +19,19 @@ module.exports.insertOrUpdateWarcraftLogs = function(region,realm,name,warcraftL
     region = region.toLowerCase();
 
     //Check for required attributes
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in CharacterModel'));
         return;
     }
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region) == -1) {
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in CharacterModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in CharacterModel'));
         return;
     }
@@ -60,19 +60,19 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
     region = region.toLowerCase();
 
     //Check for required attributes
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in CharacterModel'));
         return;
     }
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region) == -1) {
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in CharacterModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in CharacterModel'));
         return;
     }
@@ -100,19 +100,19 @@ module.exports.insertOrUpdatePveScore = function(region,realm,name, progress,cal
     region = region.toLowerCase();
 
     //Check for required attributes
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in CharacterModel'));
         return;
     }
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region) == -1) {
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in CharacterModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in CharacterModel'));
         return;
     }
@@ -143,23 +143,23 @@ module.exports.insertOrUpdateAd = function(region,realm,name,id,ad,callback) {
     ad = confine.normalize(ad,characterAdSchema);
 
     //Check for required attributes
-    if(id == null){
+    if (id == null) {
         callback(new Error('Field id is required in CharacterModel'));
         return;
     }
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region) == -1) {
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in CharacterModel'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in CharacterModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in CharacterModel'));
         return;
     }
@@ -185,23 +185,23 @@ module.exports.setId = function(region,realm,name,id,callback){
     var database = applicationStorage.getMongoDatabase();
 
     //Check for required attributes
-    if(id == null){
+    if (id == null) {
         callback(new Error('Field id is required in CharacterModel'));
         return;
     }
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region) == -1) {
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in CharacterModel'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in CharacterModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in CharacterModel'));
         return;
     }
@@ -274,18 +274,6 @@ module.exports.getAds = function(number, filters, callback) {
         criteria["ad.transfert"] = filters.transfert;
     }
 
-    if (filters.realmList && filters.realmList.length>0) {
-        var realms = [];
-        filters.realmList.forEach(function(realm){
-            var tmpObj = {};
-            tmpObj["$and"] = [{realm:realm.name,region:realm.region}];
-            realms.push(tmpObj);
-
-        });
-        or.push(realms);
-
-    }
-
     if (filters.languages && filters.languages.length>0) {
         var languages = [];
         filters.languages.forEach(function(item){
@@ -347,17 +335,15 @@ module.exports.getAds = function(number, filters, callback) {
         criteria["ad.timezone"] = filters.timezone;
     }
 
-    if (filters.realm && filters.realm.connected_realms && filters.realm.region) {
+    if (filters.realmList && filters.realmList.length>0) {
         var realms = [];
-        filters.realm.connected_realms.forEach(function(realm) {
+        filters.realmList.forEach(function(realm){
             var tmpObj = {};
-            tmpObj["realm"] = realm;
+            tmpObj["$and"] = [{realm:realm.name,region:realm.region}];
             realms.push(tmpObj);
 
         });
         or.push(realms);
-        criteria["region"] = filters.realm.region;
-
     }
 
     if (filters.wowProgress ==true) {
