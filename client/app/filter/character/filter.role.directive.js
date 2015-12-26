@@ -64,8 +64,11 @@ function wlfgFilterRole($translate, $stateParams, $location) {
             ////socket.emit('get:characterAds', $scope.filters, true);
         },true);
 
-        $scope.resetRoles = function(){
+        $scope.resetRoles = function() {
             $scope.filters.roles = [];
+            angular.forEach($scope.roles,function(role) {
+                role.selected = false;
+            });
         };
     }
 }

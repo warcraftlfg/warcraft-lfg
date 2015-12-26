@@ -62,6 +62,9 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
             $stateParams.languages = null;
             initLanguages();
             $scope.filters.languages = [];
+            angular.forEach($scope.languages,function(language) {
+                language.selected = false;
+            });
         };
     }
 }

@@ -1,5 +1,6 @@
 bower_components
 node_modules
+npm-debug.log
 client/assets/css
 server/app/config/sslcert
 server/app/config/config.dev.json
@@ -8,3 +9,4 @@ logs
 .tmp
 .sass-cache
 .idea
+*.swp

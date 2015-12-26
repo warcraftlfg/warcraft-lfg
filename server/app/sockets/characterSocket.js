@@ -69,6 +69,14 @@ module.exports.connect = function(){
             });
         });
 
+        socket.on('get:characterBattleTag', function (characterId) {
+            characterService.getBattleTag(characterId,function(error,battleTag){
+                if (error)
+                    return socket.emit("global:error", error.message);
+                socket.emit('get:characterBattleTag', battleTag);
+            });
+        });
+
         socket.on('update:character', function (characterIds) {
             logger.debug('update:character',socket.request.user);
 

@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRealm', wlfgFilterRealm);
 
-wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location'];
-function wlfgFilterRealm($translate, $stateParams, $location) {
+wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location', 'socket'];
+function wlfgFilterRealm($translate, $stateParams, $location, socket) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -53,6 +53,21 @@ function wlfgFilterRealm($translate, $stateParams, $location) {
 
         $scope.resetRealm = function(){
             $scope.filters.realm = {};
+            angular.forEach($scope.realms,function(realm) {
+                realm.selected = false;
+            });
         };
+
+        socket.forward('get:realms',$scope);
+        $scope.$on('socket:get:realms', function(ev, realms) {
+            $scope.realms = realms;
+            angular.forEach(realms,function (realm) {
+                realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
+                if ($stateParams.realm_name && $stateParams.realm_name == realm.name && $stateParams.realm_region && $stateParams.realm_region==realm.region) {
+                    realm.selected = true;
+                }
+            });
+        });
+
     }
 }
