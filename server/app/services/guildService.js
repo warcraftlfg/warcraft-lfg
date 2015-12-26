@@ -341,7 +341,7 @@ module.exports.deleteOldAds = function(callback){
 
 module.exports.setAdsToUpdate = function(callback){
 
-    guildModel.getAds(0,null,function(error,guilds){
+    guildModel.getAds(-1,null,function(error,guilds){
         if(error){
             logger.error(error.message);
             return callback(error);
