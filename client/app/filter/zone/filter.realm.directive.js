@@ -38,13 +38,16 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket) {
         $scope.filters.states.realm = true;
 
         $scope.$watch('filters.realm',function(){
-            if($scope.$parent.loading || $scope.loading)
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
+            }
 
             if($scope.filters.realm){
                 $location.search('realm_name', $scope.filters.realm.name);
                 $location.search('realm_region', $scope.filters.realm.region);
             }
+
+            $scope.$parent.loading = true;
         },true);
 
         $scope.setRealm = function(data){

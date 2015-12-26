@@ -27,6 +27,8 @@ function wlfgSortCharacter($stateParams, $location) {
             }
 
             $location.search('sort', $scope.filters.sort);
+
+            $scope.$parent.loading = true;
         });
     }
 }

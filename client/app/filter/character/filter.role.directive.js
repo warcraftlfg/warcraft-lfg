@@ -46,7 +46,7 @@ function wlfgFilterRole($translate, $stateParams, $location) {
 
 
         $scope.$watch('filters.roles', function() {
-            if( $scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
@@ -61,7 +61,7 @@ function wlfgFilterRole($translate, $stateParams, $location) {
                 $location.search('roles', null);
             }
 
-            ////socket.emit('get:characterAds', $scope.filters, true);
+            $scope.$parent.loading = true;
         },true);
 
         $scope.resetRoles = function() {

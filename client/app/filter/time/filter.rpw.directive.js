@@ -30,7 +30,7 @@ function wlfgFilterRpw($stateParams, $location) {
         $scope.filters.states.rpw = true;
 
         $scope.$watch('filters.raids_per_week.active', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
@@ -42,7 +42,7 @@ function wlfgFilterRpw($stateParams, $location) {
                 $location.search('raids_per_week_active', true);
             }
 
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $scope.$parent.loading = true;
         });
 
         $scope.$watch('filters.raids_per_week.min', function() {
@@ -56,7 +56,7 @@ function wlfgFilterRpw($stateParams, $location) {
                 $location.search('raids_per_week_min', null);
             }
 
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $scope.$parent.loading = true;
         });
 
         $scope.$watch('filters.raids_per_week.max', function() {
@@ -70,7 +70,7 @@ function wlfgFilterRpw($stateParams, $location) {
                 $location.search('raids_per_week_max', null);
             }
 
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $scope.$parent.loading = true;
         });
     }
 }

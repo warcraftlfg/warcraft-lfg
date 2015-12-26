@@ -86,6 +86,8 @@ function wlfgFilterRoleClass($translate, $stateParams, $location) {
             } else {
                 $location.search('classes', null);
             }
+
+            $scope.$parent.loading = true;
         }, true);
 
         $scope.resetClasses = function() {
