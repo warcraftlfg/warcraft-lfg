@@ -109,8 +109,6 @@
         $scope.filters = {};
         $scope.filters.states = {};
 
-        socket.emit('get:realms', $scope.filters.realmZones);
-
         $scope.$watch('filters', function() {
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
                 // && $scope.filters.states.timezone
@@ -154,18 +152,5 @@
                 $scope.characters = $scope.characters.concat(characters);
             }
         });
-
-        socket.forward('get:realms',$scope);
-        $scope.$on('socket:get:realms', function(ev, realms) {
-            console.log(realms);
-            $scope.realms = realms;
-            angular.forEach(realms,function (realm) {
-                realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
-                if ($stateParams.realm_name && $stateParams.realm_name == realm.name && $stateParams.realm_region && $stateParams.realm_region==realm.region) {
-                    realm.selected = true;
-                }
-            });
-        });
-
     }
 })();

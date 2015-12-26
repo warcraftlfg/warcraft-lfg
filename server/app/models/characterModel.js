@@ -413,6 +413,9 @@ module.exports.getAds = function(number, filters, callback) {
         }
     }
 
+    console.log(criteria);
+    console.log('###########');
+
     // Projection
     var projection  = {};
     projection["name"] = 1;
@@ -431,7 +434,7 @@ module.exports.getAds = function(number, filters, callback) {
     projection["warcraftLogs.logs"] = 1;
     projection["progress."+raid.name+".score"] = 1;
 
-    database.find("characters", criteria, projection, number, sort, function(error,characters) {
+    database.find("characters", criteria, projection, number, sort, {"ad.lfg":1}, function(error,characters) {
         callback(error, characters);
     });
 };

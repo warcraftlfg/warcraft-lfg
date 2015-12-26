@@ -64,8 +64,11 @@ function wlfgFilterDay($translate, $stateParams, $location) {
             //socket.emit('get:characterAds',$scope.filters, true);
         },true);
 
-        $scope.resetDays = function(){
+        $scope.resetDays = function() {
             $scope.filters.days = [];
+            angular.forEach($scope.days,function(day) {
+                day.selected = false;
+            });
         };
     }
 }

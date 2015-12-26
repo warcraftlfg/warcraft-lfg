@@ -57,7 +57,7 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
                         realmZoneTmp.locale = params[1];
                         realmZoneTmp.zone = params[2];
                         realmZoneTmp.cities = params[3].split('::');
-                        if(realmZone.region == realmZoneTmp.region && realmZone.locale == realmZoneTmp.locale && realmZone.zone == realmZoneTmp.zone && angular.equals(realmZone.cities,realmZoneTmp.cities)){
+                        if(realmZone.region == realmZoneTmp.region && realmZone.locale == realmZoneTmp.locale && realmZone.zone == realmZoneTmp.zone && angular.equals(realmZone.cities,realmZoneTmp.cities)) {
                             $scope.filters.realmZones.push(realmZoneTmp);
                             realmZone.selected = true;
                         }
@@ -66,7 +66,9 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
             });
         }
 
-        $scope.$watch('filters.realmZones',function(){
+        socket.emit('get:realms', $scope.filters.realmZones);
+
+        $scope.$watch('filters.realmZones',function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
@@ -76,16 +78,17 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
 
             angular.forEach($scope.filters.realmZones,function(realmZone){
 
-                if(realmZone.region == $scope.filters.realm_region)
-                    realmInRegion=true;
+                if(realmZone.region == $scope.filters.realm_region) {
+                    realmInRegion = true;
+                }
 
                 realmZones.push(realmZone.region +'--'+realmZone.locale+"--"+realmZone.zone+"--"+realmZone.cities.join('::'));
 
             });
 
-            if (!realmInRegion && $scope.filters.realmZones.length>0) {
-                $stateParams.realm_region=null;
-                $stateParams.realm_name=null;
+            if (!realmInRegion && $scope.filters.realmZones.length > 0) {
+                $stateParams.realm_region = null;
+                $stateParams.realm_name = null;
             }
 
             if (realmZones.length > 0) {
@@ -95,15 +98,21 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
             }
 
             // We can do better ...
-            $scope.filters.realm = null;
+            $scope.filters.realm = {};
             $location.search('realm_name', null);
             $location.search('realm_region', null);
 
+            socket.emit('get:realms', $scope.filters.realmZones);
             //socket.emit('get:characterAds', $scope.filters, true);
         },true);
 
-        $scope.resetRealmZones = function(){
+        $scope.resetRealmZones = function() {
             $scope.filters.realmZones = [];
+            angular.forEach($scope.realmZones,function(realmZone) {
+                realmZone.selected = false;
+            });
+            $stateParams.realm_region = null;
+            $stateParams.realm_name = null;
         };
     }
 }

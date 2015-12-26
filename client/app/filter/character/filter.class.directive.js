@@ -66,8 +66,11 @@ function wlfgFilterClass($translate, $stateParams, $location) {
             }
         },true);
 
-        $scope.resetClasses = function(){
+        $scope.resetClasses = function() {
             $scope.filters.classes = [];
+            angular.forEach($scope.classes,function(classe) {
+                classe.selected = false;
+            });
         };
     }
 }
