@@ -57,13 +57,15 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:characterAds', function (filters) {
-            logger.debug('get:characterAds',socket.request.user);
-
+        socket.on('get:characterAds', function (filters, last) {
+            if (last) {
+                    filters.last = last;
+            }
             characterService.getAds(7,filters,function (error, characters) {
-                if (error)
+                if (error) {
                     return socket.emit("global:error", error.message);
-                socket.emit('get:characterAds', characters);
+                }
+                socket.emit('get:characterAds', characters, last);
             });
         });
 

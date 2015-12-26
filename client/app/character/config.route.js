@@ -22,11 +22,12 @@
                 controller: "CharacterUpdateController"
             })
             .state("character-list", {
-                url: "/character/list?realm_zones&languages&faction&realm_name&realm_region&roles&classes&days&timezone&raids_per_week_active&raids_per_week_min&raids_per_week_max&transfert&lvlmax",
+                url: "/character/list?realm_zones&languages&faction&realm_name&realm_region&roles&classes&days&timezone&raids_per_week_active&raids_per_week_min&raids_per_week_max&transfert&lvlmax&ilevel_active&ilevel_min&ilevel_max&progress_active&progress_kill&progress_difficulty&sort",
                 templateUrl: "app/character/character-list.html",
                 controlerAs: 'vm',
                 title: 'Character list',
-                controller: "CharacterListController"
+                controller: "CharacterListController",
+                reloadOnSearch: false
             })
         ;
     }
