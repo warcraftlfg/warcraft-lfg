@@ -11,7 +11,6 @@ var mongoClient = mongodb.MongoClient;
 // Configuration
 var logger;
 
-
 function MongoDatabase(databaseConf){
     this.conf = databaseConf;
     logger = process.require("api/logger.js").get("logger");

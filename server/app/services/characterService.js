@@ -19,7 +19,7 @@ var env = process.env.NODE_ENV || 'dev';
 var config = process.require('config/config.'+env+'.json');
 
 module.exports.updateNext = function(callback){
-    var self=this;
+    var self = this;
     characterUpdateModel.getNextToUpdate(function(error,characterUpdate) {
         if (error) {
             logger.error(error.message);
@@ -86,37 +86,44 @@ module.exports.update = function(region,realm,name,callback) {
                 },
                 function(callback){
                     //Insert character progress in database
-                    if (character.guild && character.guild.name && character.guild.realm){
-                        //Loop on talents
-                        async.forEachSeries(character.talents,function(talent,callback){
+                    //Loop on talents
+                    async.forEachSeries(character.talents,function(talent,callback) {
 
-                            if(!talent.selected || !talent.spec || talent.spec.name ==null ||talent.spec.role ==null )
+                        if(!talent.selected || !talent.spec || talent.spec.name == null || talent.spec.role == null) {
+                            return callback();
+                        }
+
+                        //Raid progression with kill
+                        async.forEachSeries(character.progression.raids,function(raid,callback) {
+                            //Parse only raid in config
+                            var raidConfig = null;
+                            async.forEach(config.progress.raids,function(obj,callback){
+                                if (obj.name == raid.name) {
+                                    raidConfig = obj;
+                                }
+                                callback();
+
+                            });
+
+                            if (raidConfig == null) {
                                 return callback();
+                            }
 
+                            //Raid progression from character progress bnet
+                            var bossWeight = 0;
+                            var pveScore = 0;
+                            async.forEachSeries(raid.bosses,function(boss,callback){
+                                if (boss.lfrKills > 0) { pveScore += 10; }
+                                if (boss.normalKills > 0) { pveScore += 1000; }
+                                if (boss.heroicKills > 0) { pveScore += 100000; }
+                                if (boss.mythicKills > 0) { pveScore += 10000000; }
 
-                            //Raid progression with kill
-                            async.forEachSeries(character.progression.raids,function(raid,callback){
-                                //Parse only raid in config
-                                var raidConfig = null;
-                                async.forEach(config.progress.raids,function(obj,callback){
-                                    if(obj.name == raid.name)
-                                        raidConfig = obj;
-                                    callback();
-
-                                });
-
-                                if(raidConfig==null)
-                                    return callback();
-
-                                //Raid progression from character progress bnet
-                                var bossWeight = 0;
-                                async.forEachSeries(raid.bosses,function(boss,callback){
-
-
-                                    var difficulties = ["normal","heroic","mythic"];
-                                    async.forEachSeries(difficulties,function(difficulty,callback){
-                                        if(boss[difficulty+'Timestamp']==0)
+                                var difficulties = ["normal","heroic","mythic"];
+                                if (character.guild && character.guild.name && character.guild.realm) {
+                                    async.forEachSeries(difficulties, function(difficulty, callback) {
+                                        if(boss[difficulty+'Timestamp'] == 0) {
                                             return callback();
+                                        }
 
                                         async.series([
                                             function(callback){
@@ -134,29 +141,29 @@ module.exports.update = function(region,realm,name,callback) {
                                         ],function(error){
                                             callback(error);
                                         });
+
                                     },function(){
                                         bossWeight++;
                                         callback();
                                     });
-
-                                },function(){
+                                } else {
                                     callback();
-                                });
-
-
-
-
+                                }
                             },function(){
-                                callback();
+                                var progress = {};
+                                progress.pveScore = pveScore;
+                                progress[raid.name] = { 'score': pveScore };
+                                characterModel.insertOrUpdatePveScore(region, character.realm, character.name, progress, function (error) {
+                                    callback(error);
+                                });
                             });
-
                         },function(){
                             callback();
                         });
-                    }
-                    else
-                        callback();
 
+                    },function(){
+                        callback();
+                    });
                 },
                 function(callback) {
                     async.waterfall([
@@ -304,6 +311,9 @@ module.exports.getLastAds = function(callback) {
 };
 
 module.exports.getAds = function(number,filters,callback) {
+    logger.info('get:characterAds' + new Date());
+
+    filters.realmList = [];
     async.waterfall([
         function(callback){
             async.waterfall([

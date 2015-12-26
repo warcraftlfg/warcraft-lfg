@@ -6,6 +6,7 @@ var guildPermsSchema = process.require('config/db/guildPermsSchema.json');
 var applicationStorage = process.require("api/applicationStorage");
 var Confine = require("confine");
 var async = require("async");
+var ObjectID = require('mongodb').ObjectID;
 
 //Configuration
 var confine = new Confine();
@@ -44,7 +45,7 @@ module.exports.insertOrUpdateWowProgress = function(region,realm,name,wowProgres
     guild.name = name;
     guild.updated = new Date().getTime();
 
-    wowProgress.updated=new Date().getTime();
+    wowProgress.updated = new Date().getTime();
 
     guild.wowProgress = wowProgress;
 
@@ -63,19 +64,19 @@ module.exports.insertOrUpdateBnet = function(region,realm,name,bnet,callback) {
     region = region.toLowerCase();
 
     //Check for required attributes
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in GuildModel'));
         return;
     }
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region) == -1) {
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in GuildModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in GuildModel'));
         return;
     }
@@ -287,12 +288,12 @@ module.exports.insertOrUpdateProgress = function(region,realm,name,raid, progres
     guild.name = name;
     guild.updated = new Date().getTime();
 
-    progress.updated=new Date().getTime();
+    progress.updated = new Date().getTime();
 
     guild.progress = {};
     guild.progress[raid] = progress;
 
-    database.insertOrUpdate("guilds", {region:region,realm:realm,name:name} ,null ,guild, function(error,result){
+    database.insertOrUpdate("guilds", {region:region, realm:realm, name:name}, null, guild, function(error, result){
         callback(error, result);
     });
 
@@ -352,92 +353,121 @@ module.exports.get = function(region,realm,name,callback){
 };
 
 module.exports.getAds = function (number,filters,callback) {
+     var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.lfg":true};
     var filters = filters || {};
+    var sort = {};
+    var raid = config.progress.raids[0];
+
+    // Filter
     var or = [];
-    if(filters.last){
-        criteria["ad.updated"]={$lt:filters.last}
+    if (filters.faction) {
+        criteria["bnet.side"] = parseInt(filters.faction, 10);
     }
-    if(filters.faction){
-        criteria["bnet.side"] = parseInt(filters.faction,10);
-    }
-    if(filters.languages && filters.languages.length>0){
+
+    if (filters.languages && filters.languages.length > 0) {
         var languages = [];
-        filters.languages.forEach(function(item){
+        filters.languages.forEach(function(item) {
             languages.push(item.id);
         });
-        criteria["ad.language"] = { $in: languages};
+        criteria["ad.language"] = {$in: languages};
     }
-    if(filters.raids_per_week && filters.raids_per_week.active){
+
+    if (filters.raids_per_week && filters.raids_per_week.active) {
         criteria["ad.raids_per_week.min"] = {$gte:parseInt(filters.raids_per_week.min,10)};
         criteria["ad.raids_per_week.max"] = {$lte:parseInt(filters.raids_per_week.max,10)};
     }
 
-    if(filters.classes &&  filters.classes.length>0){
+    if (filters.classes &&  filters.classes.length > 0) {
         //Horrible function for mapping role and classes ...
         var recruitment = [];
 
         filters.classes.forEach(function (classe){
-            if(classe.role == "tank"){
-                if(classe.id == 1)
+            if (classe.role == "tank") {
+                if (classe.id == 1) {
                     recruitment.push({"ad.recruitment.tank.warrior":true});
-                if(classe.id == 11)
+                }
+                if (classe.id == 11) {
                     recruitment.push({"ad.recruitment.tank.druid":true});
-                if(classe.id == 2)
+                }
+                if (classe.id == 2) {
                     recruitment.push({"ad.recruitment.tank.paladin":true});
-                if(classe.id == 10)
+                }
+                if (classe.id == 10) {
                     recruitment.push({"ad.recruitment.tank.monk":true});
-                if(classe.id == 6)
+                }
+                if (classe.id == 6) {
                     recruitment.push({"ad.recruitment.tank.deathknight":true});
+                }
             }
-            if(classe.role == "heal"){
-                if(classe.id == 11)
+            if (classe.role == "heal") {
+                if (classe.id == 11) {
                     recruitment.push({"ad.recruitment.heal.druid":true});
-                if(classe.id == 5)
+                }
+                if (classe.id == 5) {
                     recruitment.push({"ad.recruitment.heal.priest": true});
-                if(classe.id == 2)
+                }
+                if (classe.id == 2) {
                     recruitment.push({"ad.recruitment.heal.paladin":true});
-                if(classe.id == 7)
+                }
+                if (classe.id == 7) {
                     recruitment.push({"ad.recruitment.heal.shaman":true});
-                if(classe.id == 10)
+                }
+                if (classe.id == 10) {
                     recruitment.push({"ad.recruitment.heal.monk":true});
+                }
             }
-            if(classe.role == "melee_dps"){
-                if(classe.id == 11)
+            if (classe.role == "melee_dps") {
+                if (classe.id == 11) {
                     recruitment.push({"ad.recruitment.melee_dps.druid":true});
-                if(classe.id == 6)
+                }
+                if (classe.id == 6) {
                     recruitment.push({"ad.recruitment.melee_dps.deathknight":true});
-                if(classe.id == 2)
+                }
+                if (classe.id == 2) {
                     recruitment.push({"ad.recruitment.melee_dps.paladin":true});
-                if(classe.id == 10)
+                }
+                if (classe.id == 10) {
                     recruitment.push({"ad.recruitment.melee_dps.monk":true});
-                if(classe.id == 7)
+                }
+                if (classe.id == 7) {
                     recruitment.push({"ad.recruitment.melee_dps.shaman":true});
-                if(classe.id == 1)
+                }
+                if (classe.id == 1) {
                     recruitment.push({"ad.recruitment.melee_dps.warrior":true});
-                if(classe.id == 4)
+                }
+                if (classe.id == 4) {
                     recruitment.push({"ad.recruitment.melee_dps.rogue":true});
+                }
             }
-            if(classe.role == "ranged_dps"){
-                if(classe.id == 11)
+            if (classe.role == "ranged_dps") {
+                if (classe.id == 11) {
                     recruitment.push({"ad.recruitment.ranged_dps.druid":true});
-                if(classe.id == 5)
+                }
+                if (classe.id == 5) {
                     recruitment.push({"ad.recruitment.ranged_dps.priest":true});
-                if(classe.id == 7)
+                }
+                if (classe.id == 7) {
                     recruitment.push({"ad.recruitment.ranged_dps.shaman":true});
-                if(classe.id == 3)
+                }
+                if (classe.id == 3) {
                     recruitment.push({"ad.recruitment.ranged_dps.hunter":true});
-                if(classe.id == 9)
+                }
+                if (classe.id == 9) {
                     recruitment.push({"ad.recruitment.ranged_dps.warlock":true});
-                if(classe.id == 8)
+                }
+                if (classe.id == 8) {
                     recruitment.push({"ad.recruitment.ranged_dps.mage":true});
+                }
             }
         });
-        if(recruitment.length>0)
+        if(recruitment.length > 0) {
             or.push(recruitment);
+        }
     }
-    if(filters.days && filters.days.length>0){
+
+    if (filters.days && filters.days.length > 0){
         var days = [];
         filters.days.forEach(function(day){
             var tmpObj = {};
@@ -446,14 +476,13 @@ module.exports.getAds = function (number,filters,callback) {
 
         });
         or.push(days);
-
     }
 
-    if(filters.timezone && filters.timezone !=""){
+    if (filters.timezone && filters.timezone != "") {
         criteria["ad.timezone"] = filters.timezone;
     }
 
-    if (filters.realmList &&  filters.realmList.length>0){
+    if (filters.realmList && filters.realmList.length > 0) {
         var realms = [];
         filters.realmList.forEach(function(realm){
             var tmpObj = {};
@@ -462,16 +491,54 @@ module.exports.getAds = function (number,filters,callback) {
 
         });
         or.push(realms);
-
     }
-    if (filters.wowProgress ==true){
+
+    if (filters.wowProgress == true) {
         criteria["id"] = {"$eq":0};
     }
-    if(or.length > 0 ){
+
+    if (or.length > 0 ) {
         criteria["$and"]=[];
         or.forEach(function(orVal){
             criteria["$and"].push({"$or":orVal});
         });
+    }
+
+    // Sort
+    if (filters.sort && filters.sort == "progress") {
+        sort["progress."+raid.name+".score"] = -1;
+        sort["_id"] =  -1;
+        if (filters.last) {
+            var orSort = [];
+            var tmp = {};
+            tmp["progress."+raid.name+".score"] = {$lt:filters.last.pveScore};
+            orSort.push(tmp);
+            tmp = {};
+            tmp["progress."+raid.name+".score"] = filters.last.pveScore;
+            tmp["_id"] = {$lt: new ObjectID(filters.last.id)};
+            orSort.push(tmp);
+            if (!criteria["$and"]) {
+                criteria["$and"] = [];
+            }
+            criteria["$and"].push({"$or": orSort});
+        }
+    }
+
+    if (filters.sort &&  filters.sort == "date") {
+        sort = {"ad.updated": -1, "_id": -1};
+        if (filters.last) {
+            var orSort = [];
+            var tmp = {};
+            tmp["ad.updated"] = {$lt:filters.last.updated};
+            orSort.push(tmp);
+            tmp = {};
+            tmp["ad.updated"] = filters.last.updated;
+            tmp["_id"] = {$lt: new ObjectID(filters.last.id)};
+            if (!criteria["$and"]) {
+                criteria["$and"] = [];
+            }
+            criteria["$and"].push({"$or": orSort});
+        }
     }
 
 
@@ -484,13 +551,14 @@ module.exports.getAds = function (number,filters,callback) {
     projection["bnet.side"] = 1;
     projection["wowProgress"] = 1;
 
-    config.progress.raids.forEach(function(raid){
+    config.progress.raids.forEach(function(raid) {
+        projection["progress."+raid.name+".score"] = 1;
         projection["progress."+raid.name+".normalCount"] = 1;
         projection["progress."+raid.name+".heroicCount"] = 1;
         projection["progress."+raid.name+".mythicCount"] = 1;
     });
 
-    database.find("guilds", criteria,projection, number, {"ad.updated":-1}, {"ad.lfg":1}, function(error,guilds){
+    database.find("guilds", criteria, projection, number, sort, {"ad.lfg":1}, function(error,guilds){
         callback(error, guilds);
     });
 };

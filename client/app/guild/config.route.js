@@ -22,11 +22,12 @@
                 controller: "GuildUpdateController"
             })
             .state("guild-list", {
-                url: "/guild/list?realm_zones&languages&faction&realm_name&realm_region&classes&days&timezone&raids_per_week_active&raids_per_week_min&raids_per_week_max",
+                url: "/guild/list?realm_zones&languages&faction&realm_name&realm_region&classes&days&timezone&raids_per_week_active&raids_per_week_min&raids_per_week_max&sort",
                 templateUrl: "app/guild/guild-list.html",
                 controlerAs: 'vm',
                 title: 'Guild list',
-                controller: "GuildListController"
+                controller: "GuildListController",
+                reloadOnSearch: false
             })
         ;
     }

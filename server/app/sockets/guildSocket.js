@@ -60,13 +60,14 @@ module.exports.connect = function(){
             });
         });
 
-        socket.on('get:guildAds', function (filters) {
-            logger.debug('get:guildAds',socket.request.user);
-
-            guildService.getAds(7,filters,function (error, characters) {
+        socket.on('get:guildAds', function (filters, last) {
+            if (last) {
+                    filters.last = last;
+            }
+            guildService.getAds(7,filters,function (error, guilds) {
                 if (error)
                     return socket.emit("global:error", error.message);
-                socket.emit('get:guildAds', characters);
+                socket.emit('get:guildAds', guilds, last);
             });
         });
 

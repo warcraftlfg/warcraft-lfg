@@ -16,39 +16,39 @@ module.exports.insertOrUpdate = function(region,realm,name,raid,boss,bossWeight,
     region = region.toLowerCase();
 
     //Check for required attributes
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in GuildKillModel'));
         return;
     }
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region)==-1) {
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in GuildKillModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in GuildKillModel'));
         return;
     }
-    if(boss == null){
+    if (boss == null) {
         callback(new Error('Field boss is required in GuildKillModel'));
         return;
     }
-    if(difficulty == null){
+    if (difficulty == null) {
         callback(new Error('Field difficulty is required in GuildKillModel'));
         return;
     }
-    if(timestamp == null){
+    if (timestamp == null) {
         callback(new Error('Field timestamp is required in GuildKillModel'));
         return;
     }
-    if(raid == null){
+    if (raid == null) {
         callback(new Error('Field raid is required in GuildKillModel'));
         return;
     }
-    if(source == null){
+    if (source == null) {
         callback(new Error('Field source is required in GuildKillModel'));
         return;
     }
