@@ -30,6 +30,8 @@ function wlfgFilterFaction($stateParams, $location) {
             } else {
                 $location.search('faction', null);
             }
+
+            $scope.$parent.loading = true;
         });
     }
 }

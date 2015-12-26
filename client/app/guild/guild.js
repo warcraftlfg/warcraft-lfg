@@ -166,7 +166,6 @@
         $scope.$watch('filters', function() {
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
                 // && $scope.filters.states.timezone
-                $scope.$parent.loading = true;
                 socket.emit('get:guildAds', $scope.filters);
             }
         },true);
@@ -189,6 +188,12 @@
                     $scope.last.pveScore = $scope.guilds[$scope.guilds.length-1].progress[Object.keys($scope.guilds[$scope.guilds.length-1].progress)[0]].score;
                 } else {
                     $scope.last.pveScore = 0;
+                }
+
+                if ($scope.guilds[$scope.guilds.length-1].wowProgress) {
+                    $scope.last.ranking = $scope.guilds[$scope.guilds.length-1].wowProgress.world_rank;
+                } else {
+                    $scope.last.ranking = 0;
                 }
             }
 

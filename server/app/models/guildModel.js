@@ -539,6 +539,25 @@ module.exports.getAds = function (number,filters,callback) {
         }
     }
 
+    if (filters.sort && filters.sort == "ranking") {
+        criteria["wowProgress"] = {$exists:true};
+        sort = {"wowProgress.world_rank": 1, "_id": -1};
+        if (filters.last) {
+            var orSort = [];
+            var tmp = {};
+            tmp["wowProgress.world_rank"] = {$lt:filters.last.ranking};
+            orSort.push(tmp);
+            tmp = {};
+            tmp["wowProgress.world_rank"] = filters.last.ranking;
+            tmp["_id"] = {$lt: new ObjectID(filters.last.id)};
+            orSort.push(tmp);
+            if (!criteria["$and"]) {
+                criteria["$and"] = [];
+            }
+            criteria["$and"].push({"$or": orSort});
+        }
+    }
+
     if (filters.sort &&  filters.sort == "date") {
         sort = {"ad.updated": -1, "_id": -1};
         if (filters.last) {

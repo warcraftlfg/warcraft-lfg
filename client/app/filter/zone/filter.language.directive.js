@@ -54,7 +54,7 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
                 $location.search('languages', null);
             }
 
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $scope.$parent.loading = true;
         });
 
         $scope.resetLanguages = function(){

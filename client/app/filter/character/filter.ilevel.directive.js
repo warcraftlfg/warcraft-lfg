@@ -41,6 +41,8 @@ function wlfgFilterIlevel($stateParams, $location) {
             } else {
                 $location.search('ilevel_active', true);
             }
+
+            $scope.$parent.loading = true;
         });
 
         $scope.$watch('filters.ilevel.min', function() {
@@ -53,6 +55,8 @@ function wlfgFilterIlevel($stateParams, $location) {
             } else {
                 $location.search('ilevel_min', null);
             }
+
+            $scope.$parent.loading = true;
         });
 
         $scope.$watch('filters.ilevel.max', function() {
@@ -65,6 +69,8 @@ function wlfgFilterIlevel($stateParams, $location) {
             } else {
                 $location.search('ilevel_max', null);
             }
+
+            $scope.$parent.loading = true;
         });
     }
 }

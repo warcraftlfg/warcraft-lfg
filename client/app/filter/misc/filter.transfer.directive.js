@@ -33,7 +33,7 @@ function wlfgFilterTransfer($stateParams, $location) {
                 $location.search('transfert', null);
             }
 
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $scope.$parent.loading = true;
         });
     }
 }

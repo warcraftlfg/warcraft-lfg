@@ -46,7 +46,7 @@ function wlfgFilterDay($translate, $stateParams, $location) {
         $scope.filters.states.days = true;
 
         $scope.$watch('filters.days', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
@@ -61,7 +61,7 @@ function wlfgFilterDay($translate, $stateParams, $location) {
                 $location.search('days', null);
             }
 
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $scope.$parent.loading = true;
         },true);
 
         $scope.resetDays = function() {

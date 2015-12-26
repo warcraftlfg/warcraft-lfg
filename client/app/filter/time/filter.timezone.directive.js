@@ -32,7 +32,7 @@ function wlfgFilterTimezone($stateParams, $location, TIMEZONES) {
                 $location.search('timzeone', null);
             }
 
-            //socket.emit('get:characterAds',$scope.filters, true);
+            $scope.$parent.loading = true;
         });
     }
 }

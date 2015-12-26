@@ -32,7 +32,7 @@ function wlfgFilterProgress($stateParams, $location) {
         $scope.filters.states.progress = true;
 
         $scope.$watch('filters.progress.active', function() {
-            if($scope.$parent.loading || $scope.loading) {
+            if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
@@ -43,6 +43,8 @@ function wlfgFilterProgress($stateParams, $location) {
             } else {
                 $location.search('progress_active', true);
             }
+
+            $scope.$parent.loading = true;
         });
 
         $scope.$watch('filters.progress.kill', function() {
@@ -55,6 +57,8 @@ function wlfgFilterProgress($stateParams, $location) {
             } else {
                 $location.search('progress_kill', null);
             }
+
+            $scope.$parent.loading = true;
         });
 
         $scope.$watch('filters.progress.difficulty', function() {
@@ -68,6 +72,7 @@ function wlfgFilterProgress($stateParams, $location) {
                 $location.search('progress_difficulty', null);
             }
 
+            $scope.$parent.loading = true;
         });
     }
 }
