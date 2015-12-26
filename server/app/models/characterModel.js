@@ -310,14 +310,14 @@ module.exports.getAds = function(number, filters, callback){
         "bnet.progression.raids":{$slice:-1},
         "warcraftLogs.logs":1
 
-    }, number, {"ad.updated":-1}, function(error,characters){
+    }, number, {"ad.updated":-1}, {"ad.lfg":1},function(error,characters){
         callback(error, characters);
     });
 };
 
 module.exports.getLastAds = function(callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters",{"ad.lfg":true} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1}, function(error,characters){
+    database.find("characters",{"ad.lfg":true} , {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1}, 5, {"ad.updated":-1},{"ad.lfg":1}, function(error,characters){
         callback(error, characters);
     });
 };
@@ -339,7 +339,7 @@ module.exports.deleteOldAds = function(timestamp,callback){
 
 module.exports.getUserAds = function(id,callback){
     var database = applicationStorage.getMongoDatabase();
-    database.find("characters", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, 0, {"ad.updated":-1}, function(error,ads){
+    database.find("characters", {id:id, "ad.lfg":{$exists:true}}, {name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1}, 0, {"ad.updated":-1},{"ad.lfg":1}, function(error,ads){
         callback(error, ads);
     });
 };
@@ -368,7 +368,7 @@ module.exports.search = function(search, callback) {
     var database = applicationStorage.getMongoDatabase();
     database.find("characters", {
         name:{$regex:"^"+search+".*",$options:"i"}
-    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{}, function(error,result){
+    }, {name:1,realm:1,region:1,"bnet.class":1}, 9,{},null, function(error,result){
         callback(error, result);
     });
 };
