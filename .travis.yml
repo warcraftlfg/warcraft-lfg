@@ -25,4 +25,4 @@ after_success:
   - ssh warcraftlfg@warcraftlfg.com 'cd warcraft-lfg;git pull;npm update;bower install;grunt prod'
 
 notifications:
-  slack: wowfinder:hVSvnbLduJjFQQhen6qwFrT2
+  slack: warcraftlfg:JV8vgwSfBUw1rSHCxlxlOUF3
