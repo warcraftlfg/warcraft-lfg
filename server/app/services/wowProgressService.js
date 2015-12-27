@@ -142,7 +142,6 @@ module.exports.insertWoWProgressCharacterAd = function(wowProgressCharacterAd,ca
 };
 
 module.exports.refreshAll = function(callback){
-
     var filters = {};
     filters.wowProgress = true;
     async.waterfall([

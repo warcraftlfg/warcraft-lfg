@@ -44,7 +44,7 @@ module.exports.getCharacterWithParams= function(region,realm,name,params,callbac
 }
 
 module.exports.getGuild = function(region,realm,name,callback){
-    var url=encodeURI("https://"+region+".api.battle.net/wow/guild/"+realm+"/"+name+"?fields=members&locale=en_GB&apikey="+config.oauth.bnet.client_id);
+    var url = encodeURI("https://"+region+".api.battle.net/wow/guild/"+realm+"/"+name+"?fields=members&locale=en_GB&apikey="+config.oauth.bnet.client_id);
     request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body));

@@ -65,11 +65,13 @@ var russianRealms = {
 
 module.exports.getGuildRank = function(region,realm,name,callback){
 
-    if(region.toLowerCase() == "eu" && russianRealms[realm])
+    if (region.toLowerCase() == "eu" && russianRealms[realm]) {
         realm = russianRealms[realm];
+    }
 
     realm = realm.split(" ").join("-");
     realm = realm.split("'").join("-");
+    realm.replace("-portugues", '');
 
     var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name+"/json_rank");
     request(url, function (error, response, body) {
@@ -77,11 +79,13 @@ module.exports.getGuildRank = function(region,realm,name,callback){
         if (!error && response.statusCode == 200) {
             callback(error,JSON.parse(body));
         }
-        else{
-            if(error)
+        else {
+            if (error) {
                 logger.error(error.message+" on fetching wowprogress api "+url);
-            else
+            }
+            else {
                 logger.warn("Error HTTP "+response.statusCode+" on fetching wowprogress api "+url);
+            }
             callback(new Error("BNET_API_ERROR"));
         }
     });
