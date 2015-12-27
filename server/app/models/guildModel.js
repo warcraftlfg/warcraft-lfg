@@ -545,7 +545,7 @@ module.exports.getAds = function (number,filters,callback) {
         if (filters.last) {
             var orSort = [];
             var tmp = {};
-            tmp["wowProgress.world_rank"] = {$lt:filters.last.ranking};
+            tmp["wowProgress.world_rank"] = {$gt:filters.last.ranking};
             orSort.push(tmp);
             tmp = {};
             tmp["wowProgress.world_rank"] = filters.last.ranking;
