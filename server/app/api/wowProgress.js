@@ -69,7 +69,7 @@ module.exports.getGuildRank = function(region,realm,name,callback){
         realm = russianRealms[realm];
     }
 
-    realm.replace(" (Português)", '');
+    realm = realm.replace(" (Português)", '');
     realm = realm.split(" ").join("-");
     realm = realm.split("'").join("-");
 
