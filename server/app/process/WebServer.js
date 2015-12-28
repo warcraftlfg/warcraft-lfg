@@ -31,8 +31,7 @@ var adapter = require('socket.io-redis');
  * @class WebServer
  * @constructor
  */
-function WebServer(){
-
+function WebServerProcess(){
 
 
     //Configuration
@@ -69,7 +68,7 @@ module.exports = WebServer;
  * Load Middlewares witch need to operate on each request
  * @param {Database} db The application database
  */
-WebServer.prototype.onDatabaseAvailable = function(db){
+WebServerProcess.prototype.onDatabaseAvailable = function(db){
 
 
     //Load sockets for socket.io messaging
@@ -130,7 +129,9 @@ WebServer.prototype.onDatabaseAvailable = function(db){
  *
  * @method startServer
  */
-WebServer.prototype.start = function(){
+WebServerProcess.prototype.start = function(){
+
+    logger.info("Starting WebServerProcess");
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
