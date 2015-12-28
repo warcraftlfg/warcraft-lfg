@@ -62,7 +62,7 @@ function WebServerProcess(){
 
 }
 
-module.exports = WebServer;
+module.exports = WebServerProcess;
 
 /**
  * Load Middlewares witch need to operate on each request

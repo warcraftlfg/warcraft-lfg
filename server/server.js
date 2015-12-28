@@ -26,7 +26,7 @@ var processes = [
     "AuctionUpdateProcess",
     "AdUpdateProcess",
     "GuildProgressUpdateProcess",
-    "WebServer"
+    "WebServerProcess"
 ];
 
 //Check if arguments are provided
@@ -66,7 +66,7 @@ if(process.argv.length > 2 ){
 
     // -ws start WebServer
     if(process.argv.indexOf("-ws")!=-1)
-        processes.push("WebServer");
+        processes.push("WebServerProcess");
 }
 
 //Initialize Logger
@@ -109,10 +109,12 @@ async.series([
     },
     // Start Processes
     function(callback){
-        async.forEach(processes,function(processName){
+        async.forEachSeries(processes,function(processName,callback){
             var obj = process.require("process/"+processName+".js");
             new obj().start();
+            callback();
+        },function(){
+            callback();
         });
-        callback();
     }
 ]);
