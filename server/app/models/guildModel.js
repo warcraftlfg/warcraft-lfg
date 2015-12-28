@@ -216,7 +216,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
     var reduce = function(key,values){
         var reduced = {timestamps:[]};
 
-        for(var idx=0;idx<values.length;idx++){
+        for(var idx = 0; idx < values.length; idx++){
             if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
                 var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
                 if ((key.difficulty == "mythic" && rosterLength >= 16) ||
