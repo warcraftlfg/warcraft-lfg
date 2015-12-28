@@ -264,7 +264,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             realm:realm,
             name:name
         },
-        {bossWeight:1,timestamp:1,source:1}
+        {bossWeight:1,timestamp:1,source:-1}
         , function(err,result) {
             callback(err,result);
         });
