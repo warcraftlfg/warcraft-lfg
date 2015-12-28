@@ -10,18 +10,8 @@
     "secret": "justbetweenyouandme"
   },
   "database": {
-    "mongodb": {
-      "host": "localhost",
-      "port": 27017,
-      "database": "warcraft-lfg",
-      "username": "",
-      "password": ""
-    },
-    "redis":{
-      "host:":"localhost",
-      "port": 6379,
-      "password": ""
-    }
+    "mongo": "mongodb://localhost/wow-finder",
+    "redis": "redis://localhost"
   },
   "logger": {
     "fileName": "logs/all.log",

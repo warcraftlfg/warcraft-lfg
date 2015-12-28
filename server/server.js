@@ -9,11 +9,12 @@ process.require = function(filePath){
 // Module dependencies
 var path = require("path");
 var async = require('async');
-var MongoDatabase = process.require("api/MongoDatabase.js");
-var RedisDatabase = process.require("api/RedisDatabase.js");
+var mongoose = require('mongoose');
+var redis = require("redis");
 var loggerAPI = process.require("api/logger.js");
 var applicationStorage = process.require("api/applicationStorage");
 
+//Load config file
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
@@ -77,33 +78,33 @@ async.series([
     // Establish a connection to the database
     function(callback) {
 
-        var mongoDb = new MongoDatabase(config.database.mongodb);
-        var redisDb = new RedisDatabase(config.database.redis);
         async.parallel([
                 function(callback){
-                    mongoDb.connect(function(error) {
-                        if (error) {
-                            logger.error(error.message);
-                            process.exit(0);
-                        }
-                        applicationStorage.setMongoDatabase(mongoDb);
-                        logger.debug("Mongodb connected");
+                    mongoose.connect(config.database.mongo);
+                    var db = mongoose.connection;
+                    db.on("error", function(error) {
+                       callback(error);
+                    });
+                    db.once("open", function() {
+                        logger.debug("Mongo connected");
                         callback();
                     });
                 },
                 function(callback) {
-                    redisDb.connect(function(error) {
-                        if (error) {
-                            logger.error(error.message);
-                            process.exit(0);
-                        }
-                        applicationStorage.setRedisDatabase(redisDb);
+                    var db = redis.createClient(config.database.redis);
+                    db.on("error", function (error) {
+                        callback(error);
+                    });
+
+                    db.on("ready", function () {
                         logger.debug("Redis connected");
                         callback();
                     });
                 }
             ],
-            function() {
+            function(error) {
+                if(error)
+                    return logger.error(error.message,error);
                 callback()
             });
     },
