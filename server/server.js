@@ -87,6 +87,7 @@ async.series([
                     });
                     db.once("open", function() {
                         logger.debug("Mongo connected");
+                        global.mongoose = db;
                         callback();
                     });
                 },
@@ -98,6 +99,7 @@ async.series([
 
                     db.on("ready", function () {
                         logger.debug("Redis connected");
+                        global.redis = db;
                         callback();
                     });
                 }

@@ -23,7 +23,7 @@ var characterSocket = process.require('sockets/characterSocket.js');
 var guildSocket = process.require('sockets/guildSocket.js');
 var redis = require('redis').createClient;
 var adapter = require('socket.io-redis');
-
+var redis = require('redis');
 
 /**
  * WebServer creates an HTTP server for the application,
@@ -33,9 +33,7 @@ var adapter = require('socket.io-redis');
  */
 function WebServerProcess(){
 
-
     //Configuration
-
     this.app = express();
 
     if(config.server.https){
