@@ -5,24 +5,16 @@
         .module('app.core')
         .controller('CoreController', Core);
 
-    Core.$inject = ['$scope','$translate','socket','wlfgAppTitle'];
+    Core.$inject = ['$scope','$translate','socket','wlfgAppTitle','User'];
 
-    function Core($scope,$translate,socket,wlfgAppTitle) {
+    function Core($scope,$translate,socket,wlfgAppTitle,User) {
         $scope.wlfgAppTitle = wlfgAppTitle;
 
         $scope.setLanguage = function (key){
             $translate.use(key);
         };
 
-        $scope.user = undefined;
-        
-        socket.on('get:user', function(user) {
-            $scope.user = user;
-        });
+        $scope.user = User.get();
 
-        socket.on('global:error', function(error) {
-            $scope.error = error;
-            $scope.loading=false;
-        });
     }
 })();

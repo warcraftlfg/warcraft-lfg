@@ -18,7 +18,7 @@ var applicationStorage = process.require("api/applicationStorage");
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
 
-var processes = [
+var processNames = [
     "GuildUpdateProcess",
     "CharacterUpdateProcess",
     "RealmUpdateProcess",
@@ -32,49 +32,50 @@ var processes = [
 
 //Check if arguments are provided
 if(process.argv.length > 2 ){
-    processes = [];
+    processNames = [];
+    // -ws start WebServerProcess (need to be first for socket.io)
+    if(process.argv.indexOf("-ws")!=-1)
+        processNames.push("WebServerProcess");
+
     // -gu start GuildUpdateProcess
     if(process.argv.indexOf("-gu")!=-1)
-        processes.push("GuildUpdateProcess");
+        processNames.push("GuildUpdateProcess");
 
     // -cu start CharacterUpdateProcess
     if(process.argv.indexOf("-cu")!=-1)
-        processes.push("CharacterUpdateProcess");
+        processNames.push("CharacterUpdateProcess");
 
     // -ru start RealmUpdateProcess
     if(process.argv.indexOf("-ru")!=-1)
-        processes.push("RealmUpdateProcess");
+        processNames.push("RealmUpdateProcess");
 
     // -wp start WowProgressUpdateProcess
     if(process.argv.indexOf("-wp")!=-1)
-        processes.push("WowProgressUpdateProcess");
+        processNames.push("WowProgressUpdateProcess");
 
     // -clean start CleanerProcess
     if(process.argv.indexOf("-clean")!=-1)
-        processes.push("CleanerProcess");
+        processNames.push("CleanerProcess");
 
     // -au start AuctionUpdateProcess
     if(process.argv.indexOf("-au")!=-1)
-        processes.push("AuctionUpdateProcess");
+        processNames.push("AuctionUpdateProcess");
 
     // -adu start AdUpdateProcess
     if(process.argv.indexOf("-adu")!=-1)
-        processes.push("AdUpdateProcess");
+        processNames.push("AdUpdateProcess");
 
     // -gpu start GuildProgressUpdateProcess
     if(process.argv.indexOf("-gpu")!=-1)
-        processes.push("GuildProgressUpdateProcess");
+        processNames.push("GuildProgressUpdateProcess");
 
-    // -ws start WebServer
-    if(process.argv.indexOf("-ws")!=-1)
-        processes.push("WebServerProcess");
 }
 
 //Initialize Logger
 var logger = loggerAPI.get("logger",config.logger);
 
 
-async.series([
+async.waterfall([
     // Establish a connection to the database
     function(callback) {
 
@@ -83,11 +84,11 @@ async.series([
                     mongoose.connect(config.database.mongo);
                     var db = mongoose.connection;
                     db.on("error", function(error) {
-                       callback(error);
+                        callback(error);
                     });
                     db.once("open", function() {
                         logger.debug("Mongo connected");
-                        global.mongoose = db;
+                        applicationStorage.mongoose = db;
                         callback();
                     });
                 },
@@ -99,25 +100,37 @@ async.series([
 
                     db.on("ready", function () {
                         logger.debug("Redis connected");
-                        global.redis = db;
+                        applicationStorage.redis = db;
                         callback();
                     });
                 }
             ],
             function(error) {
-                if(error)
-                    return logger.error(error.message,error);
-                callback()
+                callback(error)
             });
     },
-    // Start Processes
+    //Create instance of processes
     function(callback){
-        async.forEachSeries(processes,function(processName,callback){
+        var processes =  [];
+        async.forEachSeries(processNames,function(processName,callback){
             var obj = process.require("process/"+processName+".js");
-            new obj().start();
+            processes.push(new obj());
+            callback();
+        },function(){
+            callback(null,processes);
+        });
+    },
+    // Start Processes
+    function(processes,callback){
+        async.forEachSeries(processes,function(process,callback){
+            process.start();
             callback();
         },function(){
             callback();
         });
+
     }
-]);
+],function(error){
+    if(error)
+        logger.error(error);
+});

@@ -3,33 +3,32 @@
 //Module dependencies
 var passport = require("passport");
 var BnetStrategy = require("passport-bnet").Strategy;
-var userModel = process.require("models/userModel.js");
-var userService = process.require("services/userService.js");
+var userModel = process.require("users/userModel.js");
+var userService = process.require("users/userService.js");
 
 //Configuration
 var env = process.env.NODE_ENV || 'dev';
 var config = process.require('config/config.'+env+'.json');
 var logger = process.require("api/logger.js").get("logger");
 
-
 //Define Battlenet Oauth authentication strategy.
 passport.use(new BnetStrategy({
-        clientID: config.oauth.bnet.client_id,
-        clientSecret: config.oauth.bnet.client_secret,
+        clientID: config.oauth.bnet.clientID,
+        clientSecret: config.oauth.bnet.clientSecret,
         scope: "wow.profile",
-        callbackURL: config.oauth.bnet.callback_url
+        callbackURL: config.oauth.bnet.callbackURL
     },
+    /** @namespace profile.battletag */
     function(accessToken, refreshToken, profile, done) {
+        logger.verbose("%s connected",profile.battletag);
 
-        userModel.insertOrUpdate({id:profile.id,battleTag:profile.battletag, accessToken:accessToken},function(error,user){
+        var user = {id:profile.id,battleTag:profile.battletag, accessToken:accessToken};
+        userModel.update({id:profile.id},user,{runValidators:true,upsert:true},function(error){
             if(error){
-                logger.error(error.message);
+                logger.error(error);
                 return done(null,false);
             }
-            userService.importGuilds(user.id);
-            userService.updateCharactersId(user.id);
-            userService.updateGuildsId(user.id);
-            return done(null, user);
+            done(null, user);
         });
     }
 ));
@@ -37,20 +36,22 @@ passport.use(new BnetStrategy({
 // In order to support login sessions, Passport serialize and
 // deserialize user instances to and from the session.
 // Only the user ID is serialized to the session.
+//noinspection JSUnresolvedFunction
 passport.serializeUser(function(user, done) {
-
+    logger.silly("serializeUser id:%s battleTag:%s accessToken:%s",user.id,user.battleTag,user.accessToken);
     done(null, user.id);
 });
 
 // When subsequent requests are received, the ID is used to find
 // the user, which will be restored to req.user.
+//noinspection JSUnresolvedFunction
 passport.deserializeUser(function(id, done) {
-
-    userModel.findById(id,function(error,user){
+    logger.silly("deserializeUser for id:%s", id);
+    userModel.findOne({id:id},function(error,user){
         if(user)
             done(null,{id:user.id,battleTag:user.battleTag});
         else {
-            logger.error(error.message);
+            logger.error(error);
             done(null, false);
         }
     });

@@ -3,7 +3,7 @@
     "port": 3000,
     "https":{
       "key": "server/app/config/sslcert/server.key",
-      "crt": "server/app/config/sslcert/server.crt"
+      "cert": "server/app/config/sslcert/server.crt"
     }
   },
   "session": {
@@ -14,14 +14,14 @@
     "redis": "redis://localhost"
   },
   "logger": {
-    "fileName": "logs/all.log",
+    "folder": "logs",
     "level": "debug"
   },
   "oauth": {
     "bnet": {
-      "client_id": "",
-      "client_secret": "",
-      "callback_url": "https://localhost:3000/auth/bnet/callback"
+      "clientID": "",
+      "clientSecret": "",
+      "callbackURL": "https://localhost:3000/auth/bnet/callback"
     }
   },
   "warcraftLogs": {

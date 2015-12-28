@@ -6,15 +6,6 @@
  */
 
 
-var socketIo;
-
-
-
-
-module.exports.getSocketIo = function(){
-    return socketIo;
-};
-
-module.exports.setSocketIo = function(newsocketIo){
-    socketIo = newsocketIo;
-};
+exports.mongoose = null;
+exports.redis = null;
+exports.socketIo = null;

@@ -11,7 +11,7 @@ var config = process.require('config/config.'+env+'.json');
 var logger = process.require("api/logger.js").get("logger");
 
 module.exports.connect = function(){
-    var io = applicationStorage.getSocketIo();
+    var io = applicationStorage.socketIo;
 
     io.on('connection', function(socket) {
 

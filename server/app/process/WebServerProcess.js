@@ -1,8 +1,6 @@
 "use strict";
 
 //Module dependencies
-var env = process.env.NODE_ENV || "dev";
-var config = process.require("config/config."+env+".json");
 var path = require("path");
 var fs = require('fs');
 var http = require('http');
@@ -11,7 +9,7 @@ var express = require("express");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
-var MongoStore = require("connect-mongo")(session);
+var mongoStore = require("connect-mongo")(session);
 var passport = require("passport");
 var passportSocketIo = require("passport.socketio");
 var logger = process.require("api/logger.js").get("logger");
@@ -21,9 +19,11 @@ var globalSocket = process.require('sockets/globalSocket.js');
 var userSocket = process.require('sockets/userSocket.js');
 var characterSocket = process.require('sockets/characterSocket.js');
 var guildSocket = process.require('sockets/guildSocket.js');
-var redis = require('redis').createClient;
 var adapter = require('socket.io-redis');
-var redis = require('redis');
+
+//Load config file
+var env = process.env.NODE_ENV || "dev";
+var config = process.require("config/config."+env+".json");
 
 /**
  * WebServer creates an HTTP server for the application,
@@ -33,49 +33,24 @@ var redis = require('redis');
  */
 function WebServerProcess(){
 
-    //Configuration
     this.app = express();
 
     if(config.server.https){
         this.privateKey  = fs.readFileSync(config.server.https.key, 'utf8');
-        this.certificate = fs.readFileSync(config.server.https.crt, 'utf8');
+        this.certificate = fs.readFileSync(config.server.https.cert, 'utf8');
         this.server = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
     }
     else
         this.server = http.createServer(this.app);
 
     this.io = require('socket.io')(this.server);
-    applicationStorage.setSocketIo(this.io);
+    applicationStorage.socketIo= this.io;
 
     //Start redis for socket.io
-    if(config.database.redis){
-        if (config.database.redis.password){
-            var pub = redis(config.database.redis.port, config.database.redis.host, { auth_pass: config.database.redis.password });
-            var sub = redis(config.database.redis.port, config.database.redis.host, { detect_buffers: true, auth_pass: config.database.redis.password });
-            this.io.adapter(adapter({ pubClient: pub, subClient: sub }));
-        }
-        else
-            this.io.adapter(adapter({ host: config.database.redis.host, port: config.database.redis.port }));
-    }
+    this.io.adapter(adapter(applicationStorage.redis));
 
-}
-
-module.exports = WebServerProcess;
-
-/**
- * Load Middlewares witch need to operate on each request
- * @param {Database} db The application database
- */
-WebServerProcess.prototype.onDatabaseAvailable = function(db){
-
-
-    //Load sockets for socket.io messaging
-    globalSocket.connect();
-    userSocket.connect();
-    characterSocket.connect();
-    guildSocket.connect();
     //Create sessionStore inside Mongodb
-    var sessionStore =  new MongoStore({db: db.db});
+    var sessionStore =  new mongoStore({mongooseConnection: applicationStorage.mongoose});
 
     //Update Session store with opened database connection
     //Allowed server to restart without loosing any session
@@ -90,24 +65,14 @@ WebServerProcess.prototype.onDatabaseAvailable = function(db){
     this.app.use(cookieParser());
     this.app.use(bodyParser.urlencoded({extended: true}));
     this.app.use(bodyParser.json());
-    //passport Initialize : Need to be done after session settings DB
     this.app.use(passport.initialize());
     this.app.use(passport.session());
 
-    // Initialize passport (authentication manager)
-    process.require("middleware/passport.js");
 
-    //Create route for Oauth
-    this.app.get("/auth/bnet", passport.authenticate("bnet"));
-    this.app.get("/auth/bnet/callback", passport.authenticate("bnet", { successRedirect: "/",failureRedirect: "/" }));
+    //Initialize routes
+    this.app.use(process.require("users/router.js"));
 
-    //Create route for logout
-    this.app.get('/logout', function(req, res){
-        req.logout();
-        res.redirect('/');
-    });
-
-
+    //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
 
@@ -120,7 +85,11 @@ WebServerProcess.prototype.onDatabaseAvailable = function(db){
         success: function(data, accept){ accept();},
         fail: function(data, message, error, accept){ accept();}
     }));
-};
+
+}
+
+module.exports = WebServerProcess;
+
 
 /**
  * Starts the HTTP server.
@@ -130,6 +99,8 @@ WebServerProcess.prototype.onDatabaseAvailable = function(db){
 WebServerProcess.prototype.start = function(){
 
     logger.info("Starting WebServerProcess");
+
+
 
     // Start server
     var server = this.server.listen(config.server.port, function(){
