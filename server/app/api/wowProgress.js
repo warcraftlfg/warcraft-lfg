@@ -187,6 +187,7 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
                 }  else if (progress.boss == "Fel Lord Zakuun") {
                     progress.bossWeight = 9;
                 } else if (progress.boss == "Xhul&apos;horac") {
+                    progress.boss="Xhul'horac";
                     progress.bossWeight = 10;
                 } else if (progress.boss == "Mannoroth") {
                     progress.bossWeight = 11;

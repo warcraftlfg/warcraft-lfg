@@ -103,7 +103,7 @@ module.exports.update = function(region,realm,name,priority,callback){
                                 return callback(error);
                             }
                             callback();
-                            logger.info("Insert wowprogress kill "+progress.boss +" - "+progress.difficulty);
+                            logger.info("Insert/update wowprogress kill "+progress.boss +" - "+progress.difficulty);
                         });
                     }, function done() {
                         wowProgressAPI.getGuildRank(region,guild.realm, guild.name ,function(error, wowProgress) {
@@ -359,7 +359,7 @@ module.exports.getUserAds = function(id,callback){
 
 module.exports.deleteOldAds = function(callback){
     var timestamp = new Date().getTime();
-    var oldTimestamp = timestamp - (30 * 24 * 3600 * 1000);
+    var oldTimestamp = timestamp - (120 * 24 * 3600 * 1000);
     guildModel.deleteOldAds(oldTimestamp,function(error){
         if (error){
             logger.error(error.message);
