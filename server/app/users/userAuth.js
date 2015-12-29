@@ -3,13 +3,12 @@
 //Module dependencies
 var passport = require("passport");
 var BnetStrategy = require("passport-bnet").Strategy;
+var applicationStorage = process.require("api/applicationStorage");
 var userModel = process.require("users/userModel.js");
 var userService = process.require("users/userService.js");
 
-//Configuration
-var env = process.env.NODE_ENV || 'dev';
-var config = process.require('config/config.'+env+'.json');
-var logger = process.require("api/logger.js").get("logger");
+var config = applicationStorage.config;
+var logger = applicationStorage.logger;
 
 //Define Battlenet Oauth authentication strategy.
 passport.use(new BnetStrategy({
@@ -30,13 +29,28 @@ passport.use(new BnetStrategy({
             }
             done(null, user);
         });
+
+        //Set user's guilds to Update
+        userService.setGuildsToUpdate(user.id,function(error){
+            if (error)
+                logger.error(error);
+        });
+
+        //Set user's id on guild ad
+        userService.updateGuildsId(user.id,function(error){
+            if (error)
+                logger.error(error);
+        });
+
+        //Set user's id on characters ad
+        //TODO set user's id on characters ad
     }
 ));
 
 // In order to support login sessions, Passport serialize and
 // deserialize user instances to and from the session.
 // Only the user ID is serialized to the session.
-//noinspection JSUnresolvedFunction
+// noinspection JSUnresolvedFunction
 passport.serializeUser(function(user, done) {
     logger.silly("serializeUser id:%s battleTag:%s accessToken:%s",user.id,user.battleTag,user.accessToken);
     done(null, user.id);
@@ -44,7 +58,7 @@ passport.serializeUser(function(user, done) {
 
 // When subsequent requests are received, the ID is used to find
 // the user, which will be restored to req.user.
-//noinspection JSUnresolvedFunction
+// noinspection JSUnresolvedFunction
 passport.deserializeUser(function(id, done) {
     logger.silly("deserializeUser for id:%s", id);
     userModel.findOne({id:id},function(error,user){

@@ -10,7 +10,7 @@
     "secret": "justbetweenyouandme"
   },
   "database": {
-    "mongo": "mongodb://localhost/warcraft-lfg",
+    "mongo": "mongodb://localhost/warcraft-lfg-test",
     "redis": "redis://localhost"
   },
   "logger": {
@@ -19,8 +19,8 @@
   },
   "oauth": {
     "bnet": {
-      "clientID": "",
-      "clientSecret": "",
+      "clientID": "fakeClientID",
+      "clientSecret": "fakeClientSecret",
       "callbackURL": "https://localhost:3000/auth/bnet/callback"
     }
   },

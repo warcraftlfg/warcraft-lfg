@@ -11,74 +11,94 @@ var path = require("path");
 var async = require('async');
 var mongoose = require('mongoose');
 var redis = require("redis");
-var loggerAPI = process.require("api/logger.js");
+var winston = require("winston");
 var applicationStorage = process.require("api/applicationStorage");
+
+var ready = require('readyness');
+var started = ready.waitFor('started');
+
+
+var processNames = [];
+// -ws start WebServerProcess (need to be first for socket.io)
+if(process.argv.indexOf("-ws")!=-1)
+    processNames.push("WebServerProcess");
+
+// -gu start GuildUpdateProcess
+if(process.argv.indexOf("-gu")!=-1)
+    processNames.push("GuildUpdateProcess");
+
+// -cu start CharacterUpdateProcess
+if(process.argv.indexOf("-cu")!=-1)
+    processNames.push("CharacterUpdateProcess");
+
+// -ru start RealmUpdateProcess
+if(process.argv.indexOf("-ru")!=-1)
+    processNames.push("RealmUpdateProcess");
+
+// -wp start WowProgressUpdateProcess
+if(process.argv.indexOf("-wp")!=-1)
+    processNames.push("WowProgressUpdateProcess");
+
+// -clean start CleanerProcess
+if(process.argv.indexOf("-clean")!=-1)
+    processNames.push("CleanerProcess");
+
+// -au start AuctionUpdateProcess
+if(process.argv.indexOf("-au")!=-1)
+    processNames.push("AuctionUpdateProcess");
+
+// -adu start AdUpdateProcess
+if(process.argv.indexOf("-adu")!=-1)
+    processNames.push("AdUpdateProcess");
+
+// -gpu start GuildProgressUpdateProcess
+if(process.argv.indexOf("-gpu")!=-1)
+    processNames.push("GuildProgressUpdateProcess");
+
+//Start all process if no args are found
+if(processNames.length == 0 ) {
+    processNames = [
+        /*"GuildUpdateProcess",
+        "CharacterUpdateProcess",
+        "RealmUpdateProcess",
+        "WowProgressUpdateProcess",
+        "CleanerProcess",
+        "AuctionUpdateProcess",
+        "AdUpdateProcess",
+        "GuildProgressUpdateProcess",*/
+        "WebServerProcess"
+    ];
+}
 
 //Load config file
 var env = process.env.NODE_ENV || "dev";
 var config = process.require("config/config."+env+".json");
-
-var processNames = [
-    "GuildUpdateProcess",
-    "CharacterUpdateProcess",
-    "RealmUpdateProcess",
-    "WowProgressUpdateProcess",
-    "CleanerProcess",
-    "AuctionUpdateProcess",
-    "AdUpdateProcess",
-    "GuildProgressUpdateProcess",
-    "WebServerProcess"
-];
-
-//Check if arguments are provided
-if(process.argv.length > 2 ){
-    processNames = [];
-    // -ws start WebServerProcess (need to be first for socket.io)
-    if(process.argv.indexOf("-ws")!=-1)
-        processNames.push("WebServerProcess");
-
-    // -gu start GuildUpdateProcess
-    if(process.argv.indexOf("-gu")!=-1)
-        processNames.push("GuildUpdateProcess");
-
-    // -cu start CharacterUpdateProcess
-    if(process.argv.indexOf("-cu")!=-1)
-        processNames.push("CharacterUpdateProcess");
-
-    // -ru start RealmUpdateProcess
-    if(process.argv.indexOf("-ru")!=-1)
-        processNames.push("RealmUpdateProcess");
-
-    // -wp start WowProgressUpdateProcess
-    if(process.argv.indexOf("-wp")!=-1)
-        processNames.push("WowProgressUpdateProcess");
-
-    // -clean start CleanerProcess
-    if(process.argv.indexOf("-clean")!=-1)
-        processNames.push("CleanerProcess");
-
-    // -au start AuctionUpdateProcess
-    if(process.argv.indexOf("-au")!=-1)
-        processNames.push("AuctionUpdateProcess");
-
-    // -adu start AdUpdateProcess
-    if(process.argv.indexOf("-adu")!=-1)
-        processNames.push("AdUpdateProcess");
-
-    // -gpu start GuildProgressUpdateProcess
-    if(process.argv.indexOf("-gpu")!=-1)
-        processNames.push("GuildProgressUpdateProcess");
-
-}
-
-//Initialize Logger
-var logger = loggerAPI.get("logger",config.logger);
-
+var logger = null;
 
 async.waterfall([
+    //Load the config file
+    function(callback){
+        applicationStorage.config = config;
+        callback();
+    },
+    //Initialize the logger
+    function(callback){
+        logger = new (winston.Logger)({
+            level: config.logger.level,
+            transports: [
+                new (winston.transports.Console)(),
+                new (winston.transports.File)({
+                    filename: config.logger.folder+"/"+env+".log",
+                    maxsize : 104857600,
+                    zippedArchive: true
+                })
+            ]
+        });
+        applicationStorage.logger = logger;
+        callback();
+    },
     // Establish a connection to the database
     function(callback) {
-
         async.parallel([
                 function(callback){
                     mongoose.connect(config.database.mongo);
@@ -87,7 +107,7 @@ async.waterfall([
                         callback(error);
                     });
                     db.once("open", function() {
-                        logger.debug("Mongo connected");
+                        logger.verbose("Mongo connected");
                         applicationStorage.mongoose = db;
                         callback();
                     });
@@ -99,7 +119,7 @@ async.waterfall([
                     });
 
                     db.on("ready", function () {
-                        logger.debug("Redis connected");
+                        logger.verbose("Redis connected");
                         applicationStorage.redis = db;
                         callback();
                     });
@@ -123,14 +143,16 @@ async.waterfall([
     // Start Processes
     function(processes,callback){
         async.forEachSeries(processes,function(process,callback){
-            process.start();
-            callback();
-        },function(){
-            callback();
-        });
+            process.start(function(error){
+                callback(error);
+            });
 
+        },function(error){
+            callback(error);
+        });
     }
 ],function(error){
+    started();
     if(error)
         logger.error(error);
 });

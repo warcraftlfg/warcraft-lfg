@@ -12,23 +12,17 @@ var session = require("express-session");
 var mongoStore = require("connect-mongo")(session);
 var passport = require("passport");
 var passportSocketIo = require("passport.socketio");
-var logger = process.require("api/logger.js").get("logger");
-var compress = require('compression');
+var compression = require('compression');
 var applicationStorage = process.require('api/applicationStorage.js');
-var globalSocket = process.require('sockets/globalSocket.js');
-var userSocket = process.require('sockets/userSocket.js');
-var characterSocket = process.require('sockets/characterSocket.js');
-var guildSocket = process.require('sockets/guildSocket.js');
 var adapter = require('socket.io-redis');
 
-//Load config file
-var env = process.env.NODE_ENV || "dev";
-var config = process.require("config/config."+env+".json");
+var config = applicationStorage.config;
+var logger = applicationStorage.logger;
 
 /**
  * WebServer creates an HTTP server for the application,
  * which serves front and back end pages.
- * @class WebServer
+ * @class WebServerProcess
  * @constructor
  */
 function WebServerProcess(){
@@ -62,20 +56,19 @@ function WebServerProcess(){
         resave: true
     }));
 
+    this.app.use(compression());
     this.app.use(cookieParser());
     this.app.use(bodyParser.urlencoded({extended: true}));
     this.app.use(bodyParser.json());
     this.app.use(passport.initialize());
     this.app.use(passport.session());
 
-
-    //Initialize routes
-    this.app.use(process.require("users/router.js"));
+    //Initialize auth routes
+    this.app.use(process.require("users/userRouter.js"));
 
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
-
 
     this.io.use(passportSocketIo.authorize({
         cookieParser: cookieParser,
@@ -88,25 +81,19 @@ function WebServerProcess(){
 
 }
 
-module.exports = WebServerProcess;
-
-
 /**
  * Starts the HTTP server.
- *
- * @method startServer
+ * @method start
  */
-WebServerProcess.prototype.start = function(){
-
+WebServerProcess.prototype.start = function(callback){
     logger.info("Starting WebServerProcess");
-
-
-
     // Start server
     var server = this.server.listen(config.server.port, function(){
-        var protocol = config.server.https ? "HTTPS ": "HTTP"
+        var protocol = config.server.https ? "HTTPS ": "HTTP";
         logger.info("Server "+protocol+" listening on port %s", server.address().port);
+        callback();
     });
-
-
 };
+
+module.exports = WebServerProcess;
+

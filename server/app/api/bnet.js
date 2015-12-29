@@ -2,11 +2,10 @@
 
 //Module dependencies
 var request = require("request");
+var applicationStorage = process.require("api/applicationStorage.js");
 
-//Configuration
-var env = process.env.NODE_ENV || 'dev';
-var config = process.require('config/config.'+env+'.json');
-var logger = process.require("api/logger.js").get("logger");
+var config = applicationStorage.config;
+var logger = applicationStorage.logger;
 
 module.exports.getUserCharacters = function(region,accessToken,callback){
     var url = encodeURI("https://"+region+".api.battle.net/wow/user/characters?access_token="+accessToken);

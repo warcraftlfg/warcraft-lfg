@@ -1,6 +1,5 @@
 {
   "name": "warcraftlfg",
-  "version": "0.0.2",
   "description": "Guild & character recruitment tool for World of Warcraft",
   "private": true,
   "main": "server/app.js",
@@ -49,6 +48,7 @@
     "jit-grunt": "*",
     "load-grunt-config": "*",
     "mocha": "*",
+    "readyness": "^0.1.0",
     "socket.io-client": "*"
   },
   "scripts": {
@@ -57,6 +57,6 @@
     "postinstall": "bower install",
     "prestart": "grunt prod"
   },
-  "author": "Bmagic <baptiste.routhieau@gmail.com>",
+  "author": "The WarcraftLFG Team <warcraftlfg@gmail.com>",
   "license": "AGPL-3.0"
 }

@@ -1,14 +1,13 @@
 "use strict";
 
 //Module dependencies
+var applicationStorage = process.require("api/applicationStorage");
 var bnetAPI = process.require("api/bnet.js");
 var realmModel = process.require("models/realmModel.js");
 var async = require("async");
 
-//Configuration
-var env = process.env.NODE_ENV || 'dev';
-var config = process.require('config/config.'+env+'.json');
-var logger = process.require("api/logger.js").get("logger");
+var config = applicationStorage.config;
+var logger = applicationStorage.logger;
 
 
 module.exports.importRealms = function(callback){
