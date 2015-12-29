@@ -10,10 +10,6 @@ var updateService = process.require("updates/updateService.js");
 var config = applicationStorage.config;
 var logger = applicationStorage.logger;
 
-module.exports.upsert = function(){
-
-};
-
 /**
  * Put the user's guilds in the update list with priority 0
  * @param id : Battlenet Id of the user

@@ -49,7 +49,8 @@
     "load-grunt-config": "*",
     "mocha": "*",
     "readyness": "^0.1.0",
-    "socket.io-client": "*"
+    "socket.io-client": "*",
+    "sinon":"*"
   },
   "scripts": {
     "start": "node server/server.js",
