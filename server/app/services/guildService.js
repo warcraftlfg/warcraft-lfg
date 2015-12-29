@@ -330,7 +330,7 @@ module.exports.getUserAds = function(id,callback){
 
 module.exports.deleteOldAds = function(callback){
     var timestamp = new Date().getTime();
-    var oldTimestamp = timestamp - (30 * 24 * 3600 * 1000);
+    var oldTimestamp = timestamp - (120 * 24 * 3600 * 1000);
     guildModel.deleteOldAds(oldTimestamp,function(error){
         if (error){
             logger.error(error.message);
