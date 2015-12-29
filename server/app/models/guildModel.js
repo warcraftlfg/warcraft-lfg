@@ -216,19 +216,30 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
     var reduce = function(key,values){
         var reduced = {timestamps:[]};
 
-        for(var idx=0;idx<values.length;idx++){
-            if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
-                var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
-                if ((key.difficulty == "mythic" && rosterLength >= 16) ||
-                    ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8))
-                    reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
-                idx++;
-            }
-            else {
-                if (values[idx].roster &&
-                    ((key.difficulty == "mythic" && values[idx].roster.length >= 16) ||
-                    ((key.difficulty == "normal" || key.difficulty == "heroic") && values[idx].roster.length >= 8 )))
+        for(var idx = 0; idx < values.length; idx++){
+            if(values[idx].source == "wowprogress"){
+                if(idx < values.length && values[idx].timestamp + 1000 >= values[idx + 1].timestamp){
+                    //DO nothing we have already progress kill near wowprogress kill
+                }
+                else {
                     reduced.timestamps.push([values[idx].timestamp]);
+                }
+
+            }
+            else if(values[idx].source == "progress"){
+                if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
+                    var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
+                    if ((key.difficulty == "mythic" && rosterLength >= 16) ||
+                        ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8))
+                        reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
+                    idx++;
+                }
+                else {
+                    if (values[idx].roster &&
+                        ((key.difficulty == "mythic" && values[idx].roster.length >= 16) ||
+                        ((key.difficulty == "normal" || key.difficulty == "heroic") && values[idx].roster.length >= 8 )))
+                        reduced.timestamps.push([values[idx].timestamp]);
+                }
             }
         }
 
@@ -253,7 +264,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             realm:realm,
             name:name
         },
-        {bossWeight:1,timestamp:1,source:1}
+        {bossWeight:1,timestamp:1,source:-1}
         , function(err,result) {
             callback(err,result);
         });
@@ -353,7 +364,7 @@ module.exports.get = function(region,realm,name,callback){
 };
 
 module.exports.getAds = function (number,filters,callback) {
-     var number = number || 10;
+    var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.lfg":true};
     var filters = filters || {};
