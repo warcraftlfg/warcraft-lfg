@@ -139,7 +139,7 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
             pattern = /data-ts="([^"]*)"[^>]*>[^<]*<\/span>|style="white-space:nowrap"[^>]*>([^<]*)<\/span>/gi;
             while (array = pattern.exec(tables)) {
                 if (array[1]) {
-                    array[1] = parseInt(array[1] * 1000);
+                    array[1] = parseInt(array[1]) * 1000;
                     timestamps.push(array[1]);
                 } else {
                     array = array[2].split(' ');
