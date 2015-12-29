@@ -24,6 +24,10 @@ describe("Server Init",function() {
         assert.isNotNull(applicationStorage.redis);
         done();
     });
+    it("Should have socketIo", function (done) {
+        assert.isNotNull(applicationStorage.socketIo);
+        done();
+    });
     it("Should listen on /", function (done) {
         var protocol = "http";
         if (applicationStorage.config.server.https)

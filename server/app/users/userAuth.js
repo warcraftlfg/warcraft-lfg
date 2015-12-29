@@ -22,7 +22,7 @@ passport.use(new BnetStrategy({
         logger.verbose("%s connected",profile.battletag);
 
         var user = {id:profile.id,battleTag:profile.battletag, accessToken:accessToken};
-        userModel.update({id:profile.id},user,{runValidators:true,upsert:true},function(error){
+        userModel.upsert({id:profile.id},user,function(error){
             if(error){
                 logger.error(error);
                 return done(null,false);
