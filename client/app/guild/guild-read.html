@@ -254,9 +254,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                    {{ guild.progress}}
-                    </div>
                     <div class="col-md-6">
                         <table class="table table-condensed" ng-repeat="raid in guild.progress | limitTo:-1">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:7">
