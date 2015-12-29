@@ -179,7 +179,7 @@ MongoDatabase.prototype.mapReduce = function(collection, map, reduce, finalize, 
     var collection = this.db.collection(collection);
     var criteria = criteria || {};
 
-    collection.mapReduce(map,reduce,{out:out,finalize:finalize,query:criteria,sort:sort},function(err,result){
+    collection.mapReduce(map, reduce, {out:out, finalize:finalize, query:criteria, sort:sort}, function(err, result) {
         if(err){
             logger.error(err.message);
             err = new Error("DATABASE_ERROR");
