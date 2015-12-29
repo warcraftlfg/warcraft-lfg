@@ -32,7 +32,7 @@ module.exports.insertOrUpdate = function (region,realm,name,priority,callback) {
     region = region.toLowerCase();
 
     //Create or update guildProgressUpdate
-    database.setUpdate('gpu',priority,region+'_'+realm+'_'+name,{region:region,realm:realm,name:name,priority:priority},function(error,result){
+    database.setUpdate('gpu', priority, region+'_'+realm+'_'+name, {region:region,realm:realm,name:name,priority:priority}, function(error,result) {
         callback(error);
     });
 };
