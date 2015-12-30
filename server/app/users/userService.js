@@ -7,6 +7,7 @@ var bnetAPI = process.require("api/bnet.js");
 var userModel = process.require("users/userModel.js");
 var updateModel = process.require("updates/updateModel.js");
 var guildService = process.require("guilds/guildService.js");
+var characterService = process.require("characters/characterService.js");
 
 /**
  * Put the user's guilds in the update list with priority 0
@@ -64,9 +65,12 @@ module.exports.updateGuildsId = function(id){
             },
             function(guilds,callback){
                 async.each(guilds,function(guild,callback){
-                    guildService.setId(guild.region,guild.realm,guild.name,id,function(error){
-                        logger.verbose("Set id %s to guild %s-%s-%s",id,region,guild.realm,guild.name);
-                        callback(error);
+                    guildService.setId(region,guild.realm,guild.name,id,function(error){
+                        if(!error)
+                            logger.verbose("Set id %s to guild %s-%s-%s",id,region,guild.realm,guild.name);
+                        else
+                            logger.error(error.message);
+                        callback();
                     });
                 },function(error){
                     callback(error);
@@ -85,7 +89,36 @@ module.exports.updateGuildsId = function(id){
  * @param id
  */
 module.exports.updateCharactersId = function(id){
-
+    var config = applicationStorage.config;
+    var logger = applicationStorage.logger;
+    var self = this;
+    //noinspection JSUnresolvedVariable
+    async.each(config.bnetRegions,function(region,callback){
+        async.waterfall([
+            function(callback){
+                self.getCharacters(region, id, function (error, characters) {
+                    callback(error, characters);
+                });
+            },
+            function(characters,callback){
+                async.each(characters,function(character,callback){
+                    characterService.setId(region,character.realm,character.name,id,function(error){
+                        if(!error)
+                            logger.verbose("Set id %s to character %s-%s-%s",id,region,character.realm,character.name);
+                        else
+                            logger.error(error.message);
+                        callback();
+                    });
+                },function(error){
+                    callback(error);
+                });
+            }
+        ],function(error){
+            if(error)
+                logger.error(error.message);
+            callback();
+        });
+    });
 };
 
 /**

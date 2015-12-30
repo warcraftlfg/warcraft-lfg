@@ -36,6 +36,29 @@ describe("bnet",function() {
             });
         });
     });
+    describe("bnet.getCharacter",function() {
+        it("It should return a character", function (done) {
+            sandbox.stub(bnetAPI, "requestBnetApi", function (region,endUrl, callback) {
+                callback(null, {realm: "fakeRealm", name: "fakeName"});
+            });
+            bnetAPI.getCharacter("fakeRegion", "fakeRealm", "fakeName", [], function (error, character) {
+                assert.equal(character.realm, "fakeRealm");
+                assert.equal(character.name, "fakeName");
+                done();
+            });
+        });
+        it("It should return an error", function (done) {
+            sandbox.stub(bnetAPI, "requestBnetApi", function (region, endUrl, callback) {
+                callback(new Error("Fake Error"));
+            });
+            bnetAPI.getCharacter("fakeRegion", "fakeRealm", "fakeName", [], function (error, guild) {
+                assert.isNotNull(error);
+                assert.isUndefined(guild);
+                assert.equal(error.message,"Fake Error");
+                done();
+            });
+        });
+    });
     describe("bnet.getUserCharacters",function() {
         it("It should return a guild", function (done) {
             sandbox.stub(bnetAPI, "requestBnetApi", function (region, endUrl, callback) {
@@ -82,7 +105,7 @@ describe("bnet",function() {
                 done();
             });
         });
-        it("It should return a BNET_HTTP_ERROR", function (done) {
+        it("It should return an Error", function (done) {
             sandbox.stub(request, "get", function (params, callback) {
                 callback(new Error("Fake Error"));
             });

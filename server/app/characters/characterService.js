@@ -2,11 +2,11 @@
 
 var async = require("async");
 var applicationStorage = process.require("api/applicationStorage.js");
-var guildModel = process.require("guilds/guildModel.js");
+var characterModel = process.require("characters/characterModel.js");
 var bnetAPI = process.require("api/bnet.js");
 
 /**
- * Sanitize and set the user's id to the guild
+ * Sanitize and set the user's id to the character
  * @param region
  * @param realm
  * @param name
@@ -16,14 +16,14 @@ var bnetAPI = process.require("api/bnet.js");
 module.exports.setId = function(region,realm,name,id,callback){
     async.waterfall([
         function(callback){
-            bnetAPI.getGuild(region,realm,name,[],function(error,guild){
-                callback(error,guild);
+            bnetAPI.getCharacter(region,realm,name,[],function(error,character){
+                callback(error,character);
             });
         },
-        function(guild,callback){
-            guildModel.upsert(
-                {region:region,realm:guild.realm,name:guild.name},
-                {$set:{region:region,realm:guild.realm,name:guild.name},$addToSet: {id: id}},
+        function(character,callback){
+            characterModel.upsert(
+                {region:region,realm:character.realm,name:character.name},
+                {region:region,realm:character.realm,name:character.name,id:id},
                 function(error){
                     callback(error);
                 });

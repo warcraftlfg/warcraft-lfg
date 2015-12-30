@@ -23,6 +23,21 @@ module.exports.getGuild = function(region,realm,name,params,callback){
 };
 
 /**
+ * Get character information on Bnet API
+ * @param region
+ * @param realm
+ * @param name
+ * @param params
+ * @param callback
+ */
+module.exports.getCharacter = function(region,realm,name,params,callback){
+    var endUrl = "wow/character/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.clientID;
+    this.requestBnetApi(region,endUrl,function(error,statusCode){
+        callback(error,statusCode);
+    });
+};
+
+/**
  * Get user's characters on the Bnet API
  * @param region
  * @param accessToken
@@ -69,13 +84,13 @@ module.exports.requestBnetApi = function(region,endUrl,callback){
 
 
 
-
+/*
 module.exports.getCharacter = function(region,realm,name,callback){
     var params = ["guild","items","progression","talents","achievements","statistics","challenge","pvp","reputation","stats"];
     this.getCharacterWithParams(region,realm,name,params,function(error,results){
         callback(error,results);
     });
-};
+};*/
 
 module.exports.getCharacterWithParams= function(region,realm,name,params,callback){
     var url = encodeURI("https://"+region+".api.battle.net/wow/character/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.client_id);
@@ -156,7 +171,7 @@ module.exports.getAuctions = function(region,realm,callback){
         }
     });
 };
-
+/*
 function getCharacter(url,callback){
     request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -180,7 +195,7 @@ function getCharacter(url,callback){
             return callback(new Error("BNET_API_ERROR"));
         }
     });
-}
+}*/
 
 
 

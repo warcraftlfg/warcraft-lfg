@@ -37,7 +37,7 @@ passport.use(new BnetStrategy({
         userService.updateGuildsId(user.id);
 
         //Set user's id on characters ad
-        //TODO set user's id on characters ad
+        userService.updateCharactersId(user.id);
     }
 ));
 

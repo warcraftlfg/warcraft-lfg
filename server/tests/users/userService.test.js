@@ -117,7 +117,12 @@ describe("userService",function() {
         });
 
     });
-
+    describe("userService.updateCharactersId",function() {
+        it("Should set fakeUserID in 4 Characters", function (done) {
+            //TODO Write test
+            done();
+        });
+    });
     describe("userService.getGuilds",function() {
         it("Should return two guilds", function (done) {
             sandbox.stub(userService, "getCharacters", function (region, id, callback) {
@@ -141,6 +146,7 @@ describe("userService",function() {
             });
             userService.getGuilds('fakeRegion','fakeUserID', function (error,guilds) {
                 assert.isNotNull(error);
+                assert.isUndefined(guilds);
                 assert.equal(error.message,"Fake Error");
                 done();
             });
