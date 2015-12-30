@@ -83,19 +83,22 @@ async.waterfall([
     },
     //Initialize the logger
     function(callback){
-        logger = new (winston.Logger)({
+
+        var transports = [new (winston.transports.File)({
+            filename: config.logger.folder+"/"+env+".log",
+            maxsize : 104857600,
+            zippedArchive: true
+        })];
+        if(env =="dev")
+            transports.push(new (winston.transports.Console)());
+
+        applicationStorage.logger = logger = new (winston.Logger)({
             level: config.logger.level,
-            transports: [
-                new (winston.transports.Console)(),
-                new (winston.transports.File)({
-                    filename: config.logger.folder+"/"+env+".log",
-                    maxsize : 104857600,
-                    zippedArchive: true
-                })
-            ]
+            transports: transports
         });
-        applicationStorage.logger = logger;
         callback();
+
+
     },
     // Establish a connection to the database
     function(callback) {

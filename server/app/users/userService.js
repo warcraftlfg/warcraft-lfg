@@ -5,17 +5,19 @@ var async = require("async");
 var applicationStorage = process.require("api/applicationStorage.js");
 var bnetAPI = process.require("api/bnet.js");
 var userModel = process.require("users/userModel.js");
-var updateService = process.require("updates/updateService.js");
-
-var config = applicationStorage.config;
-var logger = applicationStorage.logger;
+var updateModel = process.require("updates/updateModel.js");
+var guildService = process.require("guilds/guildService.js");
 
 /**
  * Put the user's guilds in the update list with priority 0
- * @param id : Battlenet Id of the user
+ * @param id
+ * @param callback
  */
-module.exports.setGuildsToUpdate = function(id,callback){
+module.exports.setGuildsToUpdate = function(id){
+    var config = applicationStorage.config;
+    var logger = applicationStorage.logger;
     var self=this;
+
     //noinspection JSUnresolvedVariable
     async.each(config.bnetRegions,function(region,callback){
         async.waterfall([
@@ -26,7 +28,8 @@ module.exports.setGuildsToUpdate = function(id,callback){
             },
             function(guilds,callback){
                 async.each(guilds,function(guild,callback){
-                    updateService.upsert('gu',region,guild.realm,guild.name,0,function(error){
+                    updateModel.upsert('gu',region,guild.realm,guild.name,0,function(error){
+                        logger.verbose("Set guild %s-%s-%s to update with priority %s",region,guild.realm,guild.name,0);
                         callback(error);
                     });
                 },function(error){
@@ -34,23 +37,25 @@ module.exports.setGuildsToUpdate = function(id,callback){
                 });
             }
         ],function(error){
-            callback(error);
+            if(error)
+                logger.error(error.message);
+            callback();
         });
-    },function(error){
-        callback(error);
     });
 };
 
 /**
- * Set battlenet id in guilds ad
+ * Set battlenet id on user's guild
  * @param id
+ * @param callback
  */
-module.exports.updateGuildsId = function(id,callback){
+module.exports.updateGuildsId = function(id){
+    var config = applicationStorage.config;
+    var logger = applicationStorage.logger;
     var self = this;
     //noinspection JSUnresolvedVariable
 
     async.each(config.bnetRegions,function(region,callback){
-
         async.waterfall([
             function(callback){
                 self.getGuilds(region, id, function (error, guilds) {
@@ -59,22 +64,29 @@ module.exports.updateGuildsId = function(id,callback){
             },
             function(guilds,callback){
                 async.each(guilds,function(guild,callback){
-                    //TODO setid  guildService.setId(region,guild.realm,guild.name,id,function(error){
-                    //logger.verbose("set user id %s to guild %s-%s-%s",id,region,guild.realm,guild.name);
-                    callback();
+                    guildService.setId(guild.region,guild.realm,guild.name,id,function(error){
+                        logger.verbose("Set id %s to guild %s-%s-%s",id,region,guild.realm,guild.name);
+                        callback(error);
+                    });
                 },function(error){
                     callback(error);
                 });
             }
         ],function(error){
-            callback(error);
+            if(error)
+                logger.error(error.message);
+            callback();
         });
-
-    },function(error){
-        callback(error);
     });
 };
 
+/**
+ * Set battlenet id on user's character
+ * @param id
+ */
+module.exports.updateCharactersId = function(id){
+
+};
 
 /**
  * Get the user's guilds from bnet
@@ -104,8 +116,8 @@ module.exports.getGuilds = function(region,id,callback){
                 callback(error,guildArray);
             });
         }
-    ],function(error,guildArray){
-        callback(error,guildArray);
+    ],function(error,guilds){
+        callback(error,guilds);
     });
 };
 

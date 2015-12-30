@@ -2,7 +2,8 @@ var assert = require("chai").assert;
 var sinon = require("sinon");
 var userModel = process.require("users/userModel.js");
 var userService = process.require("users/userService.js");
-var updateService = process.require("updates/updateService.js");
+var guildService = process.require("guilds/guildService.js");
+var updateModel = process.require("updates/updateModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var bnetAPI = process.require("api/bnet.js");
 
@@ -21,83 +22,98 @@ describe("userService",function() {
             var count = 0;
 
             sandbox.stub(userService, "getGuilds", function (region, id, callback) {
-                callback(null,[{region:"fakeRegion",realm:"fakeRealm",name:"fakeName"}]);
+                callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"}]);
             });
-            sandbox.stub(updateService, "upsert", function (type,region,realm,name,priority,callback){
+            sandbox.stub(updateModel, "upsert", function (type,region,realm,name,priority,callback){
                 count ++;
                 assert.equal(type,"gu");
                 assert.equal(priority,0);
                 callback();
+                if(count == 4)
+                    done();
             });
 
-            userService.setGuildsToUpdate('fakeUserID', function (error) {
-                assert.isNull(error);
-                assert.equal(count,applicationStorage.config.bnetRegions.length);
-                done();
-            });
+            userService.setGuildsToUpdate('fakeUserID');
         });
-        it("Should set 0 guild to update", function (done) {
+        it("Should get 3 guilds to update", function (done) {
             var count = 0;
 
             sandbox.stub(userService, "getGuilds", function (region, id, callback) {
-                callback(null,[]);
+                if(region == applicationStorage.config.bnetRegions[1])
+                    callback(new Error("Fake Error"));
+                else
+                    callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"}]);
             });
-            sandbox.stub(updateService, "upsert", function (type,region,realm,name,priority,callback){
+            sandbox.stub(updateModel, "upsert", function (type,region,realm,name,priority,callback){
                 count ++;
                 callback();
+                if(count == 3)
+                    done();
             });
 
-            userService.setGuildsToUpdate('fakeUserID', function (error) {
-                assert.isNull(error);
-                assert.equal(count,0);
-                done();
-            });
+            userService.setGuildsToUpdate('fakeUserID');
         });
-        it("Should get an error from userService.getGuilds", function (done) {
+        it("Should try to set 4 guilds to update", function (done) {
             var count = 0;
 
             sandbox.stub(userService, "getGuilds", function (region, id, callback) {
-                callback(new Error("Fake Error"));
+                callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"}]);
             });
-            sandbox.stub(updateService, "upsert", function (type,region,realm,name,priority,callback){
-                count ++;
-                callback();
-            });
-
-            userService.setGuildsToUpdate('fakeUserID', function (error) {
-                assert.isNotNull(error);
-                assert.equal(error.message,"Fake Error");
-                assert.equal(count,0);
-                done();
-            });
-        });
-        it("Should get an error from updateService.upsert", function (done) {
-            var count = 0;
-
-            sandbox.stub(userService, "getGuilds", function (region, id, callback) {
-                callback(null,[{region:"fakeRegion",realm:"fakeRealm",name:"fakeName"}]);
-            });
-            sandbox.stub(updateService, "upsert", function (type,region,realm,name,priority,callback){
+            sandbox.stub(updateModel, "upsert", function (type,region,realm,name,priority,callback){
                 count ++;
                 callback(new Error("Fake Error"));
+                if(count == 4)
+                    done();
             });
 
-            userService.setGuildsToUpdate('fakeUserID', function (error) {
-                assert.isNotNull(error);
-                assert.equal(error.message,"Fake Error");
-                done();
-            });
+            userService.setGuildsToUpdate('fakeUserID');
         });
     });
+
     describe("userService.updateGuildsId",function() {
         it("Should set fakeUserID in 4 guilds", function (done) {
+            var count = 0;
             sandbox.stub(userService, "getGuilds", function (region, id, callback) {
                 callback(null,[{region:"fakeRegion",realm:"fakeRealm",name:"fakeName"}]);
             });
-            userService.updateGuildsId('fakeUserID', function (error) {
-                assert.isNull(error);
-                done();
+            sandbox.stub(guildService, "setId", function (region,realm,name,id,callback) {
+                count ++;
+                callback(null);
+                if(count == 4)
+                    done();
             });
+            userService.updateGuildsId('fakeUserID');
+        });
+        it("Should set id to 3 guilds", function (done) {
+            var count = 0;
+
+            sandbox.stub(userService, "getGuilds", function (region, id, callback) {
+                if(region == applicationStorage.config.bnetRegions[1])
+                    callback(new Error("Fake Error"));
+                else
+                    callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"}]);
+            });
+            sandbox.stub(guildService, "setId", function (region,realm,name,id,callback) {
+                count ++;
+                callback();
+                if(count == 3)
+                    done();
+            });
+
+            userService.updateGuildsId('fakeUserID');
+        });
+        it("Should try to set id in 4 guilds", function (done) {
+            var count = 0;
+            sandbox.stub(userService, "getGuilds", function (region, id, callback) {
+                callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"}]);
+            });
+            sandbox.stub(guildService, "setId", function (region,realm,name,id,callback) {
+                count ++;
+                callback(new Error("Fake Error"));
+                if(count == 4)
+                    done();
+            });
+            userService.updateGuildsId('fakeUserID');
         });
 
     });

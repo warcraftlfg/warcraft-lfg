@@ -4,8 +4,7 @@
 var async = require("async");
 var applicationStorage = process.require("api/applicationStorage");
 
-var config = applicationStorage.config;
-var redis = applicationStorage.redis;
+
 
 /**
  * Insert or update an update into list
@@ -17,7 +16,8 @@ var redis = applicationStorage.redis;
  * @param callback
  */
 module.exports.upsert = function(type,region,realm,name,priority,callback){
-
+    var config = applicationStorage.config;
+    var redis = applicationStorage.redis;
     //Check for required attributes
     if(type == null)
         return callback(new Error('Field type is required in updateModel'));
@@ -29,6 +29,9 @@ module.exports.upsert = function(type,region,realm,name,priority,callback){
         return callback(new Error('Field name is required in updateModel'));
     if(priority == null)
         return callback(new Error('Field priority is required in updateModel'));
+    if(config.priorities.indexOf(priority)==-1)
+        return callback(new Error('Priority param is not set in config file'));
+
 
     //Force region to lower case
     region = region.toLowerCase();
@@ -49,6 +52,7 @@ module.exports.upsert = function(type,region,realm,name,priority,callback){
  * @param callback
  */
 module.exports.getUpdate = function(type,priority,callback) {
+    var redis = applicationStorage.redis;
     async.waterfall([
         function (callback) {
             //Get last value of the list
@@ -74,6 +78,8 @@ module.exports.getUpdate = function(type,priority,callback) {
  */
 module.exports.getNextUpdate = function(type,callback){
     var self = this;
+    var config = applicationStorage.config;
+
     /** @namespace config.priorities */
     async.eachSeries(config.priorities,function(priority,callback){
         self.getUpdate(type, priority, function (error, result) {
@@ -100,6 +106,7 @@ module.exports.getNextUpdate = function(type,callback){
  * @param callback
  */
 module.exports.getCount = function (type,priority,callback) {
+    var redis = applicationStorage.redis;
     redis.llen(type+"_"+priority,function(error,value){
         callback(error,value);
     });

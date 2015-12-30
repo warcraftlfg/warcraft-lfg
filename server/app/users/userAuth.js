@@ -24,23 +24,17 @@ passport.use(new BnetStrategy({
         var user = {id:profile.id,battleTag:profile.battletag, accessToken:accessToken};
         userModel.upsert({id:profile.id},user,function(error){
             if(error){
-                logger.error(error);
+                logger.error(error.message);
                 return done(null,false);
             }
             done(null, user);
         });
 
         //Set user's guilds to Update
-        userService.setGuildsToUpdate(user.id,function(error){
-            if (error)
-                logger.error(error);
-        });
+        userService.setGuildsToUpdate(user.id);
 
         //Set user's id on guild ad
-        userService.updateGuildsId(user.id,function(error){
-            if (error)
-                logger.error(error);
-        });
+        userService.updateGuildsId(user.id);
 
         //Set user's id on characters ad
         //TODO set user's id on characters ad
@@ -65,7 +59,7 @@ passport.deserializeUser(function(id, done) {
         if(user)
             done(null,{id:user.id,battleTag:user.battleTag});
         else {
-            logger.error(error);
+            logger.error(error.message);
             done(null, false);
         }
     });

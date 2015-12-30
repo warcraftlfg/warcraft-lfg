@@ -7,27 +7,69 @@ var applicationStorage = process.require("api/applicationStorage.js");
 var config = applicationStorage.config;
 var logger = applicationStorage.logger;
 
-module.exports.getUserCharacters = function(region,accessToken,callback){
-    var url = encodeURI("https://"+region+".api.battle.net/wow/user/characters?access_token="+accessToken);
-    request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            callback(error,JSON.parse(body).characters);
-        }
-        else {
-            if (error) {
-                logger.error(error.message + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR"));
-            }
-            if (response.statusCode == 403) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR_DENY"));
-            }
-
-            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
-            return callback(new Error("BNET_API_ERROR"));
-        }
-    })
+/**
+ * Get guild information on Bnet API
+ * @param region
+ * @param realm
+ * @param name
+ * @param params
+ * @param callback
+ */
+module.exports.getGuild = function(region,realm,name,params,callback){
+    var endUrl = "wow/guild/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.clientID;
+    this.requestBnetApi(region,endUrl,function(error,statusCode){
+        callback(error,statusCode);
+    });
 };
+
+/**
+ * Get user's characters on the Bnet API
+ * @param region
+ * @param accessToken
+ * @param callback
+ */
+module.exports.getUserCharacters = function(region,accessToken,callback){
+    var endUrl = "wow/user/characters?access_token="+accessToken;
+    this.requestBnetApi(region,endUrl,function(error,result){
+        callback(error,result && result.characters);
+    });
+};
+
+/**
+ * Request an URL and return result
+ * @param region
+ * @param endUrl
+ * @param callback
+ */
+module.exports.requestBnetApi = function(region,endUrl,callback){
+    var baseUrl = "https://"+region+".api.battle.net/"
+    var url = encodeURI(baseUrl+endUrl);
+    request.get({method:"GET",uri:url, gzip: true}, function (error, response, body) {
+        if (!error && response.statusCode == 200)
+            callback(null,JSON.parse(body));
+        else if(!error) {
+            var error = new Error("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+            error.name = "BNET_HTTP_ERROR";
+            error.statusCode = response.statusCode;
+            callback(error);
+        }
+        else
+            callback(error);
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports.getCharacter = function(region,realm,name,callback){
     var params = ["guild","items","progression","talents","achievements","statistics","challenge","pvp","reputation","stats"];
     this.getCharacterWithParams(region,realm,name,params,function(error,results){
@@ -37,36 +79,21 @@ module.exports.getCharacter = function(region,realm,name,callback){
 
 module.exports.getCharacterWithParams= function(region,realm,name,params,callback){
     var url = encodeURI("https://"+region+".api.battle.net/wow/character/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.client_id);
-    getCharacter(url,function(error,results){
-        callback(error,results);
+    getCharacter(url,function(error,result){
+        callback(error,result);
     });
 }
 
-module.exports.getGuild = function(region,realm,name,callback){
-    var url = encodeURI("https://"+region+".api.battle.net/wow/guild/"+realm+"/"+name+"?fields=members&locale=en_GB&apikey="+config.oauth.bnet.client_id);
-    request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            callback(error,JSON.parse(body));
-        }
-        else {
-            if (error) {
-                logger.error(error.message + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR"));
-            }
-            if (response.statusCode == 403) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR_DENY"));
-            }
-            if (response.statusCode == 404) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_GUILD_NOT_FOUND"));
-            }
 
-            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
-            return callback(new Error("BNET_API_ERROR"));
-        }
+
+
+
+module.exports.getGuildWithParams= function(region,realm,name,params,callback){
+    var url = encodeURI("https://"+region+".api.battle.net/wow/guild/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.client_id);
+    getGuild(url,function(error,results){
+        callback(error,results);
     });
-};
+}
 
 module.exports.getRealms = function(region,callback){
     var url=encodeURI("https://"+region+".api.battle.net/wow/realm/status?locale=en_GB&apikey="+config.oauth.bnet.client_id);
@@ -154,4 +181,6 @@ function getCharacter(url,callback){
         }
     });
 }
+
+
 
