@@ -1,6 +1,6 @@
 {
   "server": {
-    "port": 3000,
+    "port": 3001,
     "https":{
       "key": "server/app/config/sslcert/server.key",
       "cert": "server/app/config/sslcert/server.crt"

@@ -66,9 +66,26 @@ function WebServerProcess(){
     //Initialize auth routes
     this.app.use(process.require("users/userRouter.js"));
 
+    //Initialize api routes
+    this.app.use('/api',process.require("characters/characterRouter.js"));
+    this.app.use('/api',process.require("guilds/guildRouter.js"));
+
+
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
+
+    //Catch all error and log them
+    this.app.use(function(error, req, res, next) {
+        logger.error("Error on request %s - ",req.url,error);
+        res.status(error.statusCode).send();
+    });
+
+    //Log all other request and send 404
+    this.app.use(function(req, res) {
+        logger.error("Error 404 on request %s",req.url);
+        res.status(404).send();
+    });
 
     this.io.use(passportSocketIo.authorize({
         cookieParser: cookieParser,

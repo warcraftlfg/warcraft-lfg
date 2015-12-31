@@ -57,4 +57,38 @@ describe("guildService",function() {
             });
         });
     });
+    describe("guildService.find",function() {
+        it("Should get lasts guilds", function (done) {
+            var mockFind = {
+                sort: function () {
+                    return this;
+                },
+                limit: function () {
+                    return this;
+                },
+                exec: function (callback) {
+                    callback(null, [{region:"fakeRegion",realm:"fakeRealm",name:"fakeName"},{region:"fakeRegion2",realm:"fakeRealm2",name:"fakeName2"}]);
+                }
+            };
+            sandbox.stub(guildModel, "find").returns(mockFind);
+            guildService.find({},{},{},function (error,characters) {
+                assert.equal(characters.length,2);
+                assert.isNull(error);
+                done();
+            });
+        });
+    });
+    describe("guildService.count",function() {
+        it("Should get LFG guilds count", function (done) {
+            sandbox.stub(guildModel, "count",function (criteria, callback) {
+                callback(null,1);
+            });
+            guildService.count({},function (error,guildsCount) {
+                assert.equal(guildsCount,1);
+                assert.isNull(error);
+                done();
+            });
+        });
+    });
+
 });

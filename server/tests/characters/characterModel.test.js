@@ -54,4 +54,18 @@ describe("characterModel",function() {
             done();
         });
     });
+    it("Should get all the characters", function (done) {
+        characterModel.find({}).sort({}).limit(-1).exec(function(error,characters){
+            assert.isNull(error);
+            assert.isNotNull(characters);
+            done();
+        });
+    });
+    it("Should get the characters count", function (done) {
+        characterModel.count({},function(error,charactersCount){
+            assert.isNull(error);
+            assert.isNotNull(charactersCount);
+            done();
+        });
+    });
 });

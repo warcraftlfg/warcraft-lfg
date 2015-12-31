@@ -22,7 +22,7 @@ function logout(req, res){
  * @param req
  * @param res
  */
-function getUser(req,res){
+function getProfile(req,res){
     res.json(req.user);
 }
 
@@ -30,6 +30,6 @@ function getUser(req,res){
 router.get("/auth/bnet", passport.authenticate("bnet"));
 router.get("/auth/bnet/callback", passport.authenticate("bnet", { successRedirect: "/",failureRedirect: "/" }));
 router.get('/logout', logout);
-router.get("/user", getUser);
+router.get("/profile", getProfile);
 
 module.exports = router;

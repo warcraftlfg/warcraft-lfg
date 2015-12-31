@@ -3,6 +3,7 @@ var sinon = require("sinon");
 var userModel = process.require("users/userModel.js");
 var userService = process.require("users/userService.js");
 var guildService = process.require("guilds/guildService.js");
+var characterService = process.require("characters/characterService.js");
 var updateModel = process.require("updates/updateModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var bnetAPI = process.require("api/bnet.js");
@@ -102,15 +103,15 @@ describe("userService",function() {
 
             userService.updateGuildsId('fakeUserID');
         });
-        it("Should try to set id in 4 guilds", function (done) {
+        it("Should try to set id in 8 guilds", function (done) {
             var count = 0;
             sandbox.stub(userService, "getGuilds", function (region, id, callback) {
-                callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"}]);
+                callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"},{region:region,realm:"fakeRealm",name:"fakeName"}]);
             });
             sandbox.stub(guildService, "setId", function (region,realm,name,id,callback) {
                 count ++;
                 callback(new Error("Fake Error"));
-                if(count == 4)
+                if(count == 8)
                     done();
             });
             userService.updateGuildsId('fakeUserID');
@@ -118,9 +119,49 @@ describe("userService",function() {
 
     });
     describe("userService.updateCharactersId",function() {
-        it("Should set fakeUserID in 4 Characters", function (done) {
-            //TODO Write test
-            done();
+        it("Should set fakeUserID in 4 characters", function (done) {
+            var count = 0;
+            sandbox.stub(userService, "getCharacters", function (region, id, callback) {
+                callback(null,[{region:"fakeRegion",realm:"fakeRealm",name:"fakeName"}]);
+            });
+            sandbox.stub(characterService, "setId", function (region,realm,name,id,callback) {
+                count ++;
+                callback(null);
+                if(count == 4)
+                    done();
+            });
+            userService.updateCharactersId('fakeUserID');
+        });
+        it("Should set id to 3 characters", function (done) {
+            var count = 0;
+
+            sandbox.stub(userService, "getCharacters", function (region, id, callback) {
+                if(region == applicationStorage.config.bnetRegions[1])
+                    callback(new Error("Fake Error"));
+                else
+                    callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"}]);
+            });
+            sandbox.stub(characterService, "setId", function (region,realm,name,id,callback) {
+                count ++;
+                callback();
+                if(count == 3)
+                    done();
+            });
+
+            userService.updateCharactersId('fakeUserID');
+        });
+        it("Should try to set id in 8 characters", function (done) {
+            var count = 0;
+            sandbox.stub(userService, "getCharacters", function (region, id, callback) {
+                callback(null,[{region:region,realm:"fakeRealm",name:"fakeName"},{region:region,realm:"fakeRealm",name:"fakeName"}]);
+            });
+            sandbox.stub(characterService, "setId", function (region,realm,name,id,callback) {
+                count ++;
+                callback(new Error("Fake Error"));
+                if(count == 8)
+                    done();
+            });
+            userService.updateCharactersId('fakeUserID');
         });
     });
     describe("userService.getGuilds",function() {

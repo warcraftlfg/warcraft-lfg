@@ -54,4 +54,12 @@ describe("guildModel",function() {
             done();
         });
     });
+
+    it("Should get the guilds count", function (done) {
+        guildModel.count({},function(error,guildsCount){
+            assert.isNull(error);
+            assert.isNotNull(guildsCount);
+            done();
+        });
+    });
 });

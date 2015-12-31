@@ -13,7 +13,7 @@ Still in development
 * redis
 
 ###Download nodejs dependencies
-`npm install`
+    npm install
 
 ##SSL
 Generate Openssl Key & Cert. You need to specify their locations in config file.
@@ -25,9 +25,9 @@ Edit and configure app/config.default.json and rename it to config.dev.json
 2. You will need to setup a WarcraftLogs API key, which can be done from their [Settings page](https://www.warcraftlogs.com/accounts/changeuser) near the bottom
 
 ###Create index in mongodb
-`use YOURDATABASE`
-`db.characters.createIndex({"ad.lfg":1},{background:true,sparse:true})`
-`db.guilds.createIndex({"ad.lfg":1},{background:true,sparse:true})`
+    use YOURDATABASE
+    db.characters.createIndex({"ad.lfg":1},{background:true,sparse:true})  
+    db.guilds.createIndex({"ad.lfg":1},{background:true,sparse:true})
 
 ###Grunt Configuration
 If you need for production
@@ -38,5 +38,22 @@ If you need for dev
 
 ##Launch
 Then go to : `https://localhost:3000/`
+
+##API
+###Characters
+####URL
+/api/characters : get characters  
+/api/characters/count : get characters count
+####Parameters
+Use query params ? at the end of url to filter & sort query  
+lfg=true : Return only characters who looking for a guild
+###Guilds
+####URL
+/api/guilds : get guilds  
+/api/guilds/count : get guilds count  
+####Parameters
+Use query params ? at the end of url to filter & sort query  
+lfg=true : Return only characters who looking for a guild
+
 
 

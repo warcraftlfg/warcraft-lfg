@@ -57,4 +57,37 @@ describe("characterService",function() {
             });
         });
     });
+    describe("characterService.find",function() {
+        it("Should get last characters", function (done) {
+            var mockFind = {
+                sort: function () {
+                    return this;
+                },
+                limit: function () {
+                    return this;
+                },
+                exec: function (callback) {
+                    callback(null, [{region:"fakeRegion",realm:"fakeRealm",name:"fakeName"},{region:"fakeRegion2",realm:"fakeRealm2",name:"fakeName2"}]);
+                }
+            };
+            sandbox.stub(characterModel, "find").returns(mockFind);
+            characterService.find({},{},{},function (error,characters) {
+                assert.equal(characters.length,2);
+                assert.isNull(error);
+                done();
+            });
+        });
+    });
+    describe("characterService.count",function() {
+        it("Should get LFG characters count", function (done) {
+            sandbox.stub(characterModel, "count", function (criteria, callback) {
+                callback(null,1);
+            });
+            characterService.count({},function (error,charactersCount){
+                assert.equal(charactersCount,1);
+                assert.isNull(error);
+                done();
+            });
+        });
+    });
 });

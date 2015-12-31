@@ -22,6 +22,7 @@
          */
         'app.web',
         'app.filter',
+        'app.resource',
         'app.dashboard',
         'app.account',
         'app.character',

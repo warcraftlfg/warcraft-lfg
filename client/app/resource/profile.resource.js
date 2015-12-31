@@ -2,11 +2,11 @@
     'use strict';
 
     angular
-        .module('app.core')
-        .factory('User', User);
+        .module('app.resource')
+        .factory('profile', User);
 
     User.$inject = ['$resource'];
     function User($resource) {
-        return $resource('/user');
+        return $resource('/profile');
     }
 })();

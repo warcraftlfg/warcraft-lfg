@@ -5,8 +5,8 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','$state','$translate','socket','LANGUAGES',"wlfgAppTitle"];
-    function Dashboard($scope,$state,$translate,socket,LANGUAGES,wlfgAppTitle) {
+    Dashboard.$inject = ['$scope','$state','$translate','socket','LANGUAGES',"wlfgAppTitle","characters","guilds"];
+    function Dashboard($scope,$state,$translate,socket,LANGUAGES,wlfgAppTitle,characters,guilds) {
         wlfgAppTitle.setTitle('Home');
         
         $scope.$parent.loading = false;
@@ -42,21 +42,25 @@
         $scope.languages = LANGUAGES;
 
         //Initialize $scope variables
-        $scope.guilds = [];
-        $scope.characters = [];
+        var guildAdObj = guilds.query({lfg:true},function(){
+            $scope.guilds = guildAdObj.data;
+            $scope.guildAdCount = guildAdObj.count;
+        });
+        var characterAdObj = characters.query({lfg:true},function(){
+            $scope.characters = characterAdObj.data;
+            $scope.characterAdCount = characterAdObj.count;
+        });
+
+        //Initialize $scope variables
+        var guildsObj = guilds.query({number:0},function(){
+            $scope.guildCount = guildsObj.count;
+        });
+        var charactersObj = characters.query({number:0},function(){
+            $scope.characterCount = charactersObj.count;
+        });
+
+
         $scope.form = {type:"guild",region:"",language:"",realmZones:[]};
-
-
-        socket.emit('get:lastGuildAds');
-        socket.forward('get:lastGuildAds',$scope);
-        $scope.$on('socket:get:lastGuildAds',function(ev,guilds){
-            $scope.guilds=guilds;
-        });
-        socket.emit('get:lastCharacterAds');
-        socket.forward('get:lastCharacterAds',$scope);
-        $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
-            $scope.characters=characters;
-        });
 
         socket.emit('get:charactersCount');
         socket.forward('get:charactersCount',$scope);

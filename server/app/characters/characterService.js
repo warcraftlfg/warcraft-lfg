@@ -32,3 +32,27 @@ module.exports.setId = function(region,realm,name,id,callback){
         callback(error);
     });
 };
+
+/**
+ * Return the last characters
+ * @param criteria
+ * @param sort
+ * @param limit
+ * @param callback
+ */
+module.exports.find = function(criteria,sort,limit,callback){
+    characterModel.find(criteria,{name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1,"_id":0}).sort(sort).limit(limit).exec(function(error,characters){
+        callback(error,characters);
+    });
+};
+
+/**
+ * Return the number of characters LFG
+ * @param criteria
+ * @param callback
+ */
+module.exports.count = function(criteria,callback){
+    characterModel.count(criteria,function(error,guildLFGCount){
+        callback(error,guildLFGCount);
+    });
+};

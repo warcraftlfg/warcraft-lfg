@@ -1,9 +1,6 @@
-var it = require("mocha/mocha.js").it;
-var describe = require("mocha/mocha.js").describe;
 var assert = require("chai").assert;
 var request = require('request');
 var applicationStorage = process.require("api/applicationStorage");
-var userService = process.require("users/userService.js");
 
 describe("userRouter",function() {
     var protocol = "http";
@@ -11,7 +8,7 @@ describe("userRouter",function() {
         protocol = "https";
     var baseUrl = protocol+'://localhost:'+applicationStorage.config.server.port;
 
-    it("Should listen on /auth/bnet", function (done) {
+    /*it("Should listen on /auth/bnet", function (done) {
         this.timeout(5000);
         request.get({url:baseUrl+"/auth/bnet", rejectUnauthorized: false}, function (err, res){
             assert.isNull(err);
@@ -26,7 +23,7 @@ describe("userRouter",function() {
             assert.equal(res.statusCode,200);
             done();
         });
-    });
+    });*/
     it("Should listen on /logout", function (done) {
         request.get({url:baseUrl+"/logout", rejectUnauthorized: false}, function (err, res){
             assert.isNull(err);
@@ -34,8 +31,8 @@ describe("userRouter",function() {
             done();
         });
     });
-    it("Should listen on /user", function (done) {
-        request.get({url:baseUrl+"/user", rejectUnauthorized: false}, function (err, res, body){
+    it("Should listen on /profile", function (done) {
+        request.get({url:baseUrl+"/profile", rejectUnauthorized: false}, function (err, res, body){
             assert.isNull(err);
             assert.equal(res.statusCode,200);
             assert.equal(body,"");

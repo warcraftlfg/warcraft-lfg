@@ -32,3 +32,27 @@ module.exports.setId = function(region,realm,name,id,callback){
         callback(error);
     });
 };
+
+/**
+ * Return the last 5 guilds
+ * @param criteria
+ * @param sort
+ * @param limit
+ * @param callback
+ */
+module.exports.find = function(criteria,sort,limit,callback){
+    guildModel.find(criteria,{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1,"_id":0}).sort(sort).limit(limit).exec(function(error,guilds){
+        callback(error,guilds);
+    });
+};
+
+/**
+ * Return the number of guilds LFG
+ * @param criteria
+ * @param callback
+ */
+module.exports.count = function(criteria,callback){
+    guildModel.count(criteria,function(error,guildsCount){
+        callback(error,guildsCount);
+    });
+};
