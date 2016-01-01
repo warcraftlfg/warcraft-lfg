@@ -1,8 +1,10 @@
 "use strict";
 var async = require("async");
 var router = require("express").Router();
-var guildService = process.require("guilds/guildService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
+var guildService = process.require("guilds/guildService.js");
+var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
+var numberParam = process.require("params/numberParam.js");
 
 /**
  * Return characters
@@ -12,9 +14,12 @@ var applicationStorage = process.require("api/applicationStorage.js");
 function getGuilds(req,res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
-    var criteria = createGuildCriteria(req.query);
+
+    var criteria = {};
+    lfgCriteria.add(req.query,criteria);
+
     var sort = {'ad.updated':-1};
-    var limit = createLimit(req.query);
+    var limit = numberParam.get(req.query);
 
     async.parallel({
         guilds: function(callback){
@@ -42,31 +47,6 @@ function getGuilds(req,res) {
         res.json(results.guilds);
     });
 
-}
-
-/**
- * Build the mongo criteria from url parameters
- * @param queryParams
- * @returns {{}}
- */
-function createGuildCriteria(queryParams){
-    var criteria = {};
-    if(queryParams.lfg == 'true')
-        criteria['ad.lfg'] = true;
-    return criteria;
-}
-
-/**
- *
- * Get the limit of the request (max 10)
- * @param queryParams
- * @returns {number} max 10 default 5
- */
-function createLimit(queryParams){
-    if(queryParams.number)
-        return queryParams.number>10?10:queryParams.number;
-    else
-        return 5;
 }
 
 //Define routes

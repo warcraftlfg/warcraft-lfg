@@ -1,8 +1,8 @@
 "use strict";
-var async = require("async");
 var router = require("express").Router();
-var realmService = process.require("realms/realmService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
+var realmService = process.require("realms/realmService.js");
+var zoneCriteria =  process.require("params/criteria/zoneCriteria.js");
 
 /**
  * Return the realms
@@ -12,7 +12,8 @@ var applicationStorage = process.require("api/applicationStorage.js");
 function getRealms(req,res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
-    var criteria = createRealmCriteria(req.query);
+    var criteria = {};
+    zoneCriteria.add(req.query,criteria);
 
     realmService.find(criteria,function (error, realms) {
         if(error){
@@ -23,15 +24,6 @@ function getRealms(req,res) {
     });
 }
 
-/**
- * Build the mongo criteria from url parameters
- * @param queryParams
- * @returns {{}}
- */
-function createRealmCriteria(queryParams){
-    var criteria = {};
-    return criteria;
-}
 
 //Define routes
 router.get("/realms", getRealms);

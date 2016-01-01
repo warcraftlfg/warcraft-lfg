@@ -43,17 +43,20 @@ Then go to : `https://localhost:3000/`
 ###Characters
 ####URL
 /api/characters : get characters  
-/api/characters/count : get characters count
 ####Parameters
 Use query params ? at the end of url to filter & sort query  
 lfg=true : Return only characters who looking for a guild
 ###Guilds
 ####URL
 /api/guilds : get guilds  
-/api/guilds/count : get guilds count  
 ####Parameters
 Use query params ? at the end of url to filter & sort query  
 lfg=true : Return only characters who looking for a guild
-
+###Realms
+####URL
+/api/realms : get realms
+####Parameters
+Use query params ? at the end of url to filter & sort query
+zone=[region]--[locale]--[timezone] : Return only characters who looking for a guild
 
 

@@ -2,8 +2,10 @@
 
 var async = require("async");
 var router = require("express").Router();
-var characterService = process.require("characters/characterService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
+var characterService = process.require("characters/characterService.js");
+var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
+var numberParam = process.require("params/numberParam.js");
 
 /**
  * Return characters
@@ -13,9 +15,12 @@ var applicationStorage = process.require("api/applicationStorage.js");
 function getCharacters(req,res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
-    var criteria = createCharacterCriteria(req.query);
+
+    var criteria = {};
+    lfgCriteria.add(req.query,criteria);
+
     var sort = {'ad.updated':-1};
-    var limit = createLimit(req.query);
+    var limit = numberParam.get(req.query);
 
 
     async.parallel({
@@ -45,29 +50,7 @@ function getCharacters(req,res) {
     });
 
 }
-/**
- * Build the mongo criteria from url parameters
- * @param queryParams
- * @returns {{}}
- */
-function createCharacterCriteria(queryParams){
-    var criteria = {};
-    if(queryParams.lfg == 'true')
-        criteria['ad.lfg'] = true;
-    return criteria;
-}
 
-/**
- * Get the limit of the request
- * @param queryParams
- * @returns {number} max 10 default 5
- */
-function createLimit(queryParams){
-    if(queryParams.number)
-        return queryParams.number>10?10:queryParams.number;
-    else
-        return 5;
-}
 //Define routes
 router.get("/characters", getCharacters);
 
