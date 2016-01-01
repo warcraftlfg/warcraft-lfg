@@ -29,6 +29,7 @@ function warcraftLogs() {
             if (logs) {
                 var sortedLogs = {3:{0:[],'1':[],'2':[],'3':[]},4:{0:[],'1':[],'2':[],'3':[]},5:{0:[],'1':[],'2':[],'3':[]}};
                 var ratioFound = false;
+                
                 if (logs.dps) {
                     logs.dps.forEach(function (log) {
                         var ratio = 1-(log.rank/log.outOf);
