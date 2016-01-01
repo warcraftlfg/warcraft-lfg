@@ -169,7 +169,7 @@ module.exports.update = function(region,realm,name,callback) {
                     async.waterfall([
                         function(callback){
                             warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
-                                callback(error,warcraftLogs)
+                                callback(error, warcraftLogs)
                             });
                         },
                         function(warcraftLogs,callback) {
