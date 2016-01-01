@@ -54,6 +54,16 @@ function warcraftLogsInfo() {
                     });
                 }
 
+                if (!logs.dps && !logs.hps) {
+                    logs.forEach(function (log) {
+                        var ratio = 1-(log.rank/log.outOf);
+                        if (log.difficulty >= 3 && log.difficulty <= 5 ) {
+                            sortedLogs[log.difficulty][log.spec - 1].push(ratio);
+                            ratioFound = true;
+                        }
+                    });
+                }                
+
                 if (ratioFound) {
                     scope.warcraftLogs = {
                         5: {0: null, '1': null, '2': null, '3': null},
