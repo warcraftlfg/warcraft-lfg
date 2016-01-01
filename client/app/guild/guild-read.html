@@ -271,9 +271,9 @@
                                     <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">0</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[raid.mythic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[raid.heroic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[raid.normal[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[0][0]"></span>
                                     <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">&nbsp;</span>
                                 </td>
                             </tr>
@@ -296,9 +296,9 @@
                                     <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">0</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[raid.mythic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[raid.heroic[boss].timestamps.length-1][0]"></span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[raid.normal[boss].timestamps.length-1][0]"></span>
+                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[0][0]"></span>
                                     <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">&nbsp;</span>
                                 </td>
                             </tr>

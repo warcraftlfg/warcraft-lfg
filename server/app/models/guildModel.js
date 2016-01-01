@@ -182,23 +182,23 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
     var database = applicationStorage.getMongoDatabase();
 
 
-    if(config.bnet_regions.indexOf(region)==-1){
+    if (config.bnet_regions.indexOf(region) == -1){
         callback(new Error('Region '+ region +' is not allowed'));
         return;
     }
-    if(region == null){
+    if (region == null) {
         callback(new Error('Field region is required in GuildAdModel'));
         return;
     }
-    if(realm == null){
+    if (realm == null) {
         callback(new Error('Field realm is required in GuildAdModel'));
         return;
     }
-    if(name == null){
+    if (name == null) {
         callback(new Error('Field name is required in GuildAdModel'));
         return;
     }
-    if(raid == null){
+    if (raid == null) {
         callback(new Error('Field raid is required in GuildAdModel'));
         return;
     }
@@ -213,22 +213,36 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
         emit(key, mapped);
     };
 
-    var reduce = function(key,values){
+    var reduce = function(key, values){
         var reduced = {timestamps:[]};
 
-        for(var idx=0;idx<values.length;idx++){
-            if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
-                var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
-                if ((key.difficulty == "mythic" && rosterLength >= 16) ||
-                    ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8))
-                    reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
-                idx++;
-            }
-            else {
-                if (values[idx].roster &&
-                    ((key.difficulty == "mythic" && values[idx].roster.length >= 16) ||
-                    ((key.difficulty == "normal" || key.difficulty == "heroic") && values[idx].roster.length >= 8 )))
+        if (values && values[0] && values[0].timestamps) {
+            reduced = values[0];
+        }
+
+        for (var idx = 0; idx < values.length; idx++) {
+            if (values[idx].source == "wowprogress") {
+                if (idx < values.length && values[idx].timestamp + 1000 <= values[idx + 1].timestamp && values[idx + 1].source == "progress"){
+                    //Add only if no progress are found in + or - 1 sec of wowprogress entri
                     reduced.timestamps.push([values[idx].timestamp]);
+                }
+                else{
+                    reduced.timestamps.push([values[idx].timestamp]);
+                }
+            }
+            else if (values[idx].source == "progress") {
+                if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
+                    var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
+                    if ((key.difficulty == "mythic" && rosterLength >= 16) || ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8)) {
+                        reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
+                    }
+                    idx++;
+                }
+                else {
+                    if (values[idx].roster && ((key.difficulty == "mythic" && values[idx].roster.length >= 16) || ((key.difficulty == "normal" || key.difficulty == "heroic") && values[idx].roster.length >= 8 ))) {
+                        reduced.timestamps.push([values[idx].timestamp]);
+                    }
+                }
             }
         }
 
@@ -236,13 +250,14 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
         return reduced;
     };
 
-    var finalize = function(key,value){
-        if(value.timestamp){
-            if((key.difficulty == "mythic" && value.roster.length >=16 ) ||
-                ((key.difficulty == "normal" || key.difficulty =="heroic")&& value.roster.length >=8 ))
-                return {timestamps:[value.timestamp]};
-            else
+    var finalize = function(key, value){
+        if (value.timestamp) {
+            if ((key.difficulty == "mythic" && value.roster.length >=16 ) || ((key.difficulty == "normal" || key.difficulty =="heroic") && value.roster.length >=8) || value.source == "wowprogress") { 
+                return {timestamps:[[value.timestamp]]};
+            }
+            else {
                 return {timestamps:[]};
+            }
         }
         return value;
     };
@@ -253,7 +268,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
             realm:realm,
             name:name
         },
-        {bossWeight:1,timestamp:1,source:1}
+        {bossWeight:1, timestamp:1, source:-1}
         , function(err,result) {
             callback(err,result);
         });
@@ -353,7 +368,7 @@ module.exports.get = function(region,realm,name,callback){
 };
 
 module.exports.getAds = function (number,filters,callback) {
-     var number = number || 10;
+    var number = number || 10;
     var database = applicationStorage.getMongoDatabase();
     var criteria ={"ad.lfg":true};
     var filters = filters || {};
