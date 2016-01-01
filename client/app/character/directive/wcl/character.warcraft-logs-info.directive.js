@@ -28,9 +28,10 @@ function warcraftLogsInfo() {
 
         scope.$watch(attrs.wlfgWarcraftLogsInfo, function(logs){
             if (logs) {
+                var sortedLogs = {3:{0:[],'1':[],'2':[],'3':[]},4:{0:[],'1':[],'2':[],'3':[]},5:{0:[],'1':[],'2':[],'3':[]}};
+                var ratioFound = false;
+                
                 if (logs.dps) {
-                    var sortedLogs = {3:{0:[],'1':[],'2':[],'3':[]},4:{0:[],'1':[],'2':[],'3':[]},5:{0:[],'1':[],'2':[],'3':[]}};
-                    var ratioFound = false;
                     logs.dps.forEach(function (log) {
                         var ratio = 1-(log.rank/log.outOf);
                         if (log.difficulty >= 3 && log.difficulty <= 5 ) {
