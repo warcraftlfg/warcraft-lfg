@@ -10,11 +10,13 @@ describe("guildModel",function() {
         });
     });
 
-    it("Should get the guild with the id 0", function (done) {
+    it("Should get the guild", function (done) {
         guildModel.findOne({region:"fakeRegion",realm:"fakeRealm",name:"fakeName"},function(error,guild){
             assert.isNull(error);
             assert.isNotNull(guild);
-            assert.isNotNull(guild.id);
+            assert.equal(guild.region,"fakeRegion");
+            assert.equal(guild.realm,"fakeRealm");
+            assert.equal(guild.name,"fakeName");
             done();
         });
     });
@@ -46,7 +48,7 @@ describe("guildModel",function() {
         });
     });
 
-    it("Should get the guild with the id 1", function (done) {
+    it("Should get the guild", function (done) {
         guildModel.findOne({region:"fakeRegion",realm:"fakeRealm",name:"fakeName"},function(error,guild){
             assert.isNull(error);
             assert.isNotNull(guild);

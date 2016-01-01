@@ -69,6 +69,7 @@ function WebServerProcess(){
     //Initialize api routes
     this.app.use('/api',process.require("characters/characterRouter.js"));
     this.app.use('/api',process.require("guilds/guildRouter.js"));
+    this.app.use('/api',process.require("realms/realmRouter.js"));
 
 
     //Initialize static folders

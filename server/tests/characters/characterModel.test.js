@@ -10,11 +10,13 @@ describe("characterModel",function() {
         });
     });
 
-    it("Should get the character with the id 0", function (done) {
+    it("Should get the character", function (done) {
         characterModel.findOne({region:"fakeRegion",realm:"fakeRealm",name:"fakeName"},function(error,character){
             assert.isNull(error);
             assert.isNotNull(character);
-            assert.isNotNull(character.id);
+            assert.equal(character.region,"fakeRegion");
+            assert.equal(character.realm,"fakeRealm");
+            assert.equal(character.name,"fakeName");
             done();
         });
     });
@@ -46,7 +48,7 @@ describe("characterModel",function() {
         });
     });
 
-    it("Should get the character with the id 1", function (done) {
+    it("Should get the character", function (done) {
         characterModel.findOne({region:"fakeRegion",realm:"fakeRealm",name:"fakeName"},function(error,character){
             assert.isNull(error);
             assert.isNotNull(character);

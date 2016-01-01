@@ -5,7 +5,7 @@ var guildService = process.require("guilds/guildService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
 /**
- * Return the last characters
+ * Return characters
  * @param req
  * @param res
  */

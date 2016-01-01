@@ -6,7 +6,7 @@ var characterService = process.require("characters/characterService.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 
 /**
- * Return the last characters
+ * Return characters
  * @param req
  * @param res
  */

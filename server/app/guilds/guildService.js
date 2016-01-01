@@ -1,7 +1,6 @@
 "use strict";
 
 var async = require("async");
-var applicationStorage = process.require("api/applicationStorage.js");
 var guildModel = process.require("guilds/guildModel.js");
 var bnetAPI = process.require("api/bnet.js");
 
@@ -34,7 +33,7 @@ module.exports.setId = function(region,realm,name,id,callback){
 };
 
 /**
- * Return the last 5 guilds
+ * Return the last guilds
  * @param criteria
  * @param sort
  * @param limit
@@ -47,7 +46,7 @@ module.exports.find = function(criteria,sort,limit,callback){
 };
 
 /**
- * Return the number of guilds LFG
+ * Return the number of guilds
  * @param criteria
  * @param callback
  */
