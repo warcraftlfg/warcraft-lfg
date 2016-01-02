@@ -42,8 +42,8 @@
         $scope.languages = LANGUAGES;
 
         //Initialize $scope variables
-        $scope.guildAdsObj = guilds.getWithCount({lfg:true});
-        $scope.characterAdsObj = characters.getWithCount({lfg:true});
+        $scope.guildAdsObj = guilds.getWithCount({lfg:true,view:"minimal"});
+        $scope.characterAdsObj = characters.getWithCount({lfg:true,view:"minimal"});
 
         //Initialize $scope variables
         $scope.guildsObj = guilds.getWithCount({number:0});

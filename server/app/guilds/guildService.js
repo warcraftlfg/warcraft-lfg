@@ -35,12 +35,13 @@ module.exports.setId = function(region,realm,name,id,callback){
 /**
  * Return the last guilds
  * @param criteria
+ * @param projection
  * @param sort
  * @param limit
  * @param callback
  */
-module.exports.find = function(criteria,sort,limit,callback){
-    guildModel.find(criteria,{name:1,realm:1,region:1,"ad.updated":1,"bnet.side":1,"_id":0}).sort(sort).limit(limit).exec(function(error,guilds){
+module.exports.find = function(criteria,projection,sort,limit,callback){
+    guildModel.find(criteria,projection).sort(sort).limit(limit).exec(function(error,guilds){
         callback(error,guilds);
     });
 };

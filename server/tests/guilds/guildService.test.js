@@ -71,7 +71,7 @@ describe("guildService",function() {
                 }
             };
             sandbox.stub(guildModel, "find").returns(mockFind);
-            guildService.find({},{},{},function (error,characters) {
+            guildService.find({},{},{},{},function (error,characters) {
                 assert.equal(characters.length,2);
                 assert.isNull(error);
                 done();

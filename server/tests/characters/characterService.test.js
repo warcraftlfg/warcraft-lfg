@@ -71,7 +71,7 @@ describe("characterService",function() {
                 }
             };
             sandbox.stub(characterModel, "find").returns(mockFind);
-            characterService.find({},{},{},function (error,characters) {
+            characterService.find({},{},{},{},function (error,characters) {
                 assert.equal(characters.length,2);
                 assert.isNull(error);
                 done();

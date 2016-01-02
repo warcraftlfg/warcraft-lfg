@@ -5,7 +5,7 @@ var router = require("express").Router();
 var applicationStorage = process.require("api/applicationStorage.js");
 var characterService = process.require("characters/characterService.js");
 var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
-var numberParam = process.require("params/numberParam.js");
+var numberLimit = process.require("params/limits/numberLimit.js");
 
 /**
  * Return characters
@@ -19,14 +19,15 @@ function getCharacters(req,res) {
     var criteria = {};
     lfgCriteria.add(req.query,criteria);
 
+    var projection = {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1,"_id":0};
     var sort = {'ad.updated':-1};
-    var limit = numberParam.get(req.query);
+    var limit = numberLimit.get(req.query);
 
 
     async.parallel({
         characters: function(callback){
             if(limit > 0){
-                characterService.find(criteria,sort,limit,function (error, characters) {
+                characterService.find(criteria,projection,sort,limit,function (error, characters) {
                     callback(error,characters);
                 });
             }

@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRealm', wlfgFilterRealm);
 
-wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location', 'socket'];
-function wlfgFilterRealm($translate, $stateParams, $location, socket) {
+wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location', 'socket','realms'];
+function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -61,15 +61,20 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket) {
             });
         };
 
-        socket.forward('get:realms',$scope);
-        $scope.$on('socket:get:realms', function(ev, realms) {
-            $scope.realms = realms;
-            angular.forEach(realms,function (realm) {
-                realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
-                if ($stateParams.realm_name && $stateParams.realm_name == realm.name && $stateParams.realm_region && $stateParams.realm_region==realm.region) {
-                    realm.selected = true;
-                }
-            });
+        $scope.$on('get:realms', function() {
+
+             realms.query({realmZones:$scope.filters.realmZones},function(realms){
+                 $scope.realms = realms;
+                 angular.forEach(realms,function (realm) {
+                     realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
+                     if ($stateParams.realm_name && $stateParams.realm_name == realm.name && $stateParams.realm_region && $stateParams.realm_region==realm.region) {
+                         realm.selected = true;
+                     }
+                 });
+             });
+
+
+
         });
 
     }

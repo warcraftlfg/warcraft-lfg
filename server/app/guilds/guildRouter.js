@@ -4,7 +4,9 @@ var router = require("express").Router();
 var applicationStorage = process.require("api/applicationStorage.js");
 var guildService = process.require("guilds/guildService.js");
 var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
-var numberParam = process.require("params/numberParam.js");
+var realmZonesCriteria = process.require("params/criteria/realmZonesCriteria.js");
+var guildViewProjection = process.require("params/projections/guildViewProjection.js");
+var numberLimit = process.require("params/limits/numberLimit.js");
 
 /**
  * Return characters
@@ -18,13 +20,17 @@ function getGuilds(req,res) {
     var criteria = {};
     lfgCriteria.add(req.query,criteria);
 
+    var projection = {region:1,realm:1,name:1};
+    guildViewProjection.add(req.query,projection);
+
+
     var sort = {'ad.updated':-1};
-    var limit = numberParam.get(req.query);
+    var limit = numberLimit.get(req.query);
 
     async.parallel({
         guilds: function(callback){
             if(limit > 0){
-                guildService.find(criteria,sort,limit,function (error, guilds) {
+                guildService.find(criteria,projection,sort,limit,function (error, guilds) {
                     callback(error,guilds);
                 });
             }

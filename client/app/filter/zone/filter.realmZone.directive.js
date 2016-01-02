@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRealmZone', wlfgFilterRealmZone);
 
-wlfgFilterRealmZone.$inject = ['$translate', '$stateParams', '$location', 'socket'];
-function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
+wlfgFilterRealmZone.$inject = ['$translate', '$stateParams', '$location', '$timeout'];
+function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -66,7 +66,13 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
             });
         }
 
-        socket.emit('get:realms', $scope.filters.realmZones);
+
+
+
+        $timeout(function () {
+            $scope.$emit('get:realms');
+        });
+
 
         $scope.$watch('filters.realmZones',function() {
             if ($scope.$parent.loading || $scope.loading) {
@@ -102,8 +108,8 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, socket) {
             $location.search('realm_name', null);
             $location.search('realm_region', null);
 
-            socket.emit('get:realms', $scope.filters.realmZones);
-            
+            $scope.$emit('get:realms');
+
             $scope.$parent.loading = true;
         },true);
 

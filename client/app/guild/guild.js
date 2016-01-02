@@ -166,7 +166,8 @@
         $scope.$watch('filters', function() {
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
                 // && $scope.filters.states.timezone
-                socket.emit('get:guildAds', $scope.filters);
+                //socket.emit('get:guildAds', $scope.filters);
+                getGuildAds();
             }
         },true);
 
@@ -197,18 +198,27 @@
                 }
             }
 
-            $scope.guilds = guilds.query({lfg:true},function(){
-                $scope.$parent.loading = false;
-
-            });
-
+            getGuildAds();
             //socket.emit('get:guildAds', $scope.filters, $scope.last);
         };
 
-        $scope.guilds = guilds.query({lfg:true},function(){
-            $scope.$parent.loading = false;
+        function getGuildAds() {
+            var params = {lfg: true, view: "detailed"};
 
-        });
+            angular.extend(params, $scope.filters);
+            guilds.query(params, function (guilds) {
+
+                $scope.$parent.loading = false;
+                $scope.loading = false;
+
+                if (!$scope.last) {
+                    $scope.guilds = guilds;
+                } else {
+                    $scope.guilds = $scope.guilds.concat(guilds);
+                }
+
+            });
+        }
 
         /*socket.forward('get:guildAds', $scope);
         $scope.$on('socket:get:guildAds', function(ev, guilds, last){
