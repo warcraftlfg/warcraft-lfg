@@ -50,24 +50,20 @@ module.exports.add = function(query,criteria){
  * @param realmZone
  * @returns {*}
  */
-function createRealmZoneCriteria(realmZone,criteria){
+function createRealmZoneCriteria(realmZone,realmZonesCriteria){
 
-    if(!realmZone.region || !realmZone.locale || !realmZone.zone || !realmZone.cities || (realmZone.cities && realmZone.cities.length==0))
-        return null;
-
-    var realmZoneCriteria = {};
-    realmZoneCriteria.region = realmZone.region.toLowerCase();
-    realmZoneCriteria["bnet.locale"] = realmZone.locale;
-
-    var or = [];
-    async.forEach(realmZone.cities,function(city,callback){
-        or.push({"bnet.timezone":realmZone.zone+"/"+city});
-        callback();
-    });
-    if (or.length > 0) {
-        realmZoneCriteria["$or"] = or;
+    if(
+        realmZone.region!=undefined
+        && realmZone.locale!=undefined
+        && realmZone.zone!=undefined
+        && realmZone.cities!=undefined
+        && realmZone.cities.length>0){
+        async.forEach(realmZone.cities, function (city, callback) {
+            var realmZoneCriteria = {};
+            realmZoneCriteria.region = realmZone.region.toLowerCase();
+            realmZoneCriteria["bnet.locale"] = realmZone.locale;
+            realmZoneCriteria["bnet.timezone"] = realmZone.zone + "/" + city;
+            realmZonesCriteria.push(realmZoneCriteria);
+        });
     }
-
-
-    return realmZoneCriteria;
 }

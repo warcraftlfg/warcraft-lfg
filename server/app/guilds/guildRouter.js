@@ -4,7 +4,8 @@ var router = require("express").Router();
 var applicationStorage = process.require("api/applicationStorage.js");
 var guildService = process.require("guilds/guildService.js");
 var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
-var realmZonesCriteria = process.require("params/criteria/realmZonesCriteria.js");
+var factionCriteria = process.require("params/criteria/factionCriteria.js");
+var realmCriteria = process.require("params/criteria/realmCriteria.js");
 var guildViewProjection = process.require("params/projections/guildViewProjection.js");
 var numberLimit = process.require("params/limits/numberLimit.js");
 
@@ -19,6 +20,8 @@ function getGuilds(req,res) {
 
     var criteria = {};
     lfgCriteria.add(req.query,criteria);
+    factionCriteria.add(req.query,criteria);
+    realmCriteria.add(req.query,criteria);
 
     var projection = {region:1,realm:1,name:1};
     guildViewProjection.add(req.query,projection);

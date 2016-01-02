@@ -7,10 +7,6 @@
  * @param criteria
  */
 module.exports.add = function(query,criteria){
-    if(!query.lfg)
-        return;
-
-    if(query.lfg === 'true')
+    if(query.lfg!=undefined && query.lfg === 'true')
         criteria['ad.lfg'] = true;
-
 };
