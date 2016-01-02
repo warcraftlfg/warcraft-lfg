@@ -10,6 +10,21 @@ var logger = process.require("api/logger.js").get("logger");
 var cheerio = require("cheerio");
 var async = require("async");
 
+var monthToNumber = {
+    "Dec": 12,
+    "Nov": 11,
+    "Oct": 10,
+    "Sep": 9,
+    "Aug": 8,
+    "Jul": 7,
+    "Jun": 6,
+    "May": 5,
+    "Apr": 4,
+    "Mar": 3,
+    "Feb": 2,
+    "Jan": 1,
+}
+
 var languages = {
     "English": "en",
     "German": "de",
@@ -63,7 +78,7 @@ var russianRealms = {
 };
 
 
-module.exports.getGuildRank = function(region,realm,name,callback){
+module.exports.getGuildRank = function(region, realm, name, callback){
 
     if (region.toLowerCase() == "eu" && russianRealms[realm]) {
         realm = russianRealms[realm];
@@ -91,6 +106,121 @@ module.exports.getGuildRank = function(region,realm,name,callback){
     });
 };
 
+module.exports.getGuildProgress = function(region, realm, name, callback){
+
+    if (region.toLowerCase() == "eu" && russianRealms[realm]) {
+        realm = russianRealms[realm];
+    }
+
+    realm = realm.replace(" (Português)", '');
+    realm = realm.split(" ").join("-");
+    realm = realm.split("'").join("-");
+
+    var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name);
+    request(url, function (error, response, body) {
+
+        if (!error && response.statusCode == 200) {
+            var $body = cheerio.load(body);
+            var data = $body('span.ratingProgress b').html();
+            var ranking = [];
+            var progress;
+
+            data = data.split('/');
+
+            var tables = $body('table.rating').html();
+            var pattern = /class="boss_kills_link innerLink"[^>]*>([^<]*)<\/a>/gi;
+            var array;
+            var bosses = [];
+            var timestamps = [];
+            var convertToTimestamp;
+            while (array = pattern.exec(tables)) {
+                bosses.push(array[1]);
+            }
+            pattern = /data-ts="([^"]*)"[^>]*>[^<]*<\/span>|style="white-space:nowrap"[^>]*>([^<]*)<\/span>/gi;
+            while (array = pattern.exec(tables)) {
+                if (array[1]) {
+                    array[1] = parseInt(array[1]) * 1000;
+                    timestamps.push(array[1]);
+                } else {
+                    array = array[2].split(' ');
+                    convertToTimestamp = monthToNumber[array[0]]+'/'+array[1].replace(/(,$)/g, "")+'/'+array[2]+' '+array[3];
+                    timestamps.push(new Date(convertToTimestamp).getTime());
+                }
+            }
+
+            if (bosses.length != timestamps.length) {
+                callback(new Error("WOWPROGRESS_PARSING_ERROR"));
+            }
+
+            async.forEachOf(bosses, function(boss, index, callback) {
+                boss = boss.replace(/(^\+)/g, "").trim().split(':');
+                progress = {};
+                progress.boss = boss[1].trim();
+                if (boss[0] == 'N') {
+                    progress.difficulty = 'normal';
+                } else if (boss[0] == 'H') {
+                    progress.difficulty = 'heroic'
+                } else if (boss[0] == 'M') {
+                    progress.difficulty = 'mythic';
+                } else {
+                    callback(new Error("WOWPROGRESS_PARSING_ERROR"));
+                }
+
+                if (progress.boss == "Hellfire Assault") {
+                    progress.bossWeight = 0;
+                } else if (progress.boss == "Iron Reaver") {
+                    progress.bossWeight = 1;
+                } else if (progress.boss == "Kormrok") {
+                    progress.bossWeight = 2;
+                } else if (progress.boss == "Hellfire High Council") {
+                    progress.bossWeight = 3;
+                } else if (progress.boss == "Kilrogg Deadeye") {
+                    progress.bossWeight = 4;
+                } else if (progress.boss == "Gorefiend") {
+                    progress.bossWeight = 5;
+                } else if (progress.boss == "Shadow-Lord Iskar") {
+                    progress.bossWeight = 6;
+                } else if (progress.boss == "Socrethar the Eternal") {
+                    progress.bossWeight = 7;
+                }  else if (progress.boss == "Tyrant Velhari") {
+                    progress.bossWeight = 8;
+                }  else if (progress.boss == "Fel Lord Zakuun") {
+                    progress.bossWeight = 9;
+                } else if (progress.boss == "Xhul&apos;horac") {
+                    progress.boss="Xhul'horac";
+                    progress.bossWeight = 10;
+                } else if (progress.boss == "Mannoroth") {
+                    progress.bossWeight = 11;
+                } else if (progress.boss == "Archimonde") {
+                    progress.bossWeight = 12;
+                }
+
+                progress.name = name;
+                progress.realm = realm;
+                progress.region = region;
+                progress.source = "wowprogress";
+                progress.timestamp = timestamps[index];
+
+                progress.updated = new Date().getTime();
+                progress.roster = [];
+
+                ranking.push(progress);
+            });
+
+            callback(error, ranking);
+        }
+        else {
+            if (error) {
+                logger.error(error.message+" on fetching wowprogress api "+url);
+            }
+            else {
+                logger.warn("Error HTTP "+response.statusCode+" on fetching wowprogress api "+url);
+            }
+            callback(new Error("BNET_API_ERROR"));
+        }
+    });
+};
+
 module.exports.getWoWProgressPage = function(path,callback) {
     var url = "http://www.wowprogress.com"+path;
 
@@ -99,10 +229,12 @@ module.exports.getWoWProgressPage = function(path,callback) {
             callback(error,body);
         }
         else{
-            if(error)
+            if(error) {
                 logger.error(error.message+" on fetching wowprogress api "+url);
-            else
+            }
+            else {
                 logger.warn("Error HTTP "+response.statusCode+" on fetching wowprogress api "+url);
+            }
             callback(new Error("WOWPROGRESS_API_ERROR"));
         }
     });
