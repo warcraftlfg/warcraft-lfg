@@ -152,8 +152,8 @@
         });
     }
 
-    GuildList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle"];
-    function GuildList($scope, $stateParams, $translate,$state, socket,LANGUAGES,TIMEZONES,wlfgAppTitle) {
+    GuildList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle","guilds"];
+    function GuildList($scope, $stateParams, $translate,$state, socket,LANGUAGES,TIMEZONES,wlfgAppTitle,guilds) {
         wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error=null;
@@ -197,10 +197,20 @@
                 }
             }
 
-            socket.emit('get:guildAds', $scope.filters, $scope.last);
+            $scope.guilds = guilds.query({lfg:true},function(){
+                $scope.$parent.loading = false;
+
+            });
+
+            //socket.emit('get:guildAds', $scope.filters, $scope.last);
         };
 
-        socket.forward('get:guildAds', $scope);
+        $scope.guilds = guilds.query({lfg:true},function(){
+            $scope.$parent.loading = false;
+
+        });
+
+        /*socket.forward('get:guildAds', $scope);
         $scope.$on('socket:get:guildAds', function(ev, guilds, last){
             $scope.$parent.loading = false;
             $scope.loading = false;
@@ -210,6 +220,6 @@
             } else {
                 $scope.guilds = $scope.guilds.concat(guilds);
             }
-        });
+        });*/
     }
 })();
