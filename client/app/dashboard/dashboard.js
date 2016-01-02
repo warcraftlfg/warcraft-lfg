@@ -42,49 +42,15 @@
         $scope.languages = LANGUAGES;
 
         //Initialize $scope variables
-        var guildAdObj = guilds.query({lfg:true},function(){
-            $scope.guilds = guildAdObj.data;
-            $scope.guildAdCount = guildAdObj.count;
-        });
-        var characterAdObj = characters.query({lfg:true},function(){
-            $scope.characters = characterAdObj.data;
-            $scope.characterAdCount = characterAdObj.count;
-        });
+        $scope.guildAdsObj = guilds.getWithCount({lfg:true});
+        $scope.characterAdsObj = characters.getWithCount({lfg:true});
 
         //Initialize $scope variables
-        var guildsObj = guilds.query({number:0},function(){
-            $scope.guildCount = guildsObj.count;
-        });
-        var charactersObj = characters.query({number:0},function(){
-            $scope.characterCount = charactersObj.count;
-        });
+        $scope.guildsObj = guilds.getWithCount({number:0});
+        $scope.charactersObj = characters.getWithCount({number:0});
 
 
         $scope.form = {type:"guild",region:"",language:"",realmZones:[]};
-
-        socket.emit('get:charactersCount');
-        socket.forward('get:charactersCount',$scope);
-        $scope.$on('socket:get:charactersCount',function(ev,characterCount){
-            $scope.characterCount=characterCount.toLocaleString();
-        });
-
-        socket.emit('get:guildsCount');
-        socket.forward('get:guildsCount',$scope);
-        $scope.$on('socket:get:guildsCount',function(ev,guildCount){
-            $scope.guildCount=guildCount.toLocaleString();
-        });
-
-        socket.emit('get:characterAdsCount');
-        socket.forward('get:characterAdsCount',$scope);
-        $scope.$on('socket:get:characterAdsCount',function(ev,characterAdCount){
-            $scope.characterAdCount=characterAdCount.toLocaleString();
-        });
-
-        socket.emit('get:guildAdsCount');
-        socket.forward('get:guildAdsCount',$scope);
-        $scope.$on('socket:get:guildAdsCount',function(ev,guildAdCount){
-            $scope.guildAdCount=guildAdCount.toLocaleString();
-        });
 
         $scope.CTAFormSubmit = function(){
 

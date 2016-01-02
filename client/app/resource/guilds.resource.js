@@ -8,7 +8,7 @@
     Guilds.$inject = ['$resource'];
     function Guilds($resource) {
         return $resource('/api/guilds',{}, {
-            query: {
+            getWithCount: {
                 method: 'get',
                 transformResponse: function (data, headersGetter) {
                     var response = {};
