@@ -24,21 +24,12 @@ function getGuilds(req,res) {
     var limit = numberLimit.get(req.query);
     var projection = {region:1,realm:1,name:1};
 
-    async.series([
-        function(callback){
-            //Call async criteria
-            factionCriteria.add(req.query,criteria);
-            lfgCriteria.add(req.query,criteria);
-            guildViewProjection.add(req.query,projection);
-            callback();
-        },
-        function(callback){
-            //call async realmCriteria
-            realmCriteria.add(req.query,criteria,function(){
-                callback();
-            });
-        }
-    ],function(){
+    factionCriteria.add(req.query,criteria);
+    lfgCriteria.add(req.query,criteria);
+    guildViewProjection.add(req.query,projection);
+
+    //TODO Move all Criteria to guildCriteria
+    realmCriteria.add(req.query,criteria,function(){
         async.parallel({
             guilds: function(callback){
                 if(limit > 0){

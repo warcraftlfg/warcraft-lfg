@@ -36,6 +36,8 @@ module.exports.add = function(query,criteria,callback){
                     }
                 });
             }
+            else
+                callback();
         },
         function(callback){
             if(query.realm!=undefined && query.realm !== "") {
@@ -48,16 +50,17 @@ module.exports.add = function(query,criteria,callback){
                 }
                 callback();
             }
-
+            else
+                callback();
         }
     ],function(){
-
         if (realmList.length > 0) {
             if(!criteria["$or"])
                 criteria["$or"] = realmList;
             else
                 criteria["$or"] = criteria["$or"].concat(realmList);
         }
+        console.log(criteria);
         callback();
     });
 };
