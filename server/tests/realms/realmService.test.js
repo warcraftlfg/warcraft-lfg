@@ -14,22 +14,5 @@ describe("guildService",function() {
         sandbox.restore();
     });
 
-    describe("realmService.find",function() {
-        it("Should get lasts realms", function (done) {
-            var mockFind = {
-                sort: function () {
-                    return this;
-                },
-                exec: function (callback) {
-                    callback(null, [{region:"fakeRegion",name:"fakeName"},{region:"fakeRegion2",name:"fakeName2"}]);
-                }
-            };
-            sandbox.stub(realmModel, "find").returns(mockFind);
-            realmService.find({},function (error,realms) {
-                assert.equal(realms.length,2);
-                assert.isNull(error);
-                done();
-            });
-        });
-    });
+
 });

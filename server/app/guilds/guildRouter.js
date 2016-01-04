@@ -2,11 +2,9 @@
 var async = require("async");
 var router = require("express").Router();
 var applicationStorage = process.require("api/applicationStorage.js");
-var guildService = process.require("guilds/guildService.js");
-var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
-var factionCriteria = process.require("params/criteria/factionCriteria.js");
-var realmCriteria = process.require("params/criteria/realmCriteria.js");
-var guildViewProjection = process.require("params/projections/guildViewProjection.js");
+var guildModel = process.require("guilds/guildModel.js");
+var guildCriterias = process.require("guilds/guildCriterias.js");
+var guildProjections = process.require("guilds/guildProjections.js");
 var numberLimit = process.require("params/limits/numberLimit.js");
 
 /**
@@ -18,43 +16,50 @@ function getGuilds(req,res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
-    var criteria = {};
-
-    var sort = {'ad.updated':-1};
-    var limit = numberLimit.get(req.query);
-    var projection = {region:1,realm:1,name:1};
-
-    factionCriteria.add(req.query,criteria);
-    lfgCriteria.add(req.query,criteria);
-    guildViewProjection.add(req.query,projection);
-
-    //TODO Move all Criteria to guildCriteria
-    realmCriteria.add(req.query,criteria,function(){
-        async.parallel({
-            guilds: function(callback){
-                if(limit > 0){
-                    guildService.find(criteria,projection,sort,limit,function (error, guilds) {
-                        callback(error,guilds);
+    async.waterfall([
+        function (callback) {
+            guildCriterias.get(req.query, function (error, criteria) {
+                callback(error, criteria);
+            });
+        },
+        function(criteria,callback){
+            callback(null,criteria,guildProjections.get(req.query));
+        },
+        function(criteria,projection,callback){
+            callback(null,criteria,projection,numberLimit.get(req.query));
+        },
+        function(criteria,projection,limit,callback){
+            callback(null,criteria,projection,limit,{'ad.updated':-1});
+        },
+        function(criteria,projection,limit,sort,callback){
+            async.parallel({
+                guilds: function(callback){
+                    if(limit > 0){
+                        guildModel.find(criteria,projection).sort(sort).limit(limit).exec(function(error,guilds){
+                            callback(error,guilds);
+                        });
+                    }
+                    else{
+                        callback(null,[]);
+                    }
+                },
+                count : function(callback){
+                    guildModel.count(criteria,function(error,count){
+                        callback(error,count);
                     });
                 }
-                else{
-                    callback(null,[]);
-                }
-            },
-            count : function(callback){
-                guildService.count(criteria,function (error, count) {
-                    callback(error,count);
+            },function(error,results){
+                callback(error,results);
+            });
+        }
 
-                });
-            }
-        },function(error,results){
-            if(error){
-                logger.error(error.message);
-                res.status(500).send();
-            }
-            res.setHeader('X-Total-Count',results.count);
-            res.json(results.guilds);
-        });
+    ],function(error,results){
+        if(error){
+            logger.error(error.message);
+            res.status(500).send();
+        }
+        res.setHeader('X-Total-Count',results.count);
+        res.json(results.guilds);
     });
 }
 

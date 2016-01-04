@@ -199,19 +199,24 @@
                 }
             }
 
-            getGuildAds();
+           // getGuildAds();
             //socket.emit('get:guildAds', $scope.filters, $scope.last);
         };
 
         function getGuildAds() {
             var params = {lfg: true, view: "detailed"};
 
+            console.log($scope.guilds);
             angular.extend(params, $scope.filters);
             delete params.states;
             guilds.query(params, function (guilds) {
                 $scope.$parent.loading = false;
                 $scope.loading = false;
+                console.log(guilds);
+
                 $scope.guilds = $scope.guilds.concat(guilds);
+                console.log($scope.guilds);
+
             });
         }
 

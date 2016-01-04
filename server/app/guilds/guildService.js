@@ -32,27 +32,3 @@ module.exports.setId = function(region,realm,name,id,callback){
     });
 };
 
-/**
- * Return the last guilds
- * @param criteria
- * @param projection
- * @param sort
- * @param limit
- * @param callback
- */
-module.exports.find = function(criteria,projection,sort,limit,callback){
-    guildModel.find(criteria,projection).sort(sort).limit(limit).exec(function(error,guilds){
-        callback(error,guilds);
-    });
-};
-
-/**
- * Return the number of guilds
- * @param criteria
- * @param callback
- */
-module.exports.count = function(criteria,callback){
-    guildModel.count(criteria,function(error,guildsCount){
-        callback(error,guildsCount);
-    });
-};

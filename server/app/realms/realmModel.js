@@ -10,6 +10,9 @@ var realmSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    connected_realms: {
+        type: [String]
     }
 });
 
