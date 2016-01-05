@@ -13,7 +13,7 @@ var mongoStore = require("connect-mongo")(session);
 var passport = require("passport");
 var passportSocketIo = require("passport.socketio");
 var compression = require('compression');
-var applicationStorage = process.require('api/applicationStorage.js');
+var applicationStorage = process.require('core/applicationStorage.js');
 var adapter = require('socket.io-redis');
 
 var config = applicationStorage.config;
@@ -78,7 +78,7 @@ function WebServerProcess(){
 
     //Catch all error and log them
     this.app.use(function(error, req, res, next) {
-        logger.error("Error on request %s - ",req.url,error);
+        logger.error("Error on request %s ",error);
         res.status(error.statusCode).send();
     });
 

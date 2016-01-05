@@ -1,11 +1,11 @@
 "use strict";
 var async = require("async");
 var router = require("express").Router();
-var applicationStorage = process.require("api/applicationStorage.js");
+var applicationStorage = process.require("core/applicationStorage.js");
 var guildModel = process.require("guilds/guildModel.js");
-var guildCriterias = process.require("guilds/guildCriterias.js");
-var guildProjections = process.require("guilds/guildProjections.js");
-var numberLimit = process.require("params/limits/numberLimit.js");
+var guildCriteria = process.require("guilds/db/guildCriteria.js");
+var guildProjection = process.require("guilds/db/guildProjection.js");
+var numberLimit = process.require("core/db/numberLimit.js");
 
 /**
  * Return characters
@@ -18,12 +18,12 @@ function getGuilds(req,res) {
 
     async.waterfall([
         function (callback) {
-            guildCriterias.get(req.query, function (error, criteria) {
+            guildCriteria.get(req.query, function (error, criteria) {
                 callback(error, criteria);
             });
         },
         function(criteria,callback){
-            callback(null,criteria,guildProjections.get(req.query));
+            callback(null,criteria,guildProjection.get(req.query));
         },
         function(criteria,projection,callback){
             callback(null,criteria,projection,numberLimit.get(req.query));
@@ -32,6 +32,7 @@ function getGuilds(req,res) {
             callback(null,criteria,projection,limit,{'ad.updated':-1});
         },
         function(criteria,projection,limit,sort,callback){
+            logger.debug("criteria:%s projection:%s limit:%s sort:%s",JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
             async.parallel({
                 guilds: function(callback){
                     if(limit > 0){

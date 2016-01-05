@@ -12,7 +12,7 @@ var async = require('async');
 var mongoose = require('mongoose');
 var redis = require("redis");
 var winston = require("winston");
-var applicationStorage = process.require("api/applicationStorage");
+var applicationStorage = process.require("core//applicationStorage");
 
 var ready = require('readyness');
 var started = ready.waitFor('started');

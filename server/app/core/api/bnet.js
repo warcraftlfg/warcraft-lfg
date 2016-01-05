@@ -2,7 +2,7 @@
 
 //Module dependencies
 var request = require("request");
-var applicationStorage = process.require("api/applicationStorage.js");
+var applicationStorage = process.require("core/applicationStorage.js");
 
 var config = applicationStorage.config;
 var logger = applicationStorage.logger;

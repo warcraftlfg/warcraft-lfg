@@ -1,5 +1,5 @@
 var assert = require("chai").assert;
-var zoneCriteria = process.require("params/criteria/realmZonesCriteria.js");
+var zoneCriteria = process.require("core/params/realmZoneParam.js");
 
 describe("realmZoneCriteria",function() {
     it("Should add nothing", function (done) {

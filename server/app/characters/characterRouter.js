@@ -2,10 +2,10 @@
 
 var async = require("async");
 var router = require("express").Router();
-var applicationStorage = process.require("api/applicationStorage.js");
+var applicationStorage = process.require("core/applicationStorage.js");
 var characterService = process.require("characters/characterService.js");
-var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
-var numberLimit = process.require("params/limits/numberLimit.js");
+//var lfgCriteria = process.require("core/params/lfgParam.js");
+//var numberLimit = process.require("core/params/numberParam.js");
 
 /**
  * Return characters
@@ -17,12 +17,12 @@ function getCharacters(req,res) {
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
     var criteria = {};
-    lfgCriteria.add(req.query,criteria);
+   // lfgCriteria.add(req.query,criteria);
 
     var projection = {name:1,realm:1,region:1,"ad.updated":1,"bnet.class":1,"_id":0};
     var sort = {'ad.updated':-1};
-    var limit = numberLimit.get(req.query);
-
+   // var limit = numberLimit.get(req.query);
+        var limit = 5;
 
     async.parallel({
         characters: function(callback){

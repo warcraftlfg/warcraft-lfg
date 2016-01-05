@@ -51,12 +51,13 @@ lfg=true : Return only characters who looking for a guild
 /api/guilds : get guilds  
 ####Parameters
 Use query params ? at the end of url to filter & sort query  
-lfg=true : Return only characters who looking for a guild
+lfg (true/false)
+faction
 ###Realms
 ####URL
 /api/realms : get realms
 ####Parameters
 Use query params ? at the end of url to filter & sort query
-zone=[region]--[locale]--[timezone] : Return only characters who looking for a guild
+zone=[region].[locale].[timezone] : Return realms
 
 

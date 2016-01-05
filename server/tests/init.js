@@ -3,7 +3,7 @@
 process.env.NODE_ENV = "test";
 require("../server.js")
 var assert = require("chai").assert;
-var applicationStorage = process.require("api/applicationStorage.js");
+var applicationStorage = process.require("core/utils/applicationStorage.js");
 var request = require('request');
 
 

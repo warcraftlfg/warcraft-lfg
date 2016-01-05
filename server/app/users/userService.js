@@ -2,8 +2,8 @@
 
 //Load dependencies
 var async = require("async");
-var applicationStorage = process.require("api/applicationStorage.js");
-var bnetAPI = process.require("api/bnet.js");
+var applicationStorage = process.require("core/applicationStorage.js");
+var bnetAPI = process.require("core/api/bnet.js");
 var userModel = process.require("users/userModel.js");
 var updateModel = process.require("updates/updateModel.js");
 var guildService = process.require("guilds/guildService.js");

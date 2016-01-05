@@ -1,5 +1,5 @@
 var assert = require("chai").assert;
-var lfgCriteria = process.require("params/criteria/lfgCriteria.js");
+var lfgCriteria = process.require("core/params/lfgParam.js");
 
 describe("lfgCriteria.add",function() {
     it("Should add {ad.lfg = true}", function (done) {

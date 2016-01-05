@@ -1,6 +1,6 @@
 "use strict";
 
-var applicationStorage = process.require("api/applicationStorage.js");
+var applicationStorage = process.require("core/applicationStorage.js");
 
 /**
  * Get the projection for guild

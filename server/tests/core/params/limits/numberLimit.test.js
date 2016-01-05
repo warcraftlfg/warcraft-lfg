@@ -1,5 +1,5 @@
 var assert = require("chai").assert;
-var numberLimit = process.require("params/limits/numberLimit.js");
+var numberLimit = process.require("core/params/numberParam.js");
 
 describe("numberLimit.get",function() {
     it("Should get 2", function (done) {

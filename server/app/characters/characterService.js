@@ -2,7 +2,7 @@
 
 var async = require("async");
 var characterModel = process.require("characters/characterModel.js");
-var bnetAPI = process.require("api/bnet.js");
+var bnetAPI = process.require("core/api/bnet.js");
 
 /**
  * Sanitize and set the user's id to the character

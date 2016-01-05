@@ -1,6 +1,6 @@
 var assert = require("chai").assert;
 var request = require('request');
-var applicationStorage = process.require("api/applicationStorage");
+var applicationStorage = process.require("core/utils/applicationStorage.js");
 
 describe("characterRouter",function() {
     var protocol = "http";

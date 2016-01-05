@@ -1,7 +1,7 @@
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var request = require("request");
-var bnetAPI = process.require("api/bnet.js");
+var bnetAPI = process.require("core/api/bnet.js");
 
 describe("bnet",function() {
 

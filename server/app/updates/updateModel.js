@@ -2,9 +2,7 @@
 
 //Load dependencies
 var async = require("async");
-var applicationStorage = process.require("api/applicationStorage");
-
-
+var applicationStorage = process.require("core/applicationStorage");
 
 /**
  * Insert or update an update into list

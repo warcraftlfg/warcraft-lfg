@@ -1,5 +1,7 @@
+"use strict";
+
 var assert = require("chai").assert;
-var guildProjections = process.require("guilds/guildProjections.js");
+var guildProjections = process.require("guilds/params/viewParam.js");
 
 describe("guildProjection.get",function() {
     it("Should add minimal view criterion", function (done) {
