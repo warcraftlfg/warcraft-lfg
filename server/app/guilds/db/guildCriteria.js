@@ -1,9 +1,9 @@
 "use strict";
 var async = require("async");
 var lfgCriterion = process.require("core/db/criteria/lfgCriterion.js");
-var factionCriterion = process.require("guilds/db/criteria/factionCriterion.js");
 var realmCriterion = process.require("core/db/criteria/realmCriterion.js");
-
+var realmZoneCriterion = process.require("core/db/criteria/realmZoneCriterion.js");
+var factionCriterion = process.require("guilds/db/criteria/factionCriterion.js");
 module.exports.get = function(query,callback){
 
     var criteria = {};
@@ -25,8 +25,9 @@ module.exports.get = function(query,callback){
             });
         },
         function(callback){
-          //TODO realmZone
-            callback();
+            realmZoneCriterion.add(query,criteria,function(error) {
+                callback(error);
+            });
         }
     ],function(error){
         callback(error,criteria)

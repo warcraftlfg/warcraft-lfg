@@ -14,8 +14,11 @@ function getRealms(req,res) {
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
     var criteria = {};
     realmZoneCriterion.add(req.query,criteria);
+    var projection = {name:1,region:1,"_id":0};
+    var sort = {name:1,region:1};
 
-    realmModel.find(criteria,{name:1,region:1,"_id":0}).sort({name:1,region:1}).exec(function(error,realms){
+    logger.debug("criteria:%s projection:%s sort:%s",JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(sort));
+    realmModel.find(criteria,projection).sort(sort).exec(function(error,realms){
         if(error){
             logger.error(error.message);
             res.status(500).send();

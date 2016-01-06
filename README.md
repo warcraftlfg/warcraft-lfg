@@ -42,22 +42,33 @@ Then go to : `https://localhost:3000/`
 ##API
 ###Characters
 ####URL
-/api/characters : get characters  
-####Parameters
-Use query params ? at the end of url to filter & sort query  
-lfg=true : Return only characters who looking for a guild
+/api/characters : get the characters  
+####Query filters
+| Name       | Content Structure | Description | Values  |   
+| --------   | --------------- | ----------  | ------- |
+| lfg        | [value]         | filter characters looking or not for a guild | true<br>false |
+| faction    | [value]         | filter by faction | 0:Alliance<br>1:Horde
+| realm      | [region].[name] | filter by realm |  <br>[region]: The realm region (eu,us,kr,tw)<br>[name]: The realm name in locale en_EN |
+| realm_zone | [region].[locale].[timezone] | filter by realm zone  |  us.en_US.America/Chicago<br>us.en_US.America/Los_Angeles<br>us.en_US.America/New_York<br>us.en_US.America/Denver<br>us.en_US.Australia/Melbourne<br>us.es_MX.America/Chicago<br>us.pt_BR.America/Sao_Paulo<br>eu.en_GB.Europe/Paris<br>eu.de_DE.Europe/Paris<br>eu.fr_FR.Europe/Paris<br>eu.es_ES.Europe/Paris<br>eu.ru_RU.Europe/Paris<br>eu.pt_BR.Europe/Paris<br>tw.zh_TW.Asia/Taipei<br>kr.ko_KR.Asia/Seoul|   
+####Query view
+| Name       | Value         |   
+| --------   | --------------- | 
+| view        | minimal<br>detailed       |
+
+
+
 ###Guilds
 ####URL
-/api/guilds : get guilds  
+/api/guilds : get the guilds  
 ####Parameters
-Use query params ? at the end of url to filter & sort query  
-lfg (true/false)
-faction
+... 
+
 ###Realms
 ####URL
 /api/realms : get realms
-####Parameters
-Use query params ? at the end of url to filter & sort query
-zone=[region].[locale].[timezone] : Return realms
+####Query parameters
+| Name       | Content Structure | Description | Values  |   
+| --------   | --------------- | ----------  | ------- |
+| realm_zone | [region].[locale].[timezone] | filter by realm zone  |  us.en_US.America/Chicago<br>us.en_US.America/Los_Angeles<br>us.en_US.America/New_York<br>us.en_US.America/Denver<br>us.en_US.Australia/Melbourne<br>us.es_MX.America/Chicago<br>us.pt_BR.America/Sao_Paulo<br>eu.en_GB.Europe/Paris<br>eu.de_DE.Europe/Paris<br>eu.fr_FR.Europe/Paris<br>eu.es_ES.Europe/Paris<br>eu.ru_RU.Europe/Paris<br>eu.pt_BR.Europe/Paris<br>tw.zh_TW.Asia/Taipei<br>kr.ko_KR.Asia/Seoul|   
 
 
