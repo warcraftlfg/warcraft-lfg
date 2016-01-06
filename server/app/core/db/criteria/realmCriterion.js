@@ -39,7 +39,7 @@ function getConnectedRealms(region,name,callback){
             });
         },
         function(realm,callback){
-            if(realm)
+            if(realm && realm.connected_realms)
                 realm.connected_realms.forEach(function (name) {
                     realmList.push({realm: name, region: realm.region});
                 });

@@ -1,7 +1,7 @@
 "use strict";
 var async = require("async");
 var lfgCriterion = process.require("core/db/criteria/lfgCriterion.js");
-var realmCriterion = process.require("core/db/criteria/realmCriterion.js");
+var realmZoneCriterion = process.require("core/db/criteria/realmZoneCriterion.js");
 var realmZoneCriterion = process.require("core/db/criteria/realmZoneCriterion.js");
 var factionCriterion = process.require("guilds/db/criteria/factionCriterion.js");
 module.exports.get = function(query,callback){
@@ -20,7 +20,7 @@ module.exports.get = function(query,callback){
     //Do async stuff
     async.series([
         function(callback){
-            realmCriterion.add(query,criteria,function(error) {
+            realmZoneCriterion.add(query,criteria,function(error) {
                 callback(error);
             });
         },

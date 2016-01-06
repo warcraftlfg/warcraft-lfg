@@ -14,7 +14,6 @@ module.exports.add = function(query,criteria,callback) {
     if (paramArray.length > 0) {
         var realmZones = {};
         realmZones["$or"] = [];
-
         paramArray.forEach(function (realmZoneArray) {
             var realmZoneCriterion = {};
             realmZoneCriterion.region = realmZoneArray[0].toLowerCase();
@@ -34,7 +33,7 @@ module.exports.add = function(query,criteria,callback) {
                 else
                     criteria["$or"] = criteria["$or"].concat(realmsCriterion);
             }
-            callback();
+            callback(error);
         });
 
 
