@@ -1,0 +1,26 @@
+GUILDS LIST
+    Server - Sort for guild
+    Client - Connect everything
+
+GUILD VIEW
+    Server - GET Guild
+    Client - Connect everything
+
+CHARACTERS LIST
+    Server - Delete character Ad
+    Server - Update character Ad
+
+CHARACTER VIEW
+    Server - GET Character
+    Client - Connect everything
+
+ACCOUNT
+    Server - Add guild Ad
+    Server - Delete guild Ad
+    Server - Update guild A
+    Server - Filter for character
+    Server - Sort for character
+    Server - Add character Ad
+    Server - Get own guilds
+    Server - Get own characters
+    Client - Connect everything

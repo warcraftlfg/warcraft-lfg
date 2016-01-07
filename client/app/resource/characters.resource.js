@@ -7,7 +7,7 @@
 
     Characters.$inject = ['$resource'];
     function Characters($resource) {
-        return $resource('/api/characters',{}, {
+        return $resource('/api/v1/characters',{}, {
             getWithCount: {
                 method: 'get',
                 transformResponse: function (data, headersGetter) {

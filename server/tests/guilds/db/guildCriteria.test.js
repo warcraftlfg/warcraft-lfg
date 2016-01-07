@@ -1,1 +1,0 @@
-//TODO Create test for GuildCriteria

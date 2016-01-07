@@ -3,12 +3,12 @@ var async = require("async");
 var router = require("express").Router();
 var applicationStorage = process.require("core/applicationStorage.js");
 var guildModel = process.require("guilds/guildModel.js");
-var guildCriteria = process.require("guilds/db/guildCriteria.js");
-var guildProjection = process.require("guilds/db/guildProjection.js");
-var numberLimit = process.require("core/db/numberLimit.js");
+var guildCriteria = process.require("guilds/utilities/mongo/guildCriteria.js");
+var guildProjection = process.require("guilds/utilities/mongo/guildProjection.js");
+var numberLimit = process.require("core/utilities/mongo/numberLimit.js");
 
 /**
- * Return characters
+ * Return guilds
  * @param req
  * @param res
  */

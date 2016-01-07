@@ -66,10 +66,10 @@ function WebServerProcess(){
     //Initialize auth routes
     this.app.use(process.require("users/userRouter.js"));
 
-    //Initialize api routes
-    this.app.use('/api',process.require("characters/characterRouter.js"));
-    this.app.use('/api',process.require("guilds/guildRouter.js"));
-    this.app.use('/api',process.require("realms/realmRouter.js"));
+    //Initialize api v1 routes
+    this.app.use('/api/v1',process.require("characters/characterRouter.js"));
+    this.app.use('/api/v1',process.require("guilds/guildRouter.js"));
+    this.app.use('/api/v1',process.require("realms/realmRouter.js"));
 
 
     //Initialize static folders

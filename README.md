@@ -48,12 +48,25 @@ Then go to : `https://localhost:3000/`
 | --------   | --------------- | ----------  | ------- |
 | lfg        | [value]         | filter characters looking or not for a guild | true<br>false |
 | faction    | [value]         | filter by faction | 0:Alliance<br>1:Horde
-| realm      | [region].[name] | filter by realm |  <br>[region]: The realm region (eu,us,kr,tw)<br>[name]: The realm name in locale en_EN |
-| realm_zone | [region].[locale].[timezone] | filter by realm zone  |  us.en_US.America/Chicago<br>us.en_US.America/Los_Angeles<br>us.en_US.America/New_York<br>us.en_US.America/Denver<br>us.en_US.Australia/Melbourne<br>us.es_MX.America/Chicago<br>us.pt_BR.America/Sao_Paulo<br>eu.en_GB.Europe/Paris<br>eu.de_DE.Europe/Paris<br>eu.fr_FR.Europe/Paris<br>eu.es_ES.Europe/Paris<br>eu.ru_RU.Europe/Paris<br>eu.pt_BR.Europe/Paris<br>tw.zh_TW.Asia/Taipei<br>kr.ko_KR.Asia/Seoul|   
+| realm      | [region].[name] | filter by realm |  [region]: The realm region (eu,us,kr,tw)<br>[name]: The realm name in locale en_EN |
+| realm_zone | [region].[locale].[timezone] | filter by realm zone  |  us.en_US.America/Chicago<br>us.en_US.America/Los_Angeles<br>us.en_US.America/New_York<br>us.en_US.America/Denver<br>us.en_US.Australia/Melbourne<br>us.es_MX.America/Chicago<br>us.pt_BR.America/Sao_Paulo<br>eu.en_GB.Europe/Paris<br>eu.de_DE.Europe/Paris<br>eu.fr_FR.Europe/Paris<br>eu.es_ES.Europe/Paris<br>eu.ru_RU.Europe/Paris<br>eu.pt_BR.Europe/Paris<br>tw.zh_TW.Asia/Taipei<br>kr.ko_KR.Asia/Seoul|
+| language   | [value]         | filter by language | language ISO_639-1 code
+| recruitment_class   | [role].[class_id]         | filter by recruitment class | [role]: The role (tank, heal,melee_dps,ranged_dps)<br>[class_id]: Bnet class id
+| day   | [value]         | filter by day | monday,tuesday,wednesday,thursday,friday,saturday,sunday
+| raids_per_week   | [min].[max]         | filter by raids per week | [role]: minimum number raids per week <br>[class_id]: maximum number raids per week
+| progress   | [difficulty].[killNumber]         | filter by max progress  | [difficulty]: normal,heroic,mythic <br>[killNumber]: maximum kill number 
+
+
+
 ####Query view
 | Name       | Value         |   
 | --------   | --------------- | 
 | view        | minimal<br>detailed       |
+
+####Query number
+| Name       | Value         |   
+| --------   | --------------- | 
+| number        | The number of item to retrieve (min 0 & max 10)       |
 
 
 

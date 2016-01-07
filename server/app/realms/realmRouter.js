@@ -2,7 +2,7 @@
 var router = require("express").Router();
 var applicationStorage = process.require("core/applicationStorage.js");
 var realmModel = process.require("realms/realmModel.js");
-var realmZoneCriterion =  process.require("realms/db/criteria/realmZoneCriterion.js");
+var realmZoneCriterion =  process.require("realms/utilities/mongo/criteria/realmZoneCriterion.js");
 
 /**
  * Return the realms
