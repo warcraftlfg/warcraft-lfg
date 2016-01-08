@@ -22,7 +22,7 @@
                 controller: "GuildUpdateController"
             })
             .state("guild-list", {
-                url: "/guild/list?realm_zone&languages&faction&realm_name&realm_region&classes&days&timezone&raids_per_week_active&raids_per_week_min&raids_per_week_max&progress_active&progress_kill&progress_difficulty&sort",
+                url: "/guild/list?realm_zone&language&faction&realm&classes&days&timezone&raids_per_week_active&raids_per_week_min&raids_per_week_max&progress_active&progress_kill&progress_difficulty&sort",
                 templateUrl: "app/guild/guild-list.html",
                 controlerAs: 'vm',
                 title: 'Guild list',

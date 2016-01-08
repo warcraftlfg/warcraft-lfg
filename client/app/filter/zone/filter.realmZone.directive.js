@@ -101,7 +101,6 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
                     realmZonesFilter.push(realmZone.region+"."+realmZone.locale+"."+realmZone.zone+"/"+city);
                 });
             });
-            console.log(realmZonesFilter);
             $scope.filters.realm_zone = realmZonesFilter;
 
             if (!realmInRegion && $scope.realmZonesOut.length > 0) {

@@ -9,8 +9,14 @@ module.exports.get = function(query){
 
     var number = 5;
     if(query.number) {
-        number = query.number > 10 ? 10 : query.number;
-        number = query.number < 0 ? 0 : number;
+        number = parseInt(query.number,10);
+
+        if(isNaN(number)){
+            return;
+        }
+
+        number = number > 10 ? 10 : number;
+        number = number < 0 ? 0 : number;
     }
     return number;
 };
