@@ -6,6 +6,7 @@ var guildModel = process.require("guilds/guildModel.js");
 var guildCriteria = process.require("guilds/utilities/mongo/guildCriteria.js");
 var guildProjection = process.require("guilds/utilities/mongo/guildProjection.js");
 var numberLimit = process.require("core/utilities/mongo/numberLimit.js");
+var guildSort = process.require("guilds/utilities/mongo/guildSort.js");
 
 /**
  * Return guilds
@@ -29,7 +30,7 @@ function getGuilds(req,res) {
             callback(null,criteria,projection,numberLimit.get(req.query));
         },
         function(criteria,projection,limit,callback){
-            callback(null,criteria,projection,limit,{'ad.updated':-1});
+            callback(null,criteria,projection,limit,guildSort.get(req.query));
         },
         function(criteria,projection,limit,sort,callback){
             logger.debug("criteria:%s projection:%s limit:%s sort:%s",JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));

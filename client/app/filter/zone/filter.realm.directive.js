@@ -25,10 +25,15 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
 
         $scope.filters.realm = {};
 
-        if ($stateParams.realm_name && $stateParams.realm_region) {
-            $scope.filters.realm.region = $stateParams.realm_region;
-            $scope.filters.realm.name = $stateParams.realm_name;
+        if ($stateParams.realm) {
 
+            var realms = $stateParams.realms;
+
+
+            if(!angular.isArray(realms))
+                realms = [realms];
+
+            //TODO REALMS
             $scope.realms = [{
                 label: $stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",
                 selected: true

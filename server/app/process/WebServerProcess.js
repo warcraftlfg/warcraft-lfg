@@ -79,13 +79,13 @@ function WebServerProcess(){
     //Catch all error and log them
     this.app.use(function(error, req, res, next) {
         logger.error("Error on request %s ",error);
-        res.status(error.statusCode).send();
+        res.status(error.statusCode).send({error:error.statusCode,message:"Internal Server Error"});
     });
 
     //Log all other request and send 404
     this.app.use(function(req, res) {
         logger.error("Error 404 on request %s",req.url);
-        res.status(404).send();
+        res.status(404).send({error:404,message:"The requested URL was not found on this server."});
     });
 
     this.io.use(passportSocketIo.authorize({

@@ -55,6 +55,7 @@ Then go to : `https://localhost:3000/`
 | day   | [value]         | filter by day | monday,tuesday,wednesday,thursday,friday,saturday,sunday
 | raids_per_week   | [min].[max]         | filter by raids per week | [role]: minimum number raids per week <br>[class_id]: maximum number raids per week
 | progress   | [difficulty].[killNumber]         | filter by max progress  | [difficulty]: normal,heroic,mythic <br>[killNumber]: maximum kill number 
+| last   | [id].[value]         | use with sort for pagination  | [id]: id of the last previous item <br>[value]: value of the last preview item (progress,ranking,updated) 
 
 
 
@@ -63,10 +64,15 @@ Then go to : `https://localhost:3000/`
 | --------   | --------------- | 
 | view        | minimal<br>detailed       |
 
-####Query number
+####Query limit
 | Name       | Value         |   
 | --------   | --------------- | 
 | number        | The number of item to retrieve (min 0 & max 10)       |
+
+####Query sort
+| Name       | Value         |   
+| --------   | --------------- | 
+| sort        | progress, ranking, date      |
 
 
 

@@ -40,17 +40,21 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
             nothingSelected : $translate.instant("ALL_REALMZONES")
         };
 
-        $scope.filters.realmZones = [];
+        $scope.filters.realm_zone = [];
 
         $scope.filters.states.realmZones = true;
 
         /* if params load filters */
-        if ($stateParams.realm_zones) {
-            var realmZones = $stateParams.realm_zones.split('__');
-            angular.forEach($scope.realmZones,function(realmZone){
+        if ($stateParams.realm_zone) {
+            var realmZones = $stateParams.realm_zone;
+            if(!angular.isArray(realmZones))
+                realmZones = [realmZones];
 
+
+            angular.forEach($scope.realmZones,function(realmZone){
                 angular.forEach(realmZones,function(realmZoneStr){
-                    var params = realmZoneStr.split('--');
+                    var params = realmZoneStr.split('.');
+
                     if (params.length == 4) {
                         var realmZoneTmp = {};
                         realmZoneTmp.region = params[0];
@@ -58,7 +62,10 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
                         realmZoneTmp.zone = params[2];
                         realmZoneTmp.cities = params[3].split('::');
                         if(realmZone.region == realmZoneTmp.region && realmZone.locale == realmZoneTmp.locale && realmZone.zone == realmZoneTmp.zone && angular.equals(realmZone.cities,realmZoneTmp.cities)) {
-                            $scope.filters.realmZones.push(realmZoneTmp);
+                            realmZone.cities.forEach(function(city){
+                                $scope.filters.realm_zone.push(realmZone.region+"."+realmZone.locale+"."+realmZone.zone+"/"+city);
+                            });
+
                             realmZone.selected = true;
                         }
                     }
@@ -74,33 +81,38 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
         });
 
 
-        $scope.$watch('filters.realmZones',function() {
+        $scope.$watch('realmZonesOut',function() {
+
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var realmZones = [];
             var realmInRegion = false;
+            var realmZonesFilter = [];
 
-            angular.forEach($scope.filters.realmZones,function(realmZone){
+            angular.forEach($scope.realmZonesOut,function(realmZone){
 
                 if(realmZone.region == $scope.filters.realm_region) {
                     realmInRegion = true;
                 }
-
-                realmZones.push(realmZone.region +'--'+realmZone.locale+"--"+realmZone.zone+"--"+realmZone.cities.join('::'));
-
+                realmZones.push(realmZone.region +'.'+realmZone.locale+"."+realmZone.zone+"."+realmZone.cities.join('::'));
+                realmZone.cities.forEach(function(city){
+                    realmZonesFilter.push(realmZone.region+"."+realmZone.locale+"."+realmZone.zone+"/"+city);
+                });
             });
+            console.log(realmZonesFilter);
+            $scope.filters.realm_zone = realmZonesFilter;
 
-            if (!realmInRegion && $scope.filters.realmZones.length > 0) {
+            if (!realmInRegion && $scope.realmZonesOut.length > 0) {
                 $stateParams.realm_region = null;
                 $stateParams.realm_name = null;
             }
 
             if (realmZones.length > 0) {
-                $location.search('realm_zones', realmZones.join('__'));
+                $location.search('realm_zone', realmZones);
             } else {
-                $location.search('realm_zones', null);
+                $location.search('realm_zone', null);
             }
 
             // We can do better ...
@@ -110,11 +122,11 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
 
             $scope.$emit('get:realms');
 
-            $scope.$parent.loading = true;
+           //$scope.$parent.loading = true;
         },true);
 
         $scope.resetRealmZones = function() {
-            $scope.filters.realmZones = [];
+            $scope.realmZoneOut = [];
             angular.forEach($scope.realmZones,function(realmZone) {
                 realmZone.selected = false;
             });

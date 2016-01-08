@@ -7,6 +7,7 @@ var recruitmentClassCriterion = process.require("guilds/utilities/mongo/criteria
 var raidsPerWeekCriterion = process.require("core/utilities/mongo/criteria/raidsPerWeekCriterion.js");
 var dayCriterion = process.require("core/utilities/mongo/criteria/dayCriterion.js");
 var progressCriterion = process.require("core/utilities/mongo/criteria/progressCriterion.js");
+var lastCriterion = process.require("guilds/utilities/mongo/criteria/lastCriterion.js");
 
 var realmCriterion = process.require("core/utilities/mongo/criteria/realmCriterion.js");
 var realmZoneCriterion = process.require("core/utilities/mongo/criteria/realmZoneCriterion.js");
@@ -23,6 +24,7 @@ module.exports.get = function(query,callback){
     raidsPerWeekCriterion.add(query,criteria);
     dayCriterion.add(query,criteria);
     progressCriterion.add(query,criteria);
+    lastCriterion.add(query,criteria);
 
     //Do async stuff
     async.series([

@@ -163,11 +163,14 @@
         $scope.filters = {};
         $scope.filters.states = {};
 
+        console.log($stateParams);
+
         $scope.$watch('filters', function() {
+
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
                 // && $scope.filters.states.timezone
                 //socket.emit('get:guildAds', $scope.filters);
-                $scope.guilds = [];
+                $scope.guilds=[];
                 getGuildAds();
             }
         },true);
@@ -181,41 +184,45 @@
                 return;
             }
 
-            $scope.loading = true;
-
-            if ($scope.guilds.length > 0) {
-                $scope.last.updated = $scope.guilds[$scope.guilds.length-1].ad.updated;
-                $scope.last.id = $scope.guilds[$scope.guilds.length-1]._id;
-                if ($scope.guilds[$scope.guilds.length-1].progress) {
-                    $scope.last.pveScore = $scope.guilds[$scope.guilds.length-1].progress[Object.keys($scope.guilds[$scope.guilds.length-1].progress)[0]].score;
-                } else {
-                    $scope.last.pveScore = 0;
-                }
-
-                if ($scope.guilds[$scope.guilds.length-1].wowProgress) {
-                    $scope.last.ranking = $scope.guilds[$scope.guilds.length-1].wowProgress.world_rank;
-                } else {
-                    $scope.last.ranking = 0;
-                }
-            }
-
-           // getGuildAds();
-            //socket.emit('get:guildAds', $scope.filters, $scope.last);
+            getGuildAds();
         };
 
         function getGuildAds() {
-            var params = {lfg: true, view: "detailed"};
+            $scope.loading = true;
 
-            console.log($scope.guilds);
+            var params = {lfg: true, view: "detailed",number:7};
+
+            if ($scope.guilds.length > 0) {
+
+                if($scope.filters.sort == "progress"){
+                    if ($scope.guilds[$scope.guilds.length-1].progress) {
+                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length-1].progress[Object.keys($scope.guilds[$scope.guilds.length-1].progress)[0]].score;
+                    } else {
+                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
+                    }
+                }
+                if($scope.filters.sort == "ranking"){
+                    if ($scope.guilds[$scope.guilds.length-1].wowProgress) {
+                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length-1].wowProgress.world_rank;
+                    } else {
+                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
+                    }
+                }
+                else {
+                    params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].ad.updated;
+                }
+            }
+
             angular.extend(params, $scope.filters);
             delete params.states;
+
+            console.log($scope.filters);
+
             guilds.query(params, function (guilds) {
                 $scope.$parent.loading = false;
                 $scope.loading = false;
-                console.log(guilds);
 
                 $scope.guilds = $scope.guilds.concat(guilds);
-                console.log($scope.guilds);
 
             });
         }

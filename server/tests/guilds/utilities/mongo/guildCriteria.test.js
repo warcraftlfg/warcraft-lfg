@@ -9,6 +9,9 @@ var languageCriterion = process.require("core/utilities/mongo/criteria/languageC
 var recruitmentClassCriterion = process.require("guilds/utilities/mongo/criteria/recruitmentClassCriterion.js");
 var raidsPerWeekCriterion = process.require("core/utilities/mongo/criteria/raidsPerWeekCriterion.js");
 var dayCriterion = process.require("core/utilities/mongo/criteria/dayCriterion.js");
+var progressCriterion = process.require("core/utilities/mongo/criteria/progressCriterion.js");
+var lastCriterion = process.require("guilds/utilities/mongo/criteria/lastCriterion.js");
+
 
 var realmCriterion = process.require("core/utilities/mongo/criteria/realmCriterion.js");
 var realmZoneCriterion = process.require("core/utilities/mongo/criteria/realmZoneCriterion.js");
@@ -38,6 +41,10 @@ describe("guildCriteria",function() {
         sandbox.stub(raidsPerWeekCriterion, "add", function (query, criteria) {
         });
         sandbox.stub(dayCriterion, "add", function (query, criteria) {
+        });
+        sandbox.stub(progressCriterion, "add", function (query, criteria) {
+        });
+        sandbox.stub(lastCriterion, "add", function (query, criteria) {
         });
 
         sandbox.stub(realmCriterion, "add", function (query, criteria, callback) {

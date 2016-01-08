@@ -11,7 +11,10 @@ module.exports.get = function(query){
     var projection = {region:1,realm:1,name:1};
     if(query.view === "detailed") {
         projection["bnet.side"]=1;
-        projection.ad=1;
+        projection["ad.language"]=1;
+        projection["ad.recruitment"]=1;
+        projection["ad.updated"]=1;
+
         projection.wowProgress=1;
 
         /** @namespace config.progress.raids */
