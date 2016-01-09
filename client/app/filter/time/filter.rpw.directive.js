@@ -16,7 +16,12 @@ function wlfgFilterRpw($stateParams, $location) {
         $scope.raids_per_week = {active:false,min:1,max:7};
 
         if ($stateParams.raids_per_week) {
-            $scope.filters.raids_per_week = $stateParams.raids_per_week;
+            var paramArray = $stateParams.raids_per_week.split(".");
+            if(paramArray.length == 2 ){
+
+                $scope.filters.raids_per_week = $stateParams.raids_per_week;
+                $scope.raids_per_week = {active:true,min:paramArray[0],max:paramArray[1]};
+            }
         }
 
         $scope.filters.states.rpw = true;

@@ -14,23 +14,26 @@ function wlfgFilterTransfer($stateParams, $location) {
 
     function link($scope, element, attrs) {
 
+        $scope.transfert = false;
         if ($stateParams.transfert) {
-            $scope.filters.transfert = $stateParams.transfert==="true";
+            $scope.filters.transfert = $stateParams.transfert;
         }
 
-        $scope.filters.transfert = false;
+        $scope.filters.transfert = null;
 
         $scope.filters.states.transfert = true;
 
-        $scope.$watch('filters.transfert', function() {
+        $scope.$watch('transfert', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            if ($scope.filters.transfert) {
+            if ($scope.transfert) {
                 $location.search('transfert', true);
+                $scope.filters.transfert = true;
             } else {
                 $location.search('transfert', null);
+                $scope.filters.transfert = null;
             }
 
             $scope.$parent.loading = true;

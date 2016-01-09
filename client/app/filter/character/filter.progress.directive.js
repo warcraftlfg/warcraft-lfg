@@ -16,7 +16,6 @@ function wlfgFilterProgress($stateParams, $location) {
         $scope.progress = {};
         $scope.progress.kill = "13";
         $scope.progress.difficulty = "mythic";
-        console.log($stateParams);
 
         if ($stateParams.progress) {
             $scope.filters.progress = $stateParams.progress;

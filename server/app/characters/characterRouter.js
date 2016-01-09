@@ -66,7 +66,52 @@ function getCharacters(req,res) {
     });
 }
 
+
+function getCharacter(req,res,next){
+
+    var logger = applicationStorage.logger;
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+
+    var criteria = {region:req.params.region,realm:req.params.realm,name:req.params.name};
+    var projection = {
+        _id:0,
+        id:1,
+        region:1,
+        realm:1,
+        name:1,
+        ad:1,
+        updated:1,
+        "bnet.faction":1,
+        "bnet.class":1,
+        "bnet.thumbnail":1,
+        "bnet.guild.name":1,
+        "bnet.race":1,
+        "bnet.level":1,
+        "bnet.talents":1,
+        "bnet.progression.raids":{$slice:-1},
+        "bnet.items":1,
+        "bnet.reputation":1,
+        "bnet.achievements":1,
+        "bnet.challenge.records":1,
+        "warcraftLogs.logs":1
+    };
+    characterModel.findOne(criteria,projection,function(error,guild){
+        if(error){
+            logger.error(error.message);
+            res.status(500).send();
+        }
+
+        if (guild) {
+            res.json(guild);
+        }
+        else {
+            next();
+        }
+    });
+}
+
 //Define routes
 router.get("/characters", getCharacters);
+router.get("/characters/:region/:realm/:name", getCharacter);
 
 module.exports = router;

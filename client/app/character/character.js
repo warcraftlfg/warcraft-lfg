@@ -8,8 +8,8 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle"];
-    function CharacterRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle) {
+    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle","characters"];
+    function CharacterRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle,characters) {
         wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
@@ -18,22 +18,19 @@
         $scope.$parent.loading = true;
         $scope.current_url =  window.encodeURIComponent($location.absUrl());
 
-        socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:character',$scope);
-        $scope.$on('socket:get:character',function(ev,character){
+        characters.get({"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name},function(character){
+            $scope.$parent.loading = false;
             $scope.character = character;
+
+
             if (character.ad.btag_display) {
-                socket.emit('get:characterBattleTag', character._id);
-                socket.forward('get:characterBattleTag',$scope);
-                $scope.$on('socket:get:characterBattleTag',function(ev,battleTag){
-                    $scope.$parent.loading = false;
-                    $scope.character.battleTag = battleTag;
-                });
-            } else {
-                $scope.$parent.loading = false;
+                //TODO CALL TO BTAG
+                // $scope.character.battleTag = battleTag;
+
             }
         });
+
 
         $scope.updateCharacter = function(){
             $scope.$parent.loading = true;

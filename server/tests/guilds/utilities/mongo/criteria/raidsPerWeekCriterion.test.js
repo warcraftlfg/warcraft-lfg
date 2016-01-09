@@ -1,5 +1,5 @@
 var assert = require("chai").assert;
-var raidsPerWeekCriterion = process.require("core/utilities/mongo/criteria/raidsPerWeekCriterion.js");
+var raidsPerWeekCriterion = process.require("guilds/utilities/mongo/criteria/raidsPerWeekCriterion.js");
 
 describe("raidsPerWeekCriterion.add",function() {
     it("Should add min 1 and max 7", function (done) {

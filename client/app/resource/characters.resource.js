@@ -7,7 +7,7 @@
 
     Characters.$inject = ['$resource'];
     function Characters($resource) {
-        return $resource('/api/v1/characters',{}, {
+        return $resource('/api/v1/characters/:region/:realm/:name',{}, {
             getWithCount: {
                 method: 'get',
                 transformResponse: function (data, headersGetter) {
