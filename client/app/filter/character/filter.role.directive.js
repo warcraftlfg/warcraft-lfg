@@ -20,15 +20,17 @@ function wlfgFilterRole($translate, $stateParams, $location) {
             {id:'ranged_dps', name: $translate.instant("RANGED_DPS"), icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
         ];
 
-        $scope.filters.roles = [];
+        $scope.filters.role = [];
 
-        if($stateParams.roles){
-            var roles = $stateParams.roles.split("__");
+        if($stateParams.role){
+            var roles = $stateParams.role;
 
+            if(!angular.isArray(roles))
+                roles = [roles];
             angular.forEach($scope.roles,function(role){
                 if(roles.indexOf(role.id)!=-1) {
                     role.selected = true;
-                    $scope.filters.roles.push({id:role.id,selected:true});
+                    $scope.filters.role.push(role.id);
                 }
             });
 
@@ -45,27 +47,29 @@ function wlfgFilterRole($translate, $stateParams, $location) {
         };
 
 
-        $scope.$watch('filters.roles', function() {
+        $scope.$watch('rolesOut', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var roles = [];
-            angular.forEach($scope.filters.roles,function(role){
+            angular.forEach($scope.rolesOut,function(role){
                 roles.push(role.id);
             });
 
             if (roles.length > 0) {
-                 $location.search('roles', roles.join('__'));
+                 $location.search('role', roles);
+                $scope.filters.role = roles;
             } else {
-                $location.search('roles', null);
+                $location.search('role', null);
+                $scope.filters.role = null;
             }
 
             $scope.$parent.loading = true;
         },true);
 
         $scope.resetRoles = function() {
-            $scope.filters.roles = [];
+            $scope.rolesOut = null;
             angular.forEach($scope.roles,function(role) {
                 role.selected = false;
             });

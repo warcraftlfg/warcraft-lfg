@@ -17,17 +17,21 @@ module.exports.parseQueryParam = function(param,number){
     if(Array.isArray(param)) {
         //Param is an array
         param.forEach(function(paramString){
-            var paramArray = paramString.split('.');
-            if(paramArray.length == number )
-                result.push(paramArray);
+            if(paramString!="") {
+                var paramArray = paramString.split('.');
+                if (paramArray.length == number)
+                    result.push(paramArray);
+            }
         });
 
     }
     else {
         //Param is a string
-        var paramArray = param.split('.');
-        if(paramArray.length == number )
-            result.push(paramArray);
+        if(param!="") {
+            var paramArray = param.split('.');
+            if (paramArray.length == number)
+                result.push(paramArray);
+        }
     }
 
     return result;

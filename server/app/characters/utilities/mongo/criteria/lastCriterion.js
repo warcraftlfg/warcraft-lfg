@@ -15,15 +15,11 @@ module.exports.add = function(query,criteria){
     var config = applicationStorage.config;
     var raid = config.progress.raids[0];
 
+
     var paramLastArray = params.parseQueryParam(query.last,2);
     var paramSortArray =  params.parseQueryParam(query.sort,1);
 
-    if(paramSortArray.length > 0){
-        var sort = paramSortArray[0][0];
-        if (sort === "ranking") {
-            criteria["wowProgress"] = {$exists: true};
-        }
-    }
+
 
     if(paramLastArray.length > 0 && paramSortArray.length > 0){
 
@@ -46,13 +42,13 @@ module.exports.add = function(query,criteria){
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
 
-        } else if (sort === "ranking"){
+        } else if (sort === "ilevel"){
             var tmpObj = {};
-            tmpObj["wowProgress.world_rank"] = {$gt:value};
+            tmpObj["bnet.items.averageItemLevelEquipped"] = {$lt:value};
             tmpArray.push(tmpObj);
 
             var tmpObj = {};
-            tmpObj["wowProgress.world_rank"] = value;
+            tmpObj["bnet.items.averageItemLevelEquipped"] = value;
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
         }
