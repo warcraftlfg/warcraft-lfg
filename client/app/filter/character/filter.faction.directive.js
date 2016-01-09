@@ -16,7 +16,6 @@ function wlfgFilterFaction($stateParams, $location) {
         if ($stateParams.faction) {
             $scope.filters.faction = $stateParams.faction;
             $scope.factionOut = $stateParams.faction;
-            $scope.filters.states.faction = true;
         }
 
         $scope.filters.states.faction = true;

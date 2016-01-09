@@ -31,28 +31,3 @@ module.exports.setId = function(region,realm,name,id,callback){
         callback(error);
     });
 };
-
-/**
- * Return the characters
- * @param criteria
- * @param projection
- * @param sort
- * @param limit
- * @param callback
- */
-module.exports.find = function(criteria,projection,sort,limit,callback){
-    characterModel.find(criteria,projection).sort(sort).limit(limit).exec(function(error,characters){
-        callback(error,characters);
-    });
-};
-
-/**
- * Return the number of characters
- * @param criteria
- * @param callback
- */
-module.exports.count = function(criteria,callback){
-    characterModel.count(criteria,function(error,guildLFGCount){
-        callback(error,guildLFGCount);
-    });
-};

@@ -1,37 +1,37 @@
 var assert = require("chai").assert;
-var languageCriterion = process.require("core/utilities/mongo/criteria/languageCriterion.js");
+var languagesCriterion = process.require("characters/utilities/mongo/criteria/languagesCriterion.js");
 
-describe("languageCriterion.add",function() {
+describe("languagesCriterion.add",function() {
     it("Should add one language", function (done) {
         var query = {language:'fakeLanguage'};
         var criteria = {};
-        languageCriterion.add(query,criteria);
+        languagesCriterion.add(query,criteria);
 
-        assert.deepEqual(criteria, {"ad.language":{"$in":["fakeLanguage"]}});
+        assert.deepEqual(criteria, {"ad.languages":{"$in":["fakeLanguage"]}});
         done();
     });
     it("Should add nothing", function (done) {
         var query = {};
         var criteria = {};
-        languageCriterion.add(query,criteria);
+        languagesCriterion.add(query,criteria);
 
-        assert.isUndefined(criteria["ad.language"]);
+        assert.isUndefined(criteria["ad.languages"]);
         done();
     });
 
     it("Should two language", function (done) {
         var query = {language:['fakeLanguage','fakeLanguage2']};
         var criteria = {};
-        languageCriterion.add(query,criteria);
-        assert.deepEqual(criteria, {"ad.language":{"$in":["fakeLanguage","fakeLanguage2"]}});
+        languagesCriterion.add(query,criteria);
+        assert.deepEqual(criteria, {"ad.languages":{"$in":["fakeLanguage","fakeLanguage2"]}});
         done();
     });
     it("Should add one language and keep criteria", function (done) {
         var query = {language:'fakeLanguage'};
         var criteria = {"fakeKey":"fakeValue"};
-        languageCriterion.add(query,criteria);
+        languagesCriterion.add(query,criteria);
 
-        assert.deepEqual(criteria, {fakeKey:"fakeValue","ad.language":{"$in":["fakeLanguage"]}});
+        assert.deepEqual(criteria, {fakeKey:"fakeValue","ad.languages":{"$in":["fakeLanguage"]}});
         done();
     });
 });

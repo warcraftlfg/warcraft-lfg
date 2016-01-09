@@ -33,7 +33,7 @@ function getGuilds(req,res) {
             callback(null,criteria,projection,limit,guildSort.get(req.query));
         },
         function(criteria,projection,limit,sort,callback){
-            logger.debug("criteria:%s projection:%s limit:%s sort:%s",JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
+            logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s",JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
             async.parallel({
                 guilds: function(callback){
                     if(limit > 0){

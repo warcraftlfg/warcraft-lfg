@@ -13,6 +13,7 @@ module.exports.get = function(query){
         projection["bnet.side"]=1;
         projection["ad.language"]=1;
         projection["ad.recruitment"]=1;
+        projection["ad.raids_per_week"]=1;
         projection["ad.updated"]=1;
 
         projection.wowProgress=1;

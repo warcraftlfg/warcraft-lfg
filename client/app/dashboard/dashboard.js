@@ -56,10 +56,10 @@
 
             var realmZones=[];
             angular.forEach($scope.form.realmZones,function(realmZone){
-                realmZones.push(realmZone.region +'--'+realmZone.locale+"--"+realmZone.zone+"--"+realmZone.cities.join('::'));
+                realmZones.push(realmZone.region +'.'+realmZone.locale+"."+realmZone.zone+"."+realmZone.cities.join('::'));
             });
 
-            $state.go($scope.form.type+'-list',{region:$scope.form.region,languages:$scope.form.language,faction:$scope.form.faction,realm_zones:realmZones.join('__')});
+            $state.go($scope.form.type+'-list',{region:$scope.form.region,language:$scope.form.language,faction:$scope.form.faction,realm_zone:realmZones});
         };
 
         /*
