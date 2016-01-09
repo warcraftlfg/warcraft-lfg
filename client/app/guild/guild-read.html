@@ -225,6 +225,9 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
+                            <div class="hide" nf-if="guild.progress['Hellfire Citadel']">
+                                {{ guild.progress['Hellfire Citadel'] }}
+                            </div>
                             <div class="col-md-6">
                                 Progress :
                                 <span ng-if="guild.progress['Hellfire Citadel'].mythicCount>0">{{guild.progress['Hellfire Citadel'].mythicCount}}/13 (M)</span>
