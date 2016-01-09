@@ -7,6 +7,7 @@ var logger = process.require("api/logger.js").get("logger");
 var guildUpdateModel = process.require("models/guildUpdateModel.js");
 var guildModel = process.require("models/guildModel.js");
 var guildKillModel = process.require("models/guildKillModel.js");
+var guildProgressUpdateModel = process.require("models/guildProgressUpdateModel.js");
 var applicationStorage = process.require("api/applicationStorage.js");
 var characterUpdateModel =  process.require("models/characterUpdateModel.js");
 var userService = process.require("services/userService.js");
@@ -121,7 +122,10 @@ module.exports.update = function(region,realm,name,priority,callback){
                                 }
 
                                 logger.info("insert/update guild wowprogress "  + region + "-" +guild.realm +'-'+ guild.name);
-                                callback();
+                                guildProgressUpdateModel.insertOrUpdate(region, guild.realm, guild.name, 0, function (error) {
+                                    callback(error);
+                                });
+                                //callback();
                             });
                         });
                     });

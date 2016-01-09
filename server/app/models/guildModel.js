@@ -226,7 +226,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                     //Add only if no progress are found in + or - 1 sec of wowprogress entri
                     reduced.timestamps.push([values[idx].timestamp]);
                 }
-                else{
+                else {
                     reduced.timestamps.push([values[idx].timestamp]);
                 }
             }
@@ -252,7 +252,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
 
     var finalize = function(key, value){
         if (value.timestamp) {
-            if ((key.difficulty == "mythic" && value.roster.length >=16 ) || ((key.difficulty == "normal" || key.difficulty =="heroic") && value.roster.length >=8) || value.source == "wowprogress") { 
+            if ((key.difficulty == "mythic" && value.roster.length >= 16 ) || ((key.difficulty == "normal" || key.difficulty =="heroic") && value.roster.length >= 8) || value.source == "wowprogress") { 
                 return {timestamps:[[value.timestamp]]};
             }
             else {
