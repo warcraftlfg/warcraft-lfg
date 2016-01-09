@@ -65,7 +65,31 @@ function getGuilds(req,res) {
     });
 }
 
+function getGuild(req,res,next){
+
+    var logger = applicationStorage.logger;
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+
+    var criteria = {region:req.params.region,realm:req.params.realm,name:req.params.name};
+    var projection = {_id:0};
+    guildModel.findOne(criteria,projection,function(error,guild){
+        if(error){
+            logger.error(error.message);
+            res.status(500).send();
+        }
+
+        if (guild) {
+            res.json(guild);
+        }
+        else {
+            next();
+        }
+    });
+}
+
 //Define routes
 router.get("/guilds", getGuilds);
+router.get("/guilds/:region/:realm/:name", getGuild);
+
 
 module.exports = router;

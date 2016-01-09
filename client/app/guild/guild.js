@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle"];
-    function GuildRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle) {
+    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle","guilds"];
+    function GuildRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle,guilds) {
         wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
@@ -21,13 +21,10 @@
 
         $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
 
-        socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
-
-        socket.forward('get:guild',$scope);
-        $scope.$on('socket:get:guild',function(ev,guild){
+        //socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+        guilds.get({"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name},function(guild){
             $scope.$parent.loading = false;
             $scope.guild = guild;
-
             $scope.recruit = { 'tank': 0, 'heal': 0, 'melee_dps': 0, 'ranged_dps': 0};
             angular.forEach(guild.ad.recruitment, function(value, key) {
                 angular.forEach(value, function(status, test) {
@@ -36,6 +33,7 @@
                     }
                 });
             });
+
         });
 
         $scope.updateGuild = function(){

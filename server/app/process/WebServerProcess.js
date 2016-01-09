@@ -71,7 +71,6 @@ function WebServerProcess(){
     this.app.use('/api/v1',process.require("guilds/guildRouter.js"));
     this.app.use('/api/v1',process.require("realms/realmRouter.js"));
 
-
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
