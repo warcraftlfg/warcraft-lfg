@@ -115,9 +115,8 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
             }
 
             // We can do better ...
-            $scope.filters.realm = {};
-            $location.search('realm_name', null);
-            $location.search('realm_region', null);
+            $scope.filters.realm = null;
+            $location.search('realm', null);
 
             $scope.$emit('get:realms');
 

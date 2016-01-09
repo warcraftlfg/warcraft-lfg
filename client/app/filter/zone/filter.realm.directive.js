@@ -23,7 +23,7 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
             nothingSelected : $translate.instant("ALL_REALMS")
         };
 
-        $scope.filters.realm = {};
+        $scope.filters.realm = null;
 
         if ($stateParams.realm) {
             var realm = $stateParams.realm;
@@ -35,6 +35,7 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
                     label: params[1] + " (" + params[0].toUpperCase() + ")",
                     selected: true
                 }];
+                $scope.filters.realm = realm;
             }
         }
 
@@ -49,6 +50,10 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
             if($scope.realmOut){
                 $location.search('realm', $scope.realmOut.region+"."+$scope.realmOut.name);
                 $scope.filters.realm =  $scope.realmOut.region+"."+$scope.realmOut.name;
+            }else
+            {
+                $location.search('realm', null);
+                $scope.filters.realm=null;
             }
 
             $scope.$parent.loading = true;
@@ -74,7 +79,6 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
 
                     if($stateParams.realm) {
                         var params = $stateParams.realm.split('.');
-
                         if (params.length == 2 && params[1] == realm.name && params[0] == realm.region) {
                             realm.selected = true;
                         }

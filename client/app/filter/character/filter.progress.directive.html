@@ -1,11 +1,11 @@
 <div class="checkbox m-b-5">
     <label>
-        <input ng-model="filters.progress.active" type="checkbox">  Progress max
+        <input ng-model="progress.active" type="checkbox">  Progress max
     </label>
 </div>
-<div ng-if="filters.progress.active" class="m-b-10">
+<div ng-if="progress.active" class="m-b-10">
 	<span class="css3-metro-dropdown m-b-5">
-	    <select ng-model="filters.progress.kill" class="form-control">
+	    <select ng-model="progress.kill" class="form-control">
 	        <option value="1">1</option>
 	        <option value="2">2</option>
 	        <option value="3">3</option>
@@ -22,7 +22,7 @@
 	    </select>
 	</span>
 	<span class="css3-metro-dropdown">
-	    <select ng-model="filters.progress.difficulty" class="form-control">
+	    <select ng-model="progress.difficulty" class="form-control">
 	        <option value="lfr">{{"LFR"|translate}}</option>
 	        <option value="normal">{{"NORMAL"|translate}}</option>
 	        <option value="heroic">{{"HEROIC"|translate}}</option>

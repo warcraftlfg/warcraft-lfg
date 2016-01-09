@@ -17,7 +17,9 @@ describe("guildProjection.get",function() {
         var projection = guildProjections.get(query);
 
         assert.equal(projection["bnet.side"],1);
-        assert.equal(projection["ad"],1);
+        assert.equal(projection["ad.language"],1);
+        assert.equal(projection["ad.recruitment"],1);
+        assert.equal(projection["ad.updated"],1);
         assert.equal(projection["wowProgress"],1);
         done();
     });

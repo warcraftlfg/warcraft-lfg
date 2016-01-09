@@ -216,8 +216,6 @@
             angular.extend(params, $scope.filters);
             delete params.states;
 
-            console.log($scope.filters);
-
             guilds.query(params, function (guilds) {
                 $scope.$parent.loading = false;
                 $scope.loading = false;
