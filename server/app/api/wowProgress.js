@@ -107,6 +107,8 @@ module.exports.getGuildRank = function(region, realm, name, callback){
 };
 
 module.exports.getGuildProgress = function(region, realm, name, callback){
+    var bnetRealm = realm;
+
 
     if (region.toLowerCase() == "eu" && russianRealms[realm]) {
         realm = russianRealms[realm];
@@ -122,6 +124,9 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
         if (!error && response.statusCode == 200) {
             var $body = cheerio.load(body);
             var data = $body('span.ratingProgress b').html();
+            if (!data) {
+                data = $body('span.ratingProgress').html();
+            }
             var ranking = [];
             var progress;
 
@@ -196,7 +201,7 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
                 }
 
                 progress.name = name;
-                progress.realm = realm;
+                progress.realm = bnetRealm;
                 progress.region = region;
                 progress.source = "wowprogress";
                 progress.timestamp = timestamps[index];

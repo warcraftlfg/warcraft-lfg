@@ -226,7 +226,7 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                     //Add only if no progress are found in + or - 1 sec of wowprogress entri
                     reduced.timestamps.push([values[idx].timestamp]);
                 }
-                else{
+                else {
                     reduced.timestamps.push([values[idx].timestamp]);
                 }
             }
