@@ -1,20 +1,22 @@
 "use strict";
 
+//Load dependencies
 var async = require("async");
-var router = require("express").Router();
 var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
+var userModel = process.require("users/userModel.js");
 var characterCriteria = process.require("characters/utilities/mongo/characterCriteria.js");
 var characterProjection = process.require("characters/utilities/mongo/characterProjection.js");
 var numberLimit = process.require("core/utilities/mongo/numberLimit.js");
 var characterSort = process.require("characters/utilities/mongo/characterSort.js");
+
 
 /**
  * Return characters
  * @param req
  * @param res
  */
-function getCharacters(req,res) {
+module.exports.getCharacters = function (req,res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
@@ -59,15 +61,17 @@ function getCharacters(req,res) {
     ],function(error,results){
         if(error){
             logger.error(error.message);
-            res.status(500).send();
+            res.status(500);
+            res.send();
+        }else {
+            res.setHeader('X-Total-Count',results.count);
+            res.json(results.guilds);
         }
-        res.setHeader('X-Total-Count',results.count);
-        res.json(results.guilds);
     });
-}
+};
 
 
-function getCharacter(req,res,next){
+module.exports.getCharacter = function(req,res,next){
 
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
@@ -95,23 +99,33 @@ function getCharacter(req,res,next){
         "bnet.challenge.records":1,
         "warcraftLogs.logs":1
     };
-    characterModel.findOne(criteria,projection,function(error,guild){
+    async.waterfall([
+        function(callback){
+            characterModel.findOne(criteria,projection,function(error,character){ //Get the characterModel
+                callback(error,character);
+            });
+        },
+        function(character,callback){ //Get the btag if required
+            /** @namespace character.ad.btag_display */
+            if(character && character.ad && character.ad.btag_display && character.id){
+                userModel.findOne({id:character.id},function(error,user){
+                    if(user){
+                        character.battleTag = user.battleTag;
+                    }
+                    callback(error,character);
+                });
+            } else {
+                callback(null,character);
+            }
+        }
+    ],function(error,character){
         if(error){
             logger.error(error.message);
             res.status(500).send();
-        }
-
-        if (guild) {
-            res.json(guild);
-        }
-        else {
+        } else if(character){
+            res.json(character);
+        } else {
             next();
         }
     });
-}
-
-//Define routes
-router.get("/characters", getCharacters);
-router.get("/characters/:region/:realm/:name", getCharacter);
-
-module.exports = router;
+};

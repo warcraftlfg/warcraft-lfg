@@ -1,6 +1,5 @@
 "use strict";
 var async = require("async");
-var router = require("express").Router();
 var applicationStorage = process.require("core/applicationStorage.js");
 var guildModel = process.require("guilds/guildModel.js");
 var guildCriteria = process.require("guilds/utilities/mongo/guildCriteria.js");
@@ -13,7 +12,7 @@ var guildSort = process.require("guilds/utilities/mongo/guildSort.js");
  * @param req
  * @param res
  */
-function getGuilds(req,res) {
+module.exports.getGuilds= function(req,res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
@@ -63,9 +62,15 @@ function getGuilds(req,res) {
         res.setHeader('X-Total-Count',results.count);
         res.json(results.guilds);
     });
-}
+};
 
-function getGuild(req,res,next){
+/**
+ * return one guild
+ * @param req
+ * @param res
+ * @param next
+ */
+module.exports.getGuild = function(req,res,next){
 
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
@@ -85,11 +90,17 @@ function getGuild(req,res,next){
             next();
         }
     });
-}
+};
 
-//Define routes
-router.get("/guilds", getGuilds);
-router.get("/guilds/:region/:realm/:name", getGuild);
+module.exports.putGuild = function(req,res){
+
+    if (!req.user){
+        res.status(403);
+        res.send();
+    }
+
+    var body = req.body;
 
 
-module.exports = router;
+    res.json({test:"test"});
+};

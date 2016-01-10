@@ -3,6 +3,7 @@
 var async = require("async");
 var guildModel = process.require("guilds/guildModel.js");
 var bnetAPI = process.require("core/api/bnet.js");
+var userService = process.require("users/userService.js");
 
 /**
  * Sanitize and set the user's id to the guild
@@ -30,5 +31,12 @@ module.exports.setId = function(region,realm,name,id,callback){
     ],function(error){
         callback(error);
     });
+};
+
+module.exports.checkPermsAndUpsert = function(id,region,realm,name,guild){
+    //GET
+    userService.hasGuildRankPermission(id,region,realm,name,['ad', 'edit'],function(error, hasPerm) {
+    });
+
 };
 

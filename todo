@@ -1,6 +1,3 @@
-CHARACTER VIEW
-    Server - GET Character
-    Client - Connect everything
 
 ACCOUNT
     Server - Add guild Ad
@@ -9,6 +6,4 @@ ACCOUNT
     Server - Filter for character
     Server - Sort for character
     Server - Add character Ad
-    Server - Get own guilds
-    Server - Get own characters
     Client - Connect everything

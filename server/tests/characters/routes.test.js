@@ -15,4 +15,6 @@ describe("characterRouter",function() {
             done();
         });
     });
+
+    //TODO Test for get one character ...
 });

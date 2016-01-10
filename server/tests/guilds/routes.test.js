@@ -15,4 +15,5 @@ describe("guildRouter",function() {
             done();
         });
     });
+    //TODO Test for one guild
 });

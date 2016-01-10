@@ -64,12 +64,12 @@ function WebServerProcess(){
     this.app.use(passport.session());
 
     //Initialize auth routes
-    this.app.use(process.require("users/userRouter.js"));
+    this.app.use(process.require("users/routes.js"));
 
     //Initialize api v1 routes
-    this.app.use('/api/v1',process.require("characters/characterRouter.js"));
-    this.app.use('/api/v1',process.require("guilds/guildRouter.js"));
-    this.app.use('/api/v1',process.require("realms/realmRouter.js"));
+    this.app.use('/api/v1',process.require("characters/routes.js"));
+    this.app.use('/api/v1',process.require("guilds/routes.js"));
+    this.app.use('/api/v1',process.require("realms/routes.js"));
 
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));

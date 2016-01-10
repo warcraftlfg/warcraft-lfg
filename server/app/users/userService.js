@@ -12,7 +12,6 @@ var characterService = process.require("characters/characterService.js");
 /**
  * Put the user's guilds in the update list with priority 0
  * @param id
- * @param callback
  */
 module.exports.setGuildsToUpdate = function(id){
     var config = applicationStorage.config;
@@ -48,7 +47,6 @@ module.exports.setGuildsToUpdate = function(id){
 /**
  * Set battlenet id on user's guild
  * @param id
- * @param callback
  */
 module.exports.updateGuildsId = function(id){
     var config = applicationStorage.config;
@@ -155,7 +153,7 @@ module.exports.getGuilds = function(region,id,callback){
 };
 
 /**
- * Get the user's characters from bnet
+ * Get the user's characters from bnet for one region
  * @param region
  * @param id
  * @param callback
@@ -176,3 +174,48 @@ module.exports.getCharacters = function(region,id,callback){
         callback(error,characters);
     });
 };
+
+/**
+ *
+ * @param region
+ * @param realm
+ * @param name
+ * @param id
+ * @param permAttr
+ * @param callback
+ */
+module.exports.hasGuildRankPermission = function (region,realm,name,id,permAttr,callback) {
+    var self=this;
+    var getGuildPerm = function(guild,permAttr) {
+        var perm = guild.perms;
+        for (var i in permAttr) {
+            perm = perm[permAttr[i]];
+            if (!perm)
+                break;
+        }
+        return perm || [];
+    };
+    self.isMember(id,region,realm,name,function(error,isMyGuild) {
+        if (isMyGuild) {
+            self.getGuildRank(id,region,realm,name,function(error,rank) {
+                if (rank === null) {
+                    // Guild not scanned yet, allow permission.
+                    callback(error, true);
+                } else {
+                    guildService.get(region,realm,name,function(error,guild) {
+                        if (!guild || !guild.perms) {
+                            // Shouldn't happen if the rank call above succeeded
+                            callback(error, true);
+                        } else {
+                            var perm = getGuildPerm(guild, permAttr);
+                            callback(error, perm.indexOf(rank) !== -1);
+                        }
+                    });
+                }
+            });
+        } else {
+            callback(error, false);
+        }
+    });
+};
+

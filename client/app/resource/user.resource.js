@@ -3,10 +3,10 @@
 
     angular
         .module('app.resource')
-        .factory('profile', User);
+        .factory('user', User);
 
     User.$inject = ['$resource'];
     function User($resource) {
-        return $resource('/profile');
+        return $resource('/user/:param1/:param2');
     }
 })();

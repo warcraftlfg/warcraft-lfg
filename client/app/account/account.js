@@ -5,9 +5,9 @@
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle"];
+    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle","user"];
 
-    function Account($scope,$state,$filter,socket,wlfgAppTitle) {
+    function Account($scope,$state,$filter,socket,wlfgAppTitle,user) {
         wlfgAppTitle.setTitle('Account');
 
         //Redirect not logged_in users to home
@@ -20,7 +20,7 @@
         $scope.$parent.error=null;
 
         //Initialize $scope variables
-        $scope.$parent.loading = true;
+        //$scope.$parent.loading = true;
         $scope.userGuilds = null;
         $scope.userCharacters = null;
         $scope.guildRegion = "";
@@ -29,31 +29,17 @@
         var guildIds;
 
 
-        socket.emit('get:userGuildAds');
-        socket.forward('get:userGuildAds',$scope);
-        $scope.$on('socket:get:userGuildAds',function(ev,guildAds){
-            $scope.$parent.loading = false;
+        $scope.characterAds = user.query({param1:"characterAds"});
+        user.query({param1:"guildAds"},function(guildAds){
             $scope.guildAds = guildAds;
-
             $.each(guildAds, function (i, guild) {
-                guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
-                guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
+                if(guild.perms) {
+                    guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
+                    guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
+                }
             });
         });
 
-        socket.emit('get:userCharacterAds');
-        socket.forward('get:userCharacterAds',$scope);
-        $scope.$on('socket:get:userCharacterAds',function(ev,characterAds){
-            $scope.$parent.loading = false;
-            $scope.characterAds = characterAds;
-        });
-
-        // Guild create
-        socket.forward('get:userGuilds',$scope);
-        $scope.$on('socket:get:userGuilds',function(ev,guilds){
-            $scope.$parent.loading = false;
-            $scope.userGuilds = guilds;
-        });
 
         socket.forward('get:guild',$scope);
         $scope.$on('socket:get:guild',function(ev,guild){
@@ -84,11 +70,14 @@
         });
 
         $scope.updateGuildRegion = function(){
+
             if($scope.guildRegion==='')
                 $scope.userGuilds = null;
             else {
                 $scope.$parent.loading = true;
-                socket.emit('get:userGuilds', $scope.guildRegion);
+                $scope.userGuilds = user.query({param1:"guilds",param2:$scope.guildRegion},function(){
+                    $scope.$parent.loading = false;
+                });
             }
 
         };
@@ -96,15 +85,9 @@
         $scope.createGuildAd = function(region,realm,name){
             $scope.$parent.loading = true;
             guildIds = {region:region,realm:realm,name:name};
-            socket.emit('get:guild',guildIds);
+            //PUT GUILD AD
         };
 
-        //Character Create
-        socket.forward('get:userCharacters',$scope);
-        $scope.$on('socket:get:userCharacters',function(ev,characters){
-            $scope.$parent.loading = false;
-            $scope.userCharacters = $filter('orderBy')(  characters, ['-level','name']);
-        });
 
         socket.forward('get:character',$scope);
         $scope.$on('socket:get:character',function(ev,character){
@@ -127,7 +110,10 @@
                 $scope.userCharacters = null;
             else {
                 $scope.$parent.loading = true;
-                socket.emit('get:userCharacters', $scope.characterRegion);
+                user.query({param1:"characters",param2:$scope.characterRegion},function(characters){
+                    $scope.userCharacters = $filter('orderBy')(  characters, ['-level','name']);
+                    $scope.$parent.loading = false;
+                });
             }
         };
 

@@ -5,16 +5,16 @@
         .module('app.core')
         .controller('CoreController', Core);
 
-    Core.$inject = ['$scope','$translate','socket','wlfgAppTitle','profile'];
+    Core.$inject = ['$scope','$translate','socket','wlfgAppTitle','user'];
 
-    function Core($scope,$translate,socket,wlfgAppTitle,profile) {
+    function Core($scope,$translate,socket,wlfgAppTitle,user) {
         $scope.wlfgAppTitle = wlfgAppTitle;
 
         $scope.setLanguage = function (key){
             $translate.use(key);
         };
 
-        $scope.user = profile.get();
+        $scope.user = user.get({param1:"profile"});
 
     }
 })();

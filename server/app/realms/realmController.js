@@ -1,5 +1,6 @@
 "use strict";
-var router = require("express").Router();
+
+//Load dependenciesw
 var applicationStorage = process.require("core/applicationStorage.js");
 var realmModel = process.require("realms/realmModel.js");
 var realmZoneCriterion =  process.require("realms/utilities/mongo/criteria/realmZoneCriterion.js");
@@ -9,7 +10,7 @@ var realmZoneCriterion =  process.require("realms/utilities/mongo/criteria/realm
  * @param req
  * @param res
  */
-function getRealms(req,res) {
+module.exports.getRealms = function(req,res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
     var criteria = {};
@@ -25,9 +26,4 @@ function getRealms(req,res) {
         }
         res.json(realms);
     });
-}
-
-//Define routes
-router.get("/realms", getRealms);
-
-module.exports = router;
+};
