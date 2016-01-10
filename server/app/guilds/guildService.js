@@ -33,10 +33,17 @@ module.exports.setId = function(region,realm,name,id,callback){
     });
 };
 
-module.exports.checkPermsAndUpsert = function(id,region,realm,name,guild){
-    //GET
-    userService.hasGuildRankPermission(id,region,realm,name,['ad', 'edit'],function(error, hasPerm) {
-    });
+module.exports.checkPermsAndUpsert = function(region,realm,name,id,guild,callback){
+    async.waterfall([
+        function(callback){
+            userService.hasGuildRankPermission(id,region,realm,name,['ad', 'edit'],function(error, hasPerm) {
+            });
+        },
+        function(hasPerm,callback){
+
+        }
+    ])
+
 
 };
 
