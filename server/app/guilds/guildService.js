@@ -33,17 +33,42 @@ module.exports.setId = function(region,realm,name,id,callback){
     });
 };
 
-module.exports.checkPermsAndUpsert = function(region,realm,name,id,guild,callback){
+module.exports.checkPermsAndUpsertAd = function(region,realm,name,id,ad,callback){
     async.waterfall([
         function(callback){
-            userService.hasGuildRankPermission(id,region,realm,name,['ad', 'edit'],function(error, hasPerm) {
+            userService.hasGuildRankPermission(region,realm,name,id,['ad', 'edit'],function(error, hasPerm) {
+                callback(error, hasPerm)
             });
         },
         function(hasPerm,callback){
-
+            if(hasPerm){
+                bnetAPI.getGuild(region,realm,name,[],function(error,guild) {
+                    callback(error,guild);
+                });
+            }
+            else {
+                callback(new Error("GUILD_NOT_OFFICER_ERROR"));
+            }
+        },
+        function(guild,callback) {
+            ad.language="en";
+            guildModel.findOne({region:region,realm:guild.realm,name:guild.name},function(error,guildObj){
+                console.log(guildObj);
+                if(guildObj===null)
+                    guildObj = new guildModel();
+                console.log(ad);
+                guildObj.region = region;
+                guildObj.realm = guild.realm;
+                guildObj.name = guild.name;
+                guildObj.ad.push(ad);
+                guildObj.id.addToSet(id);
+                guildObj.save(function(error){
+                    callback(error);
+                });
+            });
         }
-    ])
-
-
+    ],function(error){
+        callback(error);
+    });
 };
 

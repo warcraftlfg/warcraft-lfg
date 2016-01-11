@@ -6,6 +6,7 @@ var guildCriteria = process.require("guilds/utilities/mongo/guildCriteria.js");
 var guildProjection = process.require("guilds/utilities/mongo/guildProjection.js");
 var numberLimit = process.require("core/utilities/mongo/numberLimit.js");
 var guildSort = process.require("guilds/utilities/mongo/guildSort.js");
+var guildService = process.require("guilds/guildService.js");
 
 /**
  * Return guilds
@@ -93,14 +94,24 @@ module.exports.getGuild = function(req,res,next){
 };
 
 module.exports.putGuild = function(req,res){
+    var logger = applicationStorage.logger;
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
 
     if (!req.user){
         res.status(403);
         res.send();
+    } else {
+
+        var ad = req.body;
+        guildService.checkPermsAndUpsertAd(req.params.region, req.params.realm, req.params.name, req.user.id, ad, function (error) {
+            if (error) {
+                logger.error(error.message);
+                res.status(500).send();
+            } else {
+                res.send();
+            }
+
+        });
     }
 
-    var body = req.body;
-
-
-    res.json({test:"test"});
 };

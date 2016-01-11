@@ -7,7 +7,7 @@ var guildSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    realm:  {
+    realm: {
         type: String,
         required: true
     },
@@ -18,6 +18,25 @@ var guildSchema = mongoose.Schema({
     id: {
         type: Array,
         default: [0]
+    },
+    ad: {
+        updated:{
+            type:Number,
+            default:Date.now
+        },
+        lfg:{
+            type:Boolean,
+            default:false
+        },
+        language: {
+            type:String,
+            default:"fr"
+        },
+        tata: {
+            type:String,
+            default:"fr"
+        }
+
     }
 });
 
@@ -28,7 +47,7 @@ var guildSchema = mongoose.Schema({
  * @param callback
  */
 guildSchema.statics.upsert = function(query,doc,callback){
-    return this.update(query,doc,{runValidators:true,upsert:true},callback);
+    return this.findOneAndUpdate(query,doc,{runValidators:true,upsert:true,setDefaultsOnInsert:true},callback);
 };
 
 var Guild = mongoose.model('Guild',guildSchema);

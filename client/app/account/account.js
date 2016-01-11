@@ -5,9 +5,9 @@
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle","user"];
+    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle","user","guilds"];
 
-    function Account($scope,$state,$filter,socket,wlfgAppTitle,user) {
+    function Account($scope,$state,$filter,socket,wlfgAppTitle,user,guilds) {
         wlfgAppTitle.setTitle('Account');
 
         //Redirect not logged_in users to home
@@ -84,8 +84,10 @@
 
         $scope.createGuildAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            guildIds = {region:region,realm:realm,name:name};
-            //PUT GUILD AD
+
+            guilds.upsert({region:region,realm:realm,name:name},{},function(){
+                console.log("DO SOMETHING");
+            });
         };
 
 

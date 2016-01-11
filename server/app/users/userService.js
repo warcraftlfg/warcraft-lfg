@@ -6,7 +6,9 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
 var userModel = process.require("users/userModel.js");
 var updateModel = process.require("updates/updateModel.js");
+var guildModel = process.require("guilds/guildModel.js");
 var guildService = process.require("guilds/guildService.js");
+var characterModel = process.require("characters/characterModel.js");
 var characterService = process.require("characters/characterService.js");
 
 /**
@@ -186,6 +188,7 @@ module.exports.getCharacters = function(region,id,callback){
  */
 module.exports.hasGuildRankPermission = function (region,realm,name,id,permAttr,callback) {
     var self=this;
+
     var getGuildPerm = function(guild,permAttr) {
         var perm = guild.perms;
         for (var i in permAttr) {
@@ -195,27 +198,124 @@ module.exports.hasGuildRankPermission = function (region,realm,name,id,permAttr,
         }
         return perm || [];
     };
-    self.isMember(id,region,realm,name,function(error,isMyGuild) {
-        if (isMyGuild) {
-            self.getGuildRank(id,region,realm,name,function(error,rank) {
-                if (rank === null) {
-                    // Guild not scanned yet, allow permission.
-                    callback(error, true);
-                } else {
-                    guildService.get(region,realm,name,function(error,guild) {
-                        if (!guild || !guild.perms) {
-                            // Shouldn't happen if the rank call above succeeded
-                            callback(error, true);
-                        } else {
-                            var perm = getGuildPerm(guild, permAttr);
-                            callback(error, perm.indexOf(rank) !== -1);
-                        }
-                    });
-                }
+
+    async.waterfall([
+        function(callback){
+            self.isMember(id,region,realm,name,function(error,isMyGuild) {
+                callback(error,isMyGuild);
             });
-        } else {
-            callback(error, false);
+        },
+        function(isMyGuild,callback){
+            if (isMyGuild) {
+                self.getGuildRank(id,region,realm,name,function(error,rank) {
+                    if (rank === null) {
+                        // Guild not scanned yet, allow permission.
+                        callback(error, true);
+                    } else {
+                        guildModel.findOne({region:region,realm:realm,nname:name},{perms:1},function(error,guild) {
+                            if (!guild || !guild.perms) {
+                                // Shouldn't happen if the rank call above succeeded
+                                callback(error, true);
+                            } else {
+                                var perm = getGuildPerm(guild, permAttr);
+                                callback(error, perm.indexOf(rank) !== -1);
+                            }
+                        });
+                    }
+                });
+            } else {
+                callback(error, false);
+            }
         }
+    ],function(error,hasPerm){
+        callback(error,hasPerm);
     });
 };
 
+/**
+ *
+ * @param id
+ * @param region
+ * @param realm
+ * @param name
+ * @param callback
+ */
+module.exports.getGuildRank = function (id,region,realm,name,callback){
+    var self=this;
+    //Do not check if owner when id = 0
+    if(id==0){
+        callback(null,0);
+        return;
+    }
+
+    function isOwner(character, callback) {
+        characterModel.findOne({region:region,realm:character.realm,name:character.name},{id:1},function(error,character) {
+            if (error)
+                callback(error, null);
+            callback(null, character && character.id === id);
+        });
+    }
+
+    async.waterfall([
+        function(callback){
+            guildModel.findOne({region:region,realm:realm,name:name},{bnet:1},function(error,guild) {
+                callback(error,guild);
+            });
+        },
+        function(guild,callback){
+            var lowestRankNum = null;
+            if (guild && guild.bnet) {
+                async.each(guild.bnet.members,function(member,callback) {
+                    isOwner(member.character, function (error, isOwnCharacter) {
+                        if (isOwnCharacter && (lowestRankNum === null || member.rank < lowestRankNum)) {
+                            lowestRankNum = member.rank;
+                        }
+                        callback(error);
+                    });
+                }, function (error) {
+                    callback(null, lowestRankNum);
+                });
+            } else {
+                callback(null, lowestRankNum);
+            }
+        }
+    ],function(error,lowestRankNum){
+        callback(error,lowestRankNum);
+    });
+};
+
+/**
+ *
+ * @param id
+ * @param region
+ * @param realm
+ * @param name
+ * @param callback
+ * @returns {*}
+ */
+module.exports.isMember = function (id,region,realm,name,callback){
+    var self = this;
+    //Do not check if owner when id = 0
+    if(id==0){
+        return callback(null,true);
+    }
+    async.waterfall([
+        function(callback){
+            self.getGuilds(region, id, function(error,guilds){
+                callback(error,guilds);
+            });
+        },
+        function(guilds,callback){
+            var isMyCharacter = false;
+            async.each(guilds, function (guild, callback) {
+                if (guild.name == name && guild.realm == realm)
+                    isMyCharacter = true;
+                callback();
+            },function(){
+                callback(null,isMyCharacter)
+            });
+        }
+    ],function(error,isMyCharacter){
+        callback(error,isMyCharacter);
+    });
+};
