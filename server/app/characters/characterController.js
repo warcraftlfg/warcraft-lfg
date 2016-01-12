@@ -40,7 +40,7 @@ module.exports.getCharacters = function (req,res) {
             async.parallel({
                 guilds: function(callback){
                     if(limit > 0){
-                        characterModel.find(criteria,projection).sort(sort).limit(limit).exec(function(error,guilds){
+                        characterModel.find(criteria,projection,sort,limit,function(error,guilds){
                             callback(error,guilds);
                         });
                     }

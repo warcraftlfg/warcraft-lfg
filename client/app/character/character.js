@@ -19,7 +19,7 @@
         $scope.current_url =  window.encodeURIComponent($location.absUrl());
 
 
-        characters.get({"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name},function(character){
+        characters.get({"characterRegion":$stateParams.region,"characterRealm":$stateParams.realm,"characterName":$stateParams.name},function(character){
             $scope.$parent.loading = false;
             $scope.character = character;
 

@@ -65,7 +65,7 @@ module.exports.updateGuildsId = function(id){
             },
             function(guilds,callback){
                 async.each(guilds,function(guild,callback){
-                    guildService.setId(region,guild.realm,guild.name,id,function(error){
+                    guildService.sanitizeAndSetId(region,guild.realm,guild.name,id,function(error){
                         if(!error)
                             logger.verbose("Set id %s to guild %s-%s-%s",id,region,guild.realm,guild.name);
                         else
@@ -163,7 +163,7 @@ module.exports.getGuilds = function(region,id,callback){
 module.exports.getCharacters = function(region,id,callback){
     async.waterfall([
         function(callback){
-            userModel.findOne({id:id},function(error,user){
+            userModel.findById(id,function(error,user){
                 callback(error,user);
             });
         },

@@ -44,7 +44,7 @@ function WebServerProcess(){
     this.io.adapter(adapter(applicationStorage.redis));
 
     //Create sessionStore inside Mongodb
-    var sessionStore =  new mongoStore({mongooseConnection: applicationStorage.mongoose});
+    var sessionStore =  new mongoStore({db: applicationStorage.mongo});
 
     //Update Session store with opened database connection
     //Allowed server to restart without loosing any session
@@ -77,8 +77,8 @@ function WebServerProcess(){
 
     //Catch all error and log them
     this.app.use(function(error, req, res, next) {
-        logger.error("Error on request %s ",error);
-        res.status(error.statusCode).send({error:error.statusCode,message:"Internal Server Error"});
+        logger.error("Error on request",error);
+        res.status(error.statusCode).json({error:error.statusCode,message:"Internal Server Error"});
     });
 
     //Log all other request and send 404

@@ -22,7 +22,7 @@
         $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
 
         //socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
-        guilds.get({"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name},function(guild){
+        guilds.get({"guildRegion":$stateParams.region,"guildRealm":$stateParams.realm,"guildName":$stateParams.name},function(guild){
             $scope.$parent.loading = false;
             $scope.guild = guild;
             $scope.recruit = { 'tank': 0, 'heal': 0, 'melee_dps': 0, 'ranged_dps': 0};

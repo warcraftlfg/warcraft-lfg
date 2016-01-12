@@ -9,7 +9,7 @@ process.require = function(filePath){
 // Module dependencies
 var path = require("path");
 var async = require('async');
-var mongoose = require('mongoose');
+var mongo =  require('mongodb').MongoClient;
 var redis = require("redis");
 var winston = require("winston");
 var applicationStorage = process.require("core//applicationStorage");
@@ -104,15 +104,11 @@ async.waterfall([
     function(callback) {
         async.parallel([
                 function(callback){
-                    mongoose.connect(config.database.mongo);
-                    var db = mongoose.connection;
-                    db.on("error", function(error) {
-                        callback(error);
-                    });
-                    db.once("open", function() {
+                    mongo.connect(config.database.mongo, function(error, db) {
                         logger.verbose("Mongo connected");
-                        applicationStorage.mongoose = db;
-                        callback();
+                        applicationStorage.mongo = db;
+                        callback(error);
+
                     });
                 },
                 function(callback) {

@@ -6,7 +6,7 @@
  */
 
 
-exports.mongoose = null;
+exports.mongo = null;
 exports.redis = null;
 exports.socketIo = null;
 exports.config = null;

@@ -37,7 +37,7 @@ module.exports.getGuilds= function(req,res) {
             async.parallel({
                 guilds: function(callback){
                     if(limit > 0){
-                        guildModel.find(criteria,projection).sort(sort).limit(limit).exec(function(error,guilds){
+                        guildModel.find(criteria,projection,sort,limit,function(error,guilds){
                             callback(error,guilds);
                         });
                     }

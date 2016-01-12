@@ -13,7 +13,7 @@ var userService = process.require("users/userService.js");
  * @param id
  * @param callback
  */
-module.exports.setId = function(region,realm,name,id,callback){
+module.exports.sanitizeAndSetId = function(region,realm,name,id,callback){
     async.waterfall([
         function(callback){
             bnetAPI.getGuild(region,realm,name,[],function(error,guild){
@@ -21,12 +21,9 @@ module.exports.setId = function(region,realm,name,id,callback){
             });
         },
         function(guild,callback){
-            guildModel.upsert(
-                {region:region,realm:guild.realm,name:guild.name},
-                {$set:{region:region,realm:guild.realm,name:guild.name},$addToSet: {id: id}},
-                function(error){
-                    callback(error);
-                });
+            guildModel.setId(region,guild.realm,guild.name,id,function(error){
+                callback(error);
+            });
         }
     ],function(error){
         callback(error);
@@ -51,20 +48,19 @@ module.exports.checkPermsAndUpsertAd = function(region,realm,name,id,ad,callback
             }
         },
         function(guild,callback) {
-            ad.language="en";
-            guildModel.findOne({region:region,realm:guild.realm,name:guild.name},function(error,guildObj){
-                console.log(guildObj);
-                if(guildObj===null)
-                    guildObj = new guildModel();
-                console.log(ad);
-                guildObj.region = region;
-                guildObj.realm = guild.realm;
-                guildObj.name = guild.name;
-                guildObj.ad.push(ad);
-                guildObj.id.addToSet(id);
-                guildObj.save(function(error){
-                    callback(error);
-                });
+            async.parallel([
+                function(callback){
+                    guildModel.upsertAd(region,guild.realm,guild.name,ad,function(error){ //Upsert the ad
+                        callback(error);
+                    });
+                },
+                function(callback){
+                    guildModel.setId(region,guild.realm,guild.name,id,function(error){ // Set the user Id
+                        callback(error);
+                    });
+                }
+            ],function(error){
+                callback(error)
             });
         }
     ],function(error){

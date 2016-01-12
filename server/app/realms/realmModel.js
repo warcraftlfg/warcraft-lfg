@@ -1,31 +1,42 @@
 "use strict";
 
-var mongoose = require("mongoose");
-
-var realmSchema = mongoose.Schema({
-    region: {
-        type: String,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    connected_realms: {
-        type: [String]
-    }
-});
+var applicationStorage = process.require("core/applicationStorage.js");
 
 /**
- * Define upsert function
- * @param query
- * @param doc
+ * Get the characters
+ * @param criteria
+ * @param projection
+ * @param sort
+ * @param limit
  * @param callback
  */
-realmSchema.statics.upsert = function(query,doc,callback){
-    return this.update(query,doc,{runValidators:true,upsert:true},callback);
+module.exports.find = function(criteria,projection,sort,limit,callback){
+    var collection = applicationStorage.mongo.collection("realms");
+    if(limit === undefined && callback == undefined) {
+        callback = sort;
+        collection.find(criteria, projection).toArray(function (error, characters) {
+            callback(error, characters);
+        });
+    } else if(callback == undefined) {
+        callback = limit;
+        collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
+            callback(error, characters);
+        });
+    } else {
+        collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, characters) {
+            callback(error, characters);
+        });
+    }
 };
 
-var Realm = mongoose.model('Realm',realmSchema);
-
-module.exports = Realm;
+/**
+ * Get one realm
+ * @param criteria
+ * @param projection
+ */
+module.exports.findOne = function(criteria,projection,callback){
+    var collection = applicationStorage.mongo.collection("realms");
+    collection.findOne(criteria, projection,function (error, guild) {
+        callback(error, guild);
+    });
+};

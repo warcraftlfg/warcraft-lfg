@@ -23,7 +23,7 @@ passport.use(new BnetStrategy({
         logger.verbose("%s connected",profile.battletag);
 
         var user = {id:profile.id,battleTag:profile.battletag, accessToken:accessToken};
-        userModel.upsert({id:profile.id},user,function(error){
+        userModel.upsert(user,function(error){
             if(error){
                 logger.error(error.message);
                 return done(null,false);
@@ -56,11 +56,10 @@ passport.serializeUser(function(user, done) {
 // noinspection JSUnresolvedFunction
 passport.deserializeUser(function(id, done) {
     logger.silly("deserializeUser for id:%s", id);
-    userModel.findOne({id:id},function(error,user){
+    userModel.findById(id,function(error,user){
         if(user)
             done(null,{id:user.id,battleTag:user.battleTag});
         else {
-            logger.error(error.message);
             done(null, false);
         }
     });

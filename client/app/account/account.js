@@ -85,8 +85,8 @@
         $scope.createGuildAd = function(region,realm,name){
             $scope.$parent.loading = true;
 
-            guilds.upsert({region:region,realm:realm,name:name},{},function(){
-                console.log("DO SOMETHING");
+            guilds.upsert({guildRegion:region,guildRealm:realm,guildName:name},{},function(){
+                $scope.$parent.loading = false;
             });
         };
 
