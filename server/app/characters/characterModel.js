@@ -52,3 +52,43 @@ module.exports.count = function(criteria,callback){
         callback(error, count);
     });
 };
+
+/**
+ * AddtoSet ID
+ * @param region
+ * @param realm
+ * @param name
+ * @param id
+ * @param callback
+ */
+module.exports.setId = function(region,realm,name,id,callback){
+
+    var config = applicationStorage.config;
+
+    //Force region to lowercase
+    region = region.toLowerCase();
+
+    if(config.bnetRegions.indexOf(region)==-1){
+        return callback(new Error('Region '+ region +' is not allowed in characterModel'));
+    }
+    if(region == null){
+        return callback(new Error('Field region is required in characterModel'));
+    }
+    if(realm == null){
+        return callback(new Error('Field realm is required in characterModel'));
+    }
+    if(name == null){
+        return callback(new Error('Field name is required in characterModel'));
+    }
+    if(isNaN(parseInt(id,10))){
+        return callback(new Error('Id need to be a number'));
+    }
+
+    var collection = applicationStorage.mongo.collection("characters");
+    collection.update({region:region,realm:realm,name:name}, {$set:{id:id}}, {upsert:true}, function(error,result){
+        callback(error,result);
+    });
+
+};
+
+

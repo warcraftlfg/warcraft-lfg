@@ -22,30 +22,39 @@ module.exports.sanitizeAndSetId = function(region,realm,name,id,callback){
         },
         function(guild,callback){
             guildModel.setId(region,guild.realm,guild.name,id,function(error){
-                callback(error);
+                callback(error,guild);
             });
         }
-    ],function(error){
-        callback(error);
+    ],function(error,guild){
+        callback(error,guild);
     });
 };
 
+/**
+ * Check the User permission and Upsert the Ad
+ * @param region
+ * @param realm
+ * @param name
+ * @param id
+ * @param ad
+ * @param callback
+ */
 module.exports.checkPermsAndUpsertAd = function(region,realm,name,id,ad,callback){
     async.waterfall([
         function(callback){
             userService.hasGuildRankPermission(region,realm,name,id,['ad', 'edit'],function(error, hasPerm) {
-                callback(error, hasPerm)
+                if(hasPerm){
+                    callback(error)
+                }
+                else {
+                    callback(new Error("GUILD_ACCESS_DENIED"));
+                }
             });
         },
-        function(hasPerm,callback){
-            if(hasPerm){
-                bnetAPI.getGuild(region,realm,name,[],function(error,guild) {
-                    callback(error,guild);
-                });
-            }
-            else {
-                callback(new Error("GUILD_NOT_OFFICER_ERROR"));
-            }
+        function(callback){
+            bnetAPI.getGuild(region,realm,name,[],function(error,guild) {
+                callback(error,guild);
+            });
         },
         function(guild,callback) {
             async.parallel([

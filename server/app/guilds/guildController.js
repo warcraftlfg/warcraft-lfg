@@ -93,6 +93,11 @@ module.exports.getGuild = function(req,res,next){
     });
 };
 
+/**
+ * Put guild
+ * @param req
+ * @param res
+ */
 module.exports.putGuild = function(req,res){
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
@@ -101,17 +106,14 @@ module.exports.putGuild = function(req,res){
         res.status(403);
         res.send();
     } else {
-
         var ad = req.body;
         guildService.checkPermsAndUpsertAd(req.params.region, req.params.realm, req.params.name, req.user.id, ad, function (error) {
             if (error) {
                 logger.error(error.message);
                 res.status(500).send();
             } else {
-                res.send();
+                res.json();
             }
-
         });
     }
-
 };

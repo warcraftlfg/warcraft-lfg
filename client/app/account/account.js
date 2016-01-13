@@ -5,9 +5,9 @@
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle","user","guilds"];
+    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle","user","guilds","characters"];
 
-    function Account($scope,$state,$filter,socket,wlfgAppTitle,user,guilds) {
+    function Account($scope,$state,$filter,socket,wlfgAppTitle,user,guilds,characters) {
         wlfgAppTitle.setTitle('Account');
 
         //Redirect not logged_in users to home
@@ -26,51 +26,38 @@
         $scope.guildRegion = "";
         $scope.characterRegion = "";
         var characterIds;
-        var guildIds;
 
 
-        $scope.characterAds = user.query({param1:"characterAds"});
-        user.query({param1:"guildAds"},function(guildAds){
+        //Get CharacterAds
+        user.query({param1:"characterAds"}, function (characterAds) {
+            $scope.characterAds = characterAds;
+        },function(error){
+            $scope.$parent.error = error.data;
+        });
+
+        //Get GuildAds
+        user.query({param1: "guildAds"}, function (guildAds) {
             $scope.guildAds = guildAds;
             $.each(guildAds, function (i, guild) {
-                if(guild.perms) {
+                if (guild.perms) {
                     guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
                     guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
                 }
-            });
-        });
-
-
-        socket.forward('get:guild',$scope);
-        $scope.$on('socket:get:guild',function(ev,guild){
-            if (guild && guild.ad)
-                socket.emit('put:guildAd',guild);
-            else{
-                guildIds.ad = {};
-                socket.emit('put:guildAd',guildIds);
-            }
-        });
-
-        socket.forward('put:guildAd',$scope);
-        $scope.$on('socket:put:guildAd',function(ev,guild){
-            socket.emit('get:userGuildRank',{"region":guild.region,"realm":guild.realm,"name":guild.name});
-            socket.forward('get:userGuildRank',$scope);
-            $scope.$on('socket:get:userGuildRank',function(ev,rank){
-                // Err on the side of caution if this is the first time we've seen this guild and
-                // don't have rank info for it yet. Worst case scenario someone who isn't an
-                // officer gets to update the profile for the short period of time between the ad
-                // getting created and the guild being scanned for the first time.
-                if (!guild.perms || rank === null || $.inArray(rank, guild.perms.ad.edit) !== -1) {
-                    $state.go("guild-update",{region:guild.region,realm:guild.realm,name:guild.name});
-                } else {
-                    // $route.reload() is suggested, but we don't inject $route here
-                    window.location.reload();
+                else {
+                    guild.perms={ad:{}};
+                    guild.perms.ad.edit = true;
+                    guild.perms.ad.del = true;
                 }
             });
+        },function(error){
+            $scope.$parent.error = error.data;
         });
 
-        $scope.updateGuildRegion = function(){
 
+        /**
+         * Get user's guilds by region
+         */
+        $scope.updateGuildRegion = function(){
             if($scope.guildRegion==='')
                 $scope.userGuilds = null;
             else {
@@ -79,34 +66,11 @@
                     $scope.$parent.loading = false;
                 });
             }
-
         };
 
-        $scope.createGuildAd = function(region,realm,name){
-            $scope.$parent.loading = true;
-
-            guilds.upsert({guildRegion:region,guildRealm:realm,guildName:name},{},function(){
-                $scope.$parent.loading = false;
-            });
-        };
-
-
-        socket.forward('get:character',$scope);
-        $scope.$on('socket:get:character',function(ev,character){
-            if (character && character.ad)
-                socket.emit('put:characterAd',character);
-            else{
-                characterIds.ad = {};
-                socket.emit('put:characterAd',characterIds);
-            }
-        });
-
-        socket.forward('put:characterAd',$scope);
-        $scope.$on('socket:put:characterAd',function(ev,character){
-            $state.go("character-update",{region:character.region,realm:character.realm,name:character.name});
-        });
-
-
+        /**
+         * Get user's characters  by region
+         */
         $scope.updateCharacterRegion = function(){
             if($scope.characterRegion==='')
                 $scope.userCharacters = null;
@@ -119,10 +83,41 @@
             }
         };
 
+
+        /**
+         * Create a new Guild Ad
+         * @param region
+         * @param realm
+         * @param name
+         */
+        $scope.createGuildAd = function(region,realm,name) {
+            $scope.$parent.loading = true;
+            guilds.upsert({guildRegion: region, guildRealm: realm, guildName: name}, {},
+                function () {
+                    $state.go("guild-update", {region: region, realm: realm, name: name});
+                },
+                function(error){
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                });
+        };
+
+        /**
+         * Create a new Character Ad
+         * @param region
+         * @param realm
+         * @param name
+         */
         $scope.createCharacterAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            characterIds = {region:region,realm:realm,name:name};
-            socket.emit('get:character',characterIds);
+            characters.upsert({guildRegion: region, guildRealm: realm, guildName: name}, {},
+                function () {
+                    $state.go("character-update", {region: region, realm: realm, name: name});
+                },
+                function(error){
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                });
 
         };
 

@@ -63,7 +63,7 @@ module.exports.getCharacters = function(region,id,callback){
 
 module.exports.getGuildRank = function (id,region,realm,name,callback){
     var self=this;
-    //Do not check if owner when id = 0
+    //Do not check when id = 0
     if(id==0){
         callback(null,0);
         return;

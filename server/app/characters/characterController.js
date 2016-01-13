@@ -129,3 +129,23 @@ module.exports.getCharacter = function(req,res,next){
         }
     });
 };
+
+module.exports.putCharacter = function(req,res){
+    var logger = applicationStorage.logger;
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+
+    if (!req.user){
+        res.status(403);
+        res.send();
+    } else {
+        var ad = req.body;
+        characterService.checkPermsAndUpsertAd(req.params.region, req.params.realm, req.params.name, req.user.id, ad, function (error) {
+            if (error) {
+                logger.error(error.message);
+                res.status(500).send(error.message);
+            } else {
+                res.json();
+            }
+        });
+    }
+};

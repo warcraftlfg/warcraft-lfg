@@ -54,18 +54,18 @@ module.exports.updateGuildsId = function(id){
     var config = applicationStorage.config;
     var logger = applicationStorage.logger;
     var self = this;
-    //noinspection JSUnresolvedVariable
-
     async.each(config.bnetRegions,function(region,callback){
         async.waterfall([
-            function(callback){
+            function(callback){ //Get guilds from Bnet
                 self.getGuilds(region, id, function (error, guilds) {
                     callback(error, guilds);
                 });
             },
             function(guilds,callback){
+                var bnetGuilds = [];
                 async.each(guilds,function(guild,callback){
-                    guildService.sanitizeAndSetId(region,guild.realm,guild.name,id,function(error){
+                    guildService.sanitizeAndSetId(region,guild.realm,guild.name,id,function(error,guild){
+                        bnetGuilds.push(guild);
                         if(!error)
                             logger.verbose("Set id %s to guild %s-%s-%s",id,region,guild.realm,guild.name);
                         else
@@ -73,7 +73,31 @@ module.exports.updateGuildsId = function(id){
                         callback();
                     });
                 },function(error){
-                    callback(error);
+                    callback(error,bnetGuilds);
+                });
+            },
+            function(bnetGuilds,callback) {
+                guildModel.find({region:region,id:id},{realm:1,name:1},function(error,guilds){
+                    async.each(guilds,function(guild,callback){
+                        var isOk = false;
+                        async.each(bnetGuilds,function(bnetGuild,callback){
+                            if(bnetGuild.realm === guild.realm &&  bnetGuild.name === guild.name)
+                                isOk = true;
+                            callback();
+                        },function(error){
+                            callback(error);
+                        });
+
+                        if(isOk == false ) {
+                            console.log(guild);
+                            //TODO REMOVE USER FROM THIS GUILD !!! NOT MEMBER ANYMORE
+                        }
+
+                    },function(error){
+                        callback(error);
+                    });
+
+
                 });
             }
         ],function(error){
@@ -102,7 +126,7 @@ module.exports.updateCharactersId = function(id){
             },
             function(characters,callback){
                 async.each(characters,function(character,callback){
-                    characterService.setId(region,character.realm,character.name,id,function(error){
+                    characterService.sanitizeAndSetId(region,character.realm,character.name,id,function(error){
                         if(!error)
                             logger.verbose("Set id %s to character %s-%s-%s",id,region,character.realm,character.name);
                         else
@@ -201,18 +225,18 @@ module.exports.hasGuildRankPermission = function (region,realm,name,id,permAttr,
 
     async.waterfall([
         function(callback){
-            self.isMember(id,region,realm,name,function(error,isMyGuild) {
+            self.isMember(region,realm,name,id,function(error,isMyGuild) {
                 callback(error,isMyGuild);
             });
         },
         function(isMyGuild,callback){
             if (isMyGuild) {
-                self.getGuildRank(id,region,realm,name,function(error,rank) {
+                self.getGuildRank(region,realm,name,id,function(error,rank) {
                     if (rank === null) {
                         // Guild not scanned yet, allow permission.
                         callback(error, true);
                     } else {
-                        guildModel.findOne({region:region,realm:realm,nname:name},{perms:1},function(error,guild) {
+                        guildModel.findOne({region:region,realm:realm,name:name},{perms:1},function(error,guild) {
                             if (!guild || !guild.perms) {
                                 // Shouldn't happen if the rank call above succeeded
                                 callback(error, true);
@@ -224,7 +248,7 @@ module.exports.hasGuildRankPermission = function (region,realm,name,id,permAttr,
                     }
                 });
             } else {
-                callback(error, false);
+                callback(null, false);
             }
         }
     ],function(error,hasPerm){
@@ -240,20 +264,13 @@ module.exports.hasGuildRankPermission = function (region,realm,name,id,permAttr,
  * @param name
  * @param callback
  */
-module.exports.getGuildRank = function (id,region,realm,name,callback){
+module.exports.getGuildRank = function (region,realm,name,id,callback){
+    var logger = applicationStorage.logger;
     var self=this;
     //Do not check if owner when id = 0
     if(id==0){
         callback(null,0);
         return;
-    }
-
-    function isOwner(character, callback) {
-        characterModel.findOne({region:region,realm:character.realm,name:character.name},{id:1},function(error,character) {
-            if (error)
-                callback(error, null);
-            callback(null, character && character.id === id);
-        });
     }
 
     async.waterfall([
@@ -266,13 +283,15 @@ module.exports.getGuildRank = function (id,region,realm,name,callback){
             var lowestRankNum = null;
             if (guild && guild.bnet) {
                 async.each(guild.bnet.members,function(member,callback) {
-                    isOwner(member.character, function (error, isOwnCharacter) {
+                    self.isOwner(member.character.region,member.character.realm,member.character.name,id, function (error, isOwnCharacter) {
                         if (isOwnCharacter && (lowestRankNum === null || member.rank < lowestRankNum)) {
                             lowestRankNum = member.rank;
                         }
                         callback(error);
                     });
                 }, function (error) {
+                    if(error)
+                        logger.error(error.message);
                     callback(null, lowestRankNum);
                 });
             } else {
@@ -285,7 +304,7 @@ module.exports.getGuildRank = function (id,region,realm,name,callback){
 };
 
 /**
- *
+ * Return if user is member of a guild
  * @param id
  * @param region
  * @param realm
@@ -293,29 +312,29 @@ module.exports.getGuildRank = function (id,region,realm,name,callback){
  * @param callback
  * @returns {*}
  */
-module.exports.isMember = function (id,region,realm,name,callback){
-    var self = this;
-    //Do not check if owner when id = 0
-    if(id==0){
-        return callback(null,true);
-    }
-    async.waterfall([
-        function(callback){
-            self.getGuilds(region, id, function(error,guilds){
-                callback(error,guilds);
-            });
-        },
-        function(guilds,callback){
-            var isMyCharacter = false;
-            async.each(guilds, function (guild, callback) {
-                if (guild.name == name && guild.realm == realm)
-                    isMyCharacter = true;
-                callback();
-            },function(){
-                callback(null,isMyCharacter)
-            });
-        }
-    ],function(error,isMyCharacter){
-        callback(error,isMyCharacter);
+module.exports.isMember = function (region,realm,name,id,callback){
+
+    guildModel.findOne({region:region,realm:realm,name:name,id:id},{id:1},function(error, guild){
+        if(guild)
+            callback(error,true);
+        else
+            callback(error,false);
+    });
+};
+
+/**
+ * Return if user is owner of the character
+ * @param region
+ * @param realm
+ * @param name
+ * @param id
+ * @param callback
+ */
+module.exports.isOwner = function(region,realm,name,id,callback) {
+    characterModel.findOne({region:region,realm:realm,name:name,id:id},{id:1},function(error,character) {
+        if(character)
+            callback(error,true);
+        else
+            callback(error,false);
     });
 };

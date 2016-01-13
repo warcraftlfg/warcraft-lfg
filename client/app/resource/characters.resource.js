@@ -16,6 +16,9 @@
                     response.count = headersGetter()['x-total-count'];
                     return response;
                 }
+            },
+            upsert: {
+                method:'put'
             }
         });
     }
