@@ -2,7 +2,8 @@
 
 /**
  * Validate name param
- * @param realm
+ * @param name
+ * @param callback
  */
 module.exports.validate = function (name,callback){
     if(name === null){

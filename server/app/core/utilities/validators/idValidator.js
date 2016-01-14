@@ -3,6 +3,7 @@
 /**
  * Validate id param
  * @param id
+ * @param callback
  */
 module.exports.validate = function (id,callback){
     if(isNaN(parseInt(id,10))){

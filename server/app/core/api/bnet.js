@@ -57,8 +57,11 @@ module.exports.getUserCharacters = function(region,accessToken,callback){
  * @param callback
  */
 module.exports.requestBnetApi = function(region,endUrl,callback){
-    var baseUrl = "https://"+region+".api.battle.net/"
+    var logger = applicationStorage.logger;
+    var baseUrl = "https://"+region+".api.battle.net/";
     var url = encodeURI(baseUrl+endUrl);
+    logger.debug('GET BNET API : %s',url);
+
     request.get({method:"GET",uri:url, gzip: true}, function (error, response, body) {
         if (!error && response.statusCode == 200)
             callback(null,JSON.parse(body));

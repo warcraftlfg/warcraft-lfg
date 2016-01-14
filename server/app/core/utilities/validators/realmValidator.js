@@ -3,6 +3,7 @@
 /**
  * Validate region param
  * @param realm
+ * @param callback
  */
 module.exports.validate = function (realm,callback){
     if(realm === null){

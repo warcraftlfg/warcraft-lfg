@@ -71,7 +71,12 @@ module.exports.getCharacters = function (req,res) {
     });
 };
 
-
+/**
+ * Return one character
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports.getCharacter = function(req,res,next){
 
     var logger = applicationStorage.logger;
@@ -133,11 +138,17 @@ module.exports.getCharacter = function(req,res,next){
     });
 };
 
+/**
+ * Put a character Ad
+ * @param req
+ * @param res
+ */
 module.exports.putCharacterAd = function(req,res){
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
     var ad = req.body;
-    characterService.checkPermsAndUpsertAd(req.params.region, req.params.realm, req.params.name, req.user.id, ad, function (error) {
+    //TODO Set to update with priority 5
+    characterModel.upsertAd(req.params.region, req.params.realm, req.params.name, ad, function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -149,14 +160,14 @@ module.exports.putCharacterAd = function(req,res){
 };
 
 /**
- * Delete Guild AD
+ * Delete Character AD
  * @param req
  * @param res
  */
 module.exports.deleteCharacterAd = function(req,res){
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
-    characterService.checkPermsAndDeleteAd(req.params.region, req.params.realm, req.params.name, req.user.id, function (error) {
+    characterModel.deleteAd(req.params.region, req.params.realm, req.params.name, function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);

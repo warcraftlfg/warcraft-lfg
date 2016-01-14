@@ -30,12 +30,27 @@ module.exports.setGuildsToUpdate = function(id){
             },
             function(guilds,callback){
                 async.each(guilds,function(guild,callback){
-                    updateModel.upsert('gu',region,guild.realm,guild.name,0,function(error){
-                        logger.verbose("Set guild %s-%s-%s to update with priority %s",region,guild.realm,guild.name,0);
-                        callback(error);
+                    async.waterfall([
+                        function(callback){
+                            bnetAPI.getGuild(region,guild.realm,guild.name,[],function(error,guild){
+                                callback(error,guild);
+                            });
+                        },
+                        function (guild,callback){
+                            updateModel.upsert('gu',region,guild.realm,guild.name,0,function(error){
+                                logger.verbose("Set guild %s-%s-%s to update with priority %s",region,guild.realm,guild.name,0);
+                                callback(error);
+                            });
+                        }
+                    ],function(error){
+                        if (error){
+                            logger.error(error.message);
+                        }
+                        callback();
                     });
-                },function(error){
-                    callback(error)
+
+                },function(){
+                    callback()
                 });
             }
         ],function(error){

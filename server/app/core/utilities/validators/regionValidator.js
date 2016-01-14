@@ -4,7 +4,8 @@ var applicationStorage = process.require("core/applicationStorage.js");
 
 /**
  * Validate realm param
- * @param realm
+ * @param region
+ * @param callback
  */
 module.exports.validate = function (region,callback){
     var config = applicationStorage.config;

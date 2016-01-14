@@ -58,8 +58,8 @@ if(process.argv.indexOf("-gpu")!=-1)
 //Start all process if no args are found
 if(processNames.length == 0 ) {
     processNames = [
-        /*"GuildUpdateProcess",
-        "CharacterUpdateProcess",
+        "GuildUpdateProcess",
+        /*"CharacterUpdateProcess",
         "RealmUpdateProcess",
         "WowProgressUpdateProcess",
         "CleanerProcess",
@@ -141,12 +141,14 @@ async.waterfall([
     },
     // Start Processes
     function(processes,callback){
-        async.forEachSeries(processes,function(process,callback){
+        async.each(processes,function(process,callback){
+
             process.start(function(error){
                 callback(error);
             });
 
         },function(error){
+
             callback(error);
         });
     }

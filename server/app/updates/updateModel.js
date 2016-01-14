@@ -70,34 +70,6 @@ module.exports.getUpdate = function(type,priority,callback) {
 };
 
 /**
- * Return the next update in list with higher priority
- * @param type
- * @param callback
- */
-module.exports.getNextUpdate = function(type,callback){
-    var self = this;
-    var config = applicationStorage.config;
-
-    /** @namespace config.priorities */
-    async.eachSeries(config.priorities,function(priority,callback){
-        self.getUpdate(type, priority, function (error, result) {
-            if(error)
-                return callback(error);
-            if(result)
-                return callback({result:result});
-            else
-                callback()
-        });
-    },function(result){
-        if(!result)
-            return callback();
-        if(result.error)
-            return callback(result.error);
-        callback(null,result.result);
-    });
-};
-
-/**
  * Return the number of updates in list
  * @param type
  * @param priority

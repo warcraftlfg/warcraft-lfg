@@ -4,9 +4,7 @@
 var request = require("request");
 
 //Configuration
-var env = process.env.NODE_ENV || 'dev';
-var config = process.require('config/config.'+env+'.json');
-var logger = process.require("api/logger.js").get("logger");
+var applicationStorage = process.require("core/applicationStorage.js");
 var cheerio = require("cheerio");
 var async = require("async");
 
@@ -22,8 +20,8 @@ var monthToNumber = {
     "Apr": 4,
     "Mar": 3,
     "Feb": 2,
-    "Jan": 1,
-}
+    "Jan": 1
+};
 
 var languages = {
     "English": "en",
@@ -90,23 +88,22 @@ module.exports.getGuildRank = function(region, realm, name, callback){
 
     var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name+"/json_rank");
     request(url, function (error, response, body) {
-
         if (!error && response.statusCode == 200) {
-            callback(error,JSON.parse(body));
-        }
-        else {
-            if (error) {
-                logger.error(error.message+" on fetching wowprogress api "+url);
+            var result = JSON.parse(body);
+            if(result) {
+                callback(error, result);
+            } else {
+                callback(new Error('WowProgress ranking not found for ' + region + "-" + realm + "-" + name + ""));
             }
-            else {
-                logger.warn("Error HTTP "+response.statusCode+" on fetching wowprogress api "+url);
-            }
-            callback(new Error("BNET_API_ERROR"));
+        } else {
+            callback(error);
         }
     });
 };
 
 module.exports.getGuildProgress = function(region, realm, name, callback){
+    var logger = applicationStorage.logger;
+
     var bnetRealm = realm;
 
 
@@ -154,7 +151,7 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
             }
 
             if (bosses.length != timestamps.length) {
-                callback(new Error("WOWPROGRESS_PARSING_ERROR"));
+                return callback(new Error("WOWPROGRESS_PARSING_ERROR"));
             }
 
             async.forEachOf(bosses, function(boss, index, callback) {
@@ -213,21 +210,15 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
             });
 
             callback(error, ranking);
-        }
-        else {
-            if (error) {
-                logger.error(error.message+" on fetching wowprogress api "+url);
-            }
-            else {
-                logger.warn("Error HTTP "+response.statusCode+" on fetching wowprogress api "+url);
-            }
-            callback(new Error("BNET_API_ERROR"));
+        } else {
+            callback(error);
         }
     });
 };
 
 module.exports.getWoWProgressPage = function(path,callback) {
     var url = "http://www.wowprogress.com"+path;
+    var logger = applicationStorage.logger;
 
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {

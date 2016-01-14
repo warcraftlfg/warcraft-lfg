@@ -132,6 +132,74 @@ module.exports.upsertPerms = function(region,realm,name,perms,callback){
     });
 };
 
+/**
+ * Update or insert bnet object for the guild
+ * @param region
+ * @param realm
+ * @param name
+ * @param perms
+ * @param callback
+ */
+module.exports.upsertBnet = function(region,realm,name,bnet,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            bnet.updated = new Date().getTime();
+            //Upsert
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region:region,realm:realm,name:name}, {$set:{bnet:bnet}}, {upsert:true}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+
+/**
+ * Update or insert bnet object for the guild
+ * @param region
+ * @param realm
+ * @param name
+ * @param perms
+ * @param callback
+ */
+module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            wowProgress.updated = new Date().getTime();
+            //Upsert
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region:region,realm:realm,name:name}, {$set:{wowProgress:wowProgress}}, {upsert:true}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
 
 /**
  * Update or insert ad for the guild
@@ -198,7 +266,14 @@ module.exports.setId = function(region,realm,name,id,callback){
     });
 };
 
-
+/**
+ *
+ * @param region
+ * @param realm
+ * @param name
+ * @param id
+ * @param callback
+ */
 module.exports.removeId = function(region,realm,name,id, callback) {
     async.series([
         function(callback){
