@@ -1,6 +1,10 @@
 "use strict";
 
+var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
+var characterAdSchema = process.require('config/db/characterAdSchema.json');
+var validator = process.require('core/utilities/validators/validator.js');
+var Confine = require("confine");
 
 /**
  * Get the characters
@@ -53,6 +57,80 @@ module.exports.count = function(criteria,callback){
     });
 };
 
+
+
+/**
+ * Update or insert ad for the character
+ * @param region
+ * @param realm
+ * @param name
+ * @param ad
+ * @param callback
+ */
+module.exports.upsertAd = function(region,realm,name,ad,callback){
+    async.series([
+        function(callback){
+            //Force region to lowercase
+            region = region.toLowerCase();
+            //Sanitize ad object
+            var confine = new Confine();
+            ad = confine.normalize(ad,characterAdSchema);
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            ad.updated = new Date().getTime();
+            //Upsert
+            var collection = applicationStorage.mongo.collection("characters");
+            collection.update({region:region,realm:realm,name:name}, {$set:{ad:ad}}, {upsert:true}, function(error,result){
+                callback(error,result);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+
+/**
+ * Update or insert ad for the character
+ * @param region
+ * @param realm
+ * @param name
+ * @param ad
+ * @param callback
+ */
+module.exports.deleteAd = function(region,realm,name,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            //Upsert
+            var collection = applicationStorage.mongo.collection("characters");
+            collection.update({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+
 /**
  * AddtoSet ID
  * @param region
@@ -62,33 +140,27 @@ module.exports.count = function(criteria,callback){
  * @param callback
  */
 module.exports.setId = function(region,realm,name,id,callback){
-
-    var config = applicationStorage.config;
-
-    //Force region to lowercase
-    region = region.toLowerCase();
-
-    if(config.bnetRegions.indexOf(region)==-1){
-        return callback(new Error('Region '+ region +' is not allowed in characterModel'));
-    }
-    if(region == null){
-        return callback(new Error('Field region is required in characterModel'));
-    }
-    if(realm == null){
-        return callback(new Error('Field realm is required in characterModel'));
-    }
-    if(name == null){
-        return callback(new Error('Field name is required in characterModel'));
-    }
-    if(isNaN(parseInt(id,10))){
-        return callback(new Error('Id need to be a number'));
-    }
-
-    var collection = applicationStorage.mongo.collection("characters");
-    collection.update({region:region,realm:realm,name:name}, {$set:{id:id}}, {upsert:true}, function(error,result){
-        callback(error,result);
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name,id:id},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            var collection = applicationStorage.mongo.collection("characters");
+            collection.update({region:region,realm:realm,name:name}, {$set:{id:id}}, {upsert:true}, function(error,result){
+                callback(error,result);
+            });
+        }
+    ],function(error){
+        callback(error);
     });
-
 };
 
 

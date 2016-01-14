@@ -14,7 +14,7 @@
             $translate.use(key);
         };
 
-        $scope.user = user.get({param1:"profile"});
+        $scope.user = user.get({param:"profile"});
 
     }
 })();

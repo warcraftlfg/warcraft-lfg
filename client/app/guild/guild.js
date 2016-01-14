@@ -21,7 +21,6 @@
 
         $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
 
-        //socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
         guilds.get({"guildRegion":$stateParams.region,"guildRealm":$stateParams.realm,"guildName":$stateParams.name},function(guild){
             $scope.$parent.loading = false;
             $scope.guild = guild;
@@ -49,8 +48,8 @@
         });
     }
 
-    GuildUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES","TIMEZONES"];
-    function GuildUpdate($scope,socket,$state,$stateParams,LANGUAGES,TIMEZONES) {
+    GuildUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES","TIMEZONES","guilds","user"];
+    function GuildUpdate($scope,socket,$state,$stateParams,LANGUAGES,TIMEZONES,guilds,user) {
         //Reset error message
         $scope.$parent.error=null;
 
@@ -68,64 +67,73 @@
         $scope.$parent.loading = true;
 
 
-        socket.emit('get:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:guild',$scope);
-        $scope.$on('socket:get:guild',function(ev,guild){
+        guilds.get({"guildRegion":$stateParams.region,"guildRealm":$stateParams.realm,"guildName":$stateParams.name},function(guild){
+
             //If not exit, redirect user to dashboard
             if(guild===null)
                 $state.go("dashboard");
             $scope.guild = guild;
+            $scope.$parent.loading = false;
 
-            socket.emit('get:userGuildRank',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+            if(guild.bnet) {
+                $scope.$parent.true = false;
+                user.get({
+                    param: "guildRank",
+                    region: $stateParams.region,
+                    realm: $stateParams.realm,
+                    name: $stateParams.name
+                }, function (rank) {
+                    $scope.$parent.loading = false;
+                    $scope.guildRank = rank;
 
-            socket.forward('get:userGuildRank',$scope);
-            $scope.$on('socket:get:userGuildRank',function(ev,rank){
-                $scope.$parent.loading = false;
-                $scope.guildRank = rank;
-
-                if (rank === 0) {
-                    // This is the guild leader, put the rank permissions in an easier form for table rendering
-                    var perms = $scope.guildRankPerms = [];
-                    var isOfRank = function(i) {
-                        return function (member) { return member.rank === i; };
-                    };
-                    for (var i = 0; i < 10; i++) {
-                        var members = $.grep(guild.bnet.members, isOfRank(i));
-                        members.sort(function (a,b) {
-                            var c1 = a.character, c2 = b.character;
-                            var ret = ((c1.level > c2.level) ? -1 : ((c1.level < c2.level) ? 1 : 0));
-                            if (ret === 0)
-                                ret = ((c1.name < c2.name) ? -1 : ((c1.name > c2.name) ? 1 : 0));
-                            return ret;
-                        });
-                        var tooltip = '<div>' + $.map(members.slice(0, 5), function (member) {
-                            return '<div class="class-' + member.character.class + '">' + member.character.name + '-' + member.character.realm + '</div>';
-                        }).join('') + (members.length > 5 ? '<div>...</div>' : '') + '</div>';
-                        perms.push({
-                            id: i,
-                            size: members.length,
-                            tooltip: tooltip,
-                            ad: {
-                                del: $.inArray(i, guild.perms.ad.del) !== -1,
-                                edit: $.inArray(i, guild.perms.ad.edit) !== -1
-                            }
-                        });
+                    if (rank === 0) {
+                        // This is the guild leader, put the rank permissions in an easier form for table rendering
+                        var perms = $scope.guildRankPerms = [];
+                        var isOfRank = function (i) {
+                            return function (member) {
+                                return member.rank === i;
+                            };
+                        };
+                        for (var i = 0; i < 10; i++) {
+                            var members = $.grep(guild.bnet.members, isOfRank(i));
+                            members.sort(function (a, b) {
+                                var c1 = a.character, c2 = b.character;
+                                var ret = ((c1.level > c2.level) ? -1 : ((c1.level < c2.level) ? 1 : 0));
+                                if (ret === 0)
+                                    ret = ((c1.name < c2.name) ? -1 : ((c1.name > c2.name) ? 1 : 0));
+                                return ret;
+                            });
+                            var tooltip = '<div>' + $.map(members.slice(0, 5), function (member) {
+                                    return '<div class="class-' + member.character.class + '">' + member.character.name + '-' + member.character.realm + '</div>';
+                                }).join('') + (members.length > 5 ? '<div>...</div>' : '') + '</div>';
+                            perms.push({
+                                id: i,
+                                size: members.length,
+                                tooltip: tooltip,
+                                ad: {
+                                    del: $.inArray(i, guild.perms.ad.del) !== -1,
+                                    edit: $.inArray(i, guild.perms.ad.edit) !== -1
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
         });
+
+
+
 
         $scope.saveAd = function(){
-            socket.emit('put:guildAd',$scope.guild);
             $scope.$parent.loading = true;
+            guilds.upsert({guildRegion: $scope.guild.region, guildRealm: $scope.guild.realm, guildName: $scope.guild.name,part:"ad"}, $scope.guild.ad,function(){
+                $scope.$parent.loading = false;
+                $state.go("account");
+            },function(error){
+                $scope.$parent.loading = false;
+            });
         };
-
-        socket.forward('put:guildAd',$scope);
-        $scope.$on('socket:put:guildAd',function(){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
 
         $scope.savePerms = function(){
             var perms = $scope.guildRankPerms;
@@ -221,15 +229,15 @@
         }
 
         /*socket.forward('get:guildAds', $scope);
-        $scope.$on('socket:get:guildAds', function(ev, guilds, last){
-            $scope.$parent.loading = false;
-            $scope.loading = false;
+         $scope.$on('socket:get:guildAds', function(ev, guilds, last){
+         $scope.$parent.loading = false;
+         $scope.loading = false;
 
-            if (!last) {
-                $scope.guilds = guilds;
-            } else {
-                $scope.guilds = $scope.guilds.concat(guilds);
-            }
-        });*/
+         if (!last) {
+         $scope.guilds = guilds;
+         } else {
+         $scope.guilds = $scope.guilds.concat(guilds);
+         }
+         });*/
     }
 })();

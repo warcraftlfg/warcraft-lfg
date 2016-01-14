@@ -22,13 +22,6 @@
         characters.get({"characterRegion":$stateParams.region,"characterRealm":$stateParams.realm,"characterName":$stateParams.name},function(character){
             $scope.$parent.loading = false;
             $scope.character = character;
-
-
-            if (character.ad.btag_display) {
-                //TODO CALL TO BTAG
-                // $scope.character.battleTag = battleTag;
-
-            }
         });
 
 
@@ -44,8 +37,8 @@
         });
     }
 
-    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES","TIMEZONES"];
-    function CharacterUpdate($scope,socket,$state,$stateParams,$translate,LANGUAGES,TIMEZONES) {
+    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES","TIMEZONES","characters"];
+    function CharacterUpdate($scope,socket,$state,$stateParams,$translate,LANGUAGES,TIMEZONES,characters) {
         //Reset error message
         $scope.$parent.error=null;
         $scope.timezones = TIMEZONES;
@@ -66,33 +59,32 @@
             }
         });
 
-
         //Initialize $scope variables
         $scope.$parent.loading = true;
 
-        socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
-
-        socket.forward('get:character',$scope);
-        $scope.$on('socket:get:character',function(ev,character){
+        characters.get({"characterRegion":$stateParams.region,"characterRealm":$stateParams.realm,"characterName":$stateParams.name},function(character){
             $scope.$parent.loading = false;
             $scope.character = character;
             $scope.languages = [];
             LANGUAGES.forEach(function(language){
                 $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase()),selected:$scope.character.ad.languages.indexOf(language)!=-1});
             });
-
         });
 
-        $scope.save = function(){
+        $scope.save = function() {
             $scope.$parent.loading = true;
-            socket.emit('put:characterAd',$scope.character);
+            characters.upsert({characterRegion: $scope.character.region, characterRealm: $scope.character.realm, characterName: $scope.character.name,part:"ad"},$scope.character.ad ,
+                function () {
+                    $state.go("account");
+                },
+                function (error) {
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                }
+            );
         };
 
-        socket.forward('put:characterAd',$scope);
-        $scope.$on('socket:put:characterAd',function(){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
+
     }
 
     CharacterList.$inject = ['$scope', '$stateParams', '$state', 'socket', "wlfgAppTitle","characters"];

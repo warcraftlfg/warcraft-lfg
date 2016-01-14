@@ -42,34 +42,26 @@ module.exports.sanitizeAndSetId = function(region,realm,name,id,callback){
 module.exports.checkPermsAndUpsertAd = function(region,realm,name,id,ad,callback){
     async.waterfall([
         function(callback){
-            userService.hasGuildRankPermission(region,realm,name,id,['ad', 'edit'],function(error, hasPerm) {
+            //Sanitize Name
+            bnetAPI.getGuild(region,realm,name,[],function(error,guild){
+                callback(error,guild);
+            });
+        },
+        function(guild,callback){
+            //Check Permission
+            userService.hasGuildRankPermission(region,guild.realm,guild.name,id,['ad', 'edit'],function(error, hasPerm) {
                 if(hasPerm){
-                    callback(error)
+                    callback(error,guild)
                 }
                 else {
                     callback(new Error("GUILD_ACCESS_DENIED"));
                 }
             });
         },
-        function(callback){
-            bnetAPI.getGuild(region,realm,name,[],function(error,guild) {
-                callback(error,guild);
-            });
-        },
         function(guild,callback) {
-            async.parallel([
-                function(callback){
-                    guildModel.upsertAd(region,guild.realm,guild.name,ad,function(error){ //Upsert the ad
-                        callback(error);
-                    });
-                },
-                function(callback){
-                    guildModel.setId(region,guild.realm,guild.name,id,function(error){ // Set the user Id
-                        callback(error);
-                    });
-                }
-            ],function(error){
-                callback(error)
+            //Upsert Ad
+            guildModel.upsertAd(region,guild.realm,guild.name,ad,function(error){
+                callback(error);
             });
         }
     ],function(error){
@@ -77,3 +69,78 @@ module.exports.checkPermsAndUpsertAd = function(region,realm,name,id,ad,callback
     });
 };
 
+/**
+ * Check perms and delete Ad
+ * @param region
+ * @param realm
+ * @param name
+ * @param id
+ * @param callback
+ */
+module.exports.checkPermsAndDeleteAd  = function(region,realm,name,id,callback){
+    async.waterfall([
+        function(callback){
+            //Sanitize Name
+            bnetAPI.getGuild(region,realm,name,[],function(error,guild){
+                callback(error,guild);
+            });
+        },
+        function(guild,callback){
+            //Check Permission
+            userService.hasGuildRankPermission(region,guild.realm,guild.name,id,['ad', 'edit'],function(error, hasPerm) {
+                if(hasPerm){
+                    callback(error,guild)
+                }
+                else {
+                    callback(new Error("GUILD_ACCESS_DENIED"));
+                }
+            });
+        },
+        function(guild,callback) {
+            //Upsert Ad
+            guildModel.deleteAd(region,guild.realm,guild.name,function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+/**
+ * Check the User permission and Upsert the perms
+ * @param region
+ * @param realm
+ * @param name
+ * @param id
+ * @param ad
+ * @param callback
+ */
+module.exports.checkPermsAndUpsertPerms = function(region,realm,name,id,perms,callback){
+    async.waterfall([
+        function(callback){
+            //Sanitize Name
+            bnetAPI.getGuild(region,realm,name,[],function(error,guild){
+                callback(error,guild);
+            });
+        },
+        function(guild,callback){
+            //Check if user is GM
+            userService.getGuildRank(region,guild.realm,guild.name,id,function(error,rank){
+                if(rank === 0) {
+                    callback(error, guild)
+                } else {
+                    callback(new Error("GUILD_ACCESS_DENIED"));
+                }
+            });
+        },
+        function(guild,callback) {
+            //Upsert Ad
+            guildModel.upsertPerms(region,guild.realm,guild.name,perms,function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};

@@ -15,7 +15,7 @@
                 <div class="col-md-12">
                     <span ng-if="character">{{ character.realm }} - {{ character.region|uppercase}}</span>
                     <span ng-if="!character">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
-                    <a class="f-right" ng-if="user.logged_in && character.id == user.id" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
+                    <a class="f-right" ng-if="character.id == user.id" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
                         <i class="fa fa-edit f-20"></i>
                     </a>
                 </div>

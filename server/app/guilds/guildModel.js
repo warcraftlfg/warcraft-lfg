@@ -1,8 +1,10 @@
 "use strict";
 
+var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var guildAdSchema = process.require('config/db/guildAdSchema.json');
 var guildPermsSchema = process.require('config/db/guildPermsSchema.json');
+var validator = process.require('core/utilities/validators/validator.js');
 var Confine = require("confine");
 
 /**
@@ -65,42 +67,102 @@ module.exports.count = function(criteria,callback){
  * @param callback
  */
 module.exports.upsertAd = function(region,realm,name,ad,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            //Sanitize ad object
+            var confine = new Confine();
+            ad = confine.normalize(ad,guildAdSchema);
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            ad.updated = new Date().getTime();
+            //Upsert
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region:region,realm:realm,name:name}, {$set:{ad:ad}}, {upsert:true}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
 
-    var config = applicationStorage.config;
+/**
+ * Update or insert perms for the guild
+ * @param region
+ * @param realm
+ * @param name
+ * @param perms
+ * @param callback
+ */
+module.exports.upsertPerms = function(region,realm,name,perms,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            //Sanitize ad object
+            var confine = new Confine();
+            perms = confine.normalize(perms,guildPermsSchema);
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            perms.updated = new Date().getTime();
+            //Upsert
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region:region,realm:realm,name:name}, {$set:{perms:perms}}, {upsert:true}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
 
-    //Force region to lowercase
-    region = region.toLowerCase();
 
-    //Sanitize ad object
-    var confine = new Confine();
-    ad = confine.normalize(ad,guildAdSchema);
-
-    if(config.bnetRegions.indexOf(region)==-1){
-        return callback(new Error('Region '+ region +' is not allowed in guildModel'));
-    }
-    if(region == null){
-        return callback(new Error('Field region is required in guildModel'));
-    }
-    if(realm == null){
-        return callback(new Error('Field realm is required in guildModel'));
-    }
-    if(name == null){
-        return callback(new Error('Field name is required in guildModel'));
-    }
-
-    ad.updated = new Date().getTime();
-
-    var guild ={};
-    guild.region = region;
-    guild.realm = realm;
-    guild.name = name;
-    guild.updated = new Date().getTime();
-    guild.ad = ad;
-
-    //Upsert
-    var collection = applicationStorage.mongo.collection("guilds");
-    collection.update({region:region,realm:realm,name:name}, guild, {upsert:true}, function(error,result){
-        callback(error,result);
+/**
+ * Update or insert ad for the guild
+ * @param region
+ * @param realm
+ * @param name
+ * @param ad
+ * @param callback
+ */
+module.exports.deleteAd = function(region,realm,name,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            //Upsert
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
     });
 };
 
@@ -113,34 +175,52 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
  * @param callback
  */
 module.exports.setId = function(region,realm,name,id,callback){
-
-    var config = applicationStorage.config;
-
-    //Force region to lowercase
-    region = region.toLowerCase();
-
-    if(config.bnetRegions.indexOf(region)==-1){
-        return callback(new Error('Region '+ region +' is not allowed in guildModel'));
-    }
-    if(region == null){
-        return callback(new Error('Field region is required in guildModel'));
-    }
-    if(realm == null){
-        return callback(new Error('Field realm is required in guildModel'));
-    }
-    if(name == null){
-        return callback(new Error('Field name is required in guildModel'));
-    }
-    if(isNaN(parseInt(id,10))){
-        return callback(new Error('Id need to be a number'));
-    }
-
-    var collection = applicationStorage.mongo.collection("guilds");
-    collection.update({region:region,realm:realm,name:name}, {$addToSet:{id:id}}, {upsert:true}, function(error,result){
-        callback(error,result);
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name,id:id},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region:region,realm:realm,name:name}, {$addToSet:{id:id}}, {upsert:true}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
     });
-
 };
 
+
+module.exports.removeId = function(region,realm,name,id, callback) {
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name,id:id},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region: region, realm: realm, name: name}, {$pull: {id: id}}, function (error) {
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
 
 

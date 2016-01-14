@@ -20,38 +20,54 @@
         $scope.$parent.error=null;
 
         //Initialize $scope variables
-        //$scope.$parent.loading = true;
         $scope.userGuilds = null;
         $scope.userCharacters = null;
         $scope.guildRegion = "";
         $scope.characterRegion = "";
-        var characterIds;
+
+        //Load Guilds & Characters
+        getGuildAds();
+        getCharacterAds();
 
 
-        //Get CharacterAds
-        user.query({param1:"characterAds"}, function (characterAds) {
-            $scope.characterAds = characterAds;
-        },function(error){
-            $scope.$parent.error = error.data;
-        });
 
-        //Get GuildAds
-        user.query({param1: "guildAds"}, function (guildAds) {
-            $scope.guildAds = guildAds;
-            $.each(guildAds, function (i, guild) {
-                if (guild.perms) {
-                    guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
-                    guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
-                }
-                else {
-                    guild.perms={ad:{}};
-                    guild.perms.ad.edit = true;
-                    guild.perms.ad.del = true;
-                }
+
+        /**
+         * Get user's characterAds
+         */
+        function getGuildAds() {
+            $scope.$parent.loading = true;
+            user.query({param: "guildAds"}, function (guildAds) {
+                $scope.guildAds = guildAds;
+                $scope.$parent.loading = false;
+                $.each(guildAds, function (i, guild) {
+                    if (guild.perms) {
+                        guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
+                        guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
+                    }
+                    else {
+                        guild.perms = {ad: {}};
+                        guild.perms.ad.edit = true;
+                        guild.perms.ad.del = true;
+                    }
+                });
+            }, function (error) {
+                $scope.$parent.error = error.data;
             });
-        },function(error){
-            $scope.$parent.error = error.data;
-        });
+        }
+
+        /**
+         * Get user's characterAds
+         */
+        function getCharacterAds(){
+            $scope.$parent.loading = true;
+            user.query({param:"characterAds"}, function (characterAds) {
+                $scope.characterAds = characterAds;
+                $scope.$parent.loading = false;
+            },function(error){
+                $scope.$parent.error = error.data;
+            });
+        }
 
 
         /**
@@ -62,7 +78,7 @@
                 $scope.userGuilds = null;
             else {
                 $scope.$parent.loading = true;
-                $scope.userGuilds = user.query({param1:"guilds",param2:$scope.guildRegion},function(){
+                $scope.userGuilds = user.query({param:"guilds",region:$scope.guildRegion},function(){
                     $scope.$parent.loading = false;
                 });
             }
@@ -76,13 +92,12 @@
                 $scope.userCharacters = null;
             else {
                 $scope.$parent.loading = true;
-                user.query({param1:"characters",param2:$scope.characterRegion},function(characters){
+                user.query({param:"characters",region:$scope.characterRegion},function(characters){
                     $scope.userCharacters = $filter('orderBy')(  characters, ['-level','name']);
                     $scope.$parent.loading = false;
                 });
             }
         };
-
 
         /**
          * Create a new Guild Ad
@@ -92,7 +107,7 @@
          */
         $scope.createGuildAd = function(region,realm,name) {
             $scope.$parent.loading = true;
-            guilds.upsert({guildRegion: region, guildRealm: realm, guildName: name}, {},
+            guilds.upsert({guildRegion: region, guildRealm: realm, guildName: name, part:"ad"}, {},
                 function () {
                     $state.go("guild-update", {region: region, realm: realm, name: name});
                 },
@@ -110,36 +125,45 @@
          */
         $scope.createCharacterAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            characters.upsert({guildRegion: region, guildRealm: realm, guildName: name}, {},
+            characters.upsert({characterRegion: region, characterRealm: realm, characterName: name,part:"ad"}, {},
                 function () {
                     $state.go("character-update", {region: region, realm: realm, name: name});
                 },
                 function(error){
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
-                });
+                }
+            );
 
         };
 
         $scope.deleteCharacterAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            socket.emit('delete:characterAd',{region:region,realm:realm,name:name});
+            characters.delete({characterRegion: region, characterRealm: realm, characterName: name,part:"ad"}, {},
+                function () {
+                    getCharacterAds();
+                },
+                function(error){
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                }
+            );
         };
-
-        socket.forward('delete:characterAd',$scope);
-        $scope.$on('socket:delete:characterAd',function(){
-            socket.emit('get:userCharacterAds');
-        });
-
 
         $scope.deleteGuildAd = function(region,realm,name){
             $scope.$parent.loading = true;
-            socket.emit('delete:guildAd',{region:region,realm:realm,name:name});
+            guilds.delete({guildRegion: region, guildRealm: realm, guildName: name, part:"ad"}, {},
+                function () {
+                    getGuildAds();
+                },
+                function(error){
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                }
+            );
+
         };
 
-        socket.forward('delete:guildAd',$scope);
-        $scope.$on('socket:delete:guildAd',function(){
-            socket.emit('get:userGuildAds');
-        });
+
     }
 })();

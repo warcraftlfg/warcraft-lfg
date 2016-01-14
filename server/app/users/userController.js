@@ -13,13 +13,8 @@ var userService = process.require("users/userService.js");
  * @param res
  */
 module.exports.logout = function(req, res){
-    if(!req.user){
-        res.status(403);
-        res.send();
-    }else {
-        req.logout();
-        res.redirect('/');
-    }
+    req.logout();
+    res.redirect('/');
 };
 
 /**
@@ -28,12 +23,7 @@ module.exports.logout = function(req, res){
  * @param res
  */
 module.exports.getProfile = function(req,res){
-    if(!req.user){
-        res.status(403);
-        res.send();
-    } else {
-        res.json(req.user);
-    }
+    res.json(req.user);
 };
 
 /**
@@ -43,22 +33,17 @@ module.exports.getProfile = function(req,res){
  */
 module.exports.getCharacterAds = function(req,res){
     var logger = applicationStorage.logger;
-    if(!req.user){
-        res.status(403);
-        res.send();
-    } else {
-        var criteria = {id:req.user.id,"ad.lfg":{$exists:true}};
-        var projection = {_id:0,name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1};
-        var sort = {"ad.updated":-1};
-        characterModel.find(criteria,projection,sort,function(error,characters){
-            if(error){
-                logger.error(error.message);
-                res.status(500).send();
-            } else {
-                res.json(characters);
-            }
-        });
-    }
+    var criteria = {id:req.user.id,"ad.lfg":{$exists:true}};
+    var projection = {_id:0,name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.class":1};
+    var sort = {"ad.updated":-1};
+    characterModel.find(criteria,projection,sort,function(error,characters){
+        if(error){
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(characters);
+        }
+    });
 };
 
 /**
@@ -68,22 +53,19 @@ module.exports.getCharacterAds = function(req,res){
  */
 module.exports.getGuildAds = function(req,res){
     var logger = applicationStorage.logger;
-    if(!req.user){
-        res.status(403);
-        res.send();
-    } else {
-        var criteria = {id:req.user.id,"ad.lfg":{$exists:true}};
-        var projection = {_id:0,name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1,"perms":1};
-        var sort = {"ad.updated":-1};
-        guildModel.find(criteria,projection,sort,function(error,guilds){
-            if(error){
-                logger.error(error.message);
-                res.status(500).send();
-            } else {
-                res.json(guilds);
-            }
-        });
-    }
+
+    var criteria = {id:req.user.id,"ad.lfg":{$exists:true}};
+    var projection = {_id:0,name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1,"perms":1};
+    var sort = {"ad.updated":-1};
+    guildModel.find(criteria,projection,sort,function(error,guilds){
+        if(error){
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(guilds);
+        }
+    });
+
 };
 
 /**
@@ -93,19 +75,14 @@ module.exports.getGuildAds = function(req,res){
  */
 module.exports.getCharacters = function(req,res){
     var logger = applicationStorage.logger;
-    if(!req.user){
-        res.status(403);
-        res.send();
-    } else {
-        userService.getCharacters(req.params.region,req.user.id,function(error,characters){
-            if(error){
-                logger.error(error.message);
-                res.status(500).send();
-            } else {
-                res.json(characters);
-            }
-        });
-    }
+    userService.getCharacters(req.params.region,req.user.id,function(error,characters){
+        if(error){
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(characters);
+        }
+    });
 };
 
 /**
@@ -115,17 +92,34 @@ module.exports.getCharacters = function(req,res){
  */
 module.exports.getGuilds = function(req,res){
     var logger = applicationStorage.logger;
-    if(!req.user){
-        res.status(403);
-        res.send();
-    } else {
-        userService.getGuilds(req.params.region,req.user.id,function(error,guilds){
+
+    userService.getGuilds(req.params.region,req.user.id,function(error,guilds){
+        if(error){
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(guilds);
+        }
+    });
+
+};
+
+
+/**
+ *
+ * @param req
+ * @param res
+ */
+module.exports.getGuildRank = function(req,res){
+    var logger = applicationStorage.logger;
+
+        userService.getGuildRank(req.params.region,req.params.realm,req.params.name,req.user.id,function(error,rank){
             if(error){
                 logger.error(error.message);
                 res.status(500).send();
             } else {
-                res.json(guilds);
+                res.json(rank);
             }
         });
-    }
+
 };

@@ -56,12 +56,14 @@ module.exports.updateGuildsId = function(id){
     var self = this;
     async.each(config.bnetRegions,function(region,callback){
         async.waterfall([
-            function(callback){ //Get guilds from Bnet
+            function(callback){
+                //Get user guilds from Bnet
                 self.getGuilds(region, id, function (error, guilds) {
                     callback(error, guilds);
                 });
             },
             function(guilds,callback){
+                // Set the ID for each bnet guilds
                 var bnetGuilds = [];
                 async.each(guilds,function(guild,callback){
                     guildService.sanitizeAndSetId(region,guild.realm,guild.name,id,function(error,guild){
@@ -77,6 +79,7 @@ module.exports.updateGuildsId = function(id){
                 });
             },
             function(bnetGuilds,callback) {
+                //Clean guild ID if people have leave a guild
                 guildModel.find({region:region,id:id},{realm:1,name:1},function(error,guilds){
                     async.each(guilds,function(guild,callback){
                         var isOk = false;
@@ -84,20 +87,17 @@ module.exports.updateGuildsId = function(id){
                             if(bnetGuild.realm === guild.realm &&  bnetGuild.name === guild.name)
                                 isOk = true;
                             callback();
-                        },function(error){
-                            callback(error);
+                        },function(){
+                            if(isOk == false ) {
+                                guildModel.removeId(region, guild.realm, guild.name, id,function(error){
+                                    logger.verbose("Remove id %s to guild %s-%s-%s",id,region,guild.realm,guild.name);
+                                    callback(error);
+                                });
+                            }
                         });
-
-                        if(isOk == false ) {
-                            console.log(guild);
-                            //TODO REMOVE USER FROM THIS GUILD !!! NOT MEMBER ANYMORE
-                        }
-
                     },function(error){
                         callback(error);
                     });
-
-
                 });
             }
         ],function(error){

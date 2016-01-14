@@ -4,6 +4,7 @@
 var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
+var characterService = process.require("characters/characterService.js");
 var userModel = process.require("users/userModel.js");
 var characterCriteria = process.require("characters/utilities/mongo/characterCriteria.js");
 var characterProjection = process.require("characters/utilities/mongo/characterProjection.js");
@@ -101,14 +102,16 @@ module.exports.getCharacter = function(req,res,next){
     };
     async.waterfall([
         function(callback){
-            characterModel.findOne(criteria,projection,function(error,character){ //Get the characterModel
+            //Get the character
+            characterModel.findOne(criteria,projection,function(error,character){
                 callback(error,character);
             });
         },
-        function(character,callback){ //Get the btag if required
+        function(character,callback){
+            //Get the btag if required
             /** @namespace character.ad.btag_display */
             if(character && character.ad && character.ad.btag_display && character.id){
-                userModel.findOne({id:character.id},function(error,user){
+                userModel.findById(character.id,function(error,user){
                     if(user){
                         character.battleTag = user.battleTag;
                     }
@@ -121,7 +124,7 @@ module.exports.getCharacter = function(req,res,next){
     ],function(error,character){
         if(error){
             logger.error(error.message);
-            res.status(500).send();
+            res.status(500).send(error.message);
         } else if(character){
             res.json(character);
         } else {
@@ -130,22 +133,36 @@ module.exports.getCharacter = function(req,res,next){
     });
 };
 
-module.exports.putCharacter = function(req,res){
+module.exports.putCharacterAd = function(req,res){
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    var ad = req.body;
+    characterService.checkPermsAndUpsertAd(req.params.region, req.params.realm, req.params.name, req.user.id, ad, function (error) {
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send(error.message);
+        } else {
+            res.json();
+        }
+    });
 
-    if (!req.user){
-        res.status(403);
-        res.send();
-    } else {
-        var ad = req.body;
-        characterService.checkPermsAndUpsertAd(req.params.region, req.params.realm, req.params.name, req.user.id, ad, function (error) {
-            if (error) {
-                logger.error(error.message);
-                res.status(500).send(error.message);
-            } else {
-                res.json();
-            }
-        });
-    }
+};
+
+/**
+ * Delete Guild AD
+ * @param req
+ * @param res
+ */
+module.exports.deleteCharacterAd = function(req,res){
+    var logger = applicationStorage.logger;
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    characterService.checkPermsAndDeleteAd(req.params.region, req.params.realm, req.params.name, req.user.id, function (error) {
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send(error.message);
+        } else {
+            res.json();
+        }
+    });
+
 };
