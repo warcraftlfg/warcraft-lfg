@@ -29,9 +29,6 @@
         getGuildAds();
         getCharacterAds();
 
-
-
-
         /**
          * Get user's characterAds
          */
