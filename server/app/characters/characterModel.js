@@ -97,6 +97,114 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
 };
 
 
+
+/**
+ * Update or insert bnet object for the character
+ * @param region
+ * @param realm
+ * @param name
+ * @param bnet
+ * @param callback
+ */
+module.exports.upsertBnet = function(region,realm,name,bnet,callback){
+    async.series([
+        function(callback){
+            //Force region to lowercase
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            bnet.updated = new Date().getTime();
+            //Upsert
+            var collection = applicationStorage.mongo.collection("characters");
+            collection.update({region:region,realm:realm,name:name}, {$set:{bnet:bnet}}, {upsert:true}, function(error,result){
+                callback(error,result);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+
+/**
+ * Update or insert WarcrafLogs object for the character
+ * @param region
+ * @param realm
+ * @param name
+ * @param bnet
+ * @param callback
+ */
+module.exports.upsertWarcraftLogs = function(region,realm,name,warcraftLogs,callback){
+    async.series([
+        function(callback){
+            //Force region to lowercase
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            var obj = {}
+            obj.updated = new Date().getTime();
+            obj.logs = warcraftLogs;
+            //Upsert
+            var collection = applicationStorage.mongo.collection("characters");
+            collection.update({region:region,realm:realm,name:name}, {$set:{warcraftLogs:obj}}, {upsert:true}, function(error,result){
+                callback(error,result);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+
+/**
+ * Update or insert pvescore progress for character
+ * @param region
+ * @param realm
+ * @param name
+ * @param progress
+ * @param callback
+ */
+module.exports.upsertProgress= function(region,realm,name,progress,callback){
+    async.series([
+        function(callback){
+            //Force region to lowercase
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            //Upsert
+            var collection = applicationStorage.mongo.collection("characters");
+            collection.update({region:region,realm:realm,name:name}, {$set:{progress:progress}}, {upsert:true}, function(error,result){
+                callback(error,result);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+
+
 /**
  * Update or insert ad for the character
  * @param region

@@ -5,7 +5,7 @@ var async = require("async");
 var applicationStorage = process.require("core/applicationStorage");
 
 /**
- * Insert or update an update into list
+ * Insert an update into list
  * @param type
  * @param region
  * @param realm
@@ -13,7 +13,7 @@ var applicationStorage = process.require("core/applicationStorage");
  * @param priority
  * @param callback
  */
-module.exports.upsert = function(type,region,realm,name,priority,callback){
+module.exports.insert = function(type,region,realm,name,priority,callback){
     var config = applicationStorage.config;
     var redis = applicationStorage.redis;
     //Check for required attributes

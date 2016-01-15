@@ -70,6 +70,7 @@ function WebServerProcess(){
     this.app.use('/api/v1',process.require("characters/routes.js"));
     this.app.use('/api/v1',process.require("guilds/routes.js"));
     this.app.use('/api/v1',process.require("realms/routes.js"));
+    this.app.use('/api/v1',process.require("updates/routes.js"));
 
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));

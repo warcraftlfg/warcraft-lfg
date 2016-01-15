@@ -10,7 +10,7 @@ var characterCriteria = process.require("characters/utilities/mongo/characterCri
 var characterProjection = process.require("characters/utilities/mongo/characterProjection.js");
 var numberLimit = process.require("core/utilities/mongo/numberLimit.js");
 var characterSort = process.require("characters/utilities/mongo/characterSort.js");
-
+var updateModel = process.require("updates/updateModel.js");
 
 /**
  * Return characters
@@ -147,8 +147,18 @@ module.exports.putCharacterAd = function(req,res){
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
     var ad = req.body;
-    //TODO Set to update with priority 5
-    characterModel.upsertAd(req.params.region, req.params.realm, req.params.name, ad, function (error) {
+    async.series([
+        function(callback){
+            characterModel.upsertAd(req.params.region, req.params.realm, req.params.name, ad, function (error) {
+                callback(error);
+            });
+        },
+        function(callback){
+            updateModel.insert("cu",req.params.region, req.params.realm, req.params.name,10,function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);

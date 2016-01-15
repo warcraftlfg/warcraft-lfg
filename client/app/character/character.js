@@ -8,8 +8,8 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle","characters"];
-    function CharacterRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle,characters) {
+    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle","characters","updates"];
+    function CharacterRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle,characters,updates) {
         wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
@@ -27,14 +27,16 @@
 
         $scope.updateCharacter = function(){
             $scope.$parent.loading = true;
-            socket.emit('update:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+            updates.post({type:"character",region:$stateParams.region,realm:$stateParams.realm,name:$stateParams.name},function(queuePosition){
+                $scope.queuePosition = queuePosition;
+                $scope.$parent.loading = false;
+
+            },function(error){
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
         };
 
-        socket.forward('update:character',$scope);
-        $scope.$on('socket:update:character',function(ev,queuePosition){
-            $scope.queuePosition = queuePosition;
-            $scope.$parent.loading = false;
-        });
     }
 
     CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES","TIMEZONES","characters"];

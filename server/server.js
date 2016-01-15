@@ -59,8 +59,8 @@ if(process.argv.indexOf("-gpu")!=-1)
 if(processNames.length == 0 ) {
     processNames = [
         "GuildUpdateProcess",
-        /*"CharacterUpdateProcess",
-        "RealmUpdateProcess",
+        "CharacterUpdateProcess",
+        /*"RealmUpdateProcess",
         "WowProgressUpdateProcess",
         "CleanerProcess",
         "AuctionUpdateProcess",

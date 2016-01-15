@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle","guilds"];
-    function GuildRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle,guilds) {
+    GuildRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle","guilds","updates"];
+    function GuildRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle,guilds,updates) {
         wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
@@ -35,17 +35,18 @@
 
         });
 
+
         $scope.updateGuild = function(){
             $scope.$parent.loading = true;
-            socket.emit('update:guild',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+            updates.post({type:"guild",region:$stateParams.region,realm:$stateParams.realm,name:$stateParams.name},function(queuePosition){
+                $scope.queuePosition = queuePosition;
+                $scope.$parent.loading = false;
+
+            },function(error){
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
         };
-
-        socket.forward('update:guild',$scope);
-        $scope.$on('socket:update:guild',function(ev,queuePosition){
-            $scope.queuePosition = queuePosition;
-            $scope.$parent.loading = false;
-
-        });
     }
 
     GuildUpdate.$inject = ["$scope","socket","$state","$stateParams","LANGUAGES","TIMEZONES","guilds","user"];

@@ -2,12 +2,7 @@
 
 //Module dependencies
 var request = require("request");
-var logger = process.require("api/logger.js").get("logger");
-
-//Configuration
-var env = process.env.NODE_ENV || 'dev';
-var config = process.require('config/config.'+env+'.json');
-
+var applicationStorage = process.require("core/applicationStorage.js");
 
 //For russian Ream wowprogress is bad ...
 var russianRealms = {
@@ -30,6 +25,9 @@ var russianRealms = {
 };
 
 module.exports.getRankings = function(region, realm, name, callback) {
+
+    var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
 
     var warcraftlogs = {};
 

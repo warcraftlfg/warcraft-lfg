@@ -4,9 +4,9 @@
 var applicationStorage = process.require("core/applicationStorage.js");
 var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
+var guildModel = process.require("guilds/guildModel.js");
 var guildService = process.require("guilds/guildService.js");
 var bnetAPI = process.require("core/api/bnet.js");
-var wowProgressAPI
 
 var async = require("async");
 
@@ -23,12 +23,12 @@ GuildUpdateProcess.prototype.updateGuild = function() {
             updateService.getNextUpdate('gu',function(error,guildUpdate){
                 if(guildUpdate == null){
                     //Guild update is empty
-                    logger.verbose("No guild to update ... waiting 3 sec");
+                    logger.info("No guild to update ... waiting 3 sec");
                     setTimeout(function() {
                         callback(true);
                     }, 3000);
                 } else {
-                    logger.verbose("Starting to update %s-%s-%s",guildUpdate.region,guildUpdate.realm,guildUpdate.name);
+                    logger.info("Update guild %s-%s-%s",guildUpdate.region,guildUpdate.realm,guildUpdate.name);
                     callback(error,guildUpdate);
                 }
             });
@@ -38,8 +38,8 @@ GuildUpdateProcess.prototype.updateGuild = function() {
             bnetAPI.getGuild(guildUpdate.region,guildUpdate.realm,guildUpdate.name,["members"],function(error,guild){
                 if(error){
                     if(error.statusCode == 403){
-                        logger.verbose("Bnet Api Deny ... waiting 1 min");
-                        updateModel.upsert("gu",guildUpdate.region,guildUpdate.realm,guildUpdate.name,guildUpdate.priority,function(error){
+                        logger.info("Bnet Api Deny ... waiting 1 min");
+                        updateModel.insert("gu",guildUpdate.region,guildUpdate.realm,guildUpdate.name,guildUpdate.priority,function(error){
                             setTimeout(function() {
                                 callback(true);
                             }, 60000);
@@ -56,7 +56,7 @@ GuildUpdateProcess.prototype.updateGuild = function() {
                 async.parallel([
                     function(callback){
                         //Insert BNET
-                        guildService.updateBnet(region,guild.realm,guild.name,guild,function(error){
+                        guildModel.upsertBnet(region,guild.realm,guild.name,guild,function(error){
                             if(error){
                                 logger.error(error.message);
                             }

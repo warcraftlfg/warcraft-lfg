@@ -17,7 +17,7 @@ var validator = process.require("core/utilities/validators/validator.js");
  * @param source
  * @param callback
  */
-module.exports.upsert = function(region,realm,name,raid,boss,bossWeight,difficulty,timestamp,source,callback) {
+module.exports.upsert = function(region,realm,name,raid,boss,bossWeight,difficulty,timestamp,source,progress,callback) {
     async.series([
         function(callback){
             //Format value
@@ -32,21 +32,30 @@ module.exports.upsert = function(region,realm,name,raid,boss,bossWeight,difficul
         },
         function(callback){
             //Upsert
-            var guildKill = {};
-            guildKill.region = region;
-            guildKill.realm = realm;
-            guildKill.name = name;
-            guildKill.boss = boss;
-            guildKill.bossWeight = bossWeight;
-            guildKill.difficulty  = difficulty;
-            guildKill.timestamp = timestamp;
-            guildKill.source = source;
+            var guildKill = {region:region,realm:realm,name:name,boss:boss,bossWeight:bossWeight,difficulty:difficulty,timestamp:timestamp,source:source,updated:new Date().getTime()}
 
-            guildKill.updated = new Date().getTime();
             var collection = applicationStorage.mongo.collection(raid);
-            collection.update({region:region,realm:realm,name:name,boss:boss,difficulty:difficulty,timestamp:timestamp,source:source}, guildKill, function(error){
+            async.series([
+                function(callback){
+                    collection.update({region:region,realm:realm,name:name,boss:boss,bossWeight:bossWeight,difficulty:difficulty,timestamp:timestamp,source:source},{$set:guildKill},
+                        {upsert:true}, function(error){
+                        callback(error);
+                    });
+                },
+                function(callback){
+                    if(progress) {
+                        collection.update({region: region,realm: realm,name: name,boss: boss,difficulty: difficulty,timestamp: timestamp,source: source,"roster.name": {$ne: progress.name}}, {$push: {roster: progress}}, function (error) {
+                            callback(error);
+                        });
+                    }
+                    else{
+                        callback();
+                    }
+                }
+            ],function(error){
                 callback(error);
-            });
+            })
+
         }
     ],function(error){
         callback(error);

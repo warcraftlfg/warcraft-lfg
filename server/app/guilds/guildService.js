@@ -35,19 +35,6 @@ module.exports.sanitizeAndSetId = function(region,realm,name,id,callback){
 };
 
 /**
- * Update bnet object
- * @param region
- * @param realm
- * @param name
- * @param bnet
- * @param callback
- */
-module.exports.updateBnet = function(region,realm,name,bnet,callback) {
-    guildModel.upsertBnet(region, realm, name, bnet, function (error) {
-        callback(error);
-    });
-};
-/**
  * Set the members of a guild to update
  * @param region
  * @param realm
@@ -60,8 +47,8 @@ module.exports.setMembersToUpdate = function(region,realm,name,members,priority,
     var logger = applicationStorage.logger;
     async.each(members,function(member,callback){
         if(member.character.level >= 100 || priority == 0) {
-            updateModel.upsert("cu",region, member.character.realm, member.character.name, priority <= 5 ? priority : 3, function (error) {
-                logger.debug("Insert character to update %s-%s-%s",region,member.character.realm,member.character.name);
+            updateModel.insert("cu",region, member.character.realm, member.character.name, priority <= 5 ? priority : 3, function (error) {
+                logger.verbose("Insert character to update %s-%s-%s",region,member.character.realm,member.character.name);
                 callback(error);
             });
         } else {
@@ -89,8 +76,8 @@ module.exports.updateWowProgressKill = function(region,realm,name,callback){
         },
         function(wowProgressRanking,callback){
             async.each(wowProgressRanking,function(progress,callback){
-                guildKillModel.upsert(progress.region, progress.realm, progress.name, "Hellfire Citadel", progress.boss,progress.bossWeight, progress.difficulty, progress.timestamp, progress.source, function(error) {
-                    logger.debug("Upsert wowprogress kill %s-%s for guild %s-%s-%s",progress.boss,progress.difficulty,region,realm,name);
+                guildKillModel.upsert(progress.region, progress.realm, progress.name, "Hellfire Citadel", progress.boss,progress.bossWeight, progress.difficulty, progress.timestamp, progress.source, null, function(error) {
+                    logger.verbose("Upsert wowprogress kill %s-%s for guild %s-%s-%s",progress.boss,progress.difficulty,region,realm,name);
                     callback(error);
                 });
             },function(error){
@@ -120,7 +107,7 @@ module.exports.updateWowProgressRanking = function(region,realm,name,callback){
         },
         function(wowProgress,callback) {
             guildModel.upsertWowProgress(region,realm,name,wowProgress,function(error){
-                logger.debug("Upsert wowprogress ranking for guild %s-%s-%s",region,realm,name);
+                logger.verbose("Upsert wowprogress ranking for guild %s-%s-%s",region,realm,name);
                 callback(error);
             });
         }

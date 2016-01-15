@@ -37,7 +37,7 @@ module.exports.setGuildsToUpdate = function(id){
                             });
                         },
                         function (guild,callback){
-                            updateModel.upsert('gu',region,guild.realm,guild.name,0,function(error){
+                            updateModel.insert('gu',region,guild.realm,guild.name,0,function(error){
                                 logger.verbose("Set guild %s-%s-%s to update with priority %s",region,guild.realm,guild.name,0);
                                 callback(error);
                             });
