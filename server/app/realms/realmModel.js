@@ -1,6 +1,8 @@
 "use strict";
 
+var async = require('async');
 var applicationStorage = process.require("core/applicationStorage.js");
+var validator = process.require("core/utilities/validators/validator.js");
 
 /**
  * Get the characters
@@ -38,5 +40,46 @@ module.exports.findOne = function(criteria,projection,callback){
     var collection = applicationStorage.mongo.collection("realms");
     collection.findOne(criteria, projection,function (error, guild) {
         callback(error, guild);
+    });
+};
+
+/**
+ *
+ * @param region
+ * @param realm
+ * @param name
+ * @param ad
+ * @param callback
+ */
+module.exports.upsert = function(region,name,connected_realms,bnet,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            var realm ={};
+            realm.region = region;
+            realm.name = name;
+            realm.connected_realms = connected_realms;
+            realm.updated = new Date().getTime();
+            bnet.updated=new Date().getTime();
+            realm.bnet = bnet;
+
+            //Upsert
+            var collection = applicationStorage.mongo.collection("realms");
+            collection.update({region:region,realm:realm,name:name}, realm , {upsert:true}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
     });
 };

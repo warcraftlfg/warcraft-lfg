@@ -50,6 +50,15 @@ module.exports.getUserCharacters = function(region,accessToken,callback){
     });
 };
 
+
+module.exports.getRealms = function(region,callback){
+    var endUrl=encodeURI("wow/realm/status?locale=en_GB&apikey="+config.oauth.bnet.clientID);
+    this.requestBnetApi(region,endUrl,function(error,result){
+        callback(error,result && result.realms);
+    });
+};
+
+
 /**
  * Request an URL and return result
  * @param region
@@ -113,27 +122,7 @@ module.exports.getGuildWithParams= function(region,realm,name,params,callback){
     });
 }
 
-module.exports.getRealms = function(region,callback){
-    var url=encodeURI("https://"+region+".api.battle.net/wow/realm/status?locale=en_GB&apikey="+config.oauth.bnet.client_id);
-    request({method:"GET",uri:url, gzip: true},function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            callback(error,JSON.parse(body));
-        }
-        else {
-            if (error) {
-                logger.error(error.message + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR"));
-            }
-            if (response.statusCode == 403) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR_DENY"));
-            }
 
-            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
-            return callback(new Error("BNET_API_ERROR"));
-        }
-    });
-};
 
 module.exports.getAuctions = function(region,realm,callback){
     var url=encodeURI("https://"+region+".api.battle.net/wow/auction/data/"+realm+"?locale=en_GB&apikey="+config.oauth.bnet.client_id);
