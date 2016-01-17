@@ -2,6 +2,7 @@
 
 //Module dependencies
 var request = require("request");
+var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 
 var config = applicationStorage.config;
@@ -51,6 +52,11 @@ module.exports.getUserCharacters = function(region,accessToken,callback){
 };
 
 
+/**
+ * Get the realms from bnet
+ * @param region
+ * @param callback
+ */
 module.exports.getRealms = function(region,callback){
     var endUrl=encodeURI("wow/realm/status?locale=en_GB&apikey="+config.oauth.bnet.clientID);
     this.requestBnetApi(region,endUrl,function(error,result){
@@ -58,6 +64,39 @@ module.exports.getRealms = function(region,callback){
     });
 };
 
+module.exports.getAuctions = function(region,realm,callback){
+    var self=this;
+    async.waterfall([
+        function(callback){
+            var endUrl=encodeURI("wow/auction/data/"+realm+"?locale=en_GB&apikey="+config.oauth.bnet.clientID);
+            self.requestBnetApi(region,endUrl,function(error,result){
+                var auctionUrl = encodeURI(result.files[0].url);
+                callback(error,auctionUrl);
+            });
+        },
+        function(auctionUrl,callback){
+            self.request(auctionUrl,function(error,auctions){
+                callback(error,auctions.auctions);
+            })
+        }
+    ],function(error,auctions){
+        callback(error,auctions)
+    });
+};
+
+/**
+ * Add bnet baseUrl and call request
+ * @param region
+ * @param endUrl
+ * @param callback
+ */
+module.exports.requestBnetApi = function(region,endUrl,callback){
+    var baseUrl = "https://"+region+".api.battle.net/";
+    var url = encodeURI(baseUrl+endUrl);
+    this.request(url,function(error,result){
+        callback(error,result);
+    });
+};
 
 /**
  * Request an URL and return result
@@ -65,10 +104,8 @@ module.exports.getRealms = function(region,callback){
  * @param endUrl
  * @param callback
  */
-module.exports.requestBnetApi = function(region,endUrl,callback){
+module.exports.request = function(url,callback){
     var logger = applicationStorage.logger;
-    var baseUrl = "https://"+region+".api.battle.net/";
-    var url = encodeURI(baseUrl+endUrl);
     logger.debug('GET BNET API : %s',url);
 
     request.get({method:"GET",uri:url, gzip: true}, function (error, response, body) {
@@ -84,110 +121,4 @@ module.exports.requestBnetApi = function(region,endUrl,callback){
             callback(error);
     });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-module.exports.getCharacter = function(region,realm,name,callback){
-    var params = ["guild","items","progression","talents","achievements","statistics","challenge","pvp","reputation","stats"];
-    this.getCharacterWithParams(region,realm,name,params,function(error,results){
-        callback(error,results);
-    });
-};*/
-
-module.exports.getCharacterWithParams= function(region,realm,name,params,callback){
-    var url = encodeURI("https://"+region+".api.battle.net/wow/character/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.client_id);
-    getCharacter(url,function(error,result){
-        callback(error,result);
-    });
-}
-
-
-
-
-
-module.exports.getGuildWithParams= function(region,realm,name,params,callback){
-    var url = encodeURI("https://"+region+".api.battle.net/wow/guild/"+realm+"/"+name+"?fields="+params.join(',')+"&locale=en_GB&apikey="+config.oauth.bnet.client_id);
-    getGuild(url,function(error,results){
-        callback(error,results);
-    });
-}
-
-
-
-module.exports.getAuctions = function(region,realm,callback){
-    var url=encodeURI("https://"+region+".api.battle.net/wow/auction/data/"+realm+"?locale=en_GB&apikey="+config.oauth.bnet.client_id);
-    request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var auctionUrl = encodeURI(JSON.parse(body).files[0].url);
-            request(auctionUrl, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    callback(error,JSON.parse(body));
-                }
-                else {
-                    if (error) {
-                        logger.error(error.message + " on fetching bnet api " + auctionUrl);
-                        return callback(new Error("BNET_API_ERROR"));
-                    }
-                    if (response.statusCode == 403) {
-                        logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + auctionUrl);
-                        return callback(new Error("BNET_API_ERROR_DENY"));
-                    }
-
-                    logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + auctionUrl)
-                    return callback(new Error("BNET_API_ERROR"));
-                }
-            });
-        }
-        else {
-            if (error) {
-                logger.error(error.message + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR"));
-            }
-            if (response.statusCode == 403) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR_DENY"));
-            }
-
-            logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
-            return callback(new Error("BNET_API_ERROR"));
-        }
-    });
-};
-/*
-function getCharacter(url,callback){
-    request({method:"GET",uri:url, gzip: true}, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            callback(error,JSON.parse(body));
-        }
-        else {
-            if (error) {
-                logger.verbose(error.message + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR"));
-            }
-            if (response.statusCode == 403) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_ERROR_DENY"));
-            }
-            if (response.statusCode == 404) {
-                logger.verbose("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
-                return callback(new Error("BNET_API_CHARACTER_NOT_FOUND"));
-            }
-
-            logger.warn("Error HTTP " + response.statusCode + " on fetching bnet api " + url)
-            return callback(new Error("BNET_API_ERROR"));
-        }
-    });
-}*/
-
-
 

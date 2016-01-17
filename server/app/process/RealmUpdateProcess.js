@@ -12,7 +12,7 @@ function RealmUpdateProcess(){
 RealmUpdateProcess.prototype.importRealms = function() {
     var config = applicationStorage.config;
     var logger = applicationStorage.logger;
-    config.bnetRegions.forEach(function(region) {
+    async.each(config.bnetRegions,function(region,callback) {
         async.waterfall([
             function(callback){
                 bnetAPI.getRealms(region,function(error,realms) {
@@ -34,27 +34,30 @@ RealmUpdateProcess.prototype.importRealms = function() {
                 async.each(realms,function(realm,callback){
                     var connected_realms = connectedRealms[realm.connected_realms.join("__")];
                     realmModel.upsert(region, realm.name,connected_realms, realm,function(error){
-                        logger.info("Insert Realm %s-%s (%s)",region,realm.name,realm.connected_realms[0]);
+                        logger.info("Insert Realm %s-%s (%s)",region,realm.name,connected_realms);
                         callback(error);
                     });
                 },function(error){
                     callback(error);
                 });
             }
-        ])
+        ],function(error){
+            callback(error);
+        })
     },function(error){
-        if (error && error !==true)
+        if (error)
             logger.error(error.message);
-    });
+        process.exit();
 
+    });
 
 
 };
 
-RealmUpdateProcess.prototype.start = function(){
+RealmUpdateProcess.prototype.start = function(callback){
     applicationStorage.logger.info("Starting RealmUpdateProcess");
     this.importRealms();
-
+    callback();
 };
 
 module.exports = RealmUpdateProcess;

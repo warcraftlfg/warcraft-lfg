@@ -238,6 +238,18 @@ module.exports.deleteAd = function(region,realm,name,callback){
     });
 };
 
+/**
+ * set lfg to false for ads of 1 month old
+ * @param callback
+ */
+module.exports.disableLfgForOldAds = function(callback){
+    var timestamp = new Date().getTime() - (30 * 24 * 3600 * 1000);
+    var collection = applicationStorage.mongo.collection("characters");
+    collection.update({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
+        callback(error);
+    });
+};
+
 
 /**
  * AddtoSet ID

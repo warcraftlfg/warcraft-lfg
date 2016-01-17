@@ -127,6 +127,9 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
             var ranking = [];
             var progress;
 
+            if(data == null )
+                return callback(new Error("WOWPROGRESS_PARSING_ERROR"));
+
             data = data.split('/');
 
             var tables = $body('table.rating').html();

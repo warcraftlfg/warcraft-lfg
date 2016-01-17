@@ -60,12 +60,12 @@ if(processNames.length == 0 ) {
     processNames = [
         "GuildUpdateProcess",
         "CharacterUpdateProcess",
-        /*"RealmUpdateProcess",
-        "WowProgressUpdateProcess",
+        "RealmUpdateProcess",
+        //"WowProgressUpdateProcess",
         "CleanerProcess",
         "AuctionUpdateProcess",
         "AdUpdateProcess",
-        "GuildProgressUpdateProcess",*/
+        //"GuildProgressUpdateProcess",
         "WebServerProcess"
     ];
 }

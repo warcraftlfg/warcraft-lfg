@@ -168,11 +168,11 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
 
 
 /**
- * Update or insert bnet object for the guild
+ * Update or insert wowprogress object for the guild
  * @param region
  * @param realm
  * @param name
- * @param perms
+ * @param wowProgress
  * @param callback
  */
 module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callback){
@@ -202,11 +202,45 @@ module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callba
 };
 
 /**
+ * Update or insert progress object for the guild
+ * @param region
+ * @param realm
+ * @param name
+ * @param progress
+ * @param callback
+ */
+module.exports.upsertProgress = function(region,realm,name,raid,progress,callback){
+    async.series([
+        function(callback){
+            //Format value
+            region = region.toLowerCase();
+            callback();
+        },
+        function(callback){
+            //Validate Params
+            validator.validate({region:region,realm:realm,name:name},function(error){
+                callback(error);
+            });
+        },
+        function(callback){
+            //Upsert
+            progress.updated = new Date().getTime();
+            var collection = applicationStorage.mongo.collection("guilds");
+            collection.update({region:region,realm:realm,name:name}, {$set:{raid:progress}}, {upsert:true}, function(error){
+                callback(error);
+            });
+        }
+    ],function(error){
+        callback(error);
+    });
+};
+
+
+/**
  * Update or insert ad for the guild
  * @param region
  * @param realm
  * @param name
- * @param ad
  * @param callback
  */
 module.exports.deleteAd = function(region,realm,name,callback){
@@ -230,6 +264,18 @@ module.exports.deleteAd = function(region,realm,name,callback){
             });
         }
     ],function(error){
+        callback(error);
+    });
+};
+
+/**
+ * set lfg to false for ads of 3 month old
+ * @param callback
+ */
+module.exports.disableLfgForOldAds = function(callback){
+    var timestamp = new Date().getTime() - (120 * 24 * 3600 * 1000);
+    var collection = applicationStorage.mongo.collection("guilds");
+    collection.update({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
         callback(error);
     });
 };
