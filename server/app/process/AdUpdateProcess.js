@@ -7,12 +7,13 @@ var updateModel = process.require("updates/updateModel.js");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 
-function AdUpdateProcess(){
+function AdUpdateProcess(autoStop){
+    this.autoStop = autoStop;
 }
 
 AdUpdateProcess.prototype.setAdsToUpdate = function() {
     var logger = applicationStorage.logger;
-
+    var self = this;
     async.parallel([
         function(callback){
             //Set to Update Character Ads
@@ -67,7 +68,10 @@ AdUpdateProcess.prototype.setAdsToUpdate = function() {
             });
         }
     ],function(){
-        process.exit();
+        if(self.autoStop) {
+            process.exit();
+        }
+
     })
 
 };

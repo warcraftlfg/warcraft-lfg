@@ -40,12 +40,13 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function() {
                         });
                     },
                     function(result,callback){
-
-
                         var progress = {};
                         progress.score = 0;
                         async.forEachSeries(result,function(obj,callback) {
                             if (obj.value && obj.value.timestamps && obj.value.timestamps.length > 0) {
+
+                                logger.verbose("Kills found for %s-%s (%s)",obj._id.boss,obj._id.difficulty,obj.value.timestamps.join(','))
+
                                 if (!progress[obj._id.difficulty]) {
                                     progress[obj._id.difficulty] = {};
                                 }
@@ -68,7 +69,6 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function() {
                             }
                             callback();
                         },function() {
-
                             guildModel.upsertProgress(guildProgress.region, guildProgress.realm, guildProgress.name, raid.name, progress, function (error) {
                                 callback(error);
                             });

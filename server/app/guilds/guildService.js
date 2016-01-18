@@ -48,7 +48,7 @@ module.exports.setMembersToUpdate = function(region,realm,name,members,priority,
     async.each(members,function(member,callback){
         if(member.character.level >= 100 || priority == 0) {
             updateModel.insert("cu",region, member.character.realm, member.character.name, priority <= 5 ? priority : 3, function (error) {
-                logger.verbose("Insert character to update %s-%s-%s",region,member.character.realm,member.character.name);
+                logger.verbose("Insert character to update %s-%s-%s with priority",region,member.character.realm,member.character.name, priority <= 5 ? priority : 3);
                 callback(error);
             });
         } else {
@@ -112,6 +112,55 @@ module.exports.updateWowProgressRanking = function(region,realm,name,callback){
             });
         }
     ],function(error){
+        callback(error);
+    });
+};
+
+
+/**
+ *
+ * @param wowProgressGuildAd
+ * @param callback
+ */
+module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
+    var logger = applicationStorage.logger;
+    async.waterfall([
+        function (callback) {
+            bnetAPI.getGuild(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, [],function (error, guild) {
+                callback(error, guild);
+            });
+        },
+        function (guild, callback) {
+            //Force name with bnet response (case or russian realm name)
+            wowProgressGuildAd.realm = guild.realm;
+            wowProgressGuildAd.name = guild.name;
+            guildModel.findOne({region:wowProgressGuildAd.region, realm:wowProgressGuildAd.realm, name:wowProgressGuildAd.name},{ad:1}, function (error, guild) {
+                callback(error, guild);
+            });
+        },
+        function (guild, callback) {
+            if (!guild || (guild && !guild.ad) ||(guild && guild.ad && !guild.ad.updated))
+                async.parallel([
+                    function (callback) {
+                        guildModel.upsertAd(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, wowProgressGuildAd, function (error) {
+                            callback(error);
+                        });
+                    },
+                    function (callback) {
+                        updateModel.insert('gu',wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 10, function (error) {
+                            if (!error)
+                                logger.info("Insert guild to update %s-%s-%s with priority 10",wowProgressGuildAd.region,wowProgressGuildAd.realm,wowProgressGuildAd.name);
+                            callback(error);
+                        });
+                    }
+                ], function (error) {
+                    callback(error)
+                });
+            else{
+                callback();
+            }
+        }
+    ], function (error) {
         callback(error);
     });
 };

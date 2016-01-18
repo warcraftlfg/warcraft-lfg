@@ -34,55 +34,42 @@
       "name":"Hellfire Citadel",
       "bosses":[
         {
-          "player_mythic_achievement_id":10027,
           "name":"Hellfire Assault"
         },
         {
-          "player_mythic_achievement_id":10032,
           "name":"Iron Reaver"
         },
         {
-          "player_mythic_achievement_id":10033,
           "name":"Kormrok"
         },
         {
-          "player_mythic_achievement_id":10034,
           "name":"Hellfire High Council"
         },
         {
-          "player_mythic_achievement_id":10035,
           "name":"Kilrogg Deadeye"
         },
         {
-          "player_mythic_achievement_id":10253,
           "name":"Gorefiend"
         },
         {
-          "player_mythic_achievement_id":10037,
           "name":"Shadow-Lord Iskar"
         },
         {
-          "player_mythic_achievement_id":10040,
           "name":"Socrethar the Eternal"
         },
         {
-          "player_mythic_achievement_id":10038,
           "name":"Tyrant Velhari"
         },
         {
-          "player_mythic_achievement_id":10039,
           "name":"Fel Lord Zakuun"
         },
         {
-          "player_mythic_achievement_id":10041,
           "name":"Xhul'horac"
         },
         {
-          "player_mythic_achievement_id":10042,
           "name":"Mannoroth"
         },
         {
-          "player_mythic_achievement_id":10043,
           "name":"Archimonde"
         }
       ]

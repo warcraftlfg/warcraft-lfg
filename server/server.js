@@ -19,41 +19,52 @@ var started = ready.waitFor('started');
 
 
 var processNames = [];
+
 // -ws start WebServerProcess (need to be first for socket.io)
-if(process.argv.indexOf("-ws")!=-1)
+if(process.argv.indexOf("-ws")!=-1) {
     processNames.push("WebServerProcess");
+}
 
 // -gu start GuildUpdateProcess
-if(process.argv.indexOf("-gu")!=-1)
+if(process.argv.indexOf("-gu")!=-1) {
     processNames.push("GuildUpdateProcess");
+}
 
 // -cu start CharacterUpdateProcess
-if(process.argv.indexOf("-cu")!=-1)
+if(process.argv.indexOf("-cu")!=-1) {
     processNames.push("CharacterUpdateProcess");
+}
 
 // -ru start RealmUpdateProcess
-if(process.argv.indexOf("-ru")!=-1)
+if(process.argv.indexOf("-ru")!=-1) {
     processNames.push("RealmUpdateProcess");
+}
 
 // -wp start WowProgressUpdateProcess
-if(process.argv.indexOf("-wp")!=-1)
+if(process.argv.indexOf("-wp")!=-1) {
     processNames.push("WowProgressUpdateProcess");
+}
 
 // -clean start CleanerProcess
-if(process.argv.indexOf("-clean")!=-1)
+if(process.argv.indexOf("-clean")!=-1) {
     processNames.push("CleanerProcess");
+}
 
 // -au start AuctionUpdateProcess
-if(process.argv.indexOf("-au")!=-1)
+if(process.argv.indexOf("-au")!=-1) {
     processNames.push("AuctionUpdateProcess");
+}
 
 // -adu start AdUpdateProcess
 if(process.argv.indexOf("-adu")!=-1)
     processNames.push("AdUpdateProcess");
 
 // -gpu start GuildProgressUpdateProcess
-if(process.argv.indexOf("-gpu")!=-1)
+if(process.argv.indexOf("-gpu")!=-1) {
     processNames.push("GuildProgressUpdateProcess");
+}
+
+
 
 //Start all process if no args are found
 if(processNames.length == 0 ) {
@@ -65,9 +76,20 @@ if(processNames.length == 0 ) {
         "CleanerProcess",
         "AuctionUpdateProcess",
         "AdUpdateProcess",
-        //"GuildProgressUpdateProcess",
+        "GuildProgressUpdateProcess",
         "WebServerProcess"
     ];
+}
+
+var autoStop = true;
+//Disable AutoStop if any of this process is loaded
+if( processNames.indexOf("GuildUpdateProcess")!=-1
+    || processNames.indexOf("CharacterUpdateProcess")!=-1
+    || processNames.indexOf("AuctionUpdateProcess")!=-1
+    || processNames.indexOf("GuildProgressUpdateProcess")!=-1
+    || processNames.indexOf("WebServerProcess")!=-1
+    || processNames.indexOf("WowProgressUpdateProcess")!=-1){
+    autoStop = false;
 }
 
 //Load config file
@@ -96,9 +118,8 @@ async.waterfall([
             level: config.logger.level,
             transports: transports
         });
+
         callback();
-
-
     },
     // Establish a connection to the database
     function(callback) {
@@ -133,7 +154,7 @@ async.waterfall([
         var processes =  [];
         async.forEachSeries(processNames,function(processName,callback){
             var obj = process.require("process/"+processName+".js");
-            processes.push(new obj());
+            processes.push(new obj(autoStop));
             callback();
         },function(){
             callback(null,processes);

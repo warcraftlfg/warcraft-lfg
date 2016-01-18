@@ -6,11 +6,13 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 
-function CleanerProcess(){
+function CleanerProcess(autoStop){
+    this.autoStop = autoStop;
 }
 
 CleanerProcess.prototype.cleanAds = function() {
     var logger = applicationStorage.logger;
+    var self = this;
     async.parallel([
         function(callback){
             //Disable lfg for old character ads
@@ -36,7 +38,9 @@ CleanerProcess.prototype.cleanAds = function() {
             callback();
         }
     ],function(){
-        process.exit();
+        if(self.autoStop) {
+            process.exit();
+        }
     });
 
 };

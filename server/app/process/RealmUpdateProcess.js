@@ -5,13 +5,14 @@ var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
 var realmModel = process.require("realms/realmModel.js");
-function RealmUpdateProcess(){
-    this.lock = false;
+function RealmUpdateProcess(autoStop){
+    this.autoStop = autoStop;
 }
 
 RealmUpdateProcess.prototype.importRealms = function() {
     var config = applicationStorage.config;
     var logger = applicationStorage.logger;
+    var self = this;
     async.each(config.bnetRegions,function(region,callback) {
         async.waterfall([
             function(callback){
@@ -47,7 +48,9 @@ RealmUpdateProcess.prototype.importRealms = function() {
     },function(error){
         if (error)
             logger.error(error.message);
-        process.exit();
+        if(this.autoStop) {
+            process.exit();
+        }
 
     });
 

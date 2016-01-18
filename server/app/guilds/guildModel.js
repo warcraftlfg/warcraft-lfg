@@ -224,9 +224,11 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
         },
         function(callback){
             //Upsert
+            var obj = {};
             progress.updated = new Date().getTime();
+            obj[raid] = progress;
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{raid:progress}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:{progress:obj}}, {upsert:true}, function(error){
                 callback(error);
             });
         }
