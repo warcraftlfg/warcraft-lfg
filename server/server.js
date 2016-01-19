@@ -93,7 +93,7 @@ if( processNames.indexOf("GuildUpdateProcess")!=-1
 }
 
 //Load config file
-var env = process.env.NODE_ENV || "dev";
+var env = process.env.NODE_ENV || "development";
 var config = process.require("config/config."+env+".json");
 var logger = null;
 
