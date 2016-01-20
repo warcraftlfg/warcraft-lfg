@@ -83,10 +83,15 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             });
         },
         function(callback){
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
             ad.updated = new Date().getTime();
+            guild.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{ad:ad}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -120,10 +125,15 @@ module.exports.upsertPerms = function(region,realm,name,perms,callback){
             });
         },
         function(callback){
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
             perms.updated = new Date().getTime();
+            guild.perms = perms;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{perms:perms}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -154,10 +164,15 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             });
         },
         function(callback){
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
             bnet.updated = new Date().getTime();
+            guild.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{bnet:bnet}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -189,10 +204,15 @@ module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callba
             });
         },
         function(callback){
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
             wowProgress.updated = new Date().getTime();
+            guild.wowProgress = wowProgress;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{wowProgress:wowProgress}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -224,11 +244,16 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
         },
         function(callback){
             //Upsert
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
             var obj = {};
             progress.updated = new Date().getTime();
             obj[raid] = progress;
+            guild.progress = progress;
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{progress:obj}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -239,7 +264,7 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
 
 
 /**
- * Update or insert ad for the guild
+ * Delete Ad for the guild
  * @param region
  * @param realm
  * @param name
