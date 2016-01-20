@@ -22,6 +22,8 @@
         characters.get({"characterRegion":$stateParams.region,"characterRealm":$stateParams.realm,"characterName":$stateParams.name},function(character){
             $scope.$parent.loading = false;
             $scope.character = character;
+        },function(){
+            $scope.$parent.loading = false;
         });
 
 
@@ -71,6 +73,8 @@
             LANGUAGES.forEach(function(language){
                 $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase()),selected:$scope.character.ad.languages.indexOf(language)!=-1});
             });
+        },function(){
+            $scope.$parent.loading = false;
         });
 
         $scope.save = function() {
@@ -154,14 +158,16 @@
             console.log(params.last);
 
             characters.query(params, function (characters) {
+                    $scope.$parent.loading = false;
+                    $scope.loading = false;
 
+                    $scope.characters = $scope.characters.concat(characters);
 
-                $scope.$parent.loading = false;
-                $scope.loading = false;
-
-                $scope.characters = $scope.characters.concat(characters);
-
-            });
+                },
+                function (error) {
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                });
         }
     }
 })();
