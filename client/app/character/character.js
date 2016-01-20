@@ -129,27 +129,33 @@
 
                 if($scope.filters.sort == "progress"){
                     if ($scope.characters[$scope.characters.length-1].progress) {
+                        console.log($scope.characters[$scope.characters.length - 1]);
+                        console.log($scope.characters[$scope.characters.length-1].progress[Object.keys($scope.characters[$scope.characters.length-1].progress)[0]]);
                         params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length-1].progress[Object.keys($scope.characters[$scope.characters.length-1].progress)[0]].score;
                     } else {
                         params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
                     }
-                }
-                if($scope.filters.sort == "ilevel"){
-                    if ($scope.characters[$scope.characters.length-1].wowProgress) {
+                } else if($scope.filters.sort == "ilevel"){
+
+                    if ($scope.characters[$scope.characters.length-1].bnet && $scope.characters[$scope.characters.length-1].bnet.items && $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped) {
                         params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped;
                     } else {
                         params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
                     }
-                }
-                else {
+                } else {
                     params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].ad.updated;
                 }
+                console.log(params.last);
+
             }
 
             angular.extend(params, $scope.filters);
             delete params.states;
+            console.log(params.last);
 
             characters.query(params, function (characters) {
+
+
                 $scope.$parent.loading = false;
                 $scope.loading = false;
 
