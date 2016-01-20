@@ -23,7 +23,7 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
         collection.find(criteria, projection).toArray(function (error, guilds) {
             callback(error, guilds);
         });
-    } else if(limit === undefined && callback == undefined) {
+    } else if(hint === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).sort(sort).toArray(function (error, guilds) {
             callback(error, guilds);
