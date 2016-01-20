@@ -1,6 +1,6 @@
 {
   "server": {
-    "port": 3001,
+    "port": 3000,
     "https":{
       "key": "server/app/config/sslcert/server.key",
       "cert": "server/app/config/sslcert/server.crt"
@@ -10,7 +10,7 @@
     "secret": "justbetweenyouandme"
   },
   "database": {
-    "mongo": "mongodb://localhost/warcraft-lfg-test",
+    "mongo": "mongodb://localhost/wow-finder",
     "redis": "redis://localhost"
   },
   "logger": {
@@ -19,13 +19,13 @@
   },
   "oauth": {
     "bnet": {
-      "clientID": "fakeClientID",
-      "clientSecret": "fakeClientSecret",
+      "clientID": "qrgxfq6sqy7ehsx4a6g9wkwcrxset2p4",
+      "clientSecret": "ThnVSMQwmPm6Y9FZynY6urfMkvgU3JJG",
       "callbackURL": "https://localhost:3000/auth/bnet/callback"
     }
   },
   "warcraftLogs": {
-    "api_key": ""
+    "api_key": "24ef9662ab424c105b0f5b59f573186d"
   },
   "bnetRegions":["eu","kr","tw","us"],
   "priorities": [10,5,3,0],
@@ -34,42 +34,55 @@
       "name":"Hellfire Citadel",
       "bosses":[
         {
+          "player_mythic_achievement_id":10027,
           "name":"Hellfire Assault"
         },
         {
+          "player_mythic_achievement_id":10032,
           "name":"Iron Reaver"
         },
         {
+          "player_mythic_achievement_id":10033,
           "name":"Kormrok"
         },
         {
+          "player_mythic_achievement_id":10034,
           "name":"Hellfire High Council"
         },
         {
+          "player_mythic_achievement_id":10035,
           "name":"Kilrogg Deadeye"
         },
         {
+          "player_mythic_achievement_id":10253,
           "name":"Gorefiend"
         },
         {
+          "player_mythic_achievement_id":10037,
           "name":"Shadow-Lord Iskar"
         },
         {
+          "player_mythic_achievement_id":10040,
           "name":"Socrethar the Eternal"
         },
         {
+          "player_mythic_achievement_id":10038,
           "name":"Tyrant Velhari"
         },
         {
+          "player_mythic_achievement_id":10039,
           "name":"Fel Lord Zakuun"
         },
         {
+          "player_mythic_achievement_id":10041,
           "name":"Xhul'horac"
         },
         {
+          "player_mythic_achievement_id":10042,
           "name":"Mannoroth"
         },
         {
+          "player_mythic_achievement_id":10043,
           "name":"Archimonde"
         }
       ]

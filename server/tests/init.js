@@ -1,7 +1,7 @@
 "use strict";
 
 process.env.NODE_ENV = "test";
-require("../server.js")
+require("../server.js");
 var assert = require("chai").assert;
 var applicationStorage = process.require("core/applicationStorage.js");
 var request = require('request');

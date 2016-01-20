@@ -46,9 +46,10 @@ CleanerProcess.prototype.cleanAds = function() {
 };
 
 
-CleanerProcess.prototype.start = function(){
+CleanerProcess.prototype.start = function(callback){
     applicationStorage.logger.info("Starting CleanerProcess");
     this.cleanAds();
+    callback();
 
 };
 

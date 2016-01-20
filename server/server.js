@@ -72,7 +72,7 @@ if(processNames.length == 0 ) {
         "GuildUpdateProcess",
         "CharacterUpdateProcess",
         "RealmUpdateProcess",
-        //"WowProgressUpdateProcess",
+        "WowProgressUpdateProcess",
         "CleanerProcess",
         "AuctionUpdateProcess",
         "AdUpdateProcess",
@@ -94,7 +94,10 @@ if( processNames.indexOf("GuildUpdateProcess")!=-1
 
 //Load config file
 var env = process.env.NODE_ENV || "development";
-var config = process.require("config/config."+env+".json");
+var config = process.require("config/config.json");
+if(env=="development"){
+    config = process.require("config/config."+env+".json");
+}
 var logger = null;
 
 async.waterfall([
@@ -111,7 +114,7 @@ async.waterfall([
             maxsize : 104857600,
             zippedArchive: true
         })];
-        if(env =="dev")
+        if(env =="development")
             transports.push(new (winston.transports.Console)());
 
         applicationStorage.logger = logger = new (winston.Logger)({
@@ -163,13 +166,10 @@ async.waterfall([
     // Start Processes
     function(processes,callback){
         async.each(processes,function(process,callback){
-
             process.start(function(error){
                 callback(error);
             });
-
         },function(error){
-
             callback(error);
         });
     }
