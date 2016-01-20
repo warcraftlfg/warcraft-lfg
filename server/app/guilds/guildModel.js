@@ -24,12 +24,12 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
             callback(error, guilds);
         });
     } else if(hint === undefined && callback == undefined) {
-        callback = sort;
+        callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     } else if(callback == undefined) {
-        callback = limit;
+        callback = hint;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, guilds) {
             callback(error, guilds);
         });
