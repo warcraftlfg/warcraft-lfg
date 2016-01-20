@@ -84,11 +84,13 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             });
         },
         function(callback){
+            var date = new Date().getTime();
             var character = {};
             character.region= region;
             character.realm = realm;
             character.name = name;
-            ad.updated = new Date().getTime();
+            character.updated = date;
+            ad.updated = date;
             character.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
@@ -125,13 +127,14 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             });
         },
         function(callback){
+            var date = new Date().getTime();
             var character = {};
             character.region= region;
             character.realm = realm;
             character.name = name;
-            bnet.updated = new Date().getTime();
+            character.updated = date;
+            bnet.updated = date;
             character.bnet = bnet;
-            console.log(character);
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
             collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
@@ -166,12 +169,14 @@ module.exports.upsertWarcraftLogs = function(region,realm,name,warcraftLogs,call
             });
         },
         function(callback){
+            var date = new Date().getTime();
             var character = {};
             character.region= region;
             character.realm = realm;
             character.name = name;
+            character.updated = date;
             var obj = {};
-            obj.updated = new Date().getTime();
+            obj.updated = date;
             obj.logs = warcraftLogs;
             character.warcraftLogs = obj;
             //Upsert
@@ -209,11 +214,13 @@ module.exports.upsertProgress= function(region,realm,name,progress,callback){
         },
         function(callback){
             //Upsert
+            var date = new Date().getTime();
             var character = {};
             character.region= region;
             character.realm = realm;
             character.name = name;
-            progress.updated = new Date().getTime();
+            character.updated = date;
+            progress.updated = date;
             character.progress = progress;
 
             var collection = applicationStorage.mongo.collection("characters");

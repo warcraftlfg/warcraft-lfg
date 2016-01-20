@@ -83,11 +83,13 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             });
         },
         function(callback){
+            var date = new Date().getTime();
             var guild = {};
             guild.region = region;
             guild.realm = realm;
             guild.name = name;
-            ad.updated = new Date().getTime();
+            guild.updated = date;
+            ad.updated = date;
             guild.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
@@ -125,11 +127,13 @@ module.exports.upsertPerms = function(region,realm,name,perms,callback){
             });
         },
         function(callback){
+            var date = new Date().getTime();
             var guild = {};
             guild.region = region;
             guild.realm = realm;
             guild.name = name;
-            perms.updated = new Date().getTime();
+            guild.updated = date;
+            perms.updated = date;
             guild.perms = perms;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
@@ -164,11 +168,13 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             });
         },
         function(callback){
+            var date = new Date().getTime();
             var guild = {};
             guild.region = region;
             guild.realm = realm;
             guild.name = name;
-            bnet.updated = new Date().getTime();
+            guild.updated = date;
+            bnet.updated = date;
             guild.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
@@ -204,11 +210,13 @@ module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callba
             });
         },
         function(callback){
+            var date = new Date().getTime();
             var guild = {};
             guild.region = region;
             guild.realm = realm;
             guild.name = name;
-            wowProgress.updated = new Date().getTime();
+            guild.updated = date;
+            wowProgress.updated = date;
             guild.wowProgress = wowProgress;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
@@ -244,12 +252,14 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
         },
         function(callback){
             //Upsert
+            var date = new Date().getTime();
             var guild = {};
             guild.region = region;
             guild.realm = realm;
             guild.name = name;
+            guild.updated = date;
             var obj = {};
-            progress.updated = new Date().getTime();
+            progress.updated = date;
             obj[raid] = progress;
             guild.progress = progress;
             var collection = applicationStorage.mongo.collection("guilds");
