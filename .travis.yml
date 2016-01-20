@@ -6,6 +6,7 @@ language: node_js
 
 services:
   - mongodb
+  - redis-server
 
 before_install:
   - gem update --system
@@ -15,6 +16,7 @@ before_install:
 install:
   - npm install -g mocha grunt-cli bower
   - npm install
+  - mkdir logs
 
 
 after_success:

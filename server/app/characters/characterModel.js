@@ -14,24 +14,30 @@ var Confine = require("confine");
  * @param limit
  * @param callback
  */
-module.exports.find = function(criteria,projection,sort,limit,callback){
+module.exports.find = function(criteria,projection,sort,limit,hint,callback){
     var collection = applicationStorage.mongo.collection("characters");
-    if(limit === undefined && callback == undefined) {
+    if(hint === undefined && limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else if(callback == undefined) {
-        callback = limit;
+    } else if(limit === undefined && callback == undefined) {
+        callback = sort;
         collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else {
+    } else if(callback == undefined) {
+        callback = limit;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, characters) {
+            callback(error, characters);
+        });
+    } else {
+        collection.find(criteria, projection).sort(sort).limit(limit).hint(hint).toArray(function (error, characters) {
             callback(error, characters);
         });
     }
 };
+
 
 /**
  * Get one character
