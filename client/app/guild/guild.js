@@ -204,15 +204,13 @@
                     } else {
                         params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
                     }
-                }
-                if($scope.filters.sort == "ranking"){
+                } else if($scope.filters.sort == "ranking"){
                     if ($scope.guilds[$scope.guilds.length-1].wowProgress) {
                         params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length-1].wowProgress.world_rank;
                     } else {
                         params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
                     }
-                }
-                else {
+                } else {
                     params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].ad.updated;
                 }
             }
