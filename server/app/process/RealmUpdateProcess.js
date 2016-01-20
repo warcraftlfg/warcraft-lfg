@@ -48,7 +48,7 @@ RealmUpdateProcess.prototype.importRealms = function() {
     },function(error){
         if (error)
             logger.error(error.message);
-        if(this.autoStop) {
+        if(self.autoStop) {
             process.exit();
         }
 

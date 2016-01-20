@@ -12,6 +12,7 @@ var Confine = require("confine");
  * @param projection
  * @param sort
  * @param limit
+ * @param hint
  * @param callback
  */
 module.exports.find = function(criteria,projection,sort,limit,hint,callback){
@@ -21,13 +22,13 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
         collection.find(criteria, projection).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else if(limit === undefined && callback == undefined) {
-        callback = sort;
+    } else if(hint === undefined && callback == undefined) {
+        callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
             callback(error, characters);
         });
     } else if(callback == undefined) {
-        callback = limit;
+        callback = hint;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, characters) {
             callback(error, characters);
         });

@@ -23,13 +23,13 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
         collection.find(criteria, projection).toArray(function (error, guilds) {
             callback(error, guilds);
         });
-    } else if(limit === undefined && callback == undefined) {
-        callback = sort;
+    } else if(hint === undefined && callback == undefined) {
+        callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     } else if(callback == undefined) {
-        callback = limit;
+        callback = hint;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, guilds) {
             callback(error, guilds);
         });
