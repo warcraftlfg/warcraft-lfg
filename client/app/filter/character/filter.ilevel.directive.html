@@ -1,9 +1,9 @@
 <div class="checkbox m-b-0">
     <label>
-        <input ng-model="filters.ilevel.active" type="checkbox">  iLevel
+        <input ng-model="ilevel.active" type="checkbox">  iLevel
     </label>
 </div>
-<div ng-if="filters.ilevel.active">
-    {{ filters.ilevel.min }} - {{ filters.ilevel.max }}
-    <angular-ranger min="575" max="750" step="1" min-value="filters.ilevel.min" max-value="filters.ilevel.max"></angular-ranger>
+<div ng-if="ilevel.active">
+    {{ ilevel.min }} - {{ ilevel.max }}
+    <angular-ranger min="575" max="750" step="1" min-value="ilevel.min" max-value="ilevel.max"></angular-ranger>
 </div>

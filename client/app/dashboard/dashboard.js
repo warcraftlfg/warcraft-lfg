@@ -5,8 +5,8 @@
         .module('app.dashboard')
         .controller('DashboardController', Dashboard);
 
-    Dashboard.$inject = ['$scope','$state','$translate','socket','LANGUAGES',"wlfgAppTitle"];
-    function Dashboard($scope,$state,$translate,socket,LANGUAGES,wlfgAppTitle) {
+    Dashboard.$inject = ['$scope','$state','$translate','socket','LANGUAGES',"wlfgAppTitle","characters","guilds"];
+    function Dashboard($scope,$state,$translate,socket,LANGUAGES,wlfgAppTitle,characters,guilds) {
         wlfgAppTitle.setTitle('Home');
         
         $scope.$parent.loading = false;
@@ -42,54 +42,24 @@
         $scope.languages = LANGUAGES;
 
         //Initialize $scope variables
-        $scope.guilds = [];
-        $scope.characters = [];
+        $scope.guildAdsObj = guilds.getWithCount({lfg:true,view:"minimal"});
+        $scope.characterAdsObj = characters.getWithCount({lfg:true,view:"minimal"});
+
+        //Initialize $scope variables
+        $scope.guildsObj = guilds.getWithCount({number:0});
+        $scope.charactersObj = characters.getWithCount({number:0});
+
+
         $scope.form = {type:"guild",region:"",language:"",realmZones:[]};
-
-
-        socket.emit('get:lastGuildAds');
-        socket.forward('get:lastGuildAds',$scope);
-        $scope.$on('socket:get:lastGuildAds',function(ev,guilds){
-            $scope.guilds=guilds;
-        });
-        socket.emit('get:lastCharacterAds');
-        socket.forward('get:lastCharacterAds',$scope);
-        $scope.$on('socket:get:lastCharacterAds',function(ev,characters){
-            $scope.characters=characters;
-        });
-
-        socket.emit('get:charactersCount');
-        socket.forward('get:charactersCount',$scope);
-        $scope.$on('socket:get:charactersCount',function(ev,characterCount){
-            $scope.characterCount=characterCount.toLocaleString();
-        });
-
-        socket.emit('get:guildsCount');
-        socket.forward('get:guildsCount',$scope);
-        $scope.$on('socket:get:guildsCount',function(ev,guildCount){
-            $scope.guildCount=guildCount.toLocaleString();
-        });
-
-        socket.emit('get:characterAdsCount');
-        socket.forward('get:characterAdsCount',$scope);
-        $scope.$on('socket:get:characterAdsCount',function(ev,characterAdCount){
-            $scope.characterAdCount=characterAdCount.toLocaleString();
-        });
-
-        socket.emit('get:guildAdsCount');
-        socket.forward('get:guildAdsCount',$scope);
-        $scope.$on('socket:get:guildAdsCount',function(ev,guildAdCount){
-            $scope.guildAdCount=guildAdCount.toLocaleString();
-        });
 
         $scope.CTAFormSubmit = function(){
 
             var realmZones=[];
             angular.forEach($scope.form.realmZones,function(realmZone){
-                realmZones.push(realmZone.region +'--'+realmZone.locale+"--"+realmZone.zone+"--"+realmZone.cities.join('::'));
+                realmZones.push(realmZone.region +'.'+realmZone.locale+"."+realmZone.zone+"."+realmZone.cities.join('::'));
             });
 
-            $state.go($scope.form.type+'-list',{region:$scope.form.region,languages:$scope.form.language,faction:$scope.form.faction,realm_zones:realmZones.join('__')});
+            $state.go($scope.form.type+'-list',{region:$scope.form.region,language:$scope.form.language,faction:$scope.form.faction,realm_zone:realmZones});
         };
 
         /*

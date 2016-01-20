@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRealm', wlfgFilterRealm);
 
-wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location', 'socket'];
-function wlfgFilterRealm($translate, $stateParams, $location, socket) {
+wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location', 'socket','realms'];
+function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -23,53 +23,73 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket) {
             nothingSelected : $translate.instant("ALL_REALMS")
         };
 
-        $scope.filters.realm = {};
+        $scope.filters.realm = null;
 
-        if ($stateParams.realm_name && $stateParams.realm_region) {
-            $scope.filters.realm.region = $stateParams.realm_region;
-            $scope.filters.realm.name = $stateParams.realm_name;
+        if ($stateParams.realm) {
+            var realm = $stateParams.realm;
 
-            $scope.realms = [{
-                label: $stateParams.realm_name + " (" + $stateParams.realm_region.toUpperCase() + ")",
-                selected: true
-            }];
+            var params = realm.split('.');
+
+            if(params.length == 2) {
+                $scope.realms = [{
+                    label: params[1] + " (" + params[0].toUpperCase() + ")",
+                    selected: true
+                }];
+                $scope.filters.realm = realm;
+            }
         }
 
         $scope.filters.states.realm = true;
 
-        $scope.$watch('filters.realm',function(){
+        $scope.$watch('realmOut',function(){
+
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            if($scope.filters.realm){
-                $location.search('realm_name', $scope.filters.realm.name);
-                $location.search('realm_region', $scope.filters.realm.region);
+            if($scope.realmOut){
+                $location.search('realm', $scope.realmOut.region+"."+$scope.realmOut.name);
+                $scope.filters.realm =  $scope.realmOut.region+"."+$scope.realmOut.name;
+            }else
+            {
+                $location.search('realm', null);
+                $scope.filters.realm=null;
             }
 
             $scope.$parent.loading = true;
         },true);
 
         $scope.setRealm = function(data){
-            $scope.filters.realm = data;
+            $scope.realmOut = data;
         };
 
         $scope.resetRealm = function(){
-            $scope.filters.realm = {};
+            $scope.realmOut = null;
             angular.forEach($scope.realms,function(realm) {
                 realm.selected = false;
             });
         };
 
-        socket.forward('get:realms',$scope);
-        $scope.$on('socket:get:realms', function(ev, realms) {
-            $scope.realms = realms;
-            angular.forEach(realms,function (realm) {
-                realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
-                if ($stateParams.realm_name && $stateParams.realm_name == realm.name && $stateParams.realm_region && $stateParams.realm_region==realm.region) {
-                    realm.selected = true;
-                }
+        $scope.$on('get:realms', function() {
+
+            realms.query({realm_zone:$scope.filters.realm_zone},function(realms){
+                $scope.realms = realms;
+                angular.forEach(realms,function (realm) {
+                    realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
+
+                    if($stateParams.realm) {
+                        var params = $stateParams.realm.split('.');
+                        if (params.length == 2 && params[1] == realm.name && params[0] == realm.region) {
+                            realm.selected = true;
+                        }
+                    }
+
+
+                });
             });
+
+
+
         });
 
     }

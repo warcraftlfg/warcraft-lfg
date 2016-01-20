@@ -31,41 +31,45 @@ function wlfgFilterDay($translate, $stateParams, $location) {
             nothingSelected : $translate.instant("ALL_DAYS")
         };
 
-        $scope.filters.days = [];
+        $scope.filters.day = [];
 
-        if($stateParams.days){
-            var days = $stateParams.days.split("__");
+        if($stateParams.day){
+            var days = $stateParams.day;
+            if(!angular.isArray(days))
+                days = [days];
             angular.forEach($scope.days,function(day){
                 if(days.indexOf(day.id)!=-1) {
                     day.selected = true;
-                    $scope.filters.days.push({id:day.id,selected:true});
+                    $scope.filters.day.push(day.id);
                 }
             });
         }
 
         $scope.filters.states.days = true;
 
-        $scope.$watch('filters.days', function() {
+        $scope.$watch('daysOut', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var days = [];
-            angular.forEach($scope.filters.days,function(day){
+            angular.forEach($scope.daysOut,function(day){
                 days.push(day.id);
             });
 
             if (days.length > 0) {
-                 $location.search('days', days.join('__'));
+                 $location.search('day', days);
+                $scope.filters.day = days;
             } else {
-                $location.search('days', null);
+                $location.search('day', null);
+                days.filters.day = null;
             }
 
             $scope.$parent.loading = true;
         },true);
 
         $scope.resetDays = function() {
-            $scope.filters.days = [];
+            $scope.daysOut = [];
             angular.forEach($scope.days,function(day) {
                 day.selected = false;
             });

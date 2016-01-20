@@ -27,14 +27,14 @@ function wlfgFilterClass($translate, $stateParams, $location) {
             {id:11, name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>", selected:false}
         ];
 
-        $scope.filters.classes = [];
+        $scope.filters.class = [];
 
-        if($stateParams.classes){
-            var classes = $stateParams.classes.split("__");
+        if($stateParams.class){
+            var classes = $stateParams.class;
             angular.forEach($scope.classes,function(clas){
                 if(classes.indexOf(clas.id.toString())!=-1) {
                     clas.selected = true;
-                    $scope.filters.classes.push({id:clas.id,selected:true});
+                    $scope.filters.class.push(clas.id);
                 }
             });
         }
@@ -49,27 +49,29 @@ function wlfgFilterClass($translate, $stateParams, $location) {
 
         $scope.filters.states.classes = true;
 
-        $scope.$watch('filters.classes', function() {
+        $scope.$watch('classesOut', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var classes = [];
-            angular.forEach($scope.filters.classes,function(classe){
+            angular.forEach($scope.classesOut,function(classe){
                 classes.push(classe.id);
             });
 
             if (classes.length > 0) {
-                $location.search('classes', classes.join('__'));
+                $location.search('class', classes);
+                $scope.filters.class = classes;
             } else {
-                $location.search('classes', null);
+                $location.search('class', null);
+                $scope.filters.class = null;
             }
             
             $scope.$parent.loading = true;
         },true);
 
         $scope.resetClasses = function() {
-            $scope.filters.classes = [];
+            $scope.classesOut = null;
             angular.forEach($scope.classes,function(classe) {
                 classe.selected = false;
             });

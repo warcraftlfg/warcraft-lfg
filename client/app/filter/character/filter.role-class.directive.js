@@ -56,42 +56,49 @@ function wlfgFilterRoleClass($translate, $stateParams, $location) {
             nothingSelected : $translate.instant("ALL_CLASSES")
         };
 
-        if ($stateParams.classes){
-            var classes = $stateParams.classes.split("__");
+        $scope.filters.recruitment_class = [];
+
+
+        if ($stateParams.class){
+            var classes = $stateParams.class;
+            if(!angular.isArray(classes))
+                classes = [classes];
 
             angular.forEach($scope.classes,function(clas){
-                if(classes.indexOf(clas.id+'--'+clas.role)!=-1) {
+                if(classes.indexOf(clas.role+'.'+clas.id)!=-1) {
                     clas.selected = true;
-                    $scope.filters.classes.push({id:clas.id,role:clas.role,selected:true});
+                    $scope.filters.recruitment_class.push(clas.role+"."+clas.id);
                 }
 
             });
 
         }
 
+
         $scope.filters.states.classes = true;
 
-        $scope.$watch('filters.classes', function() {
+        $scope.$watch('classesOut', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
-
             var tmpClasses = [];
-            angular.forEach($scope.filters.classes,function(clas){
-                tmpClasses.push(clas.id+"--"+clas.role);
+            angular.forEach($scope.classesOut,function(clas){
+                tmpClasses.push(clas.role+"."+clas.id);
             });
 
             if (tmpClasses.length > 0) {
-                $location.search('classes', tmpClasses.join('__'));
+                $location.search('class', tmpClasses);
+                $scope.filters.recruitment_class = tmpClasses;
             } else {
-                $location.search('classes', null);
+                $location.search('class', null);
+                $scope.filters.recruitment_class = null;
             }
 
             $scope.$parent.loading = true;
         }, true);
 
         $scope.resetClasses = function() {
-            $scope.filters.classes = [];
+            $scope.classesOut = null;
             angular.forEach($scope.classes,function(classe) {
                 classe.selected = false;
             });

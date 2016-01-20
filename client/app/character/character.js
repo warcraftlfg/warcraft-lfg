@@ -8,8 +8,8 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle"];
-    function CharacterRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle) {
+    CharacterRead.$inject = ["$scope","socket","$state","$stateParams","$location","wlfgAppTitle","characters","updates"];
+    function CharacterRead($scope,socket,$state,$stateParams,$location,wlfgAppTitle,characters,updates) {
         wlfgAppTitle.setTitle($stateParams.name+' @ '+$stateParams.realm+' ('+$stateParams.region.toUpperCase()+')');
         //Reset error message
         $scope.$parent.error=null;
@@ -18,37 +18,29 @@
         $scope.$parent.loading = true;
         $scope.current_url =  window.encodeURIComponent($location.absUrl());
 
-        socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
 
-        socket.forward('get:character',$scope);
-        $scope.$on('socket:get:character',function(ev,character){
+        characters.get({"characterRegion":$stateParams.region,"characterRealm":$stateParams.realm,"characterName":$stateParams.name},function(character){
+            $scope.$parent.loading = false;
             $scope.character = character;
-            if (character.ad.btag_display) {
-                socket.emit('get:characterBattleTag', character._id);
-                socket.forward('get:characterBattleTag',$scope);
-                $scope.$on('socket:get:characterBattleTag',function(ev,battleTag){
-                    $scope.$parent.loading = false;
-                    $scope.character.battleTag = battleTag;
-                });
-            } else {
-                $scope.$parent.loading = false;
-            }
         });
+
 
         $scope.updateCharacter = function(){
             $scope.$parent.loading = true;
-            socket.emit('update:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
+            updates.post({type:"character",region:$stateParams.region,realm:$stateParams.realm,name:$stateParams.name},function(queuePosition){
+                $scope.queuePosition = queuePosition;
+                $scope.$parent.loading = false;
+
+            },function(error){
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
         };
 
-        socket.forward('update:character',$scope);
-        $scope.$on('socket:update:character',function(ev,queuePosition){
-            $scope.queuePosition = queuePosition;
-            $scope.$parent.loading = false;
-        });
     }
 
-    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES","TIMEZONES"];
-    function CharacterUpdate($scope,socket,$state,$stateParams,$translate,LANGUAGES,TIMEZONES) {
+    CharacterUpdate.$inject = ["$scope","socket","$state","$stateParams","$translate","LANGUAGES","TIMEZONES","characters"];
+    function CharacterUpdate($scope,socket,$state,$stateParams,$translate,LANGUAGES,TIMEZONES,characters) {
         //Reset error message
         $scope.$parent.error=null;
         $scope.timezones = TIMEZONES;
@@ -69,37 +61,36 @@
             }
         });
 
-
         //Initialize $scope variables
         $scope.$parent.loading = true;
 
-        socket.emit('get:character',{"region":$stateParams.region,"realm":$stateParams.realm,"name":$stateParams.name});
-
-        socket.forward('get:character',$scope);
-        $scope.$on('socket:get:character',function(ev,character){
+        characters.get({"characterRegion":$stateParams.region,"characterRealm":$stateParams.realm,"characterName":$stateParams.name},function(character){
             $scope.$parent.loading = false;
             $scope.character = character;
             $scope.languages = [];
             LANGUAGES.forEach(function(language){
                 $scope.languages.push({id:language,name:$translate.instant("LANG_"+language.toUpperCase()),selected:$scope.character.ad.languages.indexOf(language)!=-1});
             });
-
         });
 
-        $scope.save = function(){
+        $scope.save = function() {
             $scope.$parent.loading = true;
-            socket.emit('put:characterAd',$scope.character);
+            characters.upsert({characterRegion: $scope.character.region, characterRealm: $scope.character.realm, characterName: $scope.character.name,part:"ad"},$scope.character.ad ,
+                function () {
+                    $state.go("account");
+                },
+                function (error) {
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                }
+            );
         };
 
-        socket.forward('put:characterAd',$scope);
-        $scope.$on('socket:put:characterAd',function(){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
+
     }
 
-    CharacterList.$inject = ['$scope', '$stateParams', '$state', 'socket', "wlfgAppTitle"];
-    function CharacterList($scope, $stateParams, $state, socket, wlfgAppTitle) {
+    CharacterList.$inject = ['$scope', '$stateParams', '$state', 'socket', "wlfgAppTitle","characters"];
+    function CharacterList($scope, $stateParams, $state, socket, wlfgAppTitle,characters) {
         wlfgAppTitle.setTitle('Characters LFG');
         //Reset error message
         $scope.$parent.error = null;
@@ -112,7 +103,9 @@
         $scope.$watch('filters', function() {
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
                 // && $scope.filters.states.timezone
-                socket.emit('get:characterAds', $scope.filters);
+                $scope.characters=[];
+
+                getCharacterAds();
             }
         },true);
 
@@ -124,33 +117,45 @@
             if (($scope.$parent && $scope.$parent.loading) || $scope.loading) {
                 return;
             }
+            getCharacterAds();
+        };
 
+        function getCharacterAds() {
             $scope.loading = true;
 
+            var params = {lfg: true, view: "detailed",number:7};
+
             if ($scope.characters.length > 0) {
-                $scope.last.updated = $scope.characters[$scope.characters.length-1].ad.updated;
-                $scope.last.ilevel = $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped;
-                $scope.last.id = $scope.characters[$scope.characters.length-1]._id;
-                if ($scope.characters[$scope.characters.length-1].progress) {
-                    $scope.last.pveScore = $scope.characters[$scope.characters.length-1].progress[Object.keys($scope.characters[$scope.characters.length-1].progress)[0]].score;
-                } else {
-                    $scope.last.pveScore = 0;
+
+                if($scope.filters.sort == "progress"){
+                    if ($scope.characters[$scope.characters.length-1].progress) {
+                        params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length-1].progress[Object.keys($scope.characters[$scope.characters.length-1].progress)[0]].score;
+                    } else {
+                        params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
+                    }
+                }
+                if($scope.filters.sort == "ilevel"){
+                    if ($scope.characters[$scope.characters.length-1].wowProgress) {
+                        params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length-1].bnet.items.averageItemLevelEquipped;
+                    } else {
+                        params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
+                    }
+                }
+                else {
+                    params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].ad.updated;
                 }
             }
 
-            socket.emit('get:characterAds', $scope.filters, $scope.last);
-        };
+            angular.extend(params, $scope.filters);
+            delete params.states;
 
-        socket.forward('get:characterAds',$scope);
-        $scope.$on('socket:get:characterAds',function(ev, characters, last){
-            $scope.$parent.loading = false;
-            $scope.loading = false;
+            characters.query(params, function (characters) {
+                $scope.$parent.loading = false;
+                $scope.loading = false;
 
-            if (!last) {
-                $scope.characters = characters;
-            } else {
                 $scope.characters = $scope.characters.concat(characters);
-            }
-        });
+
+            });
+        }
     }
 })();

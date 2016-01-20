@@ -59,7 +59,6 @@
         </div>
         <div class="footer" data-ng-include="'app/layout/footer.html'"></div>
         <div class="modal-backdrop fade in" ng-if="loading"></div>
-
         <!-- Third party -->
         <script type="text/javascript" async src="//static.wowhead.com/widgets/power.js"></script>
         <script>var wowhead_tooltips = { "colorlinks": false, "iconizelinks": false, "renamelinks": false }</script>
@@ -70,6 +69,7 @@
         <script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/vendor/moment/min/moment.min.js"></script>
         <script type="text/javascript" src="/vendor/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-resource/angular-resource.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-sanitize/angular-sanitize.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-multi-select/isteven-multi-select.js"></script>
         <script type="text/javascript" src="/vendor/angular-ranger/angular-ranger.min.js"></script>
@@ -99,6 +99,7 @@
         <script src="/app/blocks/wlfgWCL/warcraft-lfg.warcraft-logs.filter.js"></script>
         <script src="/app/blocks/select.convert-to-number.directive.js"></script>
 
+
         <!-- filters / sort -->
         <script src="/app/filter/filter.module.js"></script>
         <script src="/app/filter/filter.js"></script>
@@ -110,7 +111,7 @@
         <script src="/app/filter/character/filter.faction.directive.js"></script>
         <script src="/app/filter/character/filter.role.directive.js"></script>
         <script src="/app/filter/character/filter.class.directive.js"></script>
-        +<script src="/app/filter/character/filter.role-class.directive.js"></script>
+        <script src="/app/filter/character/filter.role-class.directive.js"></script>
         <script src="/app/filter/character/filter.ilevel.directive.js"></script>
         <script src="/app/filter/character/filter.progress.directive.js"></script>
         <script src="/app/filter/time/filter.day.directive.js"></script>
@@ -119,12 +120,22 @@
         <script src="/app/filter/misc/filter.transfer.directive.js"></script>
         <script src="/app/filter/misc/filter.levelMax.directive.js"></script>
 
+        <!-- resource -->
+        <script src="/app/resource/resource.module.js"></script>
+        <script src="/app/resource/user.resource.js"></script>
+        <script src="/app/resource/characters.resource.js"></script>
+        <script src="/app/resource/guilds.resource.js"></script>
+        <script src="/app/resource/realms.resource.js"></script>
+        <script src="/app/resource/updates.resource.js"></script>
+
+
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
         <script src="/app/core/core.js"></script>
         <script src="/app/core/constants.js"></script>
         <script src="/app/core/core.config.js"></script>
         <script src="/app/core/core.run.js"></script>
+
 
         <!-- layout -->
         <script src="/app/layout/layout.module.js"></script>

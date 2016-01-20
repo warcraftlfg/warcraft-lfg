@@ -28,9 +28,16 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
         function initLanguages() {
             angular.forEach(LANGUAGES, function (language) {
                 var tmplng = {id: language, name: $translate.instant("LANG_" + language.toUpperCase())};
-                if ($stateParams.languages && $stateParams.languages.split("__").indexOf(language) != -1) {
-                    tmplng.selected = true;
-                    $scope.filters.languages.push({id: language, selected: true});
+                var languageParam = $stateParams.language;
+
+                if (languageParam){
+                    if(!angular.isArray(languageParam)) {
+                        languageParam = [languageParam];
+                    }
+                    if(languageParam.indexOf(language) != -1) {
+                        tmplng.selected = true;
+                        $scope.filters.language = $stateParams.language;
+                    }
                 }
                 $scope.languages.push(tmplng);
             });
@@ -38,30 +45,28 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
 
         $scope.filters.states.languages = true;
 
-        $scope.$watch('filters.languages', function() {
+        $scope.$watch('languagesOut', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var tmpLanguages = [];
-            angular.forEach($scope.filters.languages,function(language){
+            angular.forEach($scope.languagesOut,function(language){
                 tmpLanguages.push(language.id);
             });
 
             if (tmpLanguages.length > 0) {
-                 $location.search('languages', tmpLanguages.join('__'));
+                $location.search('language', tmpLanguages);
             } else {
-                $location.search('languages', null);
+                $location.search('language', null);
             }
 
+            $scope.filters.language = tmpLanguages;
             $scope.$parent.loading = true;
         });
 
         $scope.resetLanguages = function(){
-            $location.search('languages', null);
-            $stateParams.languages = null;
-            initLanguages();
-            $scope.filters.languages = [];
+            $scope.languagesOut = null;
             angular.forEach($scope.languages,function(language) {
                 language.selected = false;
             });

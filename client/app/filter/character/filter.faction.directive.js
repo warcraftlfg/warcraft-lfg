@@ -15,20 +15,22 @@ function wlfgFilterFaction($stateParams, $location) {
     function link($scope, element, attrs) {
         if ($stateParams.faction) {
             $scope.filters.faction = $stateParams.faction;
-            $scope.filters.states.faction = true;
+            $scope.factionOut = $stateParams.faction;
         }
 
         $scope.filters.states.faction = true;
 
-        $scope.$watch('filters.faction', function() {
+        $scope.$watch('factionOut', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            if ($scope.filters.faction) {
-                $location.search('faction', $scope.filters.faction);
+            if ($scope.factionOut && $scope.factionOut!=="") {
+                $location.search('faction', $scope.factionOut);
+                $scope.filters.faction = $scope.factionOut;
             } else {
                 $location.search('faction', null);
+                $scope.filters.faction = null;
             }
 
             $scope.$parent.loading = true;
