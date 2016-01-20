@@ -200,7 +200,8 @@
 
                 if($scope.filters.sort == "progress"){
                     if ($scope.guilds[$scope.guilds.length-1].progress) {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length-1].progress[Object.keys($scope.guilds[$scope.guilds.length-1].progress)[0]].score;
+                        console.log($scope.guilds[$scope.guilds.length - 1]);
+                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length-1].progress[Object.keys($scope.guilds[$scope.guilds.length-1].progress)[0]].pveScore;
                     } else {
                         params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
                     }
