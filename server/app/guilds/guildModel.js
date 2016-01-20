@@ -261,7 +261,7 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
             var obj = {};
             progress.updated = date;
             obj[raid] = progress;
-            guild.progress = progress;
+            guild.progress = obj;
             var collection = applicationStorage.mongo.collection("guilds");
             collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
