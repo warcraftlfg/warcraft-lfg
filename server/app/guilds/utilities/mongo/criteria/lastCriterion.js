@@ -3,7 +3,7 @@
 //Load dependencies
 var params = process.require("core/utilities/params.js");
 var applicationStorage = process.require("core/applicationStorage.js");
-var ObjectId = require("mongoose").Types.ObjectId;
+var ObjectId = require("mongodb").ObjectId;
 
 /**
  * Add the faction criteria from faction param

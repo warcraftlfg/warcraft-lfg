@@ -36,7 +36,8 @@ describe("userRouter",function() {
         request.get({url:baseUrl+"/user/profile", rejectUnauthorized: false}, function (err, res, body){
             assert.isNull(err);
             assert.equal(res.statusCode,403);
-            assert.equal(body,"");
+            assert.equal(body,"ACCESS_DENIED");
+
             done();
         });
     });
@@ -44,7 +45,8 @@ describe("userRouter",function() {
         request.get({url:baseUrl+"/user/characters/fakeRegion", rejectUnauthorized: false}, function (err, res, body){
             assert.isNull(err);
             assert.equal(res.statusCode,403);
-            assert.equal(body,"");
+            assert.equal(body,"ACCESS_DENIED");
+
             done();
         });
     });
@@ -52,7 +54,7 @@ describe("userRouter",function() {
         request.get({url:baseUrl+"/user/guilds/fakeRegion", rejectUnauthorized: false}, function (err, res, body){
             assert.isNull(err);
             assert.equal(res.statusCode,403);
-            assert.equal(body,"");
+            assert.equal(body,"ACCESS_DENIED");
             done();
         });
     });

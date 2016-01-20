@@ -56,9 +56,11 @@ WowProgressUpdateProcess.prototype.parseWowProgress = function() {
     });
 };
 
-WowProgressUpdateProcess.prototype.start = function(){
+WowProgressUpdateProcess.prototype.start = function(callback){
     applicationStorage.logger.info("Starting WowProgressUpdateProcess");
     this.parseWowProgress();
+    callback();
+
 
 };
 

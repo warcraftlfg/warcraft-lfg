@@ -88,9 +88,11 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function() {
     });
 };
 
-GuildProgressUpdateProcess.prototype.start = function(){
+GuildProgressUpdateProcess.prototype.start = function(callback){
     applicationStorage.logger.info("Starting GuildProgressUpdateProcess");
     this.updateGuildProgress();
+    callback();
+
 };
 
 module.exports = GuildProgressUpdateProcess;

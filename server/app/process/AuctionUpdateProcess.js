@@ -195,10 +195,11 @@ AuctionUpdateProcess.prototype.importAuctionRealms = function(callback){
     });
 };
 
-AuctionUpdateProcess.prototype.start = function(){
+AuctionUpdateProcess.prototype.start = function(callback){
     applicationStorage.logger.info("Starting AuctionUpdateProcess");
     this.updateAuction();
     this.feedAuctions();
+    callback();
 };
 
 module.exports = AuctionUpdateProcess;
