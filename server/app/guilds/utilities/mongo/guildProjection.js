@@ -23,7 +23,9 @@ module.exports.get = function(query){
             projection["progress."+raid.name+".normalCount"] = 1;
             projection["progress."+raid.name+".heroicCount"] = 1;
             projection["progress."+raid.name+".mythicCount"] = 1;
+            projection["progress."+raid.name+".score"] = 1;
         });
+
 
     }
     if (query.view === "minimal") {

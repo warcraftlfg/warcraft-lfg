@@ -14,24 +14,30 @@ var Confine = require("confine");
  * @param limit
  * @param callback
  */
-module.exports.find = function(criteria,projection,sort,limit,callback){
+module.exports.find = function(criteria,projection,sort,limit,hint,callback){
     var collection = applicationStorage.mongo.collection("characters");
-    if(limit === undefined && callback == undefined) {
+    if(hint === undefined && limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else if(callback == undefined) {
-        callback = limit;
+    } else if(limit === undefined && callback == undefined) {
+        callback = sort;
         collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else {
+    } else if(callback == undefined) {
+        callback = limit;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, characters) {
+            callback(error, characters);
+        });
+    } else {
+        collection.find(criteria, projection).sort(sort).limit(limit).hint(hint).toArray(function (error, characters) {
             callback(error, characters);
         });
     }
 };
+
 
 /**
  * Get one character
@@ -84,10 +90,17 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             });
         },
         function(callback){
-            ad.updated = new Date().getTime();
+            var date = new Date().getTime();
+            var character = {};
+            character.region= region;
+            character.realm = realm;
+            character.name = name;
+            character.updated = date;
+            ad.updated = date;
+            character.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:{ad:ad}}, {upsert:true}, function(error,result){
+            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }
@@ -120,10 +133,17 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             });
         },
         function(callback){
-            bnet.updated = new Date().getTime();
+            var date = new Date().getTime();
+            var character = {};
+            character.region= region;
+            character.realm = realm;
+            character.name = name;
+            character.updated = date;
+            bnet.updated = date;
+            character.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:{bnet:bnet}}, {upsert:true}, function(error,result){
+            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }
@@ -155,12 +175,19 @@ module.exports.upsertWarcraftLogs = function(region,realm,name,warcraftLogs,call
             });
         },
         function(callback){
-            var obj = {}
-            obj.updated = new Date().getTime();
+            var date = new Date().getTime();
+            var character = {};
+            character.region= region;
+            character.realm = realm;
+            character.name = name;
+            character.updated = date;
+            var obj = {};
+            obj.updated = date;
             obj.logs = warcraftLogs;
+            character.warcraftLogs = obj;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:{warcraftLogs:obj}}, {upsert:true}, function(error,result){
+            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }
@@ -193,8 +220,17 @@ module.exports.upsertProgress= function(region,realm,name,progress,callback){
         },
         function(callback){
             //Upsert
+            var date = new Date().getTime();
+            var character = {};
+            character.region= region;
+            character.realm = realm;
+            character.name = name;
+            character.updated = date;
+            progress.updated = date;
+            character.progress = progress;
+
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:{progress:progress}}, {upsert:true}, function(error,result){
+            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }

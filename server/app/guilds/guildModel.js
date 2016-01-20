@@ -13,22 +13,28 @@ var Confine = require("confine");
  * @param projection
  * @param sort
  * @param limit
+ * @param hint
  * @param callback
  */
-module.exports.find = function(criteria,projection,sort,limit,callback){
+module.exports.find = function(criteria,projection,sort,limit,hint,callback){
     var collection = applicationStorage.mongo.collection("guilds");
-    if(limit === undefined && callback == undefined) {
+    if(hint === undefined && limit === undefined && callback == undefined) {
         callback = sort;
-        collection.find(criteria, projection).toArray(function (error, characters) {
-            callback(error, characters);
+        collection.find(criteria, projection).toArray(function (error, guilds) {
+            callback(error, guilds);
+        });
+    } else if(limit === undefined && callback == undefined) {
+        callback = sort;
+        collection.find(criteria, projection).sort(sort).toArray(function (error, guilds) {
+            callback(error, guilds);
         });
     } else if(callback == undefined) {
         callback = limit;
-        collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
-            callback(error, characters);
+        collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, guilds) {
+            callback(error, guilds);
         });
     } else {
-        collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, guilds) {
+        collection.find(criteria, projection).sort(sort).limit(limit).hint(hint).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     }
@@ -83,10 +89,17 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             });
         },
         function(callback){
-            ad.updated = new Date().getTime();
+            var date = new Date().getTime();
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
+            guild.updated = date;
+            ad.updated = date;
+            guild.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{ad:ad}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -120,10 +133,17 @@ module.exports.upsertPerms = function(region,realm,name,perms,callback){
             });
         },
         function(callback){
-            perms.updated = new Date().getTime();
+            var date = new Date().getTime();
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
+            guild.updated = date;
+            perms.updated = date;
+            guild.perms = perms;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{perms:perms}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -154,10 +174,17 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             });
         },
         function(callback){
-            bnet.updated = new Date().getTime();
+            var date = new Date().getTime();
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
+            guild.updated = date;
+            bnet.updated = date;
+            guild.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{bnet:bnet}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -189,10 +216,17 @@ module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callba
             });
         },
         function(callback){
-            wowProgress.updated = new Date().getTime();
+            var date = new Date().getTime();
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
+            guild.updated = date;
+            wowProgress.updated = date;
+            guild.wowProgress = wowProgress;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{wowProgress:wowProgress}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -224,11 +258,18 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
         },
         function(callback){
             //Upsert
+            var date = new Date().getTime();
+            var guild = {};
+            guild.region = region;
+            guild.realm = realm;
+            guild.name = name;
+            guild.updated = date;
             var obj = {};
-            progress.updated = new Date().getTime();
+            progress.updated = date;
             obj[raid] = progress;
+            guild.progress = obj;
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:{progress:obj}}, {upsert:true}, function(error){
+            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -239,7 +280,7 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
 
 
 /**
- * Update or insert ad for the guild
+ * Delete Ad for the guild
  * @param region
  * @param realm
  * @param name
