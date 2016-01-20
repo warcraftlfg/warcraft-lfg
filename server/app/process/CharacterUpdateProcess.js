@@ -48,7 +48,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function(){
                         callback(error);
                     }
                 } else {
-                    if(character.region && character.realm ) {
+                    if(character.realm && character.name ) {
                         callback(null, characterUpdate.region, character);
                     }else {
                         logger.warn("Bnet return empty character (account inactive...), skip it");

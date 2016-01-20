@@ -131,6 +131,7 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             character.name = name;
             bnet.updated = new Date().getTime();
             character.bnet = bnet;
+            console.log(character);
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
             collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
