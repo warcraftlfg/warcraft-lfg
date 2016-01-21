@@ -101,7 +101,7 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             character.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }
@@ -144,7 +144,7 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             character.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }
@@ -188,7 +188,7 @@ module.exports.upsertWarcraftLogs = function(region,realm,name,warcraftLogs,call
             character.warcraftLogs = obj;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }
@@ -231,7 +231,7 @@ module.exports.upsertProgress= function(region,realm,name,progress,callback){
             character.progress = progress;
 
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }
@@ -266,7 +266,7 @@ module.exports.deleteAd = function(region,realm,name,callback){
         function(callback){
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
                 callback(error);
             });
         }
@@ -282,7 +282,7 @@ module.exports.deleteAd = function(region,realm,name,callback){
 module.exports.disableLfgForOldAds = function(callback){
     var timestamp = new Date().getTime() - (30 * 24 * 3600 * 1000);
     var collection = applicationStorage.mongo.collection("characters");
-    collection.update({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
+    collection.updateMany({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
         callback(error);
     });
 };
@@ -311,7 +311,7 @@ module.exports.setId = function(region,realm,name,id,callback){
         },
         function(callback){
             var collection = applicationStorage.mongo.collection("characters");
-            collection.update({region:region,realm:realm,name:name}, {$set:{id:id}}, {upsert:true}, function(error,result){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:{id:id}}, {upsert:true}, function(error,result){
                 callback(error,result);
             });
         }

@@ -99,7 +99,7 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             guild.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -143,7 +143,7 @@ module.exports.upsertPerms = function(region,realm,name,perms,callback){
             guild.perms = perms;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -184,7 +184,7 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             guild.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -226,7 +226,7 @@ module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callba
             guild.wowProgress = wowProgress;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -269,7 +269,7 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
             obj[raid] = progress;
             guild.progress = obj;
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -302,7 +302,7 @@ module.exports.deleteAd = function(region,realm,name,callback){
         function(callback){
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
                 callback(error);
             });
         }
@@ -318,7 +318,7 @@ module.exports.deleteAd = function(region,realm,name,callback){
 module.exports.disableLfgForOldAds = function(callback){
     var timestamp = new Date().getTime() - (120 * 24 * 3600 * 1000);
     var collection = applicationStorage.mongo.collection("guilds");
-    collection.update({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
+    collection.updateMany({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
         callback(error);
     });
 };
@@ -346,7 +346,7 @@ module.exports.setId = function(region,realm,name,id,callback){
         },
         function(callback){
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$addToSet:{id:id}}, {upsert:true}, function(error){
+            collection.updateOne({region:region,realm:realm,name:name}, {$addToSet:{id:id}}, {upsert:true}, function(error){
                 callback(error);
             });
         }
@@ -378,7 +378,7 @@ module.exports.removeId = function(region,realm,name,id, callback) {
         },
         function(callback){
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region: region, realm: realm, name: name}, {$pull: {id: id}}, function (error) {
+            collection.updateOne({region: region, realm: realm, name: name}, {$pull: {id: id}}, function (error) {
                 callback(error);
             });
         }

@@ -75,7 +75,7 @@ module.exports.upsert = function(region,name,connected_realms,bnet,callback){
 
             //Upsert
             var collection = applicationStorage.mongo.collection("realms");
-            collection.update({region:region,realm:realm,name:name}, realm , {upsert:true}, function(error){
+            collection.updateOne({region:region,name:name}, realm , {upsert:true}, function(error){
                 callback(error);
             });
         }

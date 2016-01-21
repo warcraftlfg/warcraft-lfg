@@ -71,7 +71,6 @@ function wlfgFilterRealm($translate, $stateParams, $location,realms) {
         };
 
         $scope.$on('get:realms', function() {
-            $scope.realms = [];
             realms.query({realm_zone:$scope.filters.realm_zone},function(realms){
                 $scope.realms = realms;
                 angular.forEach(realms,function (realm) {
