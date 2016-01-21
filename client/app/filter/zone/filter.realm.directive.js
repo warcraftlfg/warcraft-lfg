@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterRealm', wlfgFilterRealm);
 
-wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location', 'socket','realms'];
-function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
+wlfgFilterRealm.$inject = ['$translate', '$stateParams', '$location','realms'];
+function wlfgFilterRealm($translate, $stateParams, $location,realms) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -71,7 +71,7 @@ function wlfgFilterRealm($translate, $stateParams, $location, socket,realms) {
         };
 
         $scope.$on('get:realms', function() {
-
+            $scope.realms = [];
             realms.query({realm_zone:$scope.filters.realm_zone},function(realms){
                 $scope.realms = realms;
                 angular.forEach(realms,function (realm) {
