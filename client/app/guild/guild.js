@@ -139,6 +139,7 @@
                 $scope.$parent.loading = false;
                 $state.go("account");
             },function(error){
+                $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
             });
         };
@@ -161,6 +162,7 @@
                 $scope.$parent.loading = false;
                 $state.go("account");
             },function(error){
+                $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
             });
 

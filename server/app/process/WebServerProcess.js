@@ -25,8 +25,9 @@ var logger = applicationStorage.logger;
  * @class WebServerProcess
  * @constructor
  */
-function WebServerProcess(){
+function WebServerProcess(autoStop,port){
 
+    this.port = port || 3000;
     this.app = express();
 
     if(config.server.https){
@@ -106,7 +107,7 @@ function WebServerProcess(){
 WebServerProcess.prototype.start = function(callback){
     logger.info("Starting WebServerProcess");
     // Start server
-    var server = this.server.listen(config.server.port, function(){
+    var server = this.server.listen(this.port, function(){
         var protocol = config.server.https ? "HTTPS ": "HTTP";
         logger.info("Server "+protocol+" listening on port %s", server.address().port);
         callback();
