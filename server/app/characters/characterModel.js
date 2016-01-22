@@ -48,6 +48,13 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
 module.exports.findOne = function(criteria,projection,callback){
     var collection = applicationStorage.mongo.collection("characters");
     collection.findOne(criteria, projection,function (error, character) {
+
+        //Sanitize before return
+        if(character) {
+            var confine = new Confine();
+            character.ad = confine.normalize(character.ad, characterAdSchema);
+        }
+
         callback(error, character);
     });
 };

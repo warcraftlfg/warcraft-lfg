@@ -298,7 +298,7 @@ module.exports.getGuildRank = function (region,realm,name,id,callback){
             var lowestRankNum = null;
             if (guild && guild.bnet) {
                 async.each(guild.bnet.members,function(member,callback) {
-                    self.isOwner(member.character.region,member.character.realm,member.character.name,id, function (error, isOwnCharacter) {
+                    self.isOwner(region,member.character.realm,member.character.name,id, function (error, isOwnCharacter) {
                         if (isOwnCharacter && (lowestRankNum === null || member.rank < lowestRankNum)) {
                             lowestRankNum = member.rank;
                         }

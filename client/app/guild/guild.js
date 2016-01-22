@@ -88,11 +88,10 @@
                         region: $stateParams.region,
                         realm: $stateParams.realm,
                         name: $stateParams.name
-                    }, function (rank) {
+                    }, function (data) {
                         $scope.$parent.loading = false;
-                        $scope.guildRank = rank;
-
-                        if (rank === 0) {
+                        $scope.guildRank = data.rank;
+                        if (data.rank === 0) {
                             // This is the guild leader, put the rank permissions in an easier form for table rendering
                             var perms = $scope.guildRankPerms = [];
                             var isOfRank = function (i) {
@@ -156,15 +155,18 @@
                 return rank.ad.edit ? rank.id : null;
             }), function (id) { return id !== null; });
 
-            socket.emit('put:guildPerms',$scope.guild);
+            $scope.$parent.loading = true;
+
+            guilds.upsert({guildRegion: $scope.guild.region, guildRealm: $scope.guild.realm, guildName: $scope.guild.name,part:"perms"}, $scope.guild.perms,function(){
+                $scope.$parent.loading = false;
+                $state.go("account");
+            },function(error){
+                $scope.$parent.loading = false;
+            });
+
             $scope.$parent.loading = true;
         };
 
-        socket.forward('put:guildPerms',$scope);
-        $scope.$on('socket:put:guildPerms',function(){
-            $scope.$parent.loading = false;
-            $state.go("account");
-        });
     }
 
     GuildList.$inject = ['$scope','$stateParams','$translate','$state','socket','LANGUAGES','TIMEZONES',"wlfgAppTitle","guilds"];
@@ -208,7 +210,6 @@
 
                 if($scope.filters.sort == "progress"){
                     if ($scope.guilds[$scope.guilds.length-1].progress) {
-                        console.log($scope.guilds[$scope.guilds.length - 1]);
                         params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length-1].progress[Object.keys($scope.guilds[$scope.guilds.length-1].progress)[0]].score;
                     } else {
                         params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";

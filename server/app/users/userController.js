@@ -118,7 +118,7 @@ module.exports.getGuildRank = function(req,res){
                 logger.error(error.message);
                 res.status(500).send();
             } else {
-                res.json(rank);
+                res.json({rank:rank});
             }
         });
 

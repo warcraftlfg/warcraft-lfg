@@ -48,6 +48,13 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
 module.exports.findOne = function(criteria,projection,callback){
     var collection = applicationStorage.mongo.collection("guilds");
     collection.findOne(criteria, projection,function (error, guild) {
+
+        //Sanitize before return
+        if(guild) {
+            var confine = new Confine();
+            guild.ad = confine.normalize(guild.ad, guildAdSchema);
+            guild.perms = confine.normalize(guild.perms, guildPermsSchema);
+        }
         callback(error, guild);
     });
 };
