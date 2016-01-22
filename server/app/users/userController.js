@@ -5,6 +5,7 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 var userService = process.require("users/userService.js");
+var async = require("async");
 
 
 /**
@@ -57,7 +58,25 @@ module.exports.getGuildAds = function(req,res){
     var criteria = {id:req.user.id,"ad.lfg":{$exists:true}};
     var projection = {_id:0,name:1,realm:1,region:1,"ad.updated":1,"ad.lfg":1,"bnet.side":1,"perms":1};
     var sort = {"ad.updated":-1};
-    guildModel.find(criteria,projection,sort,function(error,guilds){
+    async.waterfall([
+        function(callback){
+            guildModel.find(criteria,projection,sort,function(error,guilds){
+                callback(error,guilds)
+            });
+        },
+        function(guilds,callback){
+            async.each(guilds,function(guild,callback){
+                userService.getGuildRank(guild.region,guild.realm,guild.name,req.user.id,function(error,rank){
+                    guild.rank = rank;
+                    callback(error);
+                },function(error){
+                    callback(error);
+                });
+            },function(error){
+                callback(error,guilds);
+            });
+        }
+    ],function(error,guilds){
         if(error){
             logger.error(error.message);
             res.status(500).send();
@@ -65,6 +84,7 @@ module.exports.getGuildAds = function(req,res){
             res.json(guilds);
         }
     });
+
 
 };
 
