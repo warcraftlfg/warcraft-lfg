@@ -3,7 +3,7 @@
 //Module dependencies
 var passport = require("passport");
 var BnetStrategy = require("passport-bnet").Strategy;
-var applicationStorage = process.require("core/applicationStorage");
+var applicationStorage = process.require("core/applicationStorage.js");
 var userModel = process.require("users/userModel.js");
 var userService = process.require("users/userService.js");
 
@@ -28,17 +28,16 @@ passport.use(new BnetStrategy({
                 logger.error(error.message);
                 return done(null,false);
             }
+            //Set user's guilds to Update
+            userService.setGuildsToUpdate(user.id);
+
+            //Set user's id on guild ad
+            userService.updateGuildsId(user.id);
+
+            //Set user's id on characters ad
+            userService.updateCharactersId(user.id);
             done(null, user);
         });
-
-        //Set user's guilds to Update
-        userService.setGuildsToUpdate(user.id);
-
-        //Set user's id on guild ad
-        userService.updateGuildsId(user.id);
-
-        //Set user's id on characters ad
-        userService.updateCharactersId(user.id);
     }
 ));
 
