@@ -226,5 +226,5 @@ AuctionUpdateProcess.prototype.start = function (callback) {
     this.feedAuctions();
     callback();
 };
-s
+
 module.exports = AuctionUpdateProcess;
