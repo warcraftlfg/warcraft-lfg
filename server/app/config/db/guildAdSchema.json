@@ -143,20 +143,20 @@
         "min": {
           "type": "integer",
           "default": 1,
-          "min":1,
-          "max":7
+          "min": 1,
+          "max": 7
         },
         "max": {
           "type": "integer",
           "default": 7,
-          "min":1,
-          "max":7
+          "min": 1,
+          "max": 7
         }
       }
     },
     "play_time": {
       "type": "object",
-      "properties":{
+      "properties": {
         "monday": {
           "type": "object",
           "properties": {

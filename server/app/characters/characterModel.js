@@ -1,5 +1,6 @@
 "use strict";
 
+//Load dependencies
 var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var characterAdSchema = process.require('config/db/characterAdSchema.json');
@@ -7,7 +8,7 @@ var validator = process.require('core/utilities/validators/validator.js');
 var Confine = require("confine");
 
 /**
- * Get the characters
+ * Get the characters objects
  * @param criteria
  * @param projection
  * @param sort
@@ -15,19 +16,19 @@ var Confine = require("confine");
  * @param hint
  * @param callback
  */
-module.exports.find = function(criteria,projection,sort,limit,hint,callback){
+module.exports.find = function (criteria, projection, sort, limit, hint, callback) {
     var collection = applicationStorage.mongo.collection("characters");
-    if(hint === undefined && limit === undefined && callback == undefined) {
+    if (hint === undefined && limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else if(hint === undefined && callback == undefined) {
+    } else if (hint === undefined && callback == undefined) {
         callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else if(callback == undefined) {
+    } else if (callback == undefined) {
         callback = hint;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, characters) {
             callback(error, characters);
@@ -41,16 +42,17 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
 
 
 /**
- * Get one character
+ * Get one character object
  * @param criteria
  * @param projection
+ * @param callback
  */
-module.exports.findOne = function(criteria,projection,callback){
+module.exports.findOne = function (criteria, projection, callback) {
     var collection = applicationStorage.mongo.collection("characters");
-    collection.findOne(criteria, projection,function (error, character) {
+    collection.findOne(criteria, projection, function (error, character) {
 
         //Sanitize before return
-        if(character) {
+        if (character) {
             var confine = new Confine();
             character.ad = confine.normalize(character.ad, characterAdSchema);
         }
@@ -64,13 +66,12 @@ module.exports.findOne = function(criteria,projection,callback){
  * @param criteria
  * @param callback
  */
-module.exports.count = function(criteria,callback){
+module.exports.count = function (criteria, callback) {
     var collection = applicationStorage.mongo.collection("characters");
-    collection.count(criteria,function(error,count){
+    collection.count(criteria, function (error, count) {
         callback(error, count);
     });
 };
-
 
 
 /**
@@ -81,26 +82,26 @@ module.exports.count = function(criteria,callback){
  * @param ad
  * @param callback
  */
-module.exports.upsertAd = function(region,realm,name,ad,callback){
+module.exports.upsertAd = function (region, realm, name, ad, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Force region to lowercase
             region = region.toLowerCase();
             //Sanitize ad object
             var confine = new Confine();
-            ad = confine.normalize(ad,characterAdSchema);
+            ad = confine.normalize(ad, characterAdSchema);
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var date = new Date().getTime();
             var character = {};
-            character.region= region;
+            character.region = region;
             character.realm = realm;
             character.name = name;
             character.updated = date;
@@ -108,15 +109,18 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             character.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
-                callback(error,result);
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: character}, {upsert: true}, function (error, result) {
+                callback(error, result);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
-
 
 
 /**
@@ -127,23 +131,23 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
  * @param bnet
  * @param callback
  */
-module.exports.upsertBnet = function(region,realm,name,bnet,callback){
+module.exports.upsertBnet = function (region, realm, name, bnet, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Force region to lowercase
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var date = new Date().getTime();
             var character = {};
-            character.region= region;
+            character.region = region;
             character.realm = realm;
             character.name = name;
             character.updated = date;
@@ -151,41 +155,45 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             character.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
-                callback(error,result);
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: character}, {upsert: true}, function (error, result) {
+                callback(error, result);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
 
 
 /**
- * Update or insert WarcrafLogs object for the character
+ * Update or insert warcraftLogs object for the character
  * @param region
  * @param realm
  * @param name
- * @param bnet
+ * @param warcraftLogs
  * @param callback
  */
-module.exports.upsertWarcraftLogs = function(region,realm,name,warcraftLogs,callback){
+module.exports.upsertWarcraftLogs = function (region, realm, name, warcraftLogs, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Force region to lowercase
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var date = new Date().getTime();
             var character = {};
-            character.region= region;
+            character.region = region;
             character.realm = realm;
             character.name = name;
             character.updated = date;
@@ -195,11 +203,15 @@ module.exports.upsertWarcraftLogs = function(region,realm,name,warcraftLogs,call
             character.warcraftLogs = obj;
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
-                callback(error,result);
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: character}, {upsert: true}, function (error, result) {
+                callback(error, result);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -213,24 +225,24 @@ module.exports.upsertWarcraftLogs = function(region,realm,name,warcraftLogs,call
  * @param progress
  * @param callback
  */
-module.exports.upsertProgress= function(region,realm,name,progress,callback){
+module.exports.upsertProgress = function (region, realm, name, progress, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Force region to lowercase
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             //Upsert
             var date = new Date().getTime();
             var character = {};
-            character.region= region;
+            character.region = region;
             character.realm = realm;
             character.name = name;
             character.updated = date;
@@ -238,91 +250,101 @@ module.exports.upsertProgress= function(region,realm,name,progress,callback){
             character.progress = progress;
 
             var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({region:region,realm:realm,name:name}, {$set:character}, {upsert:true}, function(error,result){
-                callback(error,result);
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: character}, {upsert: true}, function (error, result) {
+                callback(error, result);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
 
 
-
 /**
- * Update or insert ad for the character
+ * Delete ad for the character
  * @param region
  * @param realm
  * @param name
- * @param ad
  * @param callback
  */
-module.exports.deleteAd = function(region,realm,name,callback){
+module.exports.deleteAd = function (region, realm, name, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
+            collection.updateOne({region: region, realm: realm, name: name}, {$unset: {ad: ""}}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
 
+
 /**
- * set lfg to false for ads of 1 month old
+ * Set lfg to false for ads of 1 month old
  * @param callback
  */
-module.exports.disableLfgForOldAds = function(callback){
+module.exports.disableLfgForOldAds = function (callback) {
     var timestamp = new Date().getTime() - (30 * 24 * 3600 * 1000);
     var collection = applicationStorage.mongo.collection("characters");
-    collection.updateMany({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
+    collection.updateMany({
+        "ad.updated": {$lte: timestamp},
+        "ad.lfg": true
+    }, {$set: {"ad.lfg": false}}, function (error) {
         callback(error);
     });
 };
 
 
 /**
- * AddtoSet ID
+ * Set ID on character object
  * @param region
  * @param realm
  * @param name
  * @param id
  * @param callback
  */
-module.exports.setId = function(region,realm,name,id,callback){
+module.exports.setId = function (region, realm, name, id, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name,id:id},function(error){
+            validator.validate({region: region, realm: realm, name: name, id: id}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({region:region,realm:realm,name:name}, {$set:{id:id}}, {upsert:true}, function(error,result){
-                callback(error,result);
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: {id: id}}, {upsert: true}, function (error, result) {
+                callback(error, result);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };

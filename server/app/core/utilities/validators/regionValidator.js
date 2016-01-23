@@ -7,13 +7,14 @@ var applicationStorage = process.require("core/applicationStorage.js");
  * @param region
  * @param callback
  */
-module.exports.validate = function (region,callback){
+module.exports.validate = function (region, callback) {
     var config = applicationStorage.config;
 
-    if(config.bnetRegions.indexOf(region)==-1){
+    //noinspection JSUnresolvedVariable
+    if (config.bnetRegions.indexOf(region) == -1) {
         return callback(new Error('WRONG_REGION_VALIDATION_ERROR'));
     }
-    if(region == null){
+    if (region == null) {
         return callback(new Error('MISSING_REGION_VALIDATION_ERROR'));
     }
     callback();

@@ -1,15 +1,17 @@
 "use strict";
+
+//Load dependencies
 var params = process.require("core/utilities/params.js");
 
 /**
- *
+ * Add the days criterion in criteria
  * @param query
  * @param criteria
  */
-module.exports.add = function(query,criteria){
-    var paramArray = params.parseQueryParam(query.day,1);
+module.exports.add = function (query, criteria) {
+    var paramArray = params.parseQueryParam(query.day, 1);
 
-    if(paramArray.length > 0) {
+    if (paramArray.length > 0) {
         var days = [];
         paramArray.forEach(function (param) {
             var tmpObj = {};

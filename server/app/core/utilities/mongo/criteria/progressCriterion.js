@@ -3,20 +3,20 @@
 //Load dependencies
 var params = process.require("core/utilities/params.js");
 var applicationStorage = process.require("core/applicationStorage.js");
+
 /**
- * Add the lfg criteria from lfg param
+ * Add the progression criterion in criteria
  * @param query
  * @param criteria
  */
-module.exports.add = function(query,criteria){
+module.exports.add = function (query, criteria) {
 
     var config = applicationStorage.config;
 
-    var paramArray = params.parseQueryParam(query.progress,2);
-    if(paramArray.length > 0)
-    {
-        var count = parseInt(paramArray[0][1],10);
-        if(isNaN(count)){
+    var paramArray = params.parseQueryParam(query.progress, 2);
+    if (paramArray.length > 0) {
+        var count = parseInt(paramArray[0][1], 10);
+        if (isNaN(count)) {
             return;
         }
         var progressFactor;
@@ -31,6 +31,6 @@ module.exports.add = function(query,criteria){
         }
 
         var raid = config.progress.raids[0];
-        criteria["progress."+raid.name+".score"] = {$lt: (count+1)*progressFactor};
+        criteria["progress." + raid.name + ".score"] = {$lt: (count + 1) * progressFactor};
     }
 };

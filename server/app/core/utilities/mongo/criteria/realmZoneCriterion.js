@@ -1,15 +1,16 @@
 "use strict";
 
-var async = require("async");
+//Load dependencies
 var realmModel = process.require("realms/realmModel.js");
 var params = process.require("core/utilities/params.js");
 
 /**
- * Add the realmZones criteria from zone param
+ * Add the realmZones criterion in criteria
  * @param query
  * @param criteria
+ * @param callback
  */
-module.exports.add = function(query,criteria,callback) {
+module.exports.add = function (query, criteria, callback) {
     var paramArray = params.parseQueryParam(query['realm_zone'], 3);
 
 
@@ -23,18 +24,18 @@ module.exports.add = function(query,criteria,callback) {
             realmZoneCriterion["bnet.timezone"] = realmZoneArray[2];
             realmZones["$or"].push(realmZoneCriterion);
         });
-        realmModel.find(realmZones,{region:1,name:1,_id:0},function(error,realms){
+        realmModel.find(realmZones, {region: 1, name: 1, _id: 0}, function (error, realms) {
             var realmsCriterion = [];
-            realms.forEach(function(realm){
-                realmsCriterion.push({region:realm.region,realm:realm.name});
+            realms.forEach(function (realm) {
+                realmsCriterion.push({region: realm.region, realm: realm.name});
             });
 
             if (realmsCriterion.length > 0) {
                 if (!criteria["$and"]) {
-                    criteria["$and"] = [{"$or":realmsCriterion}];
+                    criteria["$and"] = [{"$or": realmsCriterion}];
                 }
                 else {
-                    criteria["$and"] = criteria["$and"].concat({"$or":realmsCriterion});
+                    criteria["$and"] = criteria["$and"].concat({"$or": realmsCriterion});
                 }
             }
             callback(error);
@@ -42,6 +43,7 @@ module.exports.add = function(query,criteria,callback) {
 
 
     }
-    else
+    else {
         callback();
+    }
 };

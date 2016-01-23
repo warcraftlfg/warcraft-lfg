@@ -5,8 +5,8 @@
  * @param difficulty
  * @param callback
  */
-module.exports.validate = function (difficulty,callback){
-    if(difficulty === null){
+module.exports.validate = function (difficulty, callback) {
+    if (difficulty === null) {
         return callback(new Error('MISSING_DIFFICULTY_VALIDATION_ERROR'));
     }
     callback();

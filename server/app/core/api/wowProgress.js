@@ -1,6 +1,6 @@
 "use strict";
 
-//Module dependencies
+//Load dependencies
 var request = require("request");
 
 //Configuration
@@ -55,28 +55,35 @@ var languages = {
     "Turkish": "tr"
 };
 
+//TODO Use same array for warcraftLogs & wowprogress
 //For russian Ream wowprogress use ru locale ...
 var russianRealms = {
-    "Gordunni":"Гордунни",
-    "Howling Fjord":"Ревущий фьорд",
-    "Blackscar":"Черный Шрам",
-    "Ashenvale":"Ясеневый лес",
-    "Soulflayer":"Свежеватель Душ",
-    "Razuvious":"Разувий",
-    "Azuregos":"Азурегос",
-    "Booty Bay":"Пиратская Бухта",
-    "Eversong":"Вечная Песня",
-    "Deathguard":"Страж смерти",
-    "Lich King":"Король-лич",
-    "Fordragon":"Дракономор",
-    "Borean Tundra":"Борейская тундра",
-    "Goldrinn":"Голдринн",
-    "Grom":"Гром",
-    "Galakrond":"Галакронд"
+    "Gordunni": "Гордунни",
+    "Howling Fjord": "Ревущий фьорд",
+    "Blackscar": "Черный Шрам",
+    "Ashenvale": "Ясеневый лес",
+    "Soulflayer": "Свежеватель Душ",
+    "Razuvious": "Разувий",
+    "Azuregos": "Азурегос",
+    "Booty Bay": "Пиратская Бухта",
+    "Eversong": "Вечная Песня",
+    "Deathguard": "Страж смерти",
+    "Lich King": "Король-лич",
+    "Fordragon": "Дракономор",
+    "Borean Tundra": "Борейская тундра",
+    "Goldrinn": "Голдринн",
+    "Grom": "Гром",
+    "Galakrond": "Галакронд"
 };
 
-
-module.exports.getGuildRank = function(region, realm, name, callback){
+/**
+ * Get guild rank from wowProgress
+ * @param region
+ * @param realm
+ * @param name
+ * @param callback
+ */
+module.exports.getGuildRank = function (region, realm, name, callback) {
 
     if (region.toLowerCase() == "eu" && russianRealms[realm]) {
         realm = russianRealms[realm];
@@ -86,11 +93,11 @@ module.exports.getGuildRank = function(region, realm, name, callback){
     realm = realm.split(" ").join("-");
     realm = realm.split("'").join("-");
 
-    var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name+"/json_rank");
+    var url = encodeURI("http://www.wowprogress.com/guild/" + region + "/" + realm + "/" + name + "/json_rank");
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var result = JSON.parse(body);
-            if(result) {
+            if (result) {
                 callback(error, result);
             } else {
                 callback(new Error('WowProgress ranking not found for ' + region + "-" + realm + "-" + name + ""));
@@ -101,11 +108,15 @@ module.exports.getGuildRank = function(region, realm, name, callback){
     });
 };
 
-module.exports.getGuildProgress = function(region, realm, name, callback){
-    var logger = applicationStorage.logger;
-
+/**
+ * Get guild progress from wowProgress
+ * @param region
+ * @param realm
+ * @param name
+ * @param callback
+ */
+module.exports.getGuildProgress = function (region, realm, name, callback) {
     var bnetRealm = realm;
-
 
     if (region.toLowerCase() == "eu" && russianRealms[realm]) {
         realm = russianRealms[realm];
@@ -115,22 +126,14 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
     realm = realm.split(" ").join("-");
     realm = realm.split("'").join("-");
 
-    var url = encodeURI("http://www.wowprogress.com/guild/"+region+"/"+realm+"/"+name);
+    var url = encodeURI("http://www.wowprogress.com/guild/" + region + "/" + realm + "/" + name);
     request(url, function (error, response, body) {
 
         if (!error && response.statusCode == 200) {
             var $body = cheerio.load(body);
-            var data = $body('span.ratingProgress b').html();
-            if (!data) {
-                data = $body('span.ratingProgress').html();
-            }
+
             var ranking = [];
             var progress;
-
-            if(data == null )
-                return callback(new Error("WOWPROGRESS_PARSING_ERROR"));
-
-            data = data.split('/');
 
             var tables = $body('table.rating').html();
             var pattern = /class="boss_kills_link innerLink"[^>]*>([^<]*)<\/a>/gi;
@@ -148,7 +151,7 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
                     timestamps.push(array[1]);
                 } else {
                     array = array[2].split(' ');
-                    convertToTimestamp = monthToNumber[array[0]]+'/'+array[1].replace(/(,$)/g, "")+'/'+array[2]+' '+array[3];
+                    convertToTimestamp = monthToNumber[array[0]] + '/' + array[1].replace(/(,$)/g, "") + '/' + array[2] + ' ' + array[3];
                     timestamps.push(new Date(convertToTimestamp).getTime());
                 }
             }
@@ -157,7 +160,7 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
                 return callback(new Error("WOWPROGRESS_PARSING_ERROR"));
             }
 
-            async.forEachOf(bosses, function(boss, index, callback) {
+            async.forEachOf(bosses, function (boss, index, callback) {
                 boss = boss.replace(/(^\+)/g, "").trim().split(':');
                 progress = {};
                 progress.boss = boss[1].trim();
@@ -187,12 +190,12 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
                     progress.bossWeight = 6;
                 } else if (progress.boss == "Socrethar the Eternal") {
                     progress.bossWeight = 7;
-                }  else if (progress.boss == "Tyrant Velhari") {
+                } else if (progress.boss == "Tyrant Velhari") {
                     progress.bossWeight = 8;
-                }  else if (progress.boss == "Fel Lord Zakuun") {
+                } else if (progress.boss == "Fel Lord Zakuun") {
                     progress.bossWeight = 9;
                 } else if (progress.boss == "Xhul&apos;horac") {
-                    progress.boss="Xhul'horac";
+                    progress.boss = "Xhul'horac";
                     progress.bossWeight = 10;
                 } else if (progress.boss == "Mannoroth") {
                     progress.bossWeight = 11;
@@ -219,30 +222,35 @@ module.exports.getGuildProgress = function(region, realm, name, callback){
     });
 };
 
-module.exports.getWoWProgressPage = function(path,callback) {
-    var url = "http://www.wowprogress.com"+path;
+/**
+ * Get wowprogress Page
+ * @param path
+ * @param callback
+ */
+module.exports.getWoWProgressPage = function (path, callback) {
+    var url = "http://www.wowprogress.com" + path;
     var logger = applicationStorage.logger;
 
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            callback(error,body);
+            callback(error, body);
         }
-        else{
-            if(error) {
-                logger.error(error.message+" on fetching wowprogress api "+url);
+        else {
+            if (error) {
+                logger.error(error.message + " on fetching wowprogress api " + url);
             }
             else {
-                logger.warn("Error HTTP "+response.statusCode+" on fetching wowprogress api "+url);
+                logger.warn("Error HTTP " + response.statusCode + " on fetching wowprogress api " + url);
             }
             callback(new Error("WOWPROGRESS_API_ERROR"));
         }
     });
 };
 
-module.exports.getAds = function(callback){
+module.exports.getAds = function (callback) {
     var self = this;
 
-    this.getWoWProgressPage('/',function(error,body){
+    this.getWoWProgressPage('/', function (error, body) {
 
         var $body = cheerio.load(body);
         var tables = $body('table.rating.recr').get();
@@ -254,48 +262,56 @@ module.exports.getAds = function(callback){
         var characters = $characters('tr').get();
 
         var charactersResult = [];
-        var guildsResult  = [];
-        async.forEach(characters,function(character,callback){
+        var guildsResult = [];
+        async.forEach(characters, function (character, callback) {
             var $character = cheerio.load(character);
             var url = $character('a').attr('href');
 
-            self.parseCharacterPage(url,function(error,character){
+            self.parseCharacterPage(url, function (error, character) {
                 charactersResult.push(character);
                 callback();
             });
-        },function(){
-            async.forEach(guilds,function(guild,callback){
+        }, function () {
+            async.forEach(guilds, function (guild, callback) {
 
                 var $guild = cheerio.load(guild);
                 var url = $guild('a').attr('href');
-                self.parseGuildPage(url,function(error,guild){
+                self.parseGuildPage(url, function (error, guild) {
                     guildsResult.push(guild);
                     callback();
                 });
 
-            },function() {
-                callback(error,guildsResult,charactersResult);
+            }, function () {
+                callback(error, guildsResult, charactersResult);
             });
         });
     });
 
 };
 
-module.exports.parseCharacter = function(region,realm,name,callback) {
+/**
+ * Parse wowprogress character
+ * @param region
+ * @param realm
+ * @param name
+ * @param callback
+ */
+module.exports.parseCharacter = function (region, realm, name, callback) {
 
-    if (russianRealms[realm] && region == "eu")
+    if (russianRealms[realm] && region == "eu") {
         realm = russianRealms[realm];
+    }
 
     realm = realm.split(" ").join("-");
     realm = realm.split("'").join("-");
 
     this.parseCharacterPage(encodeURI("/character/" + region + "/" + realm + "/" + name), function (error, characterAd) {
-        callback(error,characterAd);
+        callback(error, characterAd);
     });
 };
 
-module.exports.parseCharacterPage = function(url,callback) {
-    this.getWoWProgressPage(url,function(error,body){
+module.exports.parseCharacterPage = function (url, callback) {
+    this.getWoWProgressPage(url, function (error, body) {
         if (error) {
             callback(error);
             return;
@@ -304,77 +320,93 @@ module.exports.parseCharacterPage = function(url,callback) {
         var $body = cheerio.load(body);
         var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
 
-        if(armoryUrl=="undefined")
+        if (armoryUrl == "undefined") {
             return callback(new Error('Armory link undefined'));
+        }
 
 
         result.name = $body('h1').text();
-        result.realm = armoryUrl.match('battle.net/wow/character/(.*)/(.*)/')[1];
-        result.region = armoryUrl.match('http://(.*).battle.net/wow/character/')[1];
+        result.realm = armoryUrl.match("battle.net/wow/character/(.*)/(.*)/")[1];
+        result.region = armoryUrl.match("http://(.*).battle.net/wow/character/")[1];
 
         var guild = $body('.nav_block .guild nobr').text();
-        if (guild)
+        if (guild) {
             result.guild = guild;
+        }
 
         var languageDivs = $body('.language').get();
 
         var language = cheerio.load(languageDivs[0])('strong').text().split(', ');
         result.languages = [];
-        language.forEach(function(lang){
+        language.forEach(function (lang) {
             result.languages.push(languages[lang]);
         });
 
 
         var transfert = cheerio.load(languageDivs[1])('span').text();
-        if(transfert == "Yes, ready to transfer")
+        if (transfert == "Yes, ready to transfer") {
             result.transfert = true;
-
-        if(transfert.indexOf('Yes')!=-1)
-            result.lfg = true;
-        else
-            result.lfg = false;
-
-        var raidsPerWeek = cheerio.load(languageDivs[2])('strong').text().split(' - ');
-        if(raidsPerWeek.length == 2) {
-            result.raids_per_week = {};
-            result.raids_per_week.min = parseInt(raidsPerWeek[0],10);
-            result.raids_per_week.max = parseInt(raidsPerWeek[1],10);
         }
 
-        var roles =  cheerio.load(languageDivs[3])('strong').text().split(', ');
+        result.lfg = transfert.indexOf('Yes') != -1;
+
+        var raidsPerWeek = cheerio.load(languageDivs[2])('strong').text().split(' - ');
+        if (raidsPerWeek.length == 2) {
+            result.raids_per_week = {};
+            result.raids_per_week.min = parseInt(raidsPerWeek[0], 10);
+            result.raids_per_week.max = parseInt(raidsPerWeek[1], 10);
+        }
+
+        var roles = cheerio.load(languageDivs[3])('strong').text().split(', ');
         result.role = {};
-        if(roles.indexOf("tank")!=-1)
+        if (roles.indexOf("tank") != -1) {
             result.role.tank = true;
-        if(roles.indexOf("dd")!=-1 || raidsPerWeek.indexOf("cac")!=-1)
+        }
+        if (roles.indexOf("dd") != -1 || raidsPerWeek.indexOf("cac") != -1) {
             result.role.dps = true;
-        if(roles.indexOf("healer")!=-1)
+        }
+        if (roles.indexOf("healer") != -1) {
             result.role.healer = true;
+        }
 
 
         result.description = $body('.charCommentary').text();
 
-        callback (null,result);
+        callback(null, result);
 
     });
 
 
 };
 
-module.exports.parseGuild = function(region,realm,name,callback) {
+/**
+ * Parse wowProgress guild
+ * @param region
+ * @param realm
+ * @param name
+ * @param callback
+ */
+module.exports.parseGuild = function (region, realm, name, callback) {
 
-    if (russianRealms[realm] && region == "eu")
+    if (russianRealms[realm] && region == "eu") {
         realm = russianRealms[realm];
+    }
 
     realm = realm.split(" ").join("-");
     realm = realm.split("'").join("-");
 
     this.parseGuildPage(encodeURI("/guild/" + region + "/" + realm + "/" + name), function (error, guildAd) {
-        callback(error,guildAd);
+        callback(error, guildAd);
     });
 };
 
-module.exports.parseGuildPage = function( url, callback) {
-    var self=this;
+/**
+ * Parse wowprogress guild page
+ * @param url
+ * @param callback
+ */
+module.exports.parseGuildPage = function (url, callback) {
+    var self = this;
     this.getWoWProgressPage(url, function (error, body) {
         if (error) {
             callback(error);
@@ -385,120 +417,123 @@ module.exports.parseGuildPage = function( url, callback) {
 
         var armoryUrl = decodeURIComponent(($body('.armoryLink').attr('href')));
 
-        if(armoryUrl=="undefined")
+        if (armoryUrl == "undefined") {
             return callback(new Error('Armory link undefined'));
+        }
 
-        if (!$body('h1').text().match("“(.*)” WoW Guild"))
+        if (!$body('h1').text().match("“(.*)” WoW Guild")) {
             return callback();
+        }
         result.name = $body('h1').text().match("“(.*)” WoW Guild")[1];
         result.realm = armoryUrl.match('battle.net/wow/guild/(.*)/(.*)/')[1];
         result.region = armoryUrl.match('http://(.*).battle.net/wow/guild/')[1];
 
-        var language = $body(".language").text().replace("Primary Language: ","");
-        if(languages[language])
+        var language = $body(".language").text().replace("Primary Language: ", "");
+        if (languages[language]) {
             result.language = languages[language];
+        }
 
         var recrAll = $body(".recrClasses .recrAll").text();
-        if(recrAll == "all classes") {
+        if (recrAll == "all classes") {
             result.recruitment = self.formatRecruitment(true);
         }
         else {
             result.recruitment = self.formatRecruitment(false);
-            $body(".recrClasses tr").each(function(i, elem) {
+            $body(".recrClasses tr").each(function () {
                 var line = cheerio(this).text();
-                if(line.indexOf("deathknight")!=-1){
-                    if(line.indexOf("(dd)")!=-1)
+                if (line.indexOf("deathknight") != -1) {
+                    if (line.indexOf("(dd)") != -1) {
                         result.recruitment.melee_dps.deathknight = true;
-                    else if(line.indexOf("(tank)")!=-1)
+                    } else if (line.indexOf("(tank)") != -1) {
                         result.recruitment.tank.deathknight = true;
-                    else {
+                    } else {
                         result.recruitment.melee_dps.deathknight = true;
                         result.recruitment.tank.deathknight = true;
                     }
                 }
-                if(line.indexOf("druid")!=-1){
-                    if(line.indexOf("(balance)")!=-1)
+                if (line.indexOf("druid") != -1) {
+                    if (line.indexOf("(balance)") != -1) {
                         result.recruitment.ranged_dps.druid = true;
-                    else if(line.indexOf("(restoration)")!=-1)
+                    } else if (line.indexOf("(restoration)") != -1) {
                         result.recruitment.heal.druid = true;
-                    else if(line.indexOf("(feral-dd)")!=-1)
+                    } else if (line.indexOf("(feral-dd)") != -1) {
                         result.recruitment.melee_dps.druid = true;
-                    else if(line.indexOf("(feral-tank)")!=-1)
+                    } else if (line.indexOf("(feral-tank)") != -1) {
                         result.recruitment.tank.druid = true;
-                    else {
+                    } else {
                         result.recruitment.ranged_dps.druid = true;
                         result.recruitment.heal.druid = true;
                         result.recruitment.melee_dps.druid = true;
                         result.recruitment.tank.druid = true;
                     }
                 }
-                if(line.indexOf("hunter")!=-1){
+                if (line.indexOf("hunter") != -1) {
                     result.recruitment.ranged_dps.hunter = true;
                 }
-                if(line.indexOf("mage")!=-1){
+                if (line.indexOf("mage") != -1) {
                     result.recruitment.ranged_dps.mage = true;
                 }
-                if(line.indexOf("monk")!=-1){
-                    if(line.indexOf("(healer)")!=-1)
+                if (line.indexOf("monk") != -1) {
+                    if (line.indexOf("(healer)") != -1) {
                         result.recruitment.heal.monk = true;
-                    else if(line.indexOf("(dd)")!=-1)
+                    } else if (line.indexOf("(dd)") != -1) {
                         result.recruitment.melee_dps.monk = true;
-                    else if(line.indexOf("(tank)")!=-1)
+                    } else if (line.indexOf("(tank)") != -1) {
                         result.recruitment.tank.monk = true;
-                    else {
+                    } else {
                         result.recruitment.heal.monk = true;
                         result.recruitment.melee_dps.monk = true;
                         result.recruitment.tank.monk = true;
                     }
                 }
-                if(line.indexOf("paladin")!=-1){
-                    if(line.indexOf("(holy)")!=-1)
+                if (line.indexOf("paladin") != -1) {
+                    if (line.indexOf("(holy)") != -1) {
                         result.recruitment.heal.paladin = true;
-                    else if(line.indexOf("(retribution)")!=-1)
+                    } else if (line.indexOf("(retribution)") != -1) {
                         result.recruitment.melee_dps.paladin = true;
-                    else if(line.indexOf("(protection)")!=-1)
+                    } else if (line.indexOf("(protection)") != -1) {
                         result.recruitment.tank.paladin = true;
-                    else {
+                    } else {
                         result.recruitment.heal.paladin = true;
                         result.recruitment.melee_dps.paladin = true;
                         result.recruitment.tank.paladin = true;
                     }
                 }
-                if(line.indexOf("priest")!=-1){
-                    if(line.indexOf("(dd)")!=-1)
+                if (line.indexOf("priest") != -1) {
+                    if (line.indexOf("(dd)") != -1) {
                         result.recruitment.ranged_dps.priest = true;
-                    else if(line.indexOf("(healer)")!=-1)
+                    } else if (line.indexOf("(healer)") != -1) {
                         result.recruitment.heal.priest = true;
-                    else {
+                    } else {
                         result.recruitment.ranged_dps.priest = true;
                         result.recruitment.heal.priest = true;
                     }
                 }
-                if(line.indexOf("rogue")!=-1){
+                if (line.indexOf("rogue") != -1) {
                     result.recruitment.melee_dps.rogue = true;
                 }
-                if(line.indexOf("shaman")!=-1){
-                    if(line.indexOf("(elemental)")!=-1)
+                if (line.indexOf("shaman") != -1) {
+                    if (line.indexOf("(elemental)") != -1) {
                         result.recruitment.ranged_dps.shaman = true;
-                    else if(line.indexOf("(restoration)")!=-1)
+                    } else if (line.indexOf("(restoration)") != -1) {
                         result.recruitment.heal.shaman = true;
-                    else if(line.indexOf("(enhancement)")!=-1)
+                    } else if (line.indexOf("(enhancement)") != -1) {
                         result.recruitment.melee_dps.shaman = true;
-                    else {
+                    } else {
                         result.recruitment.ranged_dps.shaman = true;
                         result.recruitment.heal.shaman = true;
                         result.recruitment.melee_dps.shaman = true;
                     }
                 }
-                if(line.indexOf("warlock")!=-1){
+                if (line.indexOf("warlock") != -1) {
                     result.recruitment.ranged_dps.warlock = true;
                 }
-                if(line.indexOf("warrior")!=-1){
-                    if(line.indexOf("(dd)")!=-1)
+                if (line.indexOf("warrior") != -1) {
+                    if (line.indexOf("(dd)") != -1) {
                         result.recruitment.melee_dps.warrior = true;
-                    else if(line.indexOf("(tank)")!=-1)
+                    } else if (line.indexOf("(tank)") != -1) {
                         result.recruitment.tank.warrior = true;
-                    else {
+                    } else {
                         result.recruitment.melee_dps.warrior = true;
                         result.recruitment.tank.warrior = true;
                     }
@@ -506,65 +541,66 @@ module.exports.parseGuildPage = function( url, callback) {
             });
         }
 
-        var raidsPerWeek = $body(".raids_week").text().replace("Raids per week: ","").split(' - ');
-        if(raidsPerWeek.length == 1) {
+        var raidsPerWeek = $body(".raids_week").text().replace("Raids per week: ", "").split(' - ');
+        if (raidsPerWeek.length == 1) {
             result.raids_per_week = {};
-            result.raids_per_week.min = parseInt(raidsPerWeek[0],10);
-            result.raids_per_week.max = parseInt(raidsPerWeek[0],10);
+            result.raids_per_week.min = parseInt(raidsPerWeek[0], 10);
+            result.raids_per_week.max = parseInt(raidsPerWeek[0], 10);
         }
 
         var lfg = $body(".recruiting").text();
-        if(lfg.indexOf('closed')>=0)
-            result.lfg = false;
-        else
-            result.lfg = true;
+        result.lfg = lfg.indexOf('closed') < 0;
 
 
-
-        var description = $body(".guildDescription").text();
-        result.description = description;
+        result.description = $body(".guildDescription").text();
 
         var website = $body(".website a").attr("href");
-        if(website)
+        if (website) {
             result.website = website;
+        }
 
 
-        callback (null,result);
+        callback(null, result);
 
     });
 };
 
-module.exports.formatRecruitment= function(defaultValue){
+/**
+ * Format recruitment value to match database structure
+ * @param defaultValue
+ * @returns {{tank: {warrior: *, druid: *, paladin: *, monk: *}, heal: {druid: *, priest_discipline: *, priest_holy: *, paladin: *, chaman: *, monk: *}, melee_dps: {druid: *, deathknight: *, paladin: *, monk: *, shaman: *, warrior: *, rogue: *}, ranged_dps: {priest: *, shaman: *, hunter: *, warlock: *, mage: *}}}
+ */
+module.exports.formatRecruitment = function (defaultValue) {
     return {
         tank: {
-            warrior:defaultValue,
-            druid:defaultValue,
-            paladin:defaultValue,
-            monk:defaultValue
+            warrior: defaultValue,
+            druid: defaultValue,
+            paladin: defaultValue,
+            monk: defaultValue
         },
         heal: {
-            druid:defaultValue,
-            priest_discipline:defaultValue,
-            priest_holy:defaultValue,
-            paladin:defaultValue,
-            chaman:defaultValue,
-            monk:defaultValue
+            druid: defaultValue,
+            priest_discipline: defaultValue,
+            priest_holy: defaultValue,
+            paladin: defaultValue,
+            chaman: defaultValue,
+            monk: defaultValue
         },
         melee_dps: {
-            druid:defaultValue,
-            deathknight:defaultValue,
-            paladin:defaultValue,
-            monk:defaultValue,
-            shaman:defaultValue,
-            warrior:defaultValue,
-            rogue:defaultValue
+            druid: defaultValue,
+            deathknight: defaultValue,
+            paladin: defaultValue,
+            monk: defaultValue,
+            shaman: defaultValue,
+            warrior: defaultValue,
+            rogue: defaultValue
         },
         ranged_dps: {
-            priest:defaultValue,
-            shaman:defaultValue,
-            hunter:defaultValue,
-            warlock:defaultValue,
-            mage:defaultValue
+            priest: defaultValue,
+            shaman: defaultValue,
+            hunter: defaultValue,
+            warlock: defaultValue,
+            mage: defaultValue
         }
     };
 };
