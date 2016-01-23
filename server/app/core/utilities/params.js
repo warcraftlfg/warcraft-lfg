@@ -1,12 +1,12 @@
 "use strict";
 
 /**
- * Return an array with ParamArray if number is ok
+ * Return an array with ParamArray
  * @param param
  * @param number
  * @returns {Array}
  */
-module.exports.parseQueryParam = function(param,number){
+module.exports.parseQueryParam = function (param, number) {
 
     var result = [];
 
@@ -14,23 +14,25 @@ module.exports.parseQueryParam = function(param,number){
         return result;
     }
 
-    if(Array.isArray(param)) {
+    if (Array.isArray(param)) {
         //Param is an array
-        param.forEach(function(paramString){
-            if(paramString!="") {
+        param.forEach(function (paramString) {
+            if (paramString != "") {
                 var paramArray = paramString.split('.');
-                if (paramArray.length == number)
+                if (paramArray.length == number) {
                     result.push(paramArray);
+                }
             }
         });
 
     }
     else {
         //Param is a string
-        if(param!="") {
+        if (param != "") {
             var paramArray = param.split('.');
-            if (paramArray.length == number)
+            if (paramArray.length == number) {
                 result.push(paramArray);
+            }
         }
     }
 

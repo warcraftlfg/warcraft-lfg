@@ -31,8 +31,9 @@ module.exports.add = function (query, criteria) {
             return;
         }
 
-        var tmpObj = {};
+        var tmpObj;
         if (sort === "progress") {
+            tmpObj = {};
             tmpObj["progress." + raid.name + ".score"] = {$lt: value};
             tmpArray.push(tmpObj);
 
@@ -42,6 +43,7 @@ module.exports.add = function (query, criteria) {
             tmpArray.push(tmpObj);
 
         } else if (sort === "ilevel") {
+            tmpObj = {};
             tmpObj["bnet.items.averageItemLevelEquipped"] = {$lt: value};
             tmpArray.push(tmpObj);
 
@@ -51,6 +53,7 @@ module.exports.add = function (query, criteria) {
             tmpArray.push(tmpObj);
         }
         else {
+            tmpObj = {};
             tmpObj["ad.updated"] = {$lt: value};
             tmpArray.push(tmpObj);
 

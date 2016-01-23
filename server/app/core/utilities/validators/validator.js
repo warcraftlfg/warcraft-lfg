@@ -1,5 +1,6 @@
 "use strict";
 
+//Load dependencies
 var async = require("async");
 var regionValidator = process.require("core/utilities/validators/regionValidator.js");
 var realmValidator = process.require("core/utilities/validators/realmValidator.js");
@@ -12,7 +13,11 @@ var difficultyValidator = process.require("core/utilities/validators/difficultyV
 var timestampValidator = process.require("core/utilities/validators/timestampValidator.js");
 var sourceValidator = process.require("core/utilities/validators/sourceValidator.js");
 
-
+/**
+ * Validate if params are valid
+ * @param params
+ * @param callback
+ */
 module.exports.validate = function (params, callback) {
 
     async.series([

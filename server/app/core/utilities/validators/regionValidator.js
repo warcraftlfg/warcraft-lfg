@@ -1,5 +1,6 @@
 "use strict";
 
+//Load dependencies
 var applicationStorage = process.require("core/applicationStorage.js");
 
 /**

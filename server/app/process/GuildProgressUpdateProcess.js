@@ -8,44 +8,51 @@ var updateService = process.require("updates/updateService.js");
 var guildModel = process.require("guilds/guildModel.js");
 var guildKillModel = process.require("guildKills/guildKillModel.js");
 
-function GuildProgressUpdateProcess(){
+/**
+ * GuildProgressUpdateProcess constructor
+ * @constructor
+ */
+function GuildProgressUpdateProcess() {
 }
 
-GuildProgressUpdateProcess.prototype.updateGuildProgress = function() {
+/**
+ * Update Guild progress
+ */
+GuildProgressUpdateProcess.prototype.updateGuildProgress = function () {
     var logger = applicationStorage.logger;
     var config = applicationStorage.config;
     var self = this;
     async.waterfall([
-        function(callback){
+        function (callback) {
             //Get next guild to update
-            updateService.getNextUpdate('gpu',function(error,guildProgress){
-                if(guildProgress == null){
+            updateService.getNextUpdate('gpu', function (error, guildProgress) {
+                if (guildProgress == null) {
                     //Guild update is empty
                     logger.info("No guild progress to update ... waiting 3 sec");
-                    setTimeout(function() {
+                    setTimeout(function () {
                         callback(true);
                     }, 3000);
                 } else {
-                    logger.info("Update guild process %s-%s-%s",guildProgress.region,guildProgress.realm,guildProgress.name);
-                    callback(error,guildProgress);
+                    logger.info("Update guild process %s-%s-%s", guildProgress.region, guildProgress.realm, guildProgress.name);
+                    callback(error, guildProgress);
                 }
             });
         },
-        function(guildProgress,callback){
-            async.eachSeries(config.progress.raids, function(raid, callback) {
+        function (guildProgress, callback) {
+            async.eachSeries(config.progress.raids, function (raid, callback) {
                 async.waterfall([
-                    function(callback){
-                        guildKillModel.computeProgress(guildProgress.region, guildProgress.realm, guildProgress.name, raid.name, function(error,result) {
-                            callback(error,result);
+                    function (callback) {
+                        guildKillModel.computeProgress(guildProgress.region, guildProgress.realm, guildProgress.name, raid.name, function (error, result) {
+                            callback(error, result);
                         });
                     },
-                    function(result,callback){
+                    function (result, callback) {
                         var progress = {};
                         progress.score = 0;
-                        async.forEachSeries(result,function(obj,callback) {
+                        async.forEachSeries(result, function (obj, callback) {
                             if (obj.value && obj.value.timestamps && obj.value.timestamps.length > 0) {
 
-                                logger.verbose("Kills found for %s-%s (%s)",obj._id.boss,obj._id.difficulty,obj.value.timestamps.join(','))
+                                logger.verbose("Kills found for %s-%s (%s)", obj._id.boss, obj._id.difficulty, obj.value.timestamps.join(','))
 
                                 if (!progress[obj._id.difficulty]) {
                                     progress[obj._id.difficulty] = {};
@@ -68,27 +75,32 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function() {
                                 }
                             }
                             callback();
-                        },function() {
+                        }, function () {
                             guildModel.upsertProgress(guildProgress.region, guildProgress.realm, guildProgress.name, raid.name, progress, function (error) {
                                 callback(error);
                             });
                         });
                     }
-                ],function(error){
+                ], function (error) {
                     callback(error);
                 })
-            },function(error){
+            }, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
-        if (error && error !==true)
+    ], function (error) {
+        if (error && error !== true) {
             logger.error(error.message);
+        }
         self.updateGuildProgress();
     });
 };
 
-GuildProgressUpdateProcess.prototype.start = function(callback){
+/**
+ * Start GuildProgressUpdateProcess
+ * @param callback
+ */
+GuildProgressUpdateProcess.prototype.start = function (callback) {
     applicationStorage.logger.info("Starting GuildProgressUpdateProcess");
     this.updateGuildProgress();
     callback();

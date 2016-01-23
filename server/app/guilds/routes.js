@@ -9,9 +9,9 @@ router.get("/guilds", guildController.getGuilds);
 router.get("/guilds/:region/:realm/:name", guildController.getGuild);
 
 //Define route for authenticated users
-router.put("/guilds/ad/:region/:realm/:name",auth.isAuthenticated,sanitize.sanitize,auth.hasGuildAdEditPermission, guildController.putGuildAd);
-router.delete("/guilds/ad/:region/:realm/:name",auth.isAuthenticated,sanitize.sanitize,auth.hasGuildAdDelPermission, guildController.deleteGuildAd);
-router.put("/guilds/perms/:region/:realm/:name",auth.isAuthenticated,sanitize.sanitize,auth.hasGuildGMPermission, guildController.putGuildPerms);
+router.put("/guilds/ad/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.hasGuildAdEditPermission, guildController.putGuildAd);
+router.delete("/guilds/ad/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.hasGuildAdDelPermission, guildController.deleteGuildAd);
+router.put("/guilds/perms/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.hasGuildGMPermission, guildController.putGuildPerms);
 
 
 module.exports = router;

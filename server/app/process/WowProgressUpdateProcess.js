@@ -1,15 +1,22 @@
 "use strict";
 
-//Module dependencies
+//Load dependencies
 var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var wowprogressAPI  = process.require("core/api/wowProgress.js");
 var characterService = process.require("characters/characterService.js");
 var guildService = process.require("guilds/guildService.js");
 
+/**
+ * WowProgressUpdateProcess constructor
+ * @constructor
+ */
 function WowProgressUpdateProcess(){
 }
 
+/**
+ * Parse wowProgress
+ */
 WowProgressUpdateProcess.prototype.parseWowProgress = function() {
     var logger = applicationStorage.logger;
     var self = this;
@@ -56,6 +63,10 @@ WowProgressUpdateProcess.prototype.parseWowProgress = function() {
     });
 };
 
+/**
+ * Start WowProgressUpdateProcess
+ * @param callback
+ */
 WowProgressUpdateProcess.prototype.start = function(callback){
     applicationStorage.logger.info("Starting WowProgressUpdateProcess");
     this.parseWowProgress();

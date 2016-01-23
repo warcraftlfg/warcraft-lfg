@@ -1,4 +1,6 @@
 "use strict";
+
+//Load dependencies
 var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var guildModel = process.require("guilds/guildModel.js");
@@ -14,7 +16,7 @@ var updateModel = process.require("updates/updateModel.js");
  * @param req
  * @param res
  */
-module.exports.getGuilds= function(req,res) {
+module.exports.getGuilds = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
@@ -24,44 +26,44 @@ module.exports.getGuilds= function(req,res) {
                 callback(error, criteria);
             });
         },
-        function(criteria,callback){
-            callback(null,criteria,guildProjection.get(req.query));
+        function (criteria, callback) {
+            callback(null, criteria, guildProjection.get(req.query));
         },
-        function(criteria,projection,callback){
-            callback(null,criteria,projection,numberLimit.get(req.query));
+        function (criteria, projection, callback) {
+            callback(null, criteria, projection, numberLimit.get(req.query));
         },
-        function(criteria,projection,limit,callback){
-            callback(null,criteria,projection,limit,guildSort.get(req.query));
+        function (criteria, projection, limit, callback) {
+            callback(null, criteria, projection, limit, guildSort.get(req.query));
         },
-        function(criteria,projection,limit,sort,callback){
-            logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s",JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
+        function (criteria, projection, limit, sort, callback) {
+            logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
             async.parallel({
-                guilds: function(callback){
-                    if(limit > 0){
-                        guildModel.find(criteria,projection,sort,limit,{"ad.lfg":1},function(error,guilds){
-                            callback(error,guilds);
+                guilds: function (callback) {
+                    if (limit > 0) {
+                        guildModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, guilds) {
+                            callback(error, guilds);
                         });
                     }
-                    else{
-                        callback(null,[]);
+                    else {
+                        callback(null, []);
                     }
                 },
-                count : function(callback){
-                    guildModel.count(criteria,function(error,count){
-                        callback(error,count);
+                count: function (callback) {
+                    guildModel.count(criteria, function (error, count) {
+                        callback(error, count);
                     });
                 }
-            },function(error,results){
-                callback(error,results);
+            }, function (error, results) {
+                callback(error, results);
             });
         }
 
-    ],function(error,results){
-        if(error){
+    ], function (error, results) {
+        if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
         }
-        res.setHeader('X-Total-Count',results.count);
+        res.setHeader('X-Total-Count', results.count);
         res.json(results.guilds);
     });
 };
@@ -72,15 +74,15 @@ module.exports.getGuilds= function(req,res) {
  * @param res
  * @param next
  */
-module.exports.getGuild = function(req,res,next){
+module.exports.getGuild = function (req, res, next) {
 
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
 
-    var criteria = {region:req.params.region,realm:req.params.realm,name:req.params.name};
-    var projection = {_id:0};
-    guildModel.findOne(criteria,projection,function(error,guild){
-        if(error){
+    var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
+    var projection = {_id: 0};
+    guildModel.findOne(criteria, projection, function (error, guild) {
+        if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
         }
@@ -99,23 +101,23 @@ module.exports.getGuild = function(req,res,next){
  * @param req
  * @param res
  */
-module.exports.putGuildAd = function(req,res){
+module.exports.putGuildAd = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
     var ad = req.body;
 
     async.series([
-        function(callback){
+        function (callback) {
             guildModel.upsertAd(req.params.region, req.params.realm, req.params.name, ad, function (error) {
                 callback(error);
             });
         },
-        function(callback){
-            updateModel.insert("gu",req.params.region, req.params.realm, req.params.name, 10,function(error){
+        function (callback) {
+            updateModel.insert("gu", req.params.region, req.params.realm, req.params.name, 10, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -131,7 +133,7 @@ module.exports.putGuildAd = function(req,res){
  * @param req
  * @param res
  */
-module.exports.deleteGuildAd = function(req,res){
+module.exports.deleteGuildAd = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
     guildModel.deleteAd(req.params.region, req.params.realm, req.params.name, function (error) {
@@ -146,11 +148,11 @@ module.exports.deleteGuildAd = function(req,res){
 };
 
 /**
- * Put guild
+ * Put guild perms
  * @param req
  * @param res
  */
-module.exports.putGuildPerms = function(req,res){
+module.exports.putGuildPerms = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
     var perms = req.body;

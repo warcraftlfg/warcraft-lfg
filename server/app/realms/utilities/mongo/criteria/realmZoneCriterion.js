@@ -1,13 +1,14 @@
 "use strict";
 
+//Load dependencies
 var params = process.require("core/utilities/params.js");
 
 /**
- * Add the realmZone criteria from zone param
+ * Add the realmZone criterion to guild criteria
  * @param query
  * @param criteria
  */
-module.exports.add = function(query,criteria) {
+module.exports.add = function (query, criteria) {
 
     var paramArray = params.parseQueryParam(query['realm_zone'], 3);
     if (paramArray.length > 0) {
@@ -23,10 +24,11 @@ module.exports.add = function(query,criteria) {
         });
 
         if (realmZones.length > 0) {
-            if (!criteria["$or"])
+            if (!criteria["$or"]) {
                 criteria["$or"] = realmZones;
-            else
+            } else {
                 criteria["$or"] = criteria["$or"].concat(realmZones);
+            }
         }
     }
 };
