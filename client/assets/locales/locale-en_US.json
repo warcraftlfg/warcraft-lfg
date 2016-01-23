@@ -45,6 +45,8 @@
   "GUILD_CREATE_WEBSITE": "Website",
   "GUILD_CREATE_DESCRIPTION": "Description",
   "GUILD_CREATE_DESCRIPTION_PLACEHOLDER": "Describe your guild and what you are looking for here ...",
+  "GUILD_CREATE_TAGS": "Tags",
+  "GUILD_CREATE_TAGS_PLACEHOLDER": "Add a tag (RP, PvP, Casual, Hardcore, ...)",
   "GUILD_CREATE_RECRUITMENT_CLASS": "Recruitment",
   "GUILD_CREATE_RAIDS_PER_WEEK": "Raids per week",
   "GUILD_CREATE_PLAY_TIME": "Raiding schedule",

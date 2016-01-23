@@ -166,4 +166,14 @@ fieldset > legend {
 	color: white;
 }
 
+tags-input {
+	color: #555;
+
+	.tags .tag-item {
+		color: #555;
+		background: #ddd;
+		border-color: #aaa;
+	}
+}
+
 @import "../modules/all";

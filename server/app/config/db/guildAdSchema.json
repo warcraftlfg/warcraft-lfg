@@ -17,6 +17,20 @@
     "description": {
       "type": "string"
     },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "website": {
       "type": "string"
     },

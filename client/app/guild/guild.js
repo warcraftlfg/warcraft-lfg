@@ -79,10 +79,11 @@
                 if(guild===null)
                     $state.go("dashboard");
                 $scope.guild = guild;
+
                 $scope.$parent.loading = false;
 
                 if(guild.bnet) {
-                    $scope.$parent.true = false;
+                    $scope.$parent.loading = true;
                     user.get({
                         param: "guildRank",
                         region: $stateParams.region,
@@ -131,6 +132,10 @@
             });
 
 
+        $scope.tagAdded = function (tag) {
+            // Normalize tag values so that searching for them is easier
+            tag.value = tag.text.toLowerCase().replace(/[ -_'"]/g, '');
+        };
 
 
         $scope.saveAd = function(){

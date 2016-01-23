@@ -95,6 +95,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="panel panel-default" ng-if="guild.ad.tags.length">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Tags : <span class="label label-default" ng-repeat="tag in guild.ad.tags">{{ tag.text }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
