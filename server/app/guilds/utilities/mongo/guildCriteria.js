@@ -8,6 +8,7 @@ var languageCriterion = process.require("guilds/utilities/mongo/criteria/languag
 var recruitmentClassCriterion = process.require("guilds/utilities/mongo/criteria/recruitmentClassCriterion.js");
 var raidsPerWeekCriterion = process.require("guilds/utilities/mongo/criteria/raidsPerWeekCriterion.js");
 var dayCriterion = process.require("core/utilities/mongo/criteria/dayCriterion.js");
+var playTimeCriterion = process.require("core/utilities/mongo/criteria/playTimeCriterion.js");
 var progressCriterion = process.require("core/utilities/mongo/criteria/progressCriterion.js");
 var lastCriterion = process.require("guilds/utilities/mongo/criteria/lastCriterion.js");
 var realmCriterion = process.require("core/utilities/mongo/criteria/realmCriterion.js");
@@ -29,6 +30,7 @@ module.exports.get = function (query, callback) {
     recruitmentClassCriterion.add(query, criteria);
     raidsPerWeekCriterion.add(query, criteria);
     dayCriterion.add(query, criteria);
+    playTimeCriterion.add(query, criteria);
     progressCriterion.add(query, criteria);
     lastCriterion.add(query, criteria);
 

@@ -38,7 +38,6 @@
                 $scope.guildAds = guildAds;
                 $scope.$parent.loading = false;
                 $.each(guildAds, function (i, guild) {
-                    console.log(guild);
                     if (guild.perms) {
                         guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
                         guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;

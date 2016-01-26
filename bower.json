@@ -17,6 +17,7 @@
     "angular-marked": "~1.0.1",
     "angular-sanitize": "~1.4.8",
     "angular-resource": "~1.4.8",
-    "ng-tags-input": "~3.0.0"
+    "ng-tags-input": "~3.0.0",
+    "moment-timezone": "~0.5.0"
   }
 }

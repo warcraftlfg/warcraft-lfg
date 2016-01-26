@@ -168,6 +168,10 @@
         }
       }
     },
+    "timezone": {
+      "type": "string",
+      "default": "0.0"
+    },
     "play_time": {
       "type": "object",
       "properties": {
@@ -179,30 +183,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -214,30 +200,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -249,30 +217,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -284,30 +234,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -319,30 +251,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -354,30 +268,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -389,30 +285,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         }
