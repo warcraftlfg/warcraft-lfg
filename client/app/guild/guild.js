@@ -97,12 +97,11 @@
 
                 //Format playTime
                 angular.forEach($scope.guild.ad.play_time, function (day) {
-                    console.log();
-                    var startHour = moment(day.start).utcOffset($scope.guild.ad.timezone).hours();
-                    var startMin = moment(day.start).utcOffset($scope.guild.ad.timezone).minutes();
+                    var startHour = moment(day.start).tz($scope.guild.ad.timezone).hours();
+                    var startMin = moment(day.start).tz($scope.guild.ad.timezone).minutes();
                     day.start = {hour: startHour, min: startMin};
-                    var endHour = moment(day.end).utcOffset($scope.guild.ad.timezone).hours();
-                    var endMin = moment(day.end).utcOffset($scope.guild.ad.timezone).minutes();
+                    var endHour = moment(day.end).tz($scope.guild.ad.timezone).hours();
+                    var endMin = moment(day.end).tz($scope.guild.ad.timezone).minutes();
                     day.end = {hour: endHour, min: endMin};
                 });
 
@@ -170,10 +169,11 @@
 
             //Format playTime
             angular.forEach($scope.guild.ad.play_time, function (day) {
-                var startString ="01 Jan 1970 "+day.start.hour+":"+day.start.min+":00 GMT"+$scope.guild.ad.timezone;
-                var endString = "02 Jan 1970 "+day.end.hour+":"+day.end.min+":00 GMT"+$scope.guild.ad.timezone;
-                day.start = new Date(startString).getTime();
-                day.end = new Date(endString).getTime();
+                var start = moment.tz({year:1970,month:1,day:1,hour:day.start.hour,minute:day.start.min}, $scope.guild.ad.timezone);
+                var end = moment.tz({year:1970,month:1,day:1,hour:day.end.hour,minute:day.end.min}, $scope.guild.ad.timezone);
+                day.start = start.valueOf();
+                day.end = end.valueOf();
+
             });
 
             guilds.upsert({
@@ -290,26 +290,12 @@
             guilds.query(params, function (guilds) {
                     $scope.$parent.loading = false;
                     $scope.loading = false;
-
                     $scope.guilds = $scope.guilds.concat(guilds);
-
                 },
                 function (error) {
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 });
         }
-
-        /*socket.forward('get:guildAds', $scope);
-         $scope.$on('socket:get:guildAds', function(ev, guilds, last){
-         $scope.$parent.loading = false;
-         $scope.loading = false;
-
-         if (!last) {
-         $scope.guilds = guilds;
-         } else {
-         $scope.guilds = $scope.guilds.concat(guilds);
-         }
-         });*/
     }
 })();

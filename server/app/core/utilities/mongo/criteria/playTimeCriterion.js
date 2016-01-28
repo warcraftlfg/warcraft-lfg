@@ -1,6 +1,7 @@
 "use strict";
 
 //Load dependencies
+var async = require("async");
 var params = process.require("core/utilities/params.js");
 
 /**
@@ -9,26 +10,13 @@ var params = process.require("core/utilities/params.js");
  * @param criteria
  */
 module.exports.add = function (query, criteria) {
-    var paramArray = params.parseQueryParam(query.play_time, 2);
-
-    if (paramArray.length > 0) {
-
-        var start = paramArray[0][0];
-        var end = paramArray[0][1];
-
-        criteria["ad.play_time.monday.start"] = {"$gte": start};
-        criteria["ad.play_time.monday.end"] = {"$gte": end};
-        criteria["ad.play_time.tuesday.start"] = {"$gte": start};
-        criteria["ad.play_time.tuesday.end"] = {"$gte": end};
-        criteria["ad.play_time.wednesday.start"] = {"$gte": start};
-        criteria["ad.play_time.wednesday.end"] = {"$gte": end};
-        criteria["ad.play_time.thursday.start"] = {"$gte": start};
-        criteria["ad.play_time.thursday.end"] = {"$gte": end};
-        criteria["ad.play_time.friday.start"] = {"$gte": start};
-        criteria["ad.play_time.friday.end"] = {"$gte": end};
-        criteria["ad.play_time.saturday.start"] = {"$gte": start};
-        criteria["ad.play_time.saturday.end"] = {"$gte": end};
-        criteria["ad.play_time.sunday.start"] = {"$gte": start};
-        criteria["ad.play_time.sunday.end"] = {"$gte": end};
-    }
+    var paramsArray = params.parseQueryParam(query.play_time, 3);
+    async.each(paramsArray, function (params, callback) {
+        var day = params[0];
+        var start = params[1];
+        var end = params[2];
+        criteria["ad.play_time."+day+".start"] = {"$gte": start};
+        criteria["ad.play_time."+day+".end"] = {"$gte": end};
+        callback();
+    });
 };

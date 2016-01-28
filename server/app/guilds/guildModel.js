@@ -57,6 +57,7 @@ module.exports.findOne = function (criteria, projection, callback) {
             guild.ad = confine.normalize(guild.ad, guildAdSchema);
             guild.perms = confine.normalize(guild.perms, guildPermsSchema);
         }
+        console.log(guild.ad.timezone);
         callback(error, guild);
     });
 };
