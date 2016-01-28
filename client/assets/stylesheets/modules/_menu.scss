@@ -1,0 +1,28 @@
+.menu {
+  margin: -20px 40px 20px 40px;
+  .menu-content {
+    padding:20px;
+    background-color: $black;
+
+  }
+  .menu-content-nonretractable {
+    margin:20px;
+
+  }
+  .menu-content-retractable {
+    margin:20px;
+
+  }
+  .menu-footer {
+    padding:0 10px 10px 10px;
+    .menu-open {
+      cursor: pointer;
+    }
+    .sort{
+      text-align: right;
+    }
+  }
+}
+
+
+

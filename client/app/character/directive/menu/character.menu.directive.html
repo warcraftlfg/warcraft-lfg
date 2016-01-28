@@ -1,0 +1,37 @@
+<div class="menu">
+    <div class="menu-content">
+        <div class="menu-content-nonretractable">
+            <div class="row">
+                <div class="col-md-1">
+                    <i class="fa fa-circle-o fa-5x"></i>
+                </div>
+                <div class="col-md-5">
+                    <div wlfg-filter-realm-zone></div>
+                </div>
+                <div class="col-md-2">
+                    Realm
+                </div>
+                <div class="col-md-2">
+                    Language
+                </div>
+                <div class="col-md-2">
+                    Reset
+                </div>
+            </div>
+        </div>
+        <div ng-show="menuContentShowed" class="menu-content-retractable">
+            <div class="row">
+                More Stuff
+            </div>
+            <div class="row">
+                More Stuff
+            </div>
+        </div>
+    </div>
+    <div class="menu-footer row">
+        <div ng-click="menuContentShowed=!menuContentShowed" class="menu-open col-md-2 col-md-offset-5">Open</div>
+        <div class="col-md-3 col-md-offset-2">
+            <div class="sort">Sort by : ilvl - progress - name</div>
+        </div>
+    </div>
+</div>
