@@ -15,8 +15,12 @@
   }
   .menu-footer {
     padding:0 10px 10px 10px;
+
     .menu-open {
       cursor: pointer;
+      background: url('../images/menu/bottom.png') no-repeat top center;
+      background-size:contain;
+      height: 12px;
     }
     .sort{
       text-align: right;
