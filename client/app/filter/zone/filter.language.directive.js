@@ -62,7 +62,7 @@ function wlfgFilterLanguage($translate, $stateParams, $location, LANGUAGES) {
             }
 
             $scope.filters.language = tmpLanguages;
-            $scope.$parent.loading = true;
+           /* $scope.$parent.loading = true;*/
         });
 
         $scope.resetLanguages = function(){

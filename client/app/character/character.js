@@ -107,13 +107,13 @@
 
         getCharacterAds();
 
-        $scope.$watch('filters', function() {
+      /*  $scope.$watch('filters', function() {
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
                 // && $scope.filters.states.timezone
                 $scope.characters=[];
 
             }
-        },true);
+        },true);*/
 
         $scope.resetFilters = function(){
             $state.go($state.current,null,{reload:true,inherit: false});

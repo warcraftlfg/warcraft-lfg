@@ -13,7 +13,9 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.realmZones = [
+
+        $scope.realmZones = {};
+       /*$scope.realmZones = [
             {name: 'US', msGroup: true},
             {name:$translate.instant("US--EN_US--AMERICA--CHICAGO::LOS_ANGELES::NEW_YORK::DENVER") ,region:"us", locale:"en_US", zone:"America", cities:["Chicago","Los_Angeles","New_York","Denver"], selected:false},
             {name:$translate.instant("US--EN_US--AUSTRALIA--MELBOURNE"), region:"us", locale:"en_US", zone:"Australia", cities:["Melbourne"], selected:false},
@@ -44,7 +46,6 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
 
         $scope.filters.states.realmZones = true;
 
-        /* if params load filters */
         if ($stateParams.realm_zone) {
             var realmZones = $stateParams.realm_zone;
             if(!angular.isArray(realmZones))
@@ -130,6 +131,6 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
             });
             $stateParams.realm_region = null;
             $stateParams.realm_name = null;
-        };
+        };*/
     }
 }
