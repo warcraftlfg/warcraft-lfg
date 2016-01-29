@@ -1,12 +1,27 @@
-<div isteven-multi-select
-    input-model="roles"
-    output-model="rolesOut"
-    button-label="icon name"
-    item-label="icon name"
-    output-properties="id"
-    tick-property="selected"
-    translation="localRoles"
-    on-reset="resetRoles()"
-
-       >
+<div class="role-filter">
+       <div class="col-md-5">
+              <div class="fw-700 m-l-10 m-b-5">Role</div>
+              <div>
+                     <div class="checkbox-inline" ng-class="{'selected':roles.tank.selected}" uib-tooltip="{{'TANK'|translate}}">
+                            <label class="tank">
+                                   <input ng-model="roles.tank.selected" type="checkbox">
+                            </label>
+                     </div>
+                     <div class="checkbox-inline" ng-class="{'selected':roles.heal.selected}" uib-tooltip="{{'HEAL'|translate}}">
+                            <label class="heal">
+                                   <input ng-model="roles.heal.selected" type="checkbox">
+                            </label>
+                     </div>
+                     <div class="checkbox-inline" ng-class="{'selected':roles.melee_dps.selected}" uib-tooltip="{{'MELEE_DPS'|translate}}">
+                            <label class="melee_dps">
+                                   <input ng-model="roles.melee_dps.selected" type="checkbox">
+                            </label>
+                     </div>
+                     <div class="checkbox-inline" ng-class="{'selected':roles.ranged_dps.selected}" uib-tooltip="{{'RANGED_DPS'|translate}}">
+                            <label class="ranged_dps">
+                                   <input ng-model="roles.ranged_dps.selected" type="checkbox">
+                            </label>
+                     </div>
+              </div>
+       </div>
 </div>

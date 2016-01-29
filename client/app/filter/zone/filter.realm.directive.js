@@ -56,7 +56,7 @@ function wlfgFilterRealm($translate, $stateParams, $location,realms) {
                 $scope.filters.realm=null;
             }
 
-          //  $scope.$parent.loading = true;
+            $scope.$parent.loading = true;
         },true);
 
         $scope.setRealm = function(data){

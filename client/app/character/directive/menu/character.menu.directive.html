@@ -1,28 +1,33 @@
 <div class="menu">
-    <div class="menu-content">
+    <div ng-class="{'open':menuContentShowed}" class="menu-content">
         <div class="menu-content-nonretractable">
             <div class="row">
                 <div class="col-md-1">
-                    <i class="earth"></i>
+                    <i class="h-100 earth"></i>
                 </div>
                 <div class="col-md-5">
                     <div wlfg-filter-realm-zone></div>
                 </div>
                 <div class="col-md-2">
                     <div wlfg-filter-realm></div>
-
                 </div>
                 <div class="col-md-2">
                     <div wlfg-filter-language></div>
                 </div>
                 <div class="col-md-2">
-                    Reset
+                    <div wlfg-filter-reset></div>
                 </div>
             </div>
         </div>
         <div ng-show="menuContentShowed" class="menu-content-retractable">
             <div class="row">
-                More Stuff
+                <div class="col-md-1">
+                    <i class="character h-50"></i>
+                </div>
+                <div class="col-md-5">
+                    <div wlfg-filter-role></div>
+
+                </div>
             </div>
             <div class="row">
                 More Stuff
