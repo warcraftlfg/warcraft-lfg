@@ -2,9 +2,13 @@
   margin: -20px auto 20px auto;
   max-width: 1240px;
   .menu-content {
-    padding: 20px;
+    padding: 10px 20px;
     background-color: $black;
 
+    .row {
+      padding: 15px 0 15px 0;
+
+    }
     .earth {
       background: url('../images/menu/earth.png') no-repeat center center;
       display: block;
@@ -26,185 +30,12 @@
       margin-left: 5px;
     }
 
-    .realmzone-filter {
-      .checkbox-inline {
-        margin-left: 5px;
-        margin-bottom: 5px;
-        padding-left: 0px;
-        text-align: center;
-        line-height: 24px;
-        border: 1px solid $white;
-        width: 30px;
-        height: 30px;
-        label {
-          cursor: pointer;
-          font-size: 12px;
-          width: 100%;
-          height: 100%;
-        }
-        input {
-          display: none;
-        }
-        &.selected {
-          background-color: $white;
-          label {
-            color: $black;
-          }
-        }
 
-      }
-    }
-
-    .role-filter {
-      .checkbox-inline {
-        padding-left: 0px;
-        margin-left: 5px;
-        text-align: center;
-        height: 25px;
-        width: 25px;
-        input {
-          display: none;
-        }
-        label {
-          cursor: pointer;
-          width: 100%;
-          height: 100%;
-        }
-        &.selected {
-          background-color: red;
-        }
-        .tank {
-          background: url('../images/menu/tank.png') no-repeat top center;
-        }
-        .heal {
-          background: url('../images/menu/heal.png') no-repeat top center;
-        }
-        .ranged_dps {
-          background: url('../images/menu/ranged.png') no-repeat top center;
-        }
-        .melee_dps {
-          background: url('../images/menu/melee.png') no-repeat top center;
-        }
-      }
-    }
-
-    .class-filter {
-      .checkbox-inline {
-        padding-left: 0px;
-        margin-left: 5px;
-        text-align: center;
-        height: 25px;
-        width: 25px;
-        input {
-          display: none;
-        }
-        label {
-          cursor: pointer;
-          width: 100%;
-          height: 100%;
-        }
-        &.selected {
-          background-color: red;
-        }
-        .class-1 {
-          background: url('../images/menu/class-1.png') no-repeat top center;
-        }
-        .class-2 {
-          background: url('../images/menu/class-2.png') no-repeat top center;
-        }
-        .class-3 {
-          background: url('../images/menu/class-3.png') no-repeat top center;
-        }
-        .class-4 {
-          background: url('../images/menu/class-4.png') no-repeat top center;
-        }
-        .class-5 {
-          background: url('../images/menu/class-5.png') no-repeat top center;
-        }
-        .class-6 {
-          background: url('../images/menu/class-6.png') no-repeat top center;
-        }
-        .class-7 {
-          background: url('../images/menu/class-7.png') no-repeat top center;
-        }
-        .class-8 {
-          background: url('../images/menu/class-8.png') no-repeat top center;
-        }
-        .class-9 {
-          background: url('../images/menu/class-9.png') no-repeat top center;
-        }
-        .class-10 {
-          background: url('../images/menu/class-10.png') no-repeat top center;
-        }
-        .class-11 {
-          background: url('../images/menu/class-11.png') no-repeat top center;
-        }
-      }
-    }
-
-    .faction-filter {
-      .icon-horde-alliance{
-        background: url('../images/menu/hordealliance.png') no-repeat top center;
-        display: inline-block;
-        width:44px;
-        height:47px;
-
-      }
-      .checkbox-inline {
-        margin-left: 5px;
-        margin-bottom: 5px;
-        padding-left: 0px;
-        text-align: center;
-        line-height: 24px;
-        border: 1px solid $white;
-        width: 30px;
-        height: 30px;
-        label {
-          cursor: pointer;
-          font-size: 12px;
-          width: 100%;
-          height: 100%;
-        }
-        input {
-          display: none;
-        }
-
-        &.horde {
-          margin-top:-30px;
-          border-color:red;
-          label{
-            color:red;
-          }
-          &.selected {
-            background-color: red;
-            label {
-              color: $black;
-            }
-          }
-        }
-
-        &.alliance{
-          margin-top:-30px;
-          border-color: blue;
-          label {
-            color:blue;
-          }
-          &.selected {
-            background-color: blue;
-            label {
-              color: $black;
-            }
-          }
-        }
-
-
-      }
-    }
 
     &.open {
       .row {
         background: url('../images/menu/separator.png') no-repeat bottom center;
-        padding-bottom: 25px;
+        padding: 15px 0 15px 0;
       }
       .menu-content-retractable {
         .row:last-child {
@@ -214,10 +45,9 @@
       }
     }
     .menu-content-nonretractable {
-      margin: 20px;
+
     }
     .menu-content-retractable {
-      margin: 20px;
     }
   }
 

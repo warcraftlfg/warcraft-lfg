@@ -13,10 +13,11 @@ module.exports.add = function (query, criteria) {
 
     var config = applicationStorage.config;
 
-    var paramArray = params.parseQueryParam(query.progress, 2);
+    var paramArray = params.parseQueryParam(query.progress, 3);
     if (paramArray.length > 0) {
-        var count = parseInt(paramArray[0][1], 10);
-        if (isNaN(count)) {
+        var min = parseInt(paramArray[0][1], 10);
+        var max  = parseInt(paramArray[0][2], 10);
+        if (isNaN(min) || isNaN(max)) {
             return;
         }
         var progressFactor;
@@ -31,6 +32,6 @@ module.exports.add = function (query, criteria) {
         }
 
         var raid = config.progress.raids[0];
-        criteria["progress." + raid.name + ".score"] = {$lt: (count + 1) * progressFactor};
+        criteria["progress." + raid.name + ".score"] = {$lte: max * progressFactor,$gte: min  * progressFactor};
     }
 };

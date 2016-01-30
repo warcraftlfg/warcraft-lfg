@@ -1,5 +1,5 @@
 //Variables
-$font-family:  'Open Sans', sans-serif;
+$font-family: 'Open Sans', sans-serif;
 
 $light: 100;
 $regular: 400;
@@ -10,91 +10,93 @@ $grey: #282828;
 $hover: #282828;
 $red: #260303;
 $white: #fff;
+$alliance: #0078FF;
+$horde: #B30000;
 
 * {
-	margin: 0;
+  margin: 0;
 }
 
 html, body {
-	height: 100%;
+  height: 100%;
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a {
+  cursor: pointer;
+}
 
 .wrapper {
-	min-height: 100%;
-	margin: 0 auto -128px; /* the bottom margin is the negative value of the footer's height */
+  min-height: 100%;
+  margin: 0 auto -128px; /* the bottom margin is the negative value of the footer's height */
 }
 
 .footer, .push {
-	height: 128px; /* .push must be the same height as .footer */
+  height: 128px; /* .push must be the same height as .footer */
 }
 
-body{
+body {
   color: $white;
   background-color: $grey;
 }
 
 .form-control {
-	border-radius: 0px;
+  border-radius: 0px;
 }
 
 .btn {
-	border-radius: 0px;
+  border-radius: 0px;
 }
 
 .btn-default {
-	background-color: $black;
-	color: #fff;
+  background-color: $black;
+  color: #fff;
 }
 
 .btn-default:active:focus, .btn-default:active:hover {
-	background-color: $black;
-	color: $white;
+  background-color: $black;
+  color: $white;
 }
 
 .btn-inverse {
-	background-color: $grey;
-	color: #fff;
-	border-color: #ccc;
+  background-color: $grey;
+  color: #fff;
+  border-color: #ccc;
 }
 
 .btn-inverse:active:focus, .btn-inverse:active:hover {
-	background-color: $grey;
-	color: $white;
+  background-color: $grey;
+  color: $white;
 }
-
 
 .btn:hover, .btn:focus {
-	background-color: $red;
-	color: $white;
+  background-color: $red;
+  color: $white;
 }
 
-
 .list-group-item:first-child, .list-group-item:last-child {
-	border-radius: 0px;
+  border-radius: 0px;
 }
 
 .dropdown-menu {
-	border-radius: 0px;
-	background-color: #212121;
-	color: $white;
-	margin: 0px;
-	padding: 0px;
+  border-radius: 0px;
+  background-color: #212121;
+  color: $white;
+  margin: 0px;
+  padding: 0px;
 }
 
-.dropdown-menu>li>a {
-	color: $white;
-	padding: 10px 20px
+.dropdown-menu > li > a {
+  color: $white;
+  padding: 10px 20px
 }
 
-.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
-	background-color: $hover;
-	color: $white;
+.dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+  background-color: $hover;
+  color: $white;
 }
 
 .dropdown-menu .divider {
-	margin: 0px;
+  margin: 0px;
 }
 
 .table {
@@ -105,75 +107,75 @@ body{
   }
 }
 
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-	vertical-align: middle;
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+  vertical-align: middle;
 }
 
 a, a:hover, a:focus {
-	color: inherit;
+  color: inherit;
 }
 
 h3.title {
-	font-size: 30px;
-	margin-bottom: 15px;
-	font-weight: $bold;
+  font-size: 30px;
+  margin-bottom: 15px;
+  font-weight: $bold;
 }
 
 h4.subtitle {
-	font-size: 25px;
-	margin-bottom: 15px;
+  font-size: 25px;
+  margin-bottom: 15px;
 }
 
 .content .content {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .panel {
-	border-radius: 0px;
-	border: none;
+  border-radius: 0px;
+  border: none;
 }
 
-.panel-default>.panel-heading {
-	border-radius: 0px;
-	background-color: $black;
-	color: white;
+.panel-default > .panel-heading {
+  border-radius: 0px;
+  background-color: $black;
+  color: white;
 }
 
 .panel-default .panel-body {
-	background-color: $black;
+  background-color: $black;
 }
 
 pre {
-	background-color: $grey;
-	border-radius: 0px;
-	border: none;
-	word-break: initial;
-	word-wrap: normal;
-	white-space: pre-line;
-	color: white;
+  background-color: $grey;
+  border-radius: 0px;
+  border: none;
+  word-break: initial;
+  word-wrap: normal;
+  white-space: pre-line;
+  color: white;
 }
 
 a i.fa:hover, a.href-icon {
-	color: #ccc;
-	text-decoration: none;
+  color: #ccc;
+  text-decoration: none;
 }
 
 a.fa-icon {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 fieldset > legend {
-	color: white;
+  color: white;
 }
 
 tags-input {
-	color: #555;
+  color: #555;
 
-	.tags .tag-item {
-		color: #555;
-		background: #ddd;
-		border-color: #aaa;
-	}
+  .tags .tag-item {
+    color: #555;
+    background: #ddd;
+    border-color: #aaa;
+  }
 }
 
 @import "../modules/all";
