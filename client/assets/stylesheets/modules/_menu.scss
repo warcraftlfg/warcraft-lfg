@@ -13,6 +13,14 @@
       background: url('../images/menu/character.png') no-repeat center center;
       display: block;
     }
+    .calendar {
+      background: url('../images/menu/calendar.png') no-repeat center center;
+      display: block;
+    }
+    .params {
+      background: url('../images/menu/params.png') no-repeat center center;
+      display: block;
+    }
 
     .checkbox-inline + .checkbox-inline {
       margin-left: 5px;
@@ -77,6 +85,119 @@
         .melee_dps {
           background: url('../images/menu/melee.png') no-repeat top center;
         }
+      }
+    }
+
+    .class-filter {
+      .checkbox-inline {
+        padding-left: 0px;
+        margin-left: 5px;
+        text-align: center;
+        height: 25px;
+        width: 25px;
+        input {
+          display: none;
+        }
+        label {
+          cursor: pointer;
+          width: 100%;
+          height: 100%;
+        }
+        &.selected {
+          background-color: red;
+        }
+        .class-1 {
+          background: url('../images/menu/class-1.png') no-repeat top center;
+        }
+        .class-2 {
+          background: url('../images/menu/class-2.png') no-repeat top center;
+        }
+        .class-3 {
+          background: url('../images/menu/class-3.png') no-repeat top center;
+        }
+        .class-4 {
+          background: url('../images/menu/class-4.png') no-repeat top center;
+        }
+        .class-5 {
+          background: url('../images/menu/class-5.png') no-repeat top center;
+        }
+        .class-6 {
+          background: url('../images/menu/class-6.png') no-repeat top center;
+        }
+        .class-7 {
+          background: url('../images/menu/class-7.png') no-repeat top center;
+        }
+        .class-8 {
+          background: url('../images/menu/class-8.png') no-repeat top center;
+        }
+        .class-9 {
+          background: url('../images/menu/class-9.png') no-repeat top center;
+        }
+        .class-10 {
+          background: url('../images/menu/class-10.png') no-repeat top center;
+        }
+        .class-11 {
+          background: url('../images/menu/class-11.png') no-repeat top center;
+        }
+      }
+    }
+
+    .faction-filter {
+      .icon-horde-alliance{
+        background: url('../images/menu/hordealliance.png') no-repeat top center;
+        display: inline-block;
+        width:44px;
+        height:47px;
+
+      }
+      .checkbox-inline {
+        margin-left: 5px;
+        margin-bottom: 5px;
+        padding-left: 0px;
+        text-align: center;
+        line-height: 24px;
+        border: 1px solid $white;
+        width: 30px;
+        height: 30px;
+        label {
+          cursor: pointer;
+          font-size: 12px;
+          width: 100%;
+          height: 100%;
+        }
+        input {
+          display: none;
+        }
+
+        &.horde {
+          margin-top:-30px;
+          border-color:red;
+          label{
+            color:red;
+          }
+          &.selected {
+            background-color: red;
+            label {
+              color: $black;
+            }
+          }
+        }
+
+        &.alliance{
+          margin-top:-30px;
+          border-color: blue;
+          label {
+            color:blue;
+          }
+          &.selected {
+            background-color: blue;
+            label {
+              color: $black;
+            }
+          }
+        }
+
+
       }
     }
 

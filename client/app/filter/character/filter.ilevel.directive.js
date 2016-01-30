@@ -13,13 +13,15 @@ function wlfgFilterIlevel($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.ilevel = {active:false,min:575,max:750};
+        var min = 575;
+        var max = 750;
+        $scope.ilevel = {min:min,max:max};
 
         if ($stateParams.ilevel) {
             var paramArray = $stateParams.ilevel.split(".");
 
             if(paramArray.length == 2 ) {
-                $scope.ilevel = {active: true, min: paramArray[0], max: paramArray[1]};
+                $scope.ilevel = {min: paramArray[0], max: paramArray[1]};
                 $scope.filters.ilevel = $stateParams.ilevel;
             }
 
@@ -32,7 +34,7 @@ function wlfgFilterIlevel($stateParams, $location) {
                 return;
             }
 
-            if ($scope.ilevel.active === false) {
+            if ($scope.ilevel.min == min && $scope.ilevel.max == max) {
                 $location.search('ilevel', null);
                 $scope.filters.ilevel = null;
 
