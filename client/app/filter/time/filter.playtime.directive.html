@@ -1,84 +1,39 @@
-<div ng-repeat="playTime in  playTimes">
-
-    <div class="start">
-        <div class="checkbox m-b-0">
+<div class="playtime-filter">
+    <div class="col-md-3" ng-repeat="playTime in  playTimes">
+        <div class="checkbox-inline" ng-class="{'selected':playTime.selected}"
+             uib-tooltip="{{playTime.id|uppercase|translate}}">
             <label>
-                <input ng-model="playTime.selected" type="checkbox">  {{playTime.name}}
+                <input ng-model="playTime.selected" type="checkbox"> {{playTime.name|translate}}
             </label>
         </div>
-        <div ng-show="playTime.selected" class="row">
-            <div class="col-md-6">
-                from:
-            </div>
-            <div class="col-md-6">
-                to:
-            </div>
-        </div>
-        <div ng-show="playTime.selected" class="row">
-            <div class="col-md-6">
-                <div class="css3-metro-dropdown">
-                    <select wlfg-convert-to-number ng-model="playTime.start" class="form-control">
-                        <option value="0">00h</option>
-                        <option value="1">01h</option>
-                        <option value="2">02h</option>
-                        <option value="3">03h</option>
-                        <option value="4">04h</option>
-                        <option value="5">05h</option>
-                        <option value="6">06h</option>
-                        <option value="7">07h</option>
-                        <option value="8">08h</option>
-                        <option value="9">09h</option>
-                        <option value="10">10h</option>
-                        <option value="11">11h</option>
-                        <option value="12">12h</option>
-                        <option value="13">13h</option>
-                        <option value="14">14h</option>
-                        <option value="15">15h</option>
-                        <option value="16">16h</option>
-                        <option value="17">17h</option>
-                        <option value="18">18h</option>
-                        <option value="19">19h</option>
-                        <option value="20">20h</option>
-                        <option value="21">21h</option>
-                        <option value="22">22h</option>
-                        <option value="23">23h</option>
-                    </select>
-                </div>
-            </div>
-            <div>
-
-            </div>
-            <div class="col-md-6">
-                <div class="css3-metro-dropdown">
-                    <select wlfg-convert-to-number ng-model="playTime.end" class="form-control">
-                        <option value="0">00h</option>
-                        <option value="1">01h</option>
-                        <option value="2">02h</option>
-                        <option value="3">03h</option>
-                        <option value="4">04h</option>
-                        <option value="5">05h</option>
-                        <option value="6">06h</option>
-                        <option value="7">07h</option>
-                        <option value="8">08h</option>
-                        <option value="9">09h</option>
-                        <option value="10">10h</option>
-                        <option value="11">11h</option>
-                        <option value="12">12h</option>
-                        <option value="13">13h</option>
-                        <option value="14">14h</option>
-                        <option value="15">15h</option>
-                        <option value="16">16h</option>
-                        <option value="17">17h</option>
-                        <option value="18">18h</option>
-                        <option value="19">19h</option>
-                        <option value="20">20h</option>
-                        <option value="21">21h</option>
-                        <option value="22">22h</option>
-                        <option value="23">23h</option>
-                    </select>
-                </div>
-            </div>
-
+        <i class="clock"></i>
+        <div class="css3-metro-dropdown">
+            <select wlfg-convert-to-number ng-model="playTime.start" class="form-control">
+                <option value="0">00h</option>
+                <option value="1">01h</option>
+                <option value="2">02h</option>
+                <option value="3">03h</option>
+                <option value="4">04h</option>
+                <option value="5">05h</option>
+                <option value="6">06h</option>
+                <option value="7">07h</option>
+                <option value="8">08h</option>
+                <option value="9">09h</option>
+                <option value="10">10h</option>
+                <option value="11">11h</option>
+                <option value="12">12h</option>
+                <option value="13">13h</option>
+                <option value="14">14h</option>
+                <option value="15">15h</option>
+                <option value="16">16h</option>
+                <option value="17">17h</option>
+                <option value="18">18h</option>
+                <option value="19">19h</option>
+                <option value="20">20h</option>
+                <option value="21">21h</option>
+                <option value="22">22h</option>
+                <option value="23">23h</option>
+            </select>
         </div>
     </div>
 </div>

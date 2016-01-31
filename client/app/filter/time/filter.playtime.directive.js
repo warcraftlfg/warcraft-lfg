@@ -14,24 +14,25 @@ function wlfgFilterPlayTime($translate, $stateParams, $location) {
 
     function link($scope, element, attrs) {
         $scope.playTimes = [
-            {id:'monday', name: $translate.instant("MONDAY"), selected:false,start:0,end:0},
-            {id:'tuesday', name: $translate.instant("TUESDAY"), selected:false,start:0,end:0},
-            {id:'wednesday', name: $translate.instant("WEDNESDAY"), selected:false,start:0,end:0},
-            {id:'thursday', name: $translate.instant("THURSDAY"), selected:false,start:0,end:0},
-            {id:'friday', name: $translate.instant("FRIDAY"), selected:false,start:0,end:0},
-            {id:'saturday', name: $translate.instant("SATURDAY"), selected:false,start:0,end:0},
-            {id:'sunday', name: $translate.instant("SUNDAY"), selected:false,start:0,end:0}
+            {id: 'monday', name: "Mo", selected: false, start: 0, end: 0},
+            {id: 'tuesday', name: "Tu", selected: false, start: 0, end: 0},
+            {id: 'wednesday', name: "We", selected: false, start: 0, end: 0},
+            {id: 'thursday', name: "Th", selected: false, start: 0, end: 0},
+            {id: 'friday', name: "Fr", selected: false, start: 0, end: 0},
+            {id: 'saturday', name: "Sa", selected: false, start: 0, end: 0},
+            {id: 'sunday', name: "Su", selected: false, start: 0, end: 0}
         ];
 
 
         $scope.filters.day = [];
 
-        if($stateParams.day){
+        if ($stateParams.day) {
             var days = $stateParams.day;
-            if(!angular.isArray(days))
+            if (!angular.isArray(days)) {
                 days = [days];
-            angular.forEach($scope.days,function(day){
-                if(days.indexOf(day.id)!=-1) {
+            }
+            angular.forEach($scope.days, function (day) {
+                if (days.indexOf(day.id) != -1) {
                     day.selected = true;
                     $scope.filters.day.push(day.id);
                 }
@@ -40,13 +41,13 @@ function wlfgFilterPlayTime($translate, $stateParams, $location) {
 
         $scope.filters.states.days = true;
 
-        $scope.$watch('daysOut', function() {
+        $scope.$watch('daysOut', function () {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var days = [];
-            angular.forEach($scope.daysOut,function(day){
+            angular.forEach($scope.daysOut, function (day) {
                 days.push(day.id);
             });
 
@@ -59,7 +60,7 @@ function wlfgFilterPlayTime($translate, $stateParams, $location) {
             }
 
             $scope.$parent.loading = true;
-        },true);
+        }, true);
 
     }
 }
