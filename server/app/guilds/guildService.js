@@ -1,5 +1,6 @@
 "use strict";
 
+//Load dependencies
 var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
@@ -17,20 +18,20 @@ var userService = process.require("users/userService.js");
  * @param id
  * @param callback
  */
-module.exports.sanitizeAndSetId = function(region,realm,name,id,callback){
+module.exports.sanitizeAndSetId = function (region, realm, name, id, callback) {
     async.waterfall([
-        function(callback){
-            bnetAPI.getGuild(region,realm,name,[],function(error,guild){
-                callback(error,guild);
+        function (callback) {
+            bnetAPI.getGuild(region, realm, name, [], function (error, guild) {
+                callback(error, guild);
             });
         },
-        function(guild,callback){
-            guildModel.setId(region,guild.realm,guild.name,id,function(error){
-                callback(error,guild);
+        function (guild, callback) {
+            guildModel.setId(region, guild.realm, guild.name, id, function (error) {
+                callback(error, guild);
             });
         }
-    ],function(error,guild){
-        callback(error,guild);
+    ], function (error, guild) {
+        callback(error, guild);
     });
 };
 
@@ -43,18 +44,18 @@ module.exports.sanitizeAndSetId = function(region,realm,name,id,callback){
  * @param priority
  * @param callback
  */
-module.exports.setMembersToUpdate = function(region,realm,name,members,priority,callback){
+module.exports.setMembersToUpdate = function (region, realm, name, members, priority, callback) {
     var logger = applicationStorage.logger;
-    async.each(members,function(member,callback){
-        if(member.character.level >= 100 || priority == 0) {
-            updateModel.insert("cu",region, member.character.realm, member.character.name, priority <= 5 ? priority : 3, function (error) {
-                logger.verbose("Insert character to update %s-%s-%s with priority",region,member.character.realm,member.character.name, priority <= 5 ? priority : 3);
+    async.each(members, function (member, callback) {
+        if (member.character.level >= 100 || priority == 0) {
+            updateModel.insert("cu", region, member.character.realm, member.character.name, priority <= 5 ? priority : 3, function (error) {
+                logger.verbose("Insert character to update %s-%s-%s with priority", region, member.character.realm, member.character.name, priority <= 5 ? priority : 3);
                 callback(error);
             });
         } else {
             callback();
         }
-    },function(error){
+    }, function (error) {
         callback(error);
     });
 };
@@ -66,25 +67,25 @@ module.exports.setMembersToUpdate = function(region,realm,name,members,priority,
  * @param name
  * @param callback
  */
-module.exports.updateWowProgressKill = function(region,realm,name,callback){
+module.exports.updateWowProgressKill = function (region, realm, name, callback) {
     var logger = applicationStorage.logger;
     async.waterfall([
-        function(callback){
-            wowProgressAPI.getGuildProgress(region,realm, name ,function(error, wowProgressRanking) {
-                callback(error,wowProgressRanking);
+        function (callback) {
+            wowProgressAPI.getGuildProgress(region, realm, name, function (error, wowProgressRanking) {
+                callback(error, wowProgressRanking);
             });
         },
-        function(wowProgressRanking,callback){
-            async.each(wowProgressRanking,function(progress,callback){
-                guildKillModel.upsert(progress.region, progress.realm, progress.name, "Hellfire Citadel", progress.boss,progress.bossWeight, progress.difficulty, progress.timestamp, progress.source, null, function(error) {
-                    logger.verbose("Upsert wowprogress kill %s-%s for guild %s-%s-%s",progress.boss,progress.difficulty,region,realm,name);
+        function (wowProgressRanking, callback) {
+            async.each(wowProgressRanking, function (progress, callback) {
+                guildKillModel.upsert(progress.region, progress.realm, progress.name, "Hellfire Citadel", progress.boss, progress.bossWeight, progress.difficulty, progress.timestamp, progress.source, null, function (error) {
+                    logger.verbose("Upsert wowprogress kill %s-%s for guild %s-%s-%s", progress.boss, progress.difficulty, region, realm, name);
                     callback(error);
                 });
-            },function(error){
+            }, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 
@@ -97,21 +98,21 @@ module.exports.updateWowProgressKill = function(region,realm,name,callback){
  * @param name
  * @param callback
  */
-module.exports.updateWowProgressRanking = function(region,realm,name,callback){
+module.exports.updateWowProgressRanking = function (region, realm, name, callback) {
     var logger = applicationStorage.logger;
     async.waterfall([
-        function(callback){
-            wowProgressAPI.getGuildRank(region,realm,name ,function(error, wowProgress) {
-                callback(error,wowProgress);
+        function (callback) {
+            wowProgressAPI.getGuildRank(region, realm, name, function (error, wowProgress) {
+                callback(error, wowProgress);
             });
         },
-        function(wowProgress,callback) {
-            guildModel.upsertWowProgress(region,realm,name,wowProgress,function(error){
-                logger.verbose("Upsert wowprogress ranking for guild %s-%s-%s",region,realm,name);
+        function (wowProgress, callback) {
+            guildModel.upsertWowProgress(region, realm, name, wowProgress, function (error) {
+                logger.verbose("Upsert wowprogress ranking for guild %s-%s-%s", region, realm, name);
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -122,11 +123,11 @@ module.exports.updateWowProgressRanking = function(region,realm,name,callback){
  * @param wowProgressGuildAd
  * @param callback
  */
-module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
+module.exports.insertWoWProgressGuildAd = function (wowProgressGuildAd, callback) {
     var logger = applicationStorage.logger;
     async.waterfall([
         function (callback) {
-            bnetAPI.getGuild(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, [],function (error, guild) {
+            bnetAPI.getGuild(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, [], function (error, guild) {
                 callback(error, guild);
             });
         },
@@ -134,12 +135,16 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
             //Force name with bnet response (case or russian realm name)
             wowProgressGuildAd.realm = guild.realm;
             wowProgressGuildAd.name = guild.name;
-            guildModel.findOne({region:wowProgressGuildAd.region, realm:wowProgressGuildAd.realm, name:wowProgressGuildAd.name},{ad:1}, function (error, guild) {
+            guildModel.findOne({
+                region: wowProgressGuildAd.region,
+                realm: wowProgressGuildAd.realm,
+                name: wowProgressGuildAd.name
+            }, {ad: 1}, function (error, guild) {
                 callback(error, guild);
             });
         },
         function (guild, callback) {
-            if (!guild || (guild && !guild.ad) ||(guild && guild.ad && !guild.ad.updated))
+            if (!guild || (guild && !guild.ad) || (guild && guild.ad && !guild.ad.updated)) {
                 async.parallel([
                     function (callback) {
                         guildModel.upsertAd(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, wowProgressGuildAd, function (error) {
@@ -147,16 +152,17 @@ module.exports.insertWoWProgressGuildAd = function(wowProgressGuildAd,callback){
                         });
                     },
                     function (callback) {
-                        updateModel.insert('gu',wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 10, function (error) {
-                            if (!error)
-                                logger.info("Insert guild to update %s-%s-%s with priority 10",wowProgressGuildAd.region,wowProgressGuildAd.realm,wowProgressGuildAd.name);
+                        updateModel.insert('gu', wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, 10, function (error) {
+                            if (!error) {
+                                logger.info("Insert guild to update %s-%s-%s with priority 10", wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name);
+                            }
                             callback(error);
                         });
                     }
                 ], function (error) {
                     callback(error)
                 });
-            else{
+            } else {
                 callback();
             }
         }

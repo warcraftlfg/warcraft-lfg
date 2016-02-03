@@ -1,0 +1,384 @@
+.realmzone-filter {
+  .checkbox-inline {
+    opacity:0.85;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    padding-left: 0px;
+    text-align: center;
+    line-height: 24px;
+    border: 1px solid $white;
+    width: 30px;
+    height: 30px;
+    label {
+      cursor: pointer;
+      font-size: 12px;
+      width: 100%;
+      height: 100%;
+    }
+    input {
+      display: none;
+    }
+    &.selected {
+      background-color: $white;
+      label {
+        color: $black;
+      }
+    }
+    &:hover{
+      opacity:1;
+    }
+  }
+
+}
+
+.role-filter {
+  .checkbox-inline {
+    opacity:0.5;
+    padding-left: 0px;
+    margin-left: 5px;
+    text-align: center;
+    height: 25px;
+    width: 25px;
+    input {
+      display: none;
+    }
+    label {
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    &:hover{
+      opacity:0.85;
+    }
+    &.selected {
+      opacity:0.85;
+      &:hover{
+        opacity:1;
+      }
+    }
+    .tank {
+      background: url('../images/menu/tank.png') no-repeat top center;
+    }
+    .heal {
+      background: url('../images/menu/heal.png') no-repeat top center;
+    }
+    .ranged_dps {
+      background: url('../images/menu/ranged.png') no-repeat top center;
+    }
+    .melee_dps {
+      background: url('../images/menu/melee.png') no-repeat top center;
+    }
+
+  }
+}
+
+.class-filter {
+  .checkbox-inline {
+    opacity:0.5;
+    padding-left: 0px;
+    margin-left: 5px;
+    text-align: center;
+    height: 25px;
+    width: 25px;
+    input {
+      display: none;
+    }
+    label {
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    &:hover{
+      opacity:0.85;
+    }
+    &.selected {
+      opacity:0.85;
+      &:hover{
+        opacity:1;
+      }
+    }
+    .class-1 {
+      background: url('../images/menu/class-1.png') no-repeat top center;
+    }
+    .class-2 {
+      background: url('../images/menu/class-2.png') no-repeat top center;
+    }
+    .class-3 {
+      background: url('../images/menu/class-3.png') no-repeat top center;
+    }
+    .class-4 {
+      background: url('../images/menu/class-4.png') no-repeat top center;
+    }
+    .class-5 {
+      background: url('../images/menu/class-5.png') no-repeat top center;
+    }
+    .class-6 {
+      background: url('../images/menu/class-6.png') no-repeat top center;
+    }
+    .class-7 {
+      background: url('../images/menu/class-7.png') no-repeat top center;
+    }
+    .class-8 {
+      background: url('../images/menu/class-8.png') no-repeat top center;
+    }
+    .class-9 {
+      background: url('../images/menu/class-9.png') no-repeat top center;
+    }
+    .class-10 {
+      background: url('../images/menu/class-10.png') no-repeat top center;
+    }
+    .class-11 {
+      background: url('../images/menu/class-11.png') no-repeat top center;
+    }
+  }
+}
+
+.faction-filter {
+  .icon-horde-alliance {
+    background: url('../images/menu/hordealliance.png') no-repeat top center;
+    display: inline-block;
+    width: 44px;
+    height: 47px;
+
+  }
+  .checkbox-inline {
+    opacity:0.85;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    padding-left: 0px;
+    text-align: center;
+    line-height: 24px;
+    border: 1px solid $white;
+    width: 30px;
+    height: 30px;
+    label {
+      cursor: pointer;
+      font-size: 12px;
+      width: 100%;
+      height: 100%;
+    }
+    input {
+      display: none;
+    }
+
+    &.horde {
+      margin-top: -30px;
+      border-color: $horde;
+      label {
+        color: $horde;
+      }
+      &:hover{
+        opacity:1;
+        background-color: $horde;
+        label {
+          color: $black;
+        }
+      }
+      &.selected {
+        opacity:0.85;
+        background-color: $horde;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+          background-color: $horde;
+          label {
+            color: $black;
+          }
+        }
+
+      }
+    }
+    &.alliance {
+      margin-top: -30px;
+      border-color: $alliance;
+      label {
+        color: $alliance;
+      }
+      &:hover{
+        opacity:1;
+        background-color: $alliance;
+        label {
+          color: $black;
+        }
+      }
+
+      &.selected {
+        opacity:0.85;
+        background-color: $alliance;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+          background-color: $alliance;
+          label {
+            color: $black;
+          }
+        }
+
+      }
+    }
+
+  }
+}
+
+.progress-filter {
+
+  .progress-counter{
+    with:100%;
+    text-align:center;
+  }
+  .radio-inline {
+    opacity:0.85;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    padding-left: 0px;
+    text-align: center;
+    line-height: 24px;
+    width: 30px;
+    height: 30px;
+    label {
+      cursor: pointer;
+      font-size: 12px;
+      width: 100%;
+      height: 100%;
+    }
+    input {
+      display: none;
+    }
+
+
+    &.mythic{
+      border: 1px solid #FF8000;
+      label{
+        color:#FF8000
+      }
+
+      &:hover{
+        opacity:1;
+        background-color: #FF8000;
+        label {
+          color: $black;
+        }
+      }
+      &.selected {
+        background-color: #FF8000;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+        }
+      }
+    }
+    &.heroic{
+      border: 1px solid #A335EE;
+      label{
+        color:#A335EE
+      }
+      &:hover{
+        opacity:1;
+        background-color: #FF8000;
+        label {
+          color: $black;
+        }
+      }
+      &.selected {
+        background-color: #A335EE;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+        }
+      }
+    }
+    &.normal{
+      border: 1px solid #1EFF00;
+      label{
+        color:#1EFF00
+      }
+      &:hover{
+        opacity:1;
+        background-color: #FF8000;
+        label {
+          color: $black;
+        }
+      }
+      &.selected {
+        background-color: #1EFF00;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+        }
+      }
+    }
+
+
+
+  }
+}
+
+.playtime-filter {
+  .checkbox-inline {
+    opacity:0.85;
+    margin-left: 0px;
+    margin-bottom: 5px;
+    padding-left: 0px;
+    text-align: center;
+    line-height: 24px;
+    border: 1px solid $white;
+    width: 30px;
+    height: 30px;
+    label {
+      cursor: pointer;
+      font-size: 12px;
+      width: 100%;
+      height: 100%;
+    }
+    input {
+      display: none;
+    }
+    &:hover{
+      opacity:1;
+      background-color: $white;
+      label {
+        color: $black;
+      }
+    }
+    &.selected {
+
+      background-color: $white;
+      label {
+        color: $black;
+      }
+      &:hover{
+        opacity:1;
+      }
+    }
+
+  }
+  select.form-control{
+    font-size:12px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    height:30px;
+    line-height:12px;
+  }
+  .clock{
+    background: url('../images/menu/clock.png') no-repeat center center;
+    width:16px;
+    height:19px;
+    display: inline-block;
+  }
+
+  .css3-metro-dropdown::after{
+    line-height:28px;
+    width:28px;
+  }
+}

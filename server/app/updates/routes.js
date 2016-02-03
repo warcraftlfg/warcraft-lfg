@@ -6,8 +6,7 @@ var updateController = process.require("updates/updateController.js");
 var auth = process.require("users/utilities/middleware/auth.js");
 
 //Define routes
-router.post('/updates',updateController.postUpdate);
+router.post('/updates', updateController.postUpdate);
 
 
 module.exports = router;
-

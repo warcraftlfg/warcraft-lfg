@@ -1,5 +1,6 @@
 "use strict";
 
+//Load dependencies
 var async = require('async');
 var applicationStorage = process.require("core/applicationStorage.js");
 var validator = process.require("core/utilities/validators/validator.js");
@@ -12,14 +13,14 @@ var validator = process.require("core/utilities/validators/validator.js");
  * @param limit
  * @param callback
  */
-module.exports.find = function(criteria,projection,sort,limit,callback){
+module.exports.find = function (criteria, projection, sort, limit, callback) {
     var collection = applicationStorage.mongo.collection("realms");
-    if(limit === undefined && callback == undefined) {
+    if (limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else if(callback == undefined) {
+    } else if (callback == undefined) {
         callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
             callback(error, characters);
@@ -36,9 +37,9 @@ module.exports.find = function(criteria,projection,sort,limit,callback){
  * @param criteria
  * @param projection
  */
-module.exports.findOne = function(criteria,projection,callback){
+module.exports.findOne = function (criteria, projection, callback) {
     var collection = applicationStorage.mongo.collection("realms");
-    collection.findOne(criteria, projection,function (error, guild) {
+    collection.findOne(criteria, projection, function (error, guild) {
         callback(error, guild);
     });
 };
@@ -51,35 +52,35 @@ module.exports.findOne = function(criteria,projection,callback){
  * @param ad
  * @param callback
  */
-module.exports.upsert = function(region,name,connected_realms,bnet,callback){
+module.exports.upsert = function (region, name, connected_realms, bnet, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,name:name},function(error){
+            validator.validate({region: region, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
-            var realm ={};
+        function (callback) {
+            var realm = {};
             realm.region = region;
             realm.name = name;
             realm.connected_realms = connected_realms;
             realm.updated = new Date().getTime();
-            bnet.updated=new Date().getTime();
+            bnet.updated = new Date().getTime();
             realm.bnet = bnet;
 
             //Upsert
             var collection = applicationStorage.mongo.collection("realms");
-            collection.update({region:region,realm:realm,name:name}, realm , {upsert:true}, function(error){
+            collection.updateOne({region: region, name: name}, realm, {upsert: true}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };

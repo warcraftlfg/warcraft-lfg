@@ -58,7 +58,11 @@
                         <a href="https://help.github.com/articles/markdown-basics/" class="f-right m-t-5 txt-underline" target="_blank">{{"HELP_FORMATTING"|translate}}</a>
                     </div>
                     <div class="form-group">
-                       <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
+                        <label>{{"GUILD_CREATE_TAGS"|translate}}</label>
+                        <tags-input ng-model="guild.ad.tags" min-length="2" placeholder="{{'GUILD_CREATE_TAGS_PLACEHOLDER'|translate}}" on-tag-added="tagAdded($tag)"></tags-input>
+                    </div>
+                    <div class="form-group">
+                        <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
                         <div class="row">
                             <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3 col-sm-4 col-xs-6">
                                 <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
@@ -80,6 +84,15 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
+                        <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
+                            <select ng-model="guild.ad.timezone" class="form-control">
+                                <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
                         <label>{{"GUILD_CREATE_PLAY_TIME"|translate}}</label>
                         <table id="raid-schedule" class="table table-condensed">
                             <tr ng-class="{'played':obj.play===true}" ng-repeat="(day,obj) in guild.ad.play_time">
@@ -182,14 +195,8 @@
                             </tr>
                         </table>
                     </div>
-                    <!--div class="form-group">
-                        <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
-                        <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
-                            <select ng-model="guild.ad.timezone" class="form-control">
-                                <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
-                            </select>
-                        </div>
-                    </div-->
+
+
                     <button type="submit" class="btn btn-default" ng-click="saveAd()">{{"SAVE"|translate}}</button>
                 </form>
             </fieldset>

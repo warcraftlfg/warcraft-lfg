@@ -1,0 +1,70 @@
+.menu {
+  margin: -20px auto 20px auto;
+  max-width: 1240px;
+  .menu-content {
+    padding: 10px 20px;
+    background-color: $black;
+
+    .row {
+      padding: 15px 0 15px 0;
+
+    }
+    .earth {
+      background: url('../images/menu/earth.png') no-repeat center center;
+      display: block;
+    }
+    .character {
+      background: url('../images/menu/character.png') no-repeat center center;
+      display: block;
+    }
+    .calendar {
+      background: url('../images/menu/calendar.png') no-repeat center center;
+      display: block;
+    }
+    .params {
+      background: url('../images/menu/params.png') no-repeat center center;
+      display: block;
+    }
+
+    .checkbox-inline + .checkbox-inline {
+      margin-left: 5px;
+    }
+
+
+
+    &.open {
+      .row {
+        background: url('../images/menu/separator.png') no-repeat bottom center;
+        padding: 15px 0 15px 0;
+      }
+      .menu-content-retractable {
+        .row:last-child {
+          background: none;
+          padding-bottom: 0px;
+        }
+      }
+    }
+    .menu-content-nonretractable {
+
+    }
+    .menu-content-retractable {
+    }
+  }
+
+  .menu-footer {
+    padding: 0 10px 10px 10px;
+
+    .menu-open {
+      cursor: pointer;
+      background: url('../images/menu/bottom.png') no-repeat top center;
+      background-size: contain;
+      height: 12px;
+    }
+    .sort {
+      text-align: right;
+    }
+  }
+}
+
+
+

@@ -5,13 +5,13 @@
  * @param query
  * @returns {number}
  */
-module.exports.get = function(query){
+module.exports.get = function (query) {
 
     var number = 5;
-    if(query.number) {
-        number = parseInt(query.number,10);
+    if (query.number) {
+        number = parseInt(query.number, 10);
 
-        if(isNaN(number)){
+        if (isNaN(number)) {
             return;
         }
 

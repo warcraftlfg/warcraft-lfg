@@ -1,5 +1,6 @@
 "use strict";
 
+//Load dependencies
 var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var guildAdSchema = process.require('config/db/guildAdSchema.json');
@@ -16,19 +17,19 @@ var Confine = require("confine");
  * @param hint
  * @param callback
  */
-module.exports.find = function(criteria,projection,sort,limit,hint,callback){
+module.exports.find = function (criteria, projection, sort, limit, hint, callback) {
     var collection = applicationStorage.mongo.collection("guilds");
-    if(hint === undefined && limit === undefined && callback == undefined) {
+    if (hint === undefined && limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, guilds) {
             callback(error, guilds);
         });
-    } else if(hint === undefined && callback == undefined) {
+    } else if (hint === undefined && callback == undefined) {
         callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, guilds) {
             callback(error, guilds);
         });
-    } else if(callback == undefined) {
+    } else if (callback == undefined) {
         callback = hint;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, guilds) {
             callback(error, guilds);
@@ -44,10 +45,19 @@ module.exports.find = function(criteria,projection,sort,limit,hint,callback){
  * Get one guild
  * @param criteria
  * @param projection
+ * @param callback
  */
-module.exports.findOne = function(criteria,projection,callback){
+module.exports.findOne = function (criteria, projection, callback) {
     var collection = applicationStorage.mongo.collection("guilds");
-    collection.findOne(criteria, projection,function (error, guild) {
+    collection.findOne(criteria, projection, function (error, guild) {
+
+        //Sanitize before return
+        if (guild) {
+            var confine = new Confine();
+            guild.ad = confine.normalize(guild.ad, guildAdSchema);
+            guild.perms = confine.normalize(guild.perms, guildPermsSchema);
+        }
+        console.log(guild.ad.timezone);
         callback(error, guild);
     });
 };
@@ -57,9 +67,9 @@ module.exports.findOne = function(criteria,projection,callback){
  * @param criteria
  * @param callback
  */
-module.exports.count = function(criteria,callback){
+module.exports.count = function (criteria, callback) {
     var collection = applicationStorage.mongo.collection("guilds");
-    collection.count(criteria,function(error,count){
+    collection.count(criteria, function (error, count) {
         callback(error, count);
     });
 };
@@ -72,23 +82,23 @@ module.exports.count = function(criteria,callback){
  * @param ad
  * @param callback
  */
-module.exports.upsertAd = function(region,realm,name,ad,callback){
+module.exports.upsertAd = function (region, realm, name, ad, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             //Sanitize ad object
             var confine = new Confine();
-            ad = confine.normalize(ad,guildAdSchema);
+            ad = confine.normalize(ad, guildAdSchema);
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var date = new Date().getTime();
             var guild = {};
             guild.region = region;
@@ -99,11 +109,15 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
             guild.ad = ad;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: guild}, {upsert: true}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -116,23 +130,23 @@ module.exports.upsertAd = function(region,realm,name,ad,callback){
  * @param perms
  * @param callback
  */
-module.exports.upsertPerms = function(region,realm,name,perms,callback){
+module.exports.upsertPerms = function (region, realm, name, perms, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             //Sanitize ad object
             var confine = new Confine();
-            perms = confine.normalize(perms,guildPermsSchema);
+            perms = confine.normalize(perms, guildPermsSchema);
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var date = new Date().getTime();
             var guild = {};
             guild.region = region;
@@ -143,11 +157,15 @@ module.exports.upsertPerms = function(region,realm,name,perms,callback){
             guild.perms = perms;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: guild}, {upsert: true}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -157,23 +175,23 @@ module.exports.upsertPerms = function(region,realm,name,perms,callback){
  * @param region
  * @param realm
  * @param name
- * @param perms
+ * @param bnet
  * @param callback
  */
-module.exports.upsertBnet = function(region,realm,name,bnet,callback){
+module.exports.upsertBnet = function (region, realm, name, bnet, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var date = new Date().getTime();
             var guild = {};
             guild.region = region;
@@ -184,11 +202,15 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
             guild.bnet = bnet;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: guild}, {upsert: true}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -202,20 +224,20 @@ module.exports.upsertBnet = function(region,realm,name,bnet,callback){
  * @param wowProgress
  * @param callback
  */
-module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callback){
+module.exports.upsertWowProgress = function (region, realm, name, wowProgress, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var date = new Date().getTime();
             var guild = {};
             guild.region = region;
@@ -226,11 +248,15 @@ module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callba
             guild.wowProgress = wowProgress;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: guild}, {upsert: true}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -240,23 +266,24 @@ module.exports.upsertWowProgress = function(region,realm,name,wowProgress,callba
  * @param region
  * @param realm
  * @param name
+ * @param raid
  * @param progress
  * @param callback
  */
-module.exports.upsertProgress = function(region,realm,name,raid,progress,callback){
+module.exports.upsertProgress = function (region, realm, name, raid, progress, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             //Upsert
             var date = new Date().getTime();
             var guild = {};
@@ -269,11 +296,15 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
             obj[raid] = progress;
             guild.progress = obj;
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$set:guild}, {upsert:true}, function(error){
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$set: guild}, {upsert: true}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -286,27 +317,27 @@ module.exports.upsertProgress = function(region,realm,name,raid,progress,callbac
  * @param name
  * @param callback
  */
-module.exports.deleteAd = function(region,realm,name,callback){
+module.exports.deleteAd = function (region, realm, name, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name},function(error){
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$unset: {ad:""}}, function(error){
+            collection.updateOne({region: region, realm: realm, name: name}, {$unset: {ad: ""}}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -315,10 +346,13 @@ module.exports.deleteAd = function(region,realm,name,callback){
  * set lfg to false for ads of 3 month old
  * @param callback
  */
-module.exports.disableLfgForOldAds = function(callback){
+module.exports.disableLfgForOldAds = function (callback) {
     var timestamp = new Date().getTime() - (120 * 24 * 3600 * 1000);
     var collection = applicationStorage.mongo.collection("guilds");
-    collection.update({"ad.updated":{$lte:timestamp},"ad.lfg":true},{$set: {"ad.lfg":false}}, function(error){
+    collection.updateMany({
+        "ad.updated": {$lte: timestamp},
+        "ad.lfg": true
+    }, {$set: {"ad.lfg": false}}, function (error) {
         callback(error);
     });
 };
@@ -331,26 +365,30 @@ module.exports.disableLfgForOldAds = function(callback){
  * @param id
  * @param callback
  */
-module.exports.setId = function(region,realm,name,id,callback){
+module.exports.setId = function (region, realm, name, id, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name,id:id},function(error){
+            validator.validate({region: region, realm: realm, name: name, id: id}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region:region,realm:realm,name:name}, {$addToSet:{id:id}}, {upsert:true}, function(error){
+            collection.updateOne({
+                region: region,
+                realm: realm,
+                name: name
+            }, {$addToSet: {id: id}}, {upsert: true}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -363,26 +401,26 @@ module.exports.setId = function(region,realm,name,id,callback){
  * @param id
  * @param callback
  */
-module.exports.removeId = function(region,realm,name,id, callback) {
+module.exports.removeId = function (region, realm, name, id, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name,id:id},function(error){
+            validator.validate({region: region, realm: realm, name: name, id: id}, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             var collection = applicationStorage.mongo.collection("guilds");
-            collection.update({region: region, realm: realm, name: name}, {$pull: {id: id}}, function (error) {
+            collection.updateOne({region: region, realm: realm, name: name}, {$pull: {id: id}}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };

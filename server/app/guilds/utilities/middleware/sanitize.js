@@ -1,5 +1,6 @@
 "use strict";
 
+//Load dependencies
 var bnetAPI = process.require("core/api/bnet.js");
 
 /**
@@ -9,9 +10,9 @@ var bnetAPI = process.require("core/api/bnet.js");
  * @param next
  * @returns {*}
  */
-module.exports.sanitize = function (req, res, next){
-    bnetAPI.getGuild(req.params.region,req.params.realm,req.params.name,[],function(error,guild){
-        if(error){
+module.exports.sanitize = function (req, res, next) {
+    bnetAPI.getGuild(req.params.region, req.params.realm, req.params.name, [], function (error, guild) {
+        if (error) {
             res.status(500).send(error.message);
         } else {
             if (guild) {

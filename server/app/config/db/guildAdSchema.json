@@ -17,6 +17,20 @@
     "description": {
       "type": "string"
     },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "website": {
       "type": "string"
     },
@@ -143,20 +157,25 @@
         "min": {
           "type": "integer",
           "default": 1,
-          "min":1,
-          "max":7
+          "min": 1,
+          "max": 7
         },
         "max": {
           "type": "integer",
           "default": 7,
-          "min":1,
-          "max":7
+          "min": 1,
+          "max": 7
         }
       }
     },
+    "timezone": {
+      "type": "string",
+      "default": "Europe/London",
+      "enum": ["America/Chicago","America/Los_Angeles","America/New_York","America/Denver","America/Sao_Paulo","Australia/Melbourne","Asia/Seoul","Asia/Taipei","Europe/London","Europe/Paris","Europe/Berlin","Europe/Madrid","Europe/Lisbon","Europe/Moscow"]
+    },
     "play_time": {
       "type": "object",
-      "properties":{
+      "properties": {
         "monday": {
           "type": "object",
           "properties": {
@@ -165,30 +184,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -200,30 +201,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -235,30 +218,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -270,30 +235,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -305,30 +252,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -340,30 +269,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         },
@@ -375,30 +286,12 @@
               "default": false
             },
             "start": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 0
             },
             "end": {
-              "type": "object",
-              "properties": {
-                "hour": {
-                  "type": "integer",
-                  "default": 0
-                },
-                "min": {
-                  "type": "integer",
-                  "default": 0
-                }
-              }
+              "type": "integer",
+              "default": 3000
             }
           }
         }

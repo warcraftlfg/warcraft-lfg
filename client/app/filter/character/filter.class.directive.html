@@ -1,11 +1,10 @@
-<div isteven-multi-select
-     input-model="classes"
-     output-model="classesOut"
-     button-label="icon name"
-     item-label="icon name"
-     output-properties="id selected"
-     tick-property="selected"
-     translation="localClasses"
-     on-reset="resetClasses()"
-        >
+<div class="class-filter">
+        <div class="fw-700 m-l-10 m-b-5">Class</div>
+        <div>
+                <div ng-repeat="clas in classes" class="checkbox-inline" ng-class="{'selected':clas.selected}" uib-tooltip="{{'CLASS_'+clas.id|translate}}">
+                        <label class="class-{{clas.id}}">
+                                <input ng-model="clas.selected" type="checkbox">
+                        </label>
+                </div>
+        </div>
 </div>

@@ -37,14 +37,14 @@ module.exports.upsert = function(region,realm,name,raid,boss,bossWeight,difficul
             var collection = applicationStorage.mongo.collection(raid);
             async.series([
                 function(callback){
-                    collection.update({region:region,realm:realm,name:name,boss:boss,bossWeight:bossWeight,difficulty:difficulty,timestamp:timestamp,source:source},{$set:guildKill},
+                    collection.updateOne({region:region,realm:realm,name:name,boss:boss,bossWeight:bossWeight,difficulty:difficulty,timestamp:timestamp,source:source},{$set:guildKill},
                         {upsert:true}, function(error){
                             callback(error);
                         });
                 },
                 function(callback){
                     if(progress) {
-                        collection.update({region: region,realm: realm,name: name,boss: boss,difficulty: difficulty,timestamp: timestamp,source: source,"roster.name": {$ne: progress.name}}, {$push: {roster: progress}}, function (error) {
+                        collection.updateOne({region: region,realm: realm,name: name,boss: boss,difficulty: difficulty,timestamp: timestamp,source: source,"roster.name": {$ne: progress.name}}, {$push: {roster: progress}}, function (error) {
                             callback(error);
                         });
                     }

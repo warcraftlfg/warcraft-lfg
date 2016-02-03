@@ -1,12 +1,98 @@
-<div isteven-multi-select
-     input-model="realmZones"
-     button-label="name"
-     output-model="realmZonesOut"
-     item-label="name"
-     output-properties="region locale zone cities"
-     tick-property="selected"
-     group-property="msGroup"
-     on-reset="resetRealmZones()"
-     translation="localRealmZones"
->
+<div class="realmzone-filter">
+    <div class="col-md-5">
+        <div class="fw-700 m-l-10 m-b-5">EU</div>
+        <div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.en.selected}" uib-tooltip="{{'ENGLISH'|translate}}">
+                <label>
+                    <input ng-model="realmZones.en.selected" type="checkbox"> En
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.fr.selected}" uib-tooltip="{{'FRENCH'|translate}}">
+                <label>
+                    <input ng-model="realmZones.fr.selected" type="checkbox"> Fr
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.de.selected}" uib-tooltip="{{'GERMAN'|translate}}">
+                <label>
+                    <input ng-model="realmZones.de.selected" type="checkbox"> Ge
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.es.selected}" uib-tooltip="{{'SPANISH'|translate}}">
+                <label>
+                    <input ng-model="realmZones.es.selected" type="checkbox"> Sp
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.ru.selected}" uib-tooltip="{{'RUSSIAN'|translate}}">
+                <label>
+                    <input ng-model="realmZones.ru.selected" type="checkbox"> Ru
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.it.selected}" uib-tooltip="{{'ITALIAN'|translate}}">
+                <label>
+                    <input ng-model="realmZones.it.selected" type="checkbox"> It
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.pt.selected}" uib-tooltip="{{'PORTUGUESE'|translate}}">
+                <label>
+                    <input ng-model="realmZones.pt.selected" type="checkbox"> Pt
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="fw-700 m-l-10 m-b-5">US</div>
+        <div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.pa.selected}" uib-tooltip="{{'USA_PACIFIC'|translate}}">
+                <label>
+                    <input ng-model="realmZones.pa.selected" type="checkbox"> Pa
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.mo.selected}" uib-tooltip="{{'USA_MOUNTAIN'|translate}}">
+                <label>
+                    <input ng-model="realmZones.mo.selected" type="checkbox"> Mo
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.ce.selected}" uib-tooltip="{{'USA_CENTRAL'|translate}}">
+                <label>
+                    <input ng-model="realmZones.ce.selected" type="checkbox"> Ce
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.ea.selected}" uib-tooltip="{{'USA_EASTERN'|translate}}">
+                <label>
+                    <input ng-model="realmZones.ea.selected" type="checkbox"> Ea
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.oc.selected}" uib-tooltip="{{'OCEANIC'|translate}}">
+                <label>
+                    <input ng-model="realmZones.oc.selected" type="checkbox"> Oc
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.la.selected}" uib-tooltip="{{'LATIN_AMERICA'|translate}}">
+                <label>
+                    <input ng-model="realmZones.la.selected" type="checkbox"> LA
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.br.selected}" uib-tooltip="{{'BRAZIL'|translate}}">
+                <label>
+                    <input ng-model="realmZones.br.selected" type="checkbox"> Br
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="fw-700 m-l-5 m-b-5">Asia</div>
+        <div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.tw.selected}" uib-tooltip="{{'TAIWANESE'|translate}}">
+                <label>
+                    <input ng-model="realmZones.tw.selected" type="checkbox"> Tw
+                </label>
+            </div>
+            <div class="checkbox-inline" ng-class="{'selected':realmZones.kr.selected}" uib-tooltip="{{'KOREAN'|translate}}">
+                <label>
+                    <input ng-model="realmZones.kr.selected" type="checkbox"> Kr
+                </label>
+            </div>
+        </div>
+    </div>
 </div>

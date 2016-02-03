@@ -1,7 +1,16 @@
-<span class="css3-metro-dropdown">
-    <select ng-model="factionOut" class="form-control">
-        <option value="">{{"ALL_FACTION"|translate}}</option>
-        <option value="0">{{"ALLIANCE"|translate}}</option>
-        <option value="1">{{"HORDE"|translate}}</option>
-    </select>
-</span>
+<div class="faction-filter">
+    <div class="fw-700 m-l-10 m-b-5">Faction</div>
+    <div class="m-t-n-15 m-l-30">
+        <div class="checkbox-inline horde" ng-class="{'selected':faction.horde.selected}" uib-tooltip="{{'HORDE'|translate}}">
+            <label>
+                <input ng-model="faction.horde.selected" type="checkbox"> H
+            </label>
+        </div>
+        <div class="icon-horde-alliance"></div>
+        <div class="checkbox-inline alliance" ng-class="{'selected':faction.alliance.selected}" uib-tooltip="{{'ALLIANCE'|translate}}">
+            <label>
+                <input ng-model="faction.alliance.selected" type="checkbox"> A
+            </label>
+        </div>
+    </div>
+</div>

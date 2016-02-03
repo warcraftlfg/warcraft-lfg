@@ -13,32 +13,38 @@ var applicationStorage = process.require("core/applicationStorage");
  * @param priority
  * @param callback
  */
-module.exports.insert = function(type,region,realm,name,priority,callback){
+module.exports.insert = function (type, region, realm, name, priority, callback) {
     var config = applicationStorage.config;
     var redis = applicationStorage.redis;
     //Check for required attributes
-    if(type == null)
+    if (type == null) {
         return callback(new Error('Field type is required in updateModel'));
-    if(region == null)
+    }
+    if (region == null) {
         return callback(new Error('Field region is required in updateModel'));
-    if(realm == null)
+    }
+    if (realm == null) {
         return callback(new Error('Field realm is required in updateModel'));
-    if(name == null)
+    }
+    if (name == null) {
         return callback(new Error('Field name is required in updateModel'));
-    if(priority == null)
+    }
+    if (priority == null) {
         return callback(new Error('Field priority is required in updateModel'));
-    if(config.priorities.indexOf(priority)==-1)
+    }
+    if (config.priorities.indexOf(priority) == -1) {
         return callback(new Error('Priority param is not set in config file'));
+    }
 
 
     //Force region to lower case
     region = region.toLowerCase();
 
     //Create object to insert
-    var value = JSON.stringify({region:region,realm:realm,name:name,priority:priority});
+    var value = JSON.stringify({region: region, realm: realm, name: name, priority: priority});
 
     //Create or update auctionUpdate
-    redis.lpush(type+"_"+priority,value,function(error){
+    redis.lpush(type + "_" + priority, value, function (error) {
         callback(error);
     });
 };
@@ -49,7 +55,7 @@ module.exports.insert = function(type,region,realm,name,priority,callback){
  * @param priority
  * @param callback
  */
-module.exports.getUpdate = function(type,priority,callback) {
+module.exports.getUpdate = function (type, priority, callback) {
     var redis = applicationStorage.redis;
     async.waterfall([
         function (callback) {
@@ -64,8 +70,8 @@ module.exports.getUpdate = function(type,priority,callback) {
                 callback(error, value)
             });
         }
-    ], function (error,value) {
-        callback(error,JSON.parse(value));
+    ], function (error, value) {
+        callback(error, JSON.parse(value));
     });
 };
 
@@ -75,10 +81,10 @@ module.exports.getUpdate = function(type,priority,callback) {
  * @param priority
  * @param callback
  */
-module.exports.getCount = function (type,priority,callback) {
+module.exports.getCount = function (type, priority, callback) {
     var redis = applicationStorage.redis;
-    redis.llen(type+"_"+priority,function(error,value){
-        callback(error,value);
+    redis.llen(type + "_" + priority, function (error, value) {
+        callback(error, value);
     });
 };
 

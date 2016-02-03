@@ -9,24 +9,28 @@ var updateModel = process.require("updates/updateModel.js");
  * @param type
  * @param callback
  */
-module.exports.getNextUpdate = function(type,callback){
+module.exports.getNextUpdate = function (type, callback) {
     var config = applicationStorage.config;
 
     /** @namespace config.priorities */
-    async.eachSeries(config.priorities,function(priority,callback){
+    async.eachSeries(config.priorities, function (priority, callback) {
         updateModel.getUpdate(type, priority, function (error, result) {
-            if(error)
+            if (error) {
                 return callback(error);
-            if(result)
-                return callback({result:result});
-            else
+            }
+            if (result) {
+                return callback({result: result});
+            } else {
                 callback()
+            }
         });
-    },function(result){
-        if(!result)
+    }, function (result) {
+        if (!result) {
             return callback();
-        if(result.error)
+        }
+        if (result.error) {
             return callback(result.error);
-        callback(null,result.result);
+        }
+        callback(null, result.result);
     });
 };

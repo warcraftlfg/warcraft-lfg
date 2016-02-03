@@ -11,7 +11,7 @@ router.get("/characters", characterController.getCharacters);
 router.get("/characters/:region/:realm/:name", characterController.getCharacter);
 
 //Define route for authenticated users
-router.put("/characters/ad/:region/:realm/:name",auth.isAuthenticated,sanitize.sanitize, auth.isOwner, characterController.putCharacterAd);
-router.delete("/characters/ad/:region/:realm/:name",auth.isAuthenticated,sanitize.sanitize, auth.isOwner, characterController.deleteCharacterAd);
+router.put("/characters/ad/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.isOwner, characterController.putCharacterAd);
+router.delete("/characters/ad/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.isOwner, characterController.deleteCharacterAd);
 
 module.exports = router;

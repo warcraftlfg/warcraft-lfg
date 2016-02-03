@@ -10,37 +10,44 @@ var characterModel = process.require("characters/characterModel.js");
 var characterService = process.require("characters/characterService.js");
 var guildKillService = process.require("guildKills/guildKillService.js");
 
-function CharacterUpdateProcess(){
+/**
+ * CharacterUpdateProcess constructor
+ * @constructor
+ */
+function CharacterUpdateProcess() {
 }
 
-CharacterUpdateProcess.prototype.updateCharacter = function(){
+/**
+ * Update one character
+ */
+CharacterUpdateProcess.prototype.updateCharacter = function () {
 
     var logger = applicationStorage.logger;
     var self = this;
     async.waterfall([
-        function(callback){
+        function (callback) {
             //Get next guild to update
-            updateService.getNextUpdate('cu',function(error,characterUpdate){
-                if(characterUpdate == null){
+            updateService.getNextUpdate('cu', function (error, characterUpdate) {
+                if (characterUpdate == null) {
                     //Guild update is empty
                     logger.info("No character to update ... waiting 3 sec");
-                    setTimeout(function() {
+                    setTimeout(function () {
                         callback(true);
                     }, 3000);
                 } else {
-                    logger.info("Update character %s-%s-%s",characterUpdate.region,characterUpdate.realm,characterUpdate.name);
-                    callback(error,characterUpdate);
+                    logger.info("Update character %s-%s-%s", characterUpdate.region, characterUpdate.realm, characterUpdate.name);
+                    callback(error, characterUpdate);
                 }
             });
         },
-        function(characterUpdate,callback){
+        function (characterUpdate, callback) {
             //Sanitize name
-            bnetAPI.getCharacter(characterUpdate.region,characterUpdate.realm,characterUpdate.name,["guild","items","progression","talents","achievements","statistics","challenge","pvp","reputation","stats"],function(error,character){
-                if(error){
-                    if(error.statusCode == 403){
+            bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, ["guild", "items", "progression", "talents", "achievements", "statistics", "challenge", "pvp", "reputation", "stats"], function (error, character) {
+                if (error) {
+                    if (error.statusCode == 403) {
                         logger.info("Bnet Api Deny ... waiting 1 min");
-                        updateModel.insert("cu",characterUpdate.region,characterUpdate.realm,characterUpdate.name,characterUpdate.priority,function(error){
-                            setTimeout(function() {
+                        updateModel.insert("cu", characterUpdate.region, characterUpdate.realm, characterUpdate.name, characterUpdate.priority, function () {
+                            setTimeout(function () {
                                 callback(true);
                             }, 60000);
                         });
@@ -48,57 +55,61 @@ CharacterUpdateProcess.prototype.updateCharacter = function(){
                         callback(error);
                     }
                 } else {
-                    if(character.realm && character.name ) {
+                    if (character.realm && character.name) {
                         callback(null, characterUpdate.region, character);
-                    }else {
+                    } else {
                         logger.warn("Bnet return empty character (account inactive...), skip it");
                         callback(true);
                     }
                 }
             })
         },
-        function(region,character,callback) {
+        function (region, character, callback) {
             async.parallel([
-                function(callback) {
+                function (callback) {
                     //Insert BNET
-                    characterModel.upsertBnet(region,character.realm,character.name,character,function(error){
-                        if(error){
+                    characterModel.upsertBnet(region, character.realm, character.name, character, function (error) {
+                        if (error) {
                             logger.error(error.message);
                         }
                         callback();
                     });
                 },
-                function(callback){
+                function (callback) {
                     //Insert WarcraftLogs
-                    characterService.updateWarcraftLogs(region,character.realm,character.name,function(error){
-                        if(error){
+                    characterService.updateWarcraftLogs(region, character.realm, character.name, function (error) {
+                        if (error) {
                             logger.error(error.message);
                         }
                         callback();
                     })
                 },
-                function(callback){
+                function (callback) {
                     //Insert Progress
-                    guildKillService.updateProgress(region,character,function(error){
-                        if(error){
+                    guildKillService.updateProgress(region, character, function (error) {
+                        if (error) {
                             logger.error(error.message);
                         }
                         callback();
                     });
                 }
-            ],function(){
+            ], function () {
                 callback();
             });
         }
-    ],function(error){
-        if (error && error !==true)
+    ], function (error) {
+        if (error && error !== true) {
             logger.error(error.message);
+        }
         self.updateCharacter();
     });
 };
 
-
-CharacterUpdateProcess.prototype.start = function(callback){
+/**
+ * Start characterUpdateProcess
+ * @param callback
+ */
+CharacterUpdateProcess.prototype.start = function (callback) {
     applicationStorage.logger.info("Starting CharacterUpdateProcess");
     this.updateCharacter();
     callback();

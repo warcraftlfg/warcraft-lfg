@@ -1,9 +1,6 @@
-<div class="checkbox m-b-0">
-    <label>
-        <input ng-model="ilevel.active" type="checkbox">  iLevel
-    </label>
-</div>
-<div ng-if="ilevel.active">
-    {{ ilevel.min }} - {{ ilevel.max }}
-    <angular-ranger min="575" max="750" step="1" min-value="ilevel.min" max-value="ilevel.max"></angular-ranger>
+<div class="class-filter">
+    <div class="m-l-10 m-b-5"><span class="fw-700">ilvl</span> {{ ilevel.min }} - {{ ilevel.max }}</div>
+    <div class="m-t-15">
+        <angular-ranger min="575" max="750" step="1" min-value="ilevel.min" max-value="ilevel.max"></angular-ranger>
+    </div>
 </div>

@@ -5,8 +5,8 @@
 .uncommon, .quality-2 { color: rgb(30, 255, 0) }
 .common, .quality-1 { color: #666 }
 
-.faction-1 { color: #B30000}
-.faction-0 { color: #0078FF}
+.faction-1 { color: $horde}
+.faction-0 { color: $alliance}
 
 /* None*/
 .class-0,.class-none{color:#000000;}

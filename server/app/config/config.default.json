@@ -1,7 +1,6 @@
 {
   "server": {
-    "port": 3000,
-    "https":{
+    "https": {
       "key": "server/app/config/sslcert/server.key",
       "cert": "server/app/config/sslcert/server.crt"
     }
@@ -27,52 +26,64 @@
   "warcraftLogs": {
     "api_key": ""
   },
-  "bnetRegions":["eu","kr","tw","us"],
-  "priorities": [10,5,3,0],
-  "progress":{
-    "raids":[{
-      "name":"Hellfire Citadel",
-      "bosses":[
-        {
-          "name":"Hellfire Assault"
-        },
-        {
-          "name":"Iron Reaver"
-        },
-        {
-          "name":"Kormrok"
-        },
-        {
-          "name":"Hellfire High Council"
-        },
-        {
-          "name":"Kilrogg Deadeye"
-        },
-        {
-          "name":"Gorefiend"
-        },
-        {
-          "name":"Shadow-Lord Iskar"
-        },
-        {
-          "name":"Socrethar the Eternal"
-        },
-        {
-          "name":"Tyrant Velhari"
-        },
-        {
-          "name":"Fel Lord Zakuun"
-        },
-        {
-          "name":"Xhul'horac"
-        },
-        {
-          "name":"Mannoroth"
-        },
-        {
-          "name":"Archimonde"
-        }
-      ]
-    }]
+  "bnetRegions": [
+    "eu",
+    "kr",
+    "tw",
+    "us"
+  ],
+  "priorities": [
+    10,
+    5,
+    3,
+    0
+  ],
+  "progress": {
+    "raids": [
+      {
+        "name": "Hellfire Citadel",
+        "bosses": [
+          {
+            "name": "Hellfire Assault"
+          },
+          {
+            "name": "Iron Reaver"
+          },
+          {
+            "name": "Kormrok"
+          },
+          {
+            "name": "Hellfire High Council"
+          },
+          {
+            "name": "Kilrogg Deadeye"
+          },
+          {
+            "name": "Gorefiend"
+          },
+          {
+            "name": "Shadow-Lord Iskar"
+          },
+          {
+            "name": "Socrethar the Eternal"
+          },
+          {
+            "name": "Tyrant Velhari"
+          },
+          {
+            "name": "Fel Lord Zakuun"
+          },
+          {
+            "name": "Xhul'horac"
+          },
+          {
+            "name": "Mannoroth"
+          },
+          {
+            "name": "Archimonde"
+          }
+        ]
+      }
+    ]
   }
 }

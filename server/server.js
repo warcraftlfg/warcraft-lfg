@@ -20,6 +20,17 @@ var started = ready.waitFor('started');
 
 var processNames = [];
 
+
+// -port get the port number
+if(process.argv.indexOf("-p")!=-1) {
+    var port = parseInt(process.argv[process.argv.indexOf("-p")+1],10);
+
+    if(isNaN(port)){
+        port = 3000;
+    }
+}
+
+
 // -ws start WebServerProcess (need to be first for socket.io)
 if(process.argv.indexOf("-ws")!=-1) {
     processNames.push("WebServerProcess");
@@ -94,7 +105,7 @@ if( processNames.indexOf("GuildUpdateProcess")!=-1
 
 //Load config file
 var env = process.env.NODE_ENV || "development";
-var config = process.require("config/config."+env+".json");
+var config = process.require("config/config.json");
 
 var logger = null;
 
@@ -155,7 +166,7 @@ async.waterfall([
         var processes =  [];
         async.forEachSeries(processNames,function(processName,callback){
             var obj = process.require("process/"+processName+".js");
-            processes.push(new obj(autoStop));
+            processes.push(new obj(autoStop,port));
             callback();
         },function(){
             callback(null,processes);

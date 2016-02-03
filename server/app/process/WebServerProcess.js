@@ -1,6 +1,6 @@
 "use strict";
 
-//Module dependencies
+//Load dependencies
 var path = require("path");
 var fs = require('fs');
 var http = require('http');
@@ -25,33 +25,35 @@ var logger = applicationStorage.logger;
  * @class WebServerProcess
  * @constructor
  */
-function WebServerProcess(){
+function WebServerProcess(autoStop, port) {
 
+    this.port = port || 3000;
     this.app = express();
 
-    if(config.server.https){
-        this.privateKey  = fs.readFileSync(config.server.https.key, 'utf8');
+    if (config.server.https) {
+        this.privateKey = fs.readFileSync(config.server.https.key, 'utf8');
         this.certificate = fs.readFileSync(config.server.https.cert, 'utf8');
-        this.server = https.createServer({key: this.privateKey, cert: this.certificate},this.app);
+        this.server = https.createServer({key: this.privateKey, cert: this.certificate}, this.app);
     }
-    else
+    else {
         this.server = http.createServer(this.app);
+    }
 
     this.io = require('socket.io')(this.server);
-    applicationStorage.socketIo= this.io;
+    applicationStorage.socketIo = this.io;
 
     //Start redis for socket.io
     this.io.adapter(adapter(applicationStorage.redis));
 
     //Create sessionStore inside Mongodb
-    var sessionStore =  new mongoStore({db: applicationStorage.mongo});
+    var sessionStore = new mongoStore({db: applicationStorage.mongo});
 
     //Update Session store with opened database connection
     //Allowed server to restart without loosing any session
     this.app.use(session({
         key: 'wgt.sid',
         secret: config.session.secret,
-        store:sessionStore,
+        store: sessionStore,
         saveUninitialized: true,
         resave: true
     }));
@@ -67,25 +69,25 @@ function WebServerProcess(){
     this.app.use(process.require("users/routes.js"));
 
     //Initialize api v1 routes
-    this.app.use('/api/v1',process.require("characters/routes.js"));
-    this.app.use('/api/v1',process.require("guilds/routes.js"));
-    this.app.use('/api/v1',process.require("realms/routes.js"));
-    this.app.use('/api/v1',process.require("updates/routes.js"));
+    this.app.use('/api/v1', process.require("characters/routes.js"));
+    this.app.use('/api/v1', process.require("guilds/routes.js"));
+    this.app.use('/api/v1', process.require("realms/routes.js"));
+    this.app.use('/api/v1', process.require("updates/routes.js"));
 
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
 
     //Catch all error and log them
-    this.app.use(function(error, req, res, next) {
-        logger.error("Error on request",error);
-        res.status(error.statusCode).json({error:error.statusCode,message:"Internal Server Error"});
+    this.app.use(function (error, req, res, next) {
+        logger.error("Error on request", error);
+        res.status(error.statusCode).json({error: error.statusCode, message: "Internal Server Error"});
     });
 
     //Log all other request and send 404
-    this.app.use(function(req, res) {
-        logger.error("Error 404 on request %s",req.url);
-        res.status(404).send({error:404,message:"The requested URL was not found on this server."});
+    this.app.use(function (req, res) {
+        logger.error("Error 404 on request %s", req.url);
+        res.status(404).send({error: 404, message: "The requested URL was not found on this server."});
     });
 
     this.io.use(passportSocketIo.authorize({
@@ -93,8 +95,12 @@ function WebServerProcess(){
         key: "wgt.sid",
         secret: config.session.secret,
         store: sessionStore,
-        success: function(data, accept){ accept();},
-        fail: function(data, message, error, accept){ accept();}
+        success: function (data, accept) {
+            accept();
+        },
+        fail: function (data, message, error, accept) {
+            accept();
+        }
     }));
 
 }
@@ -103,12 +109,12 @@ function WebServerProcess(){
  * Starts the HTTP server.
  * @method start
  */
-WebServerProcess.prototype.start = function(callback){
+WebServerProcess.prototype.start = function (callback) {
     logger.info("Starting WebServerProcess");
     // Start server
-    var server = this.server.listen(config.server.port, function(){
-        var protocol = config.server.https ? "HTTPS ": "HTTP";
-        logger.info("Server "+protocol+" listening on port %s", server.address().port);
+    var server = this.server.listen(this.port, function () {
+        var protocol = config.server.https ? "HTTPS " : "HTTP";
+        logger.info("Server " + protocol + " listening on port %s", server.address().port);
         callback();
     });
 };
