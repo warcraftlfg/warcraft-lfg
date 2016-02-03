@@ -2,8 +2,8 @@ angular
     .module('app.filter')
     .directive('wlfgFilterDay', wlfgFilterDay);
 
-wlfgFilterDay.$inject = ['$translate', '$stateParams', '$location','moment'];
-function wlfgFilterDay($translate, $stateParams, $location,moment) {
+wlfgFilterDay.$inject = ['$translate', '$stateParams', '$location', 'moment', 'TIMEZONES'];
+function wlfgFilterDay($translate, $stateParams, $location, moment, TIMEZONES) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -13,6 +13,16 @@ function wlfgFilterDay($translate, $stateParams, $location,moment) {
     return directive;
 
     function link($scope, element, attrs) {
+        $scope.timezones = TIMEZONES;
+
+        var guessTimeZone = moment.tz.guess();
+
+        if ($scope.timezones.indexOf(guessTimeZone) != -1) {
+            $scope.timezone = guessTimeZone;
+        } else {
+            $scope.timezone = "Europe/London";
+        }
+
         $scope.days = {
             monday: {name: "Mo", selected: false, start: 0, end: 0},
             tuesday: {name: "Tu", selected: false, start: 0, end: 0},
@@ -26,23 +36,25 @@ function wlfgFilterDay($translate, $stateParams, $location,moment) {
 
         $scope.filters.day = [];
 
+        if ($stateParams.timezone) {
+            $scope.timezone = $stateParams.timezone;
+        }
+
         if ($stateParams.day) {
             var days = $stateParams.day;
             if (!angular.isArray(days)) {
                 days = [days];
             }
-            angular.forEach($scope.days, function (day,key) {
+            angular.forEach($scope.days, function (day, key) {
 
                 angular.forEach(days, function (dayString) {
                     var params = dayString.split('.');
                     if (params.length == 3) {
-
                         if (params && params[0] == key) {
                             day.selected = true;
-                            day.start = moment(params[1]).tz(params[1]).hours();
-                            day.end = moment(params[2]).tz(params[1]).hours();
-
-                            $scope.filters.day.push(dayString);
+                            day.start = params[1];
+                            day.end = params[2];
+                            $scope.filters.day.push(dayString + '.' + $scope.timezone);
                         }
                     }
                 });
@@ -51,26 +63,36 @@ function wlfgFilterDay($translate, $stateParams, $location,moment) {
 
         $scope.filters.states.days = true;
 
-        $scope.$watch('daysOut', function () {
+        $scope.$watch('days', function () {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var days = [];
-            angular.forEach($scope.daysOut, function (day) {
-                days.push(day.id);
+            var daysParams = [];
+            angular.forEach($scope.days, function (day, key) {
+                if (day.selected) {
+                    days.push(key + '.' + day.start + '.' + day.end + '.' + $scope.timezone);
+                    daysParams.push(key + '.' + day.start + '.' + day.end);
+                }
             });
 
             if (days.length > 0) {
-                $location.search('day', days);
+                $location.search('day', daysParams);
                 $scope.filters.day = days;
             } else {
                 $location.search('day', null);
-                days.filters.day = null;
+                $scope.filters.day = null;
             }
 
             $scope.$parent.loading = true;
         }, true);
 
+        $scope.$watch('timezone', function () {
+            $location.search('timezone', $scope.timezone);
+
+        });
     }
+
+
 }

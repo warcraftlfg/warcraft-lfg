@@ -1,4 +1,15 @@
 <div class="playtime-filter">
+    <div class="col-md-3" >
+        <div class="row">
+            <div class="col-md-12 p-l-5">
+                <div class="css3-metro-dropdown">
+                    <select ng-model="timezone" class="form-control">
+                        <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-3" ng-repeat="(day,playTime) in  days">
         <div class="row">
             <div class="col-md-2 p-l-5 p-r-5">
@@ -10,7 +21,8 @@
                 </div>
             </div>
             <div class="col-md-4 p-l-5 p-r-5">
-                <select wlfg-convert-to-number ng-model="playTime.start" class="form-control">
+                <select wlfg-convert-to-number ng-disabled="!playTime.selected" ng-model="playTime.start"
+                        class="form-control">
                     <option value="0">00h</option>
                     <option value="1">01h</option>
                     <option value="2">02h</option>
@@ -41,7 +53,8 @@
                 >
             </div>
             <div class="col-md-4 p-l-5 p-r-5">
-                <select wlfg-convert-to-number ng-model="playTime.end" class="form-control">
+                <select wlfg-convert-to-number ng-disabled="!playTime.selected" ng-model="playTime.end"
+                        class="form-control">
                     <option value="0">00h</option>
                     <option value="1">01h</option>
                     <option value="2">02h</option>
