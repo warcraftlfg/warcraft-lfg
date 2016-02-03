@@ -24,7 +24,7 @@ describe("userRouter",function() {
             assert.equal(res.statusCode,200);
             done();
         });
-    });*/
+    });
     it("Should listen on /user/logout", function (done) {
         request.get({url:baseUrl+"/user/logout", rejectUnauthorized: false}, function (err, res){
             assert.isNull(err);
@@ -57,7 +57,7 @@ describe("userRouter",function() {
             assert.equal(body,"ACCESS_DENIED");
             done();
         });
-    });
+    });*/
 
     //TODO Get userCharacters Test
     //TODO Get userGuilds Test
