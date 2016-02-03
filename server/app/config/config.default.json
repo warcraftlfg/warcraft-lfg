@@ -18,13 +18,13 @@
   },
   "oauth": {
     "bnet": {
-      "clientID": "",
-      "clientSecret": "",
+      "clientID": "your clientID",
+      "clientSecret": "your clientSecret",
       "callbackURL": "https://localhost:3000/auth/bnet/callback"
     }
   },
   "warcraftLogs": {
-    "api_key": ""
+    "api_key": "your api key"
   },
   "bnetRegions": [
     "eu",
