@@ -157,8 +157,6 @@
 
                 if ($scope.filters.sort == "progress") {
                     if ($scope.characters[$scope.characters.length - 1].progress) {
-                        console.log($scope.characters[$scope.characters.length - 1]);
-                        console.log($scope.characters[$scope.characters.length - 1].progress[Object.keys($scope.characters[$scope.characters.length - 1].progress)[0]]);
                         params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].progress[Object.keys($scope.characters[$scope.characters.length - 1].progress)[0]].score;
                     } else {
                         params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
@@ -173,13 +171,11 @@
                 } else {
                     params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].ad.updated;
                 }
-                console.log(params.last);
 
             }
 
             angular.extend(params, $scope.filters);
             delete params.states;
-            console.log(params.last);
 
             characters.query(params, function (characters) {
                     $scope.$parent.loading = false;

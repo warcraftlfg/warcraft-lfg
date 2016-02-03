@@ -1,5 +1,6 @@
 .realmzone-filter {
   .checkbox-inline {
+    opacity:0.85;
     margin-left: 5px;
     margin-bottom: 5px;
     padding-left: 0px;
@@ -23,12 +24,16 @@
         color: $black;
       }
     }
-
+    &:hover{
+      opacity:1;
+    }
   }
+
 }
 
 .role-filter {
   .checkbox-inline {
+    opacity:0.5;
     padding-left: 0px;
     margin-left: 5px;
     text-align: center;
@@ -42,8 +47,14 @@
       width: 100%;
       height: 100%;
     }
+    &:hover{
+      opacity:0.85;
+    }
     &.selected {
-      background-color: red;
+      opacity:0.85;
+      &:hover{
+        opacity:1;
+      }
     }
     .tank {
       background: url('../images/menu/tank.png') no-repeat top center;
@@ -57,11 +68,13 @@
     .melee_dps {
       background: url('../images/menu/melee.png') no-repeat top center;
     }
+
   }
 }
 
 .class-filter {
   .checkbox-inline {
+    opacity:0.5;
     padding-left: 0px;
     margin-left: 5px;
     text-align: center;
@@ -75,8 +88,14 @@
       width: 100%;
       height: 100%;
     }
+    &:hover{
+      opacity:0.85;
+    }
     &.selected {
-      background-color: red;
+      opacity:0.85;
+      &:hover{
+        opacity:1;
+      }
     }
     .class-1 {
       background: url('../images/menu/class-1.png') no-repeat top center;
@@ -123,6 +142,7 @@
 
   }
   .checkbox-inline {
+    opacity:0.85;
     margin-left: 5px;
     margin-bottom: 5px;
     padding-left: 0px;
@@ -147,25 +167,57 @@
       label {
         color: $horde;
       }
-      &.selected {
+      &:hover{
+        opacity:1;
         background-color: $horde;
         label {
           color: $black;
         }
       }
-    }
+      &.selected {
+        opacity:0.85;
+        background-color: $horde;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+          background-color: $horde;
+          label {
+            color: $black;
+          }
+        }
 
+      }
+    }
     &.alliance {
       margin-top: -30px;
       border-color: $alliance;
       label {
         color: $alliance;
       }
-      &.selected {
+      &:hover{
+        opacity:1;
         background-color: $alliance;
         label {
           color: $black;
         }
+      }
+
+      &.selected {
+        opacity:0.85;
+        background-color: $alliance;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+          background-color: $alliance;
+          label {
+            color: $black;
+          }
+        }
+
       }
     }
 
@@ -179,6 +231,7 @@
     text-align:center;
   }
   .radio-inline {
+    opacity:0.85;
     margin-left: 5px;
     margin-bottom: 5px;
     padding-left: 0px;
@@ -195,15 +248,28 @@
     input {
       display: none;
     }
+
+
     &.mythic{
       border: 1px solid #FF8000;
       label{
         color:#FF8000
       }
+
+      &:hover{
+        opacity:1;
+        background-color: #FF8000;
+        label {
+          color: $black;
+        }
+      }
       &.selected {
         background-color: #FF8000;
         label {
           color: $black;
+        }
+        &:hover{
+          opacity:1;
         }
       }
     }
@@ -212,10 +278,20 @@
       label{
         color:#A335EE
       }
+      &:hover{
+        opacity:1;
+        background-color: #FF8000;
+        label {
+          color: $black;
+        }
+      }
       &.selected {
         background-color: #A335EE;
         label {
           color: $black;
+        }
+        &:hover{
+          opacity:1;
         }
       }
     }
@@ -224,10 +300,20 @@
       label{
         color:#1EFF00
       }
+      &:hover{
+        opacity:1;
+        background-color: #FF8000;
+        label {
+          color: $black;
+        }
+      }
       &.selected {
         background-color: #1EFF00;
         label {
           color: $black;
+        }
+        &:hover{
+          opacity:1;
         }
       }
     }
@@ -239,7 +325,8 @@
 
 .playtime-filter {
   .checkbox-inline {
-    margin-left: 5px;
+    opacity:0.85;
+    margin-left: 0px;
     margin-bottom: 5px;
     padding-left: 0px;
     text-align: center;
@@ -256,13 +343,32 @@
     input {
       display: none;
     }
-    &.selected {
+    &:hover{
+      opacity:1;
       background-color: $white;
       label {
         color: $black;
       }
     }
+    &.selected {
 
+      background-color: $white;
+      label {
+        color: $black;
+      }
+      &:hover{
+        opacity:1;
+      }
+    }
+
+  }
+  select.form-control{
+    font-size:12px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    height:30px;
+    line-height:12px;
   }
   .clock{
     background: url('../images/menu/clock.png') no-repeat center center;
@@ -270,4 +376,5 @@
     height:19px;
     display: inline-block;
   }
+
 }
