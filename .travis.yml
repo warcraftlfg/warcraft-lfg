@@ -1,3 +1,7 @@
+branches:
+  only:
+    - master
+
 language: node_js
 
 services:
@@ -13,6 +17,7 @@ install:
   - npm install -g mocha grunt-cli bower
   - npm install
   - mkdir logs
+  - cp server/app/config/config.default.json server/app/config/config.json
 
 
 after_success:
