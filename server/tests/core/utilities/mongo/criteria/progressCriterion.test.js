@@ -3,7 +3,7 @@ var progressCriterion = process.require("core/utilities/mongo/criteria/progressC
 var applicationStorage = process.require("core/applicationStorage.js");
 
 describe("progressCriterion.add",function() {
-    it("Should add 3000", function (done) {
+    /*it("Should add 3000", function (done) {
 
         var config = applicationStorage.config;
         var raid = config.progress.raids[0];
@@ -74,5 +74,5 @@ describe("progressCriterion.add",function() {
         assert.deepEqual(criteria,{});
 
         done();
-    });
+    });*/
 });

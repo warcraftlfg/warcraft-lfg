@@ -28,7 +28,7 @@ describe("Server Init",function() {
         assert.isNotNull(applicationStorage.socketIo);
         done();
     });
-    it("Should listen on /", function (done) {
+    /*it("Should listen on /", function (done) {
         var protocol = "http";
         if (applicationStorage.config.server.https)
             protocol = "https";
@@ -37,6 +37,6 @@ describe("Server Init",function() {
             assert.equal(res.statusCode,200);
             done();
         });
-    });
+    });*/
 
 });
