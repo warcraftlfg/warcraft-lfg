@@ -38,35 +38,18 @@ module.exports.getCharacters = function (req, res) {
         },
         function (criteria, projection, limit, sort, callback) {
             logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
-            async.parallel({
-                guilds: function (callback) {
-                    if (limit > 0) {
-                        characterModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, guilds) {
-                            callback(error, guilds);
-                        });
-                    }
-                    else {
-                        callback(null, []);
-                    }
-                },
-                count: function (callback) {
-                    characterModel.count(criteria, function (error, count) {
-                        callback(error, count);
-                    });
-                }
-            }, function (error, results) {
-                callback(error, results);
+            characterModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, characters) {
+                callback(error, characters);
             });
         }
 
-    ], function (error, results) {
+    ], function (error, characters) {
         if (error) {
             logger.error(error.message);
             res.status(500);
             res.send();
         } else {
-            res.setHeader('X-Total-Count', results.count);
-            res.json(results.guilds);
+            res.json(characters);
         }
     });
 };
@@ -182,6 +165,38 @@ module.exports.deleteCharacterAd = function (req, res) {
             res.status(500).send(error.message);
         } else {
             res.json();
+        }
+    });
+};
+
+/**
+ * Return the character's Count
+ * @param req
+ * @param res
+ */
+module.exports.getCount = function(req,res){
+    var logger = applicationStorage.logger;
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
+
+    async.waterfall([
+        function (callback) {
+            characterCriteria.get(req.query, function (error, criteria) {
+                callback(error, criteria);
+            });
+        },
+        function (criteria, callback) {
+            logger.debug("characters count- criteria:%s", JSON.stringify(criteria));
+            characterModel.count(criteria, function (error, count) {
+                callback(error, count);
+            });
+        }
+    ], function (error, count) {
+        if (error) {
+            logger.error(error.message);
+            res.status(500);
+            res.send();
+        } else {
+            res.json({count:count});
         }
     });
 };

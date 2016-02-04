@@ -42,12 +42,14 @@
         $scope.languages = LANGUAGES;
 
         //Initialize $scope variables
-        $scope.guildAdsObj = guilds.getWithCount({lfg:true,view:"minimal"});
-        $scope.characterAdsObj = characters.getWithCount({lfg:true,view:"minimal"});
+        $scope.guildAds = guilds.query({lfg:true,view:"minimal"});
+        $scope.characterAds = characters.query({lfg:true,view:"minimal"});
 
         //Initialize $scope variables
-        $scope.guildsObj = guilds.getWithCount({number:0});
-        $scope.charactersObj = characters.getWithCount({number:0});
+        $scope.guildAdsCount = guilds.get({part:"count",lfg:true,view:"minimal"});
+        $scope.guildsCount = guilds.get({part:"count",view:"minimal"});
+        $scope.characterAdsCount = characters.get({part:"count",lfg:true,view:"minimal"});
+        $scope.charactersCount = characters.get({part:"count",view:"minimal"});
 
 
         $scope.form = {type:"guild",region:"",language:"",realmZones:[]};
