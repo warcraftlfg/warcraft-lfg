@@ -8,15 +8,6 @@
     Guilds.$inject = ['$resource'];
     function Guilds($resource) {
         return $resource('/api/v1/guilds/:part/:guildRegion/:guildRealm/:guildName',{}, {
-            getWithCount: {
-                method: 'get',
-                transformResponse: function (data, headersGetter) {
-                    var response = {};
-                    response.data = JSON.parse(data);
-                    response.count = headersGetter()['x-total-count'];
-                    return response;
-                }
-            },
             upsert: {
                 method:'put'
             }
