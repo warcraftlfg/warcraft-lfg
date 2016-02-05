@@ -8,6 +8,7 @@ var sanitize = process.require("characters/utilities/middleware/sanitize.js");
 
 //Define routes for all users
 router.get("/characters", characterController.getCharacters);
+router.get("/characters/count", characterController.getCount);
 router.get("/characters/:region/:realm/:name", characterController.getCharacter);
 
 //Define route for authenticated users
