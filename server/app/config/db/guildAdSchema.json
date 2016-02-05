@@ -184,12 +184,38 @@
               "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 3000
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -201,12 +227,38 @@
               "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 3000
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -218,12 +270,38 @@
               "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 3000
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -235,12 +313,38 @@
               "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 3000
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -252,12 +356,38 @@
               "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 3000
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -269,12 +399,38 @@
               "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 3000
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         },
@@ -286,12 +442,38 @@
               "default": false
             },
             "start": {
-              "type": "integer",
-              "default": 0
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             },
             "end": {
-              "type": "integer",
-              "default": 3000
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "min": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
             }
           }
         }

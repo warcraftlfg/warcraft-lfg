@@ -2,6 +2,7 @@
 
 //Load dependencies
 var async = require("async");
+var moment = require('moment-timezone');
 var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
 var warcraftLogsAPI = process.require("core/api/warcraftLogs.js");
@@ -68,25 +69,64 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
         function (region, character, callback) {
             async.parallel({
 
-                warcraftLogs : function (callback) {
-                    //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
-                        callback(error, warcraftLogs)
+                ad: function (callback) {
+                    async.waterfall([
+                        function (callback) {
+                            characterModel.findOne({
+                                region: region,
+                                realm: character.realm,
+                                name: character.name
+                            }, {ad: 1}, function (error, character) {
+                                callback(error, character);
+                            });
+                        },
+                        function (character, callback) {
+                            if (character.ad && character.ad.timezone) {
+                                var offset = Math.round(moment.tz.zone(character.ad.timezone).parse(Date.UTC())/60);
+                                async.each(character.ad.play_time,function(day,callback){
+                                    day.start.hourUTC = day.start.hour + offset;
+                                    day.end.hourUTC = day.end.hour +offset;
+                                    console.log(offset);
+                                    callback();
+                                },function(){
+                                    callback(null,character.ad);
+                                });
+                            } else {
+                                callback();
+                            }
+                        }
+                    ], function (error, ad) {
+                        console.log(ad);
+                        callback(null, ad)
                     });
                 },
-                progress : function (callback) {
+                warcraftLogs: function (callback) {
+                    //Get WarcraftLogs
+                    warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
+                        if (error && error !== true) {
+                            logger.error(error.message);
+                        }
+                        callback(null, warcraftLogs)
+                    });
+                },
+                progress: function (callback) {
                     //Get Progress
-                    characterService.getProgress(region, character, function (error,progress) {
-                           callback(error,progress);
+                    characterService.getProgress(region, character, function (error, progress) {
+                        if (error && error !== true) {
+                            logger.error(error.message);
+                        }
+                        callback(null, progress);
                     });
                 }
-            }, function (error,results) {
+            }, function (error, results) {
                 results.bnet = character;
-                characterModel.upsert(region, character.realm, character.name,results,function(error){
-                    callback();
+                characterModel.upsert(region, character.realm, character.name, results, function (error) {
+                    callback(error);
                 });
             });
-        }
+        },
+
+
     ], function (error) {
         if (error && error !== true) {
             logger.error(error.message);

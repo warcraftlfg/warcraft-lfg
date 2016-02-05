@@ -95,16 +95,6 @@
                 $scope.guild = guild;
 
 
-                //Format playTime
-                angular.forEach($scope.guild.ad.play_time, function (day) {
-                    var startHour = moment(day.start).tz($scope.guild.ad.timezone).hours();
-                    var startMin = moment(day.start).tz($scope.guild.ad.timezone).minutes();
-                    day.start = {hour: startHour, min: startMin};
-                    var endHour = moment(day.end).tz($scope.guild.ad.timezone).hours();
-                    var endMin = moment(day.end).tz($scope.guild.ad.timezone).minutes();
-                    day.end = {hour: endHour, min: endMin};
-                });
-
                 $scope.$parent.loading = false;
 
                 if (guild.bnet) {
@@ -166,21 +156,6 @@
 
         $scope.saveAd = function () {
             $scope.$parent.loading = true;
-
-            //Format playTime
-            angular.forEach($scope.guild.ad.play_time, function (day) {
-                var start = moment.tz({year:1975,month:0,day:1,hour:day.start.hour,minute:day.start.min},"Europe/London");//$scope.guild.ad.timezone);
-                var end = moment.tz({year:1970,month:0,day:1,hour:day.end.hour,minute:day.end.min}, $scope.guild.ad.timezone);
-
-
-                console.log(start.utc().toString());
-                console.log(start.utc().format('X'));
-
-
-                day.start = start.tz("GMT").valueOf();
-                day.end =  end.tz("GMT").valueOf();
-
-            });
 
             guilds.upsert({
                 guildRegion: $scope.guild.region,

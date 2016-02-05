@@ -97,6 +97,11 @@
         }
       }
     },
+    "timezone": {
+      "type": "string",
+      "default": "Europe/London",
+      "enum": ["America/Chicago","America/Los_Angeles","America/New_York","America/Denver","America/Sao_Paulo","Australia/Melbourne","Asia/Seoul","Asia/Taipei","Europe/London","Europe/Paris","Europe/Berlin","Europe/Madrid","Europe/Lisbon","Europe/Moscow"]
+    },
     "play_time": {
       "type": "object",
       "properties": {
@@ -114,6 +119,10 @@
                   "type": "integer",
                   "default": 0
                 },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "min": {
                   "type": "integer",
                   "default": 0
@@ -124,6 +133,10 @@
               "type": "object",
               "properties": {
                 "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
                   "type": "integer",
                   "default": 0
                 },
@@ -149,6 +162,10 @@
                   "type": "integer",
                   "default": 0
                 },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "min": {
                   "type": "integer",
                   "default": 0
@@ -159,6 +176,10 @@
               "type": "object",
               "properties": {
                 "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
                   "type": "integer",
                   "default": 0
                 },
@@ -184,6 +205,10 @@
                   "type": "integer",
                   "default": 0
                 },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "min": {
                   "type": "integer",
                   "default": 0
@@ -194,6 +219,10 @@
               "type": "object",
               "properties": {
                 "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
                   "type": "integer",
                   "default": 0
                 },
@@ -219,6 +248,10 @@
                   "type": "integer",
                   "default": 0
                 },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "min": {
                   "type": "integer",
                   "default": 0
@@ -229,6 +262,10 @@
               "type": "object",
               "properties": {
                 "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
                   "type": "integer",
                   "default": 0
                 },
@@ -254,6 +291,10 @@
                   "type": "integer",
                   "default": 0
                 },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "min": {
                   "type": "integer",
                   "default": 0
@@ -264,6 +305,10 @@
               "type": "object",
               "properties": {
                 "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
                   "type": "integer",
                   "default": 0
                 },
@@ -289,6 +334,10 @@
                   "type": "integer",
                   "default": 0
                 },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "min": {
                   "type": "integer",
                   "default": 0
@@ -299,6 +348,10 @@
               "type": "object",
               "properties": {
                 "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
                   "type": "integer",
                   "default": 0
                 },
@@ -324,6 +377,10 @@
                   "type": "integer",
                   "default": 0
                 },
+                "hourUTC": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "min": {
                   "type": "integer",
                   "default": 0
@@ -334,6 +391,10 @@
               "type": "object",
               "properties": {
                 "hour": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "hourUTC": {
                   "type": "integer",
                   "default": 0
                 },
