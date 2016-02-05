@@ -4,11 +4,12 @@
 var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
+var warcraftLogsAPI = process.require("core/api/warcraftLogs.js");
 var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var characterModel = process.require("characters/characterModel.js");
 var characterService = process.require("characters/characterService.js");
-var guildKillService = process.require("guildKills/guildKillService.js");
+
 
 /**
  * CharacterUpdateProcess constructor
@@ -65,36 +66,25 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
             })
         },
         function (region, character, callback) {
-            async.parallel([
-                function (callback) {
-                    //Insert BNET
-                    characterModel.upsertBnet(region, character.realm, character.name, character, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
+            async.parallel({
+
+                warcraftLogs : function (callback) {
+                    //Get WarcraftLogs
+                    warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
+                        callback(error, warcraftLogs)
                     });
                 },
-                function (callback) {
-                    //Insert WarcraftLogs
-                    characterService.updateWarcraftLogs(region, character.realm, character.name, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    })
-                },
-                function (callback) {
-                    //Insert Progress
-                    guildKillService.updateProgress(region, character, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
+                progress : function (callback) {
+                    //Get Progress
+                    characterService.getProgress(region, character, function (error,progress) {
+                           callback(error,progress);
                     });
                 }
-            ], function () {
-                callback();
+            }, function (error,results) {
+                results.bnet = character;
+                characterModel.upsert(region, character.realm, character.name,results,function(error){
+                    callback();
+                });
             });
         }
     ], function (error) {

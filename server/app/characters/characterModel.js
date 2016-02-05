@@ -82,16 +82,11 @@ module.exports.count = function (criteria, callback) {
  * @param ad
  * @param callback
  */
-module.exports.upsertAd = function (region, realm, name, ad, callback) {
+module.exports.upsert = function (region, realm, name, obj, callback) {
+
+    var character = {};
+
     async.series([
-        function (callback) {
-            //Force region to lowercase
-            region = region.toLowerCase();
-            //Sanitize ad object
-            var confine = new Confine();
-            ad = confine.normalize(ad, characterAdSchema);
-            callback();
-        },
         function (callback) {
             //Validate Params
             validator.validate({region: region, realm: realm, name: name}, function (error) {
@@ -99,14 +94,40 @@ module.exports.upsertAd = function (region, realm, name, ad, callback) {
             });
         },
         function (callback) {
+
             var date = new Date().getTime();
-            var character = {};
+
+            if(obj.ad){
+                var confine = new Confine();
+                character.ad = confine.normalize(obj.ad, characterAdSchema);
+                character.ad.updated = date;
+            }
+
+            if(obj.bnet){
+                character.bnet = obj.bnet;
+                character.bnet.updated = date;
+            }
+
+            if(obj.warcraftLogs){
+                var tmpObj = {};
+                tmpObj.updated = date;
+                tmpObj.logs = obj.warcraftLogs;
+                character.warcraftLogs = tmpObj;
+            }
+
+            if(obj.progress){
+                character.progress = obj.progress;
+                character.progress.updated = date;
+            }
+
+            //Force region to lowercase
+            region = region.toLowerCase();
+
             character.region = region;
             character.realm = realm;
             character.name = name;
             character.updated = date;
-            ad.updated = date;
-            character.ad = ad;
+
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");
             collection.updateOne({
@@ -123,145 +144,7 @@ module.exports.upsertAd = function (region, realm, name, ad, callback) {
 };
 
 
-/**
- * Update or insert bnet object for the character
- * @param region
- * @param realm
- * @param name
- * @param bnet
- * @param callback
- */
-module.exports.upsertBnet = function (region, realm, name, bnet, callback) {
-    async.series([
-        function (callback) {
-            //Force region to lowercase
-            region = region.toLowerCase();
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            var date = new Date().getTime();
-            var character = {};
-            character.region = region;
-            character.realm = realm;
-            character.name = name;
-            character.updated = date;
-            bnet.updated = date;
-            character.bnet = bnet;
-            //Upsert
-            var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: character}, {upsert: true}, function (error, result) {
-                callback(error, result);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
 
-
-/**
- * Update or insert warcraftLogs object for the character
- * @param region
- * @param realm
- * @param name
- * @param warcraftLogs
- * @param callback
- */
-module.exports.upsertWarcraftLogs = function (region, realm, name, warcraftLogs, callback) {
-    async.series([
-        function (callback) {
-            //Force region to lowercase
-            region = region.toLowerCase();
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            var date = new Date().getTime();
-            var character = {};
-            character.region = region;
-            character.realm = realm;
-            character.name = name;
-            character.updated = date;
-            var obj = {};
-            obj.updated = date;
-            obj.logs = warcraftLogs;
-            character.warcraftLogs = obj;
-            //Upsert
-            var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: character}, {upsert: true}, function (error, result) {
-                callback(error, result);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
-
-
-/**
- * Update or insert pvescore progress for character
- * @param region
- * @param realm
- * @param name
- * @param progress
- * @param callback
- */
-module.exports.upsertProgress = function (region, realm, name, progress, callback) {
-    async.series([
-        function (callback) {
-            //Force region to lowercase
-            region = region.toLowerCase();
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            //Upsert
-            var date = new Date().getTime();
-            var character = {};
-            character.region = region;
-            character.realm = realm;
-            character.name = name;
-            character.updated = date;
-            progress.updated = date;
-            character.progress = progress;
-
-            var collection = applicationStorage.mongo.collection("characters");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: character}, {upsert: true}, function (error, result) {
-                callback(error, result);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
 
 
 /**
