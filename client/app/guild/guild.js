@@ -169,10 +169,16 @@
 
             //Format playTime
             angular.forEach($scope.guild.ad.play_time, function (day) {
-                var start = moment.tz({year:1970,month:1,day:1,hour:day.start.hour,minute:day.start.min}, $scope.guild.ad.timezone);
-                var end = moment.tz({year:1970,month:1,day:1,hour:day.end.hour,minute:day.end.min}, $scope.guild.ad.timezone);
-                day.start = start.valueOf();
-                day.end = end.valueOf();
+                var start = moment.tz({year:1975,month:0,day:1,hour:day.start.hour,minute:day.start.min},"Europe/London");//$scope.guild.ad.timezone);
+                var end = moment.tz({year:1970,month:0,day:1,hour:day.end.hour,minute:day.end.min}, $scope.guild.ad.timezone);
+
+
+                console.log(start.utc().toString());
+                console.log(start.utc().format('X'));
+
+
+                day.start = start.tz("GMT").valueOf();
+                day.end =  end.tz("GMT").valueOf();
 
             });
 
