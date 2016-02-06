@@ -86,7 +86,6 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                                 async.each(character.ad.play_time,function(day,callback){
                                     day.start.hourUTC = day.start.hour + offset;
                                     day.end.hourUTC = day.end.hour +offset;
-                                    console.log(offset);
                                     callback();
                                 },function(){
                                     callback(null,character.ad);
@@ -106,7 +105,10 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                         if (error && error !== true) {
                             logger.error(error.message);
                         }
-                        callback(null, warcraftLogs)
+                        var tmpObj = {};
+                        tmpObj.logs = warcraftLogs;
+                        tmpObj.updated = new Date().getTime();
+                        callback(null, tmpObj)
                     });
                 },
                 progress: function (callback) {
@@ -115,11 +117,13 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                         if (error && error !== true) {
                             logger.error(error.message);
                         }
+                        progress.updated = new Date().getTime();
                         callback(null, progress);
                     });
                 }
             }, function (error, results) {
                 results.bnet = character;
+                results.bnet.updated = new Date().getTime();
                 characterModel.upsert(region, character.realm, character.name, results, function (error) {
                     callback(error);
                 });

@@ -132,6 +132,7 @@ module.exports.putCharacterAd = function (req, res) {
     var ad = req.body;
     async.series([
         function (callback) {
+            ad.updated = new Date().getTime();
             characterModel.upsert(req.params.region, req.params.realm, req.params.name, {ad:ad}, function (error) {
                 callback(error);
             });
