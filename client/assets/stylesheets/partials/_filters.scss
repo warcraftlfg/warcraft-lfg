@@ -257,6 +257,13 @@
   }
 }
 
+.rpw-filter{
+  .rpw-counter{
+    with:100%;
+    text-align:center;
+  }
+}
+
 .progress-filter {
 
   .progress-counter{
@@ -342,6 +349,29 @@
       }
       &.selected {
         background-color: #1EFF00;
+        label {
+          color: $black;
+        }
+        &:hover{
+          opacity:1;
+        }
+      }
+    }
+
+    &.none{
+      border: 1px solid $white;
+      label{
+        color:$white
+      }
+      &:hover{
+        opacity:1;
+        background-color: $white;
+        label {
+          color: $black;
+        }
+      }
+      &.selected {
+        background-color: $white;
         label {
           color: $black;
         }
