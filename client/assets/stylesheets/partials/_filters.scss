@@ -415,3 +415,12 @@
     width:28px;
   }
 }
+
+.sort {
+  .sort-item{
+    cursor:pointer;
+    &.selected {
+      font-weight: 700;
+    }
+  }
+}
