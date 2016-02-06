@@ -120,8 +120,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -137,8 +136,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -163,8 +161,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -180,8 +177,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -206,8 +202,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -223,8 +218,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -249,8 +243,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -266,8 +259,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -292,8 +284,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -309,8 +300,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -335,8 +325,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -352,8 +341,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -378,8 +366,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",
@@ -395,8 +382,7 @@
                   "default": 0
                 },
                 "hourUTC": {
-                  "type": "integer",
-                  "default": 0
+                  "type": "integer"
                 },
                 "min": {
                   "type": "integer",

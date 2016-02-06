@@ -13,14 +13,14 @@ function wlfgFilterRpw($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.raids_per_week = {active:false,min:1,max:7};
+        $scope.raids_per_week = {min:1,max:7};
 
         if ($stateParams.raids_per_week) {
             var paramArray = $stateParams.raids_per_week.split(".");
             if(paramArray.length == 2 ){
 
                 $scope.filters.raids_per_week = $stateParams.raids_per_week;
-                $scope.raids_per_week = {active:true,min:paramArray[0],max:paramArray[1]};
+                $scope.raids_per_week = {min:paramArray[0],max:paramArray[1]};
             }
         }
 
@@ -31,7 +31,7 @@ function wlfgFilterRpw($stateParams, $location) {
                 return;
             }
 
-            if ($scope.raids_per_week.active === false) {
+            if ($scope.raids_per_week.min == 1 && $scope.raids_per_week.max == 7 ) {
                 $location.search('raids_per_week', null);
                 $scope.filters.raids_per_week = null;
             } else {

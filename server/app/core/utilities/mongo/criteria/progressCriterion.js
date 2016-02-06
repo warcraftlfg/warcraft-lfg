@@ -32,6 +32,6 @@ module.exports.add = function (query, criteria) {
         }
 
         var raid = config.progress.raids[0];
-        criteria["progress." + raid.name + ".score"] = {$lte: max * progressFactor,$gte: min  * progressFactor};
+        criteria["progress." + raid.name + ".score"] = {$lte: (max+1) * progressFactor,$gte: min * progressFactor};
     }
 };

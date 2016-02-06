@@ -13,7 +13,7 @@ function wlfgFilterProgress($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.progress = {difficulty:"mythic",min:0,max:13};
+        $scope.progress = {difficulty:"none",min:1,max:13};
 
 
         if ($stateParams.progress) {
@@ -32,7 +32,7 @@ function wlfgFilterProgress($stateParams, $location) {
                 return;
             }
 
-            if ($scope.progress.difficulty === "mythic" && $scope.progress.min === 0 && $scope.progress.max === 13) {
+            if ($scope.progress.difficulty === "none") {
                 $location.search('progress', null);
                 $scope.filters.progress = null;
             } else {
