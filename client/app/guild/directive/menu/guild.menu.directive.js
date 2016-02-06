@@ -1,12 +1,12 @@
 angular
-    .module('app.character')
-    .directive('wlfgCharacterMenu', wlfgCharacterMenu);
+    .module('app.guild')
+    .directive('wlfgGuildMenu', wlfgGuildMenu);
 
-function wlfgCharacterMenu() {
+function wlfgGuildMenu() {
     var directive = {
         link: link,
         restrict: 'A',
-        templateUrl: 'app/character/directive/menu/character.menu.directive.html'
+        templateUrl: 'app/guild/directive/menu/guild.menu.directive.html'
     };
     return directive;
 
