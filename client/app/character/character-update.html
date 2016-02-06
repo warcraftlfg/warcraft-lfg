@@ -91,6 +91,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
+                    <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
+                        <select ng-model="character.ad.timezone" class="form-control">
+                            <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>{{"CHARACTER_CREATE_PLAY_TIME"|translate}}</label>
                     <table class="table table-condensed">
                         <tr ng-class="{'played':obj.play===true}" ng-repeat="(day,obj) in character.ad.play_time">

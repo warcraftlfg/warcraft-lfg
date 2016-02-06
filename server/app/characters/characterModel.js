@@ -94,30 +94,21 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
             });
         },
         function (callback) {
-
-            var date = new Date().getTime();
-
             if(obj.ad){
                 var confine = new Confine();
                 character.ad = confine.normalize(obj.ad, characterAdSchema);
-                character.ad.updated = date;
             }
 
             if(obj.bnet){
                 character.bnet = obj.bnet;
-                character.bnet.updated = date;
             }
 
             if(obj.warcraftLogs){
-                var tmpObj = {};
-                tmpObj.updated = date;
-                tmpObj.logs = obj.warcraftLogs;
-                character.warcraftLogs = tmpObj;
+                character.warcraftLogs = obj.warcraftLogs;
             }
 
             if(obj.progress){
                 character.progress = obj.progress;
-                character.progress.updated = date;
             }
 
             //Force region to lowercase
@@ -126,7 +117,7 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
             character.region = region;
             character.realm = realm;
             character.name = name;
-            character.updated = date;
+            character.updated = new Date().getTime();;
 
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");

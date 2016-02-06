@@ -125,7 +125,7 @@ async.waterfall([
                 json:false,
                 formatter: function(options) {
                     // Return string will be passed to logger.
-                    return new Date().toString()+' - '+process.pid +' '+ options.level.toUpperCase() +' - '+ (undefined !== options.message ? options.message : '') +
+                    return new Date().toString()+' - '+process.pid +' - '+ options.level.toUpperCase() +' - '+ (undefined !== options.message ? options.message : '') +
                         (options.meta && Object.keys(options.meta).length ? '\n\t'+ JSON.stringify(options.meta) : '' );
                 }
             })];

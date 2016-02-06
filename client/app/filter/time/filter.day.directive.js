@@ -63,7 +63,7 @@ function wlfgFilterDay($translate, $stateParams, $location, moment, TIMEZONES) {
 
         $scope.filters.states.days = true;
 
-        $scope.$watch('days', function () {
+        $scope.$watch('[days,timezone]', function () {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
@@ -79,19 +79,24 @@ function wlfgFilterDay($translate, $stateParams, $location, moment, TIMEZONES) {
 
             if (days.length > 0) {
                 $location.search('day', daysParams);
+                $location.search('timezone', $scope.timezone);
+                if (!angular.equals(days, $scope.filters.day)) {
+                    $scope.$parent.loading = true;
+                }
                 $scope.filters.day = days;
+
+
             } else {
                 $location.search('day', null);
-                $scope.filters.day = null;
+                $location.search('timezone', null);
+                if (!angular.equals(days, $scope.filters.day)) {
+                    $scope.$parent.loading = true;
+                }
+                $scope.filters.day = [];
             }
 
-            $scope.$parent.loading = true;
         }, true);
 
-        $scope.$watch('timezone', function () {
-            $location.search('timezone', $scope.timezone);
-
-        });
     }
 
 

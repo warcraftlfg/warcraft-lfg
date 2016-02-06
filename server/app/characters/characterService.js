@@ -152,6 +152,7 @@ module.exports.insertWoWProgressCharacterAd = function (wowProgressCharacterAd, 
             if (!character || (character && !character.ad) || (character && character.ad && !character.ad.updated)) {
                 async.parallel([
                     function (callback) {
+                        wowProgressCharacterAd.updated = new Date().getTime();
                         characterModel.upsert(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, {ad:wowProgressCharacterAd}, function (error) {
                             callback(error);
                         });
