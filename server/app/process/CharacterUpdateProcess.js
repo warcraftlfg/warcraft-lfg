@@ -81,7 +81,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                             });
                         },
                         function (character, callback) {
-                            if (character && character.ad && character.ad.timezone) {
+                            if (character && character.ad && character.ad.timezone && character.ad.lfg==true) {
                                 var offset = Math.round(moment.tz.zone(character.ad.timezone).parse(Date.UTC())/60);
                                 async.each(character.ad.play_time,function(day,callback){
                                     day.start.hourUTC = day.start.hour + offset;
