@@ -28,13 +28,10 @@ module.exports.add = function (query, criteria) {
                 tmpObj["ad.play_time." + day + ".play"] = true;
                 if (start != 0 || end != 0) {
                     var offset = Math.round(zone.parse(Date.UTC()) / 60);
-                    if(end>start){
-                        tmpObj["ad.play_time." + day + ".start.hourUTC"] = {"$lte": start + offset};
-                        tmpObj["ad.play_time." + day + ".end.hourUTC"] = {"$gte": end + offset};
-                    } else {
-                        tmpObj["ad.play_time." + day + ".start.hourUTC"] = {"$gte": start + offset};
-                        tmpObj["ad.play_time." + day + ".end.hourUTC"] = {"$lte": end + offset};
-                    }
+
+                    tmpObj["ad.play_time." + day + ".start.hourUTC"] = {"$gte": start + offset};
+                    tmpObj["ad.play_time." + day + ".end.hourUTC"] = {"$lte": end + offset};
+
                 }
                 days.push(tmpObj);
 
