@@ -1,7 +1,7 @@
-# [[Warcraft LFG|https://www.warcraftlfg.com]] 
+# [Warcraft LFG](https://www.warcraftlfg.com)
 
-## URL 
-<https://www.warcraftlfg.com> 
+## URL
+<https://www.warcraftlfg.com>
 
 ## WTF is...WarcraftLFG?
 WarcraftLFG is our answer at making it easier to find guild/guild mates. It provides a wide amount of information to help you decide on your next guild or to maintain a healthy raid roster.
@@ -24,10 +24,11 @@ Yes! We love data. After ten years of reading guild applications, we are always 
 We are just entering Beta and would love to get your feedbacks already. We have a list of features that we are currently working on and hope to have most of it released early next year. We plan on supporting the website through all the changes that Legion is going to bring to the game as well. Do you feel we're missing something? Please leave a comment.  
 
 ## You can find us:
-[[Reddit|https://www.reddit.com/r/WarcraftLFG/]]
-[[Twitter|https://twitter.com/WarcraftLFG]]
+[Reddit](https://www.reddit.com/r/WarcraftLFG/)
 
-## Installation 
+[Twitter](https://twitter.com/WarcraftLFG)
+
+## Installation
 See the wiki <https://github.com/warcraftlfg/warcraft-lfg/wiki>
- 
+
 -The WarcraftLFG Team
