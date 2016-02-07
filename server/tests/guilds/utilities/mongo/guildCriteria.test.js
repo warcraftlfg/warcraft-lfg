@@ -8,7 +8,7 @@ var factionCriterion = process.require("guilds/utilities/mongo/criteria/factionC
 var languageCriterion = process.require("guilds/utilities/mongo/criteria/languageCriterion.js");
 var recruitmentClassCriterion = process.require("guilds/utilities/mongo/criteria/recruitmentClassCriterion.js");
 var raidsPerWeekCriterion = process.require("guilds/utilities/mongo/criteria/raidsPerWeekCriterion.js");
-var dayCriterion = process.require("core/utilities/mongo/criteria/dayCriterion.js");
+var dayCriterion = process.require("guilds/utilities/mongo/criteria/dayCriterion.js");
 var progressCriterion = process.require("core/utilities/mongo/criteria/progressCriterion.js");
 var lastCriterion = process.require("guilds/utilities/mongo/criteria/lastCriterion.js");
 
