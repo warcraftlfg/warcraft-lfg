@@ -61,6 +61,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
         },
         function (region, guild, priority, callback) {
             async.parallel([
+
                 function (callback) {
                     //Insert BNET
                     guildModel.upsertBnet(region, guild.realm, guild.name, guild, function (error) {
