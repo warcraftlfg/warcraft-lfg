@@ -25,7 +25,7 @@
 <div class="guild-list">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreGuilds()">
+            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreGuilds()" infinite-scroll-immediate-check="false">
                 <div class="cartouche cartouche-faction-{{guild.bnet.side}}" ng-repeat="guild in guilds">
                     <div class="guild guild-faction-{{guild.bnet.side}}">
                         <a class="div-link" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"></a>

@@ -22,7 +22,7 @@
 <div class="character-list" >
     <div class="container">
         <div class="row">
-            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreCharacters()">
+            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreCharacters()" infinite-scroll-immediate-check="false">
                 <div class="cartouche cartouche-faction-{{character.bnet.faction}}" ng-repeat="character in characters">
                     <div class="character character-faction-{{character.bnet.faction}}">
                         <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="div-link"></a>
@@ -60,7 +60,7 @@
                                     Raids per week : {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
                                 </div>
                                 <div>
-                                    iLvl : 
+                                    iLvl :
                                     <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                         {{character.bnet.items.averageItemLevelEquipped}}
                                     </span>
