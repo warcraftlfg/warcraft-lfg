@@ -74,177 +74,55 @@ module.exports.count = function (criteria, callback) {
 };
 
 /**
- * Update or insert ad for the guild
+ * Update or insert objects for the guild
  * @param region
  * @param realm
  * @param name
- * @param ad
+ * @param obj
  * @param callback
  */
-module.exports.upsertAd = function (region, realm, name, ad, callback) {
+module.exports.upsert = function(region,realm,name,obj,callback){
     async.series([
         function (callback) {
-            //Format value
-            region = region.toLowerCase();
+            //Validate Params
+            validator.validate({region: region, realm: realm, name: name}, function (error) {
+                callback(error);
+            });
+        },
+        function (callback) {
+            var guild = {};
+
+
             //Sanitize ad object
-            var confine = new Confine();
-            ad = confine.normalize(ad, guildAdSchema);
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            var date = new Date().getTime();
-            var guild = {};
-            guild.region = region;
-            guild.realm = realm;
-            guild.name = name;
-            guild.updated = date;
-            ad.updated = date;
-            guild.ad = ad;
-            //Upsert
-            var collection = applicationStorage.mongo.collection("guilds");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: guild}, {upsert: true}, function (error) {
-                callback(error);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
+            if(obj.ad) {
+                var confine = new Confine();
+                guild.ad = confine.normalize(obj.ad, guildAdSchema);
+            }
 
-/**
- * Update or insert perms for the guild
- * @param region
- * @param realm
- * @param name
- * @param perms
- * @param callback
- */
-module.exports.upsertPerms = function (region, realm, name, perms, callback) {
-    async.series([
-        function (callback) {
+            if(obj.bnet){
+                guild.bnet = obj.bnet;
+            }
+
+            if(obj.perms){
+                guild.perms = obj.perms;
+            }
+
+            if(obj.wowProgress){
+                guild.wowProgress = obj.wowProgress;
+            }
+
+            if(obj.progress){
+                guild.progress = obj.progress;
+            }
+
             //Format value
             region = region.toLowerCase();
-            //Sanitize ad object
-            var confine = new Confine();
-            perms = confine.normalize(perms, guildPermsSchema);
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            var date = new Date().getTime();
-            var guild = {};
+
             guild.region = region;
             guild.realm = realm;
             guild.name = name;
-            guild.updated = date;
-            perms.updated = date;
-            guild.perms = perms;
-            //Upsert
-            var collection = applicationStorage.mongo.collection("guilds");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: guild}, {upsert: true}, function (error) {
-                callback(error);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
+            guild.updated = new Date().getTime();
 
-/**
- * Update or insert bnet object for the guild
- * @param region
- * @param realm
- * @param name
- * @param bnet
- * @param callback
- */
-module.exports.upsertBnet = function (region, realm, name, bnet, callback) {
-    async.series([
-        function (callback) {
-            //Format value
-            region = region.toLowerCase();
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            var date = new Date().getTime();
-            var guild = {};
-            guild.region = region;
-            guild.realm = realm;
-            guild.name = name;
-            guild.updated = date;
-            bnet.updated = date;
-            guild.bnet = bnet;
-            //Upsert
-            var collection = applicationStorage.mongo.collection("guilds");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: guild}, {upsert: true}, function (error) {
-                callback(error);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
-
-
-/**
- * Update or insert wowprogress object for the guild
- * @param region
- * @param realm
- * @param name
- * @param wowProgress
- * @param callback
- */
-module.exports.upsertWowProgress = function (region, realm, name, wowProgress, callback) {
-    async.series([
-        function (callback) {
-            //Format value
-            region = region.toLowerCase();
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            var date = new Date().getTime();
-            var guild = {};
-            guild.region = region;
-            guild.realm = realm;
-            guild.name = name;
-            guild.updated = date;
-            wowProgress.updated = date;
-            guild.wowProgress = wowProgress;
             //Upsert
             var collection = applicationStorage.mongo.collection("guilds");
             collection.updateOne({

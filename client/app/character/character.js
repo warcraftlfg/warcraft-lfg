@@ -178,6 +178,7 @@
             delete params.states;
 
             characters.query(params, function (characters) {
+
                     $scope.$parent.loading = false;
                     $scope.loading = false;
 

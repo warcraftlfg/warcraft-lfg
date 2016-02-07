@@ -110,6 +110,7 @@ module.exports.getProgress = function(region,character,callback){
             },function(error){
                 progress = {};
                 progress[raid.name] = { 'score': pveScore };
+                progress.updated = new Date().getTime();
                 callback(error)
             });
 

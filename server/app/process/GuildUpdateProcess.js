@@ -2,13 +2,14 @@
 
 //Load dependencies
 var async = require("async");
+var moment = require('moment-timezone');
 var applicationStorage = process.require("core/applicationStorage.js");
 var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var guildModel = process.require("guilds/guildModel.js");
 var guildService = process.require("guilds/guildService.js");
 var bnetAPI = process.require("core/api/bnet.js");
-
+var wowProgressAPI = process.require("core/api/wowProgress.js");
 
 /**
  * GuildUpdateProcess constructor
@@ -62,15 +63,6 @@ GuildUpdateProcess.prototype.updateGuild = function () {
         function (region, guild, priority, callback) {
             async.parallel([
                 function (callback) {
-                    //Insert BNET
-                    guildModel.upsertBnet(region, guild.realm, guild.name, guild, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    });
-                },
-                function (callback) {
                     //Insert members to update
                     guildService.setMembersToUpdate(region, guild.realm, guild.name, guild.members, priority, function (error) {
                         if (error) {
@@ -80,17 +72,8 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 },
                 function (callback) {
-                    //Wowprogress ranking
+                    //Wowprogress kill
                     guildService.updateWowProgressKill(region, guild.realm, guild.name, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    });
-                },
-                function (callback) {
-                    //Wowprogress kills
-                    guildService.updateWowProgressRanking(region, guild.realm, guild.name, function (error) {
                         if (error) {
                             logger.error(error.message);
                         }
@@ -98,8 +81,65 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 }
             ], function () {
-                callback();
+                callback(null,region, guild)
             });
+        },
+        function (region, guild, callback) {
+            async.parallel({
+                ad: function (callback) {
+                    async.waterfall([
+                        function (callback) {
+                            guildModel.findOne({
+                                region: region,
+                                realm: guild.realm,
+                                name: guild.name
+                            }, {ad: 1}, function (error, guild) {
+                                callback(error, guild);
+                            });
+                        },
+                        function (guild, callback) {
+                            if (guild && guild.ad && guild.ad.timezone) {
+                                var offset = Math.round(moment.tz.zone(guild.ad.timezone).parse(Date.UTC())/60);
+                                async.each(guild.ad.play_time,function(day,callback){
+                                    day.start.hourUTC = day.start.hour + offset;
+                                    day.end.hourUTC = day.end.hour +offset;
+                                    callback();
+                                },function(){
+                                    callback(null,guild.ad);
+                                });
+                            } else {
+                                callback();
+                            }
+                        }
+                    ], function (error, ad) {
+                        if (error) {
+                            logger.error(error.message);
+                        }
+                        callback(null, ad)
+                    });
+                },
+                wowProgress: function (callback) {
+                    //Wowprogress ranking
+                    wowProgressAPI.getGuildRank(region, guild.realm, guild.name, function (error, wowProgress) {
+                        if (error) {
+                            logger.error(error.message);
+                        }else {
+                            wowProgress.updated = new Date().getTime();
+                        }
+                        callback(error, wowProgress);
+                    });
+                }
+            }, function (error, results) {
+                results.bnet = guild;
+                results.bnet.updated = new Date().getTime();
+                guildModel.upsert(region, guild.realm, guild.name, results, function (error) {
+                    if (error) {
+                        logger.error(error.message);
+                    }
+                    callback();
+                });
+            })
+
         }
     ], function (error) {
         if (error && error !== true) {

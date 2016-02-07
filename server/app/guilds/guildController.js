@@ -91,7 +91,8 @@ module.exports.putGuildAd = function (req, res) {
 
     async.series([
         function (callback) {
-            guildModel.upsertAd(req.params.region, req.params.realm, req.params.name, ad, function (error) {
+            ad.updated = new Date().getTime();
+            guildModel.upsert(req.params.region, req.params.realm, req.params.name, {ad:ad}, function (error) {
                 callback(error);
             });
         },
@@ -139,7 +140,8 @@ module.exports.putGuildPerms = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
     var perms = req.body;
-    guildModel.upsertPerms(req.params.region, req.params.realm, req.params.name, perms, function (error) {
+    perms.updated = new Date().getTime();
+    guildModel.upsert(req.params.region, req.params.realm, req.params.name, {perms:perms}, function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);

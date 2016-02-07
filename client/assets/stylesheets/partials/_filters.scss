@@ -33,7 +33,7 @@
 
 .role-filter {
   .checkbox-inline {
-    opacity: 0.5;
+    opacity: 0.3;
     padding-left: 0px;
     margin-left: 5px;
     text-align: center;
@@ -88,7 +88,7 @@
       width: 100%;
       height: 100%;
     }
-    &:hover, &.selected {
+    &.selected {
       .class-1 {
         background: url('../images/icon/30/class-1-hover.png') no-repeat top center;
       }
@@ -126,9 +126,9 @@
 
     &.selected {
       opacity: 0.85;
-      &:hover {
-        opacity: 1;
-      }
+    }
+    &:hover {
+      opacity: 1;
     }
     .class-1 {
       background: url('../images/icon/30/class-1.png') no-repeat top center;
@@ -164,40 +164,36 @@
       background: url('../images/icon/30/class-11.png') no-repeat top center;
     }
 
-    &.role{
-      opacity: 0.5;
+    &.role {
+      opacity: 0.3;
       height: 15px;
       width: 15px;
 
-      &.selected{
-        opacity:0.85;
+      &.selected {
+        opacity: 0.85;
       }
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
       }
     }
 
-
-    .role-heal{
+    .role-heal {
       background: url('../images/icon/16/healing.png') no-repeat center center;
-      background-size:contain;
+      background-size: contain;
     }
-    .role-tank{
+    .role-tank {
       background: url('../images/icon/16/tank.png') no-repeat center center;
-      background-size:contain;
+      background-size: contain;
     }
-    .role-melee_dps{
+    .role-melee_dps {
       background: url('../images/icon/16/dps.png') no-repeat center center;
-      background-size:contain;
+      background-size: contain;
     }
-    .role-ranged_dps{
+    .role-ranged_dps {
       background: url('../images/icon/16/ranged-dps.png') no-repeat center center;
-      background-size:contain;
+      background-size: contain;
     }
   }
-
-
-
 
 }
 
@@ -237,10 +233,7 @@
       }
       &:hover {
         opacity: 1;
-        background-color: $horde;
-        label {
-          color: $black;
-        }
+
       }
       &.selected {
         opacity: 0.85;
@@ -248,14 +241,6 @@
         label {
           color: $black;
         }
-        &:hover {
-          opacity: 1;
-          background-color: $horde;
-          label {
-            color: $black;
-          }
-        }
-
       }
     }
     &.alliance {
@@ -266,10 +251,7 @@
       }
       &:hover {
         opacity: 1;
-        background-color: $alliance;
-        label {
-          color: $black;
-        }
+
       }
 
       &.selected {
@@ -278,14 +260,6 @@
         label {
           color: $black;
         }
-        &:hover {
-          opacity: 1;
-          background-color: $alliance;
-          label {
-            color: $black;
-          }
-        }
-
       }
     }
 
@@ -440,19 +414,11 @@
     }
     &:hover {
       opacity: 1;
-      background-color: $white;
-      label {
-        color: $black;
-      }
     }
     &.selected {
-
       background-color: $white;
       label {
         color: $black;
-      }
-      &:hover {
-        opacity: 1;
       }
     }
 
@@ -475,6 +441,9 @@
   .css3-metro-dropdown::after {
     line-height: 28px;
     width: 28px;
+  }
+  select:disabled{
+    opacity:0.5;
   }
 }
 
