@@ -95,6 +95,9 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                             }
                         }
                     ], function (error, ad) {
+                        if (error) {
+                            logger.error(error.message);
+                        }
                         callback(null, ad)
                     });
                 },

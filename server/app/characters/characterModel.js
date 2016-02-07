@@ -84,7 +84,6 @@ module.exports.count = function (criteria, callback) {
  */
 module.exports.upsert = function (region, realm, name, obj, callback) {
 
-    var character = {};
 
     async.series([
         function (callback) {
@@ -94,6 +93,7 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
             });
         },
         function (callback) {
+            var character = {};
             if(obj.ad){
                 var confine = new Confine();
                 character.ad = confine.normalize(obj.ad, characterAdSchema);
@@ -117,7 +117,7 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
             character.region = region;
             character.realm = realm;
             character.name = name;
-            character.updated = new Date().getTime();;
+            character.updated = new Date().getTime();
 
             //Upsert
             var collection = applicationStorage.mongo.collection("characters");

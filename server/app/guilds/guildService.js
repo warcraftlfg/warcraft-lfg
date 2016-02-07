@@ -92,33 +92,6 @@ module.exports.updateWowProgressKill = function (region, realm, name, callback) 
 };
 
 /**
- * Update wowprogress ranking
- * @param region
- * @param realm
- * @param name
- * @param callback
- */
-module.exports.updateWowProgressRanking = function (region, realm, name, callback) {
-    var logger = applicationStorage.logger;
-    async.waterfall([
-        function (callback) {
-            wowProgressAPI.getGuildRank(region, realm, name, function (error, wowProgress) {
-                callback(error, wowProgress);
-            });
-        },
-        function (wowProgress, callback) {
-            guildModel.upsertWowProgress(region, realm, name, wowProgress, function (error) {
-                logger.verbose("Upsert wowprogress ranking for guild %s-%s-%s", region, realm, name);
-                callback(error);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
-
-
-/**
  *
  * @param wowProgressGuildAd
  * @param callback
@@ -147,7 +120,8 @@ module.exports.insertWoWProgressGuildAd = function (wowProgressGuildAd, callback
             if (!guild || (guild && !guild.ad) || (guild && guild.ad && !guild.ad.updated)) {
                 async.parallel([
                     function (callback) {
-                        guildModel.upsertAd(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, wowProgressGuildAd, function (error) {
+                        wowProgressGuildAd.updated = new Date().getTime();
+                        guildModel.upsert(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, {ad:wowProgressGuildAd}, function (error) {
                             callback(error);
                         });
                     },

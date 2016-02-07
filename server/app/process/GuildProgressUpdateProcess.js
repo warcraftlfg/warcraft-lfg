@@ -76,7 +76,10 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function () {
                             }
                             callback();
                         }, function () {
-                            guildModel.upsertProgress(guildProgress.region, guildProgress.realm, guildProgress.name, raid.name, progress, function (error) {
+                            var obj = {};
+                            obj[raid.name] = progress;
+                            progress.updated = new Date().getTime();
+                            guildModel.upsert(guildProgress.region, guildProgress.realm, guildProgress.name, {progress:obj}, function (error) {
                                 callback(error);
                             });
                         });

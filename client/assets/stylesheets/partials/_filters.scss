@@ -442,6 +442,9 @@
     line-height: 28px;
     width: 28px;
   }
+  select:disabled{
+    opacity:0.5;
+  }
 }
 
 .sort {
