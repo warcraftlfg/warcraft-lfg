@@ -98,7 +98,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                             });
                         },
                         function (guild, callback) {
-                            if (guild && guild.ad && guild.ad.timezone) {
+                            if (guild && guild.ad && guild.ad.timezone && guild.ad.lfg==true) {
                                 var offset = Math.round(moment.tz.zone(guild.ad.timezone).parse(Date.UTC())/60);
                                 async.each(guild.ad.play_time,function(day,callback){
                                     day.start.hourUTC = day.start.hour + offset;
