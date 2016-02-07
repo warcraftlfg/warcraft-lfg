@@ -97,10 +97,10 @@ module.exports.add = function (query, criteria) {
         });
         if (recruitment.length > 0) {
             if (!criteria["$and"]) {
-                criteria["$and"] = [{"$or": recruitment}];
+                criteria["$and"] = recruitment;
             }
             else {
-                criteria["$and"] = criteria["$and"].concat({"$or": recruitment});
+                criteria["$and"] = criteria["$and"].concat(recruitment);
             }
         }
     }
