@@ -1,6 +1,6 @@
 .realmzone-filter {
   .checkbox-inline {
-    opacity:0.85;
+    opacity: 0.85;
     margin-left: 5px;
     margin-bottom: 5px;
     padding-left: 0px;
@@ -24,8 +24,8 @@
         color: $black;
       }
     }
-    &:hover{
-      opacity:1;
+    &:hover {
+      opacity: 1;
     }
   }
 
@@ -33,7 +33,7 @@
 
 .role-filter {
   .checkbox-inline {
-    opacity:0.5;
+    opacity: 0.5;
     padding-left: 0px;
     margin-left: 5px;
     text-align: center;
@@ -47,13 +47,13 @@
       width: 100%;
       height: 100%;
     }
-    &:hover{
-      opacity:0.85;
+    &:hover {
+      opacity: 0.85;
     }
     &.selected {
-      opacity:0.85;
-      &:hover{
-        opacity:1;
+      opacity: 0.85;
+      &:hover {
+        opacity: 1;
       }
     }
     .tank {
@@ -74,7 +74,7 @@
 
 .class-filter {
   .checkbox-inline {
-    opacity:0.85;
+    opacity: 0.85;
     padding-left: 0px;
     margin-left: 5px;
     text-align: center;
@@ -88,7 +88,7 @@
       width: 100%;
       height: 100%;
     }
-    &:hover,  &.selected{
+    &:hover, &.selected {
       .class-1 {
         background: url('../images/icon/30/class-1-hover.png') no-repeat top center;
       }
@@ -125,9 +125,9 @@
     }
 
     &.selected {
-      opacity:0.85;
-      &:hover{
-        opacity:1;
+      opacity: 0.85;
+      &:hover {
+        opacity: 1;
       }
     }
     .class-1 {
@@ -163,7 +163,33 @@
     .class-11 {
       background: url('../images/icon/30/class-11.png') no-repeat top center;
     }
+
+    &.role{
+      height: 15px;
+      width: 15px;
+    }
+
+    .role-heal{
+      background: url('../images/icon/16/healing.png') no-repeat center center;
+      background-size:contain;
+    }
+    .role-tank{
+      background: url('../images/icon/16/tank.png') no-repeat center center;
+      background-size:contain;
+    }
+    .role-melee_dps{
+      background: url('../images/icon/16/dps.png') no-repeat center center;
+      background-size:contain;
+    }
+    .role-ranged_dps{
+      background: url('../images/icon/16/ranged-dps.png') no-repeat center center;
+      background-size:contain;
+    }
   }
+
+
+
+
 }
 
 .faction-filter {
@@ -175,7 +201,7 @@
 
   }
   .checkbox-inline {
-    opacity:0.85;
+    opacity: 0.85;
     margin-left: 5px;
     margin-bottom: 5px;
     padding-left: 0px;
@@ -200,21 +226,21 @@
       label {
         color: $horde;
       }
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
         background-color: $horde;
         label {
           color: $black;
         }
       }
       &.selected {
-        opacity:0.85;
+        opacity: 0.85;
         background-color: $horde;
         label {
           color: $black;
         }
-        &:hover{
-          opacity:1;
+        &:hover {
+          opacity: 1;
           background-color: $horde;
           label {
             color: $black;
@@ -229,8 +255,8 @@
       label {
         color: $alliance;
       }
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
         background-color: $alliance;
         label {
           color: $black;
@@ -238,13 +264,13 @@
       }
 
       &.selected {
-        opacity:0.85;
+        opacity: 0.85;
         background-color: $alliance;
         label {
           color: $black;
         }
-        &:hover{
-          opacity:1;
+        &:hover {
+          opacity: 1;
           background-color: $alliance;
           label {
             color: $black;
@@ -257,21 +283,21 @@
   }
 }
 
-.rpw-filter{
-  .rpw-counter{
-    with:100%;
-    text-align:center;
+.rpw-filter {
+  .rpw-counter {
+    with: 100%;
+    text-align: center;
   }
 }
 
 .progress-filter {
 
-  .progress-counter{
-    with:100%;
-    text-align:center;
+  .progress-counter {
+    with: 100%;
+    text-align: center;
   }
   .radio-inline {
-    opacity:0.85;
+    opacity: 0.85;
     margin-left: 5px;
     margin-bottom: 5px;
     padding-left: 0px;
@@ -289,15 +315,14 @@
       display: none;
     }
 
-
-    &.mythic{
+    &.mythic {
       border: 1px solid #FF8000;
-      label{
-        color:#FF8000
+      label {
+        color: #FF8000
       }
 
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
         background-color: #FF8000;
         label {
           color: $black;
@@ -308,18 +333,18 @@
         label {
           color: $black;
         }
-        &:hover{
-          opacity:1;
+        &:hover {
+          opacity: 1;
         }
       }
     }
-    &.heroic{
+    &.heroic {
       border: 1px solid #A335EE;
-      label{
-        color:#A335EE
+      label {
+        color: #A335EE
       }
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
         background-color: #A335EE;
         label {
           color: $black;
@@ -330,18 +355,18 @@
         label {
           color: $black;
         }
-        &:hover{
-          opacity:1;
+        &:hover {
+          opacity: 1;
         }
       }
     }
-    &.normal{
+    &.normal {
       border: 1px solid #1EFF00;
-      label{
-        color:#1EFF00
+      label {
+        color: #1EFF00
       }
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
         background-color: #1EFF00;
         label {
           color: $black;
@@ -352,19 +377,19 @@
         label {
           color: $black;
         }
-        &:hover{
-          opacity:1;
+        &:hover {
+          opacity: 1;
         }
       }
     }
 
-    &.none{
+    &.none {
       border: 1px solid $white;
-      label{
-        color:$white
+      label {
+        color: $white
       }
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
         background-color: $white;
         label {
           color: $black;
@@ -375,20 +400,18 @@
         label {
           color: $black;
         }
-        &:hover{
-          opacity:1;
+        &:hover {
+          opacity: 1;
         }
       }
     }
-
-
 
   }
 }
 
 .playtime-filter {
   .checkbox-inline {
-    opacity:0.85;
+    opacity: 0.85;
     margin-left: 0px;
     margin-bottom: 5px;
     padding-left: 0px;
@@ -406,8 +429,8 @@
     input {
       display: none;
     }
-    &:hover{
-      opacity:1;
+    &:hover {
+      opacity: 1;
       background-color: $white;
       label {
         color: $black;
@@ -419,38 +442,39 @@
       label {
         color: $black;
       }
-      &:hover{
-        opacity:1;
+      &:hover {
+        opacity: 1;
       }
     }
 
   }
-  select.form-control{
-    font-size:12px;
+  select.form-control {
+    font-size: 12px;
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
-    height:30px;
-    line-height:12px;
+    height: 30px;
+    line-height: 12px;
   }
-  .clock{
+  .clock {
     background: url('../images/menu/clock.png') no-repeat center center;
-    width:16px;
-    height:19px;
+    width: 16px;
+    height: 19px;
     display: inline-block;
   }
 
-  .css3-metro-dropdown::after{
-    line-height:28px;
-    width:28px;
+  .css3-metro-dropdown::after {
+    line-height: 28px;
+    width: 28px;
   }
 }
 
 .sort {
-  .sort-item{
-    cursor:pointer;
+  .sort-item {
+    cursor: pointer;
     &.selected {
       font-weight: 700;
     }
   }
 }
+

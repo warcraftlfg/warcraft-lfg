@@ -1,7 +1,7 @@
 <div class="menu">
     <div ng-class="{'open':menuContentShowed}" class="menu-content">
         <div class="menu-content-nonretractable">
-            <div class="row">
+            <div class="row menu-row">
                 <div class="col-md-1">
                     <i class="h-100 earth"></i>
                 </div>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div ng-show="menuContentShowed" class="menu-content-retractable">
-            <div class="row">
+            <div class="row menu-row">
                 <div class="col-md-1">
                     <i class="character h-50"></i>
                 </div>
@@ -37,7 +37,7 @@
                     <div wlfg-filter-faction></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row menu-row">
                 <div class="col-md-1">
                     <i class="calendar h-60"></i>
                 </div>
@@ -48,7 +48,7 @@
                     <div wlfg-filter-rpw></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row menu-row">
                 <div class="col-md-1">
                     <i class="params h-60"></i>
                 </div>
@@ -62,7 +62,7 @@
             </div>
         </div>
     </div>
-    <div class="menu-footer row">
+    <div class="menu-footer row menu-row">
         <div ng-click="menuContentShowed=!menuContentShowed" class="menu-open col-md-12 "></div>
         <div class="col-md-3 col-md-offset-9">
             <div wlfg-sort-character></div>
