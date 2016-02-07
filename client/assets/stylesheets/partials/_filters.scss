@@ -165,9 +165,18 @@
     }
 
     &.role{
+      opacity: 0.5;
       height: 15px;
       width: 15px;
+
+      &.selected{
+        opacity:0.85;
+      }
+      &:hover{
+        opacity:1;
+      }
     }
+
 
     .role-heal{
       background: url('../images/icon/16/healing.png') no-repeat center center;

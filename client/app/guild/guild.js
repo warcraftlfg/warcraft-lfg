@@ -221,8 +221,8 @@
         $scope.filters.states = {};
 
         $scope.$watch('filters', function () {
-            if ($scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
-                // $scope.filters.states.classes &&
+            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
+                // && $scope.filters.states.timezone
                 //socket.emit('get:guildAds', $scope.filters);
                 $scope.guilds = [];
                 getGuildAds();
