@@ -2,10 +2,10 @@
   margin: -20px auto 20px auto;
   max-width: 1240px;
   .menu-content {
-    padding: 10px 20px;
+    padding: 10px 40px;
     background-color: $black;
 
-    .row {
+    .menu-row {
       padding: 15px 0 15px 0;
 
     }
@@ -33,12 +33,12 @@
 
 
     &.open {
-      .row {
+      .menu-row {
         background: url('../images/menu/separator.png') no-repeat bottom center;
         padding: 15px 0 15px 0;
       }
       .menu-content-retractable {
-        .row:last-child {
+        .menu-row:last-child {
           background: none;
           padding-bottom: 0px;
         }

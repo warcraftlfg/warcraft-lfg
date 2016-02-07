@@ -14,40 +14,54 @@ function wlfgFilterRoleClass($translate, $stateParams, $location) {
 
     function link($scope, element, attrs) {
 
-        $scope.classes = [
-            {name: '<span class="icon-small tank">'+$translate.instant("TANKS")+'</span>', msGroup: true},
-            {id:1, role:"tank", name: "<span class='class-1'>"+$translate.instant("CLASS_1")+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>",iconrole:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-            {id:11, role:"tank", name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>",iconrole:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-            {id:2, role:"tank", name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>",iconrole:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-            {id:10, role:"tank", name: "<span class='class-10'>"+$translate.instant("CLASS_10")+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>",iconrole:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-            {id:6, role:"tank", name: "<span class='class-6'>"+$translate.instant("CLASS_6")+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>",iconrole:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-            { msGroup: false},
-            {name: '<span class="icon-small heal">'+$translate.instant("HEALS")+'</span>', msGroup: true},
-            {id:11, role:"heal", name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>",iconrole:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-            {id:5, role:"heal", name: "<span class='class-5'>"+$translate.instant("CLASS_5")+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>",iconrole:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-            {id:2, role:"heal", name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>",iconrole:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-            {id:7, role:"heal", name: "<span class='class-7'>"+$translate.instant("CLASS_7")+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>",iconrole:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-            {id:10, role:"heal", name: "<span class='class-10'>"+$translate.instant("CLASS_10")+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>",iconrole:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-            { msGroup: false},
-            {name: '<span class="icon-small dps">'+$translate.instant("MELEE_DPS")+'</span>', msGroup: true},
-            {id:11, role:"melee_dps", name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>",iconrole:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:6, role:"melee_dps", name: "<span class='class-6'>"+$translate.instant("CLASS_6")+"</span>", icon:"<img src='/assets/images/icon/16/class-6.png'>",iconrole:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:2, role:"melee_dps", name: "<span class='class-2'>"+$translate.instant("CLASS_2")+"</span>", icon:"<img src='/assets/images/icon/16/class-2.png'>",iconrole:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:10, role:"melee_dps", name: "<span class='class-10'>"+$translate.instant("CLASS_10")+"</span>", icon:"<img src='/assets/images/icon/16/class-10.png'>",iconrole:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:7, role:"melee_dps", name: "<span class='class-7'>"+$translate.instant("CLASS_7")+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>",iconrole:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:1, role:"melee_dps", name: "<span class='class-1'>"+$translate.instant("CLASS_1")+"</span>", icon:"<img src='/assets/images/icon/16/class-1.png'>",iconrole:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:4, role:"melee_dps", name: "<span class='class-4'>"+$translate.instant("CLASS_4")+"</span>", icon:"<img src='/assets/images/icon/16/class-4.png'>",iconrole:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            { msGroup: false},
-            {name: '<span class="icon-small ranged-dps">'+$translate.instant("RANGED_DPS")+'</span>', msGroup: true},
-            {id:11, role:"ranged_dps", name: "<span class='class-11'>"+$translate.instant("CLASS_11")+"</span>", icon:"<img src='/assets/images/icon/16/class-11.png'>",iconrole:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false},
-            {id:5, role:"ranged_dps", name: "<span class='class-5'>"+$translate.instant("CLASS_5")+"</span>", icon:"<img src='/assets/images/icon/16/class-5.png'>",iconrole:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false},
-            {id:7, role:"ranged_dps", name: "<span class='class-7'>"+$translate.instant("CLASS_7")+"</span>", icon:"<img src='/assets/images/icon/16/class-7.png'>",iconrole:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false},
-            {id:3, role:"ranged_dps", name: "<span class='class-3'>"+$translate.instant("CLASS_3")+"</span>", icon:"<img src='/assets/images/icon/16/class-3.png'>",iconrole:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false},
-            {id:9, role:"ranged_dps", name: "<span class='class-9'>"+$translate.instant("CLASS_9")+"</span>", icon:"<img src='/assets/images/icon/16/class-9.png'>",iconrole:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false},
-            {id:8, role:"ranged_dps", name: "<span class='class-8'>"+$translate.instant("CLASS_8")+"</span>", icon:"<img src='/assets/images/icon/16/class-8.png'>",iconrole:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false},
-            { msGroup: false}
-        ];
 
+        $scope.classes = {
+            1:{
+                tank:false,
+                melee_dps:false
+            },
+            2:{
+                tank:false,
+                heal:false,
+                melee_dps:false
+            },
+            3:{
+                ranged_dps:false
+            },
+            4:{
+                melee_dps:false
+            },
+            5:{
+                heal:false,
+                ranged_dps:false
+            },
+            6:{
+                tank:false,
+                melee_dps:false
+            },
+            7:{
+                heal:false,
+                melee_dps:false,
+                ranged_dps:false
+            },
+            8:{
+                ranged_dps:false
+            },
+            9:{
+                melee_dps:false,
+            },
+            10:{
+                tank:false,
+                heal:false,
+                melee_dps:false
+            },
+            11:{
+                tank:false,
+                heal:false,
+                melee_dps:false,
+                ranged_dps:false
+            }
+        };
         $scope.localClasses = {
             selectAll       : $translate.instant("SELECT_ALL"),
             selectNone      : $translate.instant("SELECT_NONE"),
