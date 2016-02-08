@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates","user"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates,user) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -26,7 +26,6 @@
                 "guildRealm": $stateParams.realm,
                 "guildName": $stateParams.name
             }, function (guild) {
-                $scope.$parent.loading = false;
                 $scope.guild = guild;
                 $scope.recruit = {'tank': 0, 'heal': 0, 'melee_dps': 0, 'ranged_dps': 0};
                 angular.forEach(guild.ad.recruitment, function (value, key) {
@@ -36,6 +35,26 @@
                         }
                     });
                 });
+                $scope.$parent.loading = false;
+                if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
+                    $scope.$parent.loading = true;
+                    user.get({
+                        param: "guildRank",
+                        region: $stateParams.region,
+                        realm: $stateParams.realm,
+                        name: $stateParams.name
+                    }, function (data) {
+
+                        if(data && data.rank && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit){
+                            if(guild.perms.ad.edit.indexOf(data.rank)!=-1){
+                                $scope.userCanEdit = true;
+                                console.log('ici');
+                            }
+                        }
+                        $scope.$parent.loading = false;
+                    });
+                }
+
 
             },
             function (error) {
