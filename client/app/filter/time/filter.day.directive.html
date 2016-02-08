@@ -5,7 +5,7 @@
             <div class="col-md-12 p-l-5">
                 <div class="css3-metro-dropdown">
                     <select ng-model="timezone" class="form-control">
-                        <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
+                        <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}} (GMT{{timezone | wlfgTimezoneOffset}})</option>
                     </select>
                 </div>
             </div>
