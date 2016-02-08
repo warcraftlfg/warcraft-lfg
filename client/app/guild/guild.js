@@ -51,7 +51,6 @@
                         }
                         if(data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit){
                             if(guild.perms.ad.edit.indexOf(data.rank)>=0){
-                                console.log("PAF");
                                 $scope.userCanEdit = true;
                             }
                         }
