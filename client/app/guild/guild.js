@@ -49,13 +49,11 @@
                             //No perms set everyone can edit.
                             $scope.userCanEdit = true;
                         }
-                        if(data && data.rank && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit){
-                            if(guild.perms.ad.edit.indexOf(data.rank)!=-1){
+                        if(data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit){
+                            if(guild.perms.ad.edit.indexOf(data.rank)>=0){
+                                console.log("PAF");
                                 $scope.userCanEdit = true;
                             }
-                        }
-                        if(data && data.rank === 0){
-                            $scope.userCanEdit = true;
                         }
 
                         $scope.$parent.loading = false;
