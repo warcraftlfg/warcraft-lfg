@@ -28,7 +28,7 @@ async.waterfall([
         guildModel.find({
             "ad.lfg": true,
             "ad.updated": {$lte: date}
-        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad": 1}, 0, {"ad.lfg": 1}, function (error, guilds) {
+        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad": 1}, function (error, guilds) {
             callback(error, guilds);
         });
     },
@@ -74,7 +74,7 @@ async.waterfall([
         characterModel.find({
             "ad.lfg": true,
             "ad.updated": {$lte: date}
-        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad": 1}, 0, {"ad.lfg": 1}, function (error, characters) {
+        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad": 1}, function (error, characters) {
             callback(error, characters);
         });
     },
