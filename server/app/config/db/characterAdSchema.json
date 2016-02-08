@@ -100,7 +100,7 @@
     "timezone": {
       "type": "string",
       "default": "Europe/London",
-      "enum": ["America/Chicago","America/Los_Angeles","America/New_York","America/Denver","America/Sao_Paulo","Australia/Melbourne","Asia/Seoul","Asia/Taipei","Europe/London","Europe/Paris","Europe/Berlin","Europe/Madrid","Europe/Lisbon","Europe/Moscow"]
+      "enum": ["America/Chicago","America/Los_Angeles","America/New_York","America/Denver","America/Sao_Paulo","Australia/Melbourne","Asia/Seoul","Asia/Taipei","Europe/London","Europe/Paris","Europe/Berlin","Europe/Madrid","Europe/Lisbon","Europe/Moscow","US/Hawaii"]
     },
     "play_time": {
       "type": "object",
