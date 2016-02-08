@@ -78,23 +78,12 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
             var realmZonesFilter = [];
 
             angular.forEach($scope.realmZones,function(realmZone){
-
-                if($scope.filters.realm && realmZone.region == $scope.filters.realm.split(".")[0]) {
-                    realmInRegion = true;
-                }
                 if(realmZone.selected) {
                     realmZones.push(realmZone.region + '.' + realmZone.locale + "." + realmZone.zone + "." + realmZone.city);
                     realmZonesFilter.push(realmZone.region + "." + realmZone.locale + "." + realmZone.zone + "/" + realmZone.city);
                 }
-
             });
             $scope.filters.realm_zone = realmZonesFilter;
-
-            if (!realmInRegion) {
-                $location.search('realm', null);
-                $scope.filters.realm = null;
-
-            }
 
             if (realmZones.length > 0) {
                 $location.search('realm_zone', realmZones);

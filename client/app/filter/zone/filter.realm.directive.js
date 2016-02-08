@@ -72,15 +72,22 @@ function wlfgFilterRealm($translate, $stateParams, $location, realms) {
         $scope.$on('get:realms', function () {
             realms.query({realm_zone: $scope.filters.realm_zone}, function (realms) {
                 $scope.realms = realms;
+                var realmIsInRealmZone = false;
                 angular.forEach(realms, function (realm) {
                     realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
                     if ($stateParams.realm) {
                         var params = $stateParams.realm.split('.');
                         if (params.length == 2 && params[1] == realm.name && params[0] == realm.region) {
                             realm.selected = true;
+                            realmIsInRealmZone = true;
                         }
                     }
                 });
+
+                if (!realmIsInRealmZone) {
+                    $location.search('realm', null);
+                    $scope.filters.realm = null;
+                }
             });
         });
     }
