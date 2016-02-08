@@ -54,6 +54,9 @@
                                 $scope.userCanEdit = true;
                             }
                         }
+                        if(data && data.rank === 0){
+                            $scope.userCanEdit = true;
+                        }
 
                         $scope.$parent.loading = false;
                     });
