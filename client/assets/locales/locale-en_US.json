@@ -250,7 +250,6 @@
   "TIMEZONE_EUROPE/MADRID": "Europe/Madrid",
   "TIMEZONE_EUROPE/LISBON": "Europe/Lisbon",
   "TIMEZONE_EUROPE/MOSCOW": "Europe/Moscow",
-  "TIMEZONE_US/HAWAII": "US/Hawaii",
   "BNET_API_CHARACTER_NOT_FOUND": "Unable to find this player on Battle.net.",
   "BNET_API_GUILD_NOT_FOUND": "Unable to find this guild on Battle.net.",
   "BNET_API_ERROR_DENY": "Authentication error with Battle.net. Please try later or check your security settings on Battle.net",
