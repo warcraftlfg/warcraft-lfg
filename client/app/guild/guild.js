@@ -45,12 +45,16 @@
                         name: $stateParams.name
                     }, function (data) {
 
+                        if(guild && !guild.perms){
+                            //No perms set everyone can edit.
+                            $scope.userCanEdit = true;
+                        }
                         if(data && data.rank && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit){
                             if(guild.perms.ad.edit.indexOf(data.rank)!=-1){
                                 $scope.userCanEdit = true;
-                                console.log('ici');
                             }
                         }
+
                         $scope.$parent.loading = false;
                     });
                 }
