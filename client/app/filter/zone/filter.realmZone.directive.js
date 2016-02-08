@@ -79,7 +79,7 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
 
             angular.forEach($scope.realmZones,function(realmZone){
 
-                if(realmZone.region == $scope.filters.realm_region) {
+                if($scope.filters.realm && realmZone.region == $scope.filters.realm.split(".")[0]) {
                     realmInRegion = true;
                 }
                 if(realmZone.selected) {
@@ -91,8 +91,9 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
             $scope.filters.realm_zone = realmZonesFilter;
 
             if (!realmInRegion) {
-                $stateParams.realm_region = null;
-                $stateParams.realm_name = null;
+                $location.search('realm', null);
+                $scope.filters.realm = null;
+
             }
 
             if (realmZones.length > 0) {
@@ -101,9 +102,6 @@ function wlfgFilterRealmZone($translate, $stateParams, $location, $timeout) {
                 $location.search('realm_zone', null);
             }
 
-            // We can do better ...
-            $scope.filters.realm = null;
-            $location.search('realm', null);
 
             $scope.$emit('get:realms');
 
