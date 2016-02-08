@@ -11,7 +11,7 @@ function wlfgCharacterMenu() {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.menuContentShowed = false;
+        $scope.menuContentShowed = true;
     }
 
 }
