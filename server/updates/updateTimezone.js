@@ -28,7 +28,7 @@ async.waterfall([
         guildModel.find({
             "ad.lfg": true,
             "ad.updated": {$lte: date}
-        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad": 1}, function (error, guilds) {
+        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad.updated": 1}, function (error, guilds) {
             callback(error, guilds);
         });
     },
@@ -38,7 +38,6 @@ async.waterfall([
                 "bnet.timezone": 1,
                 "bnet.locale": 1
             }, function (error, realm) {
-
                 if (realm[0].bnet.timezone == "Europe/Paris") {
                     if (realm[0].bnet.locale == "en_GB")
                         guild.ad.timezone = "Europe/London";
@@ -74,7 +73,7 @@ async.waterfall([
         characterModel.find({
             "ad.lfg": true,
             "ad.updated": {$lte: date}
-        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad": 1}, function (error, characters) {
+        }, {"ad": 1, region: 1, realm: 1, name: 1}, {"ad.updated": 1}, function (error, characters) {
             callback(error, characters);
         });
     },
@@ -115,6 +114,8 @@ async.waterfall([
             callback();
         });
     }
-]);
+],function(error){
+console.log(error);
+});
 
 
