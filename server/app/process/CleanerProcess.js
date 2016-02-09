@@ -22,7 +22,7 @@ function CleanerProcess(autoStop) {
 CleanerProcess.prototype.cleanAds = function () {
     var logger = applicationStorage.logger;
     var self = this;
-    async.parallel([
+    async.series([
             function (callback) {
                 //Disable lfg for old character ads
                 logger.info("Set LFG to false for old character ads");
@@ -55,7 +55,7 @@ CleanerProcess.prototype.cleanAds = function () {
                             });
                     },
                     function (guilds, callback) {
-                        async.each(guilds, function (guild, callback) {
+                        async.forEachSeries(guilds, function (guild, callback) {
                             logger.info("Checking for wowprogress Guild Ad update %s-%s-%s", guild.region, guild.realm, guild.name);
 
                             wowProgressAPI.parseGuild(guild.region, guild.realm, guild.name, function (error, ad) {
@@ -100,7 +100,7 @@ CleanerProcess.prototype.cleanAds = function () {
                             });
                     },
                     function (characters, callback) {
-                        async.each(characters, function (character, callback) {
+                        async.forEachSeries(characters, function (character, callback) {
                             logger.info("Checking wowprogress Character Ad update %s-%s-%s", character.region, character.realm, character.name);
                             wowProgressAPI.parseCharacter(character.region, character.realm, character.name, function (error, ad) {
                                 if (error) {
