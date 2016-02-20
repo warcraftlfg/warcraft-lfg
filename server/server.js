@@ -2,164 +2,194 @@
 
 // Set module root directory and define a custom require function
 process.root = __dirname;
-process.require = function(filePath){
+process.require = function (filePath) {
     return require(path.normalize(process.root + "/app/" + filePath));
 };
 
 // Module dependencies
 var path = require("path");
 var async = require('async');
-var MongoDatabase = process.require("api/MongoDatabase.js");
-var RedisDatabase = process.require("api/RedisDatabase.js");
-var loggerAPI = process.require("api/logger.js");
-var applicationStorage = process.require("api/applicationStorage");
-var env = process.env.NODE_ENV || "dev";
-var config = process.require("config/config."+env+".json");
+var mongo = require('mongodb').MongoClient;
+var redis = require("redis");
+var winston = require("winston");
+var applicationStorage = process.require("core//applicationStorage");
 
-//Check strat parameters default for dev is true
-var startWebserver = true;
-var startGuildUpdateProcess = true;
-var startCharacterUpdateProcess = true;
-var startWowProgressUpdateProcess = true;
-var startCleanerProcess = true;
-var startAuctionUpdateProcess = true;
-var startRealmUpdateProcess = true;
-var startAdUpdateProcess = true;
-var startGuildProgressUpdateProcess = true;
+var ready = require('readyness');
+var started = ready.waitFor('started');
 
-//Check if an argument is provided
-if(process.argv.length == 3 ){
-    startWebserver = false;
-    startGuildUpdateProcess = false;
-    startCharacterUpdateProcess = false;
-    startWowProgressUpdateProcess = false;
-    startCleanerProcess = false;
-    startAuctionUpdateProcess = false;
-    startRealmUpdateProcess = false;
-    startAdUpdateProcess = false;
-    startGuildProgressUpdateProcess = false;
 
-    // -gu start GuildUpdateProcess
-    if(process.argv[2] ==="-gu")
-        startGuildUpdateProcess=true;
+var processNames = [];
 
-    // -cu start CharacterUpdateProcess
-    if(process.argv[2] ==="-cu")
-        startCharacterUpdateProcess=true;
 
-    // -ru start RealmUpdateProcess
-    if(process.argv[2] ==="-ru")
-        startRealmUpdateProcess=true;
+// -port get the port number
+if (process.argv.indexOf("-p") != -1) {
+    var port = parseInt(process.argv[process.argv.indexOf("-p") + 1], 10);
 
-    // -wp start WowProgressUpdateProcess
-    if(process.argv[2] ==="-wp")
-        startWowProgressUpdateProcess=true;
-
-    // -clean start CleanerProcess
-    if(process.argv[2] ==="-clean")
-        startCleanerProcess=true;
-
-    // -au start AuctionUpdateProcess
-    if(process.argv[2] ==="-au")
-        startAuctionUpdateProcess=true;
-
-    // -adu start AdUpdateProcess
-    if(process.argv[2] ==="-adu")
-        startAdUpdateProcess=true;
-
-    // -gpu start GuildProgressUpdateProcess
-    if(process.argv[2] ==="-gpu")
-        startGuildProgressUpdateProcess=true;
-
-    // -ws start webserver
-    if(process.argv[2] ==="-ws")
-        startWebserver=true;
-
+    if (isNaN(port)) {
+        port = 3000;
+    }
 }
 
-//Initialize Logger
-var logger = loggerAPI.get("logger",config.logger);
 
-//Load WebServer
-var WebServer = process.require("process/WebServer.js");
-var webServer = new WebServer();
+// -ws start WebServerProcess (need to be first for socket.io)
+if (process.argv.indexOf("-ws") != -1) {
+    processNames.push("WebServerProcess");
+}
 
-//Load processes
-var CharacterUpdateProcess = process.require("process/CharacterUpdateProcess.js");
-var characterUpdateProcess = new CharacterUpdateProcess();
-var GuildUpdateProcess = process.require("process/GuildUpdateProcess.js");
-var guildUpdateProcess = new GuildUpdateProcess();
-var WowProgressUpdateProcess = process.require("process/WowProgressUpdateProcess.js");
-var wowProgressUpdateProcess = new WowProgressUpdateProcess();
-var CleanerProcess = process.require("process/CleanerProcess.js");
-var cleanerProcess = new CleanerProcess();
-var AuctionUpdateProcess = process.require("process/AuctionUpdateProcess.js");
-var auctionUpdateProcess = new AuctionUpdateProcess();
-var RealmUpdateProcess = process.require("process/RealmUpdateProcess.js");
-var realmUpdateProcess = new RealmUpdateProcess();
-var AdUpdateProcess = process.require("process/AdUpdateProcess.js");
-var adUpdateProcess = new AdUpdateProcess();
-var GuildProgressUpdateProcess = process.require("process/GuildProgressUpdateProcess.js");
-var guildProgressUpdateProcess = new GuildProgressUpdateProcess();
+// -gu start GuildUpdateProcess
+if (process.argv.indexOf("-gu") != -1) {
+    processNames.push("GuildUpdateProcess");
+}
 
-async.series([
+// -cu start CharacterUpdateProcess
+if (process.argv.indexOf("-cu") != -1) {
+    processNames.push("CharacterUpdateProcess");
+}
+
+// -ru start RealmUpdateProcess
+if (process.argv.indexOf("-ru") != -1) {
+    processNames.push("RealmUpdateProcess");
+}
+
+// -wp start WowProgressUpdateProcess
+if (process.argv.indexOf("-wp") != -1) {
+    processNames.push("WowProgressUpdateProcess");
+}
+
+// -clean start CleanerProcess
+if (process.argv.indexOf("-clean") != -1) {
+    processNames.push("CleanerProcess");
+}
+
+// -au start AuctionUpdateProcess
+if (process.argv.indexOf("-au") != -1) {
+    processNames.push("AuctionUpdateProcess");
+}
+
+// -adu start AdUpdateProcess
+if (process.argv.indexOf("-adu") != -1)
+    processNames.push("AdUpdateProcess");
+
+// -gpu start GuildProgressUpdateProcess
+if (process.argv.indexOf("-gpu") != -1) {
+    processNames.push("GuildProgressUpdateProcess");
+}
+
+
+//Start all process if no args are found
+if (processNames.length == 0) {
+    processNames = [
+        "GuildUpdateProcess",
+        "CharacterUpdateProcess",
+        "RealmUpdateProcess",
+        "WowProgressUpdateProcess",
+        "CleanerProcess",
+        "AuctionUpdateProcess",
+        "AdUpdateProcess",
+        "GuildProgressUpdateProcess",
+        "WebServerProcess"
+    ];
+}
+
+var autoStop = true;
+//Disable AutoStop if any of this process is loaded
+if (processNames.indexOf("GuildUpdateProcess") != -1
+    || processNames.indexOf("CharacterUpdateProcess") != -1
+    || processNames.indexOf("AuctionUpdateProcess") != -1
+    || processNames.indexOf("GuildProgressUpdateProcess") != -1
+    || processNames.indexOf("WebServerProcess") != -1
+    || processNames.indexOf("WowProgressUpdateProcess") != -1) {
+    autoStop = false;
+}
+
+//Load config file
+var env = process.env.NODE_ENV || "development";
+var config = process.require("config/config.json");
+
+var logger = null;
+
+async.waterfall([
+    //Load the config file
+    function (callback) {
+        applicationStorage.config = config;
+        callback();
+    },
+    //Initialize the logger
+    function (callback) {
+
+        var transports = [
+            new (winston.transports.File)({
+                filename: config.logger.folder + "/" + env + ".log",
+                maxsize: 104857600,
+                zippedArchive: true,
+                json:false,
+                formatter: function(options) {
+                    // Return string will be passed to logger.
+                    return new Date().toString()+' - '+process.pid +' - '+ options.level.toUpperCase() +' - '+ (undefined !== options.message ? options.message : '') +
+                        (options.meta && Object.keys(options.meta).length ? '\n\t'+ JSON.stringify(options.meta) : '' );
+                }
+            })];
+        if (env == "development")
+            transports.push(new (winston.transports.Console)({}));
+
+        applicationStorage.logger = logger = new (winston.Logger)({
+            level: config.logger.level,
+            transports: transports
+        });
+
+        callback();
+    },
     // Establish a connection to the database
-    function(callback) {
-
-        var mongoDb = new MongoDatabase(config.database.mongodb);
-        var redisDb = new RedisDatabase(config.database.redis);
-        // Establish connection to the database
-
+    function (callback) {
         async.parallel([
-                function(callback){
-                    mongoDb.connect(function(error) {
-                        if (error) {
-                            logger.error(error.message);
-                            process.exit(0);
-                        }
-                        applicationStorage.setMongoDatabase(mongoDb);
-                        logger.debug("Mongodb connected");
-                        callback();
+                function (callback) {
+                    mongo.connect(config.database.mongo, function (error, db) {
+                        logger.verbose("Mongo connected");
+                        applicationStorage.mongo = db;
+                        callback(error);
+
                     });
                 },
-                function(callback) {
-                    redisDb.connect(function(error) {
-                        if (error) {
-                            logger.error(error.message);
-                            process.exit(0);
-                        }
-                        applicationStorage.setRedisDatabase(redisDb);
-                        logger.debug("Redis connected");
+                function (callback) {
+                    var db = redis.createClient(config.database.redis);
+                    db.on("error", function (error) {
+                        callback(error);
+                    });
+
+                    db.on("ready", function () {
+                        logger.verbose("Redis connected");
+                        applicationStorage.redis = db;
                         callback();
                     });
                 }
             ],
-            function() {
-                if(startWebserver)
-                    webServer.onDatabaseAvailable(mongoDb);
-                callback()
+            function (error) {
+                callback(error)
             });
     },
-    // Start Process
-    function(callback){
-        if(startWebserver)
-            webServer.start();
-        if(startCharacterUpdateProcess)
-            characterUpdateProcess.start();
-        if (startGuildUpdateProcess)
-            guildUpdateProcess.start();
-        if (startWowProgressUpdateProcess)
-            wowProgressUpdateProcess.start();
-        if(startCleanerProcess)
-            cleanerProcess.start();
-        if(startAuctionUpdateProcess)
-            auctionUpdateProcess.start();
-        if(startRealmUpdateProcess)
-            realmUpdateProcess.start();
-        if(startAdUpdateProcess)
-            adUpdateProcess.start();
-        if(startGuildProgressUpdateProcess)
-            guildProgressUpdateProcess.start();
-        callback();
+    //Create instance of processes
+    function (callback) {
+        var processes = [];
+        async.forEachSeries(processNames, function (processName, callback) {
+            var obj = process.require("process/" + processName + ".js");
+            processes.push(new obj(autoStop, port));
+            callback();
+        }, function () {
+            callback(null, processes);
+        });
+    },
+    // Start Processes
+    function (processes, callback) {
+        async.each(processes, function (process, callback) {
+            process.start(function (error) {
+                callback(error);
+            });
+        }, function (error) {
+            callback(error);
+        });
     }
-]);
+], function (error) {
+    started();
+    if (error)
+        logger.error(error);
+});

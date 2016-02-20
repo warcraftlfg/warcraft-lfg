@@ -1,0 +1,71 @@
+<div class="menu">
+    <div ng-class="{'open':menuContentShowed}" class="menu-content">
+        <div class="menu-content-nonretractable">
+            <div class="row menu-row">
+                <div class="col-md-1">
+                    <i class="h-100 earth"></i>
+                </div>
+                <div class="col-md-5">
+                    <div wlfg-filter-realm-zone></div>
+                </div>
+                <div class="col-md-2">
+                    <div wlfg-filter-realm></div>
+                </div>
+                <div class="col-md-2">
+                    <div wlfg-filter-language></div>
+                </div>
+                <div class="col-md-2">
+                    <div wlfg-filter-reset></div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="menuContentShowed" class="menu-content-retractable">
+            <div class="row menu-row">
+                <div class="col-md-1">
+                    <i class="character h-50"></i>
+                </div>
+                <div class="col-md-2">
+                    <div wlfg-filter-role></div>
+                </div>
+                <div class="col-md-4 p-l-5 p-r-5">
+                    <div wlfg-filter-class></div>
+                </div>
+                <div class="col-md-2">
+                    <div wlfg-filter-ilevel></div>
+                </div>
+                <div class="col-md-3">
+                    <div wlfg-filter-faction></div>
+                </div>
+            </div>
+            <div class="row menu-row">
+                <div class="col-md-1">
+                    <i class="calendar h-60"></i>
+                </div>
+                <div class="col-md-9">
+                    <div wlfg-filter-day></div>
+                </div>
+                <div class="col-md-2">
+                    <div wlfg-filter-rpw></div>
+                </div>
+            </div>
+            <div class="row menu-row">
+                <div class="col-md-1">
+                    <i class="params h-60"></i>
+                </div>
+                <div class="col-md-2">
+                    <div wlfg-filter-level-max></div>
+                    <div wlfg-filter-transfer></div>
+                </div>
+                <div class="col-md-4">
+                    <div wlfg-filter-progress></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-footer row menu-row">
+        <div ng-click="menuContentShowed=!menuContentShowed" class="menu-open col-md-12 "></div>
+        <div class="col-md-3 col-md-offset-9">
+            <div wlfg-sort-character></div>
+        </div>
+    </div>
+</div>

@@ -5,12 +5,12 @@
         /*
          * Angular modules
          */
-        'ngSanitize',
+        'ngSanitize','ngResource',
         //'ngAnimate', 'ngRoute', 'ngSanitize',
         /*
          * Our reusable cross app code modules
          */
-        'blocks.socket', 'blocks.wlfgConfirm', 'blocks.wlfgAppTitle', 'blocks.wlfgWCL',
+        'blocks.socket', 'blocks.wlfgConfirm', 'blocks.wlfgAppTitle', 'blocks.wlfgWCL','blocks.wlfgTimezoneOffset',
         //'blocks.exception', 'blocks.logger', 'blocks.router',
         /*
          * 3rd Party modules

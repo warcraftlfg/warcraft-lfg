@@ -13,64 +13,34 @@ function wlfgFilterRpw($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.filters.raids_per_week = {active:false,min:1,max:7};
+        $scope.raids_per_week = {min:1,max:7};
 
-        if ($stateParams.raids_per_week_active) {
-            $scope.filters.raids_per_week.active = $stateParams.raids_per_week_active==="true";
-        }
+        if ($stateParams.raids_per_week) {
+            var paramArray = $stateParams.raids_per_week.split(".");
+            if(paramArray.length == 2 ){
 
-        if ($stateParams.raids_per_week_min) {
-            $scope.filters.raids_per_week.min = $stateParams.raids_per_week_min;
-        }
-
-        if ($stateParams.raids_per_week_max) {
-            $scope.filters.raids_per_week.max = $stateParams.raids_per_week_max;
+                $scope.filters.raids_per_week = $stateParams.raids_per_week;
+                $scope.raids_per_week = {min:paramArray[0],max:paramArray[1]};
+            }
         }
 
         $scope.filters.states.rpw = true;
 
-        $scope.$watch('filters.raids_per_week.active', function() {
+        $scope.$watch('raids_per_week', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            if ($scope.filters.raids_per_week.active === false) {
-                $location.search('raids_per_week_min', null);
-                $location.search('raids_per_week_max', null);
-                $location.search('raids_per_week_active', null);
+            if ($scope.raids_per_week.min == 1 && $scope.raids_per_week.max == 7 ) {
+                $location.search('raids_per_week', null);
+                $scope.filters.raids_per_week = null;
             } else {
-                $location.search('raids_per_week_active', true);
+                $location.search('raids_per_week', $scope.raids_per_week.min+"."+$scope.raids_per_week.max);
+                $scope.filters.raids_per_week = $scope.raids_per_week.min+"."+$scope.raids_per_week.max;
             }
 
             $scope.$parent.loading = true;
-        });
+        },true);
 
-        $scope.$watch('filters.raids_per_week.min', function() {
-            if ($scope.$parent.loading || $scope.loading) {
-                return;
-            }
-
-            if ($scope.filters.raids_per_week.min) {
-                $location.search('raids_per_week_min', $scope.filters.raids_per_week.min);
-            } else {
-                $location.search('raids_per_week_min', null);
-            }
-
-            $scope.$parent.loading = true;
-        });
-
-        $scope.$watch('filters.raids_per_week.max', function() {
-            if ($scope.$parent.loading || $scope.loading) {
-                return;
-            }
-
-            if ($scope.filters.raids_per_week.max) {
-                $location.search('raids_per_week_max', $scope.filters.raids_per_week.max);
-            } else {
-                $location.search('raids_per_week_max', null);
-            }
-
-            $scope.$parent.loading = true;
-        });
     }
 }

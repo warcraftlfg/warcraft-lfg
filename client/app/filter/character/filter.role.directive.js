@@ -13,62 +13,51 @@ function wlfgFilterRole($translate, $stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.roles = [
-            {id:'tank', name: $translate.instant("TANK"), icon:"<img src='/assets/images/icon/16/tank.png'>", selected:false},
-            {id:'heal', name: $translate.instant("HEAL"), icon:"<img src='/assets/images/icon/16/healing.png'>", selected:false},
-            {id:'melee_dps', name: $translate.instant("MELEE_DPS"), icon:"<img src='/assets/images/icon/16/dps.png'>", selected:false},
-            {id:'ranged_dps', name: $translate.instant("RANGED_DPS"), icon:"<img src='/assets/images/icon/16/ranged-dps.png'>", selected:false}
-        ];
 
-        $scope.filters.roles = [];
+        $scope.roles = {
+            tank: {selected: false},
+            heal: {selected: false},
+            melee_dps: {selected: false},
+            ranged_dps: {selected: false}
+        };
 
-        if($stateParams.roles){
-            var roles = $stateParams.roles.split("__");
+        $scope.filters.role = [];
 
-            angular.forEach($scope.roles,function(role){
-                if(roles.indexOf(role.id)!=-1) {
-                    role.selected = true;
-                    $scope.filters.roles.push({id:role.id,selected:true});
-                }
+        if ($stateParams.role) {
+            var roles = $stateParams.role;
+
+            if (!angular.isArray(roles)) {
+                roles = [roles];
+            }
+            angular.forEach(roles, function (role) {
+                $scope.roles[role].selected = true;
+                $scope.filters.role.push(role);
             });
-
         }
 
         $scope.filters.states.role = true;
 
-        $scope.localRoles = {
-            selectAll       : $translate.instant("SELECT_ALL"),
-            selectNone      : $translate.instant("SELECT_NONE"),
-            reset           : $translate.instant("RESET"),
-            search          : $translate.instant("SEARCH"),
-            nothingSelected : $translate.instant("ALL_ROLES")
-        };
-
-
-        $scope.$watch('filters.roles', function() {
+        $scope.$watch('roles', function () {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
             var roles = [];
-            angular.forEach($scope.filters.roles,function(role){
-                roles.push(role.id);
+            angular.forEach($scope.roles, function (role,key) {
+                if (role.selected) {
+                    roles.push(key);
+                }
             });
 
             if (roles.length > 0) {
-                 $location.search('roles', roles.join('__'));
+                $location.search('role', roles);
+                $scope.filters.role = roles;
             } else {
-                $location.search('roles', null);
+                $location.search('role', null);
+                $scope.filters.role = null;
             }
 
             $scope.$parent.loading = true;
-        },true);
-
-        $scope.resetRoles = function() {
-            $scope.filters.roles = [];
-            angular.forEach($scope.roles,function(role) {
-                role.selected = false;
-            });
-        };
+        }, true);
     }
 }

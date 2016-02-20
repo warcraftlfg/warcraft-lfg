@@ -13,64 +13,38 @@ function wlfgFilterIlevel($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.filters.ilevel = {active:false,min:575,max:750};
-        
-        if ($stateParams.ilevel_active) {
-            $scope.filters.ilevel.active = $stateParams.ilevel_active==="true";
-        }
+        var min = 575;
+        var max = 750;
+        $scope.ilevel = {min:min,max:max};
 
-        if($stateParams.ilevel_min) {
-            $scope.filters.ilevel.min = $stateParams.ilevel_min;
-        }
+        if ($stateParams.ilevel) {
+            var paramArray = $stateParams.ilevel.split(".");
 
-        if($stateParams.ilevel_max) {
-            $scope.filters.ilevel.max = $stateParams.ilevel_max;
+            if(paramArray.length == 2 ) {
+                $scope.ilevel = {min: paramArray[0], max: paramArray[1]};
+                $scope.filters.ilevel = $stateParams.ilevel;
+            }
+
         }
 
         $scope.filters.states.ilevel = true;
 
-        $scope.$watch('filters.ilevel.active', function() {
+        $scope.$watch('ilevel', function() {
             if($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            if ($scope.filters.ilevel.active === false) {
-                $location.search('ilevel_min', null);
-                $location.search('ilevel_max', null);
-                $location.search('ilevel_active', null);
+            if ($scope.ilevel.min == min && $scope.ilevel.max == max) {
+                $location.search('ilevel', null);
+                $scope.filters.ilevel = null;
+
             } else {
-                $location.search('ilevel_active', true);
+                $location.search('ilevel', $scope.ilevel.min+"."+$scope.ilevel.max);
+                $scope.filters.ilevel = $scope.ilevel.min+"."+$scope.ilevel.max;
             }
 
             $scope.$parent.loading = true;
-        });
+        },true);
 
-        $scope.$watch('filters.ilevel.min', function() {
-            if ($scope.$parent.loading || $scope.loading) {
-                return;
-            }
-
-            if ($scope.filters.ilevel.min) {
-                $location.search('ilevel_min', $scope.filters.ilevel.min);
-            } else {
-                $location.search('ilevel_min', null);
-            }
-
-            $scope.$parent.loading = true;
-        });
-
-        $scope.$watch('filters.ilevel.max', function() {
-            if ($scope.$parent.loading || $scope.loading) {
-                return;
-            }
-
-            if ($scope.filters.ilevel.max) {
-                $location.search('ilevel_max', $scope.filters.ilevel.max);
-            } else {
-                $location.search('ilevel_max', null);
-            }
-
-            $scope.$parent.loading = true;
-        });
     }
 }

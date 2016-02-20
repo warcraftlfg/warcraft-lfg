@@ -1,9 +1,8 @@
-<div class="checkbox m-b-0">
-    <label>
-        <input ng-model="filters.raids_per_week.active" type="checkbox">  Raids per week
-    </label>
-</div>
-<div ng-if="filters.raids_per_week.active" class="m-b-10">
-    {{filters.raids_per_week.min}} - {{filters.raids_per_week.max}}
-    <angular-ranger min="1" max="7" step="1" min-value="filters.raids_per_week.min" max-value="filters.raids_per_week.max"></angular-ranger>
+<div class="rpw-filter">
+    <div class="fw-700 m-l-10 m-b-5">Raids / Week</div>
+    <div>
+        <div class="rpw-counter">{{raids_per_week.min}} - {{raids_per_week.max}}</div>
+        <angular-ranger min="1" max="7" step="1" min-value="raids_per_week.min"
+                        max-value="raids_per_week.max"></angular-ranger>
+    </div>
 </div>

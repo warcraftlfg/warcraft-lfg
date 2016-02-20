@@ -37,7 +37,9 @@
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
         <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/vendor/angular-multi-select/isteven-multi-select.css" rel="stylesheet">
+        <link href="/vendor/isteven-angular-multiselect/isteven-multi-select.css" rel="stylesheet">
+        <link href="/vendor/ng-tags-input/ng-tags-input.min.css" rel="stylesheet">
+        <link href="/vendor/ng-tags-input/ng-tags-input.bootstrap.min.css" rel="stylesheet">
 
         <!-- build:css assets/css/warcraftlfg.min.css -->
         <link href="/assets/css/main.css" rel="stylesheet">
@@ -59,7 +61,6 @@
         </div>
         <div class="footer" data-ng-include="'app/layout/footer.html'"></div>
         <div class="modal-backdrop fade in" ng-if="loading"></div>
-
         <!-- Third party -->
         <script type="text/javascript" async src="//static.wowhead.com/widgets/power.js"></script>
         <script>var wowhead_tooltips = { "colorlinks": false, "iconizelinks": false, "renamelinks": false }</script>
@@ -70,8 +71,9 @@
         <script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/vendor/moment/min/moment.min.js"></script>
         <script type="text/javascript" src="/vendor/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-resource/angular-resource.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-sanitize/angular-sanitize.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-multi-select/isteven-multi-select.js"></script>
+        <script type="text/javascript" src="/vendor/isteven-angular-multiselect/isteven-multi-select.js"></script>
         <script type="text/javascript" src="/vendor/angular-ranger/angular-ranger.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-socket-io/socket.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-moment/angular-moment.min.js"></script>
@@ -79,7 +81,10 @@
         <script type="text/javascript" src="/vendor/angular-translate/angular-translate.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
         <script type="text/javascript" src="/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <script type="text/javascript" src="/vendor/ng-tags-input/ng-tags-input.min.js"></script>
         <script type="text/javascript" src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script type="text/javascript" src="/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+
         <script src="/vendor/marked/lib/marked.js"></script>
         <script src="/vendor/angular-marked/dist/angular-marked.js"></script>
 
@@ -97,7 +102,11 @@
         <script src="/app/blocks/wlfgConfirm/warcraft-lfg.confirm.controller.js"></script>
         <script src="/app/blocks/wlfgWCL/warcraft-lfg.warcraft-logs.module.js"></script>
         <script src="/app/blocks/wlfgWCL/warcraft-lfg.warcraft-logs.filter.js"></script>
+        <script src="/app/blocks/wlfgTimezoneOffset/warcraft-lfg.timezone-offset.module.js"></script>
+        <script src="/app/blocks/wlfgTimezoneOffset/warcraft-lfg.timezone-offset.filter.js"></script>
+
         <script src="/app/blocks/select.convert-to-number.directive.js"></script>
+
 
         <!-- filters / sort -->
         <script src="/app/filter/filter.module.js"></script>
@@ -110,7 +119,7 @@
         <script src="/app/filter/character/filter.faction.directive.js"></script>
         <script src="/app/filter/character/filter.role.directive.js"></script>
         <script src="/app/filter/character/filter.class.directive.js"></script>
-        +<script src="/app/filter/character/filter.role-class.directive.js"></script>
+        <script src="/app/filter/character/filter.role-class.directive.js"></script>
         <script src="/app/filter/character/filter.ilevel.directive.js"></script>
         <script src="/app/filter/character/filter.progress.directive.js"></script>
         <script src="/app/filter/time/filter.day.directive.js"></script>
@@ -118,6 +127,17 @@
         <script src="/app/filter/time/filter.rpw.directive.js"></script>
         <script src="/app/filter/misc/filter.transfer.directive.js"></script>
         <script src="/app/filter/misc/filter.levelMax.directive.js"></script>
+        <script src="/app/filter/misc/filter.reset.directive.js"></script>
+
+
+        <!-- resource -->
+        <script src="/app/resource/resource.module.js"></script>
+        <script src="/app/resource/user.resource.js"></script>
+        <script src="/app/resource/characters.resource.js"></script>
+        <script src="/app/resource/guilds.resource.js"></script>
+        <script src="/app/resource/realms.resource.js"></script>
+        <script src="/app/resource/updates.resource.js"></script>
+
 
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
@@ -125,6 +145,7 @@
         <script src="/app/core/constants.js"></script>
         <script src="/app/core/core.config.js"></script>
         <script src="/app/core/core.run.js"></script>
+
 
         <!-- layout -->
         <script src="/app/layout/layout.module.js"></script>
@@ -157,12 +178,14 @@
         <script src="/app/character/directive/achievement/character.achievement-pg.directive.js"></script>
         <script src="/app/character/directive/challenge/character.challenge-medal.directive.js"></script>
         <script src="/app/character/directive/challenge/character.challenge-instance.directive.js"></script>
+        <script src="/app/character/directive/menu/character.menu.directive.js"></script>
 
         <script src="/app/character/config.route.js"></script>
         <script src="/app/character/character.js"></script>
 
         <!-- guild -->
         <script src="/app/guild/guild.module.js"></script>
+        <script src="/app/guild/directive/menu/guild.menu.directive.js"></script>
         <script src="/app/guild/config.route.js"></script>
         <script src="/app/guild/guild.js"></script>
         <!-- endbuild -->

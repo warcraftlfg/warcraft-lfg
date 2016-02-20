@@ -15,6 +15,9 @@
                 <div class="col-md-12">
                     <span ng-if="guild">{{ guild.realm }} - {{ guild.region|uppercase}}</span>
                     <span ng-if="!guild">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
+                    <a class="f-right" ng-if="userCanEdit" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update">
+                        <i class="fa fa-edit f-20"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -30,7 +33,7 @@
                             <i class="fa fa-refresh"></i> {{"UPDATE_GUILD"|translate}}
                         </button>
                         <span class="m-l-10" ng-if="queuePosition">
-                            {{"QUEUE_POSITION"|translate}} {{queuePosition}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
+                            {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
                         </span>
                     </div>
                     <!--<div class="col-md-6 m-b-20 text-right">
@@ -95,15 +98,24 @@
                         </div>
                     </div>
                 </div>
+                <!--div class="panel panel-default" ng-if="guild.ad.tags.length">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Tags : <span class="label label-default" ng-repeat="tag in guild.ad.tags">{{ tag.text }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div-->
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
                                 Raid per week : {{ guild.ad.raids_per_week.min }} - {{ guild.ad.raids_per_week.max }}
                             </div>
-                            <!--div class="col-md-12 m-t-10" ng-if="guild.ad.timezone">
+                            <div class="col-md-12 m-t-10" ng-if="guild.ad.timezone">
                                 Timezone : {{"TIMEZONE_"+guild.ad.timezone|uppercase|translate}}
-                            </div-->
+                            </div>
                         </div>
                     </div>
                 </div>

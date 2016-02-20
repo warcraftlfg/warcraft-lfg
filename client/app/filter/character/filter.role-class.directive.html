@@ -1,13 +1,30 @@
-<div
-        isteven-multi-select
-        input-model="classes"
-        output-model="filters.classes"
-        button-label="iconrole name"
-        item-label="icon name"
-        output-properties="id role"
-        tick-property="selected"
-        group-property="msGroup"
-        translation="localClasses"
-        on-reset="resetClasses()"
-        >
+<div class="class-filter">
+    <div class="fw-700 m-l-10 m-b-5">Class</div>
+    <div class="row p-0">
+        <div class="col-md-1" ng-repeat="(key,value) in classes">
+            <div class="row p-0">
+                <div class="col-md-5 p-0">
+                    <div class="checkbox-inline" ng-class="{'selected':value.selected}"
+                         uib-tooltip="{{'CLASS_'+key|translate}}" >
+                        <label class="class-{{key}}" ng-click="switchClass(value)">
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row p-0">
+                        <div ng-repeat="(role,selected) in value.roles" class="role col-md-6 checkbox-inline p-r-0"
+                             ng-class="{'selected':selected}"
+                             uib-tooltip="{{'ROLE_'+role|uppercase|translate}}">
+                            <label class="role-{{role}}" >
+                                <input ng-model="value.roles[role]" type="checkbox">
+                            </label>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

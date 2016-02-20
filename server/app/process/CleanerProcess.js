@@ -1,51 +1,69 @@
 "use strict";
 
-//Module dependencies
-var cronJob = require('cron').CronJob;
-var logger = process.require("api/logger.js").get("logger");
-var characterService = process.require("services/characterService.js");
-var guildService = process.require("services/guildService.js");
-var wowProgressService = process.require("services/wowProgressService.js");
+//Load dependencies
+var async = require("async");
+var applicationStorage = process.require("core/applicationStorage.js");
+var characterModel = process.require("characters/characterModel.js");
+var guildModel = process.require("guilds/guildModel.js");
 
-function CleanerProcess(){
-    this.lockCleaner = false;
-    this.lockRefreshWowProgress = false;
+/**
+ * CleanerProcess constructor
+ * @param autoStop
+ * @constructor
+ */
+function CleanerProcess(autoStop) {
+    this.autoStop = autoStop;
 }
 
-CleanerProcess.prototype.cleanAds = function() {
+/**
+ * Clean Ads
+ */
+CleanerProcess.prototype.cleanAds = function () {
+    var logger = applicationStorage.logger;
     var self = this;
-    if (self.lockCleaner == false) {
-        self.lockCleaner = true;
-        characterService.deleteOldAds(function(){
-            guildService.deleteOldAds(function(){
-                self.lockCleaner = false;
-            });
-        });
-    }
-};
-
-CleanerProcess.prototype.refreshWowProgress = function(){
-    var self = this;
-    if (self.lockRefreshWowProgress == false) {
-        self.lockRefreshWowProgress = true;
-        wowProgressService.refreshAll(function(){
-           self.lockRefreshWowProgress = false;
-        });
-    }
-};
-
-CleanerProcess.prototype.start = function(){
-    logger.info("Starting CleanerProcess");
-
-    //Start Cron every day at 4am
-    var self=this;
-    new cronJob('0 0 4 * * *',
-        function() {
-            self.cleanAds();
+    async.parallel([
+        function (callback) {
+            //Disable lfg for old character ads
+            logger.info("Set LFG to false for old character ads");
+            characterModel.disableLfgForOldAds(function (error) {
+                if (error) {
+                    logger.error(error.message);
+                }
+                callback();
+            })
         },
-        null,
-        true
-    );
+        function (callback) {
+            //Disable lfg for old guild ads
+            logger.info("Set LFG to false for old guild ads");
+            guildModel.disableLfgForOldAds(function (error) {
+                if (error) {
+                    logger.error(error.message);
+                }
+                callback();
+            })
+        },
+        function (callback) {
+            //Refresh all wowprogress ads
+            //TODO refresh all wowprogress ads
+            callback();
+        }
+    ], function () {
+        if (self.autoStop) {
+            process.exit();
+        }
+    });
+
+};
+
+/**
+ * Start the CleanerProcess
+ * @param callback
+ */
+CleanerProcess.prototype.start = function (callback) {
+    applicationStorage.logger.info("Starting CleanerProcess");
+    this.cleanAds();
+    callback();
+
 };
 
 module.exports = CleanerProcess;

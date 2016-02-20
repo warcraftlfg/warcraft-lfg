@@ -4,8 +4,12 @@ branches:
 
 language: node_js
 
+node_js:
+  - 5.5
+
 services:
   - mongodb
+  - redis-server
 
 before_install:
   - gem update --system
@@ -15,6 +19,8 @@ before_install:
 install:
   - npm install -g mocha grunt-cli bower
   - npm install
+  - mkdir logs
+  - cp server/app/config/config.default.json server/app/config/config.json
 
 
 after_success:
@@ -22,7 +28,7 @@ after_success:
   - chmod 600 .travis/warcraftlfg # this key should have push access
   - ssh-add .travis/warcraftlfg
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  - ssh warcraftlfg@warcraftlfg.com 'cd warcraft-lfg;git pull;npm update;bower install;grunt prod'
+  - ssh warcraftlfg@warcraftlfg.com 'cd warcraft-lfg-testing;git pull;npm update;bower install;grunt prod'
 
 notifications:
   slack: warcraftlfg:JV8vgwSfBUw1rSHCxlxlOUF3

@@ -13,23 +13,26 @@ function wlfgFilterLevelMax($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.filters.lvlmax = true;
+        $scope.level_max = true;
+        $scope.filters.level_max = true;
 
-        if ($stateParams.lvlmax) {
-            $scope.filters.lvlmax = $stateParams.lvlmax==="true";
+        if ($stateParams.level_max) {
+            $scope.level_max = $stateParams.level_max;
         }
 
         $scope.filters.states.levelMax = true;
 
-        $scope.$watch('filters.lvlmax', function() {
+        $scope.$watch('level_max', function() {
             if ($scope.$parent.loading || $scope.loading) {
                 return;
             }
 
-            if ($scope.filters.lvlmax === false) {
-                $location.search('lvlmax', false);
+            if ($scope.level_max === true) {
+                $location.search('level_max', true);
+                $scope.filters.level_max = true;
             } else {
-                $location.search('lvlmax', null);
+                $location.search('level_max', null);
+                $scope.filters.level_max = null;
             }
 
             $scope.$parent.loading = true;
