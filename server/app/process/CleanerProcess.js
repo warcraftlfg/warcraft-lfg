@@ -44,7 +44,7 @@ CleanerProcess.prototype.cleanAds = function () {
         },
         function (callback) {
             //Refresh all wowprogress ads
-            //TODO refresh all wowprogress ads
+
             callback();
         }
     ], function () {
