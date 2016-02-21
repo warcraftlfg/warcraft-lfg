@@ -264,6 +264,7 @@
     "TIMEZONE_EUROPE/MADRID": "Europe/Madrid",
     "TIMEZONE_EUROPE/MOSCOW": "Europe/Moscow",
     "TIMEZONE_EUROPE/PARIS": "Europe/Paris",
+    "TIMEZONE_AFRICA/JOHANNESBURG":"Africa/Johannesburg",
     "TIMEZONE_US/HAWAII": "US/Hawaii",
     "TRANSFERT": "Transfer",
     "TRY_UPDATE": "Try the update button to import",
