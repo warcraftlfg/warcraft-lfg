@@ -12,8 +12,9 @@
             prefix: "",
             suffix: ""
         });
-        $translateProvider.registerAvailableLanguageKeys(["assets/locales/locale-en_US.json"], {
-            "*":"assets/locales/locale-en_US.json"
+        $translateProvider.registerAvailableLanguageKeys(["assets/locales/locale-en_US.json","assets/locales/locale-fr_FR.json"], {
+            "en_US":"assets/locales/locale-en_US.json",
+            "fr_FR":"assets/locales/locale-fr_FR.json"
         });
         $translateProvider.preferredLanguage("en_US");
         $translateProvider.useSanitizeValueStrategy('escape');
