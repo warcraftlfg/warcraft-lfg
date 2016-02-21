@@ -23,6 +23,5 @@ module.exports = {
             atBegin:true,
             spawn: false,
         },
-    },
-
+    }
 };
