@@ -7,6 +7,7 @@ var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var guildModel = process.require("guilds/guildModel.js");
 var bnetAPI = process.require("core/api/bnet.js");
+var limitModel = process.require("limits/limitModel.js");
 
 /**
  * AuctionUpdateProcess constructor
@@ -38,25 +39,29 @@ AuctionUpdateProcess.prototype.updateAuction = function () {
             });
         },
         function (auctionUpdate, callback) {
+            //Check if max request is reach - AuctionUpdateProcess take 1 request to Bnet
+            limitModel.increment("bnet", function (error, value) {
+                if (value > applicationStorage.config.oauth.bnet.limit) {
+                    logger.info("Bnet Api limit reach ... waiting 1 min");
+                    updateModel.insert("au", auctionUpdate.region, auctionUpdate.realm, auctionUpdate.name, auctionUpdate.priority, function () {
+                        setTimeout(function () {
+                            callback(true);
+                        }, 60000);
+                    });
+                }
+                else {
+                    callback(error, auctionUpdate);
+                }
+            });
+        },
+        function (auctionUpdate, callback) {
             //Sanitize name
             bnetAPI.getCharacter(auctionUpdate.region, auctionUpdate.realm, auctionUpdate.name, ["guild"], function (error, character) {
-                if (error) {
-                    if (error.statusCode == 403) {
-                        logger.info("Bnet Api Deny ... waiting 1 min");
-                        updateModel.insert("au", auctionUpdate.region, auctionUpdate.realm, auctionUpdate.name, auctionUpdate.priority, function () {
-                            setTimeout(function () {
-                                callback(true);
-                            }, 60000);
-                        });
-                    } else {
-                        callback(error);
-                    }
+                if (character.guild) {
+                    callback(null, auctionUpdate.region, character);
                 } else {
-                    if (character.guild) {
-                        callback(null, auctionUpdate.region, character);
-                    } else {
-                        callback(true);
-                    }
+                    logger.warn("Bnet return empty character (account inactive...), skip it");
+                    callback(true);
                 }
             })
         },
@@ -87,6 +92,7 @@ AuctionUpdateProcess.prototype.updateAuction = function () {
         }
 
     ], function (error) {
+        console.log(error);
         if (error && error !== true) {
             logger.error(error.message);
         }
