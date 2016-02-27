@@ -4,6 +4,7 @@
 var async = require("async");
 var moment = require('moment-timezone');
 var applicationStorage = process.require("core/applicationStorage.js");
+var limitModel = process.require("limits/limitModel.js");
 var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var guildModel = process.require("guilds/guildModel.js");
@@ -25,6 +26,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
     var self = this;
     var logger = applicationStorage.logger;
 
+
     async.waterfall([
         function (callback) {
             //Get next guild to update
@@ -42,22 +44,31 @@ GuildUpdateProcess.prototype.updateGuild = function () {
             });
         },
         function (guildUpdate, callback) {
+            //Check if max request is reach - GuildUpdateProcess take 1 request to Bnet
+            limitModel.increment("bnet", function (error, value) {
+                if (value > applicationStorage.config.oauth.bnet.limit) {
+                    logger.info("Bnet Api limit reach ... waiting 1 min");
+                    updateModel.insert("gu", guildUpdate.region, guildUpdate.realm, guildUpdate.name, guildUpdate.priority, function (error) {
+                        setTimeout(function () {
+                            callback(true);
+                        }, 60000);
+                    });
+                }
+                else {
+                    callback(error, guildUpdate);
+                }
+            });
+        },
+        function (guildUpdate, callback) {
             //Sanitize name
             bnetAPI.getGuild(guildUpdate.region, guildUpdate.realm, guildUpdate.name, ["members"], function (error, guild) {
-                if (error) {
-                    if (error.statusCode == 403) {
-                        logger.info("Bnet Api Deny ... waiting 1 min");
-                        updateModel.insert("gu", guildUpdate.region, guildUpdate.realm, guildUpdate.name, guildUpdate.priority, function (error) {
-                            setTimeout(function () {
-                                callback(true);
-                            }, 60000);
-                        });
-                    } else {
-                        callback(error);
-                    }
+                if (guild.realm && guild.name) {
+                    callback(error, guildUpdate.region, guild, guildUpdate.priority);
                 } else {
-                    callback(null, guildUpdate.region, guild, guildUpdate.priority);
+                    logger.warn("Bnet return empty guild skip it");
+                    callback(true);
                 }
+
             })
         },
         function (region, guild, priority, callback) {
@@ -81,7 +92,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 }
             ], function () {
-                callback(null,region, guild)
+                callback(null, region, guild)
             });
         },
         function (region, guild, callback) {
@@ -98,14 +109,14 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                             });
                         },
                         function (guild, callback) {
-                            if (guild && guild.ad && guild.ad.timezone && guild.ad.lfg==true) {
-                                var offset = Math.round(moment.tz.zone(guild.ad.timezone).parse(Date.UTC())/60);
-                                async.each(guild.ad.play_time,function(day,callback){
+                            if (guild && guild.ad && guild.ad.timezone && guild.ad.lfg == true) {
+                                var offset = Math.round(moment.tz.zone(guild.ad.timezone).parse(Date.UTC()) / 60);
+                                async.each(guild.ad.play_time, function (day, callback) {
                                     day.start.hourUTC = day.start.hour + offset;
-                                    day.end.hourUTC = day.end.hour +offset;
+                                    day.end.hourUTC = day.end.hour + offset;
                                     callback();
-                                },function(){
-                                    callback(null,guild.ad);
+                                }, function () {
+                                    callback(null, guild.ad);
                                 });
                             } else {
                                 callback();
@@ -123,7 +134,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     wowProgressAPI.getGuildRank(region, guild.realm, guild.name, function (error, wowProgress) {
                         if (error) {
                             logger.error(error.message);
-                        }else {
+                        } else {
                             wowProgress.updated = new Date().getTime();
                         }
                         callback(error, wowProgress);

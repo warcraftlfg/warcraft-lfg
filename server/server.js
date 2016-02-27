@@ -118,10 +118,9 @@ async.waterfall([
     function (callback) {
 
         var transports = [
-            new (winston.transports.File)({
+
+            new (require("winston-daily-rotate-file"))({
                 filename: config.logger.folder + "/" + env + ".log",
-                maxsize: 104857600,
-                zippedArchive: true,
                 json:false,
                 formatter: function(options) {
                     // Return string will be passed to logger.
