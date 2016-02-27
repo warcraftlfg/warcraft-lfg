@@ -10,8 +10,10 @@
     function Core($scope,$translate,socket,wlfgAppTitle,user) {
         $scope.wlfgAppTitle = wlfgAppTitle;
 
+        $scope.currentLanguage = $translate.use();
         $scope.setLanguage = function (key){
             $translate.use(key);
+            $scope.currentLanguage = $translate.use();
         };
 
         $scope.user = user.get({param:"profile"});
