@@ -175,7 +175,10 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
 
                     if ((value.source == "progress" && ((key.difficulty == "mythic" && value.roster.length >= 16 ) || ((key.difficulty == "normal" || key.difficulty == "heroic") && value.roster.length >= 8))) || value.source == "wowprogress") {
                         return {timestamps: [[value.timestamp]]};
-                    } else {
+                    } else if (value.source == "wowprogress") {
+                        return {timestamps: [[value.timestamp]]};
+                    }
+                    else {
                         return {timestamps: []};
                     }
                 }
