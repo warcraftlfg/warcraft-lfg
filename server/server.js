@@ -122,6 +122,7 @@ async.waterfall([
             new (require("winston-daily-rotate-file"))({
                 filename: config.logger.folder + "/" + env + ".log",
                 json:false,
+                handleExceptions:true,
                 formatter: function(options) {
                     // Return string will be passed to logger.
                     return new Date().toString()+' - '+process.pid +' - '+ options.level.toUpperCase() +' - '+ (undefined !== options.message ? options.message : '') +
