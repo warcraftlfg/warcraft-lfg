@@ -107,12 +107,13 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 warcraftLogs: function (callback) {
                     //Get WarcraftLogs
                     warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
+                        var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);
+                        } else {
+                            tmpObj.logs = warcraftLogs;
+                            tmpObj.updated = new Date().getTime();
                         }
-                        var tmpObj = {};
-                        tmpObj.logs = warcraftLogs;
-                        tmpObj.updated = new Date().getTime();
                         callback(null, tmpObj)
                     });
                 },
@@ -121,8 +122,9 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                     characterService.getProgress(region, character, function (error, progress) {
                         if (error && error !== true) {
                             logger.error(error.message);
+                        } else {
+                            progress.updated = new Date().getTime();
                         }
-                        progress.updated = new Date().getTime();
                         callback(null, progress);
                     });
                 }
