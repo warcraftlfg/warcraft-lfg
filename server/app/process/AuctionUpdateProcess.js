@@ -57,7 +57,7 @@ AuctionUpdateProcess.prototype.updateAuction = function () {
         function (auctionUpdate, callback) {
             //Sanitize name
             bnetAPI.getCharacter(auctionUpdate.region, auctionUpdate.realm, auctionUpdate.name, ["guild"], function (error, character) {
-                if (character.guild) {
+                if (character && character.guild) {
                     callback(null, auctionUpdate.region, character);
                 } else {
                     logger.warn("Bnet return empty character (account inactive...), skip it");

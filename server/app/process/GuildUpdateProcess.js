@@ -62,7 +62,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
         function (guildUpdate, callback) {
             //Sanitize name
             bnetAPI.getGuild(guildUpdate.region, guildUpdate.realm, guildUpdate.name, ["members"], function (error, guild) {
-                if (guild.realm && guild.name) {
+                if (guild && guild.realm && guild.name) {
                     callback(error, guildUpdate.region, guild, guildUpdate.priority);
                 } else {
                     logger.warn("Bnet return empty guild skip it");
