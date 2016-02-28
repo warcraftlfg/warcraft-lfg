@@ -174,6 +174,7 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
                 },
                 function (bosses, callback) {
                     async.forEachOf(bosses, function (boss, index, callback) {
+                        var timestamp = boss.timestamp;
                         boss = boss.name.replace(/(^\+)/g, "").trim().split(':');
                         progress = {};
                         progress.boss = boss[1].trim();
@@ -221,8 +222,7 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
                         progress.realm = bnetRealm;
                         progress.region = region;
                         progress.source = "wowprogress";
-                        progress.timestamp = boss.timestamp*1000;
-
+                        progress.timestamp = timestamp*1000;
                         progress.updated = new Date().getTime();
                         progress.roster = [];
 
