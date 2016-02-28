@@ -17,47 +17,85 @@ var validator = process.require("core/utilities/validators/validator.js");
  * @param source
  * @param callback
  */
-module.exports.upsert = function(region,realm,name,raid,boss,bossWeight,difficulty,timestamp,source,progress,callback) {
+module.exports.upsert = function (region, realm, name, raid, boss, bossWeight, difficulty, timestamp, source, progress, callback) {
     async.series([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name,raid:raid,boss:boss,bossWeight:bossWeight,difficulty:difficulty,timestamp:timestamp,source:source},function(error){
+            validator.validate({
+                region: region,
+                realm: realm,
+                name: name,
+                raid: raid,
+                boss: boss,
+                bossWeight: bossWeight,
+                difficulty: difficulty,
+                timestamp: timestamp,
+                source: source
+            }, function (error) {
                 callback(error);
             });
         },
-        function(callback){
+        function (callback) {
             //Upsert
-            var guildKill = {region:region,realm:realm,name:name,boss:boss,bossWeight:bossWeight,difficulty:difficulty,timestamp:timestamp,source:source,updated:new Date().getTime()}
+            var guildKill = {
+                region: region,
+                realm: realm,
+                name: name,
+                boss: boss,
+                bossWeight: bossWeight,
+                difficulty: difficulty,
+                timestamp: timestamp,
+                source: source,
+                updated: new Date().getTime()
+            }
 
             var collection = applicationStorage.mongo.collection(raid);
             async.series([
-                function(callback){
-                    collection.updateOne({region:region,realm:realm,name:name,boss:boss,bossWeight:bossWeight,difficulty:difficulty,timestamp:timestamp,source:source},{$set:guildKill},
-                        {upsert:true}, function(error){
+                function (callback) {
+                    collection.updateOne({
+                            region: region,
+                            realm: realm,
+                            name: name,
+                            boss: boss,
+                            bossWeight: bossWeight,
+                            difficulty: difficulty,
+                            timestamp: timestamp,
+                            source: source
+                        }, {$set: guildKill},
+                        {upsert: true}, function (error) {
                             callback(error);
                         });
                 },
-                function(callback){
-                    if(progress) {
-                        collection.updateOne({region: region,realm: realm,name: name,boss: boss,difficulty: difficulty,timestamp: timestamp,source: source,"roster.name": {$ne: progress.name}}, {$push: {roster: progress}}, function (error) {
+                function (callback) {
+                    if (progress) {
+                        collection.updateOne({
+                            region: region,
+                            realm: realm,
+                            name: name,
+                            boss: boss,
+                            difficulty: difficulty,
+                            timestamp: timestamp,
+                            source: source,
+                            "roster.name": {$ne: progress.name}
+                        }, {$push: {roster: progress}}, function (error) {
                             callback(error);
                         });
                     }
-                    else{
+                    else {
                         callback();
                     }
                 }
-            ],function(error){
+            ], function (error) {
                 callback(error);
             })
 
         }
-    ],function(error){
+    ], function (error) {
         callback(error);
     });
 };
@@ -71,34 +109,34 @@ module.exports.upsert = function(region,realm,name,raid,boss,bossWeight,difficul
  * @param raid
  * @param callback
  */
-module.exports.computeProgress = function(region,realm,name,raid,callback){
+module.exports.computeProgress = function (region, realm, name, raid, callback) {
 
     async.waterfall([
-        function(callback){
+        function (callback) {
             //Format value
             region = region.toLowerCase();
             callback();
         },
-        function(callback){
+        function (callback) {
             //Validate Params
-            validator.validate({region:region,realm:realm,name:name,raid:raid},function(error){
+            validator.validate({region: region, realm: realm, name: name, raid: raid}, function (error) {
                 callback(error);
             });
         },
-        function(callback) {
+        function (callback) {
             //Upsert
-            var map = function(){
+            var map = function () {
                 var mapped = {
-                    timestamp:this.timestamp,
-                    roster:this.roster,
-                    source:this.source
+                    timestamp: this.timestamp,
+                    roster: this.roster,
+                    source: this.source
                 };
-                var key = {difficulty:this.difficulty,boss:this.boss};
+                var key = {difficulty: this.difficulty, boss: this.boss};
                 emit(key, mapped);
             };
 
-            var reduce = function(key, values){
-                var reduced = {timestamps:[]};
+            var reduce = function (key, values) {
+                var reduced = {timestamps: []};
 
                 if (values && values[0] && values[0].timestamps) {
                     reduced = values[0];
@@ -106,9 +144,11 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
 
                 for (var idx = 0; idx < values.length; idx++) {
                     if (values[idx].source === "wowprogress") {
-                        if (idx < values.length -1 && values[idx].timestamp + 1000 <= values[idx + 1].timestamp && values[idx + 1].source == "progress"){
+                        if (idx < values.length - 1 && values[idx].timestamp + 1000 <= values[idx + 1].timestamp) {
                             //Add only if no progress are found in + or - 1 sec of wowprogress entry
-                            reduced.timestamps.push([values[idx].timestamp]);
+                            if (values[idx + 1].source != "progress") {
+                                reduced.timestamps.push([values[idx].timestamp]);
+                            }
                         } else {
                             reduced.timestamps.push([values[idx].timestamp]);
                         }
@@ -130,25 +170,30 @@ module.exports.computeProgress = function(region,realm,name,raid,callback){
                 return reduced;
             };
 
-            var finalize = function(key, value){
+            var finalize = function (key, value) {
                 if (value.timestamp) {
 
-                    if ( (value.source == "progress" && ((key.difficulty == "mythic" && value.roster.length >= 16 ) || ((key.difficulty == "normal" || key.difficulty =="heroic") && value.roster.length >= 8))) || value.source == "wowprogress") {
-                        return {timestamps:[[value.timestamp]]};
+                    if ((value.source == "progress" && ((key.difficulty == "mythic" && value.roster.length >= 16 ) || ((key.difficulty == "normal" || key.difficulty == "heroic") && value.roster.length >= 8))) || value.source == "wowprogress") {
+                        return {timestamps: [[value.timestamp]]};
                     } else {
-                        return {timestamps:[]};
+                        return {timestamps: []};
                     }
                 }
                 return value;
             };
 
             var collection = applicationStorage.mongo.collection(raid);
-            collection.mapReduce(map, reduce, {out:{ inline: 1}, finalize:finalize, query:{region:region,realm:realm,name:name}, sort:{bossWeight:1, timestamp:1, source:-1}}, function(error, result) {
-                callback(error,result);
+            collection.mapReduce(map, reduce, {
+                out: {inline: 1},
+                finalize: finalize,
+                query: {region: region, realm: realm, name: name},
+                sort: {bossWeight: 1, timestamp: 1, source: -1}
+            }, function (error, result) {
+                callback(error, result);
             });
         }
-    ],function(error,result){
-        callback(error,result);
+    ], function (error, result) {
+        callback(error, result);
     });
 };
 
