@@ -62,7 +62,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
         function (characterUpdate, callback) {
             //Sanitize name
             bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, ["guild", "items", "progression", "talents", "achievements", "statistics", "challenge", "pvp", "reputation", "stats"], function (error, character) {
-                if (character.realm && character.name) {
+                if (character && character.realm && character.name) {
                     callback(error, characterUpdate.region, character);
                 } else {
                     logger.warn("Bnet return empty character (account inactive...), skip it");

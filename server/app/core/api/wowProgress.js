@@ -136,89 +136,104 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
             var progress;
 
             var tables = $body('table.rating').html();
-            var pattern = /class="boss_kills_link innerLink"[^>]*>([^<]*)<\/a>/gi;
+            var pattern = /class="boss_kills_link innerLink"[^>]*data-aid="([^<]*)"[^>]*>([^<]*)<\/a>/gi;
             var array;
+            var array2;
             var bosses = [];
             var timestamps = [];
             var convertToTimestamp;
-            while (array = pattern.exec(tables)) {
-                bosses.push(array[1]);
-            }
-            pattern = /data-ts="([^"]*)"[^>]*>[^<]*<\/span>|style="white-space:nowrap"[^>]*>([^<]*)<\/span>/gi;
-            while (array = pattern.exec(tables)) {
-                if (array[1]) {
-                    array[1] = parseInt(array[1], 10) * 1000;
-                    timestamps.push(array[1]);
-                } else {
-                    array = array[2].split(' ');
-                    convertToTimestamp = monthToNumber[array[0]] + '/' + array[1].replace(/(,$)/g, "") + '/' + array[2] + ' ' + array[3];
-                    var timestamp = new Date(convertToTimestamp).getTime();
-                    if (!isNaN(timestamp)) {
-                        timestamps.push(timestamp);
-                    }
+            async.waterfall([
+                function (callback) {
+                    async.whilst(function () {
+                        return array = pattern.exec(tables)
+                    }, function (callback) {
+
+                        var boss = array[2];
+                        var boss_id = array[1];
+                        request(url + "?boss_kills=" + boss_id, function (error, response, body) {
+                            if (!error) {
+                                var pattern2 = /data-ts="([^"]*)" data-hint=/gi;
+                                async.whilst(function () {
+                                        return array2 = pattern2.exec(body)
+                                    }, function (callback) {
+                                        var timestamp = parseInt(array2[1], 10);
+                                        if (!isNaN(timestamp)) {
+                                            bosses.push({name: boss, timestamp: timestamp});
+                                        }
+                                        callback();
+                                    },
+                                    function (err, n) {
+                                        callback();
+                                    });
+                            }
+                        });
+
+                    }, function (err, n) {
+                        callback(null,bosses);
+                    });
+                },
+                function (bosses, callback) {
+                    async.forEachOf(bosses, function (boss, index, callback) {
+                        boss = boss.name.replace(/(^\+)/g, "").trim().split(':');
+                        progress = {};
+                        progress.boss = boss[1].trim();
+                        if (boss[0] == 'N') {
+                            progress.difficulty = 'normal';
+                        } else if (boss[0] == 'H') {
+                            progress.difficulty = 'heroic'
+                        } else if (boss[0] == 'M') {
+                            progress.difficulty = 'mythic';
+                        } else {
+                            callback(new Error("WOWPROGRESS_PARSING_ERROR"));
+                        }
+
+
+                        if (progress.boss == "Hellfire Assault") {
+                            progress.bossWeight = 0;
+                        } else if (progress.boss == "Iron Reaver") {
+                            progress.bossWeight = 1;
+                        } else if (progress.boss == "Kormrok") {
+                            progress.bossWeight = 2;
+                        } else if (progress.boss == "Hellfire High Council") {
+                            progress.bossWeight = 3;
+                        } else if (progress.boss == "Kilrogg Deadeye") {
+                            progress.bossWeight = 4;
+                        } else if (progress.boss == "Gorefiend") {
+                            progress.bossWeight = 5;
+                        } else if (progress.boss == "Shadow-Lord Iskar") {
+                            progress.bossWeight = 6;
+                        } else if (progress.boss == "Socrethar the Eternal") {
+                            progress.bossWeight = 7;
+                        } else if (progress.boss == "Tyrant Velhari") {
+                            progress.bossWeight = 8;
+                        } else if (progress.boss == "Fel Lord Zakuun") {
+                            progress.bossWeight = 9;
+                        } else if (progress.boss == "Xhul&apos;horac") {
+                            progress.boss = "Xhul'horac";
+                            progress.bossWeight = 10;
+                        } else if (progress.boss == "Mannoroth") {
+                            progress.bossWeight = 11;
+                        } else if (progress.boss == "Archimonde") {
+                            progress.bossWeight = 12;
+                        }
+
+                        progress.name = name;
+                        progress.realm = bnetRealm;
+                        progress.region = region;
+                        progress.source = "wowprogress";
+                        progress.timestamp = boss.timestamp;
+
+                        progress.updated = new Date().getTime();
+                        progress.roster = [];
+
+                        ranking.push(progress);
+                    });
+
+                    callback(error, ranking);
                 }
-            }
-
-            if (bosses.length != timestamps.length) {
-                return callback(new Error("WOWPROGRESS_PARSING_ERROR"));
-            }
-
-            async.forEachOf(bosses, function (boss, index, callback) {
-                boss = boss.replace(/(^\+)/g, "").trim().split(':');
-                progress = {};
-                progress.boss = boss[1].trim();
-                if (boss[0] == 'N') {
-                    progress.difficulty = 'normal';
-                } else if (boss[0] == 'H') {
-                    progress.difficulty = 'heroic'
-                } else if (boss[0] == 'M') {
-                    progress.difficulty = 'mythic';
-                } else {
-                    callback(new Error("WOWPROGRESS_PARSING_ERROR"));
-                }
-
-                if (progress.boss == "Hellfire Assault") {
-                    progress.bossWeight = 0;
-                } else if (progress.boss == "Iron Reaver") {
-                    progress.bossWeight = 1;
-                } else if (progress.boss == "Kormrok") {
-                    progress.bossWeight = 2;
-                } else if (progress.boss == "Hellfire High Council") {
-                    progress.bossWeight = 3;
-                } else if (progress.boss == "Kilrogg Deadeye") {
-                    progress.bossWeight = 4;
-                } else if (progress.boss == "Gorefiend") {
-                    progress.bossWeight = 5;
-                } else if (progress.boss == "Shadow-Lord Iskar") {
-                    progress.bossWeight = 6;
-                } else if (progress.boss == "Socrethar the Eternal") {
-                    progress.bossWeight = 7;
-                } else if (progress.boss == "Tyrant Velhari") {
-                    progress.bossWeight = 8;
-                } else if (progress.boss == "Fel Lord Zakuun") {
-                    progress.bossWeight = 9;
-                } else if (progress.boss == "Xhul&apos;horac") {
-                    progress.boss = "Xhul'horac";
-                    progress.bossWeight = 10;
-                } else if (progress.boss == "Mannoroth") {
-                    progress.bossWeight = 11;
-                } else if (progress.boss == "Archimonde") {
-                    progress.bossWeight = 12;
-                }
-
-                progress.name = name;
-                progress.realm = bnetRealm;
-                progress.region = region;
-                progress.source = "wowprogress";
-                progress.timestamp = timestamps[index];
-
-                progress.updated = new Date().getTime();
-                progress.roster = [];
-
-                ranking.push(progress);
+            ], function (error, ranking) {
+                callback(error, ranking);
             });
-
-            callback(error, ranking);
         } else {
             callback(error);
         }

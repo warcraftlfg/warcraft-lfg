@@ -145,8 +145,8 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                 for (var idx = 0; idx < values.length; idx++) {
                     if (values[idx].source === "wowprogress") {
                         if (idx < values.length - 1 && values[idx].timestamp + 1000 <= values[idx + 1].timestamp) {
-                            //Add only if no progress are found in + or - 1 sec of wowprogress entry
                             if (values[idx + 1].source != "progress") {
+                                //no progress found in + or - 1 sec of wowprogress entry
                                 reduced.timestamps.push([values[idx].timestamp]);
                             }
                         } else {
