@@ -147,12 +147,15 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
             pattern = /data-ts="([^"]*)"[^>]*>[^<]*<\/span>|style="white-space:nowrap"[^>]*>([^<]*)<\/span>/gi;
             while (array = pattern.exec(tables)) {
                 if (array[1]) {
-                    array[1] = parseInt(array[1]) * 1000;
+                    array[1] = parseInt(array[1], 10) * 1000;
                     timestamps.push(array[1]);
                 } else {
                     array = array[2].split(' ');
                     convertToTimestamp = monthToNumber[array[0]] + '/' + array[1].replace(/(,$)/g, "") + '/' + array[2] + ' ' + array[3];
-                    timestamps.push(new Date(convertToTimestamp).getTime());
+                    var timestamp = new Date(convertToTimestamp).getTime();
+                    if (!isNaN(timestamp)) {
+                        timestamps.push(timestamp);
+                    }
                 }
             }
 
