@@ -221,7 +221,7 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
                         progress.realm = bnetRealm;
                         progress.region = region;
                         progress.source = "wowprogress";
-                        progress.timestamp = boss.timestamp;
+                        progress.timestamp = boss.timestamp*1000;
 
                         progress.updated = new Date().getTime();
                         progress.roster = [];
