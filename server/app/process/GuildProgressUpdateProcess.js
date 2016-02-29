@@ -23,81 +23,101 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function () {
     var config = applicationStorage.config;
     var self = this;
     async.waterfall([
-        function (callback) {
-            //Get next guild to update
-            updateService.getNextUpdate('gpu', function (error, guildProgress) {
-                if (guildProgress == null) {
-                    //Guild update is empty
-                    logger.info("No guild progress to update ... waiting 3 sec");
-                    setTimeout(function () {
-                        callback(true);
-                    }, 3000);
-                } else {
-                    logger.info("Update guild process %s-%s-%s", guildProgress.region, guildProgress.realm, guildProgress.name);
-                    callback(error, guildProgress);
-                }
-            });
-        },
-        function (guildProgress, callback) {
-            async.eachSeries(config.progress.raids, function (raid, callback) {
-                async.waterfall([
-                    function (callback) {
-                        guildKillModel.computeProgress(guildProgress.region, guildProgress.realm, guildProgress.name, raid.name, function (error, result) {
-                            callback(error, result);
-                        });
-                    },
-                    function (result, callback) {
-                        var progress = {};
-                        progress.score = 0;
-                        async.forEachSeries(result, function (obj, callback) {
-                            if (obj.value && obj.value.timestamps && obj.value.timestamps.length > 0) {
-
-                                logger.verbose("Kills found for %s-%s (%s)", obj._id.boss, obj._id.difficulty, obj.value.timestamps.join(','))
-
-                                if (!progress[obj._id.difficulty]) {
-                                    progress[obj._id.difficulty] = {};
-                                }
-                                progress[obj._id.difficulty][obj._id.boss] = obj.value;
-
-                                if (!progress[obj._id.difficulty + "Count"]) {
-                                    progress[obj._id.difficulty + "Count"] = 0;
-                                }
-
-                                if (obj.value.timestamps.length > 0) {
-                                    progress[obj._id.difficulty + "Count"]++;
-                                    if (obj._id.difficulty == "normal") {
-                                        progress.score += 1000;
-                                    } else if (obj._id.difficulty == "heroic") {
-                                        progress.score += 100000;
-                                    } else {
-                                        progress.score += 10000000;
-                                    }
-                                }
-                            }
-                            callback();
-                        }, function () {
-                            var obj = {};
-                            obj[raid.name] = progress;
-                            progress.updated = new Date().getTime();
-                            guildModel.upsert(guildProgress.region, guildProgress.realm, guildProgress.name, {progress:obj}, function (error) {
-                                callback(error);
-                            });
-                        });
+            function (callback) {
+                //Get next guild to update
+                updateService.getNextUpdate('gpu', function (error, guildProgress) {
+                    if (guildProgress == null) {
+                        //Guild update is empty
+                        logger.info("No guild progress to update ... waiting 3 sec");
+                        setTimeout(function () {
+                            callback(true);
+                        }, 3000);
+                    } else {
+                        logger.info("Update guild process %s-%s-%s", guildProgress.region, guildProgress.realm, guildProgress.name);
+                        callback(error, guildProgress);
                     }
-                ], function (error) {
+                });
+            },
+            function (guildProgress, callback) {
+                async.eachSeries(config.progress.raids, function (raid, callback) {
+                    async.waterfall([
+                            function (callback) {
+                                guildKillModel.computeProgress(guildProgress.region, guildProgress.realm, guildProgress.name, raid.name, function (error, result) {
+                                    callback(error, result);
+                                });
+                            },
+                            function (result, callback) {
+                                var progress = {};
+                                progress.score = 0;
+                                var firstKillTimestamps = {};
+                                console.log(result);
+                                async.forEachSeries(result, function (obj, callback) {
+                                    if (obj.value && obj.value.timestamps && obj.value.timestamps.length > 0) {
+
+                                        logger.verbose("Kills found for %s-%s (%s)", obj._id.boss, obj._id.difficulty, obj.value.timestamps.join(','))
+
+                                        if (!progress[obj._id.difficulty]) {
+                                            progress[obj._id.difficulty] = {};
+                                        }
+                                        progress[obj._id.difficulty][obj._id.boss] = obj.value;
+
+                                        if (!progress[obj._id.difficulty + "Count"]) {
+                                            progress[obj._id.difficulty + "Count"] = 0;
+                                        }
+
+                                        if (obj.value.timestamps.length > 0) {
+                                            progress[obj._id.difficulty + "Count"]++;
+                                            if (obj._id.difficulty == "normal") {
+                                                if (firstKillTimestamps[obj._id.bossWeight * 1000] == null || firstKillTimestamps[obj._id.bossWeight * 1000] > obj.value.timestamps[0]) {
+                                                    firstKillTimestamps[obj._id.bossWeight * 1000] = obj.value.timestamps[0][0];
+                                                }
+                                                progress.score += 1000;
+                                            } else if (obj._id.difficulty == "heroic") {
+                                                if (firstKillTimestamps[obj._id.bossWeight * 100000] == null || firstKillTimestamps[obj._id.bossWeight * 100000] > obj.value.timestamps[0]) {
+                                                    firstKillTimestamps[obj._id.bossWeight * 100000] = obj.value.timestamps[0][0];
+                                                }
+                                                progress.score += 100000;
+                                            } else {
+                                                if (firstKillTimestamps[obj._id.bossWeight * 10000000] == null || firstKillTimestamps[obj._id.bossWeight * 10000000] > obj.value.timestamps[0]) {
+                                                    firstKillTimestamps[obj._id.bossWeight * 10000000] = obj.value.timestamps[0][0];
+                                                }
+                                                progress.score += 10000000;
+
+                                            }
+                                        }
+                                    }
+                                    callback();
+                                }, function () {
+                                    var obj = {};
+                                    progress.bestKillTimestamp = firstKillTimestamps[Object.keys(firstKillTimestamps).reverse()[0]];
+                                    progress.updated = new Date().getTime();
+                                    obj[raid.name] = progress;
+
+                                    guildModel.upsert(guildProgress.region, guildProgress.realm, guildProgress.name, {progress: obj}, function (error) {
+                                        callback(error);
+                                    });
+                                });
+                            }
+                        ],
+                        function (error) {
+                            callback(error);
+                        }
+                    )
+                }, function (error) {
                     callback(error);
-                })
-            }, function (error) {
-                callback(error);
-            });
+                });
+            }
+        ],
+        function (error) {
+            if (error && error !== true) {
+                logger.error(error.message);
+            }
+            self.updateGuildProgress();
         }
-    ], function (error) {
-        if (error && error !== true) {
-            logger.error(error.message);
-        }
-        self.updateGuildProgress();
-    });
-};
+    )
+    ;
+}
+;
 
 /**
  * Start GuildProgressUpdateProcess

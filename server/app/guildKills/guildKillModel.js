@@ -131,7 +131,7 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                     roster: this.roster,
                     source: this.source
                 };
-                var key = {difficulty: this.difficulty, boss: this.boss};
+                var key = {difficulty: this.difficulty, boss: this.boss, bossWeight:this.bossWeight};
                 emit(key, mapped);
             };
 
