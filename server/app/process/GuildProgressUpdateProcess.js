@@ -89,7 +89,9 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function () {
                                     callback();
                                 }, function () {
                                     var obj = {};
-                                    progress.bestKillTimestamp = firstKillTimestamps[Object.keys(firstKillTimestamps).reverse()[0]];
+                                    if (Object.keys(firstKillTimestamps).length > 0) {
+                                        progress.bestKillTimestamp = firstKillTimestamps[Object.keys(firstKillTimestamps).reverse()[0]];
+                                    }
                                     progress.updated = new Date().getTime();
                                     obj[raid.name] = progress;
 
