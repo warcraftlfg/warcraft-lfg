@@ -131,7 +131,7 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                     roster: this.roster,
                     source: this.source
                 };
-                var key = {difficulty: this.difficulty, boss: this.boss, bossWeight: this.bossWeight};
+                var key = {difficulty: this.difficulty, boss: this.boss};
                 emit(key, mapped);
             };
 
@@ -194,7 +194,7 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                 out: {inline: 1},
                 finalize: finalize,
                 query: {region: region, realm: realm, name: name},
-                sort: {bossWeight: 1, timestamp: 1, source: -1}
+                sort: {timestamp: 1, source: -1}
             }, function (error, result) {
                 callback(error, result);
             });
