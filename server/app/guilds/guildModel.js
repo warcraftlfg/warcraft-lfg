@@ -139,55 +139,6 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
 };
 
 /**
- * Update or insert progress object for the guild
- * @param region
- * @param realm
- * @param name
- * @param raid
- * @param progress
- * @param callback
- */
-module.exports.upsertProgress = function (region, realm, name, raid, progress, callback) {
-    async.series([
-        function (callback) {
-            //Format value
-            region = region.toLowerCase();
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            //Upsert
-            var date = new Date().getTime();
-            var guild = {};
-            guild.region = region;
-            guild.realm = realm;
-            guild.name = name;
-            guild.updated = date;
-            var obj = {};
-            progress.updated = date;
-            obj[raid] = progress;
-            guild.progress = obj;
-            var collection = applicationStorage.mongo.collection("guilds");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: guild}, {upsert: true}, function (error) {
-                callback(error);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
-
-
-/**
  * Delete Ad for the guild
  * @param region
  * @param realm
@@ -306,6 +257,12 @@ module.exports.removeId = function (region, realm, name, id, callback) {
 module.exports.getFullRanking = function (callback) {
     var collection = applicationStorage.mongo.collection("guilds");
     collection.aggregate([
+        {
+            $match: {
+                "progress.Hellfire Citadel.score": {$exists:true},
+                "progress.Hellfire Citadel.bestKillTimestamp": {$exists:true}
+            }
+        },
         {
             $sort: {
                 "progress.Hellfire Citadel.score": -1,
