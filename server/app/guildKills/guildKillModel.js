@@ -131,7 +131,7 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                     roster: this.roster,
                     source: this.source
                 };
-                var key = {difficulty: this.difficulty, boss: this.boss, bossWeight:this.bossWeight};
+                var key = {difficulty: this.difficulty, boss: this.boss, bossWeight: this.bossWeight};
                 emit(key, mapped);
             };
 
@@ -154,7 +154,7 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                         }
                     }
                     else if (values[idx].source === "progress") {
-                        if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp) {
+                        if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp && values[idx].roster && values[idx + 1].roster) {
                             var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
                             if ((key.difficulty == "mythic" && rosterLength >= 16) || ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8)) {
                                 reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
