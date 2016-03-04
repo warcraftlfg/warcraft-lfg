@@ -49,8 +49,10 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function () {
                             function (result, callback) {
                                 var progress = {};
                                 progress.score = 0;
-                                var firstKillTimestamps = {};
-                                console.log(result);
+                                var bestNormalKillTimestamp = 0;
+                                var bestHeroicKillTimestamp = 0;
+                                var bestMythicKillTimestamp = 0;
+
                                 async.forEachSeries(result, function (obj, callback) {
                                     if (obj.value && obj.value.timestamps && obj.value.timestamps.length > 0) {
 
@@ -68,29 +70,32 @@ GuildProgressUpdateProcess.prototype.updateGuildProgress = function () {
                                         if (obj.value.timestamps.length > 0) {
                                             progress[obj._id.difficulty + "Count"]++;
                                             if (obj._id.difficulty == "normal") {
-                                                if (firstKillTimestamps[obj._id.bossWeight * 1000] == null || firstKillTimestamps[obj._id.bossWeight * 1000] > obj.value.timestamps[0]) {
-                                                    firstKillTimestamps[obj._id.bossWeight * 1000] = obj.value.timestamps[0][0];
+                                                if (obj.value.timestamps[0][0] > bestNormalKillTimestamp) {
+                                                    bestNormalKillTimestamp = obj.value.timestamps[0][0];
                                                 }
                                                 progress.score += 1000;
                                             } else if (obj._id.difficulty == "heroic") {
-                                                if (firstKillTimestamps[obj._id.bossWeight * 100000] == null || firstKillTimestamps[obj._id.bossWeight * 100000] > obj.value.timestamps[0]) {
-                                                    firstKillTimestamps[obj._id.bossWeight * 100000] = obj.value.timestamps[0][0];
+                                                if (obj.value.timestamps[0][0] > bestHeroicKillTimestamp) {
+                                                    bestHeroicKillTimestamp = obj.value.timestamps[0][0];
                                                 }
                                                 progress.score += 100000;
                                             } else {
-                                                if (firstKillTimestamps[obj._id.bossWeight * 10000000] == null || firstKillTimestamps[obj._id.bossWeight * 10000000] > obj.value.timestamps[0]) {
-                                                    firstKillTimestamps[obj._id.bossWeight * 10000000] = obj.value.timestamps[0][0];
+                                                if (obj.value.timestamps[0][0] > bestMythicKillTimestamp) {
+                                                    bestMythicKillTimestamp = obj.value.timestamps[0][0];
                                                 }
                                                 progress.score += 10000000;
-
                                             }
                                         }
                                     }
                                     callback();
                                 }, function () {
                                     var obj = {};
-                                    if (Object.keys(firstKillTimestamps).length > 0) {
-                                        progress.bestKillTimestamp = firstKillTimestamps[Object.keys(firstKillTimestamps).reverse()[0]];
+                                    if (bestMythicKillTimestamp != 9999999999000) {
+                                        progress.bestKillTimestamp = bestMythicKillTimestamp;
+                                    } else if (bestHeroicKillTimestamp != 9999999999000) {
+                                        progress.bestKillTimestamp = bestHeroicKillTimestamp;
+                                    } else if (bestNormalKillTimestamp != 9999999999000) {
+                                        progress.bestKillTimestamp = bestNormalKillTimestamp;
                                     }
                                     progress.updated = new Date().getTime();
                                     obj[raid.name] = progress;
