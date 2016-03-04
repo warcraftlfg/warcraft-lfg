@@ -148,7 +148,7 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                             if (values[idx + 1].source != "progress") {
                                 //no progress found in + or - 1 sec of wowprogress entry
                                 reduced.timestamps.push([values[idx].timestamp]);
-                            } else if (values[idx].timestamp < 1451602800){
+                            } else if (values[idx].timestamp < 145160280000){
                                 //Before 2016/01/01 wowprogress is mandatory
                                 reduced.timestamps.push([values[idx].timestamp]);
                                 idx ++;
