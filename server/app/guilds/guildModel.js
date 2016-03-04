@@ -81,7 +81,7 @@ module.exports.count = function (criteria, callback) {
  * @param obj
  * @param callback
  */
-module.exports.upsert = function(region,realm,name,obj,callback){
+module.exports.upsert = function (region, realm, name, obj, callback) {
     async.series([
         function (callback) {
             //Validate Params
@@ -94,24 +94,24 @@ module.exports.upsert = function(region,realm,name,obj,callback){
 
 
             //Sanitize ad object
-            if(obj.ad) {
+            if (obj.ad) {
                 var confine = new Confine();
                 guild.ad = confine.normalize(obj.ad, guildAdSchema);
             }
 
-            if(obj.bnet){
+            if (obj.bnet) {
                 guild.bnet = obj.bnet;
             }
 
-            if(obj.perms){
+            if (obj.perms) {
                 guild.perms = obj.perms;
             }
 
-            if(obj.wowProgress){
+            if (obj.wowProgress) {
                 guild.wowProgress = obj.wowProgress;
             }
 
-            if(obj.progress){
+            if (obj.progress) {
                 guild.progress = obj.progress;
             }
 
@@ -303,3 +303,25 @@ module.exports.removeId = function (region, realm, name, id, callback) {
 };
 
 
+module.exports.getFullRanking = function (callback) {
+    var collection = applicationStorage.mongo.collection("guilds");
+    collection.aggregate([
+        {
+            $sort: {
+                "progress.Hellfire Citadel.score": -1,
+                "progress.Hellfire Citadel.bestKillTimestamp": 1
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                region: 1,
+                realm: 1,
+                name: 1
+            }
+        }], function (error, result) {
+        callback(error, result);
+    });
+
+
+};

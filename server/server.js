@@ -75,6 +75,11 @@ if (process.argv.indexOf("-gpu") != -1) {
     processNames.push("GuildProgressUpdateProcess");
 }
 
+// -glu start GuildLeaderboardUpdateProcess
+if (process.argv.indexOf("-glu") != -1) {
+    processNames.push("GuildLeaderboardUpdateProcess");
+}
+
 
 //Start all process if no args are found
 if (processNames.length == 0) {
@@ -87,6 +92,7 @@ if (processNames.length == 0) {
         "AuctionUpdateProcess",
         "AdUpdateProcess",
         "GuildProgressUpdateProcess",
+        "GuildLeaderboardUpdateProcess",
         "WebServerProcess"
     ];
 }
