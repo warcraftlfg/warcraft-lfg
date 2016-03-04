@@ -20,21 +20,35 @@ GuildLeaderboardUpdateProcess.prototype.updateLeaderboard = function () {
     var logger = applicationStorage.logger;
 
     async.waterfall([
-        function(callback){
-            guildModel.getFullRanking(function(error,guilds){
-                callback(error,guilds);
+        function (callback) {
+            guildModel.getFullRanking(function (error, guilds) {
+                callback(error, guilds);
             });
         },
-        function(guilds,callback){
-            async.forEachSeries(guilds,function(guild,callback){
-                if(guild.region && guild.realm && guild.name){
-                    guildModel.upsert
+        function (guilds, callback) {
+            //Do the world rank
+            var rank = 0;
+            async.forEachSeries(guilds, function (guild, callback) {
+                rank++;
+                if (guild.region && guild.realm && guild.name) {
+                    var obj = {progress: {"Hellfire Citadel": {worldRank: rank}}};
+
+                    /*guildModel.upsert(guild.region, guild.realm, guild.name, obj, function (error) {
+                        if (error) {
+                            logger.error(error);
+                        }
+                        callback();
+                    });*/
+                    logger.info("%s-%s-%s", guild.region, guild.realm, guild.name);
+                    callback();
 
                 } else {
-                    logger.warn("Guild missing component %s-%s-%s",guild.region,guild.realm,guild.name);
+                    logger.warn("Guild missing component %s-%s-%s", guild.region, guild.realm, guild.name);
                     callback();
                 }
 
+            }, function () {
+                callback();
             });
         }
     ], function (error) {

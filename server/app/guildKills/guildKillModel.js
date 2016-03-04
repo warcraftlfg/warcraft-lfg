@@ -148,13 +148,17 @@ module.exports.computeProgress = function (region, realm, name, raid, callback) 
                             if (values[idx + 1].source != "progress") {
                                 //no progress found in + or - 1 sec of wowprogress entry
                                 reduced.timestamps.push([values[idx].timestamp]);
+                            } else if (values[idx].timestamp < 1451602800){
+                                //Before 2016/01/01 wowprogress is mandatory
+                                reduced.timestamps.push([values[idx].timestamp]);
+                                idx ++;
                             }
                         } else {
                             reduced.timestamps.push([values[idx].timestamp]);
                         }
                     }
                     else if (values[idx].source === "progress") {
-                        if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp && values[idx].roster && values[idx + 1].roster) {
+                        if (idx < values.length - 1 && values[idx].timestamp + 1000 >= values[idx + 1].timestamp && values[idx + 1].source == "progress") {
                             var rosterLength = values[idx].roster.length + values[idx + 1].roster.length;
                             if ((key.difficulty == "mythic" && rosterLength >= 16) || ((key.difficulty == "normal" || key.difficulty == "heroic") && rosterLength >= 8)) {
                                 reduced.timestamps.push([values[idx].timestamp, values[idx + 1].timestamp]);
