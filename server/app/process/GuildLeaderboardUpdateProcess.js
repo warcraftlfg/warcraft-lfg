@@ -9,7 +9,8 @@ var guildModel = process.require("guilds/guildModel.js");
  * GuildUpdateProcess constructor
  * @constructor
  */
-function GuildLeaderboardUpdateProcess() {
+function GuildLeaderboardUpdateProcess(autoStop) {
+    this.autoStop = autoStop;
 }
 
 /**
@@ -27,20 +28,28 @@ GuildLeaderboardUpdateProcess.prototype.updateLeaderboard = function () {
         },
         function (guilds, callback) {
             //Do the world rank
-            var rank = 0;
-            async.forEachSeries(guilds, function (guild, callback) {
-                rank++;
-                if (guild.region && guild.realm && guild.name) {
-                    var obj = {progress: {"Hellfire Citadel": {worldRank: rank}}};
+            var worldRank = 0;
+            var regionRank = {eu: 0, us: 0, tw: 0, kr: 0};
 
-                    /*guildModel.upsert(guild.region, guild.realm, guild.name, obj, function (error) {
+            async.forEachSeries(guilds, function (guild, callback) {
+                worldRank++;
+                regionRank[guild.region] = regionRank[guild.region] + 1;
+                if (guild.region && guild.realm && guild.name) {
+                    var obj = {
+                        rank: {
+                            "Hellfire Citadel": {
+                                world: worldRank,
+                                region: regionRank[guild.region]
+                            }
+                        }
+                    };
+                    logger.info("%s-%s-%s", guild.region, guild.realm, guild.name);
+                    guildModel.upsert(guild.region, guild.realm, guild.name, obj, function (error) {
                         if (error) {
                             logger.error(error);
                         }
                         callback();
-                    });*/
-                    logger.info("%s-%s-%s", guild.region, guild.realm, guild.name);
-                    callback();
+                    });
 
                 } else {
                     logger.warn("Guild missing component %s-%s-%s", guild.region, guild.realm, guild.name);
@@ -55,7 +64,9 @@ GuildLeaderboardUpdateProcess.prototype.updateLeaderboard = function () {
         if (error && error !== true) {
             logger.error(error.message);
         }
-        //self.updateLeaderboard();
+        if (self.autoStop) {
+            process.exit();
+        }
     });
 };
 
