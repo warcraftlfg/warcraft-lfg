@@ -275,6 +275,12 @@ module.exports.getRankedGuilds = function (raid, callback) {
     sort[bestKillTimestampStr] = 1;
     collection.aggregate([
         {
+            $match: match
+        },
+        {
+            $sort: sort
+        },
+        {
             $project: {
                 _id: 0,
                 region: 1,
