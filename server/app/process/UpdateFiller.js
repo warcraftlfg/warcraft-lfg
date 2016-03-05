@@ -8,21 +8,22 @@ var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 
 /**
- * AdUpdateProcess constructor
+ * UpdateFiller constructor
  * @param autoStop
  * @constructor
  */
-function AdUpdateProcess(autoStop) {
+function UpdateFiller(autoStop) {
     this.autoStop = autoStop;
 }
 
 /**
- * Set the Ads in redis for update
+ * Set updates in redis
  */
-AdUpdateProcess.prototype.setAdsToUpdate = function () {
+UpdateFiller.prototype.setUpdates = function () {
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
     var self = this;
-    async.parallel([
+    async.series([
         function (callback) {
             //Set to Update Character Ads
             async.waterfall([
@@ -51,29 +52,31 @@ AdUpdateProcess.prototype.setAdsToUpdate = function () {
             });
         },
         function (callback) {
-            //Set to Update Guild Ads
-            async.waterfall([
-                function (callback) {
-                    guildModel.find({"ad.lfg": true}, {region: 1, realm: 1, name: 1}, function (error, guilds) {
-                        callback(error, guilds);
-                    });
-                },
-                function (guilds, callback) {
-                    async.each(guilds, function (guild, callback) {
-                        updateModel.insert('gu', guild.region, guild.realm, guild.name, 3, function (error) {
-                            logger.verbose("Insert guild %s-%s-%s to update with priority 3", guild.region, guild.realm, guild.name);
-                            callback(error);
+            //Set All guild with a progress to update
+            async.eachSeries(config.progress.raids, function (raid, callback) {
+                async.waterfall([
+                    function (callback) {
+                        guildModel.getRankedGuilds(raid.name, function (error, guilds) {
+                            callback(error, guilds);
                         });
-                    }, function (error) {
-                        callback(error, guilds.length);
-                    });
-                }
-            ], function (error, length) {
-                if (error && error !== true) {
-                    logger.error(error.message);
-                } else {
-                    logger.info("Added %s guilds to update", length)
-                }
+                    }, function (guilds,callback) {
+                        async.each(guilds, function (guild, callback) {
+                            updateModel.insert('gu', guild.region, guild.realm, guild.name, 3, function (error) {
+                                logger.verbose("Insert guild %s-%s-%s to update with priority 3", guild.region, guild.realm, guild.name);
+                                callback(error);
+                            });
+                        }, function (error) {
+                            if (error) {
+                                logger.error(error.message);
+                            }
+                            logger.info("Added %s guilds to update", guilds.length)
+                            callback();
+                        });
+                    }
+                ], function () {
+                    callback();
+                });
+            }, function () {
                 callback();
             });
         }
@@ -81,9 +84,7 @@ AdUpdateProcess.prototype.setAdsToUpdate = function () {
         if (self.autoStop) {
             process.exit();
         }
-
     })
-
 };
 
 
@@ -91,10 +92,10 @@ AdUpdateProcess.prototype.setAdsToUpdate = function () {
  * Start the updater
  * @param callback
  */
-AdUpdateProcess.prototype.start = function (callback) {
-    applicationStorage.logger.info("Starting AdUpdateProcess");
-    this.setAdsToUpdate();
+UpdateFiller.prototype.start = function (callback) {
+    applicationStorage.logger.info("Starting UpdateFiller");
+    this.setUpdates();
     callback();
 };
 
-module.exports = AdUpdateProcess;
+module.exports = UpdateFiller;
