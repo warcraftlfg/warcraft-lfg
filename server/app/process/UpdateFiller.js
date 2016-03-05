@@ -69,7 +69,7 @@ UpdateFiller.prototype.setUpdates = function () {
                             if (error) {
                                 logger.error(error.message);
                             }
-                            logger.info("Added %s guilds to update", guilds.length)
+                            logger.info("Added %s guilds to update", guilds.length);
                             callback();
                         });
                     }
