@@ -115,6 +115,10 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 guild.progress = obj.progress;
             }
 
+            if(obj.rank){
+                guild.rank = obj.rank;
+            }
+
             //Format value
             region = region.toLowerCase();
 
@@ -253,7 +257,10 @@ module.exports.removeId = function (region, realm, name, id, callback) {
     });
 };
 
-
+/**
+ * Return Ranking
+ * @param callback
+ */
 module.exports.getFullRanking = function (callback) {
     var collection = applicationStorage.mongo.collection("guilds");
     collection.aggregate([
@@ -279,6 +286,5 @@ module.exports.getFullRanking = function (callback) {
         }], function (error, result) {
         callback(error, result);
     });
-
-
 };
+
