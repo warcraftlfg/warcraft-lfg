@@ -23,19 +23,7 @@ GuildLeaderboardUpdateProcess.prototype.updateLeaderboard = function () {
     async.eachSeries(config.progress.raids, function (raid, callback) {
         async.waterfall([
             function (callback) {
-                var scoreStr = "progress." + raid.name + ".score";
-                var bestKillTimestampStr = "progress." + raid.name + ".bestKillTimestamp";
-                var criteria = {};
-                criteria[scoreStr] = {$exists: true}
-                criteria[bestKillTimestampStr] = {$exists: true};
-
-                var projection = {_id: 0, region: 1, realm: 1, name: 1};
-
-                var sort = {};
-                sort[scoreStr] = -1;
-                sort[bestKillTimestampStr] = 1;
-
-                guildModel.find(criteria, projection, sort, function (error, guilds) {
+                guildModel.getRankedGuilds(raid.name, function (error, guilds) {
                     callback(error, guilds);
                 });
             },
