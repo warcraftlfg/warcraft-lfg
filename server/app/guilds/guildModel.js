@@ -115,7 +115,7 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 guild.progress = obj.progress;
             }
 
-            if(obj.rank){
+            if (obj.rank) {
                 guild.rank = obj.rank;
             }
 
@@ -258,23 +258,27 @@ module.exports.removeId = function (region, realm, name, id, callback) {
 };
 
 /**
- * Return Ranking
+ * Return Ranking for a raid name
  * @param callback
  */
-module.exports.getFullRanking = function (callback) {
+module.exports.getRankedGuilds = function (raid, callback) {
     var collection = applicationStorage.mongo.collection("guilds");
+    var scoreStr = "progress." + raid + ".score";
+    var bestKillTimestampStr = "progress." + raid + ".bestKillTimestamp";
+
+    var match = {};
+    match[scoreStr] = {$exists: true}
+    match[bestKillTimestampStr] = {$exists: true};
+
+    var sort = {};
+    sort[scoreStr] = -1;
+    sort[bestKillTimestampStr] = 1;
     collection.aggregate([
         {
-            $match: {
-                "progress.Hellfire Citadel.score": {$exists:true},
-                "progress.Hellfire Citadel.bestKillTimestamp": {$exists:true}
-            }
+            $match: match
         },
         {
-            $sort: {
-                "progress.Hellfire Citadel.score": -1,
-                "progress.Hellfire Citadel.bestKillTimestamp": 1
-            }
+            $sort: sort
         },
         {
             $project: {
@@ -287,4 +291,6 @@ module.exports.getFullRanking = function (callback) {
         callback(error, result);
     });
 };
+
+
 

@@ -67,8 +67,8 @@ if (process.argv.indexOf("-au") != -1) {
 }
 
 // -adu start AdUpdateProcess
-if (process.argv.indexOf("-adu") != -1)
-    processNames.push("AdUpdateProcess");
+if (process.argv.indexOf("-uf") != -1)
+    processNames.push("UpdateFiller");
 
 // -gpu start GuildProgressUpdateProcess
 if (process.argv.indexOf("-gpu") != -1) {
@@ -90,7 +90,7 @@ if (processNames.length == 0) {
         "WowProgressUpdateProcess",
         "CleanerProcess",
         "AuctionUpdateProcess",
-        "AdUpdateProcess",
+        "UpdateFiller",
         "GuildProgressUpdateProcess",
         "GuildLeaderboardUpdateProcess",
         "WebServerProcess"

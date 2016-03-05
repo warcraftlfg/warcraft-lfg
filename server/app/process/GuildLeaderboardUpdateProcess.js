@@ -19,48 +19,66 @@ function GuildLeaderboardUpdateProcess(autoStop) {
 GuildLeaderboardUpdateProcess.prototype.updateLeaderboard = function () {
     var self = this;
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
+    async.eachSeries(config.progress.raids, function (raid, callback) {
+        async.waterfall([
+            function (callback) {
+                var scoreStr = "progress." + raid.name + ".score";
+                var bestKillTimestampStr = "progress." + raid.name + ".bestKillTimestamp";
+                var criteria = {};
+                criteria[scoreStr] = {$exists: true}
+                criteria[bestKillTimestampStr] = {$exists: true};
 
-    async.waterfall([
-        function (callback) {
-            guildModel.getFullRanking(function (error, guilds) {
-                callback(error, guilds);
-            });
-        },
-        function (guilds, callback) {
-            //Do the world rank
-            var worldRank = 0;
-            var regionRank = {eu: 0, us: 0, tw: 0, kr: 0};
+                var projection = {_id: 0, region: 1, realm: 1, name: 1};
 
-            async.forEachSeries(guilds, function (guild, callback) {
-                worldRank++;
-                regionRank[guild.region] = regionRank[guild.region] + 1;
-                if (guild.region && guild.realm && guild.name) {
-                    var obj = {
-                        rank: {
-                            "Hellfire Citadel": {
-                                world: worldRank,
-                                region: regionRank[guild.region]
+                var sort = {};
+                sort[scoreStr] = -1;
+                sort[bestKillTimestampStr] = 1;
+
+                guildModel.find(criteria, projection, sort, function (error, guilds) {
+                    callback(error, guilds);
+                });
+            },
+            function (guilds, callback) {
+                //Do the world rank
+                var worldRank = 0;
+                var regionRank = {eu: 0, us: 0, tw: 0, kr: 0};
+
+                async.forEachSeries(guilds, function (guild, callback) {
+                    worldRank++;
+                    regionRank[guild.region] = regionRank[guild.region] + 1;
+                    if (guild.region && guild.realm && guild.name) {
+                        var rank = {};
+                        rank[raid.name] = {
+                            world: worldRank,
+                            region: regionRank[guild.region]
+                        };
+
+                        var obj = {rank: rank};
+                        logger.info("Guild %s-%s-%s is rank %s", guild.region, guild.realm, guild.name, worldRank);
+                        guildModel.upsert(guild.region, guild.realm, guild.name, obj, function (error) {
+                            if (error) {
+                                logger.error(error);
                             }
-                        }
-                    };
-                    logger.info("%s-%s-%s", guild.region, guild.realm, guild.name);
-                    guildModel.upsert(guild.region, guild.realm, guild.name, obj, function (error) {
-                        if (error) {
-                            logger.error(error);
-                        }
+                            callback();
+                        });
+
+                    } else {
+                        logger.warn("Guild missing component %s-%s-%s", guild.region, guild.realm, guild.name);
                         callback();
-                    });
+                    }
 
-                } else {
-                    logger.warn("Guild missing component %s-%s-%s", guild.region, guild.realm, guild.name);
+                }, function () {
                     callback();
-                }
-
-            }, function () {
-                callback();
-            });
-        }
-    ], function (error) {
+                });
+            }
+        ], function (error) {
+            if (error && error !== true) {
+                logger.error(error.message);
+            }
+            callback();
+        });
+    }, function (error) {
         if (error && error !== true) {
             logger.error(error.message);
         }
