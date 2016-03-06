@@ -38,12 +38,12 @@ module.exports.getGuilds = function (req, res) {
             function (criteria, projection, limit, sort, callback) {
                 logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
                 //TODO Improve hint selection
-                if (query.lfg == "true") {
+                if (req.query.lfg == "true") {
                     guildModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, guilds) {
                         callback(error, guilds);
                     });
                 }
-                else if (query.rank =="true"){
+                else if (req.query.rank =="true"){
                     guildModel.find(criteria, projection, sort, limit, {"rank.Hellfire Citadel.world": 1}, function (error, guilds) {
                         callback(error, guilds);
                     });
