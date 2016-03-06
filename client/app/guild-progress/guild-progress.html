@@ -1,0 +1,101 @@
+<section class="header header-guild">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{ "GUILDS PROGRESS"|translate}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                	<span class="sectiontitle">
+                    	{{ "GUILDS_PROGRESS_DESCRIPTION"|translate}}
+                   </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div wlfg-guild-menu></div>
+
+<div class="guild-list">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreGuilds()" infinite-scroll-immediate-check="false">
+                <div class="cartouche cartouche-faction-{{guild.bnet.side}}" ng-repeat="guild in guilds">
+                    <div class="guild guild-faction-{{guild.bnet.side}}">
+                        <a class="div-link" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"></a>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-4 col-lg-4">
+                                <div class="overflow faction-{{guild.bnet.side}}">
+                                    <a class="faction-{{guild.bnet.side}} f-28"
+                                       href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                                        {{guild.name}}
+                                    </a>
+                                </div>
+                                <div class="overflow">
+                                    {{guild.realm}} ({{guild.region|uppercase}})
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-2 col-lg-3">
+                                <div>
+                                    Progress :
+                                    <span ng-if="guild.progress['Hellfire Citadel'].mythicCount>0">{{guild.progress['Hellfire Citadel'].mythicCount}}/13 (M)</span>
+                                    <span ng-if="guild.progress['Hellfire Citadel'].heroicCount>0&&!guild.progress['Hellfire Citadel'].mythicCount">{{guild.progress['Hellfire Citadel'].heroicCount}}/13 (H)</span>
+                                    <span ng-if="guild.progress['Hellfire Citadel'].normalCount>=0&&!guild.progress['Hellfire Citadel'].mythicCount&&!guild.progress['Hellfire Citadel'].heroicCount">{{guild.progress['Hellfire Citadel'].normalCount}}/13 (N)</span>
+                                    <span ng-if="!guild.progress['Hellfire Citadel'].normalCount && !guild.progress['Hellfire Citadel'].heroicCount && !guild.progress['Hellfire Citadel'].mythicCount">0/13 (NM)</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-lg-offset-0 col-md-10 col-lg-3">
+                                HomeProgress :
+                                {{guild.rank}}
+                            </div>
+                            <div class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-lg-offset-0 col-md-10 col-lg-3">
+                                WoWProgress :
+                                <div class="row" ng-if="guild.wowProgress.world_rank">
+                                    <div class="col-sm-2 col-md-4">World</div>
+                                    <div class="col-sm-10 col-md-8"
+                                         ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
+                                        {{guild.wowProgress.world_rank}}
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="guild.wowProgress.area_rank">
+                                    <div class="col-sm-2 col-md-4">Region</div>
+                                    <div class="col-sm-10 col-md-8"
+                                         ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
+                                        {{guild.wowProgress.area_rank}}
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="guild.wowProgress.area_rank">
+                                    <div class="col-sm-2 col-md-4">Realm</div>
+                                    <div class="col-sm-10 col-md-8"
+                                         ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
+                                        {{guild.wowProgress.realm_rank}}
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="!guild.wowProgress.world_rank">
+                                    <div class="col-sm-10 col-md-9 common">
+                                        No rank found
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="guild-timestamp">
+                                <span am-time-ago="{{guild.ad.updated| amSubtract : '1' : 'minute'}}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3"></div>
+            <div class="col-md-9 col-lg-9 text-center m-t-10 m-b-10">
+                <i class="fa fa-3x fa-spinner fa-spin" ng-if="loading"></i>
+            </div>
+        </div>
+    </div>
+</div>

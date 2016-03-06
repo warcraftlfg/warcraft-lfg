@@ -37,7 +37,7 @@ module.exports.getGuilds = function (req, res) {
         },
         function (criteria, projection, limit, sort, callback) {
             logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
-            guildModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, guilds) {
+            guildModel.find(criteria, projection, sort, limit, function (error, guilds) {
                 callback(error, guilds);
             });
         }

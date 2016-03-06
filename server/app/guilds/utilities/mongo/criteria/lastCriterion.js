@@ -56,6 +56,16 @@ module.exports.add = function (query, criteria) {
             tmpObj["wowProgress.world_rank"] = value;
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
+
+        } else if (sort === "rank") {
+            tmpObj = {};
+            tmpObj["rank." + raid.name + ".world"] = {$gt: value};
+            tmpArray.push(tmpObj);
+
+            tmpObj = {};
+            tmpObj["rank." + raid.name + ".world"] = value;
+            tmpObj["_id"] = {$lt: new ObjectId(id)};
+            tmpArray.push(tmpObj);
         }
         else {
             tmpObj = {};
@@ -76,4 +86,5 @@ module.exports.add = function (query, criteria) {
             }
         }
     }
-};
+}
+;

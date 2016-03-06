@@ -232,8 +232,8 @@
 
     }
 
-    GuildList.$inject = ['$scope', '$stateParams', '$translate', '$state', 'socket', 'LANGUAGES', 'TIMEZONES', "wlfgAppTitle", "guilds"];
-    function GuildList($scope, $stateParams, $translate, $state, socket, LANGUAGES, TIMEZONES, wlfgAppTitle, guilds) {
+    GuildList.$inject = ['$scope', '$state', "wlfgAppTitle", "guilds"];
+    function GuildList($scope, $state, wlfgAppTitle, guilds) {
         wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error = null;

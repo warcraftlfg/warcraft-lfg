@@ -20,9 +20,13 @@ module.exports.get = function (query) {
     } else if (query.sort == "progress") {
         sort["progress." + raid.name + ".score"] = -1;
     }
+    else if (query.sort == "rank") {
+        sort["rank." + raid.name + ".world"] = 1;
+    }
     else {
         sort["ad.updated"] = -1;
     }
+
     sort._id = -1;
 
     return sort;
