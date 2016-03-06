@@ -42,6 +42,11 @@ module.exports.getGuilds = function (req, res) {
                     guildModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, guilds) {
                         callback(error, guilds);
                     });
+                }
+                else if (req.query.rank == "true") {
+                    guildModel.find(criteria, projection, sort, limit, {"rank.Hellfire Citadel.world": 1}, function (error, guilds) {
+                        callback(error, guilds);
+                    });
                 } else {
                     guildModel.find(criteria, projection, sort, limit, function (error, guilds) {
                         callback(error, guilds);
