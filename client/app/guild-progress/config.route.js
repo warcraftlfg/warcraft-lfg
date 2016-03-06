@@ -8,7 +8,7 @@
     function getRoutes($stateProvider) {
         $stateProvider
             .state("guild-progress", {
-                url: "/guild-progress/",
+                url: "/guild-progress?realm_zone&faction&realm",
                 templateUrl: "app/guild-progress/guild-progress.html",
                 controlerAs: 'vm',
                 title: 'Guild Progress',
