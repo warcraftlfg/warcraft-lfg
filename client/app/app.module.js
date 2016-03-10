@@ -27,9 +27,7 @@
         'app.account',
         'app.character',
         'app.guild',
-        'app.guild-progress',
         'app.layout'
-
     ]);
 
 })();

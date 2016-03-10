@@ -132,16 +132,13 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
         if (!error && response.statusCode == 200) {
             var $body = cheerio.load(body);
 
-            var ranking = [];
-            var progress;
+            var progress = {score: 0};
 
             var tables = $body('table.rating').html();
             var pattern = /class="boss_kills_link innerLink"[^>]*data-aid="([^<]*)"[^>]*>([^<]*)<\/a>/gi;
             var array;
             var array2;
             var bosses = [];
-            var timestamps = [];
-            var convertToTimestamp;
             async.waterfall([
                 function (callback) {
                     async.whilst(function () {
@@ -158,7 +155,7 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
                                     }, function (callback) {
                                         var timestamp = parseInt(array2[1], 10);
                                         if (!isNaN(timestamp)) {
-                                            bosses.push({name: boss, timestamp: timestamp});
+                                            bosses.push({name: boss, timestamp: timestamp * 1000});
                                         }
                                         callback();
                                     },
@@ -169,70 +166,56 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
                         });
 
                     }, function (err, n) {
-                        callback(null,bosses);
+                        callback(null, bosses);
                     });
                 },
                 function (bosses, callback) {
-                    async.forEachOf(bosses, function (boss, index, callback) {
+                    async.forEach(bosses, function (boss, callback) {
                         var timestamp = boss.timestamp;
                         boss = boss.name.replace(/(^\+)/g, "").trim().split(':');
-                        progress = {};
-                        progress.boss = boss[1].trim();
+                        var name = boss[1].trim();
+                        var difficulty;
                         if (boss[0] == 'N') {
-                            progress.difficulty = 'normal';
+                            difficulty = 'normal';
                         } else if (boss[0] == 'H') {
-                            progress.difficulty = 'heroic'
+                            difficulty = 'heroic'
                         } else if (boss[0] == 'M') {
-                            progress.difficulty = 'mythic';
+                            difficulty = 'mythic';
                         } else {
                             callback(new Error("WOWPROGRESS_PARSING_ERROR"));
                         }
 
 
-                        if (progress.boss == "Hellfire Assault") {
-                            progress.bossWeight = 0;
-                        } else if (progress.boss == "Iron Reaver") {
-                            progress.bossWeight = 1;
-                        } else if (progress.boss == "Kormrok") {
-                            progress.bossWeight = 2;
-                        } else if (progress.boss == "Hellfire High Council") {
-                            progress.bossWeight = 3;
-                        } else if (progress.boss == "Kilrogg Deadeye") {
-                            progress.bossWeight = 4;
-                        } else if (progress.boss == "Gorefiend") {
-                            progress.bossWeight = 5;
-                        } else if (progress.boss == "Shadow-Lord Iskar") {
-                            progress.bossWeight = 6;
-                        } else if (progress.boss == "Socrethar the Eternal") {
-                            progress.bossWeight = 7;
-                        } else if (progress.boss == "Tyrant Velhari") {
-                            progress.bossWeight = 8;
-                        } else if (progress.boss == "Fel Lord Zakuun") {
-                            progress.bossWeight = 9;
-                        } else if (progress.boss == "Xhul&apos;horac") {
-                            progress.boss = "Xhul'horac";
-                            progress.bossWeight = 10;
-                        } else if (progress.boss == "Mannoroth") {
-                            progress.bossWeight = 11;
-                        } else if (progress.boss == "Archimonde") {
-                            progress.bossWeight = 12;
+                        if (name == "Xhul&apos;horac") {
+                            name = "Xhul'horac";
                         }
 
-                        progress.name = name;
-                        progress.realm = bnetRealm;
-                        progress.region = region;
-                        progress.source = "wowprogress";
-                        progress.timestamp = timestamp*1000;
-                        progress.updated = new Date().getTime();
-                        progress.roster = [];
+                        if (!progress[difficulty]) {
+                            progress[difficulty] = {};
+                        }
+                        if (progress[difficulty][name]) {
+                            progress[difficulty][name].count = progress[difficulty][name].count + 1;
+                            if (progress[difficulty][name].timestamp > timestamp) {
+                                progress[difficulty][name].timestamp = timestamp;
+                            }
+                        } else {
+                            progress[difficulty][name] = {count: 1, timestamp: timestamp};
+                            if (difficulty == "normal") {
+                                progress.score += 1000;
+                            } else if (difficulty == "heroic") {
+                                progress.score += 100000;
+                            } else if (difficulty == "mythic") {
+                                progress.score += 10000000;
+                            }
+                            console.log(progress);
+                        }
 
-                        ranking.push(progress);
                     });
 
-                    callback(error, ranking);
+                    callback(error);
                 }
-            ], function (error, ranking) {
-                callback(error, ranking);
+            ], function (error) {
+                callback(error, progress);
             });
         } else {
             callback(error);

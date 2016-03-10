@@ -6,7 +6,6 @@ var moment = require('moment-timezone');
 var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
 var warcraftLogsAPI = process.require("core/api/warcraftLogs.js");
-var limitModel = process.require("limits/limitModel.js");
 var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var characterModel = process.require("characters/characterModel.js");
@@ -39,22 +38,6 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                     }, 3000);
                 } else {
                     logger.info("Update character %s-%s-%s", characterUpdate.region, characterUpdate.realm, characterUpdate.name);
-                    callback(error, characterUpdate);
-                }
-            });
-        },
-        function (characterUpdate, callback) {
-            //Check if max request is reach - CharacterUpdateProcess take 1 request to Bnet
-            limitModel.increment("bnet", function (error, value) {
-                if (value > applicationStorage.config.oauth.bnet.limit) {
-                    logger.info("Bnet Api limit reach ... waiting 1 min");
-                    updateModel.insert("cu", characterUpdate.region, characterUpdate.realm, characterUpdate.name, characterUpdate.priority, function () {
-                        setTimeout(function () {
-                            callback(true);
-                        }, 60000);
-                    });
-                }
-                else {
                     callback(error, characterUpdate);
                 }
             });
@@ -114,18 +97,6 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                         tmpObj.logs = warcraftLogs;
                         tmpObj.updated = new Date().getTime();
                         callback(null, tmpObj)
-                    });
-                },
-                progress: function (callback) {
-                    //Get Progress
-                    characterService.getProgress(region, character, function (error, progress) {
-                        if (error && error !== true) {
-                            logger.error(error.message);
-                        }
-                        if (progress) {
-                            progress.updated = new Date().getTime();
-                        }
-                        callback(null, progress);
                     });
                 }
             }, function (error, results) {

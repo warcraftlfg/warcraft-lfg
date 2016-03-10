@@ -6,21 +6,26 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 var wowProgressAPI = process.require("core/api/wowProgress.js");
+var bnetAPI = process.require("core/api/bnet.js");
+var realmModel = process.require("realms/realmModel.js");
+var updateModel = process.require("updates/updateModel.js");
+
 
 /**
  * CleanerProcess constructor
  * @param autoStop
  * @constructor
  */
-function CleanerProcess(autoStop) {
+function Cron(autoStop) {
     this.autoStop = autoStop;
 }
 
 /**
  * Clean Ads
  */
-CleanerProcess.prototype.cleanAds = function () {
+Cron.prototype.cleanAds = function () {
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
     var self = this;
     async.series([
             function (callback) {
@@ -44,12 +49,66 @@ CleanerProcess.prototype.cleanAds = function () {
                 })
             },
             function (callback) {
+                //Set to Update Character Ads
+                async.waterfall([
+                    function (callback) {
+                        characterModel.find({"ad.lfg": true}, {region: 1, realm: 1, name: 1}, function (error, characters) {
+                            callback(error, characters);
+                        });
+                    },
+                    function (characters, callback) {
+                        async.each(characters, function (character, callback) {
+                            updateModel.insert('cu', character.region, character.realm, character.name, 3, function (error) {
+                                logger.verbose("Insert character to update %s-%s-%s to update with priority 3", character.region, character.realm, character.name);
+                                callback(error);
+                            });
+                        }, function (error) {
+                            callback(error, characters.length);
+                        });
+                    }
+                ], function (error, length) {
+                    if (error && error !== true) {
+                        logger.error(error.message);
+                    } else {
+                        logger.info("Added %s characters to update", length)
+                    }
+                    callback();
+                });
+            },
+            function (callback) {
+                //Set to Update Character Ads
+                async.waterfall([
+                    function (callback) {
+                        guildModel.find({"ad.lfg": true}, {region: 1, realm: 1, name: 1}, function (error, guilds) {
+                            callback(error, guilds);
+                        });
+                    },
+                    function (guilds, callback) {
+                        async.each(guilds, function (guild, callback) {
+                            updateModel.insert('cu', guild.region, guild.realm, guild.name, 3, function (error) {
+                                logger.verbose("Insert guild to update %s-%s-%s to update with priority 3", guild.region, guild.realm, guild.name);
+                                callback(error);
+                            });
+                        }, function (error) {
+                            callback(error, guilds.length);
+                        });
+                    }
+                ], function (error, length) {
+                    if (error && error !== true) {
+                        logger.error(error.message);
+                    } else {
+                        logger.info("Added %s guilds to update", length)
+                    }
+                    callback();
+                });
+            },
+            function (callback) {
                 //Refresh all wowprogress guildAds
                 async.waterfall([
                     function (callback) {
                         guildModel.find(
                             {
-                                "ad.lfg": true, id: {$exists:false}
+                                "ad.lfg": true, id: {$exists: false}
                             }, {region: 1, realm: 1, name: 1}, {"ad.updated": 1}, function (error, guilds) {
                                 callback(error, guilds);
                             });
@@ -93,7 +152,7 @@ CleanerProcess.prototype.cleanAds = function () {
                     function (callback) {
                         characterModel.find(
                             {
-                                "ad.lfg": true, id: {$exists:false}
+                                "ad.lfg": true, id: {$exists: false}
                             }, {region: 1, realm: 1, name: 1}, {"ad.updated": 1}, function (error, characters) {
                                 callback(error, characters);
 
@@ -130,6 +189,49 @@ CleanerProcess.prototype.cleanAds = function () {
                     }
                     callback();
                 });
+            },
+            function (callback) {
+
+                //noinspection JSUnresolvedVariable
+                async.each(config.bnetRegions, function (region, callback) {
+                    async.waterfall([
+                        function (callback) {
+                            bnetAPI.getRealms(region, function (error, realms) {
+                                callback(error, realms);
+                            });
+                        },
+                        function (realms, callback) {
+                            var connectedRealms = [];
+                            realms.forEach(function (realm) {
+                                var key = realm.connected_realms.join("__");
+                                if (!connectedRealms[key]) {
+                                    connectedRealms[key] = [realm.name];
+                                } else {
+                                    connectedRealms[key].push(realm.name);
+                                }
+                            });
+                            callback(null, realms, connectedRealms)
+                        },
+                        function (realms, connectedRealms, callback) {
+                            async.each(realms, function (realm, callback) {
+                                var connected_realms = connectedRealms[realm.connected_realms.join("__")];
+                                realmModel.upsert(region, realm.name, connected_realms, realm, function (error) {
+                                    logger.info("Upsert Realm %s-%s (%s)", region, realm.name, connected_realms);
+                                    callback(error);
+                                });
+                            }, function (error) {
+                                callback(error);
+                            });
+                        }
+                    ], function (error) {
+                        callback(error);
+                    })
+                }, function (error) {
+                    if (error) {
+                        logger.error(error.message);
+                    }
+                    callback();
+                });
             }
         ],
         function () {
@@ -137,21 +239,18 @@ CleanerProcess.prototype.cleanAds = function () {
                 process.exit();
             }
         }
-    )
-    ;
-
-}
-;
+    );
+};
 
 /**
- * Start the CleanerProcess
+ * Start the Cron
  * @param callback
  */
-CleanerProcess.prototype.start = function (callback) {
-    applicationStorage.logger.info("Starting CleanerProcess");
+Cron.prototype.start = function (callback) {
+    applicationStorage.logger.info("Starting Cron");
     this.cleanAds();
     callback();
 
 };
 
-module.exports = CleanerProcess;
+module.exports = Cron;

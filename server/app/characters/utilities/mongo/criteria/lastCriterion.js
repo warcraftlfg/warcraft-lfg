@@ -34,11 +34,11 @@ module.exports.add = function (query, criteria) {
         var tmpObj;
         if (sort === "progress") {
             tmpObj = {};
-            tmpObj["progress." + raid.name + ".score"] = {$lt: value};
+            tmpObj["progress.score"] = {$lt: value};
             tmpArray.push(tmpObj);
 
             tmpObj = {};
-            tmpObj["progress." + raid.name + ".score"] = value;
+            tmpObj["progress.score"] = value;
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
 

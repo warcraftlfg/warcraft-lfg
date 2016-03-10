@@ -3,7 +3,6 @@
 //Load dependencies
 var async = require("async");
 var lfgCriterion = process.require("core/utilities/mongo/criteria/lfgCriterion.js");
-var rankCriterion = process.require("guilds/utilities/mongo/criteria/rankCriterion.js");
 var factionCriterion = process.require("guilds/utilities/mongo/criteria/factionCriterion.js");
 var languageCriterion = process.require("guilds/utilities/mongo/criteria/languageCriterion.js");
 var recruitmentClassCriterion = process.require("guilds/utilities/mongo/criteria/recruitmentClassCriterion.js");
@@ -25,7 +24,6 @@ module.exports.get = function (query, callback) {
 
     //Do sync stuff
     lfgCriterion.add(query, criteria);
-    rankCriterion.add(query, criteria);
     factionCriterion.add(query, criteria);
     languageCriterion.add(query, criteria);
     recruitmentClassCriterion.add(query, criteria);

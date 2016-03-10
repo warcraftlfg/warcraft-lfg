@@ -16,19 +16,8 @@ module.exports.get = function (query) {
         projection["ad.recruitment"] = 1;
         projection["ad.raids_per_week"] = 1;
         projection["ad.updated"] = 1;
-
+        projection["progress.score"] = 1;
         projection.wowProgress = 1;
-
-        /** @namespace config.progress.raids */
-        config.progress.raids.forEach(function (raid) {
-            projection["progress." + raid.name + ".normalCount"] = 1;
-            projection["progress." + raid.name + ".heroicCount"] = 1;
-            projection["progress." + raid.name + ".mythicCount"] = 1;
-            projection["progress." + raid.name + ".score"] = 1;
-            projection["rank." + raid.name] = 1;
-        });
-
-
     }
     if (query.view === "minimal") {
         projection["bnet.side"] = 1;
