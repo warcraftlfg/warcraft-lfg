@@ -28,18 +28,6 @@
             }, function (guild) {
                 $scope.guild = guild;
 
-                //Count kill
-                if (guild.progress.mythic) {
-                    guild.progress.count = Object.keys(guild.progress.mythic).length;
-                } else if (guild.progress.heroic) {
-                    guild.progress.count = Object.keys(guild.progress.heroic).length;
-                }
-                else if (guild.progress.normal) {
-                    guild.progress.count = Object.keys(guild.progress.normal).length;
-                } else {
-                    guild.progress.count = 0;
-                }
-
                 $scope.recruit = {'tank': 0, 'heal': 0, 'melee_dps': 0, 'ranged_dps': 0};
                 angular.forEach(guild.ad.recruitment, function (value, key) {
                     angular.forEach(value, function (status, test) {
