@@ -27,11 +27,7 @@ module.exports.get = function (query) {
         projection["bnet.guild.name"] = 1;
         projection["bnet.progression.raids"] = 1;
         projection["warcraftLogs.logs"] = 1;
-
-        /** @namespace config.progress.raids */
-        config.progress.raids.forEach(function (raid) {
-            projection["progress." + raid.name + ".score"] = 1;
-        });
+        projection["progress.score"] = 1;
 
     }
 

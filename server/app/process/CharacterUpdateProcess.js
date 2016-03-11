@@ -98,6 +98,27 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                         tmpObj.updated = new Date().getTime();
                         callback(null, tmpObj)
                     });
+                },
+                progress: function (callback) {
+                    var progress = {score:0}
+
+                    if (character.progression && character.progression.raids) {
+                        character.progression.raids[character.progression.raids.length - 1].bosses.forEach(function(boss){
+                            if(boss.normalKills>0){
+                                progress.score += 1000;
+                            }
+                            if(boss.heroicKills>0){
+                                progress.score+=100000
+                            }
+                            if(boss.mythicKills>0){
+                                progress.score+=10000000
+                            }
+                        });
+                        callback(null,progress);
+                    }
+                    else {
+                        callback();
+                    }
                 }
             }, function (error, results) {
                 results.bnet = character;
