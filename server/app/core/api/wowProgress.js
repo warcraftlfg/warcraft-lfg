@@ -132,7 +132,7 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
         if (!error && response.statusCode == 200) {
             var $body = cheerio.load(body);
 
-            var progress = {score: 0};
+            var progress = {score: 0, normalCount: 0, heroicCount: 0, mythicCount: 0};
 
             var tables = $body('table.rating').html();
             var pattern = /class="boss_kills_link innerLink"[^>]*data-aid="([^<]*)"[^>]*>([^<]*)<\/a>/gi;
@@ -202,12 +202,14 @@ module.exports.getGuildProgress = function (region, realm, name, callback) {
                             progress[difficulty][name] = {count: 1, timestamp: timestamp};
                             if (difficulty == "normal") {
                                 progress.score += 1000;
+                                progress.normalCount +=1;
                             } else if (difficulty == "heroic") {
                                 progress.score += 100000;
+                                progress.heroicCount+=1;
                             } else if (difficulty == "mythic") {
                                 progress.score += 10000000;
+                                progress.mythicCount +=1;
                             }
-                            console.log(progress);
                         }
 
                     });

@@ -237,15 +237,11 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="hide" nf-if="guild.progress['Hellfire Citadel']">
-                                {{ guild.progress['Hellfire Citadel'] }}
-                            </div>
                             <div class="col-md-6">
                                 Progress :
-                                <span ng-if="guild.progress.mythic">{{guild.progress.count}}/13 (M)</span>
-                                <span ng-if="guild.progress.heroic&&!guild.progress.mythic">{{guild.progress.count}}/13 (H)</span>
-                                <span ng-if="guild.progress.normal&&!guild.progress.heroic&&!guild.progress.mythic">{{guild.progress.count}}/13 (N)</span>
-                                <span ng-if="!guild.progress.normal&&!guild.progress.heroic&&!guild.progress.mythic">0/13 (NM)</span>
+                                <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
+                                <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
+                                <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
                             </div>
                             <div class="col-md-2" ng-if="guild.wowProgress.world_rank">
                                 World : <span ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">

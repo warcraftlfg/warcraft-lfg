@@ -32,7 +32,8 @@
                         <div class="row">
                             <div class="col-sm-3 col-md-4 col-lg-4">
                                 <div class="overflow faction-{{guild.bnet.side}}">
-                                    <a class="faction-{{guild.bnet.side}} f-28" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
+                                    <a class="faction-{{guild.bnet.side}} f-28"
+                                       href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/">
                                         {{guild.name}}
                                     </a>
                                 </div>
@@ -53,36 +54,43 @@
                                 guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue ||
                                 guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage">
                                     Role :&nbsp;
-                                    <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight" class="icon-small tank"></span>
-                                    <span ng-if="guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk" class="icon-small heal"></span>
-                                    <span ng-if="guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue"  class="icon-small dps"></span>
-                                    <span ng-if="guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage" class="icon-small ranged-dps"></span>
+                                    <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight"
+                                          class="icon-small tank"></span>
+                                    <span ng-if="guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk"
+                                          class="icon-small heal"></span>
+                                    <span ng-if="guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue"
+                                          class="icon-small dps"></span>
+                                    <span ng-if="guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage"
+                                          class="icon-small ranged-dps"></span>
                                 </div>
                             </div>
                             <div class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-lg-offset-0 col-md-10 col-lg-3">
                                 <div>
+                                    {{guild.progress}}
                                     Progress :
-                                    <span ng-if="guild.progress['Hellfire Citadel'].mythicCount>0">{{guild.progress['Hellfire Citadel'].mythicCount}}/13 (M)</span>
-                                    <span ng-if="guild.progress['Hellfire Citadel'].heroicCount>0&&!guild.progress['Hellfire Citadel'].mythicCount">{{guild.progress['Hellfire Citadel'].heroicCount}}/13 (H)</span>
-                                    <span ng-if="guild.progress['Hellfire Citadel'].normalCount>=0&&!guild.progress['Hellfire Citadel'].mythicCount&&!guild.progress['Hellfire Citadel'].heroicCount">{{guild.progress['Hellfire Citadel'].normalCount}}/13 (N)</span>
-                                    <span ng-if="!guild.progress['Hellfire Citadel'].normalCount && !guild.progress['Hellfire Citadel'].heroicCount && !guild.progress['Hellfire Citadel'].mythicCount">0/13 (NM)</span>
+                                    <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
+                                    <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
+                                    <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
                                 </div>
                                 WoWProgress :
                                 <div class="row" ng-if="guild.wowProgress.world_rank">
                                     <div class="col-sm-2 col-md-4">World</div>
-                                    <div class="col-sm-10 col-md-8" ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
+                                    <div class="col-sm-10 col-md-8"
+                                         ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
                                         {{guild.wowProgress.world_rank}}
                                     </div>
                                 </div>
                                 <div class="row" ng-if="guild.wowProgress.area_rank">
                                     <div class="col-sm-2 col-md-4">Region</div>
-                                    <div class="col-sm-10 col-md-8" ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
+                                    <div class="col-sm-10 col-md-8"
+                                         ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
                                         {{guild.wowProgress.area_rank}}
                                     </div>
                                 </div>
                                 <div class="row" ng-if="guild.wowProgress.area_rank">
                                     <div class="col-sm-2 col-md-4">Realm</div>
-                                    <div class="col-sm-10 col-md-8" ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
+                                    <div class="col-sm-10 col-md-8"
+                                         ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
                                         {{guild.wowProgress.realm_rank}}
                                     </div>
                                 </div>

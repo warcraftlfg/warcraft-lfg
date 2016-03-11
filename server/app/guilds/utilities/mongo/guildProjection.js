@@ -16,7 +16,9 @@ module.exports.get = function (query) {
         projection["ad.recruitment"] = 1;
         projection["ad.raids_per_week"] = 1;
         projection["ad.updated"] = 1;
-        projection["progress.score"] = 1;
+        projection["progress.normalCount"] = 1;
+        projection["progress.heroicCount"] = 1;
+        projection["progress.mythicCount"] = 1;
         projection.wowProgress = 1;
     }
     if (query.view === "minimal") {
