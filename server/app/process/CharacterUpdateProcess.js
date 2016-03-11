@@ -6,7 +6,6 @@ var moment = require('moment-timezone');
 var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
 var warcraftLogsAPI = process.require("core/api/warcraftLogs.js");
-var limitModel = process.require("limits/limitModel.js");
 var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var characterModel = process.require("characters/characterModel.js");
@@ -44,25 +43,9 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
             });
         },
         function (characterUpdate, callback) {
-            //Check if max request is reach - CharacterUpdateProcess take 1 request to Bnet
-            limitModel.increment("bnet", function (error, value) {
-                if (value > applicationStorage.config.oauth.bnet.limit) {
-                    logger.info("Bnet Api limit reach ... waiting 1 min");
-                    updateModel.insert("cu", characterUpdate.region, characterUpdate.realm, characterUpdate.name, characterUpdate.priority, function () {
-                        setTimeout(function () {
-                            callback(true);
-                        }, 60000);
-                    });
-                }
-                else {
-                    callback(error, characterUpdate);
-                }
-            });
-        },
-        function (characterUpdate, callback) {
             //Sanitize name
             bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, ["guild", "items", "progression", "talents", "achievements", "statistics", "challenge", "pvp", "reputation", "stats"], function (error, character) {
-                if (character.realm && character.name) {
+                if (character && character.realm && character.name) {
                     callback(error, characterUpdate.region, character);
                 } else {
                     logger.warn("Bnet return empty character (account inactive...), skip it");
@@ -107,24 +90,35 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 warcraftLogs: function (callback) {
                     //Get WarcraftLogs
                     warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
+                        var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);
                         }
-                        var tmpObj = {};
                         tmpObj.logs = warcraftLogs;
                         tmpObj.updated = new Date().getTime();
                         callback(null, tmpObj)
                     });
                 },
                 progress: function (callback) {
-                    //Get Progress
-                    characterService.getProgress(region, character, function (error, progress) {
-                        if (error && error !== true) {
-                            logger.error(error.message);
-                        }
-                        progress.updated = new Date().getTime();
-                        callback(null, progress);
-                    });
+                    var progress = {score:0}
+
+                    if (character.progression && character.progression.raids) {
+                        character.progression.raids[character.progression.raids.length - 1].bosses.forEach(function(boss){
+                            if(boss.normalKills>0){
+                                progress.score += 1000;
+                            }
+                            if(boss.heroicKills>0){
+                                progress.score+=100000
+                            }
+                            if(boss.mythicKills>0){
+                                progress.score+=10000000
+                            }
+                        });
+                        callback(null,progress);
+                    }
+                    else {
+                        callback();
+                    }
                 }
             }, function (error, results) {
                 results.bnet = character;

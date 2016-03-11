@@ -12,9 +12,6 @@ var ObjectId = require("mongodb").ObjectId;
  */
 module.exports.add = function (query, criteria) {
 
-    var config = applicationStorage.config;
-    var raid = config.progress.raids[0];
-
 
     var paramLastArray = params.parseQueryParam(query.last, 2);
     var paramSortArray = params.parseQueryParam(query.sort, 1);
@@ -32,17 +29,7 @@ module.exports.add = function (query, criteria) {
         }
 
         var tmpObj;
-        if (sort === "progress") {
-            tmpObj = {};
-            tmpObj["progress." + raid.name + ".score"] = {$lt: value};
-            tmpArray.push(tmpObj);
-
-            tmpObj = {};
-            tmpObj["progress." + raid.name + ".score"] = value;
-            tmpObj["_id"] = {$lt: new ObjectId(id)};
-            tmpArray.push(tmpObj);
-
-        } else if (sort === "ilevel") {
+        if (sort === "ilevel") {
             tmpObj = {};
             tmpObj["bnet.items.averageItemLevelEquipped"] = {$lt: value};
             tmpArray.push(tmpObj);

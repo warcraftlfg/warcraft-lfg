@@ -46,47 +46,23 @@ if (process.argv.indexOf("-cu") != -1) {
     processNames.push("CharacterUpdateProcess");
 }
 
-// -ru start RealmUpdateProcess
-if (process.argv.indexOf("-ru") != -1) {
-    processNames.push("RealmUpdateProcess");
-}
-
 // -wp start WowProgressUpdateProcess
 if (process.argv.indexOf("-wp") != -1) {
     processNames.push("WowProgressUpdateProcess");
 }
 
 // -clean start CleanerProcess
-if (process.argv.indexOf("-clean") != -1) {
-    processNames.push("CleanerProcess");
+if (process.argv.indexOf("-cron") != -1) {
+    processNames.push("Cron");
 }
-
-// -au start AuctionUpdateProcess
-if (process.argv.indexOf("-au") != -1) {
-    processNames.push("AuctionUpdateProcess");
-}
-
-// -adu start AdUpdateProcess
-if (process.argv.indexOf("-adu") != -1)
-    processNames.push("AdUpdateProcess");
-
-// -gpu start GuildProgressUpdateProcess
-if (process.argv.indexOf("-gpu") != -1) {
-    processNames.push("GuildProgressUpdateProcess");
-}
-
 
 //Start all process if no args are found
 if (processNames.length == 0) {
     processNames = [
         "GuildUpdateProcess",
         "CharacterUpdateProcess",
-        "RealmUpdateProcess",
         "WowProgressUpdateProcess",
-        "CleanerProcess",
-        "AuctionUpdateProcess",
-        "AdUpdateProcess",
-        "GuildProgressUpdateProcess",
+        "Cron",
         "WebServerProcess"
     ];
 }
@@ -95,8 +71,6 @@ var autoStop = true;
 //Disable AutoStop if any of this process is loaded
 if (processNames.indexOf("GuildUpdateProcess") != -1
     || processNames.indexOf("CharacterUpdateProcess") != -1
-    || processNames.indexOf("AuctionUpdateProcess") != -1
-    || processNames.indexOf("GuildProgressUpdateProcess") != -1
     || processNames.indexOf("WebServerProcess") != -1
     || processNames.indexOf("WowProgressUpdateProcess") != -1) {
     autoStop = false;
@@ -121,15 +95,17 @@ async.waterfall([
 
             new (require("winston-daily-rotate-file"))({
                 filename: config.logger.folder + "/" + env + ".log",
-                json:false,
-                formatter: function(options) {
+                json: false,
+                handleExceptions: true,
+                formatter: function (options) {
                     // Return string will be passed to logger.
-                    return new Date().toString()+' - '+process.pid +' - '+ options.level.toUpperCase() +' - '+ (undefined !== options.message ? options.message : '') +
-                        (options.meta && Object.keys(options.meta).length ? '\n\t'+ JSON.stringify(options.meta) : '' );
+                    return new Date().toString() + ' - ' + process.pid + ' - ' + options.level.toUpperCase() + ' - ' + (undefined !== options.message ? options.message : '') +
+                        (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : '' );
                 }
             })];
-        if (env == "development")
-            transports.push(new (winston.transports.Console)({}));
+        if (env == "development") {
+            transports.push(new (winston.transports.Console)({handleExceptions: true}));
+        }
 
         applicationStorage.logger = logger = new (winston.Logger)({
             level: config.logger.level,
@@ -189,6 +165,7 @@ async.waterfall([
     }
 ], function (error) {
     started();
-    if (error)
+    if (error) {
         logger.error(error);
+    }
 });

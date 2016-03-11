@@ -21,35 +21,39 @@ module.exports.getGuilds = function (req, res) {
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
     async.waterfall([
-        function (callback) {
-            guildCriteria.get(req.query, function (error, criteria) {
-                callback(error, criteria);
-            });
-        },
-        function (criteria, callback) {
-            callback(null, criteria, guildProjection.get(req.query));
-        },
-        function (criteria, projection, callback) {
-            callback(null, criteria, projection, numberLimit.get(req.query));
-        },
-        function (criteria, projection, limit, callback) {
-            callback(null, criteria, projection, limit, guildSort.get(req.query));
-        },
-        function (criteria, projection, limit, sort, callback) {
-            logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
-            guildModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, guilds) {
-                callback(error, guilds);
-            });
-        }
+            function (callback) {
+                guildCriteria.get(req.query, function (error, criteria) {
+                    callback(error, criteria);
+                });
+            },
+            function (criteria, callback) {
+                callback(null, criteria, guildProjection.get(req.query));
+            },
+            function (criteria, projection, callback) {
+                callback(null, criteria, projection, numberLimit.get(req.query));
+            },
+            function (criteria, projection, limit, callback) {
+                callback(null, criteria, projection, limit, guildSort.get(req.query));
+            },
+            function (criteria, projection, limit, sort, callback) {
+                logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
+                guildModel.find(criteria, projection, sort, limit, function (error, guilds) {
+                    callback(error, guilds);
+                });
+            }
 
-    ], function (error, guilds) {
-        if (error) {
-            logger.error(error.message);
-            res.status(500).send(error.message);
+        ],
+        function (error, guilds) {
+            if (error) {
+                logger.error(error.message);
+                res.status(500).send(error.message);
+            }
+            res.json(guilds);
         }
-        res.json(guilds);
-    });
-};
+    )
+    ;
+}
+;
 
 /**
  * return one guild
@@ -92,7 +96,7 @@ module.exports.putGuildAd = function (req, res) {
     async.series([
         function (callback) {
             ad.updated = new Date().getTime();
-            guildModel.upsert(req.params.region, req.params.realm, req.params.name, {ad:ad}, function (error) {
+            guildModel.upsert(req.params.region, req.params.realm, req.params.name, {ad: ad}, function (error) {
                 callback(error);
             });
         },
@@ -141,7 +145,7 @@ module.exports.putGuildPerms = function (req, res) {
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
     var perms = req.body;
     perms.updated = new Date().getTime();
-    guildModel.upsert(req.params.region, req.params.realm, req.params.name, {perms:perms}, function (error) {
+    guildModel.upsert(req.params.region, req.params.realm, req.params.name, {perms: perms}, function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -153,7 +157,7 @@ module.exports.putGuildPerms = function (req, res) {
 };
 
 
-module.exports.getCount = function (req,res){
+module.exports.getCount = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
@@ -175,6 +179,6 @@ module.exports.getCount = function (req,res){
             logger.error(error.message);
             res.status(500).send(error.message);
         }
-        res.json({count:count});
+        res.json({count: count});
     });
 };

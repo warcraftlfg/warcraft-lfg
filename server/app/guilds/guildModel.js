@@ -81,7 +81,7 @@ module.exports.count = function (criteria, callback) {
  * @param obj
  * @param callback
  */
-module.exports.upsert = function(region,realm,name,obj,callback){
+module.exports.upsert = function (region, realm, name, obj, callback) {
     async.series([
         function (callback) {
             //Validate Params
@@ -94,25 +94,29 @@ module.exports.upsert = function(region,realm,name,obj,callback){
 
 
             //Sanitize ad object
-            if(obj.ad) {
+            if (obj.ad) {
                 var confine = new Confine();
                 guild.ad = confine.normalize(obj.ad, guildAdSchema);
             }
 
-            if(obj.bnet){
+            if (obj.bnet) {
                 guild.bnet = obj.bnet;
             }
 
-            if(obj.perms){
+            if (obj.perms) {
                 guild.perms = obj.perms;
             }
 
-            if(obj.wowProgress){
+            if (obj.wowProgress) {
                 guild.wowProgress = obj.wowProgress;
             }
 
-            if(obj.progress){
+            if (obj.progress) {
                 guild.progress = obj.progress;
+            }
+
+            if (obj.rank) {
+                guild.rank = obj.rank;
             }
 
             //Format value
@@ -137,55 +141,6 @@ module.exports.upsert = function(region,realm,name,obj,callback){
         callback(error);
     });
 };
-
-/**
- * Update or insert progress object for the guild
- * @param region
- * @param realm
- * @param name
- * @param raid
- * @param progress
- * @param callback
- */
-module.exports.upsertProgress = function (region, realm, name, raid, progress, callback) {
-    async.series([
-        function (callback) {
-            //Format value
-            region = region.toLowerCase();
-            callback();
-        },
-        function (callback) {
-            //Validate Params
-            validator.validate({region: region, realm: realm, name: name}, function (error) {
-                callback(error);
-            });
-        },
-        function (callback) {
-            //Upsert
-            var date = new Date().getTime();
-            var guild = {};
-            guild.region = region;
-            guild.realm = realm;
-            guild.name = name;
-            guild.updated = date;
-            var obj = {};
-            progress.updated = date;
-            obj[raid] = progress;
-            guild.progress = obj;
-            var collection = applicationStorage.mongo.collection("guilds");
-            collection.updateOne({
-                region: region,
-                realm: realm,
-                name: name
-            }, {$set: guild}, {upsert: true}, function (error) {
-                callback(error);
-            });
-        }
-    ], function (error) {
-        callback(error);
-    });
-};
-
 
 /**
  * Delete Ad for the guild
@@ -301,5 +256,3 @@ module.exports.removeId = function (region, realm, name, id, callback) {
         callback(error);
     });
 };
-
-
