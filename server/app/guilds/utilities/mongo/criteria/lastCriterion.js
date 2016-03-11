@@ -12,9 +12,6 @@ var ObjectId = require("mongodb").ObjectId;
  */
 module.exports.add = function (query, criteria) {
 
-    var config = applicationStorage.config;
-    var raid = config.progress.raids[0];
-
     var paramLastArray = params.parseQueryParam(query.last, 2);
     var paramSortArray = params.parseQueryParam(query.sort, 1);
 
@@ -39,11 +36,11 @@ module.exports.add = function (query, criteria) {
         var tmpObj;
         if (sort === "progress") {
             tmpObj = {};
-            tmpObj["progress." + raid.name + ".score"] = {$lt: value};
+            tmpObj["progress.score"] = {$lt: value};
             tmpArray.push(tmpObj);
 
             tmpObj = {};
-            tmpObj["progress." + raid.name + ".score"] = value;
+            tmpObj["progress.score"] = value;
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
 
@@ -56,8 +53,8 @@ module.exports.add = function (query, criteria) {
             tmpObj["wowProgress.world_rank"] = value;
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
-        }
-        else {
+
+        } else {
             tmpObj = {};
             tmpObj["ad.updated"] = {$lt: value};
             tmpArray.push(tmpObj);
@@ -76,4 +73,5 @@ module.exports.add = function (query, criteria) {
             }
         }
     }
-};
+}
+;

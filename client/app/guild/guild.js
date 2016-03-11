@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates","user"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates,user) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -27,6 +27,19 @@
                 "guildName": $stateParams.name
             }, function (guild) {
                 $scope.guild = guild;
+
+                //Count kill
+                if (guild.progress.mythic) {
+                    guild.progress.count = Object.keys(guild.progress.mythic).length;
+                } else if (guild.progress.heroic) {
+                    guild.progress.count = Object.keys(guild.progress.heroic).length;
+                }
+                else if (guild.progress.normal) {
+                    guild.progress.count = Object.keys(guild.progress.normal).length;
+                } else {
+                    guild.progress.count = 0;
+                }
+
                 $scope.recruit = {'tank': 0, 'heal': 0, 'melee_dps': 0, 'ranged_dps': 0};
                 angular.forEach(guild.ad.recruitment, function (value, key) {
                     angular.forEach(value, function (status, test) {
@@ -45,12 +58,12 @@
                         name: $stateParams.name
                     }, function (data) {
 
-                        if(guild && !guild.perms){
+                        if (guild && !guild.perms) {
                             //No perms set everyone can edit.
                             $scope.userCanEdit = true;
                         }
-                        if(data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit){
-                            if(guild.perms.ad.edit.indexOf(data.rank)>=0){
+                        if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
+                            if (guild.perms.ad.edit.indexOf(data.rank) >= 0) {
                                 $scope.userCanEdit = true;
                             }
                         }
@@ -58,13 +71,12 @@
                         $scope.$parent.loading = false;
                     });
                 }
-
-
             },
             function (error) {
                 $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
-            });
+            }
+        );
 
 
         $scope.updateGuild = function () {
@@ -85,8 +97,8 @@
         };
     }
 
-    GuildUpdate.$inject = ["$scope", "socket", "$state", "$stateParams", "LANGUAGES", "TIMEZONES", "guilds", "user","moment"];
-    function GuildUpdate($scope, socket, $state, $stateParams, LANGUAGES, TIMEZONES, guilds, user,moment) {
+    GuildUpdate.$inject = ["$scope", "socket", "$state", "$stateParams", "LANGUAGES", "TIMEZONES", "guilds", "user", "moment"];
+    function GuildUpdate($scope, socket, $state, $stateParams, LANGUAGES, TIMEZONES, guilds, user, moment) {
         //Reset error message
         $scope.$parent.error = null;
 
@@ -232,8 +244,8 @@
 
     }
 
-    GuildList.$inject = ['$scope', '$stateParams', '$translate', '$state', 'socket', 'LANGUAGES', 'TIMEZONES', "wlfgAppTitle", "guilds"];
-    function GuildList($scope, $stateParams, $translate, $state, socket, LANGUAGES, TIMEZONES, wlfgAppTitle, guilds) {
+    GuildList.$inject = ['$scope', '$state', "wlfgAppTitle", "guilds"];
+    function GuildList($scope, $state, wlfgAppTitle, guilds) {
         wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error = null;

@@ -28,9 +28,6 @@ passport.use(new BnetStrategy({
                 logger.error(error.message);
                 return done(null, false);
             }
-            //Set user's guilds to Update
-            userService.setGuildsToUpdate(user.id);
-
             //Set user's id on guild ad
             userService.updateGuildsId(user.id);
 

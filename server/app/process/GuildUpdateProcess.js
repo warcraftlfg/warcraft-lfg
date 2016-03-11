@@ -4,7 +4,6 @@
 var async = require("async");
 var moment = require('moment-timezone');
 var applicationStorage = process.require("core/applicationStorage.js");
-var limitModel = process.require("limits/limitModel.js");
 var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var guildModel = process.require("guilds/guildModel.js");
@@ -44,56 +43,16 @@ GuildUpdateProcess.prototype.updateGuild = function () {
             });
         },
         function (guildUpdate, callback) {
-            //Check if max request is reach - GuildUpdateProcess take 1 request to Bnet
-            limitModel.increment("bnet", function (error, value) {
-                if (value > applicationStorage.config.oauth.bnet.limit) {
-                    logger.info("Bnet Api limit reach ... waiting 1 min");
-                    updateModel.insert("gu", guildUpdate.region, guildUpdate.realm, guildUpdate.name, guildUpdate.priority, function (error) {
-                        setTimeout(function () {
-                            callback(true);
-                        }, 60000);
-                    });
-                }
-                else {
-                    callback(error, guildUpdate);
-                }
-            });
-        },
-        function (guildUpdate, callback) {
             //Sanitize name
             bnetAPI.getGuild(guildUpdate.region, guildUpdate.realm, guildUpdate.name, ["members"], function (error, guild) {
                 if (guild && guild.realm && guild.name) {
-                    callback(error, guildUpdate.region, guild, guildUpdate.priority);
+                    callback(error, guildUpdate.region, guild);
                 } else {
                     logger.warn("Bnet return empty guild skip it");
                     callback(true);
                 }
 
             })
-        },
-        function (region, guild, priority, callback) {
-            async.parallel([
-                function (callback) {
-                    //Insert members to update
-                    guildService.setMembersToUpdate(region, guild.realm, guild.name, guild.members, priority, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    });
-                },
-                function (callback) {
-                    //Wowprogress kill
-                    guildService.updateWowProgressKill(region, guild.realm, guild.name, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    });
-                }
-            ], function () {
-                callback(null, region, guild)
-            });
         },
         function (region, guild, callback) {
             async.parallel({
@@ -137,7 +96,17 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                         } else {
                             wowProgress.updated = new Date().getTime();
                         }
-                        callback(error, wowProgress);
+                        callback(null, wowProgress);
+                    });
+                },
+                progress: function (callback) {
+                    wowProgressAPI.getGuildProgress(region, guild.realm, guild.name, function (error, progress) {
+                        if (error) {
+                            logger.error(error.message);
+                        } else {
+                            progress.updated = new Date().getTime();
+                        }
+                        callback(null, progress);
                     });
                 }
             }, function (error, results) {
@@ -150,7 +119,6 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     callback();
                 });
             })
-
         }
     ], function (error) {
         if (error && error !== true) {
