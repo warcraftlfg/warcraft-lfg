@@ -12,6 +12,8 @@ var bossWeightValidator = process.require("core/utilities/validators/bossWeightV
 var difficultyValidator = process.require("core/utilities/validators/difficultyValidator.js");
 var timestampValidator = process.require("core/utilities/validators/timestampValidator.js");
 var sourceValidator = process.require("core/utilities/validators/sourceValidator.js");
+var userIdValidator = process.require("core/utilities/validators/userIdValidator.js");
+var messageValidator = process.require("core/utilities/validators/messageValidator.js");
 
 /**
  * Validate if params are valid
@@ -114,6 +116,36 @@ module.exports.validate = function (params, callback) {
         function (callback) {
             if (params.hasOwnProperty("source")) {
                 sourceValidator.validate(params.source, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("from")) {
+                userIdValidator.validate(params.from, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("to")) {
+                userIdValidator.validate(params.to, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("message")) {
+                userIdValidator.validate(params.message, function (error) {
                     callback(error);
                 });
             }
