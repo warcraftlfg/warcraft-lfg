@@ -28,7 +28,6 @@
         'app.character',
         'app.guild',
         'app.layout'
-
     ]);
 
 })();

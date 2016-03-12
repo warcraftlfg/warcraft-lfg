@@ -237,15 +237,11 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="hide" nf-if="guild.progress['Hellfire Citadel']">
-                                {{ guild.progress['Hellfire Citadel'] }}
-                            </div>
                             <div class="col-md-6">
                                 Progress :
-                                <span ng-if="guild.progress['Hellfire Citadel'].mythicCount>0">{{guild.progress['Hellfire Citadel'].mythicCount}}/13 (M)</span>
-                                <span ng-if="guild.progress['Hellfire Citadel'].heroicCount>0&&!guild.progress['Hellfire Citadel'].mythicCount">{{guild.progress['Hellfire Citadel'].heroicCount}}/13 (H)</span>
-                                <span ng-if="guild.progress['Hellfire Citadel'].normalCount>=0&&!guild.progress['Hellfire Citadel'].mythicCount&&!guild.progress['Hellfire Citadel'].heroicCount">{{guild.progress['Hellfire Citadel'].normalCount}}/13 (N)</span>
-                                <span ng-if="!guild.progress['Hellfire Citadel'].normalCount && !guild.progress['Hellfire Citadel'].heroicCount && !guild.progress['Hellfire Citadel'].mythicCount">0/13 (NM)</span>
+                                <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
+                                <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
+                                <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
                             </div>
                             <div class="col-md-2" ng-if="guild.wowProgress.world_rank">
                                 World : <span ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
@@ -270,51 +266,51 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <table class="table table-condensed" ng-repeat="raid in guild.progress | limitTo:-1">
+                        <table class="table table-condensed">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:7">
                                 <td class="bold">{{ boss }}</td>
-                                <td ng-class="{'legendary':raid.mythic[boss],'epic':raid.heroic[boss]&&!raid.mythic[boss],'rare':raid.heroic[boss]&&!raid.mythic[boss]&&!raid.heroic[boss],'common':!raid.mythic[boss]&&!raid.heroic[boss]&&raid.normal[boss]}">
-                                    <span ng-if="raid.mythic[boss]">Mythic</span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">Heroic</span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">Normal</span>
-                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">No kill</span>
+                                <td ng-class="{'legendary':guild.progress.mythic[boss],'epic':guild.progress.heroic[boss]&&!guild.progress.mythic[boss],'rare':guild.progress.heroic[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss],'common':!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&guild.progress.normal[boss]}">
+                                    <span ng-if="guild.progress.mythic[boss]">Mythic</span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">Heroic</span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">Normal</span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">No kill</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss]">{{ raid.mythic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">{{ raid.heroic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">{{ raid.normal[boss].timestamps.length }}</span>
-                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">0</span>
+                                    <span ng-if="guild.progress.mythic[boss]">{{ guild.progress.mythic[boss].count }}</span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{ guild.progress.heroic[boss].count }}</span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{ guild.progress.normal[boss].count }}</span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">0</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[0][0]"></span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[0][0]"></span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[0][0]"></span>
-                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">&nbsp;</span>
+                                    <span ng-if="guild.progress.mythic[boss]" am-time-ago="guild.progress.mythic[boss].timestamp"></span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]" am-time-ago="guild.progress.heroic[boss].timestamp"></span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]" am-time-ago="guild.progress.normal[boss].timestamp"></span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-md-6">
-                        <table class="table table-condensed" ng-repeat="raid in guild.progress | limitTo:-1">
+                        <table class="table table-condensed">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:-6">
                                 <td class="bold">{{ boss }}</td>
-                                <td ng-class="{'legendary':raid.mythic[boss],'epic':raid.heroic[boss]&&!raid.mythic[boss],'rare':raid.heroic[boss]&&!raid.mythic[boss]&&!raid.heroic[boss],'common':!raid.mythic[boss]&&!raid.heroic[boss]&&raid.normal[boss]}">
-                                    <span ng-if="raid.mythic[boss]">Mythic</span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">Heroic</span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">Normal</span>
-                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">No kill</span>
+                                <td ng-class="{'legendary':guild.progress.mythic[boss],'epic':guild.progress.heroic[boss]&&!guild.progress.mythic[boss],'rare':guild.progress.heroic[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss],'common':!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&guild.progress.normal[boss]}">
+                                    <span ng-if="guild.progress.mythic[boss]">Mythic</span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">Heroic</span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">Normal</span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">No kill</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss]">{{ raid.mythic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]">{{ raid.heroic[boss].timestamps.length }}</span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]">{{ raid.normal[boss].timestamps.length }}</span>
-                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">0</span>
+                                    <span ng-if="guild.progress.mythic[boss]">{{ guild.progress.mythic[boss].count}}</span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{ guild.progress.heroic[boss].count}}</span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{ guild.progress.normal[boss].count}}</span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">0</span>
                                 </td>
                                 <td>
-                                    <span ng-if="raid.mythic[boss]" am-time-ago="raid.mythic[boss].timestamps[0][0]"></span>
-                                    <span ng-if="raid.heroic[boss]&&!raid.mythic[boss]" am-time-ago="raid.heroic[boss].timestamps[0][0]"></span>
-                                    <span ng-if="raid.normal[boss]&&!raid.mythic[boss]&&!raid.heroic[boss]" am-time-ago="raid.normal[boss].timestamps[0][0]"></span>
-                                    <span ng-if="!raid.mythic[boss]&&!raid.heroic[boss]&&!raid.normal[boss]">&nbsp;</span>
+                                    <span ng-if="guild.progress.mythic[boss]" am-time-ago="guild.progress.mythic[boss].timestamp"></span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]" am-time-ago="guild.progress.heroic[boss].timestamp"></span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]" am-time-ago="guild.progress.normal[boss].timestamp"></span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>

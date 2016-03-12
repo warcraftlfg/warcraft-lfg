@@ -8,10 +8,10 @@ function wlfgTimezoneOffset() {
         var zone = moment.tz.zone(input);
         if (zone) {
             var offset = zone.parse(Date.UTC()) / 60;
-            if (offset >= 0) {
-                return "+" + offset;
+            if (offset > 0) {
+                return "-" + Math.abs(offset);
             } else {
-                return offset;
+                return "+" + Math.abs(offset);
             }
         }
     };

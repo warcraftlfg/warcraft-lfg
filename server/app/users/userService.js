@@ -12,57 +12,6 @@ var characterModel = process.require("characters/characterModel.js");
 var characterService = process.require("characters/characterService.js");
 
 /**
- * Put the user's guilds in the update list with priority 0
- * @param id
- */
-module.exports.setGuildsToUpdate = function (id) {
-    var config = applicationStorage.config;
-    var logger = applicationStorage.logger;
-    var self = this;
-
-    //noinspection JSUnresolvedVariable
-    async.each(config.bnetRegions, function (region, callback) {
-        async.waterfall([
-            function (callback) {
-                self.getGuilds(region, id, function (error, guilds) {
-                    callback(error, guilds);
-                });
-            },
-            function (guilds, callback) {
-                async.each(guilds, function (guild, callback) {
-                    async.waterfall([
-                        function (callback) {
-                            bnetAPI.getGuild(region, guild.realm, guild.name, [], function (error, guild) {
-                                callback(error, guild);
-                            });
-                        },
-                        function (guild, callback) {
-                            updateModel.insert('gu', region, guild.realm, guild.name, 0, function (error) {
-                                logger.verbose("Set guild %s-%s-%s to update with priority %s", region, guild.realm, guild.name, 0);
-                                callback(error);
-                            });
-                        }
-                    ], function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    });
-
-                }, function () {
-                    callback()
-                });
-            }
-        ], function (error) {
-            if (error) {
-                logger.error(error.message);
-            }
-            callback();
-        });
-    });
-};
-
-/**
  * Set battlenet id on user's guild
  * @param id
  */

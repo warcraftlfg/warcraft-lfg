@@ -25,6 +25,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
     var self = this;
     var logger = applicationStorage.logger;
 
+
     async.waterfall([
         function (callback) {
             //Get next guild to update
@@ -44,45 +45,14 @@ GuildUpdateProcess.prototype.updateGuild = function () {
         function (guildUpdate, callback) {
             //Sanitize name
             bnetAPI.getGuild(guildUpdate.region, guildUpdate.realm, guildUpdate.name, ["members"], function (error, guild) {
-                if (error) {
-                    if (error.statusCode == 403) {
-                        logger.info("Bnet Api Deny ... waiting 1 min");
-                        updateModel.insert("gu", guildUpdate.region, guildUpdate.realm, guildUpdate.name, guildUpdate.priority, function (error) {
-                            setTimeout(function () {
-                                callback(true);
-                            }, 60000);
-                        });
-                    } else {
-                        callback(error);
-                    }
+                if (guild && guild.realm && guild.name) {
+                    callback(error, guildUpdate.region, guild);
                 } else {
-                    callback(null, guildUpdate.region, guild, guildUpdate.priority);
+                    logger.warn("Bnet return empty guild skip it");
+                    callback(true);
                 }
+
             })
-        },
-        function (region, guild, priority, callback) {
-            async.parallel([
-                function (callback) {
-                    //Insert members to update
-                    guildService.setMembersToUpdate(region, guild.realm, guild.name, guild.members, priority, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    });
-                },
-                function (callback) {
-                    //Wowprogress kill
-                    guildService.updateWowProgressKill(region, guild.realm, guild.name, function (error) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback();
-                    });
-                }
-            ], function () {
-                callback(null,region, guild)
-            });
         },
         function (region, guild, callback) {
             async.parallel({
@@ -98,14 +68,14 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                             });
                         },
                         function (guild, callback) {
-                            if (guild && guild.ad && guild.ad.timezone && guild.ad.lfg==true) {
-                                var offset = Math.round(moment.tz.zone(guild.ad.timezone).parse(Date.UTC())/60);
-                                async.each(guild.ad.play_time,function(day,callback){
+                            if (guild && guild.ad && guild.ad.timezone && guild.ad.lfg == true) {
+                                var offset = Math.round(moment.tz.zone(guild.ad.timezone).parse(Date.UTC()) / 60);
+                                async.each(guild.ad.play_time, function (day, callback) {
                                     day.start.hourUTC = day.start.hour + offset;
-                                    day.end.hourUTC = day.end.hour +offset;
+                                    day.end.hourUTC = day.end.hour + offset;
                                     callback();
-                                },function(){
-                                    callback(null,guild.ad);
+                                }, function () {
+                                    callback(null, guild.ad);
                                 });
                             } else {
                                 callback();
@@ -123,10 +93,20 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     wowProgressAPI.getGuildRank(region, guild.realm, guild.name, function (error, wowProgress) {
                         if (error) {
                             logger.error(error.message);
-                        }else {
+                        } else {
                             wowProgress.updated = new Date().getTime();
                         }
-                        callback(error, wowProgress);
+                        callback(null, wowProgress);
+                    });
+                },
+                progress: function (callback) {
+                    wowProgressAPI.getGuildProgress(region, guild.realm, guild.name, function (error, progress) {
+                        if (error) {
+                            logger.error(error.message);
+                        } else {
+                            progress.updated = new Date().getTime();
+                        }
+                        callback(null, progress);
                     });
                 }
             }, function (error, results) {
@@ -139,7 +119,6 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     callback();
                 });
             })
-
         }
     ], function (error) {
         if (error && error !== true) {
