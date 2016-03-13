@@ -145,7 +145,7 @@ module.exports.validate = function (params, callback) {
         },
         function (callback) {
             if (params.hasOwnProperty("message")) {
-                userIdValidator.validate(params.message, function (error) {
+                messageValidator.validate(params.message, function (error) {
                     callback(error);
                 });
             }

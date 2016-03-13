@@ -6,7 +6,7 @@
  * @param callback
  */
 module.exports.validate = function (message, callback) {
-    if (message === null) {
+    if (message == null) {
         return callback(new Error('MISSING_MESSAGE_VALIDATION_ERROR'));
     }
     if (message.length > 400) {

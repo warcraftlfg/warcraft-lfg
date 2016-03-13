@@ -8,8 +8,8 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates"];
-    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates) {
+    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates", "messages"];
+    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates, messages) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -30,6 +30,19 @@
             $scope.$parent.loading = false;
         });
 
+        $scope.$watch("character", function () {
+            if ($scope.character && $scope.character.id) {
+                $scope.$parent.loading = true;
+                messages.query({
+                    "userId": $scope.character.id
+                }, function (messages) {
+                    $scope.$parent.loading = false;
+                    $scope.messages = messages;
+                }, function () {
+                    $scope.$parent.loading = false;
+                });
+            }
+        });
 
         $scope.updateCharacter = function () {
             $scope.$parent.loading = true;
@@ -47,6 +60,30 @@
                 $scope.$parent.loading = false;
             });
         };
+        $scope.newMessage = {text: ""};
+
+        $scope.sendMessage = function () {
+            messages.post({
+                id: $scope.character.id,
+                text: $scope.newMessage.text
+            }, function () {
+                $scope.newMessage.text = "";
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+        };
+
+
+        socket.forward('newMessage', $scope);
+        $scope.$on('socket:newMessage', function (ev, message) {
+            console.log(message);
+            if (message.to == $scope.$parent.user.id || message.from == $scope.$parent.user.id) {
+                $scope.messages.push(message);
+            }
+
+        });
+
 
     }
 
@@ -132,7 +169,7 @@
             //  if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
             // && $scope.filters.states.timezone
 
-            if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel  && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
+            if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
 
                 $scope.characters = [];
                 getCharacterAds();
