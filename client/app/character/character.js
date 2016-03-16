@@ -30,19 +30,6 @@
             $scope.$parent.loading = false;
         });
 
-        $scope.$watch("character", function () {
-            if ($scope.character && $scope.character.id) {
-                $scope.$parent.loading = true;
-                messages.query({
-                    "userId": $scope.character.id
-                }, function (messages) {
-                    $scope.$parent.loading = false;
-                    $scope.messages = messages;
-                }, function () {
-                    $scope.$parent.loading = false;
-                });
-            }
-        });
 
         $scope.updateCharacter = function () {
             $scope.$parent.loading = true;
@@ -60,29 +47,7 @@
                 $scope.$parent.loading = false;
             });
         };
-        $scope.newMessage = {text: ""};
 
-        $scope.sendMessage = function () {
-            messages.post({
-                id: $scope.character.id,
-                text: $scope.newMessage.text
-            }, function () {
-                $scope.newMessage.text = "";
-            }, function (error) {
-                $scope.$parent.error = error.data;
-                $scope.$parent.loading = false;
-            });
-        };
-
-
-        socket.forward('newMessage', $scope);
-        $scope.$on('socket:newMessage', function (ev, message) {
-            console.log(message);
-            if (message.to == $scope.$parent.user.id || message.from == $scope.$parent.user.id) {
-                $scope.messages.push(message);
-            }
-
-        });
 
 
     }

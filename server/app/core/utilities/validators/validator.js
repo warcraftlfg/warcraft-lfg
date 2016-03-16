@@ -14,6 +14,7 @@ var timestampValidator = process.require("core/utilities/validators/timestampVal
 var sourceValidator = process.require("core/utilities/validators/sourceValidator.js");
 var userIdValidator = process.require("core/utilities/validators/userIdValidator.js");
 var messageValidator = process.require("core/utilities/validators/messageValidator.js");
+var typeValidator = process.require("core/utilities/validators/typeValidator.js");
 
 /**
  * Validate if params are valid
@@ -146,6 +147,16 @@ module.exports.validate = function (params, callback) {
         function (callback) {
             if (params.hasOwnProperty("message")) {
                 messageValidator.validate(params.message, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("type")) {
+                typeValidator.validate(params.type, function (error) {
                     callback(error);
                 });
             }

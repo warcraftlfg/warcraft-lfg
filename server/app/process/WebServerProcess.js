@@ -15,7 +15,7 @@ var passportSocketIo = require("passport.socketio");
 var compression = require('compression');
 var applicationStorage = process.require('core/applicationStorage.js');
 var adapter = require('socket.io-redis');
-var messageSocket = process.require("messages/messageSocket.js");
+var userSocket = process.require("users/userSocket.js");
 
 var config = applicationStorage.config;
 var logger = applicationStorage.logger;
@@ -44,7 +44,7 @@ function WebServerProcess(autoStop, port) {
     this.io = require('socket.io')(this.server);
     applicationStorage.socketIo = this.io;
 
-    messageSocket.connect();
+    userSocket.connect();
 
     //Start redis for socket.io
     this.io.adapter(adapter(applicationStorage.redis));

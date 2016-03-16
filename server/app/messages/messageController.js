@@ -16,9 +16,11 @@ module.exports.getMessages = function (req, res) {
 
     async.waterfall([
             function (callback) {
-                messageModel.find(req.user.id,parseInt(req.params.id,10),function(error,messages){
-                    callback(error,messages);
-                });
+                messageModel.getMessages(req.user.id, parseInt(req.params.id, 10), req.params.type, req.params.region, req.params.realm, req.params.name, function (error, messages) {
+                        callback(error, messages);
+                    }
+                )
+                ;
             }
         ],
         function (error, messages) {
@@ -32,6 +34,18 @@ module.exports.getMessages = function (req, res) {
 };
 
 /**
+ * Return message List
+ * @param req
+ * @param res
+ */
+module.exports.getMessagesList = function (req, res) {
+    messageModel.getMessagesList(req.user.id,function(error,messagesList){
+
+    });
+    res.json({ici:"ici"});
+};
+
+/**
  * Insert a message
  * @param req
  * @param res
@@ -39,9 +53,8 @@ module.exports.getMessages = function (req, res) {
 module.exports.postMessage = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
-    var message = req.body.text;
-    var id = req.body.id;
-    messageModel.insert(req.user.id, id, message, function (error) {
+
+    messageModel.insert(req.user.id, parseInt(req.body.id, 10), req.body.type, req.body.region, req.body.realm, req.body.name, req.body.text, function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);

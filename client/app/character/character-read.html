@@ -418,36 +418,7 @@
                             </div>
                         </div>
                     </uib-tab>
-                    <uib-tab index="4" ng-show="character.id" heading="{{'MESSAGES'|translate}}">
-                        <div class="row">
-                            <div class="col-md-10" ng-class="{'col-md-offset-2':{'legendary':message.from!=user.id}}"
-                                 ng-repeat="message in messages">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        {{message.text}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12" ng-if="messages.length == 0">
-                                {{"NO_MESSAGE_FOUND"|translate}}
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <textarea ng-model="newMessage.text" placeholder="{{'MESSAGE_PLACEHOLDER'|translate}}"
-                                              class="form-control"
-                                              rows="3">
-                                    </textarea>
-                                </div>
-                                <div class="form-group">
 
-                                    <button ng-click="sendMessage()" type="button" class="btn btn-default"
-                                            aria-label="Send Message">
-                                        <i class="fa fa-envelope-o"></i> {{"SEND_MESSAGE"|translate}}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </uib-tab>
                 </uib-tabset>
             </div>
         </div>
