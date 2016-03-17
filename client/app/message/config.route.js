@@ -8,7 +8,7 @@
     function getRoutes($stateProvider) {
         $stateProvider
             .state("message", {
-                url: "/message/:type/:region/:realm/:name/",
+                url: "/message/:id/:type/:region/:realm/:name/",
                 templateUrl: "app/message/message.html",
                 controllerAs: 'vm',
                 title: 'Message',

@@ -61,10 +61,15 @@ module.exports.insert = function (from, to, type, region, realm, name, text, cal
 
 module.exports.getMessages = function (id, id2, type, region, realm, name, callback) {
     var collection = applicationStorage.mongo.collection("messages");
-    collection.find({"$or": [{from: id, to: id2}, {from: id2, to: id}]}).toArray(function (error, messages) {
+    collection.find({
+        "$or": [{from: id, to: id2}, {from: id2, to: id}],
+        type: type,
+        region: region,
+        realm: realm,
+        name: name
+    }).toArray(function (error, messages) {
         callback(error, messages)
     });
-
 };
 
 module.exports.getMessageList = function (id, callback) {
@@ -73,9 +78,11 @@ module.exports.getMessageList = function (id, callback) {
         {$match: {$or: [{from: id, to: id}]}},
         {
             $group: {
-                _id: {type: "$type", region: "$region", realm: "$realm", name: "$name", from: "$from", to: "$to"},
-                count: {$sum: 1}
-            }
+                _id: {type: "$type", region: "$region", realm: "$realm", name: "$name"},
+                count: {$sum: 1},
+                ids: {$addToSet: {from: "$from", to: "$to"}}
+            },
+
         },
 
     ], function (error, messageList) {
