@@ -19,7 +19,6 @@
 
         $scope.$parent.loading = true;
         messages.query({
-            userId: $stateParams.id,
             type: $stateParams.type,
             region: $stateParams.region,
             realm: $stateParams.realm,
@@ -28,7 +27,7 @@
             $scope.$parent.loading = false;
             $scope.messages = messages;
         }, function (error) {
-            $scope.parent.error = error;
+            $scope.$parent.error = error.data;
             $scope.$parent.loading = false;
         });
 
@@ -37,7 +36,6 @@
 
         $scope.sendMessage = function () {
             messages.post({
-                id: $stateParams.id,
                 type: $stateParams.type,
                 region: $stateParams.region,
                 realm: $stateParams.realm,
