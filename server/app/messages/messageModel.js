@@ -75,15 +75,15 @@ module.exports.getMessages = function (id, id2, type, region, realm, name, callb
 module.exports.getMessageList = function (id, callback) {
     var collection = applicationStorage.mongo.collection("messages");
     collection.aggregate([
-        {$match: {$or: [{from: id, to: id}]}},
+        {$match: {$or: [{from: id}, {to: id}]}},
         {
             $group: {
                 _id: {type: "$type", region: "$region", realm: "$realm", name: "$name"},
-                count: {$sum: 1},
-                ids: {$addToSet: {from: "$from", to: "$to"}}
+                from: {$addToSet: "$from"},
+                to: {$addToSet: "$to"},
             },
-
         },
+        {$project: {ids: {$setDifference: [{$setUnion: ["$from", "$to"]}, [id]]}}}
 
     ], function (error, messageList) {
         callback(error, messageList)
