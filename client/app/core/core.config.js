@@ -8,7 +8,6 @@
     function configure($translateProvider, $urlRouterProvider, $stateProvider, markedProvider) {
 
         //Translation Property
-
         $translateProvider.useLoader('wlfgTranslationLoader', {
             files: [{
                 languageKey: 'en',
