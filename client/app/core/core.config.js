@@ -9,23 +9,22 @@
 
         //Translation Property
         $translateProvider.useLoader('wlfgTranslationLoader', {
-            files: [{
-                languageKey: 'en',
-                localeFile: 'assets/locales/locale-en_US.json'
-            }, {
-                languageKey: 'fr',
-                localeFile: 'assets/locales/locale-fr_FR.json'
-            }]
-        });
-        $translateProvider.registerAvailableLanguageKeys(["en", "fr"], {
-            "en*": "en",
-            "fr_FR": "fr"
-        });
-
-        $translateProvider.determinePreferredLanguage();
-        $translateProvider.useSanitizeValueStrategy('escape');
-
-        $translateProvider.fallbackLanguage('en');
+                files: [{
+                    languageKey: 'en',
+                    localeFile: 'assets/locales/locale-en_US.json'
+                }, {
+                    languageKey: 'fr',
+                    localeFile: 'assets/locales/locale-fr_FR.json'
+                }]
+            })
+            .registerAvailableLanguageKeys(["en", "fr"], {
+                "en*": "en",
+                "fr_FR": "fr",
+                "*": "en"
+            })
+            .fallbackLanguage('en')
+            .determinePreferredLanguage()
+            .useSanitizeValueStrategy('escape');
 
 
         //Define routes

@@ -38,7 +38,7 @@ module.exports.getCharacters = function (req, res) {
         },
         function (criteria, projection, limit, sort, callback) {
             logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
-            characterModel.find(criteria, projection, sort, limit, {"ad.lfg": 1}, function (error, characters) {
+            characterModel.find(criteria, projection, sort, limit, function (error, characters) {
                 callback(error, characters);
             });
         }
