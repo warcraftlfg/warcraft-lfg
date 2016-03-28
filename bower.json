@@ -1,25 +1,25 @@
 {
   "name": "wow-guild-recruit",
   "dependencies": {
-    "angular": "1.4.8",
-    "angular-moment": "~0.10.3",
-    "angular-ranger": "~0.1.3",
-    "angular-ui-router": "~0.2.18",
+    "angular": "1.5.3",
+    "angular-moment": "^1.0.0-beta.5",
+    "angular-ranger": "~0.1.4",
+    "angular-ui-router": "~1.0.0-alpha.1",
     "angular-socket-io": "~0.7.0",
-    "angular-translate": "~2.9.0",
+    "angular-translate": "~2.11.0",
     "bootstrap": "~3.3.6",
     "font-awesome": "~4.5.0",
-    "jquery": "~2.2.0",
+    "jquery": "~2.2.2",
     "ngInfiniteScroll": "~1.2.2",
     "angular-bootstrap": "~1.1.2",
     "angular-marked": "~1.0.1",
-    "angular-sanitize": "~1.4.8",
-    "angular-resource": "~1.4.8",
+    "angular-sanitize": "~1.5.3",
+    "angular-resource": "~1.5.3",
     "ng-tags-input": "~3.0.0",
-    "moment-timezone": "~0.5.0",
+    "moment-timezone": "~0.5.3",
     "isteven-angular-multiselect": "angular-multi-select#~4.0.0"
   },
   "resolutions": {
-    "angular": "1.4.8"
+    "angular": "1.5.3"
   }
 }
