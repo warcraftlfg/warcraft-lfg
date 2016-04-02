@@ -19,7 +19,7 @@
 
         $scope.$parent.loading = true;
         messages.query({
-            userId: $stateParams.id,
+            creatorId: $stateParams.creatorId,
             type: $stateParams.type,
             region: $stateParams.region,
             realm: $stateParams.realm,
@@ -37,7 +37,7 @@
 
         $scope.sendMessage = function () {
             messages.post({
-                id: $stateParams.id,
+                creatorId: $stateParams.creatorId,
                 type: $stateParams.type,
                 region: $stateParams.region,
                 realm: $stateParams.realm,

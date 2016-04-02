@@ -17,8 +17,7 @@ module.exports.validate = function (userId, callback) {
         function (error, user) {
             if (!user) {
                 return callback(new Error('NOTFOUND_USERID_VALIDATION_ERROR'));
-            }
-            callback(error);
+            }            callback(error);
         });
 };
 

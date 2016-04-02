@@ -16,7 +16,7 @@ module.exports.getMessages = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
-    messageModel.getMessages(req.user.id, parseInt(req.params.id, 10), req.params.type, req.params.region, req.params.realm, req.params.name, function (error, messages) {
+    messageModel.getMessages(req.params.region, req.params.realm, req.params.name, req.params.type, parseInt(req.params.id, 10), function (error, messages) {
             if (error) {
                 logger.error(error.message);
                 res.status(500).send(error.message);
@@ -32,18 +32,16 @@ module.exports.getMessages = function (req, res) {
  * @param req
  * @param res
  */
-module.exports.getMessageList = function (req, res) {
+module.exports.getConversations = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
 
-    messageModel.getMessageList(req.user.id, function (error, messagesList) {
-        if (error) {
-            logger.error(error.message);
-            res.status(500).send(error.message);
-        } else {
-            res.json(messagesList);
-        }
-    });
+    // GET ALL GUILDS FOR USERID
+    // GET ALL CHARACTER FOR USERID
+    // GET ALL Message with guilds or character or creatorId == USERID --> Aggregate with
+
+
+    res.json({to: "implement"});
 };
 
 /**
@@ -53,9 +51,9 @@ module.exports.getMessageList = function (req, res) {
  */
 module.exports.postMessage = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
 
-    messageModel.insert(req.user.id, parseInt(req.body.id, 10), req.body.type, req.body.region, req.body.realm, req.body.name, req.body.text, function (error) {
+    messageModel.insert(req.body.region, req.body.realm, req.body.name, req.body.type, parseInt(req.body.creatorId, 10), req.user.id, req.body.text, function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -64,6 +62,12 @@ module.exports.postMessage = function (req, res) {
         }
     });
 
-
+    //TODO realtime
+    /*if (!error) {
+     applicationStorage.socketIo.to(applicationStorage.users[ids[0]]).emit("newMessage", messageObj);
+     if (ids[0] != ids[1]) {
+     applicationStorage.socketIo.to(applicationStorage.users[ids[1]]).emit("newMessage", messageObj);
+     }
+     }*/
 };
 

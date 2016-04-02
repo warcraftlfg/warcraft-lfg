@@ -2,15 +2,16 @@
 
 /**
  * Validate type param
- * @param realm
+ * @param message
  * @param callback
  */
 module.exports.validate = function (type, callback) {
     if (type == null) {
         return callback(new Error('MISSING_TYPE_VALIDATION_ERROR'));
     }
-    if(type!= "guild" && type!="character"){
+    if (type != "character" && type != "guild") {
         return callback(new Error('WRONG_TYPE_VALIDATION_ERROR'));
     }
     callback();
 };
+
