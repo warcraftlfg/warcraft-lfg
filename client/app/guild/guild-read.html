@@ -89,6 +89,22 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
+                            <div class="col-md-6" ng-if="!guild.id">
+                                <span>Ad source : WowProgress</span>
+                            </div>
+                            <div class="col-md-6" ng-if="guild.id">
+                                <span>Ad source : WarcraftLFG</span>
+                                <a href="#/message/{{user.id}}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
+                                   class="m-l-10 href-icon">
+                                    <i class="fa fa-2x fa-envelope-o"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
                             <div class="col-md-6">
                                 Ad updated : <span am-time-ago="guild.ad.updated"></span>
                             </div>

@@ -36,12 +36,45 @@ module.exports.getConversations = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
 
-    // GET ALL GUILDS FOR USERID
-    // GET ALL CHARACTER FOR USERID
-    // GET ALL Message with guilds or character or creatorId == USERID --> Aggregate with
+    async.parallel({
+        guilds: function (callback) {
+            guildModel.find({id: req.user.id}, {region: 1, realm: 1, name: 1, _id: 0}, function (error, guilds) {
+                callback(error, guilds);
+            });
+        },
+        characters: function (callback) {
+            characterModel.find({id: req.user.id}, {
+                region: 1,
+                realm: 1,
+                name: 1,
+                _id: 0
+            }, function (error, characters) {
+                callback(error, characters);
+            });
+        }
+    }, function (error, results) {
+
+        var or = [];
+        results.guilds.forEach(function (guild) {
+            guild.type = "guild";
+            or.push(guild)
+        });
+        results.characters.forEach(function (character) {
+            character.type = "character";
+            or.push(character)
+        });
+        or.push({creatorId: req.user.id});
+
+        messageModel.getMessageList({$or: or}, function (error, messageList) {
+            if (error) {
+                logger.error(error.message);
+                res.status(500).send(error.message);
+            }
+            res.json(messageList);
+        });
 
 
-    res.json({to: "implement"});
+    });
 };
 
 /**
@@ -53,21 +86,18 @@ module.exports.postMessage = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
 
-    messageModel.insert(req.body.region, req.body.realm, req.body.name, req.body.type, parseInt(req.body.creatorId, 10), req.user.id, req.body.text, function (error) {
+    messageModel.insert(req.body.region, req.body.realm, req.body.name, req.body.type, parseInt(req.body.creatorId, 10), req.user.id, req.user.battleTag, req.body.text, function (error, message) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
         } else {
-            res.json();
+            req.ids.forEach(function (id) {
+                applicationStorage.socketIo.to(applicationStorage.users[id]).emit("newMessage", message);
+            });
+            res.json(message);
         }
     });
 
-    //TODO realtime
-    /*if (!error) {
-     applicationStorage.socketIo.to(applicationStorage.users[ids[0]]).emit("newMessage", messageObj);
-     if (ids[0] != ids[1]) {
-     applicationStorage.socketIo.to(applicationStorage.users[ids[1]]).emit("newMessage", messageObj);
-     }
-     }*/
+
 };
 

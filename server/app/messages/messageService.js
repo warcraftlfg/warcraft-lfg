@@ -1,4 +1,5 @@
 var async = require("async");
+var lodash = require("lodash");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 
@@ -13,33 +14,47 @@ var guildModel = process.require("guilds/guildModel.js");
  */
 module.exports.hasMessagePermission = function (region, realm, name, type, creatorId, id, callback) {
 
-    if (creatorId == id) {
-        return callback(null, true);
-    }
-    if (type == "guild") {
-        var hasPermission = false;
-        guildModel.findOne({region: region, realm: realm, name: name}, {id: 1}, function (error, guild) {
-            if (guild == null) {
-                callback(error, false);
-            } else {
-                async.each(guild.id, function (memberId, callback) {
-                    if (id == memberId) {
-                        hasPermission = true;
+    async.waterfall([
+        function (callback) {
+            var ids = [creatorId];
+            if (type == "guild") {
+                guildModel.findOne({region: region, realm: realm, name: name}, {id: 1}, function (error, guild) {
+                    if (guild && guild.id) {
+                        ids = ids.concat(guild.id);
                     }
-                    callback();
-                }, function () {
-                    callback(error, hasPermission);
+                    callback(error, ids);
+                });
+            } else {
+                characterModel.findOne({
+                    region: region,
+                    realm: realm,
+                    name: name
+                }, {id: 1}, function (error, character) {
+                    if (character && character.id) {
+                        ids.push(character.id);
+                    }
+                    callback(error, ids);
                 });
             }
-        });
-    } else {
-        characterModel.findOne({region: region, realm: realm, name: name}, {id: 1}, function (error, character) {
-            if (character == null) {
-                callback(error, false);
-            } else {
-                callback(error, character.id == id)
-            }
-        });
-    }
+        },
+        function (ids, callback) {
+            var hasPermission = false
+            async.each(ids, function (memberId, callback) {
+                if (id == memberId) {
+                    hasPermission = true;
+                }
+                callback();
+            }, function () {
+                callback(null, hasPermission, ids);
+            });
+        }
+    ], function (error, hasPermission, ids) {
+        ids = lodash.uniq(ids);
+
+        callback(error, hasPermission, ids);
+    });
+};
+
+module.exports.dispatchMessage = function () {
 
 };

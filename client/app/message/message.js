@@ -55,7 +55,7 @@
         socket.forward('newMessage', $scope);
         $scope.$on('socket:newMessage', function (ev, message) {
             console.log(message);
-            if (message.to == $scope.$parent.user.id || message.from == $scope.$parent.user.id) {
+            if (message.creatorId == $stateParams.creatorId && message.type == $stateParams.type && message.region == $stateParams.region && message.realm == $stateParams.realm && message.name == $stateParams.name) {
                 $scope.messages.push(message);
             }
         });

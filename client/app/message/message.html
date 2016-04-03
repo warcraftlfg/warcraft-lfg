@@ -3,11 +3,12 @@
         We speak about {{name}}@{{realm}}({{region|uppercase}})
     </div>
     <div class="row">
-        <div class="col-md-7" ng-class="{'col-md-offset-5':message.from!=user.id}"
+        <div class="col-md-7" ng-class="{'col-md-offset-5':message.id!=user.id}"
              ng-repeat="message in messages">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    {{message.text}}
+                    {{message.battleTag}}: {{message.text}} - <span
+                        am-time-ago="message._id|wlfgObjectIdToTimestamp"></span>
                 </div>
             </div>
         </div>
