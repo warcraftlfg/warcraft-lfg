@@ -68,13 +68,20 @@ module.exports.getMessages = function (region, realm, name, type, creatorId, cal
 module.exports.getMessageList = function (criteria, callback) {
     var collection = applicationStorage.mongo.collection("messages");
     collection.aggregate([
-        {$match: criteria},
-        {
-            $group: {
-                _id: {type: "$type", region: "$region", realm: "$realm", name: "$name", creatorId: "$creatorId"}
+            {$match: criteria},
+            {$sort: {_id: 1}},
+            {
+                $group: {
+                    _id: {type: "$type", region: "$region", realm: "$realm", name: "$name", creatorId: "$creatorId"},
+                    battleTags: {$addToSet: "$battleTag"},
+                    count: { $sum: 1 }
+                }
+
             }
+        ],
+        function (error, messageList) {
+            callback(error, messageList)
         }
-    ], function (error, messageList) {
-        callback(error, messageList)
-    });
+    )
+    ;
 };

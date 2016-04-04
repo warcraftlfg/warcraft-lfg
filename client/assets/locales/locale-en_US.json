@@ -270,5 +270,6 @@
     "WARRIOR": "Warrior",
     "WEDNESDAY": "Wednesday",
     "YES": "Yes",
-    "SEND_MESSAGE": "Send a message"
+    "SEND_MESSAGE": "Send a message",
+    "ACCOUNT_CHAT_MESSAGES":"Messages"
 }
