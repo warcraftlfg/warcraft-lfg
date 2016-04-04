@@ -69,7 +69,7 @@ module.exports.getMessageList = function (criteria, callback) {
     var collection = applicationStorage.mongo.collection("messages");
     collection.aggregate([
             {$match: criteria},
-            {$sort: {_id: 1}},
+            {$sort: {_id: -1}},
             {
                 $group: {
                     _id: {type: "$type", region: "$region", realm: "$realm", name: "$name", creatorId: "$creatorId"},
