@@ -11,8 +11,6 @@ var applicationStorage = process.require("core/applicationStorage.js");
  */
 module.exports.add = function (query, criteria) {
 
-    var config = applicationStorage.config;
-
     var paramArray = params.parseQueryParam(query.progress, 3);
     if (paramArray.length > 0) {
         var min = parseInt(paramArray[0][1], 10);
@@ -31,7 +29,6 @@ module.exports.add = function (query, criteria) {
             return;
         }
 
-        var raid = config.progress.raids[0];
-        criteria["progress." + raid.name + ".score"] = {$lte: (max+1) * progressFactor,$gte: min * progressFactor};
+        criteria["progress.score"] = {$lte: (max+1) * progressFactor,$gte: min * progressFactor};
     }
 };

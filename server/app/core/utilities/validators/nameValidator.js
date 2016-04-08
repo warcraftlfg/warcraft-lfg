@@ -6,7 +6,7 @@
  * @param callback
  */
 module.exports.validate = function (name, callback) {
-    if (name === null) {
+    if (name == null) {
         return callback(new Error('MISSING_NAME_VALIDATION_ERROR'));
     }
     callback();

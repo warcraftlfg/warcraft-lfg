@@ -12,6 +12,11 @@ var bossWeightValidator = process.require("core/utilities/validators/bossWeightV
 var difficultyValidator = process.require("core/utilities/validators/difficultyValidator.js");
 var timestampValidator = process.require("core/utilities/validators/timestampValidator.js");
 var sourceValidator = process.require("core/utilities/validators/sourceValidator.js");
+var textValidator = process.require("core/utilities/validators/textValidator.js");
+var typeValidator = process.require("core/utilities/validators/typeValidator.js");
+var userIdValidator = process.require("core/utilities/validators/userIdValidator.js");
+var characterAndGuildValidator = process.require("core/utilities/validators/characterAndGuildValidator.js");
+
 
 /**
  * Validate if params are valid
@@ -114,6 +119,46 @@ module.exports.validate = function (params, callback) {
         function (callback) {
             if (params.hasOwnProperty("source")) {
                 sourceValidator.validate(params.source, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("text")) {
+                textValidator.validate(params.text, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("type")) {
+                typeValidator.validate(params.type, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("creatorId")) {
+                userIdValidator.validate(params.creatorId, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        },
+        function (callback) {
+            if (params.hasOwnProperty("charGuild")) {
+                characterAndGuildValidator.validate(params.charGuild, function (error) {
                     callback(error);
                 });
             }

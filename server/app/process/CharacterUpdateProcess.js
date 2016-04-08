@@ -45,30 +45,16 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
         function (characterUpdate, callback) {
             //Sanitize name
             bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, ["guild", "items", "progression", "talents", "achievements", "statistics", "challenge", "pvp", "reputation", "stats"], function (error, character) {
-                if (error) {
-                    if (error.statusCode == 403) {
-                        logger.info("Bnet Api Deny ... waiting 1 min");
-                        updateModel.insert("cu", characterUpdate.region, characterUpdate.realm, characterUpdate.name, characterUpdate.priority, function () {
-                            setTimeout(function () {
-                                callback(true);
-                            }, 60000);
-                        });
-                    } else {
-                        callback(error);
-                    }
+                if (character && character.realm && character.name) {
+                    callback(error, characterUpdate.region, character);
                 } else {
-                    if (character.realm && character.name) {
-                        callback(null, characterUpdate.region, character);
-                    } else {
-                        logger.warn("Bnet return empty character (account inactive...), skip it");
-                        callback(true);
-                    }
+                    logger.warn("Bnet return empty character (account inactive...), skip it");
+                    callback(true);
                 }
             })
         },
         function (region, character, callback) {
             async.parallel({
-
                 ad: function (callback) {
                     async.waterfall([
                         function (callback) {
@@ -81,14 +67,14 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                             });
                         },
                         function (character, callback) {
-                            if (character && character.ad && character.ad.timezone && character.ad.lfg==true) {
-                                var offset = Math.round(moment.tz.zone(character.ad.timezone).parse(Date.UTC())/60);
-                                async.each(character.ad.play_time,function(day,callback){
+                            if (character && character.ad && character.ad.timezone && character.ad.lfg == true) {
+                                var offset = Math.round(moment.tz.zone(character.ad.timezone).parse(Date.UTC()) / 60);
+                                async.each(character.ad.play_time, function (day, callback) {
                                     day.start.hourUTC = day.start.hour + offset;
-                                    day.end.hourUTC = day.end.hour +offset;
+                                    day.end.hourUTC = day.end.hour + offset;
                                     callback();
-                                },function(){
-                                    callback(null,character.ad);
+                                }, function () {
+                                    callback(null, character.ad);
                                 });
                             } else {
                                 callback();
@@ -98,30 +84,41 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                         if (error) {
                             logger.error(error.message);
                         }
-                        callback(null, ad)
+                        callback(null, ad);
                     });
                 },
                 warcraftLogs: function (callback) {
                     //Get WarcraftLogs
                     warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
+                        var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);
                         }
-                        var tmpObj = {};
                         tmpObj.logs = warcraftLogs;
                         tmpObj.updated = new Date().getTime();
                         callback(null, tmpObj)
                     });
                 },
                 progress: function (callback) {
-                    //Get Progress
-                    characterService.getProgress(region, character, function (error, progress) {
-                        if (error && error !== true) {
-                            logger.error(error.message);
-                        }
-                        progress.updated = new Date().getTime();
-                        callback(null, progress);
-                    });
+                    var progress = {score:0}
+
+                    if (character.progression && character.progression.raids) {
+                        character.progression.raids[character.progression.raids.length - 1].bosses.forEach(function(boss){
+                            if(boss.normalKills>0){
+                                progress.score += 1000;
+                            }
+                            if(boss.heroicKills>0){
+                                progress.score+=100000
+                            }
+                            if(boss.mythicKills>0){
+                                progress.score+=10000000
+                            }
+                        });
+                        callback(null,progress);
+                    }
+                    else {
+                        callback();
+                    }
                 }
             }, function (error, results) {
                 results.bnet = character;
@@ -130,9 +127,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                     callback(error);
                 });
             });
-        },
-
-
+        }
     ], function (error) {
         if (error && error !== true) {
             logger.error(error.message);
