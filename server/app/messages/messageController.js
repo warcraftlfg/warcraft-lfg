@@ -86,7 +86,9 @@ module.exports.postMessage = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
 
-    messageModel.insert(req.body.region, req.body.realm, req.body.name, req.body.type, parseInt(req.body.creatorId, 10), req.user.id, req.user.battleTag, req.body.text, function (error, message) {
+    var nickName = req.user.battleTag.split('#')[0];
+
+    messageModel.insert(req.body.objId1, req.body.objId2, req.user.id, nickName, req.entities, req.body.text, function (error, message) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);

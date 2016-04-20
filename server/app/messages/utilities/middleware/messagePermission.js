@@ -10,12 +10,13 @@ var messageService = process.require("messages/messageService.js");
  * @returns {*}
  */
 module.exports.hasMessagePermission = function (req, res, next) {
-    messageService.hasMessagePermission(req.body.region, req.body.realm, req.body.name, req.body.type, parseInt(req.body.creatorId,10), req.user.id, function (error, hasPerm, ids) {
+    messageService.hasMessagePermission(req.body.objId1, req.body.objId2, req.user.id, function (error, hasPerm, ids,entities) {
         if (error) {
             res.status(500).send(error.message);
         } else {
             if (hasPerm) {
                 req.ids = ids;
+                req.entities = entities;
                 return next();
             }
             res.status(403).send("ACCESS_DENIED");

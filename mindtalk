@@ -1,31 +1,10 @@
-GET /messages/[type]/[region]/[realm]/[name]/[creatorId]
-
-POST /messages
-    type
-    region
-    realm
-    name
-    creatorID
-    text
-
-    ON POST --> SEND new message to creatorID  && GET ALL ID FOR type region realm name and SEND message
+GET /messages/[ObjId1]/[ObjId2]
+--> Check if user is owner of one of ObjId1 or ObjId2
+--> Get all message with ObjId1 & ObjId2 inside
 
 GET /messages
-GET ALL GUILDS for user --> GET ALL MESSAGE ROOM WITH ALL GUILD
-GET ALL MESSAGE ROOM with creatorID == userId
-GET ALL CHARACTER for user --> GET ALL MESSAGE ROOM WITH ALL MESSAGE
-GET ALL CHARACTER with creatorID == userId
+--> Get all guild character and userid And return it to people.
 
-GET ALL GUILDS for user
-GET ALL CHARACTER for user
-Get ALL message with guilds OR character OR creatorID == userId --> GROUP BY room = type region realm name creatorID
-
-Message Structure
-    type
-    region
-    realm
-    name
-    creatorId
-    id
-    text
-
+POST /messages
+--> Check if user is member of all objectId
+--> {from:ObjectId, to:ObjectId , text:text, userId}
