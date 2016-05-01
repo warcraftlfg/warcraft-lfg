@@ -13,15 +13,15 @@ var ObjectId = require('mongodb').ObjectId;
  * @param id
  * @param callback
  */
-module.exports.hasMessagePermission = function (entityId1, entityId2, id, callback) {
+module.exports.hasMessagePermission = function (entityFrom, entityTo, id, callback) {
 
 
     var or = [];
-    if (ObjectId.isValid(entityId1)) {
-        or.push({_id: ObjectId(entityId1)});
+    if (ObjectId.isValid(entityFrom)) {
+        or.push({_id: ObjectId(entityFrom)});
     }
-    if (ObjectId.isValid(entityId2)) {
-        or.push({_id: ObjectId(entityId2)});
+    if (ObjectId.isValid(entityTo)) {
+        or.push({_id: ObjectId(entityTo)});
     }
 
     async.parallel({
@@ -45,7 +45,7 @@ module.exports.hasMessagePermission = function (entityId1, entityId2, id, callba
                 }
             },
             users: function (callback) {
-                userModel.find({$or: [{id: parseInt(entityId1, 10)}, {id: parseInt(entityId2, 10)}]}, {
+                userModel.find({$or: [{id: parseInt(entityFrom, 10)}, {id: parseInt(entityTo, 10)}]}, {
                     id: 1,
                     battleTag: 1
                 }, function (error, users) {
@@ -83,6 +83,7 @@ module.exports.hasMessagePermission = function (entityId1, entityId2, id, callba
                         ids.push(user.id);
                     }
                     user.type = "user";
+                    delete user.battleTag;
                     entities.push(user);
                 });
             }
