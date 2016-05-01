@@ -13,20 +13,17 @@ var ObjectId = require('mongodb').ObjectId;
  * @param id
  * @param callback
  */
-module.exports.hasMessagePermission = function (entityFrom, entityTo, id, callback) {
-
+module.exports.hasMessagePermission = function (objId1, objId2, id, callback) {
 
     var or = [];
-    if (ObjectId.isValid(entityFrom)) {
-        or.push({_id: ObjectId(entityFrom)});
+    if (ObjectId.isValid(objId1)) {
+        or.push({_id: ObjectId(objId1)});
     }
-    if (ObjectId.isValid(entityTo)) {
-        or.push({_id: ObjectId(entityTo)});
+    if (ObjectId.isValid(objId2)) {
+        or.push({_id: ObjectId(objId2)});
     }
-
     async.parallel({
             characters: function (callback) {
-
                 if (or.length > 0) {
                     characterModel.find({$or: or}, {region: 1, realm: 1, name: 1, id: 1}, function (error, characters) {
                         callback(error, characters);
@@ -34,6 +31,7 @@ module.exports.hasMessagePermission = function (entityFrom, entityTo, id, callba
                 } else {
                     callback();
                 }
+
             },
             guilds: function (callback) {
                 if (or.length > 0) {
@@ -43,9 +41,10 @@ module.exports.hasMessagePermission = function (entityFrom, entityTo, id, callba
                 } else {
                     callback();
                 }
+
             },
             users: function (callback) {
-                userModel.find({$or: [{id: parseInt(entityFrom, 10)}, {id: parseInt(entityTo, 10)}]}, {
+                userModel.find({$or: [{id: parseInt(objId1, 10)}, {id: parseInt(objId2, 10)}]}, {
                     id: 1,
                     battleTag: 1
                 }, function (error, users) {
@@ -55,15 +54,12 @@ module.exports.hasMessagePermission = function (entityFrom, entityTo, id, callba
         },
         function (error, result) {
             var ids = [];
-            var entities = [];
-
             if (result.guilds) {
                 result.guilds.forEach(function (guild) {
                     if (guild.id) {
                         ids = ids.concat(guild.id);
+                        guild.type = "guild";
                     }
-                    guild.type = "guild";
-                    entities.push(guild);
                 });
             }
 
@@ -71,9 +67,8 @@ module.exports.hasMessagePermission = function (entityFrom, entityTo, id, callba
                 result.characters.forEach(function (character) {
                     if (character.id) {
                         ids.push(character.id);
+                        character.type = "character";
                     }
-                    character.type = "character";
-                    entities.push(character);
                 });
             }
 
@@ -81,20 +76,21 @@ module.exports.hasMessagePermission = function (entityFrom, entityTo, id, callba
                 result.users.forEach(function (user) {
                     if (user.id) {
                         ids.push(user.id);
+                        user.type = "user";
+                        user.nickName = user.battleTag.split('#')[0];
+                        delete user.battleTag;
                     }
-                    user.type = "user";
-                    delete user.battleTag;
-                    entities.push(user);
                 });
             }
 
             var hasPermission = false;
             ids = lodash.uniq(ids);
             ids.forEach(function (userId) {
-                if (id == userId) {
+                if (userId == id) {
                     hasPermission = true;
                 }
             });
-            callback(error, hasPermission, ids, entities);
+
+            callback(error, hasPermission, ids);
         });
 };

@@ -5,7 +5,7 @@ var auth = process.require("users/utilities/middleware/auth.js");
 var messagePermission = process.require("messages/utilities/middleware/messagePermission.js");
 
 //Define route for authenticated users
-router.get("/messages/:id/:type/:region/:realm/:name", auth.isAuthenticated ,messageController.getMessages);
+router.get("/messages/:objId1/:objId2", auth.isAuthenticated, messagePermission.hasMessagePermission, messageController.getMessages);
 router.get("/messages", auth.isAuthenticated, messageController.getConversations);
 router.post("/messages", auth.isAuthenticated, messagePermission.hasMessagePermission, messageController.postMessage);
 

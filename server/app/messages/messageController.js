@@ -16,7 +16,7 @@ module.exports.getMessages = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
 
-    messageModel.getMessages(req.params.region, req.params.realm, req.params.name, req.params.type, parseInt(req.params.id, 10), function (error, messages) {
+    messageModel.getMessages(req.params.objId1, req.params.objId2, function (error, messages) {
             if (error) {
                 logger.error(error.message);
                 res.status(500).send(error.message);
@@ -38,34 +38,28 @@ module.exports.getConversations = function (req, res) {
 
     async.parallel({
         guilds: function (callback) {
-            guildModel.find({id: req.user.id}, {region: 1, realm: 1, name: 1, _id: 0}, function (error, guilds) {
+            guildModel.find({id: req.user.id}, {_id: 1}, function (error, guilds) {
                 callback(error, guilds);
             });
         },
         characters: function (callback) {
-            characterModel.find({id: req.user.id}, {
-                region: 1,
-                realm: 1,
-                name: 1,
-                _id: 0
-            }, function (error, characters) {
+            characterModel.find({id: req.user.id}, {_id: 1}, function (error, characters) {
                 callback(error, characters);
             });
         }
     }, function (error, results) {
 
-        var or = [];
+        var objIds = [];
         results.guilds.forEach(function (guild) {
             guild.type = "guild";
-            or.push(guild)
+            objIds.push(guild._id.toString())
         });
         results.characters.forEach(function (character) {
             character.type = "character";
-            or.push(character)
+            objIds.push(character._id.toString())
         });
-        or.push({creatorId: req.user.id});
 
-        messageModel.getMessageList({$or: or}, function (error, messageList) {
+        messageModel.getMessageList({objIds: {$in: objIds}}, function (error, messageList) {
             if (error) {
                 logger.error(error.message);
                 res.status(500).send(error.message);
@@ -86,9 +80,8 @@ module.exports.postMessage = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
 
-    var nickName = req.user.battleTag.split('#')[0];
-
-    messageModel.insert(req.body.objId1, req.body.objId2, req.user.id, nickName, req.entities, req.body.text, function (error, message) {
+    var userName = req.user.battleTag.split('#')[0];
+    messageModel.insert(req.body.objId1, req.body.objId2, req.user.id, userName, req.body.text, function (error, message) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
