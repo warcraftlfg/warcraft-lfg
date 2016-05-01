@@ -69,7 +69,8 @@ module.exports.getMessageList = function (criteria, callback) {
                     _id: {objIds: "$objIds"},
                     userNames: {$addToSet: "$userName"},
                     count: {$sum: 1},
-                    creatorUserName: {$first: "$userName"}
+                    creatorUserName: {$first: "$userName"},
+                    creatorUserId:{$first: "$userId"}
                 }
 
             }
@@ -77,6 +78,5 @@ module.exports.getMessageList = function (criteria, callback) {
         function (error, messageList) {
             callback(error, messageList)
         }
-    )
-    ;
+    );
 };
