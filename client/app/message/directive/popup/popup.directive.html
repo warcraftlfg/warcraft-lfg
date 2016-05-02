@@ -1,0 +1,16 @@
+<script type="text/ng-template" id="messagePopup">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	    <h3 class="modal-title">Open as</h3>
+	</div>
+	<div class="modal-body text-center">
+	    <div class="">
+	    	<a href="/#/messages/{{ user.id }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="btn btn-default dis-block m-b-10">
+	    		{{ user.battleTag }}
+	    	</a>
+	    	<a href="/#/messages/{{ character.id }}/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/?recipient={{character.name }}@{{ character.realm }} ({{ character.region|uppercase }})" class="btn btn-default dis-block" ng-class="'m-b-10': !$last"  ng-if="guildAd.perms.ad.edit" ng-repeat="guildAd in guildAds">
+	    		{{guildAd.name}}
+	    	</a>
+	    </div>
+	</div>
+</script>
