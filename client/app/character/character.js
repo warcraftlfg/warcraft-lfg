@@ -30,7 +30,6 @@
             $scope.$parent.loading = false;
         });
 
-
         $scope.updateCharacter = function () {
             $scope.$parent.loading = true;
             updates.post({

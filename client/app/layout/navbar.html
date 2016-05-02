@@ -25,6 +25,10 @@
                     <a href="/auth/bnet"><i class="fa fa-lg fa-arrow-circle-right"></i> {{"CONNECT_BNET" |
                         translate}}</a>
                 </li>
+                <li ng-if="user.id">
+                    <a href="#/messages/"><i class="fa fa-envelope-o f-18"></i></a>
+                    <span class="message-count badge floating badge-active">1</span>
+                </li>
                 <li ng-if="user.id" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">{{user.battleTag}} <span class="caret"></span></a>

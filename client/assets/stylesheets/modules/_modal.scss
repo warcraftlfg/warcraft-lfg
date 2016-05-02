@@ -1,10 +1,11 @@
 .modal-content {
 	border-radius: 0px;
 	background-color: $grey;
+	border: 1px solid white;
 }
 
 .modal-header {
-	border-bottom: 1px solid $black;
+	border-bottom: 1px solid white;
 }
 
 .modal-footer {
@@ -13,11 +14,15 @@
 
 .modal-header .close {
 	color: white;
+	position: absolute;
+	right: 7px;
+	top: 5px;
 }
 
 .modal-header.modal-confirm {
 	font-size: 14px;
-	border-bottom: 0px solid white;
+	/*border-bottom: 0px solid white;*/
+	padding-right: 25px;
 }
 
 .modal-sm {
