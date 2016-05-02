@@ -6,53 +6,40 @@
         .controller('MessageController', Message)
     ;
 
-    Message.$inject = ["$scope", "socket", "$stateParams", "$location", "messages", "wlfgAppTitle"];
-    function Message($scope, socket, $stateParams, $location, messages, wlfgAppTitle) {
-        wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
+    Message.$inject = ["$scope", "socket", "$stateParams", "messages"];
+    function Message($scope, socket, $stateParams, messages) {
         //Reset error message
         $scope.$parent.error = null;
 
-        $scope.region = $stateParams.region;
-        $scope.realm = $stateParams.realm;
-        $scope.name = $stateParams.name;
-        $scope.type = $stateParams.type;
-        $scope.recipient = $location.search().recipient;
-
         $scope.$parent.loading = true;
-
-        messages.query({
-        }, function (messageList) {
+        //Get Messages for current conversation
+        messages.get($stateParams, function (result) {
             $scope.$parent.loading = false;
-            $scope.messageList = messageList;
+            $scope.messages = result.messages;
+            $scope.entities = result.entities;
         }, function (error) {
             $scope.$parent.error = error.data;
             $scope.$parent.loading = false;
         });
 
-        messages.query({
-            creatorId: $stateParams.creatorId,
-            type: $stateParams.type,
-            region: $stateParams.region,
-            realm: $stateParams.realm,
-            name: $stateParams.name
-        }, function (messages) {
-            $scope.$parent.loading = false;
-            $scope.messages = messages;
-        }, function (error) {
-            $scope.$parent.error = error.data;
-            $scope.$parent.loading = false;
-        });
-
+        function getConversations() {
+            //Get All conversations
+            messages.query(function (conversations) {
+                $scope.$parent.loading = false;
+                $scope.conversations = conversations;
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+        }
+        getConversations();
 
         $scope.newMessage = {text: ""};
 
         $scope.sendMessage = function () {
             messages.post({
-                creatorId: $stateParams.creatorId,
-                type: $stateParams.type,
-                region: $stateParams.region,
-                realm: $stateParams.realm,
-                name: $stateParams.name,
+                objId1: $stateParams.objId1,
+                objId2: $stateParams.objId2,
                 text: $scope.newMessage.text
             }, function () {
                 $scope.newMessage.text = "";
@@ -65,9 +52,10 @@
 
         socket.forward('newMessage', $scope);
         $scope.$on('socket:newMessage', function (ev, message) {
-            if (message.creatorId == $stateParams.creatorId && message.type == $stateParams.type && message.region == $stateParams.region && message.realm == $stateParams.realm && message.name == $stateParams.name) {
+            if ((message.objIds[0] == $stateParams.objId1 || message.objIds[0] == $stateParams.objId2) && (message.objIds[1] == $stateParams.objId1 || message.objIds[1] == $stateParams.objId2)) {
                 $scope.messages.push(message);
             }
+            getConversations();
         });
     }
 })();

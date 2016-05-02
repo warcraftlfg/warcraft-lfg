@@ -33,7 +33,7 @@
                         }
                       }
                     });
-                }
+                };
 
                 /**
                  * Get user's guildAds

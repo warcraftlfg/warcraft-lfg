@@ -5,12 +5,12 @@
 	</div>
 	<div class="modal-body text-center">
 	    <div class="">
-	    	<a href="/#/messages/{{ user.id }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="btn btn-default dis-block m-b-10">
+	    	<a href="/#/messages/{{character._id}}/{{ user.id }}/" class="btn btn-default dis-block m-b-10">
 	    		{{ user.battleTag }}
 	    	</a>
-	    	<a href="/#/messages/{{ character.id }}/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/?recipient={{character.name }}@{{ character.realm }} ({{ character.region|uppercase }})" class="btn btn-default dis-block" ng-class="'m-b-10': !$last"  ng-if="guildAd.perms.ad.edit" ng-repeat="guildAd in guildAds">
+	    	<a href="/#/messages/{{ character._id }}/{{ guildAd._id}}/" class="btn btn-default dis-block" ng-class="'m-b-10': !$last"  ng-if="guildAd.perms.ad.edit" ng-repeat="guildAd in guildAds">
 	    		{{guildAd.name}}
-	    	</a>
+			</a>
 	    </div>
 	</div>
 </script>

@@ -15,7 +15,7 @@
                 controller: "MessageController"
             })
             .state("messageRead", {
-                url: "/messages/:creatorId/:type/:region/:realm/:name/",
+                url: "/messages/:objId1/:objId2/",
                 templateUrl: "app/message/read.html",
                 controllerAs: 'vm',
                 title: 'Message',

@@ -23,80 +23,25 @@
         <div class="col-md-4">
             <div class="message-list panel panel-default">
                 <div class="panel-body p-t-0 p-b-0 bd-t-s">
-                    <div class="row bd-b-s p-b-10 p-t-10 active" ng-if="messages.length == 0">
-                        <div class="col-md-10">
-                            <div class="">
-                                <div ng-if="type == 'character'">
-                                    {{name}}@{{realm}}
-                                    ({{region|uppercase}})
-                                </div>
-                                <div ng-if="type == 'guild' && user.guildAds.indexOf(name+'-'+realm+'-'+region) >= 0">
-                                    {{ recipient }}
-                                </div>
-                                <div ng-if="type == 'guild' && user.guildAds.indexOf(name+'-'+realm+'-'+region) == -1">
-                                    {{name}}@{{realm}}
-                                    ({{region|uppercase}})
-                                </div>
+                    <div class="row bd-b-s p-b-10 p-t-10" ng-repeat="conversation in conversations">
+                        <div class="col-md-8">
+                            <div class="h-20 txt-ellipsis" ng-repeat="entity in conversation.entities">
+                                <span ng-if="entity.type != 'user'">
+                                    {{entity.name}}@{{entity.realm}}({{entity.region|uppercase}})
+                                </span>
+                                 <span ng-if="entity.type == 'user'">
+                                    {{entity.name}}
+                                </span>
+                            </div>
+                            <div class="f-12 txt-gray h-18 txt-ellipsis">
+                                Created by: {{conversation.creatorUserName}}
+                            </div>
+                            <div class="f-12 txt-gray h-18 txt-ellipsis">
+                                Message count: {{conversation.count}}
                             </div>
                         </div>
-                        <div class="col-md-12">
-
-                        </div>
-                    </div> 
-                    <div class="row bd-b-s p-b-10 p-t-10" ng-class="{'active': region == message._id.region && name == message._id.name && realm == message._id.realm}" ng-repeat="message in messageList">
-                        <div ng-if="message._id.type == 'character'">
-                            <div class="col-md-8" ng-if="message._id.creatorId != user.id">
-                                <div class="h-20 txt-ellipsis">
-                                    {{ message.creatorBattleTag }}
-                                </div>
-                                <div class="f-12 txt-gray h-18 txt-ellipsis">
-                                    We, je kiff ta guilde, inc poto !
-                                </div>
-                            </div>
-                            <div class="col-md-8" ng-if="message._id.creatorId == user.id">
-                                <div class="h-20 txt-ellipsis">
-                                    {{message._id.name}}@{{message._id.realm}}
-                                    ({{message._id.region|uppercase}})
-                                </div>
-                                <div class="f-12 txt-gray  h-18 txt-ellipsis">
-                                    We, je kiff ta guilde, inc poto !
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-right txt-gray">
-                                <span class="f-12">{{1288323623006 | date:'dd/MM/yyyy'}}</span>
-                            </div>
-                        </div>
-                        <div ng-if="message._id.type == 'guild'">
-                            <div class="col-md-8" ng-if="message._id.creatorId != user.id && user.guildAds.indexOf(message._id.name+'-'+message._id.realm+'-'+message._id.region) >= 0">
-                                <div class="h-20 txt-ellipsis">
-                                    {{ message.creatorBattleTag }}
-                                </div>
-                                <div class="f-12 txt-gray h-18 txt-ellipsis">
-                                    We, je kiff ta guilde, inc poto !
-                                </div>
-                            </div>
-                            <div class="col-md-8" ng-if="message._id.creatorId != user.id && user.guildAds.indexOf(message._id.name+'-'+message._id.realm+'-'+message._id.region) == -1">
-                                <div class="h-20 txt-ellipsis">
-                                    {{message._id.name}}@{{message._id.realm}}
-                                    ({{message._id.region|uppercase}})
-                                </div>
-                                <div class="f-12 txt-gray h-18 txt-ellipsis">
-                                    We, je kiff ta guilde, inc poto !
-                                </div>
-                            </div>
-
-                            <div class="col-md-8" ng-if="message._id.creatorId == user.id">
-                                <div class="h-20 txt-ellipsis">
-                                    {{message._id.name}}@{{message._id.realm}}
-                                    ({{message._id.region|uppercase}})
-                                </div>
-                                <div class="f-12 txt-gray h-18 txt-ellipsis">
-                                    We, je kiff ta guilde, inc poto !
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-right txt-gray">
-                                <span class="f-12">{{1288323623006 | date:'dd/MM/yyyy'}}</span>
-                            </div>
+                        <div class="col-md-4 text-right txt-gray">
+                            <span class="f-12">{{1288323623006 | date:'dd/MM/yyyy'}}</span>
                         </div>
                     </div>
                 </div>
@@ -110,7 +55,7 @@
                              ng-repeat="message in messages">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    {{message.battleTag}}: {{message.text}} - <span
+                                    {{message.userName}}: {{message.text}} - <span
                                         am-time-ago="message._id|wlfgObjectIdToTimestamp"></span>
                                 </div>
                             </div>

@@ -7,7 +7,7 @@
 
     Messages.$inject = ['$resource'];
     function Messages($resource) {
-        return $resource('/api/v1/messages/:creatorId/:type/:region/:realm/:name',{}, {
+        return $resource('/api/v1/messages/:objId1/:objId2',{}, {
             post: {
                 method:'post'
             }
