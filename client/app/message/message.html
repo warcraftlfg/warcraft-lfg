@@ -59,14 +59,21 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="messages" scroll-glue>
-                            <div class="col-md-7" ng-class="{'col-md-offset-5':message.userId!=user.id}"
+                            <div class="col-md-6 m-b-15" ng-class="{'col-md-offset-6':message.userId==user.id}"
                                  ng-repeat="message in messages">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        {{message.userName}}: {{message.text}} - <span
-                                            am-time-ago="message._id|wlfgObjectIdToTimestamp"></span>
-                                    </div>
+                                <div>
+                                    {{message.userName}} - <span class="txt-gray"
+                                        am-time-ago="message._id|wlfgObjectIdToTimestamp"></span>
                                 </div>
+                                <div class="f-12" ng-repeat="entity in entities">
+                                    <span  class="faction-{{entity.bnet.side}}" ng-if="entity.type =='guild' && entity.id.indexOf(message.userId)>-1">
+                                        guild-icon {{entity.name}}@{{entity.realm}} ({{entity.region|uppercase}})
+                                    </span>
+                                    <span class="faction-{{entity.bnet.faction}}" ng-if="entity.type == 'character' && message.userId == entity.id">
+                                        character-icon {{entity.name}}@{{entity.realm}} ({{entity.region|uppercase}})
+                                    </span>
+                                </div>
+                                {{message.text}}
                             </div>
                             <div class="col-md-12" ng-if="messages.length == 0">
                                 {{"NO_MESSAGE_FOUND"|translate}}
