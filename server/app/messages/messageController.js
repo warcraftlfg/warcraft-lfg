@@ -53,12 +53,12 @@ module.exports.getConversations = function (req, res) {
         function (callback) {
             async.parallel({
                 guilds: function (callback) {
-                    guildModel.find({id: req.user.id}, {_id: 1}, function (error, guilds) {
+                    guildModel.find({id: req.user.id,"ad.lfg":{$exists:true}}, {_id: 1}, function (error, guilds) {
                         callback(error, guilds);
                     });
                 },
                 characters: function (callback) {
-                    characterModel.find({id: req.user.id}, {_id: 1}, function (error, characters) {
+                    characterModel.find({id: req.user.id,"ad.lfg":{$exists:true}}, {_id: 1}, function (error, characters) {
                         callback(error, characters);
                     });
                 }
