@@ -121,9 +121,11 @@ module.exports.postMessage = function (req, res) {
             res.status(500).send(error.message);
         } else {
             req.ids.forEach(function (id) {
-                applicationStorage.users[id].forEach(function(socketId){
-                    applicationStorage.socketIo.to(socketId).emit("newMessage", message);
-                });
+                if(applicationStorage.users[id]) {
+                    applicationStorage.users[id].forEach(function (socketId) {
+                        applicationStorage.socketIo.to(socketId).emit("newMessage", message);
+                    });
+                }
             });
             res.json(message);
         }
