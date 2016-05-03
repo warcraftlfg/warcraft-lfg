@@ -59,7 +59,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="messages" scroll-glue>
-                            <div class="col-md-6 m-b-15" ng-class="{'col-md-offset-6':message.userId==user.id}"
+                            <div class="m-b-15" ng-class="{'col-md-offset-6 col-md-6':message.userId==user.id, 'col-md-12':message.userId!=user.id}"
                                  ng-repeat="message in messages">
                                 <div>
                                     {{message.userName}} - <span class="txt-gray"
