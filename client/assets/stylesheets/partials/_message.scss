@@ -1,19 +1,25 @@
 .message {
-	.message-list, .message-content {
-		background-color: $black;
+  .message-list, .message-content {
+    background-color: $black;
 
-		.active {
-			background-color: $red;
-		}
-	}
+    .active {
+      background-color: $red;
+    }
+  }
+  .message-content {
+    .messages{
+      max-height:500px;
+      overflow-y: scroll;
+    }
+  }
 }
 
 .message-count {
-    position: absolute;
-    margin: 0;
-    right: 2px;
-    top: 5px;
-    background-color: #de2f2f;
-    border-radius: 0px;
-    padding: 2px 5px;
+  position: absolute;
+  margin: 0;
+  right: 2px;
+  top: 5px;
+  background-color: #de2f2f;
+  border-radius: 0px;
+  padding: 2px 5px;
 }
