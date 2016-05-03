@@ -63,17 +63,19 @@ module.exports.getMessageList = function (criteria, callback) {
     var collection = applicationStorage.mongo.collection("messages");
     collection.aggregate([
             {$match: criteria},
-            {$sort: {_id: 1}},
+
             {
                 $group: {
                     _id: {objIds: "$objIds"},
                     userNames: {$addToSet: "$userName"},
                     count: {$sum: 1},
                     creatorUserName: {$first: "$userName"},
-                    creatorUserId:{$first: "$userId"}
+                    creatorUserId:{$first: "$userId"},
+                    lastMessageDate:{$last:"$_id"}
                 }
 
-            }
+            },
+            {$sort: {lastMessageDate: -1}}
         ],
         function (error, messageList) {
             callback(error, messageList)

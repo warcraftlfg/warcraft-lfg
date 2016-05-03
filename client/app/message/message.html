@@ -32,7 +32,7 @@
                     <div class="row bd-b-s p-b-10 p-t-10"
                          ng-class="{'active':(conversation.entities[0]._id==objId1 || conversation.entities[0]._id==objId2) && (conversation.entities[1]._id==objId1 || conversation.entities[1]._id==objId2)}"
                          ng-repeat="conversation in conversations">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <a href="#/messages/{{conversation.entities[0]._id || conversation.entities[0].id}}/{{conversation.entities[1]._id || conversation.entities[1].id}}/">
                                 <div class="h-20 txt-ellipsis" ng-repeat="entity in conversation.entities">
                                     <span>
@@ -41,14 +41,14 @@
                                 </div>
                             </a>
                             <div class="f-12 txt-gray h-18 txt-ellipsis">
-                                Created by: {{conversation.creatorUserName}}
+                               Users: <span ng-repeat="name in conversation.userNames">{{name}} </span>
                             </div>
                             <div class="f-12 txt-gray h-18 txt-ellipsis">
                                 Message count: {{conversation.count}}
                             </div>
-                        </div>
-                        <div class="col-md-4 text-right txt-gray">
-                            <span class="f-12">{{1288323623006 | date:'dd/MM/yyyy'}}</span>
+                            <div class=" text-right txt-gray f-12">
+                                Last message <span am-time-ago="conversation.lastMessageDate|wlfgObjectIdToTimestamp"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
