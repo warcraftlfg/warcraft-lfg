@@ -20,8 +20,7 @@
     "bnet": {
       "clientID": "your clientID",
       "clientSecret": "your clientSecret",
-      "callbackURL": "https://localhost:3000/auth/bnet/callback",
-      "limit": 35000
+      "callbackURL": "https://localhost:3000/auth/bnet/callback"
     }
   },
   "warcraftLogs": {
