@@ -14,6 +14,11 @@ module.exports.hasMessagePermission = function (req, res, next) {
     var objId1 = req.params.objId1 || req.body.objId1;
     var objId2 = req.params.objId2 || req.body.objId2;
 
+    if(objId1 == objId2){
+        res.status(500).send("SAME OBJECT_ID");
+        return;
+    }
+
     messageService.hasMessagePermission(objId1, objId2, req.user.id, function (error, hasPerm, ids, entities) {
         if (error) {
             res.status(500).send(error.message);

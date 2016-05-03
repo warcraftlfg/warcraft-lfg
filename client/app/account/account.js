@@ -5,9 +5,9 @@
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope', '$state', '$filter', "wlfgAppTitle", "user", "guilds", "characters", "messages"];
+    Account.$inject = ['$scope', '$state', '$filter', "wlfgAppTitle", "user", "guilds", "characters"];
 
-    function Account($scope, $state, $filter, wlfgAppTitle, user, guilds, characters, messages) {
+    function Account($scope, $state, $filter, wlfgAppTitle, user, guilds, characters) {
         wlfgAppTitle.setTitle('Account');
 
         //Redirect not logged_in users to home
@@ -26,14 +26,6 @@
         $scope.guildRegion = "";
         $scope.characterRegion = "";
 
-        messages.query({
-        }, function (messageList) {
-            $scope.$parent.loading = false;
-            $scope.messageList = messageList;
-        }, function (error) {
-            $scope.$parent.error = error.data;
-            $scope.$parent.loading = false;
-        });
 
         //Load Guilds & Characters
         getGuildAds();

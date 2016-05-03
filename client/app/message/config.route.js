@@ -7,20 +7,21 @@
 
     function getRoutes($stateProvider) {
         $stateProvider
-            .state("message", {
+            .state("messageList", {
                 url: "/messages/",
                 templateUrl: "app/message/message.html",
                 controllerAs: 'vm',
                 title: 'Message',
                 controller: "MessageController"
             })
-            .state("messageRead", {
+            .state("message", {
                 url: "/messages/:objId1/:objId2/",
-                templateUrl: "app/message/read.html",
+                templateUrl: "app/message/message.html",
                 controllerAs: 'vm',
                 title: 'Message',
                 controller: "MessageController"
             })
+
         ;
     }
 })();

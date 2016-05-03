@@ -35,7 +35,7 @@ module.exports.getProfile = function (req, res) {
 module.exports.getCharacterAds = function (req, res) {
     var logger = applicationStorage.logger;
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
-    var projection = {_id: 0, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.class": 1};
+    var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.class": 1};
     var sort = {"ad.updated": -1};
     characterModel.find(criteria, projection, sort, function (error, characters) {
         if (error) {

@@ -12,15 +12,20 @@
         $scope.$parent.error = null;
 
         $scope.$parent.loading = true;
-        //Get Messages for current conversation
-        messages.get($stateParams, function (result) {
-            $scope.$parent.loading = false;
-            $scope.messages = result.messages;
-            $scope.entities = result.entities;
-        }, function (error) {
-            $scope.$parent.error = error.data;
-            $scope.$parent.loading = false;
-        });
+        $scope.objId1 = $stateParams.objId1;
+        $scope.objId2 = $stateParams.objId2;
+
+        if ($stateParams.objId1 && $stateParams.objId2) {
+            //Get Messages for current conversation
+            messages.get($stateParams, function (result) {
+                $scope.$parent.loading = false;
+                $scope.messages = result.messages;
+                $scope.entities = result.entities;
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+        }
 
         function getConversations() {
             //Get All conversations
@@ -32,6 +37,7 @@
                 $scope.$parent.loading = false;
             });
         }
+
         getConversations();
 
         $scope.newMessage = {text: ""};

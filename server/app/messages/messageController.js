@@ -29,12 +29,12 @@ module.exports.getMessages = function (req, res) {
             });
         }
     }, function (error, result) {
-        console.log(result);
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
+        } else {
+            res.json(result);
         }
-        res.json(result);
     });
 
 
@@ -114,6 +114,7 @@ module.exports.postMessage = function (req, res) {
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
 
     var userName = req.user.battleTag.split('#')[0];
+
     messageModel.insert(req.body.objId1, req.body.objId2, req.user.id, userName, req.body.text, function (error, message) {
         if (error) {
             logger.error(error.message);
