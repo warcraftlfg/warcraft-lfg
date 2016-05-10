@@ -154,7 +154,7 @@ module.exports.postMessage = function (req, res) {
                 }
 
                 if (req.user.id != id) {
-                    conversationModel.incrementCount(req.user.id, req.body.objId1, req.body.objId2, function (error) {
+                    conversationModel.incrementCount(id, req.body.objId1, req.body.objId2, function (error) {
                         callback(error);
                     });
                 }
