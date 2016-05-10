@@ -16,7 +16,7 @@ var conversationModel = process.require("users/conversationModel.js");
  */
 module.exports.getMessages = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
 
     async.parallel({
         entities: function (callback) {
@@ -157,6 +157,8 @@ module.exports.postMessage = function (req, res) {
                     conversationModel.incrementCount(id, req.body.objId1, req.body.objId2, function (error) {
                         callback(error);
                     });
+                } else {
+                    callback();
                 }
 
             }, function (error) {

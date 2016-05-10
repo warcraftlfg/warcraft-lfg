@@ -56,7 +56,6 @@
         };
 
 
-        socket.forward('newMessage', $scope);
         $scope.$on('socket:newMessage', function (ev, message) {
             if ((message.objIds[0] == $stateParams.objId1 || message.objIds[0] == $stateParams.objId2) && (message.objIds[1] == $stateParams.objId1 || message.objIds[1] == $stateParams.objId2)) {
                 $scope.messages.push(message);

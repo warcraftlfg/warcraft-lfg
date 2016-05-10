@@ -22,7 +22,7 @@
         getUnreadMessageCount();
 
         socket.forward('newMessage', $scope);
-        $scope.$on('socket:newMessage', function (ev, message) {
+        $scope.$on('socket:newMessage', function () {
             getUnreadMessageCount();
         });
 
