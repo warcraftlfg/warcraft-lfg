@@ -67,7 +67,18 @@ module.exports.getGuild = function (req, res, next) {
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
-    var projection = {_id: 0};
+    var projection = {
+        _id: 1,
+        id: 1,
+        region: 1,
+        realm: 1,
+        name: 1,
+        ad: 1,
+        updated: 1,
+        bnet:1,
+        wowProgress: 1,
+        progress:1
+    };
     guildModel.findOne(criteria, projection, function (error, guild) {
         if (error) {
             logger.error(error.message);

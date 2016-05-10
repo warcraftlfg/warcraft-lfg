@@ -15,7 +15,7 @@ var sourceValidator = process.require("core/utilities/validators/sourceValidator
 var textValidator = process.require("core/utilities/validators/textValidator.js");
 var typeValidator = process.require("core/utilities/validators/typeValidator.js");
 var userIdValidator = process.require("core/utilities/validators/userIdValidator.js");
-var characterAndGuildValidator = process.require("core/utilities/validators/characterAndGuildValidator.js");
+var characterGuildUserValidator = process.require("core/utilities/validators/characterGuildUserValidator.js");
 
 
 /**
@@ -157,8 +157,19 @@ module.exports.validate = function (params, callback) {
             }
         },
         function (callback) {
-            if (params.hasOwnProperty("charGuild")) {
-                characterAndGuildValidator.validate(params.charGuild, function (error) {
+            if (params.hasOwnProperty("charGuildUser")) {
+                characterGuildUserValidator.validate(params.charGuildUser, function (error) {
+                    callback(error);
+                });
+            }
+            else {
+                callback();
+            }
+        }
+        ,
+        function (callback) {
+            if (params.hasOwnProperty("charGuildUser2")) {
+                characterGuildUserValidator.validate(params.charGuildUser2, function (error) {
                     callback(error);
                 });
             }

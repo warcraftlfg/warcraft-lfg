@@ -37,10 +37,10 @@
                                 <select ng-model="guildRegion" ng-change="updateGuildRegion()" class="form-control"
                                         id="region">
                                     <option value=""><{{ "CHOOSE_REGION"|translate }}></option>
-                                    <option value="us">{{"US"|translate}}</option>
-                                    <option value="eu">{{"EU"|translate}}</option>
-                                    <option value="kr">{{"KR"|translate}}</option>
-                                    <option value="tw">{{"TW"|translate}}</option>
+                                    <option value="us">US</option>
+                                    <option value="eu">EU</option>
+                                    <option value="kr">KR</option>
+                                    <option value="tw">TW</option>
                                 </select>
                             </span>
                         </div>
@@ -190,30 +190,6 @@
                     <tr ng-if="!characterAds.length">
                         <td class="text-center">
                             {{"NO_DATA"|translate}}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="m-b-20">{{"ACCOUNT_CHAT_MESSAGES"|translate}}</h3>
-                <table class="table">
-                    <tr ng-repeat="message in messageList">
-
-                        <td>
-                            Message on {{message._id.type}} {{message._id.name}}@{{message._id.realm}}
-                            ({{message._id.region|uppercase}}) from {{message.creatorBattleTag}}
-                        </td>
-                        <td>
-                            {{message.count}} message(s)
-                        </td>
-                        <td>
-                            <a class="txt-no-decoration txt-white m-r-10 f-18"
-                               href="#/message/{{message._id.creatorId}}/{{message._id.type}}/{{message._id.region}}/{{message._id.realm}}/{{message._id.name}}/"
-                               tooltip-placement="top" uib-tooltip="{{'REPLY'|translate }}">
-                                <i class="fa fa-mail-reply"></i>
-                            </a>
                         </td>
                     </tr>
                 </table>

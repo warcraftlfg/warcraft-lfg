@@ -67,7 +67,7 @@ module.exports.getCharacter = function (req, res, next) {
 
     var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
     var projection = {
-        _id: 0,
+        _id: 1,
         id: 1,
         region: 1,
         realm: 1,

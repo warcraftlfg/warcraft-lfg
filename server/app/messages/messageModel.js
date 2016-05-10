@@ -7,38 +7,36 @@ var validator = process.require('core/utilities/validators/validator.js');
 
 /**
  * Insert a message from an user to another
- * @param ids
+ * @param objId1
+ * @param objId2
+ * @param id
+ * @param nickName
  * @param text
  * @param callback
  */
-module.exports.insert = function (region, realm, name, type, creatorId, id, battleTag, text, callback) {
+module.exports.insert = function (objId1, objId2, userId, userName, text, callback) {
     async.waterfall([
             function (callback) {
                 //Validate Params
                 validator.validate({
                     text: text,
-                    type: type,
-                    creatorId: creatorId,
-                    charGuild: {region: region, realm: realm, name: name, type: type}
+                    charGuildUser: objId1,
+                    charGuildUser2: objId2,
                 }, function (error) {
                     callback(error);
                 });
-                //TODO Add other validation (type,creatorID,battleTag & Id)
             },
             function (callback) {
                 //Upsert
                 var collection = applicationStorage.mongo.collection("messages");
+
+                var objIds = [objId1, objId2].sort();
                 var message = {
-                    region: region,
-                    realm: realm,
-                    name: name,
-                    type: type,
-                    creatorId: creatorId,
-                    id: id,
-                    battleTag: battleTag,
+                    objIds: objIds,
+                    userId: userId,
+                    userName: userName,
                     text: text
                 };
-
                 collection.insert(message, function (error) {
                     callback(error, message);
                 });
@@ -52,15 +50,11 @@ module.exports.insert = function (region, realm, name, type, creatorId, id, batt
 }
 ;
 
-module.exports.getMessages = function (region, realm, name, type, creatorId, callback) {
+module.exports.getMessages = function (objId1, objId2, callback) {
     var collection = applicationStorage.mongo.collection("messages");
     collection.find({
-        type: type,
-        creatorId: creatorId,
-        region: region,
-        realm: realm,
-        name: name
-    }, {_id: 1, text: 1, id: 1, battleTag: 1}).toArray(function (error, messages) {
+        $or: [{objIds: [objId1, objId2]}, {objIds: [objId2, objId1]}]
+    }, {_id: 1, text: 1, userId: 1, userName: 1}).toArray(function (error, messages) {
         callback(error, messages)
     });
 };
@@ -69,20 +63,22 @@ module.exports.getMessageList = function (criteria, callback) {
     var collection = applicationStorage.mongo.collection("messages");
     collection.aggregate([
             {$match: criteria},
-            {$sort: {_id: 1}},
+
             {
                 $group: {
-                    _id: {type: "$type", region: "$region", realm: "$realm", name: "$name", creatorId: "$creatorId"},
-                    battleTags: {$addToSet: "$battleTag"},
-                    count: { $sum: 1 },
-                    creatorBattleTag: {$first:"$battleTag"}
+                    _id: {objIds: "$objIds"},
+                    userNames: {$addToSet: "$userName"},
+                    count: {$sum: 1},
+                    creatorUserName: {$first: "$userName"},
+                    creatorUserId:{$first: "$userId"},
+                    lastMessageDate:{$last:"$_id"}
                 }
 
-            }
+            },
+            {$sort: {lastMessageDate: -1}}
         ],
         function (error, messageList) {
             callback(error, messageList)
         }
-    )
-    ;
+    );
 };

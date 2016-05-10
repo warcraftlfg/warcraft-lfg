@@ -1,0 +1,101 @@
+<section class="header header-account">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ "MESSAGES"|translate}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <span ng-repeat="entity in entities">
+                        <span>
+                            {{entity.name}}@{{entity.realm}}({{entity.region|uppercase}})
+                        </span>
+                        <span ng-if="$first"> - </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<div class="message container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="message-list panel panel-default">
+                <div class="panel-body p-t-0 p-b-0 bd-t-s">
+                    <div class="row bd-b-s p-b-10 p-t-10"
+                         ng-class="{'active':(conversation.entities[0]._id==objId1 || conversation.entities[0]._id==objId2) && (conversation.entities[1]._id==objId1 || conversation.entities[1]._id==objId2)}"
+                         ng-repeat="conversation in conversations">
+                        <div class="col-md-12">
+                            <a href="#/messages/{{conversation.entities[0]._id || conversation.entities[0].id}}/{{conversation.entities[1]._id || conversation.entities[1].id}}/">
+                                <div class="h-20 txt-ellipsis" ng-repeat="entity in conversation.entities">
+                                    <span>
+                                       ({{entity.type}}) {{entity.name}}@{{entity.realm}}({{entity.region|uppercase}})
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="f-12 txt-gray h-18 txt-ellipsis">
+                               Users: <span ng-repeat="name in conversation.userNames">{{name}} </span>
+                            </div>
+                            <div class="f-12 txt-gray h-18 txt-ellipsis">
+                                Message count: {{conversation.count}}
+                            </div>
+                            <div class=" text-right txt-gray f-12">
+                                Last message <span am-time-ago="conversation.lastMessageDate|wlfgObjectIdToTimestamp"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8" ng-show="objId1 && objId2">
+            <div class="message-content panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="messages" scroll-glue>
+                            <div class="m-b-15" ng-class="{'col-md-offset-6 col-md-6':message.userId==user.id, 'col-md-12':message.userId!=user.id}"
+                                 ng-repeat="message in messages">
+                                <div>
+                                    {{message.userName}} - <span class="txt-gray"
+                                        am-time-ago="message._id|wlfgObjectIdToTimestamp"></span>
+                                </div>
+                                <div class="f-12" ng-repeat="entity in entities">
+                                    <span  class="faction-{{entity.bnet.side}}" ng-if="entity.type =='guild' && entity.id.indexOf(message.userId)>-1">
+                                        guild-icon {{entity.name}}@{{entity.realm}} ({{entity.region|uppercase}})
+                                    </span>
+                                    <span class="faction-{{entity.bnet.faction}}" ng-if="entity.type == 'character' && message.userId == entity.id">
+                                        character-icon {{entity.name}}@{{entity.realm}} ({{entity.region|uppercase}})
+                                    </span>
+                                </div>
+                                {{message.text}}
+                            </div>
+                            <div class="col-md-12" ng-if="messages.length == 0">
+                                {{"NO_MESSAGE_FOUND"|translate}}
+                            </div>
+                        </div>
+                        <form ng-submit="sendMessage()" class="col-md-12">
+                            <div class="form-group">
+                                <input ng-model="newMessage.text"
+                                       placeholder="{{'MESSAGE_PLACEHOLDER'|translate}}"
+                                       class="form-control">
+                                </input>
+                            </div>
+                            <div class="form-group">
+                                <button ng-click="sendMessage()" type="button" class="btn btn-inverse btn-default"
+                                        aria-label="Send Message">
+                                    <i class="fa fa-envelope-o"></i> {{"SEND_MESSAGE"|translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
