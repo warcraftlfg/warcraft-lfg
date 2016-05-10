@@ -19,12 +19,22 @@
         };
 
         $scope.user = user.get({param: "profile"});
+        getUnreadMessageCount();
+
+        socket.forward('newMessage', $scope);
+        $scope.$on('socket:newMessage', function (ev, message) {
+            getUnreadMessageCount();
+        });
+
+        function getUnreadMessageCount() {
+            $scope.unreadMessageCount = user.get({param: "unreadMessageCount"});
+        }
 
         /* Get user ads with profile ? */
         user.query({param: "guildAds"}, function (guildAds) {
             $scope.user.guildAds = [];
             $.each(guildAds, function (i, guild) {
-               $scope.user.guildAds.push(guild.name+'-'+guild.realm+'-'+guild.region);
+                $scope.user.guildAds.push(guild.name + '-' + guild.realm + '-' + guild.region);
             });
         });
     }

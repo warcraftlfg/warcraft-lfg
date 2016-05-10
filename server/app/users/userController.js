@@ -5,6 +5,7 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 var userService = process.require("users/userService.js");
+var conversationModel = process.require("users/conversationModel.js");
 var async = require("async");
 
 
@@ -142,4 +143,21 @@ module.exports.getGuildRank = function (req, res) {
         }
     });
 
+};
+
+/**
+ * Return the UnreadMessageCount for current user
+ * @param req
+ * @param res
+ */
+module.exports.getUnreadMessageCount = function (req, res) {
+    var logger = applicationStorage.logger;
+    conversationModel.getCount(req.user.id,function(error,count){
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(count[0]);
+        }
+    });
 };
