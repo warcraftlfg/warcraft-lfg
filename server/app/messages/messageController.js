@@ -103,9 +103,9 @@ module.exports.getConversations = function (req, res) {
                         conversationModel.findOne({
                             id: req.user.id,
                             objIds: objIds
-                        }, {count: 1}, function (error, result) {
-                            if (result.count) {
-                                conversation.unreadMessageCount = result.count;
+                        }, {count: 1, last: 1}, function (error, result) {
+                            if (result) {
+                                conversation.unreadMessages = result;
                             }
                             callback(error);
                         });
