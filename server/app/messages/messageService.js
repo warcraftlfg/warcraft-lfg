@@ -101,7 +101,7 @@ module.exports.getEntities = function (objId1, objId2, callback) {
     async.parallel({
             characters: function (callback) {
                 if (or.length > 0) {
-                    characterModel.find({$or: or}, {region: 1, realm: 1, name: 1, id: 1,"bnet.faction":1}, function (error, characters) {
+                    characterModel.find({$or: or}, {region: 1, realm: 1, name: 1, id: 1,"bnet.faction":1, "bnet.class":1}, function (error, characters) {
                         callback(error, characters);
                     });
                 } else {

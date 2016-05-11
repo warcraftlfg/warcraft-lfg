@@ -40,6 +40,8 @@
         <link href="/vendor/isteven-angular-multiselect/isteven-multi-select.css" rel="stylesheet">
         <link href="/vendor/ng-tags-input/ng-tags-input.min.css" rel="stylesheet">
         <link href="/vendor/ng-tags-input/ng-tags-input.bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/vendor/perfect-scrollbar/min/perfect-scrollbar.min.css" />
+
 
         <!-- build:css assets/css/warcraftlfg.min.css -->
         <link href="/assets/css/main.css" rel="stylesheet">
@@ -85,6 +87,13 @@
         <script type="text/javascript" src="/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
         <script type="text/javascript" src="/vendor/ng-scroll-glue/dist/ng-scroll-glue.min.js"></script>
 
+        <script src="/vendor/perfect-scrollbar/min/perfect-scrollbar.min.js"></script>
+        <script src="/vendor/perfect-scrollbar/min/perfect-scrollbar.with-mousewheel.min.js"></script>
+        <script src="/vendor/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
+
+        <!--<script type="text/javascript" src="/vendor/jquery.nicescroll/dist/jquery.nicescroll.min.js"></script>
+        <script type="text/javascript" src="/vendor/angular-nicescroll/angular-nicescroll.js"></script>-->
+
         <script src="/vendor/marked/lib/marked.js"></script>
         <script src="/vendor/angular-marked/dist/angular-marked.js"></script>
 
@@ -106,10 +115,10 @@
         <script src="/app/blocks/wlfgTimezoneOffset/warcraft-lfg.timezone-offset.filter.js"></script>
         <script src="/app/blocks/wlfgTranslationLoader/wlfgTranslationLoader.module.js"></script>
         <script src="/app/blocks/wlfgTranslationLoader/wlfgTranslationLoader.service.js"></script>
-
         <script src="/app/blocks/select.convert-to-number.directive.js"></script>
         <script src="/app/blocks/objectid-to-timestamp.filter.js"></script>
-
+        <script src="/app/blocks/preventScroll/prevent-scroll.module.js"></script>
+        <script src="/app/blocks/preventScroll/prevent-scroll.directive.js"></script>
 
         <!-- filters / sort -->
         <script src="/app/filter/filter.module.js"></script>
@@ -132,7 +141,6 @@
         <script src="/app/filter/misc/filter.levelMax.directive.js"></script>
         <script src="/app/filter/misc/filter.reset.directive.js"></script>
 
-
         <!-- resource -->
         <script src="/app/resource/resource.module.js"></script>
         <script src="/app/resource/user.resource.js"></script>
@@ -141,8 +149,6 @@
         <script src="/app/resource/realms.resource.js"></script>
         <script src="/app/resource/updates.resource.js"></script>
         <script src="/app/resource/messages.resource.js"></script>
-
-
 
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
@@ -199,6 +205,8 @@
         <script src="/app/message/config.route.js"></script>
         <script src="/app/message/message.js"></script>
         <script src="/app/message/directive/popup/popup.directive.js"></script>
+        <script src="/app/message/directive/height/height-list.directive.js"></script>
+        <script src="/app/message/directive/height/height-content.directive.js"></script>
         <!-- endbuild -->
 
         <!-- Google analytics -->

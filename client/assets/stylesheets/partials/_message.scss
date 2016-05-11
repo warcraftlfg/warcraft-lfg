@@ -1,4 +1,5 @@
 .message {
+
   .message-list, .message-content {
     background-color: $black;
 
@@ -6,10 +7,41 @@
       background-color: $red;
     }
   }
+
+  .message-list {
+    overflow-y: hidden;
+  }
+
   .message-content {
-    .messages{
-      height:500px;
-      overflow-y: scroll;
+
+    .scroller {
+      height: 500px;
+      overflow-y: hidden;
+      position: relative;
+    }
+
+    .messages {
+
+      .ps-scrollbar-y-rail:hover {
+        background-color: transparent;
+      }
+
+      .ps-scrollbar-y-rail {
+        background-color: transparent;
+        opacity: 1;
+      }
+
+      .ps-scrollbar-y-rail>.ps-scrollbar-y {
+        background-color: #393D46;
+      }
+
+      .separator {
+        width: 100%;
+        border: 0;
+        border-top: 1px solid #eee;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
     }
   }
 }

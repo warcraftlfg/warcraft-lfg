@@ -27,7 +27,7 @@
                 </li>
                 <li ng-if="user.id">
                     <a href="#/messages/"><i class="fa fa-envelope-o f-18"></i></a>
-                    <span class="message-count badge floating badge-active">{{unreadMessageCount.count}}</span>
+                    <span class="message-count badge floating badge-active" ng-if="unreadMessageCount.count > 0">{{ unreadMessageCount.count }}</span>
                 </li>
                 <li ng-if="user.id" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
