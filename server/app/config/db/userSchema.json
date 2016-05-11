@@ -12,6 +12,24 @@
     },
     "accessToken": {
       "type": "string"
+    },
+    "email": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "default":""
+        },
+        "services": {
+          "type": "object",
+          "properties": {
+            "adsExpirationReminder": {
+              "type": "boolean",
+              "default":false
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -1,23 +1,24 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('app.account')
         .controller('AccountController', Account);
 
-    Account.$inject = ['$scope','$state','$filter', 'socket',"wlfgAppTitle","user","guilds","characters"];
+    Account.$inject = ['$scope', '$state', '$filter', "wlfgAppTitle", "user", "guilds", "characters"];
 
-    function Account($scope,$state,$filter,socket,wlfgAppTitle,user,guilds,characters) {
+    function Account($scope, $state, $filter, wlfgAppTitle, user, guilds, characters) {
         wlfgAppTitle.setTitle('Account');
 
         //Redirect not logged_in users to home
-        $scope.$watch("$parent.user", function() {
-            if($scope.$parent.user && $scope.$parent.user.logged_in===false)
+        $scope.$watch("$parent.user", function () {
+            if ($scope.$parent.user && $scope.$parent.user.logged_in === false) {
                 $state.go('dashboard');
+            }
         });
 
         //Reset error message
-        $scope.$parent.error=null;
+        $scope.$parent.error = null;
 
         //Initialize $scope variables
         $scope.userGuilds = null;
@@ -50,19 +51,21 @@
                 });
             }, function (error) {
                 $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
             });
         }
 
         /**
          * Get user's characterAds
          */
-        function getCharacterAds(){
+        function getCharacterAds() {
             $scope.$parent.loading = true;
-            user.query({param:"characterAds"}, function (characterAds) {
+            user.query({param: "characterAds"}, function (characterAds) {
                 $scope.characterAds = characterAds;
                 $scope.$parent.loading = false;
-            },function(error){
+            }, function (error) {
                 $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
             });
         }
 
@@ -70,12 +73,15 @@
         /**
          * Get user's guilds by region
          */
-        $scope.updateGuildRegion = function(){
-            if($scope.guildRegion==='')
+        $scope.updateGuildRegion = function () {
+            if ($scope.guildRegion === '') {
                 $scope.userGuilds = null;
-            else {
+            } else {
                 $scope.$parent.loading = true;
-                $scope.userGuilds = user.query({param:"guilds",region:$scope.guildRegion},function(){
+                $scope.userGuilds = user.query({param: "guilds", region: $scope.guildRegion}, function () {
+                    $scope.$parent.loading = false;
+                }, function (error) {
+                    $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 });
             }
@@ -84,13 +90,16 @@
         /**
          * Get user's characters  by region
          */
-        $scope.updateCharacterRegion = function(){
-            if($scope.characterRegion==='')
+        $scope.updateCharacterRegion = function () {
+            if ($scope.characterRegion === '') {
                 $scope.userCharacters = null;
-            else {
+            } else {
                 $scope.$parent.loading = true;
-                user.query({param:"characters",region:$scope.characterRegion},function(characters){
-                    $scope.userCharacters = $filter('orderBy')(  characters, ['-level','name']);
+                user.query({param: "characters", region: $scope.characterRegion}, function (characters) {
+                    $scope.userCharacters = $filter('orderBy')(characters, ['-level', 'name']);
+                    $scope.$parent.loading = false;
+                }, function (error) {
+                    $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 });
             }
@@ -102,13 +111,13 @@
          * @param realm
          * @param name
          */
-        $scope.createGuildAd = function(region,realm,name) {
+        $scope.createGuildAd = function (region, realm, name) {
             $scope.$parent.loading = true;
-            guilds.upsert({guildRegion: region, guildRealm: realm, guildName: name, part:"ad"}, {},
+            guilds.upsert({guildRegion: region, guildRealm: realm, guildName: name, part: "ad"}, {},
                 function () {
                     $state.go("guild-update", {region: region, realm: realm, name: name});
                 },
-                function(error){
+                function (error) {
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 });
@@ -120,13 +129,13 @@
          * @param realm
          * @param name
          */
-        $scope.createCharacterAd = function(region,realm,name){
+        $scope.createCharacterAd = function (region, realm, name) {
             $scope.$parent.loading = true;
-            characters.upsert({characterRegion: region, characterRealm: realm, characterName: name,part:"ad"}, {},
+            characters.upsert({characterRegion: region, characterRealm: realm, characterName: name, part: "ad"}, {},
                 function () {
                     $state.go("character-update", {region: region, realm: realm, name: name});
                 },
-                function(error){
+                function (error) {
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 }
@@ -134,26 +143,26 @@
 
         };
 
-        $scope.deleteCharacterAd = function(region,realm,name){
+        $scope.deleteCharacterAd = function (region, realm, name) {
             $scope.$parent.loading = true;
-            characters.delete({characterRegion: region, characterRealm: realm, characterName: name,part:"ad"}, {},
+            characters.delete({characterRegion: region, characterRealm: realm, characterName: name, part: "ad"}, {},
                 function () {
                     getCharacterAds();
                 },
-                function(error){
+                function (error) {
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 }
             );
         };
 
-        $scope.deleteGuildAd = function(region,realm,name){
+        $scope.deleteGuildAd = function (region, realm, name) {
             $scope.$parent.loading = true;
-            guilds.delete({guildRegion: region, guildRealm: realm, guildName: name, part:"ad"}, {},
+            guilds.delete({guildRegion: region, guildRealm: realm, guildName: name, part: "ad"}, {},
                 function () {
                     getGuildAds();
                 },
-                function(error){
+                function (error) {
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 }
@@ -161,6 +170,17 @@
 
         };
 
+        $scope.saveUser = function () {
 
+            $scope.$parent.loading = true;
+            user.update({param: "profile"}, $scope.user, function (user) {
+                $scope.$parent.loading = false;
+                $scope.$parent.user = user;
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+            
+        };
     }
 })();

@@ -54,7 +54,8 @@ passport.deserializeUser(function (id, done) {
     logger.silly("deserializeUser for id:%s", id);
     userModel.findById(id, function (error, user) {
         if (user) {
-            done(null, {id: user.id, battleTag: user.battleTag});
+            delete user.accessToken;
+            done(null, user);
         } else {
             done(null, false);
         }

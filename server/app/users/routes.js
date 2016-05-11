@@ -20,6 +20,7 @@ router.get("/user/guildAds", auth.isAuthenticated, userController.getGuildAds);
 router.get("/user/characters/:region", auth.isAuthenticated, userController.getCharacters);
 router.get("/user/guilds/:region", auth.isAuthenticated, userController.getGuilds);
 router.get("/user/guildRank/:region/:realm/:name", auth.isAuthenticated, userController.getGuildRank);
+router.put("/user/profile",auth.isAuthenticated, userController.putProfile)
 
 module.exports = router;
 

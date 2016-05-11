@@ -7,6 +7,10 @@
 
     User.$inject = ['$resource'];
     function User($resource) {
-        return $resource('/user/:param/:region/:realm/:name');
+        return $resource('/user/:param/:region/:realm/:name',{}, {
+            update: {
+                method:'put'
+            }
+        });
     }
 })();
