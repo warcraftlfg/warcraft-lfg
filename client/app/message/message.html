@@ -49,6 +49,8 @@
                             <div class=" text-right txt-gray f-12">
                                 Last message <span am-time-ago="conversation.lastMessageDate|wlfgObjectIdToTimestamp"></span>
                             </div>
+                            <span class="message-count badge floating badge-active">{{conversation.unreadMessages.count}}</span>
+
                         </div>
                     </div>
                 </div>
