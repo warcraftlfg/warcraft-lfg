@@ -50,14 +50,24 @@ module.exports.getRankings = function (region, realm, name, callback) {
 
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            warcraftlogs.dps = JSON.parse(body);
-
+	    try{
+	    warcraftlogs.dps = JSON.parse(body);
+            }
+	    catch(e){
+            return callback(new Error("WARCRAFTLOGS_API_ERROR"));
+	    }
             //noinspection JSUnresolvedVariable
             url = encodeURI("https://www.warcraftlogs.com/v1/rankings/character/" + name + "/" + realm + "/" + region + "?metric=hps&api_key=" + config.warcraftLogs.api_key);
 
             request(url, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
+		try{
                     warcraftlogs.hps = JSON.parse(body);
+		}
+            catch(e){
+            return callback(new Error("WARCRAFTLOGS_API_ERROR"));
+            }
+
                     callback(error, warcraftlogs);
                 }
                 else {
