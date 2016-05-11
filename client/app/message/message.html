@@ -78,15 +78,17 @@
                 <div class="panel-body m-t-0 p-t-0">
                     <div class="row">
                         <div class="messages scroller" ng-style="style()" wlfg-message-height-content perfect-scrollbar scroll-glue wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20">
-                            <div ng-class="{p-t-15:$first}" ng-repeat="message in messages">
+                            <div ng-class="{'p-t-10': $first}" ng-repeat="message in messages">
                                 <div class="col-md-10">
                                     <div>
                                         <span class="txt-blue-light m-r-5">{{message.userName}}</span> - <span class="m-l-5 icon-small class-{{ entitiesKey[message.userId].bnet.class }}">{{ entitiesKey[message.userId].name }}</span>
                                     </div>
-                                    {{message.text}}
                                 </div>
                                 <div class="col-md-2">
                                     <span class="txt-gray f-12" am-time-ago="message._id|wlfgObjectIdToTimestamp"></span>
+                                </div>
+                                <div class="col-md-12 m-t-5">
+                                    {{message.text}}
                                 </div>
                                 <div class="separator col-md-12"></div>
                             </div>
