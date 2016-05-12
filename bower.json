@@ -19,8 +19,6 @@
     "moment-timezone": "~0.5.3",
     "isteven-angular-multiselect": "angular-multi-select#~4.0.0",
     "ng-scroll-glue": "~2.0.10",
-    "angular-nicescroll": "^0.0.9",
-    "jquery.nicescroll": "^3.6.8",
     "angular-perfect-scrollbar": "^0.0.4"
   },
   "resolutions": {

@@ -42,6 +42,25 @@
         margin-top: 10px;
         margin-bottom: 10px;
       }
+
+      .message-text:before {
+        font-family: 'FontAwesome';
+        content: '\f111';
+        padding-right: 5px;
+        font-size: 5px;
+        position: absolute;
+        left: 17px;
+        top: 7px;
+        color: #48525F;
+      }
+
+      .message-text {
+          padding-left: 30px;
+      }
+    }
+
+    .message-form-submit {
+      border-top: 1px solid white;
     }
   }
 }
