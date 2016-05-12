@@ -81,7 +81,9 @@
                             <div ng-repeat="message in messages" class="clearfix" ng-style="getStyle($index)">
                                 <div ng-if="getDisplay($index)" class="col-md-8 p-t-5 p-b-5">
                                     <div>
-                                        <span class="txt-blue-light m-r-5">{{message.userName}}</span> - <span class="m-l-5 icon-small class-{{ entitiesKey[message.userId].bnet.class }}">{{ entitiesKey[message.userId].name }}</span>
+                                        <span class="txt-blue-light m-r-5">{{message.userName}}</span> - 
+                                        <span ng-if="entitiesKey[message.userId].type == 'character'" class="m-l-5 icon-small class-{{ entitiesKey[message.userId].bnet.class }}">{{ entitiesKey[message.userId].name }}</span>
+                                        <span ng-if="entitiesKey[message.userId].type == 'guild'" class="m-l-5 icon-small faction-{{ entitiesKey[message.userId].bnet.side }}">{{ entitiesKey[message.userId].name }}</span>
                                     </div>
                                 </div>
                                 <div ng-if="getDisplay($index)" class="col-md-4 text-right">
@@ -90,7 +92,7 @@
                                 <div class="col-md-12 p-b-5 message-text" ng-class="{'p-b-10':$last}">
                                     {{message.text}}
                                 </div>
-                                <div ng-if="messages[$index+1] && messages[$index+1].userId != messages[$index].userId " class="separator col-md-12"></div>
+                                <div ng-if="messages[$index+1] && messages[$index+1].userId != messages[$index].userId" class="separator col-md-12"></div>
                             </div>
                             <div class="col-md-12" ng-if="messages.length == 0">
                                 {{"NO_MESSAGE_FOUND"|translate}}

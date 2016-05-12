@@ -28,7 +28,9 @@
                     if (!Array.isArray(value.id)) {
                         $scope.entitiesKey[value.id] = value;
                     } else {
-
+                        angular.forEach(value.id, function(value2, key2) {
+                            $scope.entitiesKey[value2] = value;
+                        });
                     }
                 });
             }, function (error) {
@@ -133,8 +135,6 @@
             } else {
                 return item.format('DD/MM/YYYY HH:mm');
             }
-            console.log(date);
-            console.log(item);
         }
     }
 
