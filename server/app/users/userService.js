@@ -348,7 +348,7 @@ module.exports.sendAdsReminderMail = function (callback) {
                 async.parallel({
                     guildAds1Week: function (callback) {
                         var timestampMin = new Date().getTime() - (106 * 24 * 3600 * 1000);
-                        var timestampMax = new Date().getTime(); // - (105 * 24 * 3600 * 1000);;
+                        var timestampMax = new Date().getTime() - (105 * 24 * 3600 * 1000);
                         guildModel.find({
                             "ad.updated": {$gte: timestampMin, $lte: timestampMax},
                             "ad.lfg": true,
@@ -359,7 +359,7 @@ module.exports.sendAdsReminderMail = function (callback) {
                     },
                     characterAds1Week: function (callback) {
                         var timestampMin = new Date().getTime() - ( 21 * 24 * 3600 * 1000);
-                        var timestampMax = new Date().getTime(); // - (20 * 24 * 3600 * 1000);;
+                        var timestampMax = new Date().getTime() - (20 * 24 * 3600 * 1000);;
                         characterModel.find({
                             "ad.updated": {$gte: timestampMin, $lte: timestampMax},
                             "ad.lfg": true,
