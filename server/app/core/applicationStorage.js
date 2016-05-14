@@ -11,3 +11,4 @@ exports.redis = null;
 exports.socketIo = null;
 exports.config = null;
 exports.logger = null;
+exports.mailTransporter = null;

@@ -270,9 +270,13 @@
     "WARRIOR": "Warrior",
     "WEDNESDAY": "Wednesday",
     "YES": "Yes",
+    "ACCOUNT_CONFIGURATION": "Configuration",
+    "ACCOUNT_PREFERENCE": "Preference",
+    "ACCOUNT_PREFERENCE_LANGUAGE": "Favorite language",
+    "CHOOSE_LANGUAGE": "Choose a language",
     "ACCOUNT_EMAIL": "Email",
     "ACCOUNT_EMAIL_EXAMPLE": "myemail@mydomain.com",
     "NO_EMAIL_REGISTERED": "No email registered",
     "ACCOUNT_ADS_EXPIRATION_REMINDER": "Ads expiration reminder",
-    "ACCOUNT_ADS_EXPIRATION_REMINDER_DESCRIPTION": "Never forget to refresh your ads. We send you two emails 1 week and the day before your ads expiration."
+    "ACCOUNT_ADS_EXPIRATION_REMINDER_DESCRIPTION": "Never forget to refresh your ads. We send you two emails: 1 week and the day before your ads expiration."
 }

@@ -118,6 +118,10 @@ module.exports.putLfgAdsInUpdateList = function (callback) {
 };
 
 
+/**
+ * Refresh wowProgressAds
+ * @param callback
+ */
 module.exports.refreshWowProgressAds = function (callback) {
     var logger = applicationStorage.logger;
     async.waterfall([
@@ -161,5 +165,4 @@ module.exports.refreshWowProgressAds = function (callback) {
         }
         callback();
     });
-
 };

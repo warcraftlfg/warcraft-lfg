@@ -1,0 +1,35 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<p>Greetings {{user.battleTag}},</p>
+<p>
+    We would like to remind you that at least one of your current recruitment ads will expire soon.<br/>
+    If you'd like to keep this ad running, all you have to do is to visit your <a title="WarcraftLFG account page" href="https://www.warcraftlfg.com/#/account/">account</a> page and update your ad.
+</p>
+<p>
+    The following ads are involved:
+<ul>
+    {% for character in characterAds1Day %}
+    <li>Character {{ character.name }}@{{character.realm}}({{character.region|upper}}) expires in one day.</li>
+    {% endfor %}
+    {% for guild in guildAds1Day %}
+    <li>Guild {{ guild.name }}@{{guild.realm}}({{guild.region|upper}}) expires in one day.</li>
+    {% endfor %}
+    {% for character in characterAds1Week %}
+    <li>Character {{ character.name }}@{{character.realm}}({{character.region|upper}}) expires in one week.</li>
+    {% endfor %}
+    {% for guild in guildAds1Week %}
+    <li>Guild {{ guild.name }}@{{guild.realm}}({{guild.region|upper}}) expires in one week.</li>
+    {% endfor %}
+</ul>
+</p>
+<p>
+    We hope that our services allowed you to find your perfect match.
+</p>
+<p>
+    -Warcraft<strong>lfg</strong>
+</p>
+{% endblock %}
+
+
+

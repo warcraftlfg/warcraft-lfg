@@ -8,7 +8,7 @@ var characterService = process.require("characters/characterService.js");
 var guildModel = process.require("guilds/guildModel.js");
 var guildService = process.require("guilds/guildService.js");
 var realmService = process.require("realms/realmService.js");
-var mailService = process.require("mails/mailService.js");
+var userService = process.require("users/userService.js");
 
 
 /**
@@ -96,7 +96,7 @@ Cron.prototype.cleanAds = function () {
              },*/
             function (callback) {
                 //Ads Reminder send mail
-                mailService.sendMail(["baptiste.routhieau@gmail.com"], function () {
+                userService.sendAdsReminderMail(function () {
                     callback();
                 });
             }

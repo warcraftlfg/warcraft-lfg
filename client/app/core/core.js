@@ -26,7 +26,5 @@
                 $translate.use($scope.user.language);
             }
         }, true);
-
-
     }
 })();

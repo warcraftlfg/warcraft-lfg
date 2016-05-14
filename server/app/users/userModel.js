@@ -48,3 +48,16 @@ module.exports.findById = function (id, callback) {
         callback(error, user);
     });
 };
+
+/**
+ * Return users projection array who match criteria
+ * @param criteria
+ * @param projection
+ * @param callback
+ */
+module.exports.find = function (criteria, projection, callback) {
+    var collection = applicationStorage.mongo.collection("users");
+    collection.find(criteria, projection).toArray(function (error, users) {
+        callback(error, users);
+    });
+};
