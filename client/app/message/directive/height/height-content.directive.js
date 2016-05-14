@@ -22,25 +22,25 @@
 
             /* UGLY HACK */
             $timeout(function() {
-                element.css('height', w.height() - 313 + 'px');
+                element.css('height', w.height() - 268 + 'px');
             }, 250);
 
             $timeout(function() {
-                element.css('height', w.height() - 313 + 'px');
+                element.css('height', w.height() - 268 + 'px');
             }, 500);
 
             $timeout(function() {
-                element.css('height', w.height() - 313 + 'px');
+                element.css('height', w.height() - 268 + 'px');
             }, 750);
 
             $timeout(function() {
-                element.css('height', w.height() - 313 + 'px');
+                element.css('height', w.height() - 268 + 'px');
             }, 1000);
 
             scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
                 scope.style = function () {
                     return { 
-                        'height': (newValue.h - 313) + 'px',
+                        'height': (newValue.h - 268) + 'px',
                     };
                 };
                 

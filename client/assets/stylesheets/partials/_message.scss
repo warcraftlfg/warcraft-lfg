@@ -60,6 +60,12 @@
 
     .message-form-submit {
       border-top: 1px solid white;
+
+      .message-submit-container {
+          width: 50px;
+          text-align: center;
+      }
+
     }
   }
 }

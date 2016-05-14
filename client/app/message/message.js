@@ -78,7 +78,7 @@
         });
 
         $scope.getStyle = function(index) {
-            if (index == 0) {
+            if (index === 0) {
                 $scope.messages[index].style = "#1b2737";
                 $scope.messages[index].styleInverse = "#1d222c";
                 return { 
@@ -97,10 +97,10 @@
                     'background-color': $scope.messages[index-1].styleInverse
                 };   
             }
-        }
+        };
 
         $scope.getDisplay = function(index) {
-            if (index == 0) {
+            if (index === 0) {
                 return true;
             } else if ($scope.messages[index-1] && $scope.messages[index-1].userId ==  $scope.messages[index].userId) {
                 var timestamp1 = parseInt(("" + $scope.messages[index-1]._id).substr(0, 8), 16) * 1000;
@@ -112,7 +112,7 @@
             } else {
                 return true;
             }
-        }
+        };
     }
 
     ConversationOrderFilter.$inject = [];
@@ -123,7 +123,7 @@
             } else {
                 return item;
             }
-        }
+        };
     }
 
     ConversationDateFilter.$inject = ['moment'];
@@ -135,7 +135,7 @@
             } else {
                 return item.format('DD/MM/YYYY HH:mm');
             }
-        }
+        };
     }
 
 })();
