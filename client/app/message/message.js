@@ -113,6 +113,15 @@
                 return true;
             }
         };
+
+        $scope.focusInput = function() {
+            console.log('FOCUS');
+            // Set focus+select on message input
+            document.getElementById("message-input").focus();
+            document.getElementById("message-input").select();
+        };
+
+        $scope.focusInput();
     }
 
     ConversationOrderFilter.$inject = [];
