@@ -155,8 +155,9 @@ module.exports.putProfile = function (req, res) {
             });
         },
         function (user, callback) {
-            //Set only the email to current user // battleTag, id, token cannot be changed by user
+            //Set only the email and language to current user // battleTag, id, token cannot be changed by user
             user.email = req.body.email;
+            user.language = req.body.language;
             userModel.upsert(user, function (error, user) {
                 delete user.accessToken;
                 callback(error, user)

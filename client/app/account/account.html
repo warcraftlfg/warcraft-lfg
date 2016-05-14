@@ -197,13 +197,25 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h3 class="m-b-20">{{"ACCOUNT_EMAIL"|translate}}</h3>
+                <h3 class="m-b-20">{{"ACCOUNT_CONFIGURATION"|translate}}</h3>
+                <h4 class="m-b-10">{{"ACCOUNT_PREFERENCE"|translate}}</h4>
+                <div class="form-group">
+                    <label for="region">{{ "ACCOUNT_PREFERENCE_LANGUAGE"|translate }}</label>
+                    <span class="css3-metro-dropdown">
+                        <select ng-change="saveUser()" ng-model="user.language"
+                                class="form-control">
+                            <option value=""><{{ "CHOOSE_LANGUAGE"|translate }}></option>
+                            <option value="en">{{"LANG_EN"|translate}}</option>
+                            <option value="fr">{{"LANG_FR"|translate}}</option>
+                        </select>
+                    </span>
+                </div>
+                <h4 class="m-b-10">{{"ACCOUNT_EMAIL"|translate}}</h4>
                 <form name="emailAddressForm" class="form-inline">
                     <div class="m-b-10">
-                        <label ng-show="!emailEdit">
+                        <label class="cursor-pointer" ng-show="!emailEdit" ng-click="emailEdit=true">
                             {{user.email.address||"NO_EMAIL_REGISTERED"|translate}}
-                            <i ng-click="emailEdit=true"
-                               class="cursor-pointer fa fa-pencil"
+                            <i class="fa fa-pencil"
                                tooltip-placement="top"
                                uib-tooltip="{{'EDIT'|translate }}"></i>
                         </label>
@@ -220,7 +232,6 @@
                         </div>
                     </div>
                     <div class="m-b-15">
-
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>

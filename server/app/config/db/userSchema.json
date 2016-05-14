@@ -13,19 +13,26 @@
     "accessToken": {
       "type": "string"
     },
+    "language": {
+      "type": "string",
+      "enum": [
+        "en",
+        "fr"
+      ]
+    },
     "email": {
       "type": "object",
       "properties": {
         "address": {
           "type": "string",
-          "default":""
+          "default": ""
         },
         "services": {
           "type": "object",
           "properties": {
             "adsExpirationReminder": {
               "type": "boolean",
-              "default":false
+              "default": false
             }
           }
         }
