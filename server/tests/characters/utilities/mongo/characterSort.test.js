@@ -22,7 +22,8 @@ describe("guildSort",function() {
         var query = {sort:"progress"};
         var sort = characterSort.get(query);
         var tmp = {};
-        tmp["progress."+raid.name+".score"]= -1;
+        //tmp["progress."+raid.name+".score"]= -1;
+        tmp["progress.score"]= -1;
         tmp._id = -1;
         assert.deepEqual(sort,tmp);
         done();

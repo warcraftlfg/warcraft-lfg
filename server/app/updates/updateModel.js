@@ -66,6 +66,7 @@ module.exports.getUpdate = function (type, priority, callback) {
         },
         function (value, callback) {
             //Remove all similar value in the list
+            if (value === null) { return callback(null, value); }
             redis.lrem(type + "_" + priority, 0, value, function (error) {
                 callback(error, value)
             });

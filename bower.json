@@ -1,7 +1,7 @@
 {
   "name": "wow-guild-recruit",
   "dependencies": {
-    "angular": "1.5.3",
+    "angular": "1.4.8",
     "angular-moment": "^1.0.0-beta.5",
     "angular-ranger": "~0.1.4",
     "angular-ui-router": "~1.0.0-alpha.1",
@@ -22,7 +22,6 @@
     "angular-perfect-scrollbar": "^0.0.4"
   },
   "resolutions": {
-    "angular": "1.5.3",
-    "angular-translate": "~2.11.0"
+    "angular": "1.4.8"
   }
 }
