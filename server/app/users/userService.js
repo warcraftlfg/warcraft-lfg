@@ -407,7 +407,6 @@ module.exports.sendAdsReminderMail = function (callback) {
                         var templates = new EmailTemplates({root:process.root+"/app/emails/templates"});
                         templates.render(user.language+"/adsreminder.html", result, function (err, html, text) {
                             // Send email
-                            console.log(html);
                             applicationStorage.mailTransporter.sendMail({
                                 from: config.mail.fromAddress,
                                 to: user.email.address,

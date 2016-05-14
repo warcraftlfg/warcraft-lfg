@@ -96,6 +96,8 @@ Cron.prototype.cleanAds = function () {
             },
             function (callback) {
                 //Ads Reminder send mail
+                logger.info("Send ads reminder emails");
+
                 userService.sendAdsReminderMail(function () {
                     callback();
                 });
