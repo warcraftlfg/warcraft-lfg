@@ -359,7 +359,8 @@ module.exports.sendAdsReminderMail = function (callback) {
                     },
                     characterAds1Week: function (callback) {
                         var timestampMin = new Date().getTime() - ( 21 * 24 * 3600 * 1000);
-                        var timestampMax = new Date().getTime() - (20 * 24 * 3600 * 1000);;
+                        var timestampMax = new Date().getTime() - (20 * 24 * 3600 * 1000);
+                        ;
                         characterModel.find({
                             "ad.updated": {$gte: timestampMin, $lte: timestampMax},
                             "ad.lfg": true,
@@ -391,21 +392,25 @@ module.exports.sendAdsReminderMail = function (callback) {
                         });
                     }
                 }, function (error, result) {
-                    if (result.characterAds1Week || result.characterAds1Day || result.guildAds1Week || result.guildAds1Day) {
+                    if (error) {
+                        logger.error(error.message);
+                        return callback();
+                    }
+                    if (result.characterAds1Week.length > 0 || result.characterAds1Day.length > 0 || result.guildAds1Week.length > 0 || result.guildAds1Day.length > 0) {
                         result.user = user;
-                        if (user.language ==""){
+                        if (user.language == "") {
                             user.language = "en";
                         }
 
                         //IMPROVE this is not really good for a lot of languages
-                        if(user.language == "fr"){
+                        if (user.language == "fr") {
                             result.subject = "[Warcraftlfg] Expiration de vos annonces"
-                        }else {
+                        } else {
                             result.subject = "[Warcraftlfg] Ads expiration"
                         }
 
-                        var templates = new EmailTemplates({root:process.root+"/app/emails/templates"});
-                        templates.render(user.language+"/adsreminder.html", result, function (err, html, text) {
+                        var templates = new EmailTemplates({root: process.root + "/app/emails/templates"});
+                        templates.render(user.language + "/adsreminder.html", result, function (err, html, text) {
                             // Send email
                             applicationStorage.mailTransporter.sendMail({
                                 from: config.mail.fromAddress,
