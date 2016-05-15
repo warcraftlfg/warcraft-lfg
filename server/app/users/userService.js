@@ -347,8 +347,8 @@ module.exports.sendAdsReminderMail = function (callback) {
             async.forEach(users, function (user, callback) {
                 async.parallel({
                     guildAds1Week: function (callback) {
-                        var timestampMin = new Date().getTime() - (106 * 24 * 3600 * 1000);
-                        var timestampMax = new Date().getTime() - (105 * 24 * 3600 * 1000);
+                        var timestampMin = new Date().getTime() - (113 * 24 * 3600 * 1000);
+                        var timestampMax = new Date().getTime() - (112 * 24 * 3600 * 1000);
                         guildModel.find({
                             "ad.updated": {$gte: timestampMin, $lte: timestampMax},
                             "ad.lfg": true,

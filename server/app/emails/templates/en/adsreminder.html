@@ -3,27 +3,31 @@
 {% block content %}
 <p>Greetings {{user.battleTag}},</p>
 <p>
-    We would like to remind you that at least one of your current recruitment ads will expire soon.<br/>
-    If you'd like to keep this ad running, all you have to do is to visit your <a title="WarcraftLFG account page" href="https://www.warcraftlfg.com/#/account/">account</a> page and update your ad.
+    As per our main objective to only keep up to date and relevant ads on our warcraft<strong>lfg</strong>, we are
+    regularly automatically removing old recruitment posts from our site.<br/>
 </p>
 <p>
-    The following ads are involved:
+    For your information, the following ad(s) will expire soon:
 <ul>
     {% for character in characterAds1Day %}
-    <li>Character {{ character.name }}@{{character.realm}}({{character.region|upper}}) expires in one day.</li>
+    <li>Character {{ character.name }}@{{character.realm}}: 1 day left</li>
     {% endfor %}
     {% for guild in guildAds1Day %}
-    <li>Guild {{ guild.name }}@{{guild.realm}}({{guild.region|upper}}) expires in one day.</li>
+    <li>Guild {{ guild.name }}@{{guild.realm}}: 1 day left</li>
     {% endfor %}
     {% for character in characterAds1Week %}
-    <li>Character {{ character.name }}@{{character.realm}}({{character.region|upper}}) expires in one week.</li>
+    <li>Character {{ character.name }}@{{character.realm}}: 7 days left</li>
     {% endfor %}
     {% for guild in guildAds1Week %}
-    <li>Guild {{ guild.name }}@{{guild.realm}}({{guild.region|upper}}) expires in one week.</li>
+    <li>Guild {{ guild.name }}@{{guild.realm}}: 7 days left</li>
     {% endfor %}
 </ul>
 </p>
 <p>
+    As a reminder, character ads will show for 30 days while guild ads stay up to 4 months.<br/>
+    If you'd like to keep any affected ad running, all you have to do is to visit your <a
+        title="WarcraftLFG account page" href="https://www.warcraftlfg.com/#/account/">account</a> page and update
+    it.<br/>
     We hope that our services allowed you to find your perfect match.
 </p>
 <p>
