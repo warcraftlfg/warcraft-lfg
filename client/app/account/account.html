@@ -214,7 +214,8 @@
                 <form name="emailAddressForm" class="form-inline">
                     <div class="m-b-10">
                         <label class="cursor-pointer" ng-show="!emailEdit" ng-click="emailEdit=true">
-                            {{user.email.address||"NO_EMAIL_REGISTERED"|translate}}
+                            <span ng-if="user.email.address==''">{{"NO_EMAIL_REGISTERED"|translate}}</span>
+                            <span ng-if="user.email.address!=''">{{user.email.address}}</span>
                             <i class="fa fa-pencil"
                                tooltip-placement="top"
                                uib-tooltip="{{'EDIT'|translate }}"></i>

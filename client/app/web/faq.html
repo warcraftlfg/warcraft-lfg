@@ -1,4 +1,4 @@
-<section class="header header-about">
+<section class="header header-faq">
     <div class="">
         <div class="container">
             <div class="row">
@@ -24,11 +24,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="title">
+                <h4 class="title cursor-pointer" ng-click="faq1=!faq1">
                     {{"FAQ_WHAT_IS_WLFG"|translate}}
                 </h4>
-                <div class="content">
-                    {{"FAQ_WHAT_IS_WLFG_CONTENT"|translate}}
+                <div ng-show="faq1" class="content">
+                    <p>
+                        {{"FAQ_WHAT_IS_WLFG_CONTENT_1"|translate}}
+                    </p>
+                    <p>
+                        {{"FAQ_WHAT_IS_WLFG_CONTENT_2"|translate}}
+                    </p>
+                    <div ng-bind-html="'FAQ_WHAT_IS_WLFG_CONTENT_3'|translate"></div>
+
                 </div>
             </div>
         </div>

@@ -27,6 +27,7 @@
             if ($scope.user.language && $scope.user.language !== "") {
                 $scope.currentLanguage = $scope.user.language;
                 $translate.use($scope.user.language);
+                amMoment.changeLocale($scope.user.language);
             }
         }, true);
     }
