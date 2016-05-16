@@ -1,5 +1,5 @@
 .dashboard-intro{
-  height:300px;
+  height:320px;
   background-color: $red;
   display: flex;
   justify-content: center;
@@ -44,7 +44,6 @@
   }
 }
 .dashboard-stats{
-  padding:20px 0 0 0;
   .character-picto{
     height:64px;
     background: url('../images/icon/64/character.png') center center no-repeat;
