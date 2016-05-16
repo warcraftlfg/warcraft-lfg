@@ -17,11 +17,17 @@
 
         $scope.setLanguage = function (key) {
             $translate.use(key);
-            $scope.currentLanguage = $translate.use();
+            $scope.currentLanguage = key;
             amMoment.changeLocale(key);
         };
 
         $scope.user = user.get({param: "profile"});
 
+        $scope.$watch("user", function () {
+            if ($scope.user.language && $scope.user.language !== "") {
+                $scope.currentLanguage = $scope.user.language;
+                $translate.use($scope.user.language);
+            }
+        }, true);
     }
 })();

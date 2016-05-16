@@ -6,6 +6,7 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
 var userService = process.require("users/userService.js");
 var updateModel = process.require("updates/updateModel.js");
+var wowProgressAPI = process.require("core/api/wowProgress.js");
 var bnetAPI = process.require("core/api/bnet.js");
 
 /**
@@ -86,3 +87,77 @@ module.exports.insertWoWProgressCharacterAd = function (wowProgressCharacterAd, 
         callback(error);
     });
 };
+
+module.exports.putLfgAdsInUpdateList = function(callback){
+    var logger = applicationStorage.logger;
+    async.waterfall([
+        function (callback) {
+            characterModel.find({"ad.lfg": true}, {region: 1, realm: 1, name: 1}, function (error, characters) {
+                callback(error, characters);
+            });
+        },
+        function (characters, callback) {
+            async.each(characters, function (character, callback) {
+                updateModel.insert('cu', character.region, character.realm, character.name, 3, function (error) {
+                    logger.verbose("Insert character to update %s-%s-%s to update with priority 3", character.region, character.realm, character.name);
+                    callback(error);
+                });
+            }, function (error) {
+                callback(error, characters.length);
+            });
+        }
+    ], function (error, length) {
+        if (error && error !== true) {
+            logger.error(error.message);
+        } else {
+            logger.info("Added %s characters to update", length)
+        }
+        callback();
+    });
+};
+
+module.exports.refreshWowProgressAds = function(callback){
+    var logger = applicationStorage.logger;
+    async.waterfall([
+        function (callback) {
+            characterModel.find(
+                {
+                    "ad.lfg": true, id: {$exists: false}
+                }, {region: 1, realm: 1, name: 1}, {"ad.updated": 1}, function (error, characters) {
+                    callback(error, characters);
+
+                });
+        },
+        function (characters, callback) {
+            async.forEachSeries(characters, function (character, callback) {
+                logger.info("Checking wowprogress Character Ad update %s-%s-%s", character.region, character.realm, character.name);
+                wowProgressAPI.parseCharacter(character.region, character.realm, character.name, function (error, ad) {
+                    if (error) {
+                        logger.error(error.message);
+                        callback();
+                    }
+                    else if (ad && ad.lfg == false) {
+                        logger.info("Set LFG to false for wowprogress Character Ad %s-%s-%s", character.region, character.realm, character.name);
+                        characterModel.upsert(character.region, character.realm, character.name, {"ad": ad}, function (error) {
+                            if (error) {
+                                logger.error(error.message);
+                            }
+                            callback();
+                        });
+                    }
+                    else {
+                        callback();
+                    }
+                });
+            }, function () {
+                callback();
+            });
+        }
+    ], function (error) {
+        if (error) {
+            logger.error(error.message);
+        }
+        callback();
+    });
+};
+

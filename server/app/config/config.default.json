@@ -28,6 +28,12 @@
   "warcraftLogs": {
     "api_key": "your api key"
   },
+  "mail": {
+    "service": "See https://github.com/nodemailer/nodemailer-wellknown for service supported",
+    "fromAddress": "noreply@warcraftlfg.com",
+    "user": "username",
+    "pass": "password"
+  },
   "bnetRegions": [
     "eu",
     "kr",

@@ -32,8 +32,8 @@ module.exports.upsert = function (user, callback) {
 
     //Upsert
     var collection = applicationStorage.mongo.collection("users");
-    collection.update({id: user.id}, user, {upsert: true}, function (error, result) {
-        callback(error, result);
+    collection.update({id: user.id}, user, {upsert: true}, function (error) {
+        callback(error, user);
     });
 };
 
@@ -49,4 +49,15 @@ module.exports.findById = function (id, callback) {
     });
 };
 
-
+/**
+ * Return users projection array who match criteria
+ * @param criteria
+ * @param projection
+ * @param callback
+ */
+module.exports.find = function (criteria, projection, callback) {
+    var collection = applicationStorage.mongo.collection("users");
+    collection.find(criteria, projection).toArray(function (error, users) {
+        callback(error, users);
+    });
+};
