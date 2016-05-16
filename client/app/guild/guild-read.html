@@ -124,7 +124,7 @@
                         <table class="table table-condensed" ng-if="guild.ad.play_time">
                             <tr ng-repeat="(key, day) in guild.ad.play_time" ng-if="day.play == true">
                                 <td>
-                                    {{ 'DAY_'+key|uppercase|translate }}
+                                    {{ key|uppercase|translate }}
                                 </td>
                                 <td>
                                     {{ ("0"+day.start.hour).slice(-2) }}h {{ ("0"+day.start.min).slice(-2) }}

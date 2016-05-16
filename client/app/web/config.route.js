@@ -7,9 +7,9 @@
 
     function getRoutes($stateProvider) {
         $stateProvider
-            .state("about", {
-                url: "/about",
-                templateUrl: "app/web/about.html",
+            .state("faq", {
+                url: "/faq",
+                templateUrl: "app/web/faq.html",
                 controllerAs: 'vm',
                 title: 'About us',
                 controller: "WebAboutController"
