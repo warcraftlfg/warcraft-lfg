@@ -1,14 +1,7 @@
 .dashboard-intro{
-  height:320px;
-  background-color: $red;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  .container{
-    background: url('../images/dashboard-intro-bg.png') no-repeat center center $red;
-    background-size:contain;
-    height:246px;
-  }
+  background: url('../images/dashboard-intro-bg.png') no-repeat center center $red;
+  background-size:contain;
+  height:350px;
 }
 
 .dashboard-form{
