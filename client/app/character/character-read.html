@@ -92,17 +92,17 @@
                     <div class="col-md-6">
                         <div class="panel panel-default" ng-if="character.ad.btag_display && character.battleTag">
                             <div class="panel-body">
-                                Contact : <span>{{ character.battleTag }}</span>
+                                {{"CONTACT"|translate}}: <span>{{ character.battleTag }}</span>
                             </div>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        Ad updated : <span am-time-ago="character.ad.updated"></span>
+                                        {{"AD_UPDATED"|translate}}: <span am-time-ago="character.ad.updated"></span>
                                     </div>
                                     <div class="col-md-6">
-                                        Character updated :  <span am-time-ago="character.updated"></span>
+                                        {{"CHARACTER_UPDATED"|translate}}:  <span am-time-ago="character.updated"></span>
                                     </div>
                                 </div>
                             </div>
@@ -111,10 +111,10 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        Raid per week : {{ character.ad.raids_per_week.min }} - {{ character.ad.raids_per_week.max }}
+                                        {{"RAIDS_PER_WEEK"|translate}}: {{ character.ad.raids_per_week.min }} - {{ character.ad.raids_per_week.max }}
                                     </div>
                                     <div class="col-md-12 m-t-10" ng-if="character.ad.timezone">
-                                        Timezone : {{"TIMEZONE_"+character.ad.timezone|uppercase|translate}}
+                                        {{"TIMEZONE"|translate}}: {{"TIMEZONE_"+character.ad.timezone|uppercase|translate}}
                                     </div>
                                 </div>
                             </div>
@@ -127,10 +127,10 @@
                                             {{ key|uppercase|translate }}
                                         </td>
                                         <td>
-                                            {{ ("0"+day.start.hour).slice(-2) }}h {{ ("0"+day.start.min).slice(-2) }}
+                                            {{ ("0"+day.start.hour).slice(-2) }}h{{ ("0"+day.start.min).slice(-2) }}
                                         </td>
                                         <td>
-                                            {{ ("0"+day.end.hour).slice(-2) }}h {{ ("0"+day.end.min).slice(-2) }}
+                                            {{ ("0"+day.end.hour).slice(-2) }}h{{ ("0"+day.end.min).slice(-2) }}
                                         </td>
                                     </tr>
                                 </table>
@@ -142,14 +142,14 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                Progress (T18) : <span wlfg-progress="character.bnet.progression.raids"></span>
+                                {{"PROGRESS_(T18)"|translate}}: <span wlfg-progress="character.bnet.progression.raids"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
                                     <tr ng-repeat="boss in raid.bosses | limitTo:7">
-                                        <td class="bold">{{ boss.name }}</td>
+                                        <td class="bold">{{ boss.name|uppercase|translate}}</td>
                                         <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
@@ -177,7 +177,7 @@
                             <div class="col-md-6">
                                 <table class="table table-condensed" ng-repeat="raid in character.bnet.progression.raids | limitTo:-1">
                                     <tr ng-repeat="boss in raid.bosses | limitTo:-6">
-                                        <td class="bold">{{ boss.name }}</td>
+                                        <td class="bold">{{ boss.name|uppercase|translate}}</td>
                                         <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
                                             <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
@@ -212,29 +212,29 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        Item level :
+                                        {{"ITEM_LEVEL"|translate}}:
                                         <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                             {{character.bnet.items.averageItemLevelEquipped}}
                                         </span>
                                     </div>
                                     <div class="col-md-2">
-                                        Item level bag :
+                                        {{"ITEM_LEVEL_BAG"|translate}}:
                                         <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                             {{character.bnet.items.averageItemLevel}}
                                         </span>
                                     </div>
                                     <div class="col-md-2">
-                                        Ring iLevel :
+                                        {{"RING_ILEVEL"|translate}}:
                                         <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        T18 equipped : <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
+                                        {{"T18 EQUIPPED"|translate}}: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        Endless rune : <span wlfg-reputation-rune="character.bnet.reputation"></span>
+                                        {{"ENDLESS RUNE"|translate}}: <span wlfg-reputation-rune="character.bnet.reputation"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        Audit : <span wlfg-item-audit="character.bnet.items"></span>
+                                        {{"AUDIT"|translate}}: <span wlfg-item-audit="character.bnet.items"></span>
                                     </div>
                                 </div>
                             </div>
@@ -277,22 +277,22 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        Gold :  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="gold"></span>
+                                        {{"GOLD"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="gold"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        Silver :  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="silver"></span>
+                                        {{"SILVER"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="silver"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        Bronze : <span wlfg-challenge-medal="character.bnet.achievements" medal-type="copper"></span>
+                                        {{"BRONZE"|translate}}: <span wlfg-challenge-medal="character.bnet.achievements" medal-type="copper"></span>
                                     </div>
                                     <div class="col-md-2">
-                                       Tank : <span wlfg-achievement-pg="character.bnet.achievements" pg-type="tank"></span>
+                                        {{"TANK"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="tank"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        DPS : <span wlfg-achievement-pg="character.bnet.achievements" pg-type="dps"></span>
+                                        {{"DPS"}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="dps"></span>
                                     </div>
                                     <div class="col-md-2">
-                                        Healer : <span wlfg-achievement-pg="character.bnet.achievements" pg-type="healer"></span>
+                                        {{"HEALER"}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="healer"></span>
                                     </div>
                                 </div>
                             </div>
