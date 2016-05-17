@@ -44,7 +44,7 @@
     "CHARACTER_CREATE_ROLE": "Role(s)",
     "CHARACTER_CREATE_RPW": "Number of days you want to raid (min / max)",
     "CHARACTER_CREATE_TIMEZONE": "Timezone",
-    "CHARACTER_CREATE_TRANSFERT": "Transfer",
+    "CHARACTER_CREATE_TRANSFERT": "I can transfer my character",
     "CHARACTER_NOT_FOUND": "Character not found",
     "CHARACTER_UPDATED": "Character updated",
     "CHARACTERS": "Characters",
