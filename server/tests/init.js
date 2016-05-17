@@ -28,15 +28,4 @@ describe("Server Init",function() {
         assert.isNotNull(applicationStorage.socketIo);
         done();
     });
-    it("Should listen on /", function (done) {
-        var protocol = "http";
-        if (applicationStorage.config.server.https)
-            protocol = "https";
-        request.get({url:protocol+'://localhost:'+applicationStorage.config.server.port, rejectUnauthorized: false}, function (err, res){
-            assert.isNull(err);
-            assert.equal(res.statusCode,200);
-            done();
-        });
-    });
-
 });
