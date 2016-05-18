@@ -90,10 +90,10 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
-                                Ad updated : <span am-time-ago="guild.ad.updated"></span>
+                                {{"AD_UPDATED"|translate}}: <span am-time-ago="guild.ad.updated"></span>
                             </div>
                             <div class="col-md-6">
-                                Guild updated :  <span am-time-ago="guild.updated"></span>
+                                {{"GUILD_UPDATED"|translate}}: <span am-time-ago="guild.updated"></span>
                             </div>
                         </div>
                     </div>
@@ -111,10 +111,10 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                Raid per week : {{ guild.ad.raids_per_week.min }} - {{ guild.ad.raids_per_week.max }}
+                                {{"RAIDS_PER_WEEK"|translate}}: {{ guild.ad.raids_per_week.min }} - {{ guild.ad.raids_per_week.max }}
                             </div>
                             <div class="col-md-12 m-t-10" ng-if="guild.ad.timezone">
-                                Timezone : {{"TIMEZONE_"+guild.ad.timezone|uppercase|translate}}
+                                {{"TIMEZONE"|translate}}: {{"TIMEZONE_"+guild.ad.timezone|uppercase|translate}}
                             </div>
                         </div>
                     </div>
@@ -127,10 +127,10 @@
                                     {{ key|uppercase|translate }}
                                 </td>
                                 <td>
-                                    {{ ("0"+day.start.hour).slice(-2) }}h {{ ("0"+day.start.min).slice(-2) }}
+                                    {{ ("0"+day.start.hour).slice(-2) }}h{{ ("0"+day.start.min).slice(-2) }}
                                 </td>
                                 <td>
-                                    {{ ("0"+day.end.hour).slice(-2) }}h {{ ("0"+day.end.min).slice(-2) }}
+                                    {{ ("0"+day.end.hour).slice(-2) }}h{{ ("0"+day.end.min).slice(-2) }}
                                 </td>
                             </tr>
                         </table>
@@ -155,7 +155,7 @@
                             </tr>
                             <tr ng-if="recruit.tank === 0">
                                 <td class="common">
-                                    None
+                                    {{"NONE"|translate}}
                                 </td>
                             </tr>
                         </table>
@@ -178,7 +178,7 @@
                             </tr>
                             <tr ng-if="recruit.heal === 0">
                                 <td class="common">
-                                    None
+                                    {{"NONE"|translate}}
                                 </td>
                             </tr>
                         </table>
@@ -201,7 +201,7 @@
                             </tr>
                             <tr ng-if="recruit.melee_dps === 0">
                                 <td class="common">
-                                    None
+                                    {{"NONE"|translate}}
                                 </td>
                             </tr>
                         </table>
@@ -224,7 +224,7 @@
                             </tr>
                             <tr ng-if="recruit.ranged_dps === 0">
                                 <td class="common">
-                                    None
+                                    {{"NONE"|translate}}
                                 </td>
                             </tr>
                         </table>
@@ -238,28 +238,28 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
-                                Progress :
+                                {{"PROGRESS"|translate}}:
                                 <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
                                 <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
                                 <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
                             </div>
                             <div class="col-md-2" ng-if="guild.wowProgress.world_rank">
-                                World : <span ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
+                                {{"WORLD"|translate}}: <span ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
                                     {{guild.wowProgress.world_rank}}
                                 </span>
                             </div>
                             <div class="col-md-2" ng-if="guild.wowProgress.area_rank">
-                                Region : <span ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
+                                {{"REGION"|translate}}: <span ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
                                     {{guild.wowProgress.area_rank}}
                                 </span>
                             </div>
                             <div class="col-md-2" ng-if="guild.wowProgress.area_rank">
-                                Realm : <span ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
+                                {{"REALM"|translate}}: <span ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
                                     {{guild.wowProgress.realm_rank}}
                                 </span>
                             </div>
                             <div class="col-md-2" class="common" ng-if="!guild.wowProgress.world_rank">
-                                No rank found
+                                {{"NO RANK FOUND"|translate}}
                             </div>
                         </div>
                     </div>
@@ -268,12 +268,12 @@
                     <div class="col-md-6">
                         <table class="table table-condensed">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:7">
-                                <td class="bold">{{ boss }}</td>
+                                <td class="bold">{{ boss|uppercase|translate}}</td>
                                 <td ng-class="{'legendary':guild.progress.mythic[boss],'epic':guild.progress.heroic[boss]&&!guild.progress.mythic[boss],'rare':guild.progress.heroic[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss],'common':!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&guild.progress.normal[boss]}">
-                                    <span ng-if="guild.progress.mythic[boss]">Mythic</span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">Heroic</span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">Normal</span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">No kill</span>
+                                    <span ng-if="guild.progress.mythic[boss]">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
                                     <span ng-if="guild.progress.mythic[boss]">{{ guild.progress.mythic[boss].count }}</span>
@@ -293,12 +293,12 @@
                     <div class="col-md-6">
                         <table class="table table-condensed">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:-6">
-                                <td class="bold">{{ boss }}</td>
+                                <td class="bold">{{ boss|uppercase|translate }}</td>
                                 <td ng-class="{'legendary':guild.progress.mythic[boss],'epic':guild.progress.heroic[boss]&&!guild.progress.mythic[boss],'rare':guild.progress.heroic[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss],'common':!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&guild.progress.normal[boss]}">
-                                    <span ng-if="guild.progress.mythic[boss]">Mythic</span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">Heroic</span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">Normal</span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">No kill</span>
+                                    <span ng-if="guild.progress.mythic[boss]">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
                                     <span ng-if="guild.progress.mythic[boss]">{{ guild.progress.mythic[boss].count}}</span>
