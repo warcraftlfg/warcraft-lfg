@@ -24,11 +24,11 @@
                 $scope.$parent.loading = false;
                 $scope.messages = result.messages;
                 $scope.entities = result.entities;
-                angular.forEach(result.entities, function(value, key) {
+                angular.forEach(result.entities, function (value, key) {
                     if (!Array.isArray(value.id)) {
                         $scope.entitiesKey[value.id] = value;
                     } else {
-                        angular.forEach(value.id, function(value2, key2) {
+                        angular.forEach(value.id, function (value2, key2) {
                             $scope.entitiesKey[value2] = value;
                         });
                     }
@@ -42,13 +42,12 @@
         function getConversations() {
             //Get All conversations
             messages.query(function (conversations) {
-                    $scope.$parent.loading = false;
+                $scope.$parent.loading = false;
                 $scope.conversations = conversations;
             }, function (error) {
                 $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
             });
-            $scope.$emit("updateMessageCount");
         }
 
         getConversations();
@@ -68,42 +67,40 @@
             });
         };
 
-        socket.forward('newMessage', $scope);
         $scope.$on('socket:newMessage', function (ev, message) {
-            console.log('message');
             if ((message.objIds[0] == $stateParams.objId1 || message.objIds[0] == $stateParams.objId2) && (message.objIds[1] == $stateParams.objId1 || message.objIds[1] == $stateParams.objId2)) {
                 $scope.messages.push(message);
             }
             getConversations();
         });
 
-        $scope.getStyle = function(index) {
+        $scope.getStyle = function (index) {
             if (index === 0) {
                 $scope.messages[index].style = "#1b2737";
                 $scope.messages[index].styleInverse = "#1d222c";
-                return { 
+                return {
                     'background-color': '#1b2737'
                 };
-            } else if ($scope.messages[index-1] && $scope.messages[index-1].userId ==  $scope.messages[index].userId)  {
-                $scope.messages[index].style = $scope.messages[index-1].style;
-                $scope.messages[index].styleInverse = $scope.messages[index-1].styleInverse;
-                return { 
-                    'background-color': $scope.messages[index-1].style
-                };         
-            } else if ($scope.messages[index-1] && $scope.messages[index-1].userId !=  $scope.messages[index].userId)  {
-                $scope.messages[index].style = $scope.messages[index-1].styleInverse;
-                $scope.messages[index].styleInverse = $scope.messages[index-1].style;
-                return { 
-                    'background-color': $scope.messages[index-1].styleInverse
-                };   
+            } else if ($scope.messages[index - 1] && $scope.messages[index - 1].userId == $scope.messages[index].userId) {
+                $scope.messages[index].style = $scope.messages[index - 1].style;
+                $scope.messages[index].styleInverse = $scope.messages[index - 1].styleInverse;
+                return {
+                    'background-color': $scope.messages[index - 1].style
+                };
+            } else if ($scope.messages[index - 1] && $scope.messages[index - 1].userId != $scope.messages[index].userId) {
+                $scope.messages[index].style = $scope.messages[index - 1].styleInverse;
+                $scope.messages[index].styleInverse = $scope.messages[index - 1].style;
+                return {
+                    'background-color': $scope.messages[index - 1].styleInverse
+                };
             }
         };
 
-        $scope.getDisplay = function(index) {
+        $scope.getDisplay = function (index) {
             if (index === 0) {
                 return true;
-            } else if ($scope.messages[index-1] && $scope.messages[index-1].userId ==  $scope.messages[index].userId) {
-                var timestamp1 = parseInt(("" + $scope.messages[index-1]._id).substr(0, 8), 16) * 1000;
+            } else if ($scope.messages[index - 1] && $scope.messages[index - 1].userId == $scope.messages[index].userId) {
+                var timestamp1 = parseInt(("" + $scope.messages[index - 1]._id).substr(0, 8), 16) * 1000;
                 var timestamp2 = parseInt(("" + $scope.messages[index]._id).substr(0, 8), 16) * 1000;
                 if ((timestamp2 - timestamp1) > 60000) {
                     return true;
@@ -114,18 +111,25 @@
             }
         };
 
-        $scope.focusInput = function() {
+        $scope.focusInput = function () {
             console.log('FOCUS');
             // Set focus+select on message input
             document.getElementById("message-input").focus();
             document.getElementById("message-input").select();
-            messages.get({objId1:$stateParams.objId1,objId2:$stateParams.objId2,param:"resetCount"},function () {
-                $scope.$parent.loading = false;
-                getConversations();
-            }, function (error) {
-                $scope.$parent.error = error.data;
-                $scope.$parent.loading = false;
-            });
+            if ($stateParams.objId1 && $stateParams.objId2) {
+                messages.get({
+                    objId1: $stateParams.objId1,
+                    objId2: $stateParams.objId2,
+                    param: "resetCount"
+                }, function () {
+                    $scope.$parent.loading = false;
+                    getConversations();
+                    $scope.$emit("updateMessageCount");
+                }, function (error) {
+                    $scope.$parent.error = error.data;
+                    $scope.$parent.loading = false;
+                });
+            }
         };
 
         $scope.focusInput();
@@ -133,7 +137,7 @@
 
     ConversationOrderFilter.$inject = [];
     function ConversationOrderFilter() {
-        return function(item, userId) {
+        return function (item, userId) {
             if (item[0].id == userId) {
                 return item.slice().reverse();
             } else {
@@ -144,7 +148,7 @@
 
     ConversationDateFilter.$inject = ['moment'];
     function ConversationDateFilter(moment) {
-        return function(item) {
+        return function (item) {
             var date = new moment();
             if (date.format('DD-MM-YYYY') == item.format('DD-MM-YYYY')) {
                 return item.format('HH:mm');

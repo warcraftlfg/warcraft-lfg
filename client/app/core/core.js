@@ -21,12 +21,26 @@
         $scope.user = user.get({param: "profile"});
         getUnreadMessageCount();
 
+        //If new message capture it 
+        socket.forward('newMessage', $scope);
+
+        $scope.$on('socket:newMessage', function (ev, message) {
+            getUnreadMessageCount();
+        });
+
         $scope.$on('updateMessageCount', function () {
             getUnreadMessageCount();
         });
 
         function getUnreadMessageCount() {
-            $scope.unreadMessageCount = user.get({param: "unreadMessageCount"});
+            console.log($scope.unreadMessageCount);
+            user.get({param: "unreadMessageCount"},function(unreadMessageCount){
+                if($scope.unreadMessageCount && $scope.unreadMessageCount.count && $scope.unreadMessageCount.count != unreadMessageCount.count){
+                    $scope.unreadMessageCount = unreadMessageCount;
+                }else if($scope.unreadMessageCount===undefined){
+                    $scope.unreadMessageCount = unreadMessageCount;
+                }
+            });
         }
 
         /* Get user ads with profile ? */
