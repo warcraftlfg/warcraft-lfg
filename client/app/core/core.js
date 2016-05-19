@@ -33,9 +33,8 @@
         });
 
         function getUnreadMessageCount() {
-            console.log($scope.unreadMessageCount);
             user.get({param: "unreadMessageCount"},function(unreadMessageCount){
-                if($scope.unreadMessageCount && $scope.unreadMessageCount.count && $scope.unreadMessageCount.count != unreadMessageCount.count){
+                if($scope.unreadMessageCount && $scope.unreadMessageCount.count != unreadMessageCount.count){
                     $scope.unreadMessageCount = unreadMessageCount;
                 }else if($scope.unreadMessageCount===undefined){
                     $scope.unreadMessageCount = unreadMessageCount;

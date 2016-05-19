@@ -42,6 +42,7 @@
         function getConversations() {
             //Get All conversations
             messages.query(function (conversations) {
+                $scope.$emit("updateMessageCount");
                 $scope.$parent.loading = false;
                 $scope.conversations = conversations;
             }, function (error) {
@@ -124,7 +125,6 @@
                 }, function () {
                     $scope.$parent.loading = false;
                     getConversations();
-                    $scope.$emit("updateMessageCount");
                 }, function (error) {
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
