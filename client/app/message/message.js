@@ -62,6 +62,7 @@
                 text: $scope.newMessage.text
             }, function () {
                 $scope.newMessage.text = "";
+                resetCount();
             }, function (error) {
                 $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
@@ -117,6 +118,12 @@
             // Set focus+select on message input
             document.getElementById("message-input").focus();
             document.getElementById("message-input").select();
+            resetCount();
+        };
+
+        $scope.focusInput();
+
+        function resetCount(callback) {
             if ($stateParams.objId1 && $stateParams.objId2) {
                 messages.get({
                     objId1: $stateParams.objId1,
@@ -130,9 +137,7 @@
                     $scope.$parent.loading = false;
                 });
             }
-        };
-
-        $scope.focusInput();
+        }
     }
 
     ConversationOrderFilter.$inject = [];
