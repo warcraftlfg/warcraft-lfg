@@ -21,8 +21,7 @@
         $scope.user = user.get({param: "profile"});
         getUnreadMessageCount();
 
-        socket.forward('newMessage', $scope);
-        $scope.$on('socket:newMessage', function () {
+        $scope.$on('updateMessageCount', function () {
             getUnreadMessageCount();
         });
 

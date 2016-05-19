@@ -7,7 +7,7 @@
 
     Messages.$inject = ['$resource'];
     function Messages($resource) {
-        return $resource('/api/v1/messages/:objId1/:objId2',{}, {
+        return $resource('/api/v1/messages/:objId1/:objId2/:param',{}, {
             post: {
                 method:'post'
             }

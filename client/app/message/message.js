@@ -48,6 +48,7 @@
                 $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
             });
+            $scope.$emit("updateMessageCount");
         }
 
         getConversations();
@@ -67,12 +68,11 @@
             });
         };
 
-
+        socket.forward('newMessage', $scope);
         $scope.$on('socket:newMessage', function (ev, message) {
+            console.log('message');
             if ((message.objIds[0] == $stateParams.objId1 || message.objIds[0] == $stateParams.objId2) && (message.objIds[1] == $stateParams.objId1 || message.objIds[1] == $stateParams.objId2)) {
                 $scope.messages.push(message);
-                $(".messages").getNiceScroll().resize();
-                $scope.reInit();
             }
             getConversations();
         });
@@ -119,6 +119,13 @@
             // Set focus+select on message input
             document.getElementById("message-input").focus();
             document.getElementById("message-input").select();
+            messages.get({objId1:$stateParams.objId1,objId2:$stateParams.objId2,param:"resetCount"},function () {
+                $scope.$parent.loading = false;
+                getConversations();
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
         };
 
         $scope.focusInput();
