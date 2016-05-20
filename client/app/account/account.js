@@ -26,6 +26,7 @@
         $scope.guildRegion = "";
         $scope.characterRegion = "";
 
+
         //Load Guilds & Characters
         getGuildAds();
         getCharacterAds();

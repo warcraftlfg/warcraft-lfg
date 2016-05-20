@@ -5,7 +5,7 @@ var router = require("express").Router();
 var passport = require("passport");
 var userController = process.require("users/userController.js");
 var auth = process.require("users/utilities/middleware/auth.js");
-
+var messagePermission = process.require("messages/utilities/middleware/messagePermission.js");
 
 //Load express passport bnetAuth middleware
 process.require("users/utilities/middleware/bnetAuth.js");
@@ -21,6 +21,7 @@ router.get("/user/characters/:region", auth.isAuthenticated, userController.getC
 router.get("/user/guilds/:region", auth.isAuthenticated, userController.getGuilds);
 router.get("/user/guildRank/:region/:realm/:name", auth.isAuthenticated, userController.getGuildRank);
 router.put("/user/profile",auth.isAuthenticated, userController.putProfile)
+router.get("/user/unreadMessageCount", auth.isAuthenticated, userController.getUnreadMessageCount);
 
 module.exports = router;
 

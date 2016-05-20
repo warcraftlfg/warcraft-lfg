@@ -1,3 +1,4 @@
+<wlfg-message-popup></wlfg-message-popup>
 <section class="header header-guild">
     <div class="">
         <div class="container">
@@ -86,6 +87,21 @@
                 </div>
             </div>
             <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6" ng-if="!guild.id">
+                                <span>Ad source : WowProgress</span>
+                            </div>
+                            <div class="col-md-6" ng-if="guild.id">
+                                <span>Ad source : WarcraftLFG</span>
+                                <span ng-click="openMessagePopup('sm');" class="m-l-10 href-icon cursor-pointer">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">

@@ -1,3 +1,4 @@
+<wlfg-message-popup></wlfg-message-popup>
 <section class="header header-character">
     <div class="">
         <div class="container">
@@ -60,7 +61,7 @@
                                         <div class="class-{{character.bnet.class}} f-20 overflow">{{ character.name }}</div>
                                         <div class="faction-{{character.bnet.faction}} overflow"> {{character.bnet.guild.name}}</div>
                                         <div class="overflow">{{ character.realm }} - {{ character.region|uppercase}}</div>
-                                         <div class="overflow">{{"RACE_"+character.bnet.race|translate }} - {{ character.bnet.level }}</div>
+                                        <div class="overflow">{{"RACE_"+character.bnet.race|translate }} - {{ character.bnet.level }}</div>
                                     </div>
                                     <div class="col-md-4 text-right">
                                         <div ng-if="character.ad.role.tank||character.ad.role.healer||character.ad.role.melee_dps||character.ad.role.ranged_dps">
@@ -90,9 +91,17 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="panel panel-default" ng-if="character.ad.btag_display && character.battleTag">
+                        <div class="panel panel-default">
                             <div class="panel-body">
-                                {{"CONTACT"|translate}}: <span>{{ character.battleTag }}</span>
+                                <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
+                                    {{"CONTACT"|translate}}: <span>{{ character.battleTag }}</span>
+                                </div>
+                                <div class="col-md-6" ng-if="character.id">
+                                    <span>Ad source : WarcraftLFG</span>
+                                    <span ng-click="openMessagePopup('sm');" class="m-l-10 href-icon cursor-pointer">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="panel panel-default">

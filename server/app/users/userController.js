@@ -5,6 +5,7 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 var userService = process.require("users/userService.js");
+var conversationModel = process.require("users/conversationModel.js");
 var userModel = process.require("users/userModel.js");
 var async = require("async");
 
@@ -36,7 +37,7 @@ module.exports.getProfile = function (req, res) {
 module.exports.getCharacterAds = function (req, res) {
     var logger = applicationStorage.logger;
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
-    var projection = {_id: 0, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.class": 1};
+    var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.class": 1};
     var sort = {"ad.updated": -1};
     characterModel.find(criteria, projection, sort, function (error, characters) {
         if (error) {
@@ -57,7 +58,7 @@ module.exports.getGuildAds = function (req, res) {
     var logger = applicationStorage.logger;
 
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
-    var projection = {_id: 0, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.side": 1, "perms": 1};
+    var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.side": 1, "perms": 1};
     var sort = {"ad.updated": -1};
     async.waterfall([
         function (callback) {
@@ -169,6 +170,23 @@ module.exports.putProfile = function (req, res) {
             res.status(500).send();
         } else {
             res.json(user);
+        }
+    });
+};
+
+/**
+ * Return the UnreadMessageCount for current user
+ * @param req
+ * @param res
+ */
+module.exports.getUnreadMessageCount = function (req, res) {
+    var logger = applicationStorage.logger;
+    conversationModel.getCount(req.user.id,function(error,count){
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(count[0]);
         }
     });
 };

@@ -1,0 +1,22 @@
+<script type="text/ng-template" id="messagePopup">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	    <h3 class="modal-title">Open as</h3>
+	</div>
+	<div class="modal-body text-center">
+	    <div class="">
+			<div ng-if='characterAds.length == 0 && guildAds.length == 0'>
+				No character or guild found. Please add a guild or a character in your account !!
+			</div>
+	    	<!--a href="/#/messages/{{character._id || guild._id}}/{{ user.id }}/" class="btn btn-default dis-block m-b-10">
+	    		(User icon) {{ user.battleTag }}
+	    	</a-->
+			<a href="/#/messages/{{character._id || guild._id}}/{{ characterAd._id}}/" class="btn btn-default dis-block m-b-5 text-left" ng-class="$last?'m-b-10':''"  ng-repeat="characterAd in characterAds">
+				<span class="icon-small class-{{characterAd.bnet.class}}">{{characterAd.name}}</span> - {{characterAd.realm}} ({{characterAd.region|uppercase}})
+			</a>
+			<a href="/#/messages/{{character._id || guild._id}}/{{ guildAd._id}}/" class="btn btn-default dis-block m-b-5 text-left" ng-class="$last?'m-b-10':''"  ng-repeat="guildAd in guildAds">
+				<span class="icon-small faction-{{guildAd.bnet.side}}">{{guildAd.name}}</span> - {{guildAd.realm}} ({{guildAd.region|uppercase}})
+			</a>
+	    </div>
+	</div>
+</script>
