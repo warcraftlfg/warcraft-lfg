@@ -88,6 +88,12 @@
                 <h3 class="m-b-20">{{"DASHBOARD_LAST_GUILDAD"|translate}}</h3>
                 <table class="table table-condensed">
                     <tr ng-repeat="guild in guildAds">
+                        <td ng-class="{'logo-warcraftlfg':guild.id}" class="icon-small">
+                            <span class="source-tooltip"
+                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
+                                  ng-if="guild.id">
+                            </span>
+                        </td>
                         <td class="faction-{{guild.bnet.side}}">
                             <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
                                class="bold txt-underline">
@@ -110,8 +116,10 @@
                 <h3 class="m-b-20">{{"DASHBOARD_LAST_CHARACTERAD"|translate}}</h3>
                 <table class="table table-condensed">
                     <tr ng-repeat="character in characterAds">
-                        <td class="icon-small class-{{character.bnet.class}}">
-                            &nbsp;&nbsp;
+                        <td ng-class="{'logo-warcraftlfg':character.id}" class="icon-small">
+                            <span class="source-tooltip"
+                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
+                                  ng-if="character.id"></span>
                         </td>
                         <td class="class-{{character.bnet.class}}">
                             <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"

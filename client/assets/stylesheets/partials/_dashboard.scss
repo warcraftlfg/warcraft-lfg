@@ -1,48 +1,56 @@
-.dashboard-intro{
+.dashboard-intro {
   background: url('../images/dashboard-intro-bg.png') no-repeat center center $red;
-  background-size:contain;
-  height:350px;
+  background-size: contain;
+  height: 350px;
 }
 
-.dashboard-form{
+.dashboard-form {
   padding: 30px 0px 30px 0px;
-  background-color:$black;
+  background-color: $black;
   .search-input-container i {
-    color:$black;
-    margin-top:10px;
-    with:auto;
-    height:auto
+    color: $black;
+    margin-top: 10px;
+    with: auto;
+    height: auto
   }
   .search-results {
-    position:absolute;
-    background-color:$black;
-    padding:20px;
-    z-index:1;
+    position: absolute;
+    background-color: $black;
+    padding: 20px;
+    z-index: 1;
     border-bottom-left-radius: 4px;
-    border-bottom-right-radius:4px;
-    border:1px solid #66AFE9;
+    border-bottom-right-radius: 4px;
+    border: 1px solid #66AFE9;
   }
 
 }
 
-.dashboard-table{
-  padding:30px 0 30px 0;
+.dashboard-table {
+  padding: 30px 0 30px 0;
   .list-group-item:first-child {
     border: none;
   }
-  .list-group-item{
-    background-color:$grey;
-    border:none;
+  .list-group-item {
+    background-color: $grey;
+    border: none;
     border-top: 1px solid white;
   }
+  .icon-small {
+    text-align: center;
+    .source-tooltip {
+      padding: 0 0 0 13px
+    }
+  }
+
 }
-.dashboard-stats{
-  .character-picto{
-    height:64px;
+
+.dashboard-stats {
+  .character-picto {
+    height: 64px;
     background: url('../images/icon/64/character.png') center center no-repeat;
   }
-  .guild-picto{
-    height:64px;
+  .guild-picto {
+    height: 64px;
     background: url('../images//icon/64/guild.png') center center no-repeat;
   }
 }

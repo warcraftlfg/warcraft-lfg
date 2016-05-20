@@ -28,6 +28,7 @@ module.exports.get = function (query) {
         projection["bnet.progression.raids"] = 1;
         projection["warcraftLogs.logs"] = 1;
         projection["progress.score"] = 1;
+        projection["id"] = 1;
 
     }
 
@@ -35,6 +36,7 @@ module.exports.get = function (query) {
         projection["bnet.faction"] = 1;
         projection["ad.updated"] = 1;
         projection["bnet.class"] = 1;
+        projection["id"] = 1;
     }
     return projection;
 };
