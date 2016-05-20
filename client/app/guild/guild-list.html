@@ -39,7 +39,11 @@
                                 </div>
                                 <div class="overflow">
                                     {{guild.realm}} ({{guild.region|uppercase}})
+                                    <div ng-if="guild.id">
+                                        <span class="icon-small logo-warcraftlfg">WarcraftLFG</span>
+                                    </div>
                                 </div>
+
                             </div>
                             <div class="col-sm-3 col-md-2 col-lg-4">
                                 <div>
