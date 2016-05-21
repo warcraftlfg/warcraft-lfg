@@ -79,7 +79,7 @@
         $scope.getStyle = function (index) {
             if (index === 0) {
                 $scope.messages[index].style = "#202020";
-                $scope.messages[index].styleInverse = "#393939";
+                $scope.messages[index].styleInverse = "#303030";
                 return {
                     'background-color': '#202020'
                 };
@@ -114,7 +114,6 @@
         };
 
         $scope.focusInput = function () {
-            console.log('FOCUS');
             // Set focus+select on message input
             document.getElementById("message-input").focus();
             document.getElementById("message-input").select();

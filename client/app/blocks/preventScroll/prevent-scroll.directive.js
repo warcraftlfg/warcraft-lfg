@@ -16,7 +16,6 @@
 
         function link(scope, element) {
             element.bind('mousewheel DOMMouseScroll', function ( e ) {
-                console.log(e);
                 var e0 = e.originalEvent;
                 var delta = e0.wheelDelta || -e0.detail;
                 
