@@ -20,25 +20,9 @@
                 return { 'h': w.height(), 'w': w.width() };
             };
 
-            /* UGLY HACK */
-            $timeout(function() {
-                element.css('height', w.height() - 213 + 'px');
-            }, 250);
-
-            $timeout(function() {
-                element.css('height', w.height() - 213 + 'px');
-            }, 500);
-
-            $timeout(function() {
-                element.css('height', w.height() - 213 + 'px');
-            }, 750);
-
-            $timeout(function() {
-                element.css('height', w.height() - 213 + 'px');
-            }, 1000);
-
             scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
-                scope.style = function () {
+                scope.heightListStyle = function () {
+                    console.log('LIST HEIGHT :'+(newValue.h-213));
                     return { 
                         'height': (newValue.h - 213) + 'px',
                     };

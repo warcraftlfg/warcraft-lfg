@@ -42,7 +42,6 @@
             function getGuildAds() {
                 scope.$parent.loading = true;
                 user.query({param: "guildAds"}, function (guildAds) {
-                    console.log(guildAds);
                     scope.guildAds = guildAds;
                     scope.$parent.loading = false;
                 }, function (error) {
@@ -57,7 +56,6 @@
             function getCharacterAds() {
                 scope.$parent.loading = true;
                 user.query({param: "characterAds"}, function (characterAds) {
-                    console.log(characterAds);
                     scope.characterAds = characterAds;
                     scope.$parent.loading = false;
                 }, function (error) {

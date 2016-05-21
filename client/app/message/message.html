@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="message-list panel panel-default" >
-                <div class="panel-body p-t-0 p-b-0 bd-t-s scroller" ng-style="style()" wlfg-message-height-list perfect-scrollbar wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20" suppress-scroll-x="true">
+                <div class="panel-body p-t-0 p-b-0 bd-t-s scroller" ng-style="heightListStyle()" wlfg-message-height-list perfect-scrollbar wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20" suppress-scroll-x="true">
                     <a href="#/messages/{{entities[0]._id || entities[0].id}}/{{entities[1]._id || entities[1].id}}/">
                         <div class="row bd-b-s p-b-10 p-t-10 active message-conversation" ng-if="messages.length == 0">
                             <div class="col-md-12">
@@ -64,7 +64,7 @@
             <div class="message-content panel panel-default">
                 <div class="panel-body m-t-0 p-t-0 p-b-10">
                     <div class="row">
-                        <div class="messages scroller" ng-style="style()" ng-click="focusInput()" wlfg-message-height-content perfect-scrollbar scroll-glue wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20">
+                        <div class="messages scroller" ng-style="heightContentStyle()" ng-click="focusInput()" wlfg-message-height-content perfect-scrollbar scroll-glue wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20">
                             <div ng-repeat="message in messages" class="clearfix" ng-style="getStyle($index)">
                                 <div ng-if="getDisplay($index)" class="col-md-8 p-t-5 p-b-5">
                                     <div>
