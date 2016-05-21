@@ -79,7 +79,7 @@
         $scope.getStyle = function (index) {
             if (index === 0) {
                 $scope.messages[index].style = "#202020";
-                $scope.messages[index].styleInverse = "#303030";
+                $scope.messages[index].styleInverse = "#252525";
                 return {
                     'background-color': '#202020'
                 };

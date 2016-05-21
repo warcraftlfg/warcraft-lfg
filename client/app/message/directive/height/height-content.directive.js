@@ -22,7 +22,6 @@
 
             scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
                 scope.heightContentStyle = function () {
-                    console.log('CONTENT HEIGHT :'+(newValue.h-268));
                     return { 
                         'height': (newValue.h - 268) + 'px',
                     };

@@ -22,7 +22,6 @@
 
             scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
                 scope.heightListStyle = function () {
-                    console.log('LIST HEIGHT :'+(newValue.h-213));
                     return { 
                         'height': (newValue.h - 213) + 'px',
                     };
