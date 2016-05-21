@@ -78,10 +78,10 @@
 
         $scope.getStyle = function (index) {
             if (index === 0) {
-                $scope.messages[index].style = "#1b2737";
-                $scope.messages[index].styleInverse = "#1d222c";
+                $scope.messages[index].style = "#202020";
+                $scope.messages[index].styleInverse = "#393939";
                 return {
-                    'background-color': '#1b2737'
+                    'background-color': '#202020'
                 };
             } else if ($scope.messages[index - 1] && $scope.messages[index - 1].userId == $scope.messages[index].userId) {
                 $scope.messages[index].style = $scope.messages[index - 1].style;
