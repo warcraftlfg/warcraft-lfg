@@ -1,3 +1,5 @@
+<wlfg-character-add-popup></wlfg-character-add-popup>
+<wlfg-guild-add-popup></wlfg-guild-add-popup>
 <section class="header header-account">
     <div class="">
         <div class="container">
@@ -24,42 +26,10 @@
             <div class="col-md-6">
                 <h3 class="m-b-20">{{"ACCOUNT_MANAGE_MY_GUILDS"|translate}}</h3>
                 <div class="m-b-15">
-                    <button class="btn btn-default" ng-click="characterAdBlockShow = !characterAdBlockShow">
+                    <button class="btn btn-default" ng-click="openGuildAddPopup('sm')">
                         <i class="fa fa-plus"></i> &nbsp;
                         {{"ACCOUNT_ADD_GUILD"|translate}}
                     </button>
-                </div>
-                <div class="m-b-15 p-15 bg-black" ng-show="characterAdBlockShow">
-                    <form>
-                        <div class="form-group">
-                            <label for="region">{{ "REGION"|translate }}</label>
-                            <span class="css3-metro-dropdown">
-                                <select ng-model="guildRegion" ng-change="updateGuildRegion()" class="form-control"
-                                        id="region">
-                                    <option value=""><{{ "CHOOSE_REGION"|translate }}></option>
-                                    <option value="us">US</option>
-                                    <option value="eu">EU</option>
-                                    <option value="kr">KR</option>
-                                    <option value="tw">TW</option>
-                                </select>
-                            </span>
-                        </div>
-                    </form>
-                    <div class="form-group">
-                        <label ng-show="userGuilds.length" for="region">{{ "GUILD_CREATE_CHOOSE"|translate }}</label>
-                        <p ng-show="!userGuilds.length && guildRegion!='' && !$parent.loading">
-                            {{ "NO_GUILD_FOUND_FOR_REGION"|translate }}
-                        </p>
-                        <p ng-repeat="guild in userGuilds">
-                            <a class="btn btn-inverse" ng-click="createGuildAd(guildRegion,guild.realm,guild.name)"
-                               role="button">{{guild.name}} - {{guild.realm}}</a>
-                        </p>
-                    </div>
-                    <div>
-                        <button ng-click="characterAdBlockShow = !characterAdBlockShow" class="btn btn-inverse">{{
-                            "CANCEL"|translate }}
-                        </button>
-                    </div>
                 </div>
                 <table class="table">
                     <tr ng-repeat="guildAd in guildAds">
@@ -108,46 +78,10 @@
             <div class="col-md-6">
                 <h3 class="m-b-20">{{"ACCOUNT_MANAGE_MY_CHARACTERS"|translate}}</h3>
                 <div class="m-b-15">
-                    <button class="btn btn-default" ng-click="guildAdBlockShow = !guildAdBlockShow">
+                    <button class="btn btn-default" ng-click="openCharacterAddPopup('sm');">
                         <i class="fa fa-plus"></i> &nbsp;
                         {{"ACCOUNT_ADD_CHARACTER"|translate}}
                     </button>
-                </div>
-                <div class="m-b-15 p-15 bg-black" ng-show="guildAdBlockShow">
-                    <form>
-                        <div class="form-group">
-                            <label for="region">{{ "REGION"|translate }}</label>
-                            <span class="css3-metro-dropdown">
-                                <select ng-model="characterRegion" ng-change="updateCharacterRegion()"
-                                        class="form-control" id="region">
-                                    <option value=""><{{ "CHOOSE_REGION"|translate }}></option>
-                                    <option value="us">{{"US"|translate}}</option>
-                                    <option value="eu">{{"EU"|translate}}</option>
-                                    <option value="kr">{{"KR"|translate}}</option>
-                                    <option value="tw">{{"TW"|translate}}</option>
-                                </select>
-                            </span>
-                        </div>
-                    </form>
-                    <div class="form-group">
-                        <label ng-show="userCharacters.length" for="region">{{
-                            "CHARACTER_CREATE_CHOOSE"|translate}}</label>
-                        <p ng-show="!userCharacters.length && characterRegion!='' && !$parent.loading">
-                            {{ "NO_CHARACTER_FOUND_FOR_REGION"|translate }}
-                        </p>
-                        <p ng-repeat="character in userCharacters">
-                            <a class="btn btn-inverse"
-                               ng-click="createCharacterAd(characterRegion,character.realm,character.name)"
-                               role="button">
-                                {{character.name}} ({{character.level}}) - {{character.realm}}
-                            </a>
-                        </p>
-                    </div>
-                    <div>
-                        <button ng-click="guildAdBlockShow = !guildAdBlockShow" class="btn btn-inverse">{{
-                            "CANCEL"|translate }}
-                        </button>
-                    </div>
                 </div>
                 <table class="table">
                     <tr ng-repeat="characterAd in characterAds">
@@ -198,55 +132,62 @@
         <div class="row">
             <div class="col-md-6">
                 <h3 class="m-b-20">{{"ACCOUNT_CONFIGURATION"|translate}}</h3>
-                <h4 class="m-b-10">{{"ACCOUNT_PREFERENCE"|translate}}</h4>
-                <div class="form-group">
-                    <label for="region">{{ "ACCOUNT_PREFERENCE_LANGUAGE"|translate }}</label>
-                    <span class="css3-metro-dropdown">
-                        <select ng-change="saveUser()" ng-model="user.language"
-                                class="form-control">
-                            <option value=""><{{ "CHOOSE_LANGUAGE"|translate }}></option>
-                            <option value="en">{{"LANG_EN"|translate}}</option>
-                            <option value="fr">{{"LANG_FR"|translate}}</option>
-                        </select>
-                    </span>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group m-b-0">
+                            <label for="langue-pref">{{ "ACCOUNT_PREFERENCE_LANGUAGE"|translate }}</label>
+                            <span class="css3-metro-dropdown">
+                                <select ng-change="saveUser()" ng-model="user.language"
+                                        class="form-control">
+                                    <option value=""><{{ "CHOOSE_LANGUAGE"|translate }}></option>
+                                    <option value="en">{{"LANG_EN"|translate}}</option>
+                                    <option value="fr">{{"LANG_FR"|translate}}</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <h4 class="m-b-10">{{"ACCOUNT_EMAIL"|translate}}</h4>
-                <form name="emailAddressForm" class="form-inline">
-                    <div class="m-b-10">
-                        <label class="cursor-pointer" ng-show="!emailEdit" ng-click="emailEdit=true">
-                            <span ng-if="user.email.address==''">{{"NO_EMAIL_REGISTERED"|translate}}</span>
-                            <span ng-if="user.email.address!=''">{{user.email.address}}</span>
-                            <i class="fa fa-pencil"
-                               tooltip-placement="top"
-                               uib-tooltip="{{'EDIT'|translate }}"></i>
-                        </label>
-                        <div ng-show="emailEdit" class="form-group"
-                             ng-class="{'has-error':!emailAddressForm.emailAddressInput.$valid}">
-                            <input name="emailAddressInput"
-                                   ng-model="user.email.address"
-                                   type="email" placeholder="{{'ACCOUNT_EMAIL_EXAMPLE'|translate}}"
-                                   class="form-control">
-                            <button class="btn btn-default" ng-disabled="!emailAddressForm.emailAddressInput.$valid"
-                                    ng-click="saveUser();emailEdit=false">
-                                {{"SAVE"|translate}}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="m-b-15">
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label>
-                                    <input ng-click="saveUser()" ng-model="user.email.services.adsExpirationReminder"
-                                           type="checkbox">
-                                    <strong>{{"ACCOUNT_ADS_EXPIRATION_REMINDER"|translate}}</strong>
-                                    <div class="italic">
-                                        {{"ACCOUNT_ADS_EXPIRATION_REMINDER_DESCRIPTION"|translate}}
-                                    </div>
-                                </label>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <label for="email-pref">{{"ACCOUNT_EMAIL"|translate}}</label>
+                        <form name="emailAddressForm" class="form-inline">
+                            <div class="m-b-10">
+                                <div class="cursor-pointer" ng-show="!emailEdit" ng-click="emailEdit=true">
+                                    <span ng-if="user.email.address==''">{{"NO_EMAIL_REGISTERED"|translate}}</span>
+                                    <span ng-if="user.email.address!=''">{{user.email.address}}</span>
+                                    <i class="fa fa-pencil"
+                                       tooltip-placement="top"
+                                       uib-tooltip="{{'EDIT'|translate }}"></i>
+                                </div>
+                                <div ng-show="emailEdit" class="form-group"
+                                     ng-class="{'has-error':!emailAddressForm.emailAddressInput.$valid}">
+                                    <input name="emailAddressInput"
+                                           ng-model="user.email.address"
+                                           type="email" placeholder="{{'ACCOUNT_EMAIL_EXAMPLE'|translate}}"
+                                           class="form-control">
+                                    <button class="btn btn-default" ng-disabled="!emailAddressForm.emailAddressInput.$valid"
+                                            ng-click="saveUser();emailEdit=false">
+                                        {{"SAVE"|translate}}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                            <div class="">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input ng-click="saveUser()" ng-model="user.email.services.adsExpirationReminder"
+                                                   type="checkbox">
+                                            <strong>{{"ACCOUNT_ADS_EXPIRATION_REMINDER"|translate}}</strong>
+                                            <div class="italic">
+                                                {{"ACCOUNT_ADS_EXPIRATION_REMINDER_DESCRIPTION"|translate}}
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

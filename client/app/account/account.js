@@ -70,42 +70,6 @@
             });
         }
 
-
-        /**
-         * Get user's guilds by region
-         */
-        $scope.updateGuildRegion = function () {
-            if ($scope.guildRegion === '') {
-                $scope.userGuilds = null;
-            } else {
-                $scope.$parent.loading = true;
-                $scope.userGuilds = user.query({param: "guilds", region: $scope.guildRegion}, function () {
-                    $scope.$parent.loading = false;
-                }, function (error) {
-                    $scope.$parent.error = error.data;
-                    $scope.$parent.loading = false;
-                });
-            }
-        };
-
-        /**
-         * Get user's characters  by region
-         */
-        $scope.updateCharacterRegion = function () {
-            if ($scope.characterRegion === '') {
-                $scope.userCharacters = null;
-            } else {
-                $scope.$parent.loading = true;
-                user.query({param: "characters", region: $scope.characterRegion}, function (characters) {
-                    $scope.userCharacters = $filter('orderBy')(characters, ['-level', 'name']);
-                    $scope.$parent.loading = false;
-                }, function (error) {
-                    $scope.$parent.error = error.data;
-                    $scope.$parent.loading = false;
-                });
-            }
-        };
-
         /**
          * Create a new Guild Ad
          * @param region
