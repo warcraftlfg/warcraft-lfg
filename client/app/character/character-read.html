@@ -29,13 +29,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
+                    <div class="col-md-12 m-b-10" ng-if="queuePosition">
+                        {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
+                    </div>
                     <div class="col-md-6 m-b-20">
                         <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
                             <i class="fa fa-refresh"></i> {{"UPDATE_CHARACTER"|translate}}
                         </button>
-                        <span class="m-l-10" ng-if="queuePosition">
-                            {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
-                        </span>
+                        <button ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
+                            <i class="fa fa-comment-o"></i> {{"MESSAGE_OPEN_POPUP"|translate}}
+                        </button>
                     </div>
                     <div class="col-md-6 m-b-20 text-right">
                         <a href="https://www.askmrrobot.com/wow/player/{{ character.region }}/{{ character.realm }}/{{ character.name }}" target="_blank" class="m-l-10 href-icon">
@@ -96,11 +99,8 @@
                                 <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
                                     {{"CONTACT"|translate}}: <span>{{ character.battleTag }}</span>
                                 </div>
-                                <div class="col-md-6" ng-if="character.id">
-                                    <span>Ad source : WarcraftLFG</span>
-                                    <span ng-click="openMessagePopup('sm');" class="m-l-10 href-icon cursor-pointer">
-                                        <i class="fa fa-envelope-o"></i>
-                                    </span>
+                                <div class="col-md-6">
+                                     <span ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG (<i class="fa fa-envelope-o"></i>)</span>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-condensed" ng-if="character.ad.play_time">
+                                <table class="table table-condensed" ng-if="character.ad.play_time" ng-show="character.ad.play_time.monday.play || character.ad.play_time.tuesday.play || character.ad.play_time.wednesday.play || gucharacterild.ad.play_time.thursday.play || character.ad.play_time.friday.play || character.ad.play_time.saturday.play || character.ad.play_time.sunday.play">
                                     <tr ng-repeat="(key, day) in character.ad.play_time" ng-if="day.play == true">
                                         <td>
                                             {{ key|uppercase|translate }}
@@ -220,29 +220,29 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ITEM_LEVEL"|translate}}:
                                         <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                             {{character.bnet.items.averageItemLevelEquipped}}
                                         </span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ITEM_LEVEL_BAG"|translate}}:
                                         <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                             {{character.bnet.items.averageItemLevel}}
                                         </span>
-                                    </div>
-                                    <div class="col-md-2">
+                                    </div> 
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"RING_ILEVEL"|translate}}:
                                         <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"T18 EQUIPPED"|translate}}: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ENDLESS RUNE"|translate}}: <span wlfg-reputation-rune="character.bnet.reputation"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"AUDIT"|translate}}: <span wlfg-item-audit="character.bnet.items"></span>
                                     </div>
                                 </div>
@@ -285,22 +285,22 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"GOLD"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="gold"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"SILVER"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="silver"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"BRONZE"|translate}}: <span wlfg-challenge-medal="character.bnet.achievements" medal-type="copper"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"TANK"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="tank"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"DPS"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="dps"></span>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"HEALER"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="healer"></span>
                                     </div>
                                 </div>

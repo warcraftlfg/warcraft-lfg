@@ -50,7 +50,7 @@
     </head>
 
     <body>
-        <div class="wrapper">
+        <div id="sticky-wrapper" class="wrapper">
             <div data-ng-include="'app/layout/header.html'"></div>
             <div class="content main-container">
                 <div ng-show="error" class="alert alert-danger" role="alert">
@@ -59,9 +59,9 @@
                 </div>
                 <div ui-view></div>
             </div>
-            <div class="push"></div>
+            <div class="push" id="sticky-push"></div>
         </div>
-        <div class="footer" data-ng-include="'app/layout/footer.html'"></div>
+        <div class="footer" id="sticky-footer" sticky-footer data-ng-include="'app/layout/footer.html'"></div>
         <div class="modal-backdrop fade in" ng-if="loading"></div>
         <!-- Third party -->
         <script type="text/javascript" async src="//wow.zamimg.com/widgets/power.js"></script>
@@ -115,6 +115,8 @@
         <script src="/app/blocks/objectid-to-timestamp.filter.js"></script>
         <script src="/app/blocks/preventScroll/prevent-scroll.module.js"></script>
         <script src="/app/blocks/preventScroll/prevent-scroll.directive.js"></script>
+        <script src="/app/blocks/stickyFooter/sticky-footer.module.js"></script>
+        <script src="/app/blocks/stickyFooter/sticky-footer.directive.js"></script>
 
         <!-- filters / sort -->
         <script src="/app/filter/filter.module.js"></script>
