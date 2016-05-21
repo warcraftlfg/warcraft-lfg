@@ -11,7 +11,7 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_622f743b98c0_key -iv $encrypted_622f743b98c0_iv -in .travis/warcraftlfg.enc -out .travis/warcraftlfg -d
 
 install:
-  - npm install bower
+  - npm install -g mocha grunt-cli bower
   - npm install
 
 after_success:
