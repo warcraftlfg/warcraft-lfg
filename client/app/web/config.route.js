@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -7,47 +7,19 @@
 
     function getRoutes($stateProvider) {
         $stateProvider
-            .state("about", {
-                url: "/about",
-                templateUrl: "app/web/about.html",
+            .state("faq", {
+                url: "/faq",
+                templateUrl: "app/web/faq.html",
                 controllerAs: 'vm',
                 title: 'About us',
                 controller: "WebAboutController"
             })
-            .state("contact", {
-                url: "/contact",
-                templateUrl: "app/web/contact.html",
-                controllerAs: 'vm',
-                title: 'About us',
-                controller: "WebContactController"
-            })
-            .state("privacy", {
-                url: "/privacy",
-                templateUrl: "app/web/privacy.html",
+            .state("legal_stuff", {
+                url: "/legal-stuff",
+                templateUrl: "app/web/legal-stuff.html",
                 controllerAs: 'vm',
                 title: 'About us',
                 controller: "WebPrivacyController"
-            })
-            .state("terms", {
-                url: "/terms",
-                templateUrl: "app/web/terms.html",
-                controllerAs: 'vm',
-                title: 'About us',
-                controller: "WebTermsController"
-            })
-            .state("cookies", {
-                url: "/cookies",
-                templateUrl: "app/web/cookies.html",
-                controllerAs: 'vm',
-                title: 'About us',
-                controller: "WebCookiesController"
-            })
-            .state("roadmap", {
-                url: "/roadmap",
-                templateUrl: "app/web/roadmap.html",
-                controllerAs: 'vm',
-                title: 'Roadmap',
-                controller: "WebRoadmapController"
             });
     }
 })();

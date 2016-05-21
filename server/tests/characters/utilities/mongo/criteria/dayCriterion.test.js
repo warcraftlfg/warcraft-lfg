@@ -1,1 +1,0 @@
-//TODO Do the dayCriterion test

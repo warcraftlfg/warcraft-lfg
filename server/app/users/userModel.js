@@ -32,8 +32,8 @@ module.exports.upsert = function (user, callback) {
 
     //Upsert
     var collection = applicationStorage.mongo.collection("users");
-    collection.update({id: user.id}, user, {upsert: true}, function (error, result) {
-        callback(error, result);
+    collection.update({id: user.id}, user, {upsert: true}, function (error) {
+        callback(error, user);
     });
 };
 

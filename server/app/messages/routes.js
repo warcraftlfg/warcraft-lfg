@@ -6,6 +6,7 @@ var messagePermission = process.require("messages/utilities/middleware/messagePe
 
 //Define route for authenticated users
 router.get("/messages/:objId1/:objId2", auth.isAuthenticated, messagePermission.hasMessagePermission, messageController.getMessages);
+router.get("/messages/:objId1/:objId2/resetCount", auth.isAuthenticated, messagePermission.hasMessagePermission, messageController.resetCount);
 router.get("/messages", auth.isAuthenticated, messageController.getConversations);
 router.post("/messages", auth.isAuthenticated, messagePermission.hasMessagePermission, messageController.postMessage);
 

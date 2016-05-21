@@ -82,7 +82,7 @@
                                 <div ng-if="messages[$index+1] && messages[$index+1].userId != messages[$index].userId" class="separator col-md-12"></div>
                             </div>
                         </div>
-                        <form ng-submit="sendMessage()" class="col-md-12 p-t-10 message-form-submit va-container width-100p">
+                        <form ng-submit="sendMessage()" ng-click="focusInput()" class="col-md-12 p-t-10 message-form-submit va-container width-100p">
                             <div class="form-group v-center">
                                 <input ng-model="newMessage.text"
                                        placeholder="{{'MESSAGES_PLACEHOLDER'|translate}}"

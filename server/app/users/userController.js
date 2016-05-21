@@ -6,6 +6,7 @@ var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 var userService = process.require("users/userService.js");
 var conversationModel = process.require("users/conversationModel.js");
+var userModel = process.require("users/userModel.js");
 var async = require("async");
 
 
@@ -143,6 +144,34 @@ module.exports.getGuildRank = function (req, res) {
         }
     });
 
+};
+
+module.exports.putProfile = function (req, res) {
+    var logger = applicationStorage.logger;
+
+    async.waterfall([
+        function (callback) {
+            userModel.findById(req.user.id, function (error, user) {
+                callback(error, user);
+            });
+        },
+        function (user, callback) {
+            //Set only the email and language to current user // battleTag, id, token cannot be changed by user
+            user.email = req.body.email;
+            user.language = req.body.language;
+            userModel.upsert(user, function (error, user) {
+                delete user.accessToken;
+                callback(error, user)
+            });
+        }
+    ], function (error, user) {
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(user);
+        }
+    });
 };
 
 /**

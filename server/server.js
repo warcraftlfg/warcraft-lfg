@@ -12,6 +12,8 @@ var async = require('async');
 var mongo = require('mongodb').MongoClient;
 var redis = require("redis");
 var winston = require("winston");
+var nodemailer = require('nodemailer');
+var wellknown = require('nodemailer-wellknown');
 var applicationStorage = process.require("core//applicationStorage");
 
 var ready = require('readyness');
@@ -141,6 +143,15 @@ async.waterfall([
             function (error) {
                 callback(error)
             });
+    },
+    //Start the mail transporter
+    function (callback) {
+        var mailConfig = wellknown(config.mail.service);
+        mailConfig.auth = {user: config.mail.user, pass: config.mail.pass};
+        mailConfig.poll = true;
+
+        applicationStorage.mailTransporter = nodemailer.createTransport(mailConfig);
+        callback();
     },
     //Create instance of processes
     function (callback) {

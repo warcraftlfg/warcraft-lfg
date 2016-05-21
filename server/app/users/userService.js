@@ -2,6 +2,7 @@
 
 //Load dependencies
 var async = require("async");
+var EmailTemplates = require('swig-email-templates');
 var applicationStorage = process.require("core/applicationStorage.js");
 var bnetAPI = process.require("core/api/bnet.js");
 var userModel = process.require("users/userModel.js");
@@ -10,6 +11,7 @@ var guildModel = process.require("guilds/guildModel.js");
 var guildService = process.require("guilds/guildService.js");
 var characterModel = process.require("characters/characterModel.js");
 var characterService = process.require("characters/characterService.js");
+
 
 /**
  * Set battlenet id on user's guild
@@ -321,5 +323,119 @@ module.exports.isOwner = function (region, realm, name, id, callback) {
         } else {
             callback(error, false);
         }
+    });
+};
+
+
+/**
+ * Send a reminder for Ads to the user if its ad will expire.
+ * @param callback
+ */
+module.exports.sendAdsReminderMail = function (callback) {
+    var config = applicationStorage.config;
+    var logger = applicationStorage.logger;
+    async.waterfall([
+        function (callback) {
+            userModel.find({
+                "email.address": {"$exists": true, "$ne": ""},
+                "email.services.adsExpirationReminder": true
+            }, {id: 1, battleTag: 1, "email.address": 1, language: 1, _id: 0}, function (error, users) {
+                callback(error, users);
+            });
+        },
+        function (users, callback) {
+            async.forEach(users, function (user, callback) {
+                async.parallel({
+                    guildAds1Week: function (callback) {
+                        var timestampMin = new Date().getTime() - (113 * 24 * 3600 * 1000);
+                        var timestampMax = new Date().getTime() - (112 * 24 * 3600 * 1000);
+                        guildModel.find({
+                            "ad.updated": {$gte: timestampMin, $lte: timestampMax},
+                            "ad.lfg": true,
+                            id: user.id
+                        }, {_id: 0, region: 1, realm: 1, name: 1}, function (error, guilds) {
+                            callback(error, guilds);
+                        });
+                    },
+                    characterAds1Week: function (callback) {
+                        var timestampMin = new Date().getTime() - ( 21 * 24 * 3600 * 1000);
+                        var timestampMax = new Date().getTime() - (20 * 24 * 3600 * 1000);
+                        ;
+                        characterModel.find({
+                            "ad.updated": {$gte: timestampMin, $lte: timestampMax},
+                            "ad.lfg": true,
+                            id: user.id
+                        }, {_id: 0, region: 1, realm: 1, name: 1}, function (error, characters) {
+                            callback(error, characters);
+                        });
+                    },
+                    guildAds1Day: function (callback) {
+                        var timestamp = new Date().getTime() - (119 * 24 * 3600 * 1000);
+                        guildModel.find({"ad.updated": {$lte: timestamp}, "ad.lfg": true, id: user.id}, {
+                            _id: 0,
+                            region: 1,
+                            realm: 1,
+                            name: 1
+                        }, function (error, guilds) {
+                            callback(error, guilds);
+                        });
+                    },
+                    characterAds1Day: function (callback) {
+                        var timestamp = new Date().getTime() - ( 29 * 24 * 3600 * 1000);
+                        characterModel.find({"ad.updated": {$lte: timestamp}, "ad.lfg": true, id: user.id}, {
+                            _id: 0,
+                            region: 1,
+                            realm: 1,
+                            name: 1
+                        }, function (error, characters) {
+                            callback(error, characters);
+                        });
+                    }
+                }, function (error, result) {
+                    if (error) {
+                        logger.error(error.message);
+                        return callback();
+                    }
+                    if (result.characterAds1Week.length > 0 || result.characterAds1Day.length > 0 || result.guildAds1Week.length > 0 || result.guildAds1Day.length > 0) {
+                        result.user = user;
+                        if (user.language == "") {
+                            user.language = "en";
+                        }
+
+                        //IMPROVE this is not really good for a lot of languages
+                        if (user.language == "fr") {
+                            result.subject = "[Warcraftlfg] Expiration de vos annonces"
+                        } else {
+                            result.subject = "[Warcraftlfg] Ads expiration"
+                        }
+
+                        var templates = new EmailTemplates({root: process.root + "/app/emails/templates"});
+                        templates.render(user.language + "/adsreminder.html", result, function (err, html, text) {
+                            // Send email
+                            applicationStorage.mailTransporter.sendMail({
+                                from: config.mail.fromAddress,
+                                to: user.email.address,
+                                subject: result.subject,
+                                html: html,
+                                text: text
+                            }, function (error, info) {
+                                if (error) {
+                                    logger.error('Error in adsreminder to %s : %s', user.email.address, error);
+                                }
+                                logger.info('Message adsreminder sent to %s : %s', user.email.address, info.response);
+                                callback();
+                            });
+                        });
+
+                    } else {
+                        callback();
+                    }
+                });
+            }, function (error) {
+                callback();
+            });
+        }
+    ], function (error) {
+        callback();
     });
 };

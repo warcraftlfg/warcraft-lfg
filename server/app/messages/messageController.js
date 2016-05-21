@@ -172,3 +172,21 @@ module.exports.postMessage = function (req, res) {
         }
     });
 };
+
+/**
+ * Reset Message Count on a conversation
+ * @param req
+ * @param res
+ */
+module.exports.resetCount = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
+    conversationModel.resetCount(req.user.id, req.params.objId1, req.params.objId2, function (error) {
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send(error.message);
+        } else {
+            res.json();
+        }
+    });
+};

@@ -1,0 +1,41 @@
+<section class="header header-faq">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{ "FAQ"|translate}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                	<span class="sectiontitle">
+                    	{{ "FAQ_DESCRIPTION"|translate}}
+                   </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="privacy">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="title cursor-pointer" ng-click="faq1=!faq1">
+                    {{"FAQ_WHAT_IS_WLFG"|translate}}
+                </h4>
+                <div ng-show="faq1" class="content">
+                    <p>
+                        {{"FAQ_WHAT_IS_WLFG_CONTENT_1"|translate}}
+                    </p>
+                    <p>
+                        {{"FAQ_WHAT_IS_WLFG_CONTENT_2"|translate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

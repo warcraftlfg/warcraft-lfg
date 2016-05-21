@@ -1,4 +1,4 @@
-<span ng-if="gold" ng-class="{'epic':gold&&best<30000,'legendary':gold&&best>30000}">Gold <span ng-if="best>0">({{best}})</span></span>
-<span ng-if="silver" class="rare">Silver</span>
-<span ng-if="copper" class="uncommon">Copper</span>
-<span ng-if="!gold&&!silver&&!copper" class="common">n/a</span>
+<span ng-if="gold" ng-class="{'epic':gold&&best<30000,'legendary':gold&&best>30000}">{{"GOLD"|translate}} <span ng-if="best>0">({{best}})</span></span>
+<span ng-if="silver" class="rare">{{"SILVER"|translate}}</span>
+<span ng-if="copper" class="uncommon">{{"COPPER"|translate}}</span>
+<span ng-if="!gold&&!silver&&!copper" class="common">{{"N/A"|translate}}</span>

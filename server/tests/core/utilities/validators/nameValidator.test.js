@@ -1,1 +1,0 @@
-//TODO Do the nameValidator tests

@@ -52,6 +52,7 @@
                 });
             }, function (error) {
                 $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
             });
         }
 
@@ -65,6 +66,7 @@
                 $scope.$parent.loading = false;
             }, function (error) {
                 $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
             });
         }
 
@@ -78,6 +80,9 @@
             } else {
                 $scope.$parent.loading = true;
                 $scope.userGuilds = user.query({param: "guilds", region: $scope.guildRegion}, function () {
+                    $scope.$parent.loading = false;
+                }, function (error) {
+                    $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 });
             }
@@ -93,6 +98,9 @@
                 $scope.$parent.loading = true;
                 user.query({param: "characters", region: $scope.characterRegion}, function (characters) {
                     $scope.userCharacters = $filter('orderBy')(characters, ['-level', 'name']);
+                    $scope.$parent.loading = false;
+                }, function (error) {
+                    $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
                 });
             }
@@ -161,6 +169,19 @@
                 }
             );
 
+        };
+
+        $scope.saveUser = function () {
+
+            $scope.$parent.loading = true;
+            user.update({param: "profile"}, $scope.user, function (user) {
+                $scope.$parent.loading = false;
+                $scope.$parent.user = user;
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+            
         };
     }
 })();
