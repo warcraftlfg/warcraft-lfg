@@ -10,8 +10,7 @@
         /*
          * Our reusable cross app code modules
          */
-        'blocks.socket', 'blocks.wlfgConfirm', 'blocks.wlfgAppTitle', 'blocks.wlfgWCL', 'blocks.wlfgTimezoneOffset', 'blocks.wlfgTranslationLoader', 'blocks.preventScroll',
-        //'blocks.exception', 'blocks.logger', 'blocks.router',
+        'blocks.socket', 'blocks.wlfgConfirm', 'blocks.wlfgAppTitle', 'blocks.wlfgWCL', 'blocks.wlfgTimezoneOffset', 'blocks.wlfgTranslationLoader', 'blocks.preventScroll', 'blocks.stickyFooter',
         /*
          * 3rd Party modules
          */

@@ -52,7 +52,7 @@
                             </span>
                         </td>
                         <td>
-                            <a class="txt-white m-r-10 f-18"
+                            <a class="txt-white m-r-10 f-18 txt-no-decoration"
                                href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update"
                                ng-if="guildAd.perms.ad.edit" tooltip-placement="top"
                                uib-tooltip="{{'EDIT'|translate }}">
@@ -107,7 +107,7 @@
                             </span>
                         </td>
                         <td>
-                            <a class="txt-no-decoration txt-white m-r-10 f-18"
+                            <a class="txt-no-decoration txt-white m-r-10 f-18 txt-no-decoration"
                                href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"
                                tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
                                 <i class="fa fa-pencil"></i>
@@ -155,7 +155,7 @@
                                 <div class="cursor-pointer" ng-show="!emailEdit" ng-click="emailEdit=true">
                                     <span ng-if="user.email.address==''">{{"NO_EMAIL_REGISTERED"|translate}}</span>
                                     <span ng-if="user.email.address!=''">{{user.email.address}}</span>
-                                    <i class="fa fa-pencil"
+                                    &nbsp;<i class="fa fa-pencil"
                                        tooltip-placement="top"
                                        uib-tooltip="{{'EDIT'|translate }}"></i>
                                 </div>
@@ -178,11 +178,11 @@
                                             <input ng-click="saveUser()" ng-model="user.email.services.adsExpirationReminder"
                                                    type="checkbox">
                                             <strong>{{"ACCOUNT_ADS_EXPIRATION_REMINDER"|translate}}</strong>
-                                            <div class="italic">
-                                                {{"ACCOUNT_ADS_EXPIRATION_REMINDER_DESCRIPTION"|translate}}
-                                            </div>
                                         </label>
                                     </div>
+                                </div>
+                                <div class="italic m-t-5">
+                                    {{"ACCOUNT_ADS_EXPIRATION_REMINDER_DESCRIPTION"|translate}}
                                 </div>
                             </div>
                         </form>

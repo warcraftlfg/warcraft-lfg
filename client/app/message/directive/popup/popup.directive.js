@@ -67,8 +67,11 @@
         }
     }
 
-    MessagePopupController.$inject = ["$scope", "socket", "messages"];
-    function MessagePopupController($scope, socket, messages) {
+    MessagePopupController.$inject = ["$scope", "$uibModalInstance"];
+    function MessagePopupController($scope, $uibModalInstance) {
 
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     }
 })();

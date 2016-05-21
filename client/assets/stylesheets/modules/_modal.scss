@@ -6,10 +6,12 @@
 
 .modal-header {
 	border-bottom: 1px solid white;
+	padding: 0px 0px 15px 0px;
 }
 
 .modal-footer {
-	border-top: 1px solid $black;
+	border-top: 1px solid white;
+	padding: 15px 0px 0px 0px;
 }
 
 .modal-header .close {
@@ -17,6 +19,10 @@
 	position: absolute;
 	right: 7px;
 	top: 5px;
+}
+
+.modal-body {
+	padding: 15px 0px 15px 0px;
 }
 
 .modal-header.modal-confirm {
