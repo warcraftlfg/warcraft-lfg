@@ -342,7 +342,7 @@
 
 /**** Text decoration *****/
 .txt-underline {text-decoration: underline;}
-.txt-no-decoration {text-decoration: none;}
+.txt-no-decoration {text-decoration: none !important;}
 
 /****  Opacity  ****/
 .opacity-0 {opacity:0;}

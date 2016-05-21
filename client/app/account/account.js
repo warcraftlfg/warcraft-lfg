@@ -137,7 +137,7 @@
 
         $scope.saveUser = function () {
 
-            $scope.$parent.loading = true;
+            //$scope.$parent.loading = true;
             user.update({param: "profile"}, $scope.user, function (user) {
                 $scope.$parent.loading = false;
                 $scope.$parent.user = user;
