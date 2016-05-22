@@ -19,32 +19,24 @@
         $scope.entitiesKey = [];
 
         if ($stateParams.objId1 && $stateParams.objId2) {
-            //Get Messages for current conversation
-            messages.get($stateParams, function (result) {
-                $scope.$parent.loading = false;
-                $scope.messages = result.messages;
-                $scope.entities = result.entities;
-                angular.forEach(result.entities, function (value, key) {
-                    if (!Array.isArray(value.id)) {
-                        $scope.entitiesKey[value.id] = value;
-                    } else {
-                        angular.forEach(value.id, function (value2, key2) {
-                            $scope.entitiesKey[value2] = value;
-                        });
-                    }
-                });
-            }, function (error) {
-                $scope.$parent.error = error.data;
-                $scope.$parent.loading = false;
-            });
+            getMessage();
         }
 
         function getConversations() {
             //Get All conversations
             messages.query(function (conversations) {
+                console.log(conversations);
                 $scope.$emit("updateMessageCount");
                 $scope.$parent.loading = false;
                 $scope.conversations = conversations;
+                if (!$stateParams.objId1 && !$stateParams.objId2) {
+                    $stateParams.objId1 = conversations[0].entities[0]._id || conversations[0].entities[0].id;
+                    $stateParams.objId2 = conversations[0].entities[1]._id || conversations[0].entities[1].id;
+
+                    $scope.objId1 = $stateParams.objId1;
+                    $scope.objId2 = $stateParams.objId2;
+                    getMessage();
+                }
             }, function (error) {
                 $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
@@ -136,6 +128,27 @@
                     $scope.$parent.loading = false;
                 });
             }
+        }
+
+        function getMessage() {
+            //Get Messages for current conversation
+            messages.get($stateParams, function (result) {
+                $scope.$parent.loading = false;
+                $scope.messages = result.messages;
+                $scope.entities = result.entities;
+                angular.forEach(result.entities, function (value, key) {
+                    if (!Array.isArray(value.id)) {
+                        $scope.entitiesKey[value.id] = value;
+                    } else {
+                        angular.forEach(value.id, function (value2, key2) {
+                            $scope.entitiesKey[value2] = value;
+                        });
+                    }
+                });
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
         }
     }
 

@@ -18,55 +18,51 @@
         function link(scope, element) {
             scope.animationsEnabled = true;
 
-            getGuildAds();
-            getCharacterAds();
-
             scope.openMessagePopup = function (size) {
                 var modalInstance = $uibModal.open({
                     animation: scope.animationsEnabled,
                     templateUrl: 'messagePopup',
                     controller: 'MessagePopupController',
                     scope: scope,
-                    size: size,
-                    resolve: {
-                        user: function () {
-                            return scope.user;
-                        }
-                    }
+                    size: size
                 });
             };
-
-            /**
-             * Get user's guildAds
-             */
-            function getGuildAds() {
-                scope.$parent.loading = true;
-                user.query({param: "guildAds"}, function (guildAds) {
-                    scope.guildAds = guildAds;
-                    scope.$parent.loading = false;
-                }, function (error) {
-                    scope.$parent.loading = false;
-                });
-            }
-
-            /**
-             * Get user's characterAds
-             */
-            function getCharacterAds() {
-                scope.$parent.loading = true;
-                user.query({param: "characterAds"}, function (characterAds) {
-                    scope.characterAds = characterAds;
-                    scope.$parent.loading = false;
-                }, function (error) {
-                    scope.$parent.loading = false;
-                });
-            }
-
         }
     }
 
-    MessagePopupController.$inject = ["$scope", "$uibModalInstance"];
-    function MessagePopupController($scope, $uibModalInstance) {
+    MessagePopupController.$inject = ["$scope", "$uibModalInstance", "user"];
+    function MessagePopupController($scope, $uibModalInstance, user) {
+
+        if ($scope.user && $scope.user.id) {
+            getGuildAds();
+            getCharacterAds();
+        }
+
+        /**
+         * Get user's guildAds
+         */
+        function getGuildAds() {
+            $scope.$parent.loading = true;
+            user.query({param: "guildAds"}, function (guildAds) {
+                $scope.guildAds = guildAds;
+                $scope.$parent.loading = false;
+            }, function (error) {
+                scope.$parent.loading = false;
+            });
+        }
+
+        /**
+         * Get user's characterAds
+         */
+        function getCharacterAds() {
+            $scope.$parent.loading = true;
+            user.query({param: "characterAds"}, function (characterAds) {
+                $scope.characterAds = characterAds;
+                $scope.$parent.loading = false;
+            }, function (error) {
+                $scope.$parent.loading = false;
+            });
+        }
 
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
