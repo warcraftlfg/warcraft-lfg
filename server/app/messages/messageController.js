@@ -28,11 +28,6 @@ module.exports.getMessages = function (req, res) {
             messageModel.getMessages(req.params.objId1, req.params.objId2, function (error, messages) {
                 callback(error, messages);
             });
-        },
-        count: function (callback) {
-            conversationModel.resetCount(req.user.id, req.params.objId1, req.params.objId2, function (error) {
-                callback(error);
-            });
         }
     }, function (error, result) {
         if (error) {
