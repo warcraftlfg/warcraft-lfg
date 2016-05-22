@@ -69,8 +69,8 @@
                                 <div ng-if="getDisplay($index)" class="col-md-8 p-t-5 p-b-5">
                                     <div>
                                         <span class="txt-blue-light m-r-5">{{message.userName}}</span> - 
-                                        <span ng-if="entitiesKey[message.userId].type == 'character'" class="m-l-5 icon-small class-{{ entitiesKey[message.userId].bnet.class }}">{{ entitiesKey[message.userId].name }}</span>
-                                        <span ng-if="entitiesKey[message.userId].type == 'guild'" class="m-l-5 icon-small faction-{{ entitiesKey[message.userId].bnet.side }}">{{ entitiesKey[message.userId].name }}</span>
+                                        <a target="_blank" ng-href="/#/character/{{entitiesKey[message.userId].region}}/{{entitiesKey[message.userId].realm}}/{{entitiesKey[message.userId].name}}/" ng-if="entitiesKey[message.userId].type == 'character'" class="m-l-5 icon-small txt-no-decoration class-{{ entitiesKey[message.userId].bnet.class }}">{{ entitiesKey[message.userId].name }}</a>
+                                        <a target="_blank" ng-href="/#/guild/{{entitiesKey[message.userId].region}}/{{entitiesKey[message.userId].realm}}/{{entitiesKey[message.userId].name}}/" ng-if="entitiesKey[message.userId].type == 'guild'" class="m-l-5 icon-small txt-no-decoration faction-{{ entitiesKey[message.userId].bnet.side }}">{{ entitiesKey[message.userId].name }}</a>
                                     </div>
                                 </div>
                                 <div ng-if="getDisplay($index)" class="col-md-4 text-right">

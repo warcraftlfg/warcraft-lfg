@@ -25,7 +25,6 @@
         function getConversations() {
             //Get All conversations
             messages.query(function (conversations) {
-                console.log(conversations);
                 $scope.$emit("updateMessageCount");
                 $scope.$parent.loading = false;
                 $scope.conversations = conversations;
