@@ -20,6 +20,9 @@
 
         if ($stateParams.objId1 && $stateParams.objId2) {
             getMessage();
+            $scope.messageState = "content";
+        } else {
+            $scope.messageState = "list";
         }
 
         function getConversations() {
