@@ -20,8 +20,8 @@ module.exports.insert = function (objId1, objId2, userId, userName, text, callba
                 //Validate Params
                 validator.validate({
                     text: text,
-                    charGuildUser: objId1,
-                    charGuildUser2: objId2,
+                    charGuildEntity: objId1,
+                    charGuildEntity2: objId2,
                 }, function (error) {
                     callback(error);
                 });
