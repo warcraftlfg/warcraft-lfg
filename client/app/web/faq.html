@@ -20,11 +20,11 @@
         </div>
     </div>
 </section>
-<div class="privacy">
+<div class="faq">
     <div class="container">
-        <div class="row">
+        <div class="row cursor-pointer" ng-click="faq1=!faq1" >
             <div class="col-md-12">
-                <h4 class="title cursor-pointer" ng-click="faq1=!faq1">
+                <h4 class="title" ng-class="{'open':faq1}" >
                     {{"FAQ_WHAT_IS_WLFG"|translate}}
                 </h4>
                 <div ng-show="faq1" class="content">
@@ -34,6 +34,29 @@
                     <p>
                         {{"FAQ_WHAT_IS_WLFG_CONTENT_2"|translate}}
                     </p>
+                </div>
+            </div>
+        </div>
+        <div class="row cursor-pointer" ng-click="faq2=!faq2">
+            <div class="col-md-12">
+                <h4 class="title" ng-class="{'open':faq2}" >
+                    {{"FAQ_DATA_SOURCES"|translate}}
+                </h4>
+                <div ng-show="faq2" class="content">
+                    <p>
+                        {{"FAQ_DATA_SOURCES_CONTENT1"|translate}}
+                    </p>
+                    <ul>
+                        <li>
+                            {{"FAQ_DATA_SOURCES_CONTENT2"|translate}}
+                        </li>
+                        <li>
+                            {{"FAQ_DATA_SOURCES_CONTENT3"|translate}}
+                        </li>
+                        <li>
+                            {{"FAQ_DATA_SOURCES_CONTENT4"|translate}}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
