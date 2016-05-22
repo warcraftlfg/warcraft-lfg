@@ -30,14 +30,9 @@ module.exports.validate = function (entityId, callback) {
             } else {
                 callback();
             }
-        },
-        user: function (callback) {
-            userModel.findById(parseInt(entityId,10), function (error, user) {
-                callback(error, user);
-            });
         }
     }, function (error, result) {
-        if (result.guild == null && result.character == null && result.user == null) {
+        if (result.guild == null && result.character == null) {
             return callback(new Error('NOTFOUND_OBJECT_VALIDATION_ERROR'));
         }
         callback(error);

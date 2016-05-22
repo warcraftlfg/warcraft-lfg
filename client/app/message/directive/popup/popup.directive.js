@@ -45,7 +45,6 @@
                     scope.guildAds = guildAds;
                     scope.$parent.loading = false;
                 }, function (error) {
-                    scope.$parent.error = error.data;
                     scope.$parent.loading = false;
                 });
             }
@@ -59,7 +58,6 @@
                     scope.characterAds = characterAds;
                     scope.$parent.loading = false;
                 }, function (error) {
-                    scope.$parent.error = error.data;
                     scope.$parent.loading = false;
                 });
             }

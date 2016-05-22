@@ -15,39 +15,19 @@ var ObjectId = require('mongodb').ObjectId;
  */
 module.exports.hasMessagePermission = function (objId1, objId2, id, callback) {
 
-    var or = [];
-    if (ObjectId.isValid(objId1)) {
-        or.push({_id: ObjectId(objId1)});
+    if (!ObjectId.isValid(objId1) || !ObjectId.isValid(objId2)) {
+        return callback(new Error("Invalid Object ID"));
     }
-    if (ObjectId.isValid(objId2)) {
-        or.push({_id: ObjectId(objId2)});
-    }
+
     async.parallel({
             characters: function (callback) {
-                if (or.length > 0) {
-                    characterModel.find({$or: or}, {id: 1}, function (error, characters) {
-                        callback(error, characters);
-                    });
-                } else {
-                    callback();
-                }
-
+                characterModel.find({$or: [{_id: ObjectId(objId1)}, {_id: ObjectId(objId2)}]}, {id: 1}, function (error, characters) {
+                    callback(error, characters);
+                });
             },
             guilds: function (callback) {
-                if (or.length > 0) {
-                    guildModel.find({$or: or}, {id: 1}, function (error, guilds) {
-                        callback(error, guilds);
-                    });
-                } else {
-                    callback();
-                }
-
-            },
-            users: function (callback) {
-                userModel.find({$or: [{id: parseInt(objId1, 10)}, {id: parseInt(objId2, 10)}]}, {
-                    id: 1
-                }, function (error, users) {
-                    callback(error, users);
+                guildModel.find({$or: [{_id: ObjectId(objId1)}, {_id: ObjectId(objId2)}]}, {id: 1}, function (error, guilds) {
+                    callback(error, guilds);
                 });
             }
         },
@@ -69,14 +49,6 @@ module.exports.hasMessagePermission = function (objId1, objId2, id, callback) {
                 });
             }
 
-            if (result.users) {
-                result.users.forEach(function (user) {
-                    if (user.id) {
-                        ids.push(user.id);
-                    }
-                });
-            }
-
             var hasPermission = false;
             ids = lodash.uniq(ids);
             ids.forEach(function (userId) {
@@ -91,43 +63,34 @@ module.exports.hasMessagePermission = function (objId1, objId2, id, callback) {
 
 module.exports.getEntities = function (objId1, objId2, callback) {
 
-    var or = [];
-    if (ObjectId.isValid(objId1)) {
-        or.push({_id: ObjectId(objId1)});
+    if (!ObjectId.isValid(objId1) || !ObjectId.isValid(objId2)) {
+        return callback(new Error("Invalid ObjectID"));
     }
-    if (ObjectId.isValid(objId2)) {
-        or.push({_id: ObjectId(objId2)});
-    }
+
     async.parallel({
             characters: function (callback) {
-                if (or.length > 0) {
-                    characterModel.find({$or: or}, {region: 1, realm: 1, name: 1, id: 1,"bnet.faction":1, "bnet.class":1}, function (error, characters) {
-                        callback(error, characters);
-                    });
-                } else {
-                    callback();
-                }
-
+                characterModel.find({$or: [{_id: ObjectId(objId1)}, {_id: ObjectId(objId2)}]}, {
+                    region: 1,
+                    realm: 1,
+                    name: 1,
+                    id: 1,
+                    "bnet.faction": 1,
+                    "bnet.class": 1
+                }, function (error, characters) {
+                    callback(error, characters);
+                });
             },
             guilds: function (callback) {
-                if (or.length > 0) {
-                    guildModel.find({$or: or}, {region: 1, realm: 1, name: 1, id: 1,"bnet.side":1}, function (error, guilds) {
-                        callback(error, guilds);
-                    });
-                } else {
-                    callback();
-                }
-
-            },
-            users: function (callback) {
-                userModel.find({$or: [{id: parseInt(objId1, 10)}, {id: parseInt(objId2, 10)}]}, {
+                guildModel.find({$or: [{_id: ObjectId(objId1)}, {_id: ObjectId(objId2)}]}, {
+                    region: 1,
+                    realm: 1,
+                    name: 1,
                     id: 1,
-                    battleTag: 1,
-                    _id: 0
-                }, function (error, users) {
-                    callback(error, users);
+                    "bnet.side": 1
+                }, function (error, guilds) {
+                    callback(error, guilds);
                 });
-            }
+            },
         },
         function (error, result) {
             var entities = [];
@@ -148,19 +111,6 @@ module.exports.getEntities = function (objId1, objId2, callback) {
                     }
                 });
             }
-
-            if (result.users) {
-                result.users.forEach(function (user) {
-                    if (user.id) {
-                        user.type = "user";
-                        user.name = user.battleTag.split('#')[0];
-                        delete user.battleTag;
-                        entities.push(user);
-                    }
-                });
-            }
-
-
             callback(error, entities);
         });
 };

@@ -31,22 +31,22 @@ WowProgressUpdateProcess.prototype.parseWowProgress = function() {
                 function(callback) {
                     async.eachSeries(wowProgressGuildAds, function (wowProgressGuildAd, callback) {
                         guildService.insertWoWProgressGuildAd(wowProgressGuildAd,function(error){
-                            callback(error);
+                            if(error)
+                                logger.error(error.message);
+                            callback();
                         });
-                    }, function (error) {
-                        if(error)
-                            logger.error(error.message);
+                    }, function () {
                         callback();
                     });
                 },
                 function(callback){
                     async.eachSeries(wowProgressCharacterAds,function(wowProgressCharacterAd,callback){
                         characterService.insertWoWProgressCharacterAd(wowProgressCharacterAd,function(error){
-                            callback(error);
+                            if(error)
+                                logger.error(error.message);
+                            callback();
                         });
-                    },function(error){
-                        if(error)
-                            logger.error(error.message);
+                    },function(){
                         callback();
                     });
                 }
