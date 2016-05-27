@@ -26,7 +26,11 @@
                         translate}}</a>
                 </li>
                 <li ng-if="user.id">
-                    <a href="#/messages/"><i ng-if="unreadMessageCount.count <= 0" class="fa fa-comment-o f-18"></i><i ng-if="unreadMessageCount.count > 0" class="fa fa-commenting-o f-18"></i></a>
+                    <a href="#/messages/">
+                        <!--<i ng-if="unreadMessageCount.count <= 0" class="fa fa-comment-o f-18"></i>
+                        <i ng-if="unreadMessageCount.count > 0" class="fa fa-commenting-o f-18"></i>-->
+                        <img src="/assets/images/message.png" class="message-picto" />
+                    </a>
                     <span class="message-count badge floating badge-active" ng-if="unreadMessageCount.count > 0">{{ unreadMessageCount.count }}</span>
                 </li>
                 <li ng-if="user.id" class="dropdown">

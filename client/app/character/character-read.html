@@ -36,8 +36,8 @@
                         <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
                             <i class="fa fa-refresh"></i> {{"UPDATE_CHARACTER"|translate}}
                         </button>
-                        <button ng-if="character.id && user && user.id" ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
-                            <i class="fa fa-comment-o"></i> {{"MESSAGE_OPEN_POPUP"|translate}}
+                        <button ng-if="character.id" ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
+                            <img src="/assets/images/message.png" class="message-picto" /> {{"MESSAGE_OPEN_POPUP"|translate}}
                         </button>
                     </div>
                     <div class="col-md-6 m-b-20 text-right">
@@ -99,8 +99,8 @@
                                 <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
                                     {{"CONTACT"|translate}}: <span>{{ character.battleTag }}</span>
                                 </div>
-                                <div class="col-md-6" ng-if="character.id && user && user.id" >
-                                     <span ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG (<i class="fa fa-envelope-o"></i>)</span>
+                                <div class="col-md-6" ng-if="character.id" >
+                                     <span ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
                                 </div>
                             </div>
                         </div>

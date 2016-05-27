@@ -36,8 +36,8 @@
                         <button ng-click="updateGuild()" type="button" class="btn btn-default" aria-label="Update Guild">
                             <i class="fa fa-refresh"></i> {{"UPDATE_GUILD"|translate}}
                         </button>
-                        <button ng-if="guild.id && user && user.id"  ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
-                            <i class="fa fa-comment-o"></i> {{"MESSAGE_OPEN_POPUP"|translate}}
+                        <button ng-if="guild.id"  ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
+                            <img src="/assets/images/message.png" class="message-picto" /> {{"MESSAGE_OPEN_POPUP"|translate}}
                         </button>
                     </div>
                     <!--<div class="col-md-6 m-b-20 text-right">
@@ -97,7 +97,7 @@
                                 {{"CONTACT"|translate}}: <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
                             </div>
                             <div class="col-md-6">
-                                 <span ng-if="guild.id && user && user.id" ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG (<i class="fa fa-envelope-o"></i>)</span>
+                                 <span ng-if="guild.id" ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
                             </div>
                         </div>
                     </div>

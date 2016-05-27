@@ -88,11 +88,12 @@
 .message-count {
   position: absolute;
   margin: 0;
-  right: 2px;
+  left: 2px;
   top: 5px;
   background-color: #de2f2f;
   border-radius: 0px;
   padding: 2px 5px;
+  font-size: 11px;
 }
 
 .message-count-list {
@@ -103,4 +104,18 @@
   background-color: #de2f2f;
   border-radius: 0px;
   padding: 2px 5px;
+}
+
+.message-picto {
+  width: 21px;
+}
+
+@media only screen and (max-width : 992px) {
+  .message.list .message-content {
+    display: none;
+  }
+
+  .message.content .message-list {
+    display: none;
+  }
 }
