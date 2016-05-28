@@ -19,6 +19,8 @@ module.exports.getRealms = function (req, res) {
     var sort = {name: 1, region: 1};
 
     logger.debug("realms - criteria:%s projection:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(sort));
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
     realmModel.find(criteria, projection, sort, function (error, realms) {
         if (error) {
             logger.error(error.message);

@@ -1,0 +1,40 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<p>Bonjour {{user.battleTag}},</p>
+<p>
+    Warcraft<strong>lfg</strong> a pour objectif principal de fournir des annonces de recrutement pertinentes et à jour à
+    nos utilisateurs. Afin d'y arriver, nous enlevons régulierement les vieilles annonces du site.<br/>
+</p>
+<p>
+    A titre d'information, la/les annonce(s) attachées à votre compte va/vont bientôt expirer:
+<ul>
+    {% for character in characterAds1Day %}
+    <li>Personnage {{ character.name }}@{{character.realm}} : 1 jour avant expiration.</li>
+    {% endfor %}
+    {% for guild in guildAds1Day %}
+    <li>Guilde {{ guild.name }}@{{guild.realm}} : 1 jour avant expiration.</li>
+    {% endfor %}
+    {% for character in characterAds1Week %}
+    <li>Personnage {{ character.name }}@{{character.realm}} : 7 jours avant expiration.</li>
+    {% endfor %}
+    {% for guild in guildAds1Week %}
+    <li>Guilde {{ guild.name }}@{{guild.realm}} : 7 jours avant expiration.</li>
+    {% endfor %}
+</ul>
+</p>
+<p>
+    Pour rappel, une annonce de personnage restera visible pendant 30 jours, alors qu'une annonce de guilde le sera 4
+    mois.<br/>
+    Si vous souhaitez que les annonce impactées restent visibles, il vous suffit simplement de vous connecter à votre <a
+        title="WarcraftLFG page de profile" href="https://www.warcraftlfg.com/#/account/">gestion de compte</a> et de
+    les mettre à jour.<br/>
+    Nous esperons que nos services vous ont aidé à trouver chaussure à vos pieds.
+</p>
+<p>
+    -Warcraft<strong>lfg</strong>
+</p>
+{% endblock %}
+
+
+

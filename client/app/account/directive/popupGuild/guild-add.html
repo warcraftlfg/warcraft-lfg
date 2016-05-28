@@ -1,0 +1,34 @@
+<script type="text/ng-template" id="guildAddPopup">
+    <div class="p-15 bg-black">
+        <form>
+            <div class="form-group">
+                <label for="region">{{ "REGION"|translate }}</label>
+                <span class="css3-metro-dropdown">
+                    <select ng-model="guildRegion" ng-change="updateGuildRegion()" class="form-control"
+                            id="region">
+                        <option value=""><{{ "CHOOSE_REGION"|translate }}></option>
+                        <option value="us">US</option>
+                        <option value="eu">EU</option>
+                        <option value="kr">KR</option>
+                        <option value="tw">TW</option>
+                    </select>
+                </span>
+            </div>
+        </form>
+        <div class="form-group">
+            <label ng-show="userGuilds.length" for="region">{{ "GUILD_CREATE_CHOOSE"|translate }}</label>
+            <p ng-show="!userGuilds.length && guildRegion!='' && !$parent.loading">
+                {{ "NO_GUILD_FOUND_FOR_REGION"|translate }}
+            </p>
+            <p ng-repeat="guild in userGuilds">
+                <a class="btn btn-inverse" ng-click="createGuildAd(guildRegion,guild.realm,guild.name)"
+                   role="button">{{guild.name}} - {{guild.realm}}</a>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-inverse" ng-click="cancel()">{{
+                "CANCEL"|translate }}
+            </button>
+        </div>
+    </div>
+</script>

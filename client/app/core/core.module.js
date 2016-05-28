@@ -10,11 +10,10 @@
         /*
          * Our reusable cross app code modules
          */
-        'blocks.socket', 'blocks.wlfgConfirm', 'blocks.wlfgAppTitle', 'blocks.wlfgWCL','blocks.wlfgTimezoneOffset','blocks.wlfgTranslationLoader',
-        //'blocks.exception', 'blocks.logger', 'blocks.router',
+        'blocks.socket', 'blocks.wlfgConfirm', 'blocks.wlfgAppTitle', 'blocks.wlfgWCL', 'blocks.wlfgTimezoneOffset', 'blocks.wlfgTranslationLoader', 'blocks.preventScroll', 'blocks.stickyFooter',
         /*
          * 3rd Party modules
          */
-        'ui.router', 'pascalprecht.translate', 'btford.socket-io', 'angularMoment', 'infinite-scroll', 'ui.bootstrap', 'angular-ranger', 'isteven-multi-select', 'hc.marked'
+        'ui.router', 'pascalprecht.translate', 'btford.socket-io', 'angularMoment', 'infinite-scroll', 'ui.bootstrap', 'angular-ranger', 'isteven-multi-select', 'hc.marked', 'perfect_scrollbar'
     ]);
 })();

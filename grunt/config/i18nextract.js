@@ -4,7 +4,7 @@ module.exports = {
         lang: ['en_US', 'fr_FR'],
         dest: 'client/assets/locales',
         prefix: 'locale-',
-        safeMode: true,
-        stringifyOptions:true
+        nullEmpty: true,
+        stringifyOptions: true,
     }
 };

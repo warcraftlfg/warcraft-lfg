@@ -15,9 +15,11 @@ var passportSocketIo = require("passport.socketio");
 var compression = require('compression');
 var applicationStorage = process.require('core/applicationStorage.js');
 var adapter = require('socket.io-redis');
+var userSocket = process.require("users/userSocket.js");
 
 var config = applicationStorage.config;
 var logger = applicationStorage.logger;
+
 
 /**
  * WebServer creates an HTTP server for the application,
@@ -41,6 +43,8 @@ function WebServerProcess(autoStop, port) {
 
     this.io = require('socket.io')(this.server);
     applicationStorage.socketIo = this.io;
+
+    userSocket.connect();
 
     //Start redis for socket.io
     this.io.adapter(adapter(applicationStorage.redis));
@@ -73,6 +77,7 @@ function WebServerProcess(autoStop, port) {
     this.app.use('/api/v1', process.require("guilds/routes.js"));
     this.app.use('/api/v1', process.require("realms/routes.js"));
     this.app.use('/api/v1', process.require("updates/routes.js"));
+    this.app.use('/api/v1', process.require("messages/routes.js"));
 
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));

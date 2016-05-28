@@ -1,6 +1,7 @@
 "use strict"
 
 //Module dependencies
+var async = require("async");
 var passport = require("passport");
 var BnetStrategy = require("passport-bnet").Strategy;
 var applicationStorage = process.require("core/applicationStorage.js");
@@ -22,8 +23,25 @@ passport.use(new BnetStrategy({
     function (accessToken, refreshToken, profile, done) {
         logger.verbose("%s connected", profile.battletag);
 
-        var user = {id: profile.id, battleTag: profile.battletag, accessToken: accessToken};
-        userModel.upsert(user, function (error) {
+        async.waterfall([
+            function (callback) {
+                userModel.findById(profile.id, function (error, user) {
+                    callback(error, user);
+                });
+            },
+            function (user, callback) {
+                if (user && user.id) {
+                    user.battleTag = profile.battletag;
+                    user.accessToken = accessToken;
+                } else {
+                    user = {id: profile.id, battleTag: profile.battletag, accessToken: accessToken};
+                }
+                userModel.upsert(user, function (error) {
+                    callback(error,user);
+                });
+
+            }
+        ], function (error,user) {
             if (error) {
                 logger.error(error.message);
                 return done(null, false);
@@ -54,7 +72,8 @@ passport.deserializeUser(function (id, done) {
     logger.silly("deserializeUser for id:%s", id);
     userModel.findById(id, function (error, user) {
         if (user) {
-            done(null, {id: user.id, battleTag: user.battleTag});
+            delete user.accessToken;
+            done(null, user);
         } else {
             done(null, false);
         }

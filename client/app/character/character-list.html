@@ -19,17 +19,20 @@
     </div>
 </section>
 <div wlfg-character-menu></div>
-<div class="character-list" >
+<div class="character-list">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreCharacters()" infinite-scroll-immediate-check="false">
+            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreCharacters()"
+                 infinite-scroll-immediate-check="false">
                 <div class="cartouche cartouche-faction-{{character.bnet.faction}}" ng-repeat="character in characters">
                     <div class="character character-faction-{{character.bnet.faction}}">
-                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="div-link"></a>
+                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
+                           class="div-link"></a>
                         <div class="row">
                             <div class="col-md-4 col-lg-4">
                                 <div class="overflow class-{{character.bnet.class}}">
-                                    <a class="icon-medium class-{{character.bnet.class}} f-28" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
+                                    <a class="icon-medium class-{{character.bnet.class}} f-28"
+                                       href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
                                         {{character.name}}
                                     </a>
                                 </div>
@@ -39,47 +42,51 @@
                                 <div class="overflow character-info-padding faction-{{character.bnet.faction}}">
                                     {{character.bnet.guild.name}}
                                 </div>
-                                <div class="character-info-padding">
-                                    Level {{character.bnet.level}}
+                                <div ng-if="character.id" class="character-info-padding">
+                                    <span class="icon-small logo-warcraftlfg">WarcraftLFG</span>
                                 </div>
                             </div>
                             <div class="col-md-3 col-lg-4">
                                 <div>
-                                    Languages :
-                                    <span ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages">{{"LANG_"+language|uppercase|translate}} </span>
+                                    {{"LANGUAGES"|translate}}:
+                                    <span ng-if="character.ad.languages.length > 0"
+                                          ng-repeat="language in character.ad.languages">{{"LANG_"+language|uppercase|translate}} </span>
                                     <span ng-if="!character.ad.languages.length">{{ "LANG_NONE"|translate }}</span>
                                 </div>
                                 <div ng-if="character.ad.role.tank || character.ad.role.heal || character.ad.role.melee_dps || character.ad.role.ranged_dps">
-                                    Role :&nbsp;
+                                    {{"ROLES"|translate}}:
                                     <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
                                     <span ng-if="character.ad.role.heal" class="icon-small heal"></span>
                                     <span ng-if="character.ad.role.melee_dps" class="icon-small dps"></span>
                                     <span ng-if="character.ad.role.ranged_dps" class="icon-small ranged-dps"></span>
                                 </div>
                                 <div>
-                                    Raids per week : {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
+                                    {{"RAIDS_PER_WEEK"|translate}}: {{character.ad.raids_per_week.min}} -
+                                    {{character.ad.raids_per_week.max}}
                                 </div>
                                 <div>
-                                    iLvl :
+                                    {{"ILVL"|translate}}:
                                     <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                         {{character.bnet.items.averageItemLevelEquipped}}
                                     </span>
                                 </div>
                                 <div>
-                                    Ring :&nbsp;
-                                    <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
+                                    {{"RING"|translate}}:
+                                    <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1"
+                                          wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                 </div>
                             </div>
                             <div class="col-md-5 col-lg-4 character-class-{{character.bnet.class}}">
                                 <div class="wlfg-progress">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Progress : &nbsp;
+                                            {{"PROGRESS"|translate}}:
                                             <span wlfg-progress="character.bnet.progression.raids"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <span wlfg-warcraft-logs="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></span>
+                                <span wlfg-warcraft-logs="character.warcraftLogs.logs"
+                                      character-class="{{ character.bnet.class }}"></span>
                             </div>
                         </div>
                         <div class="character-timestamp">

@@ -2,7 +2,8 @@ angular
     .module('app.character')
     .directive('wlfgItemAudit', wlfgItemAudit);
 
-function wlfgItemAudit() {
+wlfgItemAudit.$inject = ['$translate', '$stateParams', '$location'];
+function wlfgItemAudit($translate) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -32,62 +33,62 @@ function wlfgItemAudit() {
                 if (items.neck && items.neck.tooltipParams.enchant) {
                     if (neckEnchant.indexOf(items.neck.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors.push('Low neck enchant');
+                        errors.push($translate.instant("LOW_NECK_ENCHANT"));
                     }
                 } else {
                     errorCount++;
-                    errors.push('No neck enchant.');
+                    errors.push($translate.instant("NO_NECK_ENCHANT"));
                 }
 
                 if (items.back && items.back.tooltipParams.enchant) {
                     if (backEnchant.indexOf(items.back.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors.push('Low back enchant');
+                        errors.push($translate.instant("LOW_BACK_ENCHANT"));
                     }
                 } else {
                     errorCount++;
-                    errors.push('No back enchant.');
+                    errors.push($translate.instant("NO_BACK_ENCHANT"));
                 }
 
                 if (items.finger1 && items.finger1.tooltipParams.enchant) {
                     if (ringEnchant.indexOf(items.finger1.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors.push('Low finger1 enchant');
+                        errors.push($translate.instant("LOW_FINGER1_ENCHANT"));
                     }
                 } else {
                     errorCount++;
-                    errors.push('No finger1 enchant.');
+                    errors.push($translate.instant("NO_FINGER1_ENCHANT"));
                 }
 
                 if (items.finger2 && items.finger2.tooltipParams.enchant) {
                     if (ringEnchant.indexOf(items.finger2.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors.push('Low finger2 enchant');
+                        errors.push($translate.instant("LOW_FINGER2_ENCHANT"));
                     }
                 } else {
                     errorCount++;
-                    errors.push('No finger2 enchant.');
+                    errors.push($translate.instant("NO_FINGER2_ENCHANT"));
                 }
 
                 if (items.mainHand && items.mainHand.tooltipParams.enchant) {
                     if (weaponEnchant.indexOf(items.mainHand.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors.push('Low mainHand enchant');
+                        errors.push($translate.instant("LOW_MAINHAND_ENCHANT"));
                     }
                 } else {
                     errorCount++;
-                    errors.push('No mainHand enchant.');
+                    errors.push($translate.instant("NO_MAINHAND_ENCHANT"));
                 }
 
                 if (items.offHand && items.offHand.weaponInfo) {
                     if (items.offHand.tooltipParams.enchant) {
                         if (weaponEnchant.indexOf(items.offHand.tooltipParams.enchant) == -1) {
                             errorCount++;
-                            errors.push('Low offhand enchant');
+                            errors.push($translate.instant("LOW_OFFHAND_ENCHANT"));
                         }
                     } else {
                         errorCount++;
-                        errors.push('No offhand enchant.');
+                        errors.push($translate.instant("NO_OFFHAND_ENCHANT"));
                     }
                 }
 
@@ -95,12 +96,12 @@ function wlfgItemAudit() {
                     if (item.tooltipParams && item.tooltipParams.gem0) {
                         if (gemEnchant.indexOf(item.tooltipParams.gem0) == -1) {
                             errorCount++;
-                            errors.push('Low '+key+' gem');
+                            errors.push($translate.instant("LOW_GEM")+$translate.instant(key.toUpperCase()));
                         }
                     }
                     if (item.tooltipParams && !item.tooltipParams.gem0 && item.bonusLists && item.bonusLists.indexOf(565) != -1 ){
                         errorCount++;
-                        errors.push('No '+key+' gem');
+                        errors.push($translate.instant("NO_GEM")+$translate.instant(key.toUpperCase()));
                     }
                 });
             }

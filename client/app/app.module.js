@@ -27,7 +27,8 @@
         'app.account',
         'app.character',
         'app.guild',
-        'app.layout'
+        'app.layout',
+        'app.message'
     ]);
 
 })();

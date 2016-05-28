@@ -8,8 +8,8 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates"];
-    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates) {
+    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates", "messages"];
+    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates, messages) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -30,7 +30,6 @@
             $scope.$parent.loading = false;
         });
 
-
         $scope.updateCharacter = function () {
             $scope.$parent.loading = true;
             updates.post({
@@ -47,6 +46,8 @@
                 $scope.$parent.loading = false;
             });
         };
+
+
 
     }
 
@@ -132,7 +133,7 @@
             //  if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
             // && $scope.filters.states.timezone
 
-            if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel  && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
+            if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
 
                 $scope.characters = [];
                 getCharacterAds();

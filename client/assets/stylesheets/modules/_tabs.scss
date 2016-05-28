@@ -1,0 +1,35 @@
+.nav-tabs > li > a {
+	border-radius: 0px;
+	font-size: 24px;
+	color: white;
+	background-color: $black;
+	border: 1px solid white;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+	color: white;
+	background-color: $grey;
+}
+
+.nav.nav-tabs > li > a:hover {
+	background-color: $red !important;
+}
+
+.nav.nav-tabs > li > a:focus {
+	background-color: $grey !important;
+}
+
+.no-tabs .nav-tabs {
+	border: 0;
+}
+
+.no-tabs .nav-tabs > li > a {
+	border: 0;
+	padding: 0px;
+	display: none;
+}
+
+.no-tabs .nav-tabs > li.active > a, .no-tabs .nav-tabs > li.active > a:focus, .no-tabs .nav-tabs > li.active > a:hover {
+	background-color: $grey !important;
+	border: 0;
+}  

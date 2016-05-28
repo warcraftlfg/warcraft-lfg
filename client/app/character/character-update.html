@@ -27,87 +27,145 @@
                     <input ng-model="character.realm" disabled class="form-control" id="characterRealmInput">
                     <input ng-model="character.region" disabled class="form-control" id="characterRegionInput">
                 </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input ng-model="character.ad.lfg" type="checkbox"> <strong>{{"CHARACTER_CREATE_LFG"|translate}}</strong></label>
-                        </label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group m-b-5">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input ng-model="character.ad.lfg" type="checkbox"> <strong>{{"CHARACTER_CREATE_LFG"|translate}}</strong></label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="italic">
+                                    {{"CHARACTER_CREATE_LFG_DESCRIPTION"|translate}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group m-b-0">
+                                    <label>{{"CHARACTER_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
+                                    <div isteven-multi-select
+                                         input-model="languages"
+                                         output-model="selectedLanguages"
+                                         button-label="name"
+                                         item-label="name"
+                                         output-properties="id"
+                                         tick-property="selected"
+                                         max-height="300px"
+                                         class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>{{"CHARACTER_CREATE_ROLE"|translate}}</label>
-                    <div class="row">
-                        <div ng-repeat="(role,value) in character.ad.role" class="col-md-3">
-                            <div class="checkbox">
-                                <label>
-                                    <input ng-model="character.ad.role[role]" type="checkbox">
-                                    <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
-                                </label>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group m-b-0">
+                            <label>{{"CHARACTER_CREATE_ROLE"|translate}}</label>
+                            <div class="row">
+                                <div ng-repeat="(role,value) in character.ad.role" class="col-md-3 col-sm-3">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input ng-model="character.ad.role[role]" type="checkbox">
+                                            <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group m-b-0">
+                                    <label>{{"CHARACTER_CREATE_DESCRIPTION"|translate}}</label>
+                                    <textarea ng-model="character.ad.description" placeholder="{{'CHARACTER_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" class="form-control" rows="6"></textarea>
+                                    <a href="https://help.github.com/articles/markdown-basics/" class="f-right m-t-5 txt-underline" target="_blank">{{"HELP_FORMATTING"|translate}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group m-b-0">
+                                    <label>{{"CHARACTER_CREATE_TRANSFERT"|translate}}</label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input ng-model="character.ad.transfert" type="checkbox"> {{"ALLOW_TRANSFERT"|translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group m-b-0">
+                                    <label>{{"BATTLE_TAG"|translate}} ({{user.battleTag}})</label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input ng-model="character.ad.btag_display" type="checkbox"> {{"DISPLAY_ON_PROFILE"|translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group m-b-0">
+                                    <label>{{"CHARACTER_CREATE_RPW"|translate}}</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{character.ad.raids_per_week.min}} - {{ character.ad.raids_per_week.max }}
+                                            <angular-ranger class="ranger-inverse m-t-10" min="1" max="7" step="1" min-value="character.ad.raids_per_week.min" max-value="character.ad.raids_per_week.max"></angular-ranger>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group m-b-0">
+                                    <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
+                                    <div class="css3-metro-dropdown">
+                                        <select ng-model="character.ad.timezone" class="form-control">
+                                            <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}} (GMT{{timezone | wlfgTimezoneOffset}})</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>{{"CHARACTER_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
-                    <div isteven-multi-select
-                         input-model="languages"
-                         output-model="selectedLanguages"
-                         button-label="name"
-                         item-label="name"
-                         output-properties="id"
-                         tick-property="selected"
-                         max-height="300px"
-                         class="multiselect-inverse">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"CHARACTER_CREATE_TRANSFERT"|translate}}</label>
-                    <div class="checkbox">
-                        <label>
-                            <input ng-model="character.ad.transfert" type="checkbox"> {{"ALLOW_TRANSFERT"|translate}}
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"BATTLE_TAG"|translate}} ({{user.battleTag}})</label>
-                    <div class="checkbox">
-                        <label>
-                            <input ng-model="character.ad.btag_display" type="checkbox"> {{"DISPLAY_ON_PROFILE"|translate}}
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"CHARACTER_CREATE_DESCRIPTION"|translate}}</label>
-                    <textarea ng-model="character.ad.description" placeholder="{{'CHARACTER_CREATE_DESCRIPTION_PLACEHOLDER'|translate}}" class="form-control" rows="6"></textarea>
-                    <a href="https://help.github.com/articles/markdown-basics/" class="f-right m-t-5 txt-underline" target="_blank">{{"HELP_FORMATTING"|translate}}</a>
-                </div>
-                <div class="form-group">
-                    <label>{{"CHARACTER_CREATE_RPW"|translate}}</label>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{character.ad.raids_per_week.min}} - {{ character.ad.raids_per_week.max }}
-                            <angular-ranger class="ranger-inverse m-t-10" min="1" max="7" step="1" min-value="character.ad.raids_per_week.min" max-value="character.ad.raids_per_week.max"></angular-ranger>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
-                    <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
-                        <select ng-model="character.ad.timezone" class="form-control">
-                            <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}} (GMT{{timezone | wlfgTimezoneOffset}})</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{"CHARACTER_CREATE_PLAY_TIME"|translate}}</label>
                     <table class="table table-condensed">
                         <tr ng-class="{'played':obj.play===true}" ng-repeat="(day,obj) in character.ad.play_time">
                             <td class="play text-center"><input ng-model="obj.play" type="checkbox"></td>
                             <td class="day">{{day|uppercase|translate}}</td>
                             <td class="start">
                                 <div class="row" ng-show="obj.play">
-                                    <div class="col-md-3 text-right">
-                                        <label>Start at :</label>
+                                    <div class="col-md-3 text-center">
+                                        <label>{{"START_AT"|translate}}</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="css3-metro-dropdown">
@@ -153,8 +211,8 @@
                             </td>
                             <td class="end">
                                 <div class="row" ng-show="obj.play">
-                                    <div class="col-md-3 text-right">
-                                        <label>End at :</label>
+                                    <div class="col-md-3 text-center">
+                                        <label>{{"END_AT"|translate}}</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="css3-metro-dropdown">
@@ -201,14 +259,6 @@
                         </tr>
                     </table>
                 </div>
-                <!--div class="form-group">
-                    <label>{{"CHARACTER_CREATE_TIMEZONE"|translate}}</label>
-                    <div class="css3-metro-dropdown css3-metro-dropdown-inverse">
-                        <select ng-model="character.ad.timezone" class="form-control">
-                            <option ng-repeat="timezone in timezones" value="{{timezone}}">{{"TIMEZONE_"+timezone|uppercase|translate}}</option>
-                        </select>
-                    </div>
-                </div-->
                 <button type="submit" class="btn btn-default" ng-click="save()">{{"SAVE"|translate}}</button>
             </form>
         </div>

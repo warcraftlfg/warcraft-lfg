@@ -5,6 +5,8 @@ var applicationStorage = process.require("core/applicationStorage.js");
 var characterModel = process.require("characters/characterModel.js");
 var guildModel = process.require("guilds/guildModel.js");
 var userService = process.require("users/userService.js");
+var conversationModel = process.require("users/conversationModel.js");
+var userModel = process.require("users/userModel.js");
 var async = require("async");
 
 
@@ -14,6 +16,8 @@ var async = require("async");
  * @param res
  */
 module.exports.logout = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
     req.logout();
     res.redirect('/');
 };
@@ -24,6 +28,8 @@ module.exports.logout = function (req, res) {
  * @param res
  */
 module.exports.getProfile = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
     res.json(req.user);
 };
 
@@ -35,8 +41,11 @@ module.exports.getProfile = function (req, res) {
 module.exports.getCharacterAds = function (req, res) {
     var logger = applicationStorage.logger;
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
-    var projection = {_id: 0, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.class": 1};
+    var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.class": 1};
     var sort = {"ad.updated": -1};
+
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
     characterModel.find(criteria, projection, sort, function (error, characters) {
         if (error) {
             logger.error(error.message);
@@ -55,8 +64,10 @@ module.exports.getCharacterAds = function (req, res) {
 module.exports.getGuildAds = function (req, res) {
     var logger = applicationStorage.logger;
 
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
-    var projection = {_id: 0, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.side": 1, "perms": 1};
+    var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.side": 1, "perms": 1};
     var sort = {"ad.updated": -1};
     async.waterfall([
         function (callback) {
@@ -95,6 +106,9 @@ module.exports.getGuildAds = function (req, res) {
  */
 module.exports.getCharacters = function (req, res) {
     var logger = applicationStorage.logger;
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
+
     userService.getCharacters(req.params.region, req.user.id, function (error, characters) {
         if (error) {
             logger.error(error.message);
@@ -112,6 +126,8 @@ module.exports.getCharacters = function (req, res) {
  */
 module.exports.getGuilds = function (req, res) {
     var logger = applicationStorage.logger;
+
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
 
     userService.getGuilds(req.params.region, req.user.id, function (error, guilds) {
         if (error) {
@@ -132,6 +148,7 @@ module.exports.getGuilds = function (req, res) {
  */
 module.exports.getGuildRank = function (req, res) {
     var logger = applicationStorage.logger;
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
 
     userService.getGuildRank(req.params.region, req.params.realm, req.params.name, req.user.id, function (error, rank) {
         if (error) {
@@ -142,4 +159,53 @@ module.exports.getGuildRank = function (req, res) {
         }
     });
 
+};
+
+module.exports.putProfile = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
+
+    async.waterfall([
+        function (callback) {
+            userModel.findById(req.user.id, function (error, user) {
+                callback(error, user);
+            });
+        },
+        function (user, callback) {
+            //Set only the email and language to current user // battleTag, id, token cannot be changed by user
+            user.email = req.body.email;
+            user.language = req.body.language;
+            userModel.upsert(user, function (error, user) {
+                delete user.accessToken;
+                callback(error, user)
+            });
+        }
+    ], function (error, user) {
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(user);
+        }
+    });
+};
+
+/**
+ * Return the UnreadMessageCount for current user
+ * @param req
+ * @param res
+ */
+module.exports.getUnreadMessageCount = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
+    conversationModel.getCount(req.user.id,function(error,count){
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send();
+        } else {
+            res.json(count[0]);
+        }
+    });
 };
