@@ -17,6 +17,8 @@ var conversationModel = process.require("users/conversationModel.js");
 module.exports.getMessages = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
 
     async.parallel({
         entities: function (callback) {
@@ -47,6 +49,7 @@ module.exports.getMessages = function (req, res) {
 module.exports.getConversations = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
 
     async.waterfall([
         function (callback) {
@@ -132,6 +135,7 @@ module.exports.getConversations = function (req, res) {
 module.exports.postMessage = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
 
     var userName = req.user.battleTag.split('#')[0];
 
@@ -176,6 +180,8 @@ module.exports.postMessage = function (req, res) {
 module.exports.resetCount = function (req, res) {
     var logger = applicationStorage.logger;
     logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.body));
+    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+
     conversationModel.resetCount(req.user.id, req.params.objId1, req.params.objId2, function (error) {
         if (error) {
             logger.error(error.message);
