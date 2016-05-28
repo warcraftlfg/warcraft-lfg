@@ -241,6 +241,7 @@
     "MEMBERS": "Membres",
     "MESSAGE": "Messages",
     "MESSAGE_DESCRIPTION": "Hello, can you hear me ?",
+    "MESSAGE_NO_CONVERSATIONS": "Aucun chat de trouvé. Pour commencer à discuter avec quelqu'un rendez vous sur une page de personnage ou de guilde.",
     "MESSAGE_NO_OBJECT_1": "Pour démarrer une conversation vous devez avoir au moins un personnage ou une guilde enregistré dans votre",
     "MESSAGE_NO_OBJECT_2": "compte",
     "MESSAGE_NO_OBJECT_3": "Allez sur mon compte",
