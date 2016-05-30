@@ -33,6 +33,18 @@
     width:223px;
     
   }
+
+  .button{
+    display:inline-block;
+    background-color:$hover;
+    color:$white;
+    padding:7px 15px 7px 28px;
+    margin:8px 8px 8px 5px;
+    border-radius:2px;
+    &:hover{
+      background-color:$red;
+    }
+  }
 }
 
 .nav>li>a:focus, .nav>li>a:hover {
