@@ -12,7 +12,7 @@ var updateModel = process.require("updates/updateModel.js");
 module.exports.postUpdate = function (req, res) {
     var logger = applicationStorage.logger;
 
-    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path,JSON.stringify(req.body));
 
     async.waterfall([
         function (callback) {

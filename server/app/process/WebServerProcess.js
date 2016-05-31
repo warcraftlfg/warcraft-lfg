@@ -71,7 +71,11 @@ function WebServerProcess(autoStop, port) {
 
     //Initialize auth routes
     this.app.use(process.require("users/routes.js"));
-
+    this.app.use(function (req, res, next) {
+        if (req.path === '/')
+            logger.info("%s GET /",  req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+        next();
+    });
     //Initialize api v1 routes
     this.app.use('/api/v1', process.require("characters/routes.js"));
     this.app.use('/api/v1', process.require("guilds/routes.js"));
