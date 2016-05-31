@@ -21,15 +21,15 @@
                 <li><a href="#/guild/list">{{"GUILDS"|translate}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-if="!user.id">
-                    <a href="/auth/bnet"><i class="fa fa-lg fa-arrow-circle-right"></i> {{"CONNECT_BNET" |
-                        translate}}</a>
+                <li ng-if="!user.id" class="cursor-default">
+                    {{"CONNECT_BNET"|translate}}
+                    <a class="icon-small bnet button" href="/auth/bnet">Battle.net</a>
                 </li>
                 <li ng-if="user.id">
                     <a href="#/messages/">
                         <!--<i ng-if="unreadMessageCount.count <= 0" class="fa fa-comment-o f-18"></i>
                         <i ng-if="unreadMessageCount.count > 0" class="fa fa-commenting-o f-18"></i>-->
-                        <img src="/assets/images/message.png" class="message-picto" />
+                        <img src="/assets/images/message.png" class="message-picto"/>
                     </a>
                     <span class="message-count badge floating badge-active" ng-if="unreadMessageCount.count > 0">{{ unreadMessageCount.count }}</span>
                 </li>
