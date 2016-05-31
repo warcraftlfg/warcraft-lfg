@@ -29,6 +29,7 @@
 .o-scroll-x {overflow-x: scroll; overflow-y: hidden;}
 .o-scroll-y {overflow-y: scroll; overflow-x: hidden;}
 .o-auto-x {overflow-x: auto; overflow-y: hidden;}
+.o-auto-y {overflow-x: hidden; overflow-y: auto;}
 .o-auto {overflow: auto;}
 .o-hidden {overflow: hidden;}
 .o-visible {overflow: visible;}
@@ -163,7 +164,7 @@
 .p-b-20 {padding-bottom:20px;}
 .p-b-30 {padding-bottom:30px;}
 .p-b-40 {padding-bottom:40px;}
- 
+
 /****  Padding Left  ****/
 .p-l-0 {padding-left:0px;}
 .p-l-5 {padding-left:5px;}
@@ -385,6 +386,7 @@
 .h-full {height: 100%;}
 .h-input { height: 34px; line-height: 34px; vertical-align: middle; margin-bottom: 0px;}
 .h-input-sm { height: 30px; line-height: 30px; vertical-align: middle; margin-bottom: 0px;}
+.max-height-500{max-height:500px;}
 
 /****  Height  ****/
 .lh-25 {line-height: 25px;}
