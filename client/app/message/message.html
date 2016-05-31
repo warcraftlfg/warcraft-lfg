@@ -108,7 +108,7 @@
                         <form ng-submit="sendMessage()" ng-click="focusInput()"
                               class="col-md-12 p-t-10 message-form-submit va-container width-100p">
                             <div class="form-group v-center">
-                                <input ng-model="newMessage.text"
+                                <input ng-model="newMessage.text" maxlength="400"
                                        placeholder="{{'MESSAGE_PLACEHOLDER'|translate}}"
                                        class="form-control" id="message-input">
                                 </input>
