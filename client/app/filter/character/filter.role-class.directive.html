@@ -14,7 +14,7 @@
                     <div class="row p-0">
                         <div ng-repeat="(role,selected) in value.roles" class="role col-md-6 checkbox-inline p-r-0"
                              ng-class="{'selected':selected}"
-                             uib-tooltip="{{'ROLE_'+role|uppercase|translate}}">
+                             uib-tooltip="{{role|uppercase|translate}}">
                             <label class="role-{{role}}" >
                                 <input ng-model="value.roles[role]" type="checkbox">
                             </label>
