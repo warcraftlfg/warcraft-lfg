@@ -120,7 +120,7 @@ module.exports.request = function (url, callback) {
         if (!error && response.statusCode == 200) {
             callback(null, JSON.parse(body));
         } else if (!error) {
-            logger.warning("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
+            logger.warn("Error HTTP " + response.statusCode + " on fetching bnet api " + url);
             error = new Error("BNET_HTTP_ERROR");
             error.statusCode = response.statusCode;
             callback(error);
