@@ -19,9 +19,7 @@ var updateModel = process.require("updates/updateModel.js");
  */
 module.exports.getCharacters = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
-    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
-
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
 
     async.waterfall([
         function (callback) {
@@ -65,8 +63,7 @@ module.exports.getCharacters = function (req, res) {
 module.exports.getCharacter = function (req, res, next) {
 
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
-    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
     var projection = {
@@ -131,8 +128,7 @@ module.exports.getCharacter = function (req, res, next) {
  */
 module.exports.putCharacterAd = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
-    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var ad = req.body;
     async.series([
@@ -164,8 +160,7 @@ module.exports.putCharacterAd = function (req, res) {
  */
 module.exports.deleteCharacterAd = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
-    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     characterModel.deleteAd(req.params.region, req.params.realm, req.params.name, function (error) {
         if (error) {
@@ -184,8 +179,7 @@ module.exports.deleteCharacterAd = function (req, res) {
  */
 module.exports.getCount = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
-    logger.info("%s %s %s", req.method, req.path, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
 
     async.waterfall([
         function (callback) {
