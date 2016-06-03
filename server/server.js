@@ -9,6 +9,7 @@ process.require = function (filePath) {
 // Module dependencies
 var path = require("path");
 var async = require('async');
+var lodash = require('lodash');
 var mongo = require('mongodb').MongoClient;
 var redis = require("redis");
 var winston = require("winston");
@@ -151,6 +152,20 @@ async.waterfall([
         mailConfig.poll = true;
 
         applicationStorage.mailTransporter = nodemailer.createTransport(mailConfig);
+
+        // Wrap sendMail() method to make sure we never send out emails to
+        // real users while in a development environment
+        var _sendMail = applicationStorage.mailTransporter.sendMail;
+        applicationStorage.mailTransporter.sendMail = function (mailOptions, callback) {
+            if (env === 'development') {
+                mailOptions = lodash.clone(mailOptions);
+                mailOptions.to = config.mail.fromAddress;
+                delete mailOptions.cc;
+                delete mailOptions.bcc;
+            }
+            return _sendMail.apply(this, [mailOptions, callback]);
+        };
+
         callback();
     },
     //Create instance of processes
