@@ -93,7 +93,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     wowProgressAPI.getGuildRank(region, guild.realm, guild.name, function (error, wowProgress) {
                         if (error) {
                             logger.error(error.message);
-                        } else {
+                        } else if(wowProgress){
                             wowProgress.updated = new Date().getTime();
                         }
                         callback(null, wowProgress);
@@ -103,7 +103,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     wowProgressAPI.getGuildProgress(region, guild.realm, guild.name, function (error, progress) {
                         if (error) {
                             logger.error(error.message);
-                        } else {
+                        } else if(progress){
                             progress.updated = new Date().getTime();
                         }
                         callback(null, progress);
