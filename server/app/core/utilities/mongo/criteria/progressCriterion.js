@@ -18,13 +18,12 @@ module.exports.add = function (query, criteria) {
         if (isNaN(min) || isNaN(max)) {
             return;
         }
-        var progressFactor;
         if (paramArray[0][0] == "normal") {
-            criteria["progress.score.normalCount"] = {$lte: max,$gte: min};
+            criteria["progress.normalCount"] = {$lte: max,$gte: min};
         } else if (paramArray[0][0] == "heroic") {
-            criteria["progress.score.heroicCount"] = {$lte: max,$gte: min};
+            criteria["progress.heroicCount"] = {$lte: max,$gte: min};
         } else if (paramArray[0][0] == "mythic") {
-            criteria["progress.score.mythicCount"] = {$lte: max,$gte: min};
+            criteria["progress.mythicCount"] = {$lte: max,$gte: min};
         } else {
             return;
         }
