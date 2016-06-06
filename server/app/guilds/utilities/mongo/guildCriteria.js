@@ -12,6 +12,7 @@ var progressCriterion = process.require("core/utilities/mongo/criteria/progressC
 var lastCriterion = process.require("guilds/utilities/mongo/criteria/lastCriterion.js");
 var realmCriterion = process.require("core/utilities/mongo/criteria/realmCriterion.js");
 var realmZoneCriterion = process.require("core/utilities/mongo/criteria/realmZoneCriterion.js");
+var sortCriterion = process.require("guilds/utilities/mongo/criteria/sortCriterion.js");
 
 /**
  * Return the guild criteria from query
@@ -31,6 +32,7 @@ module.exports.get = function (query, callback) {
     dayCriterion.add(query, criteria);
     progressCriterion.add(query, criteria);
     lastCriterion.add(query, criteria);
+    sortCriterion.add(query,criteria);
 
     //Do async stuff
     async.series([
