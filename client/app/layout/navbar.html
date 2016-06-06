@@ -17,9 +17,18 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="warcraftlfg-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#/character/list">{{"CHARACTERS"|translate}}</a></li>
-                <li><a href="#/guild/list">{{"GUILDS"|translate}}</a></li>
+                <li ng-if="user.id" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{"RECRUITMENT"|translate}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/guild/list">{{"GUILDS" | translate}}</a></li>
+                        <li><a href="#/character/list"> {{"CHARACTERS" | translate}}</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">{{"RANKING"|translate}}</a></li>
+
             </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="!user.id" class="cursor-default">
                     {{"CONNECT_BNET"|translate}}
