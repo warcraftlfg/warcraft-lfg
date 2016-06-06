@@ -76,7 +76,7 @@ module.exports.getGuild = function (req, res, next) {
         ad: 1,
         updated: 1,
         bnet: 1,
-        wowProgress: 1,
+        rank: 1,
         progress: 1
     };
     guildModel.findOne(criteria, projection, function (error, guild) {

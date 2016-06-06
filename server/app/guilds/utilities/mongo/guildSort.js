@@ -11,7 +11,7 @@ var applicationStorage = process.require("core/applicationStorage.js");
 module.exports.get = function (query) {
     var sort = {};
     if (query.sort == "ranking") {
-        sort["wowProgress.world_rank"] = 1;
+        sort["rank.world"] = 1;
     } else {
         sort["ad.updated"] = -1;
     }

@@ -75,29 +75,22 @@
                                     <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
                                     <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
                                 </div>
-                                WoWProgress:
-                                <div class="row" ng-if="guild.wowProgress.world_rank">
+                                Ranking:
+                                <div class="row" ng-if="guild.rank.world">
                                     <div class="col-sm-2 col-md-4">{{"WORLD"|translate}}</div>
                                     <div class="col-sm-10 col-md-8"
-                                         ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
-                                        {{guild.wowProgress.world_rank}}
+                                         ng-class="{legendary:guild.rank.world<=10,epic:guild.rank.world<=100&&guild.rank.world>10,rare:guild.rank.world<=2500&&guild.rank.world>100,uncommon:guild.rank.world>2500}">
+                                        {{guild.rank.world}}
                                     </div>
                                 </div>
-                                <div class="row" ng-if="guild.wowProgress.area_rank">
+                                <div class="row" ng-if="guild.rank.region">
                                     <div class="col-sm-2 col-md-4">{{"REGION"|translate}}</div>
                                     <div class="col-sm-10 col-md-8"
-                                         ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
-                                        {{guild.wowProgress.area_rank}}
+                                         ng-class="{legendary:guild.rank.region<=10,epic:guild.rank.region<=100&&guild.rank.region>10,rare:guild.rank.region<=2500&&guild.rank.region>100,uncommon:guild.rank.region>2500}">
+                                        {{guild.rank.region}}
                                     </div>
                                 </div>
-                                <div class="row" ng-if="guild.wowProgress.area_rank">
-                                    <div class="col-sm-2 col-md-4">{{"REALM"|translate}}</div>
-                                    <div class="col-sm-10 col-md-8"
-                                         ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
-                                        {{guild.wowProgress.realm_rank}}
-                                    </div>
-                                </div>
-                                <div class="row" ng-if="!guild.wowProgress.world_rank">
+                                <div class="row" ng-if="!guild.rank.world">
                                     <div class="col-sm-10 col-md-9 common">
                                         {{"NO RANK FOUND"|translate}}
                                     </div>
