@@ -39,7 +39,17 @@ module.exports.add = function (query, criteria) {
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
         }
-        else {
+        else if (sort === "progress") {
+            tmpObj = {};
+            tmpObj["progress.score"] = {$lt: value};
+            tmpArray.push(tmpObj);
+
+            tmpObj = {};
+            tmpObj["progress.score"] = value;
+            tmpObj["_id"] = {$lt: new ObjectId(id)};
+            tmpArray.push(tmpObj);
+
+        } else {
             tmpObj = {};
             tmpObj["ad.updated"] = {$lt: value};
             tmpArray.push(tmpObj);

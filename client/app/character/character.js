@@ -158,7 +158,7 @@
 
                 if ($scope.filters.sort == "progress") {
                     if ($scope.characters[$scope.characters.length - 1].progress) {
-                        params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].progress[Object.keys($scope.characters[$scope.characters.length - 1].progress)[0]].score;
+                        params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].progress.score;
                     } else {
                         params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
                     }
