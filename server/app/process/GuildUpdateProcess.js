@@ -25,6 +25,7 @@ function GuildUpdateProcess() {
 GuildUpdateProcess.prototype.updateGuild = function () {
     var self = this;
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
 
 
     async.waterfall([
@@ -90,40 +91,24 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 },
                 rank: function (callback) {
-                    progressAPI.getRank(18,region,guild.realm,guild.name,function(error,rank){
+                    progressAPI.getRank(config.currentProgress, region, guild.realm, guild.name, function (error, rank) {
                         if (error) {
                             logger.error(error.message);
-                        } else if(rank){
+                        } else if (rank) {
                             rank.updated = new Date().getTime();
                         }
                         callback(null, rank);
                     });
-                    /**wowProgressAPI.getGuildRank(region, guild.realm, guild.name, function (error, wowProgress) {
-                        if (error) {
-                            logger.error(error.message);
-                        } else if(wowProgress){
-                            wowProgress.updated = new Date().getTime();
-                        }
-                        callback(null, wowProgress);
-                    });**/
                 },
                 progress: function (callback) {
-                    progressAPI.getProgress(18,region,guild.realm,guild.name,function(error,progress){
+                    progressAPI.getProgress(config.currentProgress, region, guild.realm, guild.name, function (error, progress) {
                         if (error) {
                             logger.error(error.message);
-                        } else if(progress){
+                        } else if (progress) {
                             progress.updated = new Date().getTime();
                         }
                         callback(null, progress);
                     });
-                    /**wowProgressAPI.getGuildProgress(region, guild.realm, guild.name, function (error, progress) {
-                        if (error) {
-                            logger.error(error.message);
-                        } else if(progress){
-                            progress.updated = new Date().getTime();
-                        }
-                        callback(null, progress);
-                    });**/
                 }
             }, function (error, results) {
                 results.bnet = guild;
