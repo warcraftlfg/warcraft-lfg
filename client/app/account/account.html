@@ -135,14 +135,15 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="form-group m-b-0">
-                            <label for="langue-pref">{{ "ACCOUNT_PREFERENCE_LANGUAGE"|translate }}</label>
+                            <label>{{ "ACCOUNT_PREFERENCE_LANGUAGE"|translate }}</label>
                             <span class="css3-metro-dropdown">
                                 <select ng-change="saveUser()" ng-model="user.language"
                                         class="form-control">
                                     <option value=""><{{ "CHOOSE_LANGUAGE"|translate }}></option>
-                                    <option value="en">{{"LANG_EN"|translate}}</option>
-                                    <option value="fr">{{"LANG_FR"|translate}}</option>
-                                    <option value="ru">{{"LANG_RU"|translate}}</option>
+                                    <option value="en">English</option>
+                                    <option value="de">Deutsch</option>
+                                    <option value="fr">Français</option>
+                                    <option value="ru">Русский</option>
                                 </select>
                             </span>
                         </div>
@@ -150,7 +151,7 @@
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <label for="email-pref">{{"ACCOUNT_EMAIL"|translate}}</label>
+                        <label>{{"ACCOUNT_EMAIL"|translate}}</label>
                         <form name="emailAddressForm" class="form-inline">
                             <div class="m-b-10">
                                 <div class="cursor-pointer" ng-show="!emailEdit" ng-click="emailEdit=true">

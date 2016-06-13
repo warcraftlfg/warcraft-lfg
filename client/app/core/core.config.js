@@ -15,14 +15,15 @@
                 }, {
                     languageKey: 'fr',
                     localeFile: 'assets/locales/locale-fr_FR.json'
-                },{
+                }, {
                     languageKey: 'ru',
                     localeFile: 'assets/locales/locale-ru_RU.json'
                 }]
             })
-            .registerAvailableLanguageKeys(["en", "fr", "ru"], {
+            .registerAvailableLanguageKeys(["en", "fr", "de", "ru"], {
                 "en*": "en",
                 "fr_FR": "fr",
+                "de_DE": "de",
                 "ru_RU": "ru",
                 "*": "en"
             })
