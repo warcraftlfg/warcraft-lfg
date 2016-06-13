@@ -65,8 +65,8 @@ Cron.prototype.cleanAds = function () {
                     callback();
                 });
             },
-            function (callback) {
-                logger.info("Refresh Wowprogress Guild Ads");
+            /*function (callback) {
+               logger.info("Refresh Wowprogress Guild Ads");
                 guildService.refreshWowProgressAds(function (error) {
                     if (error) {
                         logger.error(error.message);
@@ -84,7 +84,7 @@ Cron.prototype.cleanAds = function () {
                     callback();
                 });
 
-            },
+            },*/
             function (callback) {
                 logger.info("Refresh Realm list from bnet");
                 realmService.refreshRealms(function (error) {

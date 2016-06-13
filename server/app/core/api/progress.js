@@ -29,7 +29,7 @@ module.exports.getRank = function(tier,region,realm,name,callback){
 module.exports.getProgress = function(tier,region,realm,name,callback){
     var endUrl = "guilds/"+tier+"/"+region+"/"+realm+"/"+name;
     this.request(endUrl, function (error, result) {
-        callback(error, result && result.progress && result.progress['tier_18']);
+        callback(error, result && result.progress && result.progress['tier_'+tier]);
     });
 };
 

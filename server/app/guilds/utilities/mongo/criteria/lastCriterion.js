@@ -18,7 +18,7 @@ module.exports.add = function (query, criteria) {
     if (paramSortArray.length > 0) {
         var sortQuery = paramSortArray[0][0];
         if (sortQuery === "ranking") {
-            criteria["wowProgress"] = {$exists: true};
+            criteria["rank"] = {$exists: true};
         }
     }
 
@@ -34,23 +34,13 @@ module.exports.add = function (query, criteria) {
         }
 
         var tmpObj;
-        if (sort === "progress") {
+        if (sort === "ranking") {
             tmpObj = {};
-            tmpObj["progress.score"] = {$lt: value};
+            tmpObj["rank.world"] = {$gt: value};
             tmpArray.push(tmpObj);
 
             tmpObj = {};
-            tmpObj["progress.score"] = value;
-            tmpObj["_id"] = {$lt: new ObjectId(id)};
-            tmpArray.push(tmpObj);
-
-        } else if (sort === "ranking") {
-            tmpObj = {};
-            tmpObj["wowProgress.world_rank"] = {$gt: value};
-            tmpArray.push(tmpObj);
-
-            tmpObj = {};
-            tmpObj["wowProgress.world_rank"] = value;
+            tmpObj["rank.world"] = value;
             tmpObj["_id"] = {$lt: new ObjectId(id)};
             tmpArray.push(tmpObj);
 
