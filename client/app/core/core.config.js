@@ -16,6 +16,9 @@
                     languageKey: 'fr',
                     localeFile: 'assets/locales/locale-fr_FR.json'
                 }, {
+                    languageKey: 'de',
+                    localeFile: 'assets/locales/locale-de_DE.json'
+                }, {
                     languageKey: 'ru',
                     localeFile: 'assets/locales/locale-ru_RU.json'
                 }]
