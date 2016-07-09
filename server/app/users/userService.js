@@ -52,7 +52,7 @@ module.exports.updateGuildsId = function (id) {
                     async.each(guilds, function (guild, callback) {
                         var isOk = false;
                         async.each(bnetGuilds, function (bnetGuild, callback) {
-                            if (bnetGuild.realm === guild.realm && bnetGuild.name === guild.name) {
+                            if (bnetGuild && bnetGuild.realm === guild.realm && bnetGuild.name === guild.name) {
                                 isOk = true;
                             }
                             callback();

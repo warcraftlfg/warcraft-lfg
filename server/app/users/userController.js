@@ -16,6 +16,8 @@ var async = require("async");
  * @param res
  */
 module.exports.logout = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
     req.logout();
     res.redirect('/');
 };
@@ -26,6 +28,8 @@ module.exports.logout = function (req, res) {
  * @param res
  */
 module.exports.getProfile = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s  %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
     res.json(req.user);
 };
 
@@ -39,6 +43,9 @@ module.exports.getCharacterAds = function (req, res) {
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
     var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.class": 1};
     var sort = {"ad.updated": -1};
+
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+
     characterModel.find(criteria, projection, sort, function (error, characters) {
         if (error) {
             logger.error(error.message);
@@ -56,6 +63,8 @@ module.exports.getCharacterAds = function (req, res) {
  */
 module.exports.getGuildAds = function (req, res) {
     var logger = applicationStorage.logger;
+
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
     var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.side": 1, "perms": 1};
@@ -97,6 +106,9 @@ module.exports.getGuildAds = function (req, res) {
  */
 module.exports.getCharacters = function (req, res) {
     var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+
+
     userService.getCharacters(req.params.region, req.user.id, function (error, characters) {
         if (error) {
             logger.error(error.message);
@@ -114,6 +126,8 @@ module.exports.getCharacters = function (req, res) {
  */
 module.exports.getGuilds = function (req, res) {
     var logger = applicationStorage.logger;
+
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     userService.getGuilds(req.params.region, req.user.id, function (error, guilds) {
         if (error) {
@@ -134,6 +148,7 @@ module.exports.getGuilds = function (req, res) {
  */
 module.exports.getGuildRank = function (req, res) {
     var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     userService.getGuildRank(req.params.region, req.params.realm, req.params.name, req.user.id, function (error, rank) {
         if (error) {
@@ -148,6 +163,8 @@ module.exports.getGuildRank = function (req, res) {
 
 module.exports.putProfile = function (req, res) {
     var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.body));
+
 
     async.waterfall([
         function (callback) {
@@ -181,6 +198,8 @@ module.exports.putProfile = function (req, res) {
  */
 module.exports.getUnreadMessageCount = function (req, res) {
     var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+
     conversationModel.getCount(req.user.id,function(error,count){
         if (error) {
             logger.error(error.message);

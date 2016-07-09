@@ -16,13 +16,13 @@
 				<div class="text-left m-t-15 m-b-10" ng-if="characterAds.length > 0">
 					{{ "MESSAGE_OPEN_AS_CHARACTER"|translate }}
 				</div>
-				<a href="/#/messages/{{character._id || guild._id}}/{{ characterAd._id}}/" class="btn btn-inverse dis-block text-left" ng-class="{'m-b-10': !$last, 'm-t-0': $first }" ng-repeat="characterAd in characterAds">
+				<a ng-if="character._id != characterAd._id" href="/#/messages/{{character._id || guild._id}}/{{ characterAd._id}}/" class="btn btn-inverse dis-block text-left" ng-class="{'m-b-10': !$last, 'm-t-0': $first }" ng-repeat="characterAd in characterAds">
 					<span class="icon-small class-{{characterAd.bnet.class}}">{{characterAd.name}}</span> - {{characterAd.realm}} ({{characterAd.region|uppercase}})
 				</a>
 				<div class="text-left m-b-10 m-t-15" ng-if="guildAds.length > 0">
 					{{ "MESSAGE_OPEN_AS_GUILD"|translate }}
 				</div>
-				<a href="/#/messages/{{character._id || guild._id}}/{{ guildAd._id}}/" class="btn btn-inverse dis-block text-left" ng-class="{'m-b-10': !$last, 'm-t-0': $first }"  ng-repeat="guildAd in guildAds">
+				<a ng-if="guild._id != guildAd._id" href="/#/messages/{{character._id || guild._id}}/{{ guildAd._id}}/" class="btn btn-inverse dis-block text-left" ng-class="{'m-b-10': !$last, 'm-t-0': $first }"  ng-repeat="guildAd in guildAds">
 					<span class="icon-small faction-{{guildAd.bnet.side}}">{{guildAd.name}}</span> - {{guildAd.realm}} ({{guildAd.region|uppercase}})
 				</a>
 		    </div>

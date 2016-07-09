@@ -271,15 +271,9 @@
 
             if ($scope.guilds.length > 0) {
 
-                if ($scope.filters.sort == "progress") {
-                    if ($scope.guilds[$scope.guilds.length - 1].progress) {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].progress[Object.keys($scope.guilds[$scope.guilds.length - 1].progress)[0]].score;
-                    } else {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
-                    }
-                } else if ($scope.filters.sort == "ranking") {
-                    if ($scope.guilds[$scope.guilds.length - 1].wowProgress) {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].wowProgress.world_rank;
+                if ($scope.filters.sort == "ranking") {
+                    if ($scope.guilds[$scope.guilds.length - 1].rank) {
+                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].rank.world;
                     } else {
                         params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
                     }

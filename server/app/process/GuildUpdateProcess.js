@@ -10,6 +10,7 @@ var guildModel = process.require("guilds/guildModel.js");
 var guildService = process.require("guilds/guildService.js");
 var bnetAPI = process.require("core/api/bnet.js");
 var wowProgressAPI = process.require("core/api/wowProgress.js");
+var progressAPI = process.require("core/api/progress.js");
 
 /**
  * GuildUpdateProcess constructor
@@ -24,6 +25,7 @@ function GuildUpdateProcess() {
 GuildUpdateProcess.prototype.updateGuild = function () {
     var self = this;
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
 
 
     async.waterfall([
@@ -88,22 +90,21 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                         callback(null, ad)
                     });
                 },
-                wowProgress: function (callback) {
-                    //Wowprogress ranking
-                    wowProgressAPI.getGuildRank(region, guild.realm, guild.name, function (error, wowProgress) {
+                rank: function (callback) {
+                    progressAPI.getRank(config.currentProgress, region, guild.realm, guild.name, function (error, rank) {
                         if (error) {
                             logger.error(error.message);
-                        } else {
-                            wowProgress.updated = new Date().getTime();
+                        } else if (rank) {
+                            rank.updated = new Date().getTime();
                         }
-                        callback(null, wowProgress);
+                        callback(null, rank);
                     });
                 },
                 progress: function (callback) {
-                    wowProgressAPI.getGuildProgress(region, guild.realm, guild.name, function (error, progress) {
+                    progressAPI.getProgress(config.currentProgress, region, guild.realm, guild.name, function (error, progress) {
                         if (error) {
                             logger.error(error.message);
-                        } else {
+                        } else if (progress) {
                             progress.updated = new Date().getTime();
                         }
                         callback(null, progress);

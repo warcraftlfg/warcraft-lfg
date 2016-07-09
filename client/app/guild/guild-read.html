@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2 ng-if="guild"><span class="icon-medium faction-{{guild.bnet.side}}">{{ guild.name }}</span></h2>
-                    <h2  ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h2>
+                    <h2 ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h2>
                 </div>
             </div>
         </div>
@@ -16,7 +16,8 @@
                 <div class="col-md-12">
                     <span ng-if="guild">{{ guild.realm }} - {{ guild.region|uppercase}}</span>
                     <span ng-if="!guild">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
-                    <a class="f-right" ng-if="userCanEdit" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update">
+                    <a class="f-right" ng-if="userCanEdit"
+                       href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update">
                         <i class="fa fa-edit f-20"></i>
                     </a>
                 </div>
@@ -33,11 +34,14 @@
                         {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
                     </div>
                     <div class="col-md-6 m-b-20">
-                        <button ng-click="updateGuild()" type="button" class="btn btn-default" aria-label="Update Guild">
+                        <button ng-click="updateGuild()" type="button" class="btn btn-default"
+                                aria-label="Update Guild">
                             <i class="fa fa-refresh"></i> {{"UPDATE_GUILD"|translate}}
                         </button>
-                        <button ng-if="guild.id"  ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
-                            <img src="/assets/images/message.png" class="message-picto" /> {{"MESSAGE_OPEN_POPUP"|translate}}
+                        <button ng-if="guild.id" ng-click="openMessagePopup('sm');" type="button"
+                                class="btn btn-default" aria-label="Update Character">
+                            <img src="/assets/images/message.png" class="message-picto"/>
+                            {{"MESSAGE_OPEN_POPUP"|translate}}
                         </button>
                     </div>
                     <!--<div class="col-md-6 m-b-20 text-right">
@@ -92,12 +96,14 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                    <div class="row">
+                        <div class="row">
                             <div class="col-md-6" ng-if="guild.ad.website">
-                                {{"CONTACT"|translate}}: <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
+                                {{"CONTACT"|translate}}:
+                                <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
                             </div>
                             <div class="col-md-6">
-                                 <span ng-if="guild.id" ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
+                                <span ng-if="guild.id" ng-click="openMessagePopup('sm');"
+                                      class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
                             </div>
                         </div>
                     </div>
@@ -127,7 +133,8 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                {{"RAIDS_PER_WEEK"|translate}}: {{ guild.ad.raids_per_week.min }} - {{ guild.ad.raids_per_week.max }}
+                                {{"RAIDS_PER_WEEK"|translate}}: {{ guild.ad.raids_per_week.min }} - {{
+                                guild.ad.raids_per_week.max }}
                             </div>
                             <div class="col-md-12 m-t-10" ng-if="guild.ad.timezone">
                                 {{"TIMEZONE"|translate}}: {{"TIMEZONE_"+guild.ad.timezone|uppercase|translate}}
@@ -135,7 +142,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" ng-if="guild.ad.play_time" ng-show="guild.ad.play_time.monday.play || guild.ad.play_time.tuesday.play || guild.ad.play_time.wednesday.play || guild.ad.play_time.thursday.play || guild.ad.play_time.friday.play || guild.ad.play_time.saturday.play || guild.ad.play_time.sunday.play">
+                <div class="row" ng-if="guild.ad.play_time"
+                     ng-show="guild.ad.play_time.monday.play || guild.ad.play_time.tuesday.play || guild.ad.play_time.wednesday.play || guild.ad.play_time.thursday.play || guild.ad.play_time.friday.play || guild.ad.play_time.saturday.play || guild.ad.play_time.sunday.play">
                     <div class="col-md-12">
                         <table class="table table-condensed">
                             <tr ng-repeat="(key, day) in guild.ad.play_time" ng-if="day.play == true">
@@ -158,7 +166,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                         <span class="icon-small tank"><strong> &nbsp;{{"TANKS"|translate}}</strong></span>
+                        <span class="icon-small tank"><strong> &nbsp;{{"TANKS"|translate}}</strong></span>
                     </div>
                 </div>
                 <div class="row">
@@ -181,13 +189,13 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                         <span class="icon-small heal"><strong> &nbsp;{{"HEALS"|translate}}</strong></span>
+                        <span class="icon-small heal"><strong> &nbsp;{{"HEALS"|translate}}</strong></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-condensed">
-                            <tr ng-if="value == true"  ng-repeat="(class,value) in guild.ad.recruitment.heal">
+                            <tr ng-if="value == true" ng-repeat="(class,value) in guild.ad.recruitment.heal">
                                 <td class="class-{{ class|lowercase }}">
                                     {{class|uppercase|translate}}
                                 </td>
@@ -204,13 +212,13 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                         <span class="icon-small melee_dps"><strong> &nbsp;{{"MELEE_DPS"|translate}}</strong></span>
+                        <span class="icon-small melee_dps"><strong> &nbsp;{{"MELEE_DPS"|translate}}</strong></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-condensed">
-                            <tr ng-if="value == true"  ng-repeat="(class,value) in guild.ad.recruitment.melee_dps">
+                            <tr ng-if="value == true" ng-repeat="(class,value) in guild.ad.recruitment.melee_dps">
                                 <td class="class-{{ class|lowercase }}">
                                     {{class|uppercase|translate}}
                                 </td>
@@ -227,13 +235,13 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                         <span class="icon-small ranged_dps"><strong> &nbsp;{{"RANGED_DPS"|translate}}</strong></span>
+                        <span class="icon-small ranged_dps"><strong> &nbsp;{{"RANGED_DPS"|translate}}</strong></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-condensed">
-                            <tr ng-if="value == true"  ng-repeat="(class,value) in guild.ad.recruitment.ranged_dps">
+                            <tr ng-if="value == true" ng-repeat="(class,value) in guild.ad.recruitment.ranged_dps">
                                 <td class="class-{{ class|lowercase }}">
                                     {{class|uppercase|translate}}
                                 </td>
@@ -259,22 +267,19 @@
                                 <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
                                 <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
                             </div>
-                            <div class="col-md-2" ng-if="guild.wowProgress.world_rank">
-                                {{"WORLD"|translate}}: <span ng-class="{legendary:guild.wowProgress.world_rank<=10,epic:guild.wowProgress.world_rank<=100&&guild.wowProgress.world_rank>10,rare:guild.wowProgress.world_rank<=2500&&guild.wowProgress.world_rank>100,uncommon:guild.wowProgress.world_rank>2500}">
-                                    {{guild.wowProgress.world_rank}}
+                            <div class="col-md-2" ng-if="guild.rank.world">
+                                {{"WORLD"|translate}}: <span
+                                    ng-class="{legendary:guild.rank.world<=10,epic:guild.rank.world<=100&&guild.rank.world>10,rare:guild.rank.world<=2500&&guild.rank.world>100,uncommon:guild.rank.world>2500}">
+                                    {{guild.rank.world}}
                                 </span>
                             </div>
-                            <div class="col-md-2" ng-if="guild.wowProgress.area_rank">
-                                {{"REGION"|translate}}: <span ng-class="{legendary:guild.wowProgress.area_rank<=10,epic:guild.wowProgress.area_rank<=100&&guild.wowProgress.area_rank>10,rare:guild.wowProgress.area_rank<=2500&&guild.wowProgress.area_rank>100,uncommon:guild.wowProgress.area_rank>2500}">
-                                    {{guild.wowProgress.area_rank}}
+                            <div class="col-md-2" ng-if="guild.rank.region">
+                                {{"REGION"|translate}}: <span
+                                    ng-class="{legendary:guild.rank.region<=10,epic:guild.rank.region<=100&&guild.rank.region>10,rare:guild.rank.region<=2500&&guild.rank.region>100,uncommon:guild.rank.region>2500}">
+                                    {{guild.rank.region}}
                                 </span>
                             </div>
-                            <div class="col-md-2" ng-if="guild.wowProgress.area_rank">
-                                {{"REALM"|translate}}: <span ng-class="{legendary:guild.wowProgress.realm_rank<=10,epic:guild.wowProgress.realm_rank<=100&&guild.wowProgress.realm_rank>10,rare:guild.wowProgress.realm_rank<=2500&&guild.wowProgress.realm_rank>100,uncommon:guild.wowProgress.realm_rank>2500}">
-                                    {{guild.wowProgress.realm_rank}}
-                                </span>
-                            </div>
-                            <div class="col-md-2" class="common" ng-if="!guild.wowProgress.world_rank">
+                            <div class="col-md-2" class="common" ng-if="!guild.rank.world">
                                 {{"NO RANK FOUND"|translate}}
                             </div>
                         </div>
@@ -285,23 +290,25 @@
                         <table class="table table-condensed">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:7">
                                 <td class="bold">{{ boss|uppercase|translate}}</td>
-                                <td ng-class="{'legendary':guild.progress.mythic[boss],'epic':guild.progress.heroic[boss]&&!guild.progress.mythic[boss],'rare':guild.progress.heroic[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss],'common':!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&guild.progress.normal[boss]}">
-                                    <span ng-if="guild.progress.mythic[boss]">{{"MYTHIC"|translate}}</span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{"HEROIC"|translate}}</span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{"NORMAL"|translate}}</span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">{{"NO_KILL"|translate}}</span>
+                                <td ng-class="{
+                                'legendary':guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0,
+                                'epic':guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
+                                'rare':guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
+                                'common':!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)
+                                }">
+                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="guild.progress.mythic[boss]">{{ guild.progress.mythic[boss].count }}</span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{ guild.progress.heroic[boss].count }}</span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{ guild.progress.normal[boss].count }}</span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">0</span>
-                                </td>
-                                <td>
-                                    <span ng-if="guild.progress.mythic[boss]" am-time-ago="guild.progress.mythic[boss].timestamp"></span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]" am-time-ago="guild.progress.heroic[boss].timestamp"></span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]" am-time-ago="guild.progress.normal[boss].timestamp"></span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">&nbsp;</span>
+                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0"
+                                          am-time-ago="guild.progress.mythic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.heroic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.normal[boss].timestamps[0]"></span>
+                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>
@@ -310,23 +317,25 @@
                         <table class="table table-condensed">
                             <tr ng-repeat="(key, boss) in bosses | limitTo:-6">
                                 <td class="bold">{{ boss|uppercase|translate }}</td>
-                                <td ng-class="{'legendary':guild.progress.mythic[boss],'epic':guild.progress.heroic[boss]&&!guild.progress.mythic[boss],'rare':guild.progress.heroic[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss],'common':!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&guild.progress.normal[boss]}">
-                                    <span ng-if="guild.progress.mythic[boss]">{{"MYTHIC"|translate}}</span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{"HEROIC"|translate}}</span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{"NORMAL"|translate}}</span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">{{"NO_KILL"|translate}}</span>
+                                <td ng-class="{
+                                'legendary':guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0,
+                                'epic':guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
+                                'rare':guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
+                                'common':!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)
+                                }">
+                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="guild.progress.mythic[boss]">{{ guild.progress.mythic[boss].count}}</span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]">{{ guild.progress.heroic[boss].count}}</span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]">{{ guild.progress.normal[boss].count}}</span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">0</span>
-                                </td>
-                                <td>
-                                    <span ng-if="guild.progress.mythic[boss]" am-time-ago="guild.progress.mythic[boss].timestamp"></span>
-                                    <span ng-if="guild.progress.heroic[boss]&&!guild.progress.mythic[boss]" am-time-ago="guild.progress.heroic[boss].timestamp"></span>
-                                    <span ng-if="guild.progress.normal[boss]&&!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]" am-time-ago="guild.progress.normal[boss].timestamp"></span>
-                                    <span ng-if="!guild.progress.mythic[boss]&&!guild.progress.heroic[boss]&&!guild.progress.normal[boss]">&nbsp;</span>
+                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0"
+                                          am-time-ago="guild.progress.mythic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.heroic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.normal[boss].timestamps[0]"></span>
+                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>

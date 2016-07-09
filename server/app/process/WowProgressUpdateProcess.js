@@ -55,11 +55,13 @@ WowProgressUpdateProcess.prototype.parseWowProgress = function() {
             });
         }
     ],function(error){
+        var randomTime = (Math.floor(Math.random() * 30) + 30)*60*1000;
         if(error)
             logger.error(error.message);
+        logger.info("Next parse in %s msec",randomTime );
         setTimeout(function() {
             self.parseWowProgress();
-        }, 60000);
+        }, randomTime);
     });
 };
 

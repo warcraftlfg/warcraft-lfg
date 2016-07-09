@@ -2,28 +2,22 @@
 
     <div class="m-l-10 m-b-5 fw-700">Progress</div>
     <div class="p-l-0 p-r-0 col-md-5">
-        <div class="radio-inline none" name="progress" ng-class="{'selected':progress.difficulty=='none'}"
-             uib-tooltip="{{'NONE'|translate}}">
-            <label>
-                <input type="radio" ng-model="progress.difficulty" value="none"> X
-            </label>
-        </div>
         <div class="radio-inline normal" name="progress" ng-class="{'selected':progress.difficulty=='normal'}"
              uib-tooltip="{{'NORMAL'|translate}}">
             <label>
-                <input type="radio" ng-model="progress.difficulty" value="normal"> {{"NM"|translate}}
+                <input type="radio" ng-model="progress.difficulty" value="normal" ng-click="maybeToggleOff($event)"> {{"NM"|translate}}
             </label>
         </div>
         <div class="radio-inline heroic" name="progress" ng-class="{'selected':progress.difficulty=='heroic'}"
              uib-tooltip="{{'HEROIC'|translate}}">
             <label>
-                <input type="radio" ng-model="progress.difficulty" value="heroic"> {{"HM"|translate}}
+                <input type="radio" ng-model="progress.difficulty" value="heroic" ng-click="maybeToggleOff($event)"> {{"HM"|translate}}
             </label>
         </div>
         <div class="radio-inline mythic" name="progress" ng-class="{'selected':progress.difficulty=='mythic'}"
              uib-tooltip="{{'MYTHIC'|translate}}">
             <label>
-                <input type="radio" ng-model="progress.difficulty" value="mythic"> {{"MM"|translate}}
+                <input type="radio" ng-model="progress.difficulty" value="mythic" ng-click="maybeToggleOff($event)"> {{"MM"|translate}}
             </label>
         </div>
     </div>

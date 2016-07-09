@@ -18,7 +18,7 @@ var updateModel = process.require("updates/updateModel.js");
  */
 module.exports.getGuilds = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
 
     async.waterfall([
             function (callback) {
@@ -64,7 +64,7 @@ module.exports.getGuilds = function (req, res) {
 module.exports.getGuild = function (req, res, next) {
 
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
     var projection = {
@@ -75,9 +75,9 @@ module.exports.getGuild = function (req, res, next) {
         name: 1,
         ad: 1,
         updated: 1,
-        bnet:1,
-        wowProgress: 1,
-        progress:1
+        bnet: 1,
+        rank: 1,
+        progress: 1
     };
     guildModel.findOne(criteria, projection, function (error, guild) {
         if (error) {
@@ -101,7 +101,8 @@ module.exports.getGuild = function (req, res, next) {
  */
 module.exports.putGuildAd = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+
     var ad = req.body;
 
     async.series([
@@ -134,7 +135,8 @@ module.exports.putGuildAd = function (req, res) {
  */
 module.exports.deleteGuildAd = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+
     guildModel.deleteAd(req.params.region, req.params.realm, req.params.name, function (error) {
         if (error) {
             logger.error(error.message);
@@ -153,7 +155,8 @@ module.exports.deleteGuildAd = function (req, res) {
  */
 module.exports.putGuildPerms = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.params));
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+
     var perms = req.body;
     perms.updated = new Date().getTime();
     guildModel.upsert(req.params.region, req.params.realm, req.params.name, {perms: perms}, function (error) {
@@ -170,7 +173,7 @@ module.exports.putGuildPerms = function (req, res) {
 
 module.exports.getCount = function (req, res) {
     var logger = applicationStorage.logger;
-    logger.verbose("%s %s %s", req.method, req.path, JSON.stringify(req.query));
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
 
     async.waterfall([
         function (callback) {

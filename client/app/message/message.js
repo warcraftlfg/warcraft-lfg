@@ -20,12 +20,14 @@
 
         if ($stateParams.objId1 && $stateParams.objId2) {
             getMessage();
+            $scope.messageState = "content";
+        } else {
+            $scope.messageState = "list";
         }
 
         function getConversations() {
             //Get All conversations
             messages.query(function (conversations) {
-                console.log(conversations);
                 $scope.$emit("updateMessageCount");
                 $scope.$parent.loading = false;
                 $scope.conversations = conversations;

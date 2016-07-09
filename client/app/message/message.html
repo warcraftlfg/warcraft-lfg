@@ -21,17 +21,21 @@
     </div>
     </div>
 </section>
-<div class="message container">
+<div class="message container ng-class:messageState">
     <div class="row">
         <div class="col-md-4">
-            <div class="message-list panel panel-default" >
-                <div class="panel-body p-t-0 p-b-0 bd-t-s scroller" ng-style="heightListStyle()" wlfg-message-height-list perfect-scrollbar wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20" suppress-scroll-x="true">
+            <div class="message-list panel panel-default">
+                <div class="panel-body p-t-0 p-b-0 bd-t-s scroller" ng-style="heightListStyle()"
+                     wlfg-message-height-list perfect-scrollbar wheel-propagation="false" wheel-speed="2"
+                     min-scrollbar-length="20" suppress-scroll-x="true">
                     <a href="#/messages/{{entities[0]._id || entities[0].id}}/{{entities[1]._id || entities[1].id}}/">
                         <div class="row bd-b-s p-b-10 p-t-10 active message-conversation" ng-if="messages.length == 0">
                             <div class="col-md-12">
-                                <div class="h-20 txt-ellipsis" ng-repeat="entity in entities | conversationOrderFilter:user.id">
+                                <div class="h-20 txt-ellipsis"
+                                     ng-repeat="entity in entities | conversationOrderFilter:user.id">
                                     <span>
-                                        <span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}" class="icon-small">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
+                                        <span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}"
+                                              class="icon-small">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
                                     </span>
                                 </div>
                                 <div class=" text-right txt-gray m-t-5 f-12">
@@ -40,37 +44,55 @@
                             </div>
                         </div>
                     </a>
-                    <a href="#/messages/{{conversation.entities[0]._id || conversation.entities[0].id}}/{{conversation.entities[1]._id || conversation.entities[1].id}}/"  ng-repeat="conversation in conversations">
+                    <a href="#/messages/{{conversation.entities[0]._id || conversation.entities[0].id}}/{{conversation.entities[1]._id || conversation.entities[1].id}}/"
+                       ng-repeat="conversation in conversations">
                         <div class="row bd-b-s p-b-10 p-t-10 message-conversation"
                              ng-class="{'active':(conversation.entities[0]._id==objId1 || conversation.entities[0]._id==objId2) && (conversation.entities[1]._id==objId1 || conversation.entities[1]._id==objId2)}"
-                            >
+                        >
                             <div class="col-md-12">
-                                <div class="h-20 txt-ellipsis" ng-repeat="entity in conversation.entities | conversationOrderFilter:user.id">
+                                <div class="h-20 txt-ellipsis"
+                                     ng-repeat="entity in conversation.entities | conversationOrderFilter:user.id">
                                     <span>
-                                        <span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}" class="icon-small">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
+                                        <span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}"
+                                              class="icon-small">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
                                     </span>
                                 </div>
                                 <div class=" text-right txt-gray m-t-5 f-12">
-                                    Last message <span am-time-ago="conversation.lastMessageDate|wlfgObjectIdToTimestamp"></span>
+                                    Last message <span
+                                        am-time-ago="conversation.lastMessageDate|wlfgObjectIdToTimestamp"></span>
                                 </div>
-                                <span class="message-count-list badge floating badge-active" ng-if="conversation.unreadMessages.count>0">{{conversation.unreadMessages.count}}</span>
+                                <span class="message-count-list badge floating badge-active"
+                                      ng-if="conversation.unreadMessages.count>0">{{conversation.unreadMessages.count}}</span>
                             </div>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
+        <div class="col-md-8" ng-if="conversations.length == 0 && objId1==null && objId2==null">
+            <h4>{{"MESSAGE_NO_CONVERSATIONS"|translate}}</h4>
+        </div>
         <div class="col-md-8" ng-show="objId1 && objId2">
             <div class="message-content panel panel-default">
                 <div class="panel-body m-t-0 p-t-0 p-b-10">
                     <div class="row">
-                        <div class="messages scroller" ng-style="heightContentStyle()" ng-click="focusInput()" wlfg-message-height-content perfect-scrollbar scroll-glue wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20">
+                        <div class="messages scroller" ng-style="heightContentStyle()" ng-click="focusInput()"
+                             wlfg-message-height-content perfect-scrollbar scroll-glue wheel-propagation="false"
+                             wheel-speed="2" min-scrollbar-length="20">
                             <div ng-repeat="message in messages" class="clearfix" ng-style="getStyle($index)">
                                 <div ng-if="getDisplay($index)" class="col-md-8 p-t-5 p-b-5">
                                     <div>
-                                        <span class="txt-blue-light m-r-5">{{message.userName}}</span> - 
-                                        <span ng-if="entitiesKey[message.userId].type == 'character'" class="m-l-5 icon-small class-{{ entitiesKey[message.userId].bnet.class }}">{{ entitiesKey[message.userId].name }}</span>
-                                        <span ng-if="entitiesKey[message.userId].type == 'guild'" class="m-l-5 icon-small faction-{{ entitiesKey[message.userId].bnet.side }}">{{ entitiesKey[message.userId].name }}</span>
+                                        <span class="txt-blue-light m-r-5">{{message.userName}}</span> -
+                                        <a target="_blank"
+                                           ng-href="/#/character/{{entitiesKey[message.userId].region}}/{{entitiesKey[message.userId].realm}}/{{entitiesKey[message.userId].name}}/"
+                                           ng-if="entitiesKey[message.userId].type == 'character'"
+                                           class="m-l-5 icon-small txt-no-decoration class-{{ entitiesKey[message.userId].bnet.class }}">{{
+                                            entitiesKey[message.userId].name }}</a>
+                                        <a target="_blank"
+                                           ng-href="/#/guild/{{entitiesKey[message.userId].region}}/{{entitiesKey[message.userId].realm}}/{{entitiesKey[message.userId].name}}/"
+                                           ng-if="entitiesKey[message.userId].type == 'guild'"
+                                           class="m-l-5 icon-small txt-no-decoration faction-{{ entitiesKey[message.userId].bnet.side }}">{{
+                                            entitiesKey[message.userId].name }}</a>
                                     </div>
                                 </div>
                                 <div ng-if="getDisplay($index)" class="col-md-4 text-right">
@@ -79,12 +101,14 @@
                                 <div class="col-md-12 p-b-5 message-text" ng-class="{'p-b-10':$last}">
                                     {{message.text}}
                                 </div>
-                                <div ng-if="messages[$index+1] && messages[$index+1].userId != messages[$index].userId" class="separator col-md-12"></div>
+                                <div ng-if="messages[$index+1] && messages[$index+1].userId != messages[$index].userId"
+                                     class="separator col-md-12"></div>
                             </div>
                         </div>
-                        <form ng-submit="sendMessage()" ng-click="focusInput()" class="col-md-12 p-t-10 message-form-submit va-container width-100p">
+                        <form ng-submit="sendMessage()" ng-click="focusInput()"
+                              class="col-md-12 p-t-10 message-form-submit va-container width-100p">
                             <div class="form-group v-center">
-                                <input ng-model="newMessage.text"
+                                <input ng-model="newMessage.text" maxlength="400"
                                        placeholder="{{'MESSAGE_PLACEHOLDER'|translate}}"
                                        class="form-control" id="message-input">
                                 </input>

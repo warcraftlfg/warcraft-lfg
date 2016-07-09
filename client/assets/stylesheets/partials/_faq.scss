@@ -1,0 +1,29 @@
+.faq {
+  h4 {
+    &:after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 6px solid $white;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      position: absolute;
+      margin: 7px 0 0 10px;
+      transform: rotate(180deg);
+
+    }
+    &.open:after {
+      transform: rotate(0deg);
+
+    }
+  }
+  .question {
+    background-color: $black;
+    padding: 10px;
+    margin-bottom: 10px;
+    .content {
+      font-style: italic;
+    }
+  }
+
+}

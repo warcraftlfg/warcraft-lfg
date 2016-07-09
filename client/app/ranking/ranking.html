@@ -1,0 +1,47 @@
+<section class="header header-ranking">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{"RANKING"|translate}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{"RANKING_DESCRIPTION"|translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="ranking">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" infinite-scroll="getMoreRanks()" infinite-scroll-immediate-check="false">
+                <table class="table table-condensed">
+                    <tr ng-repeat="(rank,guild) in ranking ">
+                        <td>
+                            {{rank}}
+                        </td>
+                        <td class="class-{{character.bnet.class}}">
+                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
+                               class="bold txt-underline">
+                                {{guild.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{guild.realm}}
+                        </td>
+                        <td>
+                            {{guild.region|uppercase}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

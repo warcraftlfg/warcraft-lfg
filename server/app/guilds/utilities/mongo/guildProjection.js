@@ -18,7 +18,7 @@ module.exports.get = function (query) {
         projection["progress.normalCount"] = 1;
         projection["progress.heroicCount"] = 1;
         projection["progress.mythicCount"] = 1;
-        projection.wowProgress = 1;
+        projection.rank = 1;
         projection["id"] = 1;
     }
     if (query.view === "minimal") {

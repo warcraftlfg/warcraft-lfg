@@ -20,19 +20,98 @@
         </div>
     </div>
 </section>
-<div class="privacy">
+<div class="faq">
     <div class="container">
-        <div class="row">
+        <div class="row cursor-pointer question" ng-click="faq1=!faq1">
             <div class="col-md-12">
-                <h4 class="title cursor-pointer" ng-click="faq1=!faq1">
+                <h4 class="title" ng-class="{'open':faq1}">
                     {{"FAQ_WHAT_IS_WLFG"|translate}}
                 </h4>
-                <div ng-show="faq1" class="content">
+                <div ng-show="faq1" class="content m-l-30">
                     <p>
                         {{"FAQ_WHAT_IS_WLFG_CONTENT_1"|translate}}
                     </p>
                     <p>
                         {{"FAQ_WHAT_IS_WLFG_CONTENT_2"|translate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row cursor-pointer question" ng-click="faq2=!faq2">
+            <div class="col-md-12">
+                <h4 class="title" ng-class="{'open':faq2}">
+                    {{"FAQ_DATA_SOURCES"|translate}}
+                </h4>
+                <div ng-show="faq2" class="content m-l-30">
+                    <p>
+                        {{"FAQ_DATA_SOURCES_CONTENT_1"|translate}}
+                    </p>
+                    <ul>
+                        <li>
+                            {{"FAQ_DATA_SOURCES_CONTENT_2"|translate}}
+                        </li>
+                        <li>
+                            {{"FAQ_DATA_SOURCES_CONTENT_3"|translate}}
+                        </li>
+                        <li>
+                            {{"FAQ_DATA_SOURCES_CONTENT_4"|translate}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row cursor-pointer question" ng-click="faq3=!faq3">
+            <div class="col-md-12">
+                <h4 class="title" ng-class="{'open':faq3}">
+                    {{"FAQ_WOWPROGRESS"|translate}}
+                </h4>
+                <div ng-show="faq3" class="content m-l-30">
+                    <p>
+                        {{"FAQ_WOWPROGRESS_CONTENT_1"|translate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row cursor-pointer question" ng-click="faq4=!faq4">
+            <div class="col-md-12">
+                <h4 class="title" ng-class="{'open':faq4}">
+                    {{"FAQ_STEAL"|translate}}
+                </h4>
+                <div ng-show="faq4" class="content m-l-30">
+                    <p>
+                        {{"FAQ_STEAL_CONTENT_1"|translate}}
+                        (<a target="_blank" href="https://dev.battle.net/docs/read/oauth">https://dev.battle.net/docs/read/oauth</a>)
+                    </p>
+                    <p>
+                        {{"FAQ_STEAL_CONTENT_2"|translate}}
+                    </p>
+                    <p>
+                        {{"FAQ_STEAL_CONTENT_3"|translate}}
+                        (<a target="_blank" href="https://github.com/warcraftlfg/warcraft-lfg">https://github.com/warcraftlfg/warcraft-lfg</a>)
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row cursor-pointer question" ng-click="faq5=!faq5">
+            <div class="col-md-12">
+                <h4 class="title" ng-class="{'open':faq5}">
+                    {{"FAQ_WHO"|translate}}
+                </h4>
+                <div ng-show="faq5" class="content m-l-30">
+                    <p>
+                        {{"FAQ_WHO_CONTENT_1"|translate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row cursor-pointer question" ng-click="faq6=!faq6">
+            <div class="col-md-12">
+                <h4 class="title" ng-class="{'open':faq6}">
+                    {{"FAQ_HOSTING"|translate}}
+                </h4>
+                <div ng-show="faq6" class="content m-l-30">
+                    <p>
+                        {{"FAQ_HOSTING_CONTENT_1"|translate}} <a href="https://www.patreon.com/warcraftlfg" target="_blank">https://www.patreon.com/warcraftlfg</a>
                     </p>
                 </div>
             </div>
