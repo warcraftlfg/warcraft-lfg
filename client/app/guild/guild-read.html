@@ -85,22 +85,25 @@
                                 <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
                             </div>
                         </div>
-                        <div ng-if="guild.ad.description" class="row m-t-10">
+                        <div ng-if="guild.ad.description" class="row m-t-10 expandable-content">
                             <div class="col-md-12">
-                                <div class="guild-description" marked="guild.ad.description"></div>
+                                <div id="guild-description" class="guild-description" marked="guild.ad.description"></div>
+                                <div class="expandable-indicator" expandable data-target="guild-description" data-height="250">
+                                    <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default">
+                <div ng-if="guild.id" class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-6" ng-if="guild.ad.website">
+                            <!--<div class="col-md-6" ng-if="guild.ad.website">
                                 {{"CONTACT"|translate}}:
                                 <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
-                            </div>
+                            </div>-->
                             <div class="col-md-6">
                                 <span ng-if="guild.id" ng-click="openMessagePopup('sm');"
                                       class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
@@ -132,11 +135,11 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 {{"RAIDS_PER_WEEK"|translate}}: {{ guild.ad.raids_per_week.min }} - {{
                                 guild.ad.raids_per_week.max }}
                             </div>
-                            <div class="col-md-12 m-t-10" ng-if="guild.ad.timezone">
+                            <div class="col-md-6" ng-if="guild.ad.timezone">
                                 {{"TIMEZONE"|translate}}: {{"TIMEZONE_"+guild.ad.timezone|uppercase|translate}}
                             </div>
                         </div>

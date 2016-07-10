@@ -18,15 +18,28 @@
         <div class="collapse navbar-collapse" id="warcraftlfg-navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="#/ranking" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {{"RANKING"|translate}}
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">{{"RECRUITMENT"|translate}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#/guild/list">{{"GUILDS" | translate}}</a></li>
                         <li><a href="#/character/list"> {{"CHARACTERS" | translate}}</a></li>
                     </ul>
                 </li>
-                <li><a href="#/ranking">{{"RANKING"|translate}}</a></li>
-
+                <li class="dropdown">
+                    <a href="#/parser" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{"PARSER"|translate}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/parser">{{"US" | translate}}</a></li>
+                        <li><a href="#/parser">{{"EU" | translate}}</a></li>
+                        <li><a href="#/parser">{{"KR" | translate}}</a></li>
+                        <li><a href="#/parser">{{"TW" | translate}}</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

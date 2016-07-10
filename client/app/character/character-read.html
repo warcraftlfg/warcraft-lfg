@@ -85,16 +85,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div ng-if="character.ad.description" class="row m-t-10">
+                                <div ng-if="character.ad.description" class="row m-t-10 expandable-content">
                                     <div class="col-md-12">
-                                        <div class="character-description" marked="character.ad.description"></div>
+                                        <div id="character-description" class="character-description" marked="character.ad.description"></div>
+                                        <div class="expandable-indicator" expandable data-target="character-description" data-height="250">
+                                            <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" ng-if="(character.ad.btag_display && character.battleTag) || character.id">
                             <div class="panel-body">
                                 <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
                                     {{"CONTACT"|translate}}: <span>{{ character.battleTag }}</span>

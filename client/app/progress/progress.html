@@ -1,0 +1,178 @@
+<div class="dashboard-intro"></div>
+<div class="m-b-10 m-t-10">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default m-b-0">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="css3-metro-dropdown">
+                                    <select ng-model="filters.tier" class="form-control">
+                                        <option value="">Tier 18</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-md-3">
+                              <span class="css3-metro-dropdown">
+                                    <select ng-model="filters.region" class="form-control">
+                                        <option value="">World</option>
+                                        <option value="us">US</option>
+                                        <option value="eu">EU</option>
+                                        <option value="kr">KR</option>
+                                        <option value="tw">TW</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-md-3">
+                              <span class="css3-metro-dropdown">
+                                    <select ng-model="filters.realm" class="form-control">
+                                        <option value="">All realm</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-condensed">
+                    <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="icon-small">
+                            {{rank}}
+                        </td>
+                        <td class="class-{{guild.bnet.side}}">
+                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
+                                {{guild.name}}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#/pve/{{ guild.region }}/{{ guild.realm|lowercase }}/" class="txt-underline italic">
+                                {{guild.region|uppercase}}-{{guild.realm}}
+                            </a>
+                        </td>
+                        <td>
+                            0/13 (M)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-condensed">
+                    <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="icon-small">
+                            {{rank}}
+                        </td>
+                        <td class="class-{{guild.bnet.side}}">
+                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
+                                {{guild.name}}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#/pve/{{ guild.region }}/{{ guild.realm|lowercase }}/" class="txt-underline italic">
+                                {{guild.region|uppercase}}-{{guild.realm}}
+                            </a>
+                        </td>
+                        <td>
+                            0/13 (M)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <nav>
+                  <ul class="pagination m-0">
+                    <li class="page-item" ng-class="{'disabled': page <= 1}">
+                        <a ng-if="page > 1" ng-href="#/{{ path }}{{ (page - 1) }}"><span class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo; &nbsp; Previous</span></span></a>
+                        <span ng-if="page <= 1" aria-hidden="true">&laquo; &nbsp; Previous</span>
+                    </li>
+                  </ul>
+                </nav>
+            </div>
+            <div class="col-md-6 text-right">
+                <nav>
+                  <ul class="pagination m-0">
+                    <li class="page-item">
+                        <a ng-href="#/{{ path }}{{ (page + 1) }}">
+                            <span class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">Next &nbsp; &raquo;</span>
+                            </span>
+                        </a>
+                    </li>
+                  </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dashboard-table">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="m-b-20">Mythic Hellfire Citadel</h3>
+                <table class="table table-condensed">
+                    <tr ng-repeat="guild in guildAds">
+                        <td ng-class="{'logo-warcraftlfg':guild.id}" class="icon-small">
+                            <span class="source-tooltip"
+                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
+                                  ng-if="guild.id">
+                            </span>
+                        </td>
+                        <td class="faction-{{guild.bnet.side}}">
+                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
+                               class="bold txt-underline">
+                                {{guild.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{guild.realm}}
+                        </td>
+                        <td>
+                            {{guild.region|uppercase}}
+                        </td>
+                        <td class="hidden-xs">
+                            {{"UPDATED"|translate}} <span am-time-ago="guild.ad.updated"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3 class="m-b-20">Heroic Hellfire Citadel</h3>
+                <table class="table table-condensed">
+                    <tr ng-repeat="character in characterAds">
+                        <td ng-class="{'logo-warcraftlfg':character.id}" class="icon-small">
+                            <span class="source-tooltip"
+                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
+                                  ng-if="character.id"></span>
+                        </td>
+                        <td class="class-{{character.bnet.class}}">
+                            <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
+                               class="bold txt-underline class-{{character.bnet.class}}">
+                                {{character.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{character.realm}}
+                        </td>
+                        <td>
+                            {{character.region|uppercase}}
+                        </td>
+                        <td class="hidden-xs">
+                            {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

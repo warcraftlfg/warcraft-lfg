@@ -29,7 +29,7 @@
         'app.guild',
         'app.layout',
         'app.message',
-        'app.ranking'
+        'app.progress'
     ]);
 
 })();

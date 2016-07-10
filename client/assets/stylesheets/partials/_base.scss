@@ -184,4 +184,24 @@ tags-input {
   }
 }
 
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+  border-radius: 0px !important;
+  background-color: $black;
+  color: $white;
+}
+
+.pagination>li:last-child>a:hover, .pagination>li:last-child>span:hover {
+  background-color: $red;
+}
+
+.pagination>li.disabled:last-child>a, .pagination>li.disabled:last-child>span:hover {
+  background-color: $black;
+}
+
+@media (min-width: 979px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+  }
+}
+
 @import "../modules/all";

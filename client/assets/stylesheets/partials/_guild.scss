@@ -84,6 +84,7 @@
     word-break: break-word;
     padding: 10px;
     background: $grey;
+    overflow: hidden;
 
     p:last-child {
       margin-bottom: 0px;
