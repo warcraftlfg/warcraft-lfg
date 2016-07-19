@@ -20,7 +20,7 @@
             var expandableCallback = function() {
                 if (target.style.height == "auto") {
                     target.style.height = attrs.height+'px';
-                    element.removeClass('expandable-open')
+                    element.removeClass('expandable-open');
                 } else {
                     target.style.height = "auto";
                     element.addClass('expandable-open');

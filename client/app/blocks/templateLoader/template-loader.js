@@ -8,7 +8,7 @@
     templateLoader.$inject = ["$location"];
     function templateLoader($location) {
     	var template = "";
-        if ($location.host() == "warcraftlfg") {
+        if ($location.host().indexOf("warcraftlfg") >= 0) {
         	template = template + "lfg";
         } else if ($location.host().indexOf("warcraftprogress") >= 0) {
         	template = template +  "progress";

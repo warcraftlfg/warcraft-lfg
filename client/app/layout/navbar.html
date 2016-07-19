@@ -45,7 +45,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="!user.id" class="cursor-default">
                     {{"CONNECT_BNET"|translate}}
-                    <a class="icon-small bnet button" href="/auth/bnet">Battle.net</a>
+                    <a class="icon-small bnet button" ng-href="/auth/bnet/{{ host}}">Battle.net</a>
                 </li>
                 <li ng-if="user.id">
                     <a href="#/messages/">
