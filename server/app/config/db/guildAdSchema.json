@@ -45,6 +45,10 @@
             "deathknight": {
               "type": "boolean",
               "default": false
+            },
+            "demonhunter": {
+              "type": "boolean",
+              "default": false
             }
           }
         },
@@ -101,6 +105,10 @@
               "default": false
             },
             "rogue": {
+              "type": "boolean",
+              "default": false
+            },
+            "demonhunter": {
               "type": "boolean",
               "default": false
             }
