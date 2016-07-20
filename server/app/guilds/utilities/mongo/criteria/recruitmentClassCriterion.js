@@ -33,6 +33,9 @@ module.exports.add = function (query, criteria) {
                 if (param[1] == 6) {
                     recruitment.push({"ad.recruitment.tank.deathknight": true});
                 }
+                if (param[1] == 12) {
+                    recruitment.push({"ad.recruitment.tank.demonhunter": true});
+                }
             }
             if (param[0] == "heal") {
                 if (param[1] == 11) {
@@ -72,6 +75,9 @@ module.exports.add = function (query, criteria) {
                 }
                 if (param[1] == 4) {
                     recruitment.push({"ad.recruitment.melee_dps.rogue": true});
+                }
+                if (param[1] == 12) {
+                    recruitment.push({"ad.recruitment.melee_dps.demonhunter": true});
                 }
             }
             if (param[0] == "ranged_dps") {

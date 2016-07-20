@@ -25,7 +25,8 @@ function wlfgFilterClass($translate, $stateParams, $location) {
             {id: 8, selected: false},
             {id: 9, selected: false},
             {id: 10, selected: false},
-            {id: 11, selected: false}
+            {id: 11, selected: false},
+            {id: 12, selected: false}
         ];
 
         $scope.filters.class = [];

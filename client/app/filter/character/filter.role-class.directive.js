@@ -92,6 +92,13 @@ function wlfgFilterRoleClass($translate, $stateParams, $location) {
                     melee_dps: false,
                     ranged_dps: false
                 }
+            },
+            12: {
+                selected: false,
+                roles: {
+                    tank: false,
+                    melee_dps: false,
+                }
             }
         };
 
