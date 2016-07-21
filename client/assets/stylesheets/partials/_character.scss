@@ -97,9 +97,29 @@
 }
 
 .character-read {
+  .scroller {
+    max-height: 300px;
+    overflow-y: hidden;
+    position: relative;
+  }
+
+  .ps-scrollbar-y-rail {
+    opacity: 1;
+  }
+
+  .character-description.scroller p:first-child, .character-description.scroller hr:first-child, .character-description.scroller h1:first-child,
+  .character-description.scroller h2:first-child, .character-description.scroller h3:first-child, .character-description.scroller ul:first-child {
+    margin-top: 10px;
+  }
+
+  .character-description.scroller p:last-child, .character-description.scroller hr:last-child, .character-description.scroller h1:last-child,
+  .character-description.scroller h2:last-child, .character-description.scroller h3:last-child, .character-description.scroller ul:last-child {
+    margin-bottom: 10px;
+  }
+
   .character-description {
     word-break: break-word;
-    padding: 10px;
+    padding: 0px 10px;
     background: $grey;
 
     p:last-child {
