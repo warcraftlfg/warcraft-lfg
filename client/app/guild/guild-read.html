@@ -85,11 +85,11 @@
                                 <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
                             </div>
                         </div>
-                        <div ng-if="guild.ad.description" class="row m-t-10 expandable-content">
+                        <div ng-if="guild.ad.description" class="row m-t-10">
                             <div class="col-md-12">
-                                <div id="guild-description" class="guild-description" marked="guild.ad.description"></div>
-                                <div class="expandable-indicator" expandable data-target="guild-description" data-height="250">
-                                    <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                <div id="guild-description" perfect-scrollbar wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20" suppress-scroll-x="true" class="guild-description scroller" marked="guild.ad.description">
+                                    <div class="p-t-10"></div>
+
                                 </div>
                             </div>
                         </div>
