@@ -49,7 +49,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="form-group m-b-5">
-                                            <div class="checkbox">
+                                            <div class="checkbox m-t-0">
                                                 <label>
                                                     <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_LFG"|translate}}</strong>
                                                 </label>
@@ -107,7 +107,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="form-group m-b-0">
-                                    <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
+                                    <label class="m-b-10">{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
                                     <div class="row">
                                         <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3 col-sm-4 col-xs-6">
                                             <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
@@ -274,6 +274,70 @@
                             <div class="border-bottom"></div>
                         </div>
                     </uib-tab-heading>
+                    <form class="m-b-15 m-t-20" ng-class="">
+                        <div class="hide">
+                            <!--<span class="f-28">{{ guild.name }} - {{ guild.realm }} - {{ guild.region|uppercase }}</span>-->
+
+                            <input ng-model="guild.name" disabled type="hidden" class="form-control">
+                            <input ng-model="guild.realm" disabled type="hidden" class="form-control">
+                            <input ng-model="guild.region"  disabled type="hidden" class="form-control">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="form-group m-b-5">
+                                            <div class="checkbox m-t-0">
+                                                <label>
+                                                    <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_PARSER"|translate}}</strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="italic">
+                                            {{"GUILD_CREATE_PARSER_DESCRIPTION"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="form-group m-b-5">
+                                            <div class="checkbox m-t-0">
+                                                <label>
+                                                    <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_PARSER_VISIBILITY"|translate}}</strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="italic">
+                                            {{"GUILD_CREATE_PARSER_VISIBLITY_DESCRIPTION"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="form-group m-b-0">
+                                            <label class="m-b-10">{{"GUILD_CREATE_PARSER_RANK"|translate}}</label>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-3 col-md-2 col-lg-1" ng-repeat="rank in guildRankPerms">
+                                                    <span uib-tooltip-html="rank.tooltip" class="txt-underline"><label class="checkbox-inline">
+                                                        <input ng-model="rank.parser" type="checkbox" value="">
+                                                        {{"RANK"|translate}} {{ rank.id }} 
+                                                        <!--( <span uib-tooltip-html="rank.tooltip" class="txt-underline">{{rank.size}}</span> )-->
+                                                    </label></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>        
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-click="saveParser()">{{"SAVE"|translate}}</button>
+                    </form>
                 </uib-tab>
                 <uib-tab index="2" ng-if="guildRank === 0">
                     <uib-tab-heading>
@@ -282,7 +346,7 @@
                                 <i class="fa fa-lock" aria-hidden="true"></i>
                             </div>
                             <div>
-                                {{'GUILD_PERMISSIONS'|translate}}
+                                {{'PERMISSIONS'|translate}}
                             </div>
                             <div class="border-bottom"></div>
                         </div>
