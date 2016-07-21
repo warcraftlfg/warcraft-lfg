@@ -92,6 +92,13 @@
 
         $scope.timezones = TIMEZONES;
 
+        $scope.activeTabs = {'lfg': false, 'parser': false};
+        if ($scope.host == "parser") {
+            $scope.activeTabs.parser = true;
+        } else {
+            $scope.activeTabs.lfg = true;
+        }
+
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function () {
             if ($scope.$parent.user && $scope.$parent.user.logged_in === false) {

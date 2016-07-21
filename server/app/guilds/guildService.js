@@ -89,11 +89,11 @@ module.exports.insertWoWProgressGuildAd = function (wowProgressGuildAd, callback
 };
 
 
-module.exports.putLfgAdsInUpdateList = function (callback) {
+module.exports.putLfgAdsOrParserInUpdateList = function (callback) {
     var logger = applicationStorage.logger;
     async.waterfall([
         function (callback) {
-            guildModel.find({"ad.lfg": true}, {region: 1, realm: 1, name: 1}, function (error, guilds) {
+            guildModel.find({$or: [ { "ad.lfg": true }, { "parser.active": true } ]}, {region: 1, realm: 1, name: 1}, function (error, guilds) {
                 callback(error, guilds);
             });
         },

@@ -58,7 +58,7 @@ Cron.prototype.cleanAds = function () {
             },
             function (callback) {
                 logger.info("Put lfg guildAds in update list");
-                guildService.putLfgAdsInUpdateList(function (error) {
+                guildService.putLfgAdsOrParserInUpdateList(function (error) {
                     if (error) {
                         logger.error(error.message);
                     }

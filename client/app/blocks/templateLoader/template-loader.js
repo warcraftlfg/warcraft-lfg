@@ -15,7 +15,7 @@
         } else if ($location.host().indexOf("warcraftparser") >= 0) {
         	template = template + "parser";
         } else {
-        	template = "";
+        	template = "lfg";
         }
 
 		return {
