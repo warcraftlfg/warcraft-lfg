@@ -276,8 +276,6 @@
                     </uib-tab-heading>
                     <form class="m-b-15 m-t-20" ng-class="">
                         <div class="hide">
-                            <!--<span class="f-28">{{ guild.name }} - {{ guild.realm }} - {{ guild.region|uppercase }}</span>-->
-
                             <input ng-model="guild.name" disabled type="hidden" class="form-control">
                             <input ng-model="guild.realm" disabled type="hidden" class="form-control">
                             <input ng-model="guild.region"  disabled type="hidden" class="form-control">
@@ -295,22 +293,6 @@
                                         </div>
                                         <div class="italic">
                                             {{"GUILD_CREATE_PARSER_DESCRIPTION"|translate}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="form-group m-b-5">
-                                            <div class="checkbox m-t-0">
-                                                <label>
-                                                    <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_PARSER_VISIBILITY"|translate}}</strong>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="italic">
-                                            {{"GUILD_CREATE_PARSER_VISIBLITY_DESCRIPTION"|translate}}
                                         </div>
                                     </div>
                                 </div>

@@ -96,11 +96,13 @@
                     <div class="col-md-6">
                         <div class="panel panel-default" ng-if="(character.ad.btag_display && character.battleTag) || character.id">
                             <div class="panel-body">
-                                <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
-                                    {{"CONTACT"|translate}}: <span>{{ character.battleTag }}</span>
-                                </div>
-                                <div class="col-md-6" ng-if="character.id" >
-                                     <span ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
+                                <div class="row">
+                                    <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
+                                        <span>{{ character.battleTag }}</span>
+                                    </div>
+                                    <div class="col-md-6" ng-if="character.id" >
+                                         <span ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
