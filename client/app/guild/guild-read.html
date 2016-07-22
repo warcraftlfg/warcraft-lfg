@@ -266,9 +266,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 {{"PROGRESS"|translate}}:
-                                <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
-                                <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
-                                <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
+                                <span ng-if="guild.progress.tier_18.mythicCount>0">{{guild.progress.tier_18.mythicCount}}/13 (M)</span>
+                                <span ng-if="guild.progress.tier_18.heroicCount>0&&guild.progress.tier_18.mythicCount==0">{{guild.progress.tier_18.heroicCount}}/13 (H)</span>
+                                <span ng-if="guild.progress.tier_18.heroicCount==0&&guild.progress.tier_18.mythicCount==0">{{guild.progress.tier_18.normalCount}}/13 (N)</span>
                             </div>
                             <div class="col-md-2" ng-if="guild.rank.world">
                                 {{"WORLD"|translate}}: <span
@@ -294,24 +294,24 @@
                             <tr ng-repeat="(key, boss) in bosses | limitTo:7">
                                 <td class="bold">{{ boss|uppercase|translate}}</td>
                                 <td ng-class="{
-                                'legendary':guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0,
-                                'epic':guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
-                                'rare':guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
-                                'common':!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)
+                                'legendary':guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0,
+                                'epic':guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0 && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0),
+                                'rare':guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0 && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0),
+                                'common':!(guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0) && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)
                                 }">
-                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
-                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
-                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
-                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                                    <span ng-if="guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0 && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0 && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!(guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0) && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0"
-                                          am-time-ago="guild.progress.mythic[boss].timestamps[0]"></span>
-                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
-                                          am-time-ago="guild.progress.heroic[boss].timestamps[0]"></span>
-                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
-                                          am-time-ago="guild.progress.normal[boss].timestamps[0]"></span>
-                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                                    <span ng-if="guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0"
+                                          am-time-ago="guild.progress.tier_18.mythic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0 && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.tier_18.heroic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0 && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.tier_18.normal[boss].timestamps[0]"></span>
+                                    <span ng-if="!(guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0) && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>
@@ -321,24 +321,24 @@
                             <tr ng-repeat="(key, boss) in bosses | limitTo:-6">
                                 <td class="bold">{{ boss|uppercase|translate }}</td>
                                 <td ng-class="{
-                                'legendary':guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0,
-                                'epic':guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
-                                'rare':guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0),
-                                'common':!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)
+                                'legendary':guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0,
+                                'epic':guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0 && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0),
+                                'rare':guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0 && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0),
+                                'common':!(guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0) && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)
                                 }">
-                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
-                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
-                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
-                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                                    <span ng-if="guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0 && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0 && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!(guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0) && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0"
-                                          am-time-ago="guild.progress.mythic[boss].timestamps[0]"></span>
-                                    <span ng-if="guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0 && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
-                                          am-time-ago="guild.progress.heroic[boss].timestamps[0]"></span>
-                                    <span ng-if="guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0 && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)"
-                                          am-time-ago="guild.progress.normal[boss].timestamps[0]"></span>
-                                    <span ng-if="!(guild.progress.normal[boss] && guild.progress.normal[boss].timestamps.length > 0) && !(guild.progress.heroic[boss] && guild.progress.heroic[boss].timestamps.length > 0) && !(guild.progress.mythic[boss] && guild.progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                                    <span ng-if="guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0"
+                                          am-time-ago="guild.progress.tier_18.mythic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0 && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.tier_18.heroic[boss].timestamps[0]"></span>
+                                    <span ng-if="guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0 && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)"
+                                          am-time-ago="guild.progress.tier_18.normal[boss].timestamps[0]"></span>
+                                    <span ng-if="!(guild.progress.tier_18.normal[boss] && guild.progress.tier_18.normal[boss].timestamps.length > 0) && !(guild.progress.tier_18.heroic[boss] && guild.progress.tier_18.heroic[boss].timestamps.length > 0) && !(guild.progress.tier_18.mythic[boss] && guild.progress.tier_18.mythic[boss].timestamps.length > 0)">&nbsp;</span>
                                 </td>
                             </tr>
                         </table>

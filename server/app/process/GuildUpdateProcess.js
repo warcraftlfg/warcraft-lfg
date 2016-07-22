@@ -55,6 +55,12 @@ GuildUpdateProcess.prototype.updateGuild = function () {
 
             })
         },
+        function(region,guild,callback){
+            //Set guild to update for progress
+            updateModel.insert('wp_gu', region, guild.realm, guild.name, 5, function (error) {
+                callback(error,region,guild);
+            });
+        },
         function (region, guild, callback) {
             async.parallel({
                 ad: function (callback) {
@@ -106,7 +112,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                         }
                         callback(null, wowProgress);
                     });**/
-                },
+                }/*,
                 progress: function (callback) {
                     progressAPI.getProgress(18,region,guild.realm,guild.name,function(error,progress){
                         if (error) {
@@ -123,8 +129,8 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                             progress.updated = new Date().getTime();
                         }
                         callback(null, progress);
-                    });**/
-                }
+                    });*
+                }*/
             }, function (error, results) {
                 results.bnet = guild;
                 results.bnet.updated = new Date().getTime();
