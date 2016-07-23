@@ -90,37 +90,37 @@
   height: 30px;
 
   /* Warrior */
-  &.class-1{background: url('../images/icon/30/class-1-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-1{background: url('../images/icon/30/class-sprite.png') no-repeat -85px -5px; vertical-align: top; margin-top: 5px }
   /* Paladin */
-  &.class-2{background: url('../images/icon/30/class-2-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-2{background: url('../images/icon/30/class-sprite.png') no-repeat -85px -85px; vertical-align: top; margin-top: 5px  }
   /* Hunter */
-  &.class-3{background: url('../images/icon/30/class-3-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-3{background: url('../images/icon/30/class-sprite.png') no-repeat -205px -85px; vertical-align: top; margin-top: 5px  }
   /* Rogue */
-  &.class-4{background: url('../images/icon/30/class-4-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-4{background: url('../images/icon/30/class-sprite.png') no-repeat -85px -125px; vertical-align: top; margin-top: 5px  }
   /* Priest */
-  &.class-5{background: url('../images/icon/30/class-5-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-5{background: url('../images/icon/30/class-sprite.png') no-repeat -205px -125px; vertical-align: top; margin-top: 5px  }
   /* Death Knight */
-  &.class-6{background: url('../images/icon/30/class-6-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-6{background: url('../images/icon/30/class-sprite.png') no-repeat -85px -165px; vertical-align: top; margin-top: 5px  }
   /* Shaman */
-  &.class-7{background: url('../images/icon/30/class-7-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-7{background: url('../images/icon/30/class-sprite.png') no-repeat -205px -165px; vertical-align: top; margin-top: 5px  }
   /* Mage */
-  &.class-8{background: url('../images/icon/30/class-8-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-8{background: url('../images/icon/30/class-sprite.png') no-repeat -85px -205px; vertical-align: top; margin-top: 5px  }
   /* Warlock */
-  &.class-9{background: url('../images/icon/30/class-9-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-9{background: url('../images/icon/30/class-sprite.png') no-repeat -205px -205px; vertical-align: top; margin-top: 5px  }
   /* Monk */
-  &.class-10{background: url('../images/icon/30/class-10-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-10{background: url('../images/icon/30/class-sprite.png') no-repeat -205px -5px; vertical-align: top; margin-top: 5px  }
   /* Druid */
-  &.class-11{background: url('../images/icon/30/class-11-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-11{background: url('../images/icon/30/class-sprite.png') no-repeat -85px -45px; vertical-align: top; margin-top: 5px  }
   /* Demon hunter */
-  &.class-12{background: url('../images/icon/30/class-12-white.png') left center no-repeat; padding: 1px 0 1px 40px; display: inline; }
+  &.class-12{background: url('../images/icon/30/class-sprite.png') no-repeat -205px -45px; vertical-align: top; margin-top: 5px  }
 
   &.dps,&.melee_dps {background: url('../images/icon/32/role-sprite.png') no-repeat -5px -5px; width: 32px; height: 32px; }
   &.ranged-dps,&.ranged_dps,&.distant_dps {background: url('../images/icon/32/role-sprite.png') no-repeat -5px -47px; width: 32px; height: 32px; }
   &.heal,&.heals {background: url('../images/icon/32/role-sprite.png') no-repeat -47px -5px; width: 32px; height: 32px; }
   &.tank,&.tanks {background: url('../images/icon/32/role-sprite.png') no-repeat -47px -47px; width: 32px; height: 32px; }
 
-  &.faction-1{background: url('../images/icon/32/horde.png') left center no-repeat; width: 32px; height: 32px; padding: 1px 0 1px 40px; display: inline; }
-  &.faction-0{background: url('../images/icon/32/alliance.png') left center no-repeat; width: 32px; height: 32px; padding: 1px 0 1px 40px; display: inline; }
+  &.faction-1{background: url('../images/icon/32/horde.png') left center no-repeat; width: 32px; height: 32px; vertical-align: top; margin-top: 5px  }
+  &.faction-0{background: url('../images/icon/32/alliance.png') left center no-repeat; width: 32px; height: 32px; vertical-align: top; margin-top: 5px  }
 
 
 }
