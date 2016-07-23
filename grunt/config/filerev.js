@@ -14,6 +14,7 @@ module.exports = {
                 'www/assets/css/warcraftlfg.vendor.min.css',
                 'www/app/warcraftlfg.min.js',
                 'www/app/warcraftlfg.vendor.min.js',
+                'www/templates.js',
                 'www/assets/**/*.json'
             ]
         }]

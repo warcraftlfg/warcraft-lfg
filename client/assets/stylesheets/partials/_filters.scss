@@ -58,16 +58,16 @@
       }
     }
     .tank {
-      background: url('../images/icon/25/tank.png') no-repeat top center;
+      background: url('../images/icon/25/role-sprite.png') no-repeat -40px -40px;
     }
     .heal {
-      background: url('../images/icon/25/heal.png') no-repeat top center;
+      background: url('../images/icon/25/role-sprite.png') no-repeat -5px -5px;
     }
     .ranged_dps {
-      background: url('../images/icon/25/ranged.png') no-repeat top center;
+      background: url('../images/icon/25/role-sprite.png') no-repeat -5px -40px;
     }
     .melee_dps {
-      background: url('../images/icon/25/melee.png') no-repeat top center;
+      background: url('../images/icon/25/role-sprite.png') no-repeat -40px -5px;
     }
 
   }
@@ -92,16 +92,16 @@
     &.selected {
       opacity:0.85;
       .class-1 {
-        background: url('../images/icon/30/class-1-sprite.png') no-repeat -29px 0px;
+        background: url('../images/icon/30/class-sprite.png') no-repeat -34px -5px;
       }
       .class-2 {
-        background: url('../images/icon/30/class-2-sprite.png') no-repeat -29px 0px;
+        background: url('../images/icon/30/class-sprite.png') no-repeat -29px 0px;
       }
       .class-3 {
-        background: url('../images/icon/30/class-3-sprite.png') no-repeat -29px 0px;
+        background: url('../images/icon/30/class-sprite.png') no-repeat -29px 0px;
       }
       .class-4 {
-        background: url('../images/icon/30/class-4-sprite.png') no-repeat -29px 0px;
+        background: url('../images/icon/30/class-sprite.png') no-repeat -29px 0px;
       }
       .class-5 {
         background: url('../images/icon/30/class-5-sprite.png') no-repeat -29px 0px;
@@ -136,40 +136,40 @@
       opacity: 1;
     }
     .class-1 {
-      background: url('../images/icon/30/class-1-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -5px -5px;
     }
     .class-2 {
-      background: url('../images/icon/30/class-2-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -5px -85px;
     }
     .class-3 {
-      background: url('../images/icon/30/class-3-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -115px -85px;
     }
     .class-4 {
-      background: url('../images/icon/30/class-4-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -5px -125px;
     }
     .class-5 {
-      background: url('../images/icon/30/class-5-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -115px -125px;
     }
     .class-6 {
-      background: url('../images/icon/30/class-6-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -5px -165px;
     }
     .class-7 {
-      background: url('../images/icon/30/class-7-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -115px -165px;
     }
     .class-8 {
-      background: url('../images/icon/30/class-8-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -225px -5px;
     }
     .class-9 {
-      background: url('../images/icon/30/class-9-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -225px -85px;
     }
     .class-10 {
-      background: url('../images/icon/30/class-10-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -115px -5px;
     }
     .class-11 {
-      background: url('../images/icon/30/class-11-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -5px -45px;
     }
     .class-12 {
-      background: url('../images/icon/30/class-12-sprite.png') no-repeat 0px 0px;
+      background: url('../images/icon/30/class-sprite.png') no-repeat -115px -45px;
     }
 
     &.role {

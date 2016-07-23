@@ -52,7 +52,7 @@
                             </span>
                         </td>
                         <td>
-                            <a class="txt-white m-r-10 f-18 txt-no-decoration"
+                            <a class="txt-white m-r-10 f-16 txt-no-decoration"
                                href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update"
                                ng-if="guildAd.perms.ad.edit" tooltip-placement="top"
                                uib-tooltip="{{'EDIT'|translate }}">
@@ -60,7 +60,7 @@
                             </a>
                             <span tooltip-placement="top" ng-if="guildAd.perms.ad.del"
                                   uib-tooltip="{{'DELETE'|translate }}">
-                                <span class="txt-white m-r-10 f-18 cursor-pointer"
+                                <span class="txt-white m-r-10 f-16 cursor-pointer"
                                       ng-click="deleteGuildAd(guildAd.region,guildAd.realm,guildAd.name)" wlfg-confirm
                                       wlfg-confirm-content="{{'CONFIRM_DELETE_GUILD_AD'|translate}}">
                                     <i class="fa fa-trash-o"></i>
@@ -85,8 +85,8 @@
                 </div>
                 <table class="table">
                     <tr ng-repeat="characterAd in characterAds">
-                        <td class="icon-small class-{{characterAd.bnet.class}}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <td class="text-center v-top">
+                            <div class="icon-small class-{{characterAd.bnet.class}} m-r-5 m-l-5"></div>
                         </td>
                         <td class="class-{{characterAd.bnet.class}}">
                             <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/"
@@ -107,13 +107,13 @@
                             </span>
                         </td>
                         <td>
-                            <a class="txt-no-decoration txt-white m-r-10 f-18 txt-no-decoration"
+                            <a class="txt-no-decoration txt-white m-r-10 f-16 txt-no-decoration"
                                href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"
                                tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
                                 <i class="fa fa-pencil"></i>
                             </a>
                             <span tooltip-placement="top" uib-tooltip="{{'DELETE'|translate }}">
-                                <span class="txt-no-decoration txt-white f-18 cursor-pointer"
+                                <span class="txt-no-decoration txt-white f-16 cursor-pointer"
                                       ng-click="deleteCharacterAd(characterAd.region,characterAd.realm,characterAd.name)"
                                       wlfg-confirm wlfg-confirm-content="{{'CONFIRM_DELETE_CHARACTER_AD'|translate}}">
                                     <i class="fa fa-trash-o"></i>
@@ -157,7 +157,7 @@
                                 <div class="cursor-pointer" ng-show="!emailEdit" ng-click="emailEdit=true">
                                     <span ng-if="user.email.address==''">{{"NO_EMAIL_REGISTERED"|translate}}</span>
                                     <span ng-if="user.email.address!=''">{{user.email.address}}</span>
-                                    &nbsp;<i class="fa fa-pencil"
+                                    &nbsp;<i class="fa fa-pencil fa-16"
                                        tooltip-placement="top"
                                        uib-tooltip="{{'EDIT'|translate }}"></i>
                                 </div>
