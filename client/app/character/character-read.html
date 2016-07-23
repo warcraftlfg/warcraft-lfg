@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" ng-if="(character.ad.btag_display && character.battleTag) || character.id">
                             <div class="panel-body">
                                 <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
                                     <span>{{ character.battleTag }}</span>
