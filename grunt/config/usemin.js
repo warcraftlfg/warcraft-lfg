@@ -1,7 +1,7 @@
 module.exports = {
         html: ['www/index.html','www/app/**/*.html'],
-        css: ['www/assets/css/warcraftlfg.min.*.css'],
-        js: ['www/app/warcraftlfg.min.*.js'],
+        css: ['www/assets/css/warcraftlfg.min.*.css', 'www/assets/css/warcraftlfg.vendor.min.*.css'],
+        js: ['www/app/warcraftlfg.min.*.js', 'www/app/warcraftlfg.vendor.min.*.js'],
         options: {
                 assetsDirs: ['www','www/assets/images','www/app'],
                 patterns: {
