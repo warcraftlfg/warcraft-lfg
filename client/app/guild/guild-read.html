@@ -4,7 +4,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 ng-if="guild"><span class="icon-medium faction-{{guild.bnet.side}}">{{ guild.name }}</span></h2>
+                    <h2 ng-if="guild">
+                        <span class="icon-medium faction-{{guild.bnet.side}} m-t-0"></span>
+                        <span class="faction-{{guild.bnet.side}}">{{ guild.name }}</span>
+                    </h2>
                     <h2 ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h2>
                 </div>
             </div>
