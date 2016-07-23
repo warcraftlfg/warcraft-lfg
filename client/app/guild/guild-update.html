@@ -100,7 +100,7 @@
                                     <label>{{"GUILD_CREATE_RECRUITMENT_CLASS"|translate}}</label>
                                     <div class="row">
                                         <div ng-repeat="(role,value) in guild.ad.recruitment" class="col-md-3 col-sm-4 col-xs-6">
-                                            <span class="icon-small {{role|lowercase}}"><strong>{{role|uppercase|translate}}</strong></span>
+                                            <span class="icon-small {{role|lowercase}}"></span><strong> &nbsp;{{role|uppercase|translate}}</strong>
                                             <div ng-repeat="(class,value) in guild.ad.recruitment[role]" class="checkbox">
                                                 <label class="class-{{ class|lowercase }}">
                                                     <input ng-model="guild.ad.recruitment[role][class]" type="checkbox"> {{class|uppercase|translate}}

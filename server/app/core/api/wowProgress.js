@@ -541,6 +541,16 @@ module.exports.parseGuildPage = function (url, callback) {
                         result.recruitment.tank.warrior = true;
                     }
                 }
+                if (line.indexOf("demonhunter") != -1) {
+                    if (line.indexOf("(dd)") != -1) {
+                        result.recruitment.melee_dps.demonhunter = true;
+                    } else if (line.indexOf("(tank)") != -1) {
+                        result.recruitment.tank.demonhunter = true;
+                    } else {
+                        result.recruitment.melee_dps.demonhunter = true;
+                        result.recruitment.tank.demonhunter = true;
+                    }
+                }
             });
         }
 
@@ -579,7 +589,8 @@ module.exports.formatRecruitment = function (defaultValue) {
             warrior: defaultValue,
             druid: defaultValue,
             paladin: defaultValue,
-            monk: defaultValue
+            monk: defaultValue,
+            demonhunter: defaultValue
         },
         heal: {
             druid: defaultValue,
@@ -596,7 +607,8 @@ module.exports.formatRecruitment = function (defaultValue) {
             monk: defaultValue,
             shaman: defaultValue,
             warrior: defaultValue,
-            rogue: defaultValue
+            rogue: defaultValue,
+            demonhunter: defaultValue
         },
         ranged_dps: {
             priest: defaultValue,

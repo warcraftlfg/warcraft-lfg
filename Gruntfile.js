@@ -10,7 +10,8 @@ module.exports = function(grunt) {
             customTasksDir: 'grunt/tasks',
             staticMappings: {
                 useminPrepare: 'grunt-usemin',
-                i18nextract : 'grunt-angular-translate'
+                i18nextract : 'grunt-angular-translate',
+                ngtemplates: 'grunt-angular-templates'
             }
         }
     });

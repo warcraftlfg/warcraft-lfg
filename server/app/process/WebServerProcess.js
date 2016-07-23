@@ -56,14 +56,16 @@ function WebServerProcess(autoStop, port) {
     //Allowed server to restart without loosing any session
     this.app.use(session({
         key: 'wgt.sid',
+        cookie: { maxAge : 3600000*24*14 },
         secret: config.session.secret,
         store: sessionStore,
         saveUninitialized: true,
         resave: true
     }));
 
-    this.app.use(compression());
     this.app.use(cookieParser());
+    this.app.use(compression());
+
     this.app.use(bodyParser.urlencoded({extended: true}));
     this.app.use(bodyParser.json());
     this.app.use(passport.initialize());
@@ -86,6 +88,7 @@ function WebServerProcess(autoStop, port) {
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
+    this.app.use('/bower_components', express.static(path.join(process.root, "../bower_components")));
 
     //Catch all error and log them
     this.app.use(function (error, req, res, next) {
@@ -111,6 +114,7 @@ function WebServerProcess(autoStop, port) {
             accept();
         }
     }));
+
 
 }
 

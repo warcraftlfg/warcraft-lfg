@@ -40,7 +40,8 @@
                                 <div class="overflow">
                                     {{guild.realm}} ({{guild.region|uppercase}})
                                     <div ng-if="guild.id">
-                                        <span class="icon-small logo-warcraftlfg">WarcraftLFG</span>
+                                        <span class="icon-small logo-warcraftlfg"></span>
+                                        <span class="m-l-5">WarcraftLFG</span>
                                     </div>
                                 </div>
 
@@ -71,9 +72,9 @@
                             <div class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-lg-offset-0 col-md-10 col-lg-3">
                                 <div>
                                     {{"PROGRESS"|translate}}:
-                                    <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
-                                    <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
-                                    <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
+                                    <span ng-if="guild.progress.tier_18.mythicCount>0">{{guild.progress.tier_18.mythicCount}}/13 (M)</span>
+                                    <span ng-if="guild.progress.tier_18.heroicCount>0&&guild.progress.tier_18.mythicCount==0">{{guild.progress.tier_18.heroicCount}}/13 (H)</span>
+                                    <span ng-if="guild.progress.tier_18.heroicCount==0&&guild.progress.tier_18.mythicCount==0">{{guild.progress.tier_18.normalCount}}/13 (N)</span>
                                 </div>
                                 Ranking:
                                 <div class="row" ng-if="guild.rank.world">

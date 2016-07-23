@@ -81,7 +81,7 @@ module.exports.getCharacter = function (req, res, next) {
         "bnet.race": 1,
         "bnet.level": 1,
         "bnet.talents": 1,
-        "bnet.progression.raids": {$slice: -1},
+        "bnet.progression.raids": {$slice: [-3,1]},
         "bnet.items": 1,
         "bnet.reputation": 1,
         "bnet.achievements": 1,
