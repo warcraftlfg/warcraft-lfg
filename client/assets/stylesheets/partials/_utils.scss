@@ -472,7 +472,7 @@
     top: 0;
     left: 0;
     text-decoration: none; /* No underlines on the link */
-    z-index: 10; /* Places the link above everything else in the div */
+    z-index: 8; /* Places the link above everything else in the div */
     background-color: #FFF; /* Fix to make div clickable in IE */
     opacity: 0; /* Fix to make div clickable in IE */
     filter: alpha(opacity=1); /* Fix to make div clickable in IE */
