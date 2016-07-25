@@ -64,7 +64,7 @@ function WebServerProcess(autoStop, port) {
     }));
 
     this.app.use(cookieParser());
-    this.app.use(compression());
+    this.app.use(compression({ threshold: 0 }));
 
     this.app.use(bodyParser.urlencoded({extended: true}));
     this.app.use(bodyParser.json());
