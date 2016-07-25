@@ -1,9 +1,19 @@
-<tbody>
- 	<tr ng-if="difficulty[0] || difficulty[1] || difficulty[2] || difficulty[3]" ng-repeat="(key,difficulty) in warcraftLogs">
-        <td class="bold">{{"RAID_DIFFICULTY_LONG_"+key|translate}}</td>
-        <td ng-class="{'legendary spec-0':difficulty[0].median>=95,'epic spec-0':difficulty[0].median>=75&&difficulty[0].median<95,'rare spec-0':difficulty[0].median>=50&&difficulty[0].median<75,'uncommon spec-0':difficulty[0].median>=25&&difficulty[0].median<50,'common spec-0':difficulty[0].median<25}" class="icon-small">{{difficulty[0].median}}<span ng-if="difficulty[0].median">%</span></td>
-        <td ng-class="{'legendary spec-1':difficulty[1].median>=95,'epic spec-1':difficulty[1].median>=75&&difficulty[1].median<95,'rare spec-1':difficulty[1].median>=50&&difficulty[1].median<75,'uncommon spec-1':difficulty[1].median>=25&&difficulty[1].median<50,'common spec-1':difficulty[1].median<25}" ng-class="{spec-1:difficulty[1].median}" class="icon-small">{{difficulty[1].median}}<span ng-if="difficulty[1].median">%</span></td>
-        <td ng-class="{'legendary spec-2':difficulty[2].median>=95,'epic spec-2':difficulty[2].median>=75&&difficulty[2].median<95,'rare spec-2':difficulty[2].median>=50&&difficulty[2].median<75,'uncommon spec-2':difficulty[2].median>=25&&difficulty[2].median<50,'common spec-2':difficulty[2].median<25}" ng-class="{spec-2:difficulty[2].median}" class="icon-small">{{difficulty[2].median}}<span ng-if="difficulty[2].median">%</span></td>
-        <td ng-class="{'legendary spec-3':difficulty[3].median>=95,'epic spec-3':difficulty[3].median>=75&&difficulty[3].median<95,'rare spec-3':difficulty[3].median>=50&&difficulty[3].median<75,'uncommon spec-3':difficulty[3].median>=25&&difficulty[3].median<50,'common spec-3':difficulty[3].median<25}" ng-class="{spec-3:difficulty[3].median}" class="icon-small">{{difficulty[3].median}}<span ng-if="difficulty[3].median">%</span></td>
-    </tr>
-</tbody>
+<table class="table table-condensed character-class-{{character.bnet.class}}" ng-if="warcraftLogs != null">
+	<tbody>
+	    <tr class="" ng-if="difficulty[0] || difficulty[1] || difficulty[2] || difficulty[3]" ng-repeat="(key,difficulty) in warcraftLogs">
+	        <td class="bold">{{"RAID_DIFFICULTY_LONG_"+key|translate}}</div>
+	        <td ng-class="{legendary:stat.median>=95,epic:stat.median>=75&&stat.median<95,rare:stat.median>=50&&stat.median<75,uncommon:stat.median>=25&&stat.median<50,common:stat.median<25}" ng-repeat="(spec,stat) in difficulty" class="">
+	        	<span tooltip-placement="top" uib-tooltip="{{stat.number}} {{'BOSS'|translate }}">
+		        	<span  class="spec-{{spec}} v-center" ng-if="stat"></span>
+		        	<span class="m-l-10" ng-if="stat">{{stat.median}}%</span>
+	        	</span>
+	        </td>
+	    </tr>
+	</tbody>
+</table>
+
+<div ng-if="warcraftLogs == null" class="panel panel-default">
+	<div class="panel-body">
+    	{{"NO_DATA_ON_WARCRAFTLOGS"|translate}}
+    </div>
+</div>

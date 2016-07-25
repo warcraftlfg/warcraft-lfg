@@ -9,8 +9,6 @@
     function Dashboard($rootScope, $scope, $state, $translate, socket, LANGUAGES, wlfgAppTitle, characters, guilds) {
         wlfgAppTitle.setTitle('Home');
 
-        fixTranslation($rootScope, $scope, $translate);
-
         $scope.$parent.loading = false;
 
         $scope.realmZones = [
@@ -157,39 +155,7 @@
             search: $translate.instant("SEARCH"),
             nothingSelected: $translate.instant("ALL_REALMZONES")
         };
-        //Reset error message
-        $scope.$parent.error = null;
-        $scope.languages = LANGUAGES;
 
-        //Initialize $scope variables
-        $scope.guildAds = guilds.query({lfg: true, view: "minimal"});
-        $scope.characterAds = characters.query({lfg: true, view: "minimal"});
-
-        //Initialize $scope variables
-        $scope.guildAdsCount = guilds.get({part: "count", lfg: true, view: "minimal"});
-        $scope.characterAdsCount = characters.get({part: "count", lfg: true, view: "minimal"});
-
-
-        $scope.form = {type: "guild", region: "", language: "", realmZones: []};
-
-        $scope.CTAFormSubmit = function () {
-
-            var realmZones = [];
-            angular.forEach($scope.form.realmZones, function (realmZone) {
-                realmZones.push(realmZone.region + '.' + realmZone.locale + "." + realmZone.zone + "." + realmZone.cities.join('::'));
-            });
-
-            $state.go($scope.form.type + '-list', {
-                region: $scope.form.region,
-                language: $scope.form.language,
-                faction: $scope.form.faction,
-                realm_zone: realmZones
-            });
-        };
-
-    }
-
-    function fixTranslation($rootScope, $scope, $translate) {
         $rootScope.$on('$translateChangeSuccess', function () {
             $scope.realmZones = [
                 {name: 'EU', msGroup: true},
@@ -336,5 +302,36 @@
                 nothingSelected: $translate.instant("ALL_REALMZONES")
             };
         });
+
+        //Reset error message
+        $scope.$parent.error = null;
+        $scope.languages = LANGUAGES;
+
+        //Initialize $scope variables
+        $scope.guildAds = guilds.query({lfg: true, view: "minimal"});
+        $scope.characterAds = characters.query({lfg: true, view: "minimal"});
+
+        //Initialize $scope variables
+        $scope.guildAdsCount = guilds.get({part: "count", lfg: true, view: "minimal"});
+        $scope.characterAdsCount = characters.get({part: "count", lfg: true, view: "minimal"});
+
+
+        $scope.form = {type: "guild", region: "", language: "", realmZones: []};
+
+        $scope.CTAFormSubmit = function () {
+
+            var realmZones = [];
+            angular.forEach($scope.form.realmZones, function (realmZone) {
+                realmZones.push(realmZone.region + '.' + realmZone.locale + "." + realmZone.zone + "." + realmZone.cities.join('::'));
+            });
+
+            $state.go($scope.form.type + '-list', {
+                region: $scope.form.region,
+                language: $scope.form.language,
+                faction: $scope.form.faction,
+                realm_zone: realmZones
+            });
+        };
+
     }
 })();

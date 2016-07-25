@@ -4,7 +4,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 ng-if="guild"><span class="icon-medium faction-{{guild.bnet.side}}">{{ guild.name }}</span></h2>
+                    <h2 ng-if="guild">
+                        <span class="icon-medium faction-{{guild.bnet.side}} m-t-0"></span>
+                        <span class="faction-{{guild.bnet.side}}">{{ guild.name }}</span>
+                    </h2>
                     <h2 ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h2>
                 </div>
             </div>
@@ -104,9 +107,9 @@
                                 {{"CONTACT"|translate}}:
                                 <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
                             </div>-->
-                            <div class="col-md-6">
-                                <span ng-if="guild.id" ng-click="openMessagePopup('sm');"
-                                      class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
+                            <div class="col-md-6 cursor-pointer" ng-if="guild.id" ng-click="openMessagePopup('sm');" >
+                                <span class="icon-small logo-warcraftlfg"></span>
+                                <span class="m-l-5">WarcraftLFG</span>
                             </div>
                         </div>
                     </div>
@@ -169,7 +172,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <span class="icon-small tank"><strong> &nbsp;{{"TANKS"|translate}}</strong></span>
+                        <span class="icon-small tank"></span><strong> &nbsp;{{"TANKS"|translate}}</strong>
                     </div>
                 </div>
                 <div class="row">
@@ -192,7 +195,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <span class="icon-small heal"><strong> &nbsp;{{"HEALS"|translate}}</strong></span>
+                        <span class="icon-small heal"></span><strong> &nbsp;{{"HEALS"|translate}}</strong>
                     </div>
                 </div>
                 <div class="row">
@@ -215,7 +218,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <span class="icon-small melee_dps"><strong> &nbsp;{{"MELEE_DPS"|translate}}</strong></span>
+                        <span class="icon-small melee_dps"></span><strong> &nbsp;{{"MELEE_DPS"|translate}}</strong>
                     </div>
                 </div>
                 <div class="row">
@@ -238,7 +241,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <span class="icon-small ranged_dps"><strong> &nbsp;{{"RANGED_DPS"|translate}}</strong></span>
+                        <span class="icon-small ranged_dps"></span><strong> &nbsp;{{"RANGED_DPS"|translate}}</strong>
                     </div>
                 </div>
                 <div class="row">
