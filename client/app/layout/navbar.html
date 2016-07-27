@@ -26,8 +26,8 @@
                     <a href="#/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">{{"RECRUITMENT"|translate}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#/guild/list">{{"GUILDS" | translate}}</a></li>
                         <li><a href="#/character/list"> {{"CHARACTERS" | translate}}</a></li>
+                        <li><a href="#/guild/list">{{"GUILDS" | translate}}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -44,8 +44,13 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="!user.id" class="cursor-default">
-                    {{"CONNECT_BNET"|translate}}
-                    <a class="icon-small bnet button" ng-href="/auth/bnet/{{ host}}">Battle.net</a>
+                    <span class="login-with">{{"CONNECT_BNET"|translate}}</span>
+                    <a class="login-button" href="/auth/bnet">
+                        <span class="login-bnet">
+                            <span class="icon-small bnet"></span>
+                            Battle.net
+                        </span>
+                    </a>
                 </li>
                 <li ng-if="user.id">
                     <a href="#/messages/">

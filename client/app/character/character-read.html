@@ -4,7 +4,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 ng-if="character"><span class="icon-medium faction-{{character.bnet.faction}}"></span><span class="icon-medium class-{{character.bnet.class}}">{{ character.name }}</span></h1>
+                    <h1 ng-if="character">
+                        <span class="icon-medium faction-{{character.bnet.faction}} m-t-0"></span>
+                        <span class="icon-medium class-{{character.bnet.class}}"></span>
+                        <span class="class-{{character.bnet.class}}">{{ character.name }}</span>
+                    </h1>
                     <h1  ng-if="!character">{{"CHARACTER_NOT_FOUND"|translate}}</h1>
                 </div>
             </div>
@@ -68,10 +72,10 @@
                                     </div>
                                     <div class="col-md-4 text-right">
                                         <div ng-if="character.ad.role.tank||character.ad.role.heal||character.ad.role.melee_dps||character.ad.role.ranged_dps">
-                                            <span ng-if="character.ad.role.tank"><img src="/assets/images/icon/32/tank.png" /></span>
-                                            <span ng-if="character.ad.role.heal" class="m-l-5"><img src="/assets/images/icon/32/healing.png" /></span>
-                                            <span ng-if="character.ad.role.melee_dps" class="m-l-5"><img src="/assets/images/icon/32/melee-dps.png" /></span>
-                                            <span ng-if="character.ad.role.ranged_dps" class="m-l-5"><img src="/assets/images/icon/32/ranged-dps.png" /></span>
+                                            <span ng-if="character.ad.role.tank" class="icon-medium icon-medium tank"><img src="/assets/images/icon/32/tank.png" /></span>
+                                            <span ng-if="character.ad.role.heal" class="m-l-5 icon-medium heal"><img src="/assets/images/icon/32/healing.png" /></span>
+                                            <span ng-if="character.ad.role.melee_dps" class="m-l-5 icon-medium melee_dps"><img src="/assets/images/icon/32/melee-dps.png" /></span>
+                                            <span ng-if="character.ad.role.ranged_dps" class="m-l-5 icon-medium ranged_dps"><img src="/assets/images/icon/32/ranged-dps.png" /></span>
                                         </div>
                                         <div ng-if="!character.ad.role.tank&&!character.ad.role.heal&&!character.ad.role.melee_dps&&!character.ad.role.ranged_dps">
                                             <span ng-if="talent.spec.name" ng-repeat="talent in character.bnet.talents" class="m-l-10">
@@ -100,8 +104,9 @@
                                     <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
                                         <span>{{ character.battleTag }}</span>
                                     </div>
-                                    <div class="col-md-6" ng-if="character.id" >
-                                         <span ng-click="openMessagePopup('sm');"  class="icon-small logo-warcraftlfg cursor-pointer">WarcraftLFG</span>
+                                    <div class="col-md-6 cursor-pointer" ng-if="character.id" ng-click="openMessagePopup('sm');" >
+                                         <span class="icon-small logo-warcraftlfg"></span>
+                                         <span class="m-l-5">WarcraftLFG</span>
                                     </div>
                                 </div>
                             </div>
@@ -330,7 +335,7 @@
                     </div>
                 </div>
 
-                <div class="row" ng-if="character.warcraftLogs.logs">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -344,8 +349,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <table class="table table-condensed character-class-{{character.bnet.class}}" wlfg-warcraft-logs-info="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}">
-                                </table>
+                                <div wlfg-warcraft-logs-info="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></div>
                             </div>
                         </div>
                     </div>

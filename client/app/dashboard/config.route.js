@@ -11,13 +11,15 @@
                 url: "/",
                 templateProvider: function(templateLoader) {
                     var result = templateLoader.getTemplate();
-
-                    // Retrieve the cached template content from $templateCache service
-                    //return '<div ng-include="\'app/home/home-' + result + '.html\'"></div>';
+                    var template;
                     if (result == "progress") {
-                        return '<div ng-controller="ProgressController" ng-include="\'app/progress/progress.html\'"></div>';
+                        // File revision h4ck
+                        template = "app/progress/progress.html";
+                        return '<div ng-controller="ProgressController" ng-include="\''+template+'\'"></div>';
                     } else {
-                        return '<div ng-controller="DashboardController" ng-include="\'app/dashboard/dashboard.html\'"></div>';
+                        // File revision h4ck
+                        template = "app/dashboard/dashboard.html";
+                        return '<div ng-controller="DashboardController" ng-include="\''+template+'\'"></div>';
                     }
                 },
                 controllerAs: 'vm',
