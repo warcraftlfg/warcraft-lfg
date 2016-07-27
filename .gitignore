@@ -9,3 +9,4 @@ logs
 .sass-cache
 .idea
 *.swp
+client/app/config.js

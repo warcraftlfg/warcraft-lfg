@@ -5,10 +5,10 @@
 
     core.run(runBlock);
 
-    runBlock.$inject = ['$rootScope','$location', '$window', 'wlfgAppTitle', 'templateLoader'];
+    runBlock.$inject = ['$rootScope','$location', '$window', 'wlfgAppTitle', 'templateLoader', '__env'];
 
 
-    function runBlock($rootScope, $location, $window, wlfgAppTitle, templateLoader) {
+    function runBlock($rootScope, $location, $window, wlfgAppTitle, templateLoader, __env) {
         $rootScope.host = templateLoader.getTemplate();
 
         $rootScope.$on('$viewContentLoaded', function() {

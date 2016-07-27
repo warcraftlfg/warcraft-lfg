@@ -1,37 +1,39 @@
 <div class="dashboard-intro-progress"></div>
-<div class="m-b-10 m-t-10">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default m-b-0">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="css3-metro-dropdown">
-                                    <select ng-model="filters.tier" class="form-control">
-                                        <option value="">Tier 18</option>
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-md-3">
-                              <span class="css3-metro-dropdown">
-                                    <select ng-model="filters.region" class="form-control">
-                                        <option value="">World</option>
-                                        <option value="us">US</option>
-                                        <option value="eu">EU</option>
-                                        <option value="kr">KR</option>
-                                        <option value="tw">TW</option>
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-md-3">
-                              <span class="css3-metro-dropdown">
-                                    <select ng-model="filters.realm" class="form-control">
-                                        <option value="">All realm</option>
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-md-3">
+<div class="m-b-10">
+    <div class="bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default m-b-0">
+                        <div class="panel-body p-r-0 p-l-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.tier" class="form-control">
+                                            <option value="">Tier 18</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                  <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.region" class="form-control">
+                                            <option value="">World</option>
+                                            <option value="us">US</option>
+                                            <option value="eu">EU</option>
+                                            <option value="kr">KR</option>
+                                            <option value="tw">TW</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                  <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.realm" class="form-control">
+                                            <option value="">All realm</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -46,7 +48,7 @@
             <div class="col-md-6">
                 <table class="table table-condensed">
                     <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="icon-small">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="">
                             {{rank}}
                         </td>
                         <td class="class-{{guild.bnet.side}}">
@@ -68,7 +70,7 @@
             <div class="col-md-6">
                 <table class="table table-condensed">
                     <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="icon-small">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="">
                             {{rank}}
                         </td>
                         <td class="class-{{guild.bnet.side}}">
