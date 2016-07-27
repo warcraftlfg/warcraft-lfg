@@ -5,15 +5,17 @@
 
     core.run(runBlock);
 
-    runBlock.$inject = ['$rootScope','$location', '$window', 'wlfgAppTitle'];
+    runBlock.$inject = ['$rootScope','$location', '$window', 'wlfgAppTitle', 'templateLoader', '__env'];
 
 
-    function runBlock($rootScope, $location, $window, wlfgAppTitle) {
-        $rootScope.$on('$viewContentLoaded',function(){
+    function runBlock($rootScope, $location, $window, wlfgAppTitle, templateLoader, __env) {
+        $rootScope.host = templateLoader.getTemplate();
+
+        $rootScope.$on('$viewContentLoaded', function() {
             jQuery('html, body').animate({ scrollTop: 0 }, 200);
         });
 
-		$rootScope.$on('$stateChangeSuccess', function(event){
+		$rootScope.$on('$stateChangeSuccess', function(event) {
             wlfgAppTitle.setTitle('');
 
             if (!$window.ga) {

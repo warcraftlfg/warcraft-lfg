@@ -5,7 +5,10 @@
 
     core.config(configure);
 
-    function configure($translateProvider, $urlRouterProvider, $stateProvider, markedProvider) {
+    function configure($translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, markedProvider) {
+
+        // Remove hashtag from url
+        //$locationProvider.html5Mode(true).hashPrefix('#');
 
         //Translation Property
         $translateProvider.useLoader('wlfgTranslationLoader', {

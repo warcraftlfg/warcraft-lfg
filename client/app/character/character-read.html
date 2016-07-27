@@ -89,7 +89,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div ng-if="character.ad.description" class="row m-t-10">
+                                <div ng-if="character.ad.description" class="row m-t-10 expandable-content">
                                     <div class="col-md-12">
                                         <div perfect-scrollbar wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20" suppress-scroll-x="true" class="character-description scroller" marked="character.ad.description"></div>
                                     </div>
@@ -100,12 +100,14 @@
                     <div class="col-md-6">
                         <div class="panel panel-default" ng-if="(character.ad.btag_display && character.battleTag) || character.id">
                             <div class="panel-body">
-                                <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
-                                    <span>{{ character.battleTag }}</span>
-                                </div>
-                                <div class="col-md-6 cursor-pointer" ng-if="character.id" ng-click="openMessagePopup('sm');" >
-                                     <span class="icon-small logo-warcraftlfg"></span>
-                                     <span class="m-l-5">WarcraftLFG</span>
+                                <div class="row">
+                                    <div class="col-md-6" ng-if="character.ad.btag_display && character.battleTag">
+                                        <span>{{ character.battleTag }}</span>
+                                    </div>
+                                    <div class="col-md-6 cursor-pointer" ng-if="character.id" ng-click="openMessagePopup('sm');" >
+                                         <span class="icon-small logo-warcraftlfg"></span>
+                                         <span class="m-l-5">WarcraftLFG</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

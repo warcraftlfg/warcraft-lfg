@@ -92,6 +92,13 @@
 
         $scope.timezones = TIMEZONES;
 
+        $scope.activeTabs = {'lfg': false, 'parser': false};
+        if ($scope.host == "parser") {
+            $scope.activeTabs.parser = true;
+        } else {
+            $scope.activeTabs.lfg = true;
+        }
+
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function () {
             if ($scope.$parent.user && $scope.$parent.user.logged_in === false) {
@@ -130,7 +137,7 @@
                     }, function (data) {
                         $scope.$parent.loading = false;
                         $scope.guildRank = data.rank;
-                        if (data.rank === 0) {
+                        if (data.rank !== 0) {
                             // This is the guild leader, put the rank permissions in an easier form for table rendering
                             var perms = $scope.guildRankPerms = [];
                             var isOfRank = function (i) {
@@ -149,7 +156,7 @@
                                     return ret;
                                 });
                                 var tooltip = '<div>' + $.map(members.slice(0, 5), function (member) {
-                                        return '<div class="class-' + member.character.class + '">' + member.character.name + '-' + member.character.realm + '</div>';
+                                        return '<div class="class-' + member.character.class + '">' + member.character.name + '</div>';
                                     }).join('') + (members.length > 5 ? '<div>...</div>' : '') + '</div>';
                                 perms.push({
                                     id: i,
@@ -177,7 +184,7 @@
         };
 
 
-        $scope.saveAd = function () {
+        $scope.saveAd = function() {
             $scope.$parent.loading = true;
 
             guilds.upsert({
@@ -194,7 +201,11 @@
             });
         };
 
-        $scope.savePerms = function () {
+        $scope.saveParser = function() {
+            $scope.$parent.loading = true;
+        }
+
+        $scope.savePerms = function() {
             var perms = $scope.guildRankPerms;
             if (!perms) {
                 return;

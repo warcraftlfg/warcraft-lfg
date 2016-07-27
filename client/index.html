@@ -50,6 +50,7 @@
         <link href="/assets/css/main.css" rel="stylesheet">
         <!-- endbuild -->
 
+        <!--<base href="/">-->
     </head>
 
     <body>
@@ -94,6 +95,8 @@
         <!-- endbuild -->
 
         <!-- build:js app/warcraftlfg.min.js -->
+        <!-- Config file -->
+        <script type="text/javascript" src="/app/config.js"></script>
         <!-- Bootstrapping -->
         <script type="text/javascript" src="/app/app.module.js"></script>
 
@@ -117,6 +120,10 @@
         <script src="/app/blocks/preventScroll/prevent-scroll.directive.js"></script>
         <script src="/app/blocks/stickyFooter/sticky-footer.module.js"></script>
         <script src="/app/blocks/stickyFooter/sticky-footer.directive.js"></script>
+        <script src="/app/blocks/expandable/expandable.module.js"></script>
+        <script src="/app/blocks/expandable/expandable.directive.js"></script>
+        <script src="/app/blocks/templateLoader/template-loader.module.js"></script>
+        <script src="/app/blocks/templateLoader/template-loader.js"></script>
 
         <!-- filters / sort -->
         <script src="/app/filter/filter.module.js"></script>
@@ -160,6 +167,7 @@
 
         <!-- layout -->
         <script src="/app/layout/layout.module.js"></script>
+        <script src="/app/layout/navbar.js"></script>
 
         <!-- web -->
         <script src="/app/web/web.module.js"></script>
@@ -202,10 +210,10 @@
         <script src="/app/guild/config.route.js"></script>
         <script src="/app/guild/guild.js"></script>
 
-        <!-- ranking -->
-        <script src="/app/ranking/ranking.module.js"></script>
-        <script src="/app/ranking/config.route.js"></script>
-        <script src="/app/ranking/ranking.js"></script>
+        <!-- progress -->
+        <script src="/app/progress/progress.module.js"></script>
+        <script src="/app/progress/config.route.js"></script>
+        <script src="/app/progress/progress.js"></script>
 
 
         <!-- message -->

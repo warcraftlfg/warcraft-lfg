@@ -1,0 +1,24 @@
+.expandable {
+    position: relative;
+}
+
+.expandable-indicator {
+    background-color: $grey;
+    height: 30px;
+    width: 100%;
+    border-top: 1px solid white;
+    text-align: center;
+    cursor: pointer;
+}
+
+.expandable-indicator i {
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.expandable-open i {
+	-ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
