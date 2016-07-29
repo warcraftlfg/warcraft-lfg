@@ -21,6 +21,9 @@
       "clientID": "your clientID",
       "clientSecret": "your clientSecret",
       "callbackURL": "https://localhost:3000/auth/bnet/callback",
+      "callbackLfgURL": "https://localhost:3000/auth/bnet/callback",
+      "callbackProgressURL": "https://localhost:3000/auth/bnet/callback",
+      "callbackParserURL": "https://localhost:3000/auth/bnet/callback",
       "limit": 35000,
       "region": "eu"
     }
@@ -46,52 +49,5 @@
     3,
     0
   ],
-  "progress": {
-    "raids": [
-      {
-        "name": "Hellfire Citadel",
-        "bosses": [
-          {
-            "name": "Hellfire Assault"
-          },
-          {
-            "name": "Iron Reaver"
-          },
-          {
-            "name": "Kormrok"
-          },
-          {
-            "name": "Hellfire High Council"
-          },
-          {
-            "name": "Kilrogg Deadeye"
-          },
-          {
-            "name": "Gorefiend"
-          },
-          {
-            "name": "Shadow-Lord Iskar"
-          },
-          {
-            "name": "Socrethar the Eternal"
-          },
-          {
-            "name": "Tyrant Velhari"
-          },
-          {
-            "name": "Fel Lord Zakuun"
-          },
-          {
-            "name": "Xhul'horac"
-          },
-          {
-            "name": "Mannoroth"
-          },
-          {
-            "name": "Archimonde"
-          }
-        ]
-      }
-    ]
-  }
+  "currentProgress": 18
 }

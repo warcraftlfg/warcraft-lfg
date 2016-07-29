@@ -13,6 +13,7 @@ $blueLight: #68C5F2;
 $white: #fff;
 $alliance: #0078FF;
 $horde: #B30000;
+$green: #24340D;
 
 * {
   margin: 0;
@@ -181,6 +182,26 @@ tags-input {
     color: #555;
     background: #ddd;
     border-color: #aaa;
+  }
+}
+
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+  border-radius: 0px !important;
+  background-color: $black;
+  color: $white;
+}
+
+.pagination>li:last-child>a:hover, .pagination>li:last-child>span:hover {
+  background-color: $red;
+}
+
+.pagination>li.disabled:last-child>a, .pagination>li.disabled:last-child>span:hover {
+  background-color: $black;
+}
+
+@media (min-width: 979px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
   }
 }
 

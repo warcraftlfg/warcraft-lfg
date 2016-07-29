@@ -13,7 +13,7 @@ function wlfgProgress() {
     function link(scope, element, attrs) {
         scope.$watch(attrs.wlfgProgress, function(raids){
             if (raids) {
-                progress = raids[raids.length-3];
+                progress = raids[raids.length-1];
                 var currentProgress = {'mythic':{'total': 0, 'bosses': {}}, 'heroic':{'total': 0, 'bosses': {}}, 'normal': {'total': 0, 'bosses': {}}, 'lfr': {'total': 0, 'bosses': {}}};
                 currentProgress.total = progress.bosses.length;
                 progress.bosses.forEach(function (boss) {

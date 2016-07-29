@@ -40,7 +40,8 @@
                                 <div class="overflow">
                                     {{guild.realm}} ({{guild.region|uppercase}})
                                     <div ng-if="guild.id">
-                                        <span class="icon-small logo-warcraftlfg">WarcraftLFG</span>
+                                        <span class="icon-small logo-warcraftlfg"></span>
+                                        <span class="m-l-5">WarcraftLFG</span>
                                     </div>
                                 </div>
 
@@ -53,16 +54,16 @@
                                     {{"RAIDS_PER_WEEK"|translate}}: {{guild.ad.raids_per_week.min}} - {{guild.ad.raids_per_week.max}}
                                 </div>
                                 <div ng-if="
-                                guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight ||
+                                guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight || guild.ad.recruitment.tank.demonhunter ||
                                 guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk ||
-                                guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue ||
-                                guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage">
+                                guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue || guild.ad.recruitment.melee_dps.demonhunter ||
+                                guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage ">
                                     {{"ROLE"|translate}}:
-                                    <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight"
+                                    <span ng-if="guild.ad.recruitment.tank.warrior ||  guild.ad.recruitment.tank.druid || guild.ad.recruitment.tank.paladin || guild.ad.recruitment.tank.monk || guild.ad.recruitment.tank.deathknight || guild.ad.recruitment.tank.demonhunter"
                                           class="icon-small tank"></span>
                                     <span ng-if="guild.ad.recruitment.heal.druid ||  guild.ad.recruitment.heal.priest || guild.ad.recruitment.heal.paladin || guild.ad.recruitment.heal.shaman || guild.ad.recruitment.heal.monk"
                                           class="icon-small heal"></span>
-                                    <span ng-if="guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue"
+                                    <span ng-if="guild.ad.recruitment.melee_dps.druid ||  guild.ad.recruitment.melee_dps.deathknight || guild.ad.recruitment.melee_dps.paladin || guild.ad.recruitment.melee_dps.monk || guild.ad.recruitment.melee_dps.shaman || guild.ad.recruitment.melee_dps.warrior || guild.ad.recruitment.melee_dps.rogue || guild.ad.recruitment.melee_dps.demonhunter"
                                           class="icon-small dps"></span>
                                     <span ng-if="guild.ad.recruitment.ranged_dps.druid || guild.ad.recruitment.ranged_dps.priest ||  guild.ad.recruitment.ranged_dps.shaman || guild.ad.recruitment.ranged_dps.hunter || guild.ad.recruitment.ranged_dps.warlock || guild.ad.recruitment.ranged_dps.mage"
                                           class="icon-small ranged-dps"></span>
@@ -71,9 +72,9 @@
                             <div class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-lg-offset-0 col-md-10 col-lg-3">
                                 <div>
                                     {{"PROGRESS"|translate}}:
-                                    <span ng-if="guild.progress.tier_18.mythicCount>0">{{guild.progress.tier_18.mythicCount}}/13 (M)</span>
-                                    <span ng-if="guild.progress.tier_18.heroicCount>0&&guild.progress.tier_18.mythicCount==0">{{guild.progress.tier_18.heroicCount}}/13 (H)</span>
-                                    <span ng-if="guild.progress.tier_18.heroicCount==0&&guild.progress.tier_18.mythicCount==0">{{guild.progress.tier_18.normalCount}}/13 (N)</span>
+                                    <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
+                                    <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
+                                    <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
                                 </div>
                                 Ranking:
                                 <div class="row" ng-if="guild.rank.world">

@@ -1,5 +1,11 @@
-.dashboard-intro {
-  background: url('../images/dashboard-intro-bg.png') no-repeat center center $red;
+.dashboard-intro-lfg {
+  background: url('../images/dashboard-intro-bg-lfg.jpg') no-repeat center center $red;
+  background-size: contain;
+  height: 350px;
+}
+
+.dashboard-intro-progress {
+  background: url('../images/dashboard-intro-bg-progress.jpg') no-repeat center center $green;
   background-size: contain;
   height: 350px;
 }
