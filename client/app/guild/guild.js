@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user","ranking","progress"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user,ranking,progress) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -20,6 +20,27 @@
         $scope.current_url = window.encodeURIComponent($location.absUrl());
 
         $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
+
+        ranking.get({
+            "tier":18,
+            "region": $stateParams.region,
+            "realm": $stateParams.realm,
+            "name": $stateParams.name
+        },function(rank){
+            console.log(rank);
+            $scope.rank = rank;
+        });
+
+
+        progress.get({
+            "tier":18,
+            "region": $stateParams.region,
+            "realm": $stateParams.realm,
+            "name": $stateParams.name
+        },function(progress){
+            console.log(progress.progress);
+            $scope.progress = progress.progress;
+        });
 
         guilds.get({
                 "guildRegion": $stateParams.region,
@@ -92,6 +113,13 @@
 
         $scope.timezones = TIMEZONES;
 
+        $scope.activeTabs = {'lfg': false, 'parser': false};
+        if ($scope.host == "parser") {
+            $scope.activeTabs.parser = true;
+        } else {
+            $scope.activeTabs.lfg = true;
+        }
+
         //Redirect not logged_in users to home
         $scope.$watch("$parent.user", function () {
             if ($scope.$parent.user && $scope.$parent.user.logged_in === false) {
@@ -130,7 +158,7 @@
                     }, function (data) {
                         $scope.$parent.loading = false;
                         $scope.guildRank = data.rank;
-                        if (data.rank === 0) {
+                        if (data.rank !== 0) {
                             // This is the guild leader, put the rank permissions in an easier form for table rendering
                             var perms = $scope.guildRankPerms = [];
                             var isOfRank = function (i) {
@@ -149,7 +177,7 @@
                                     return ret;
                                 });
                                 var tooltip = '<div>' + $.map(members.slice(0, 5), function (member) {
-                                        return '<div class="class-' + member.character.class + '">' + member.character.name + '-' + member.character.realm + '</div>';
+                                        return '<div class="class-' + member.character.class + '">' + member.character.name + '</div>';
                                     }).join('') + (members.length > 5 ? '<div>...</div>' : '') + '</div>';
                                 perms.push({
                                     id: i,
@@ -177,7 +205,7 @@
         };
 
 
-        $scope.saveAd = function () {
+        $scope.saveAd = function() {
             $scope.$parent.loading = true;
 
             guilds.upsert({
@@ -194,7 +222,11 @@
             });
         };
 
-        $scope.savePerms = function () {
+        $scope.saveParser = function() {
+            $scope.$parent.loading = true;
+        };
+
+        $scope.savePerms = function() {
             var perms = $scope.guildRankPerms;
             if (!perms) {
                 return;

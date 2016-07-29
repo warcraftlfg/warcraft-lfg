@@ -35,18 +35,22 @@
         <meta name="msapplication-square310x310logo" content="/assets/images/favicon/mstile-310x310.png" />
 
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
-        <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/vendor/isteven-angular-multiselect/isteven-multi-select.css" rel="stylesheet">
-        <link href="/vendor/ng-tags-input/ng-tags-input.min.css" rel="stylesheet">
-        <link href="/vendor/ng-tags-input/ng-tags-input.bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="/vendor/perfect-scrollbar/min/perfect-scrollbar.min.css" />
+
+        <!-- build:css assets/css/warcraftlfg.vendor.min.css -->
+        <link href="/../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/../bower_components/isteven-angular-multiselect/isteven-multi-select.css" rel="stylesheet">
+        <link href="/../bower_components/ng-tags-input/ng-tags-input.min.css" rel="stylesheet">
+        <link href="/../bower_components/ng-tags-input/ng-tags-input.bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/../bower_components/perfect-scrollbar/min/perfect-scrollbar.min.css" />
+        <!-- endbuild -->
 
 
         <!-- build:css assets/css/warcraftlfg.min.css -->
         <link href="/assets/css/main.css" rel="stylesheet">
         <!-- endbuild -->
 
+        <!--<base href="/">-->
     </head>
 
     <body>
@@ -63,37 +67,36 @@
         </div>
         <div class="footer" id="sticky-footer" sticky-footer data-ng-include="'app/layout/footer.html'"></div>
         <div class="modal-backdrop fade in" ng-if="loading"></div>
-        <!-- Third party -->
-        <script type="text/javascript" async src="//wow.zamimg.com/widgets/power.js"></script>
-        <script>var wowhead_tooltips = { "colorlinks": false, "iconizelinks": false, "renamelinks": false }</script>
 
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
-        <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/vendor/moment/min/moment-with-locales.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular/angular.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-resource/angular-resource.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-sanitize/angular-sanitize.min.js"></script>
-        <script type="text/javascript" src="/vendor/isteven-angular-multiselect/isteven-multi-select.js"></script>
-        <script type="text/javascript" src="/vendor/angular-ranger/angular-ranger.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-socket-io/socket.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-moment/angular-moment.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-translate/angular-translate.min.js"></script>
-        <script type="text/javascript" src="/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-        <script type="text/javascript" src="/vendor/ng-tags-input/ng-tags-input.min.js"></script>
-        <script type="text/javascript" src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <script type="text/javascript" src="/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
-        <script type="text/javascript" src="/vendor/ng-scroll-glue/dist/ng-scroll-glue.min.js"></script>
-
-        <script src="/vendor/perfect-scrollbar/min/perfect-scrollbar.min.js"></script>
-        <script src="/vendor/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
-
-        <script src="/vendor/marked/lib/marked.js"></script>
-        <script src="/vendor/angular-marked/dist/angular-marked.js"></script>
+        <!-- build:js app/warcraftlfg.vendor.min.js -->
+        <script type="text/javascript" src="/../bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/moment/min/moment-with-locales.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-resource/angular-resource.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/isteven-angular-multiselect/isteven-multi-select.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-ranger/angular-ranger.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-socket-io/socket.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-moment/angular-moment.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-translate/angular-translate.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <script type="text/javascript" src="/../bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/ng-scroll-glue/dist/ng-scroll-glue.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/perfect-scrollbar/min/perfect-scrollbar.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
+        <script type="text/javascript" src="/../bower_components/marked/lib/marked.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-marked/dist/angular-marked.js"></script>
+        <!-- endbuild -->
 
         <!-- build:js app/warcraftlfg.min.js -->
+        <!-- Config file -->
+        <script type="text/javascript" src="/app/config.js"></script>
         <!-- Bootstrapping -->
         <script type="text/javascript" src="/app/app.module.js"></script>
 
@@ -117,6 +120,10 @@
         <script src="/app/blocks/preventScroll/prevent-scroll.directive.js"></script>
         <script src="/app/blocks/stickyFooter/sticky-footer.module.js"></script>
         <script src="/app/blocks/stickyFooter/sticky-footer.directive.js"></script>
+        <script src="/app/blocks/expandable/expandable.module.js"></script>
+        <script src="/app/blocks/expandable/expandable.directive.js"></script>
+        <script src="/app/blocks/templateLoader/template-loader.module.js"></script>
+        <script src="/app/blocks/templateLoader/template-loader.js"></script>
 
         <!-- filters / sort -->
         <script src="/app/filter/filter.module.js"></script>
@@ -147,6 +154,9 @@
         <script src="/app/resource/realms.resource.js"></script>
         <script src="/app/resource/updates.resource.js"></script>
         <script src="/app/resource/messages.resource.js"></script>
+        <script src="/app/resource/ranking.resource.js"></script>
+        <script src="/app/resource/progress.resource.js"></script>
+
 
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
@@ -158,6 +168,7 @@
 
         <!-- layout -->
         <script src="/app/layout/layout.module.js"></script>
+        <script src="/app/layout/navbar.js"></script>
 
         <!-- web -->
         <script src="/app/web/web.module.js"></script>
@@ -200,6 +211,12 @@
         <script src="/app/guild/config.route.js"></script>
         <script src="/app/guild/guild.js"></script>
 
+        <!-- progress -->
+        <script src="/app/progress/progress.module.js"></script>
+        <script src="/app/progress/config.route.js"></script>
+        <script src="/app/progress/progress.js"></script>
+
+
         <!-- message -->
         <script src="/app/message/message.module.js"></script>
         <script src="/app/message/config.route.js"></script>
@@ -208,6 +225,8 @@
         <script src="/app/message/directive/height/height-list.directive.js"></script>
         <script src="/app/message/directive/height/height-content.directive.js"></script>
         <!-- endbuild -->
+
+        <script type="text/javascript" src="/templates.js"></script>
 
         <!-- Google analytics -->
         <script>
@@ -218,5 +237,8 @@
           ga('create', 'UA-70750580-1', 'auto');
         </script>
 
+        <!-- Third party -->
+        <script type="text/javascript" async src="//wow.zamimg.com/widgets/power.js"></script>
+        <script>var wowhead_tooltips = { "colorlinks": false, "iconizelinks": false, "renamelinks": false }</script>
     </body>
 </html>

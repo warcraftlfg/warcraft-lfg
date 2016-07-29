@@ -28,7 +28,8 @@
         'app.character',
         'app.guild',
         'app.layout',
-        'app.message'
+        'app.message',
+        'app.progress'
     ]);
 
 })();

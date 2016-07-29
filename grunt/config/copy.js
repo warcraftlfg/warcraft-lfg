@@ -40,8 +40,19 @@ module.exports = {
             {
                 src: 'client/maintenance.html',
                 dest: 'www/maintenance.html'
+            },
+            {
+                expand:true,
+                cwd: 'bower_components/font-awesome/fonts',
+                src: ['**'],
+                dest: 'www/assets/fonts/'
+            },
+            {
+                expand:true,
+                cwd: 'bower_components/bootstrap/fonts',
+                src: ['**'],
+                dest: 'www/assets/fonts/'
             }
-
         ]
 
     }

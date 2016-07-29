@@ -79,8 +79,9 @@ function warcraftLogsInfo() {
                             }
                         }
                     }
+                } else {
+                    scope.warcraftLogs = null;
                 }
-
             }
         });
     }

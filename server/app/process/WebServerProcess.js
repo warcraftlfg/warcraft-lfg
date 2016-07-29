@@ -64,7 +64,7 @@ function WebServerProcess(autoStop, port) {
     }));
 
     this.app.use(cookieParser());
-    this.app.use(compression());
+    this.app.use(compression({ threshold: 0 }));
 
     this.app.use(bodyParser.urlencoded({extended: true}));
     this.app.use(bodyParser.json());
@@ -88,6 +88,7 @@ function WebServerProcess(autoStop, port) {
     //Initialize static folders
     this.app.use('/', express.static(path.join(process.root, "../www")));
     this.app.use('/vendor', express.static(path.join(process.root, "../bower_components")));
+    this.app.use('/bower_components', express.static(path.join(process.root, "../bower_components")));
 
     //Catch all error and log them
     this.app.use(function (error, req, res, next) {
