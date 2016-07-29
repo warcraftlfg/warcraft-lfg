@@ -27,7 +27,6 @@
             "realm": $stateParams.realm,
             "name": $stateParams.name
         },function(rank){
-            console.log(rank);
             $scope.rank = rank;
         });
 
@@ -38,8 +37,7 @@
             "realm": $stateParams.realm,
             "name": $stateParams.name
         },function(progress){
-            console.log(progress.progress);
-            $scope.progress = progress.progress;
+            $scope.progress = progress;
         });
 
         guilds.get({
