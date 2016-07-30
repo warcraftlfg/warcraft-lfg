@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user","ranking","progress"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user,ranking,progress) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -20,6 +20,25 @@
         $scope.current_url = window.encodeURIComponent($location.absUrl());
 
         $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
+
+        ranking.get({
+            "tier":18,
+            "region": $stateParams.region,
+            "realm": $stateParams.realm,
+            "name": $stateParams.name
+        },function(rank){
+            $scope.rank = rank;
+        });
+
+
+        progress.get({
+            "tier":18,
+            "region": $stateParams.region,
+            "realm": $stateParams.realm,
+            "name": $stateParams.name
+        },function(progress){
+            $scope.progress = progress;
+        });
 
         guilds.get({
                 "guildRegion": $stateParams.region,
@@ -203,7 +222,7 @@
 
         $scope.saveParser = function() {
             $scope.$parent.loading = true;
-        }
+        };
 
         $scope.savePerms = function() {
             var perms = $scope.guildRankPerms;

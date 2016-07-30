@@ -27,7 +27,7 @@ module.exports.getRank = function (tier, region, realm, name, callback) {
  * @param callback
  */
 module.exports.getProgress = function (tier, region, realm, name, callback) {
-    var endUrl = "guilds/progress/" + tier + "/" + region + "/" + realm + "/" + name;
+    var endUrl = "guilds/progress/simple/" + tier + "/" + region + "/" + realm + "/" + name;
     this.request(endUrl, function (error, result) {
         callback(error, result && result.progress && result.progress['tier_' + tier]);
     });

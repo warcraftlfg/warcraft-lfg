@@ -57,7 +57,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
             })
         },
         function(region,guild,callback){
-            //Set guild to update for progress
+            //Set guild to update for progress (change with url call update)
             updateModel.insert('wp_gu', region, guild.realm, guild.name, 5, function (error) {
                 callback(error,region,guild);
             });
@@ -106,6 +106,16 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                         callback(null, rank);
                     });
                 },
+                progress: function (callback) {
+                    progressAPI.getProgress(18,region,guild.realm,guild.name,function(error,progress){
+                        if (error) {
+                            logger.error(error.message);
+                        } else if(progress){
+                            progress.updated = new Date().getTime();
+                        }
+                        callback(null, progress);
+                    });
+                }
             }, function (error, results) {
                 results.bnet = guild;
                 results.bnet.updated = new Date().getTime();

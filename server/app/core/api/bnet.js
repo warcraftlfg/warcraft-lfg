@@ -99,7 +99,11 @@ module.exports.getAuctions = function (region, realm, callback) {
  * @param callback
  */
 module.exports.requestBnetApi = function (region, endUrl, callback) {
-    var baseUrl = "https://" + region + ".api.battle.net/";
+    if (region != 'cn') {
+        var baseUrl = "https://" + region + ".api.battle.net/";
+    } else {
+        var baseUrl = "https://api.battlenet.com.cn/";
+    }
     var url = encodeURI(baseUrl + endUrl);
     this.request(url, function (error, result) {
         callback(error, result);

@@ -25,7 +25,7 @@
                     target.style.height = "auto";
                     element.addClass('expandable-open');
                 }
-            }
+            };
 
             if (target.offsetHeight > 300) {
                 target.style.height = attrs.height+'px';

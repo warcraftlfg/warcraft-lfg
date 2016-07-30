@@ -7,6 +7,6 @@
 
     Ranking.$inject = ['$resource'];
     function Ranking($resource) {
-        return $resource('https://progress.warcraftlfg.com/api/v1/ranks/18');
+        return $resource('https://progress.warcraftlfg.com/api/v1/ranks/:tier/:region/:realm/:name');
     }
 })();
