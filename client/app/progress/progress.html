@@ -51,7 +51,7 @@
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="">
                             {{rank}}
                         </td>
-                        <td class="class-{{guild.bnet.side}}">
+                        <td class="faction-{{guild.side}}">
                             <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
                                 {{guild.name}}
                             </a>
@@ -73,7 +73,7 @@
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="">
                             {{rank}}
                         </td>
-                        <td class="class-{{guild.bnet.side}}">
+                        <td class="faction-{{guild.side}}">
                             <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
                                 {{guild.name}}
                             </a>
