@@ -52,6 +52,8 @@ function WebServerProcess(autoStop, port) {
     //Create sessionStore inside Mongodb
     var sessionStore = new mongoStore({db: applicationStorage.mongo});
 
+    this.app.use(compression({ threshold: 0 }));
+
     //Update Session store with opened database connection
     //Allowed server to restart without loosing any session
     this.app.use(session({
@@ -64,7 +66,6 @@ function WebServerProcess(autoStop, port) {
     }));
 
     this.app.use(cookieParser());
-    this.app.use(compression({ threshold: 0 }));
 
     this.app.use(bodyParser.urlencoded({extended: true}));
     this.app.use(bodyParser.json());
