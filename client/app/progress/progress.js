@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.dashboard')
+        .module('app.progress')
         .controller('ProgressController', Progress);
 
     Progress.$inject = ["$scope", "$stateParams", "$location", "wlfgAppTitle", "ranking"];
@@ -27,7 +27,7 @@
                 getRankings();
         });
 
-        $scope.page = ($stateParams.page > 0) ? parseInt($stateParams.page) : 1;
+        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
 
         function getRankings() {
