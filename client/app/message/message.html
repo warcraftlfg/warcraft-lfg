@@ -35,7 +35,7 @@
                                      ng-repeat="entity in entities | conversationOrderFilter:user.id">
                                     <span>
                                         <span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}"
-                                              class="icon-small">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
+                                              class="icon-small icon-list"></span><span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}" class="m-l-5">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
                                     </span>
                                 </div>
                                 <div class=" text-right txt-gray m-t-5 f-12">
@@ -54,7 +54,7 @@
                                      ng-repeat="entity in conversation.entities | conversationOrderFilter:user.id">
                                     <span>
                                         <span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}"
-                                              class="icon-small">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
+                                              class="icon-small icon-list"></span><span ng-class="{'class-{{entity.bnet.class}}':(entity.type=='character'), 'faction-{{entity.bnet.side}}':(entity.type=='guild')}" class="m-l-5">{{entity.name}}</span> - {{entity.realm}} ({{entity.region|uppercase}})
                                     </span>
                                 </div>
                                 <div class=" text-right txt-gray m-t-5 f-12">
@@ -86,13 +86,17 @@
                                         <a target="_blank"
                                            ng-href="/#/character/{{entitiesKey[message.userId].region}}/{{entitiesKey[message.userId].realm}}/{{entitiesKey[message.userId].name}}/"
                                            ng-if="entitiesKey[message.userId].type == 'character'"
-                                           class="m-l-5 icon-small txt-no-decoration class-{{ entitiesKey[message.userId].bnet.class }}">{{
-                                            entitiesKey[message.userId].name }}</a>
+                                           class="m-l-5 txt-no-decoration class-{{ entitiesKey[message.userId].bnet.class }}">
+                                            <span class="icon-small icon-list class-{{ entitiesKey[message.userId].bnet.class }}"></span>
+                                            <span class="">{{ entitiesKey[message.userId].name }}</span>
+                                        </a>
                                         <a target="_blank"
                                            ng-href="/#/guild/{{entitiesKey[message.userId].region}}/{{entitiesKey[message.userId].realm}}/{{entitiesKey[message.userId].name}}/"
                                            ng-if="entitiesKey[message.userId].type == 'guild'"
-                                           class="m-l-5 icon-small txt-no-decoration faction-{{ entitiesKey[message.userId].bnet.side }}">{{
-                                            entitiesKey[message.userId].name }}</a>
+                                           class="m-l-5 txt-no-decoration faction-{{ entitiesKey[message.userId].bnet.side }}">
+                                            <span class="icon-small icon-list faction-{{ entitiesKey[message.userId].bnet.side }}"></span>
+                                            <span class="">{{ entitiesKey[message.userId].name }}</span>
+                                        </a>
                                     </div>
                                 </div>
                                 <div ng-if="getDisplay($index)" class="col-md-4 text-right">

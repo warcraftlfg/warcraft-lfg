@@ -1,5 +1,10 @@
 .message {
 
+  .icon-list {
+    margin-top: 2px !important;
+    vertical-align: top !important;
+  }
+
   .message-list, .message-content {
     background-color: $black;
 
