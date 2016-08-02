@@ -272,7 +272,6 @@
                                 <span ng-if="progress.mythicCount>0">{{progress.mythicCount}}/13 (M)</span>
                                 <span ng-if="progress.heroicCount>0&&progress.mythicCount==0">{{progress.heroicCount}}/13 (H)</span>
                                 <span ng-if="progress.heroicCount==0&&progress.mythicCount==0">{{progress.normalCount}}/13 (N)</span>
-                                <span ng-if="progress.normalCount==0&&progress.heroicCount==0&&progress.mythicCount==0">0/13 (N)</span>
                             </div>
                             <div class="col-md-2" ng-if="rank.world">
                                 {{"WORLD"|translate}}: <span
