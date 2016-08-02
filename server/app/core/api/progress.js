@@ -73,7 +73,7 @@ module.exports.postUpdate = function (region, realm, name, callback) {
 module.exports.request = function (endUrl, callback) {
     var logger = applicationStorage.logger;
 
-    var url = encodeURI("https://progress.warcraftlfg.com/api/v1/" + endUrl);
+    var url = encodeURI("https://api.warcraftprogress.com/api/v1/" + endUrl);
 
     logger.debug('GET Progress API : %s', url);
 
