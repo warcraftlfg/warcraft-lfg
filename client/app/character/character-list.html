@@ -22,6 +22,38 @@
 <div class="character-list">
     <div class="container">
         <div class="row">
+            <div class="col-md-12">
+                <table class="table table-condensed">
+                    <tr ng-repeat="character in characters">
+                        <td class="text-center">
+                            <span ng-class="{'logo-warcraftlfg':character.id}" class="icon-small source-tooltip"
+                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
+                                  ng-if="character.id">
+                            </span>
+                        </td>
+                        <td class="class-{{character.bnet.class}}">
+                            <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold txt-underline">
+                                {{character.name}}
+                            </a>
+                        </td>
+                        <td class="faction-{{ character.bnet.faction }}">
+                            {{ character.guild.name }}
+                        </td>
+                        <td>
+                            {{character.realm}}
+                        </td>
+                        <td>
+                            {{character.region|uppercase}}
+                        </td>
+                        <td class="hidden-xs">
+                            {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- Advanced view -->
+        <!--<div class="row">
             <div class="col-md-12 col-lg-12" infinite-scroll="getMoreCharacters()"
                  infinite-scroll-immediate-check="false">
                 <div class="cartouche cartouche-faction-{{character.bnet.faction}}" ng-repeat="character in characters">
@@ -97,7 +129,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="row">
             <div class="col-md-3 col-lg-3"></div>
             <div class="col-md-9 col-lg-9 text-center m-t-10 m-b-10">

@@ -31,7 +31,7 @@ function warcraftLogsInfo() {
                 var sortedLogs = {3:{0:[],'1':[],'2':[],'3':[]},4:{0:[],'1':[],'2':[],'3':[]},5:{0:[],'1':[],'2':[],'3':[]}};
                 var ratioFound = false;
                 
-                if (logs.dps) {
+                if (logs.dps && logs.dps instanceof Array) {
                     logs.dps.forEach(function (log) {
                         var ratio = 1-(log.rank/log.outOf);
                         if (log.difficulty >= 3 && log.difficulty <= 5 ) {
@@ -43,7 +43,7 @@ function warcraftLogsInfo() {
                     });
                 }
 
-                if (logs.hps) {
+               if (logs.hps && logs.hps instanceof Array) {
                     logs.hps.forEach(function (log) {
                         var ratio = 1-(log.rank/log.outOf);
                         if (log.difficulty >= 3 && log.difficulty <= 5 ) {
