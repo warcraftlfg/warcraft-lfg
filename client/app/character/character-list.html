@@ -23,33 +23,74 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-condensed">
-                    <tr ng-repeat="character in characters">
-                        <td class="text-center">
-                            <span ng-class="{'logo-warcraftlfg':character.id}" class="icon-small source-tooltip"
-                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
-                                  ng-if="character.id">
-                            </span>
-                        </td>
-                        <td class="class-{{character.bnet.class}}">
-                            <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold txt-underline">
-                                {{character.name}}
-                            </a>
-                        </td>
-                        <td class="faction-{{ character.bnet.faction }}">
-                            {{ character.guild.name }}
-                        </td>
-                        <td>
-                            {{character.realm}}
-                        </td>
-                        <td>
-                            {{character.region|uppercase}}
-                        </td>
-                        <td class="hidden-xs">
-                            {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
-                        </td>
-                    </tr>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-condensed">
+                        <thead>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Guild</th>
+                            <th>Server</th>
+                            <th>Langue</th>
+                            <th>RPW</th>
+                            <th>Role</th>
+                            <th>ILvl</th>
+                            <th>Progress</th>
+                            <th>WCL</th>
+                            <th>Update</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="character in characters">
+                                <td class="text-center">
+                                    <span ng-class="{'logo-warcraftlfg':character.id}" class="icon-small source-tooltip"
+                                          uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
+                                          ng-if="character.id">
+                                    </span>
+                                </td>
+                                <td class="class-{{character.bnet.class}}">
+                                    <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold">
+                                        {{character.name}}
+                                    </a>
+                                </td>
+                                <td class="faction-{{ character.bnet.faction }}">
+                                    <span>{{ character.bnet.guild.name }}</span>
+                                    <span ng-if="!character.bnet.guild.name && character.bnet.faction == 1">n/a</span>
+                                    <span ng-if="!character.bnet.guild.name && character.bnet.faction == 0">n/a</span>
+                                </td>
+                                <td>
+                                    {{character.region|uppercase}}-{{character.realm}}
+                                </td>
+                                <td>
+                                    <span ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages"><span ng-if="$index > 0">, </span>{{ language|uppercase }}</span>
+                                </td>
+                                <td>
+                                        {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
+                                </td>
+                                <td>
+                                    <div ng-if="character.ad.role.tank || character.ad.role.heal || character.ad.role.melee_dps || character.ad.role.ranged_dps">
+                                        <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
+                                        <span ng-if="character.ad.role.heal" class="icon-small heal"></span>
+                                        <span ng-if="character.ad.role.melee_dps" class="icon-small dps"></span>
+                                        <span ng-if="character.ad.role.ranged_dps" class="icon-small ranged-dps"></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
+                                        {{character.bnet.items.averageItemLevelEquipped}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span wlfg-progress="character.bnet.progression.raids"></span>
+                                </td>
+                                <td>
+                                    <span wlfg-warcraft-logs-average="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></span>
+                                </td>
+                                <td class="hidden-xs">
+                                    <span am-time-ago="character.ad.updated"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <!-- Advanced view -->
