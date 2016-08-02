@@ -75,7 +75,7 @@
                                     <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
                                     <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
                                     <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
-                                    <span ng-if="guild.progress.normalCount==0&&guild.progress.heroicCount==0&&guild.progress.mythicCount==0">0/13 (N)</span>
+                                    <span ng-if="guild.progress.normalCount==null&&guild.progress.heroicCount==null&&guild.progress.mythicCount==null">0/13 (N)</span>
 
                                 </div>
                                 Ranking:
