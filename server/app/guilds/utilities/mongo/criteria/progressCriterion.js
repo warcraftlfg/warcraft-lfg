@@ -20,8 +20,11 @@ module.exports.add = function (query, criteria) {
         }
         if (paramArray[0][0] == "normal") {
             criteria["progress.normalCount"] = {$lte: max,$gte: min};
+            criteria["progress.heroicCount"] = 0;
+            criteria["progress.mythicCount"] = 0;
         } else if (paramArray[0][0] == "heroic") {
             criteria["progress.heroicCount"] = {$lte: max,$gte: min};
+            criteria["progress.mythicCount"] = 0;
         } else if (paramArray[0][0] == "mythic") {
             criteria["progress.mythicCount"] = {$lte: max,$gte: min};
         } else {
