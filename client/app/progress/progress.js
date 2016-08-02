@@ -31,7 +31,7 @@
 
 
         function getRankings() {
-            ranking.get({tier: $scope.filters.tier, limit: 19, start: ($scope.page - 1) * 20}, function (ranking) {
+            ranking.get({tier: $scope.filters.tier, limit: 20, start: ($scope.page - 1) * 20}, function (ranking) {
                 if (ranking) {
                     $scope.ranking = ranking;
                     $scope.$parent.loading = false;
