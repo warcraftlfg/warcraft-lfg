@@ -103,7 +103,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                     var progress = {score:0}
 
                     if (character.progression && character.progression.raids) {
-                        character.progression.raids[character.progression.raids.length - 1].bosses.forEach(function(boss){
+                        character.progression.raids[character.progression.raids.length - 3].bosses.forEach(function(boss){
                             if(boss.normalKills>0){
                                 progress.score += 1000;
                             }
