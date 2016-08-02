@@ -43,7 +43,7 @@ function warcraftLogsInfo() {
                     });
                 }
 
-               if (logs.hps && logs.hps instanceof Array) {
+                if (logs.hps && logs.hps instanceof Array) {
                     logs.hps.forEach(function (log) {
                         var ratio = 1-(log.rank/log.outOf);
                         if (log.difficulty >= 3 && log.difficulty <= 5 ) {
