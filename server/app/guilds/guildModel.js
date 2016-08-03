@@ -14,28 +14,28 @@ var Confine = require("confine");
  * @param projection
  * @param sort
  * @param limit
- * @param hint
+ * @param skip
  * @param callback
  */
-module.exports.find = function (criteria, projection, sort, limit, hint, callback) {
+module.exports.find = function (criteria, projection, sort, limit, skip, callback) {
     var collection = applicationStorage.mongo.collection("guilds");
-    if (hint === undefined && limit === undefined && callback == undefined) {
+    if (skip === undefined && limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, guilds) {
             callback(error, guilds);
         });
-    } else if (hint === undefined && callback == undefined) {
+    } else if (skip === undefined && callback == undefined) {
         callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     } else if (callback == undefined) {
-        callback = hint;
+        callback = skip;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     } else {
-        collection.find(criteria, projection).sort(sort).limit(limit).hint(hint).toArray(function (error, guilds) {
+        collection.find(criteria, projection).sort(sort).limit(limit).skip(skip).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     }
