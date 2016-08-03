@@ -44,7 +44,7 @@ module.exports.getProgress = function (tier, region, realm, name, callback) {
 module.exports.postUpdate = function (region, realm, name, callback) {
     var logger = applicationStorage.logger;
 
-    var url = encodeURI("https://progress.warcraftlfg.com/api/v1/updates");
+    var url = encodeURI("https://api.warcraftprogress.com/api/v1/updates");
 
     var body = {type:"guild",region: region, realm: realm, name: name};
 
