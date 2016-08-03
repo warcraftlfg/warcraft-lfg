@@ -9,6 +9,7 @@ var userModel = process.require("users/userModel.js");
 var characterCriteria = process.require("characters/utilities/mongo/characterCriteria.js");
 var characterProjection = process.require("characters/utilities/mongo/characterProjection.js");
 var numberLimit = process.require("core/utilities/mongo/numberLimit.js");
+var pageSkip = process.require("core/utilities/mongo/pageSkip.js");
 var characterSort = process.require("characters/utilities/mongo/characterSort.js");
 var updateModel = process.require("updates/updateModel.js");
 
@@ -37,8 +38,11 @@ module.exports.getCharacters = function (req, res) {
             callback(null, criteria, projection, limit, characterSort.get(req.query));
         },
         function (criteria, projection, limit, sort, callback) {
-            logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
-            characterModel.find(criteria, projection, sort, limit, function (error, characters) {
+            callback(null, criteria, projection, limit, sort, pageSkip.get(req.query));
+        },
+        function (criteria, projection, limit, sort,skip, callback) {
+            logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s skip:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort),JSON.stringify(skip));
+            characterModel.find(criteria, projection, sort, limit, skip, function (error, characters) {
                 callback(error, characters);
             });
         }
