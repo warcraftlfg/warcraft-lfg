@@ -256,6 +256,7 @@
 .border-top {border-top: 1px solid #EFEFEF;}
 .bd-white{border-color:#fff;}
 .bd-gray{border-color:#b6b6b6;}
+.bd-grey{border-color: $grey;}
 .bd-gold{border-color:#E5C100;}
 .bd-green{border-color: #73ab88;}
 .bd-red{border-left: 3px solid #C9625F;padding-left:20px}
@@ -297,6 +298,7 @@
 
 /****  Background Colors  ****/
 .bg-none {background-color: transparent;}
+.bg-grey  {background-color: $grey; color:#000; }
 .bg-gray  {background-color:#b6b6b6; color:#000; }
 .bg-gray-light  {background-color:#f5f5f5;}
 .bg-red {background-color:$red;color:#fff;}

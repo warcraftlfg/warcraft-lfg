@@ -6,7 +6,7 @@ wlfgSortCharacter.$inject = ['$stateParams', '$location'];
 function wlfgSortCharacter($stateParams, $location) {
     var directive = {
         link: link,
-        restrict: 'A',
+        restrict: 'AE',
         templateUrl: 'app/filter/sort/filter.sort.character.directive.html'
     };
 

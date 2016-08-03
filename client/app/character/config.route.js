@@ -22,7 +22,7 @@
                 controller: "CharacterUpdateController"
             })
             .state("character-list", {
-                url: "/character/list?realm_zone&language&faction&realm&role&class&day&timezone&raids_per_week&transfert&level_max&ilevel&progress&sort",
+                url: "/character/list/:page?realm_zone&language&faction&realm&role&class&day&timezone&raids_per_week&transfert&level_max&ilevel&progress&sort",
                 templateUrl: "app/character/character-list.html",
                 controlerAs: 'vm',
                 title: 'Character list',

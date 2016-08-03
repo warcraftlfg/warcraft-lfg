@@ -128,6 +128,8 @@
         $scope.filters = {};
         $scope.filters.states = {};
 
+        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
+
 
         $scope.$watch('filters', function () {
             //  if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
@@ -152,7 +154,7 @@
         function getCharacterAds() {
             $scope.loading = true;
 
-            var params = {lfg: true, view: "detailed", number: 7};
+            var params = {lfg: true, view: "detailed", number: 20};
 
             if ($scope.characters.length > 0) {
 
@@ -179,7 +181,6 @@
             delete params.states;
 
             characters.query(params, function (characters) {
-
                     $scope.$parent.loading = false;
                     $scope.loading = false;
 
