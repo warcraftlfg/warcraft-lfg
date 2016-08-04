@@ -36,7 +36,8 @@
   .checkbox-inline {
     opacity: 0.3;
     padding-left: 0px;
-    margin-left: 5px;
+    margin-right: 10px;
+    margin-left: 0px;
     text-align: center;
     height: 25px;
     width: 25px;
@@ -77,7 +78,8 @@
   .checkbox-inline {
     opacity: 0.3;
     padding-left: 0px;
-    margin-left: 5px;
+    margin-left: 0px;
+    margin-right: 5px;
     text-align: center;
     height: 30px;
     width: 30px;
@@ -312,7 +314,8 @@
   }
   .radio-inline {
     opacity: 0.5;
-    margin-left: 5px;
+    margin-right: 5px;
+    margin-left: 0px;
     margin-bottom: 5px;
     padding-left: 0px;
     text-align: center;
@@ -492,3 +495,13 @@
   }
 }
 
+/* Mobile stuff */
+@media screen and (max-width: 992px) {
+  .role-filter .checkbox-inline:hover {
+    opacity: 0.3;
+  }
+
+  .class-filter .checkbox-inline:hover {
+    opacity: 0.3;
+  }
+}

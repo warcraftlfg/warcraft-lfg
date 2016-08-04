@@ -29,7 +29,8 @@
         'app.guild',
         'app.layout',
         'app.message',
-        'app.progress'
+        'app.progress',
+        'app.parser'
     ]);
 
 })();

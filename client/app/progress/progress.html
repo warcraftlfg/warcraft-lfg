@@ -9,7 +9,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <span class="css3-metro-dropdown">
-                                        <select ng-model="filters.tier" class="form-control">
+                                        <select ng-model="filters.tiers" class="form-control">
                                             <option value="">Tier 18</option>
                                         </select>
                                     </span>
@@ -62,9 +62,7 @@
                             </a>
                         </td>
                         <td>
-                            <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
-                            <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
-                            <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
+                            <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
                         </td>
                     </tr>
                 </table>
@@ -86,9 +84,7 @@
                             </a>
                         </td>
                         <td>
-                            <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
-                            <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
-                            <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
+                            <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
                         </td>
                     </tr>
                 </table>
@@ -100,7 +96,7 @@
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': page <= 1}">
                         <a ng-if="page > 1" ng-href="#/{{ path }}{{ (page - 1) }}"><span class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo; &nbsp; Previous</span></span></a>
-                        <span ng-if="page <= 1" aria-hidden="true">&laquo; &nbsp; Previous</span>
+                        <span ng-if="page <= 1" aria-hidden="true">&laquo; &nbsp; {{"PREVIOUS"|translate }}</span>
                     </li>
                   </ul>
                 </nav>
@@ -111,7 +107,7 @@
                     <li class="page-item">
                         <a ng-href="#/{{ path }}{{ (page + 1) }}">
                             <span class="page-link" aria-label="Previous">
-                                <span aria-hidden="true">Next &nbsp; &raquo;</span>
+                                <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
                             </span>
                         </a>
                     </li>

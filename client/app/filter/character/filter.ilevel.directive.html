@@ -1,6 +1,9 @@
 <div class="class-filter">
-    <div class="m-b-5"><span class="fw-700 m-r-10">{{"ILVL"|translate}}</span> {{ ilevel.min }} - {{ ilevel.max }}</div>
-    <div class="m-t-18">
-        <angular-ranger min="575" max="750" step="1" min-value="ilevel.min" max-value="ilevel.max"></angular-ranger>
+    <div class="m-b-5"><span class="fw-700">{{"ILVL"|translate}}</span></div>
+    <div>
+    	<div class="text-center">{{ ilevel.min }} - {{ ilevel.max }}</div>
+    	<div class="p-l-5 p-r-5">
+        	<angular-ranger min="575" max="750" step="1" min-value="ilevel.min" max-value="ilevel.max"></angular-ranger>
+        </div>
     </div>
 </div>

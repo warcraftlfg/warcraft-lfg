@@ -1,0 +1,3 @@
+<span uib-tooltip-html="progress.tooltip" class="bold" ng-if="progress.mythicCount>0">{{progress.mythicCount}}/13 (M)</span>
+<span uib-tooltip-html="progress.tooltip" ng-if="progress.heroicCount>0&&progress.mythicCount==0">{{progress.heroicCount}}/13 (H)</span>
+<span uib-tooltip-html="progress.tooltip" class="italic" ng-if="progress.heroicCount==0&&progress.mythicCount==0">{{progress.normalCount}}/13 (N)</span>

@@ -1,6 +1,24 @@
-<div class="sort">
+<!--<div class="sort">
     <span>{{"SORT_BY"|translate}}</span>
     <span ng-class="{'selected':sortOut==='date'}" class="sort-item" ng-click="sortOut='date'">{{"DATE"|translate|lowercase}}</span> -
     <span ng-class="{'selected':sortOut==='ilevel'}" class="sort-item" ng-click="sortOut='ilevel'">{{"ILEVEL"|translate|lowercase}}</span> -
     <span ng-class="{'selected':sortOut==='progress'}" class="sort-item" ng-click="sortOut='progress'">{{"PROGRESS"|translate|lowercase}}</span>
-</div>
+</div>-->
+
+    <th></th>
+    <th>Name</th>
+    <th>Guild</th>
+    <th>Server</th>
+    <th>Langue</th>
+    <th>RPW</th>
+    <th>Role</th>
+    <th class="cursor-pointer"  ng-class="{'selected':sortOut==='ilevel'}" ng-click="sortOut='ilevel'">
+        ILvl &nbsp;<i ng-show="sortOut!=='ilevel'" class="fa fa-sort" aria-hidden="true"></i><i ng-show="sortOut==='ilevel'" class="fa fa-sort-desc" aria-hidden="true"></i>
+    </th>
+    <th class="cursor-pointer" ng-class="{'selected':sortOut==='progress'}" ng-click="sortOut='progress'">
+        Progress  &nbsp;<i ng-show="sortOut!=='progress'" class="fa fa-sort" aria-hidden="true"></i><i ng-show="sortOut==='progress'" class="fa fa-sort-desc" aria-hidden="true"></i>
+    </th>
+    <th>WCL</th>
+    <th class="cursor-pointer" ng-class="{'selected':sortOut==='date'}" ng-click="sortOut='date'">
+        Update  &nbsp;<i ng-show="sortOut!=='date'" class="fa fa-sort" aria-hidden="true"></i><i ng-show="sortOut==='date'" class="fa fa-sort-desc" aria-hidden="true"></i>
+    </th>
