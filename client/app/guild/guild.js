@@ -262,8 +262,8 @@
 
     }
 
-    GuildList.$inject = ['$scope', '$state', "wlfgAppTitle", "guilds"];
-    function GuildList($scope, $state, wlfgAppTitle, guilds) {
+    GuildList.$inject = ['$scope', '$state', '$stateParams', "wlfgAppTitle", "guilds"];
+    function GuildList($scope, $state, $stateParams, wlfgAppTitle, guilds) {
         wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error = null;
@@ -272,6 +272,8 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+
+        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
         $scope.$watch('filters', function () {
             if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
@@ -316,6 +318,7 @@
             delete params.states;
 
             guilds.query(params, function (guilds) {
+                    console.log(guilds[0]);
                     $scope.$parent.loading = false;
                     $scope.loading = false;
                     $scope.guilds = $scope.guilds.concat(guilds);

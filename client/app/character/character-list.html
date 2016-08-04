@@ -1,4 +1,4 @@
-<section class="header header-character">
+<section class="header header-character m-b-0">
     <div class="">
         <div class="container">
             <div class="row">
@@ -22,86 +22,98 @@
 <div class="character-list">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 col-lg-12" infinite-scroll="getMoreCharacters()"
-                 infinite-scroll-immediate-check="false">
-                <div class="cartouche cartouche-faction-{{character.bnet.faction}}" ng-repeat="character in characters">
-                    <div class="character character-faction-{{character.bnet.faction}}">
-                        <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
-                           class="div-link"></a>
-                        <div class="row">
-                            <div class="col-md-4 col-lg-4">
-                                <div class="overflow class-{{character.bnet.class}}">
-                                    <a class="class-{{character.bnet.class}} f-28"
-                                       href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/">
-                                        <span class="icon-medium class-{{character.bnet.class}}"></span>
-                                        <span class="">{{character.name}}</span>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-condensed">
+                        <thead wlfg-sort-character></thead>
+                        <tbody>
+                            <tr class="text-center" ng-if="loading">
+                                <td colspan="11" class="p-15 loading">
+                                    <i class="fa fa-2x fa-spinner fa-spin"></i>
+                                </td>
+                            </tr>   
+                            <tr ng-repeat="character in characters">
+                                <td class="text-center">
+                                    <span ng-class="{'logo-warcraftlfg':character.id}" class="icon-small source-tooltip"
+                                          uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
+                                          ng-if="character.id">
+                                    </span>
+                                </td>
+                                <td class="class-{{character.bnet.class}}">
+                                    <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold">
+                                        {{character.name}}
                                     </a>
-                                </div>
-                                <div class="overflow character-info-padding">
-                                    {{character.realm}} ({{character.region|uppercase}})
-                                </div>
-                                <div class="overflow character-info-padding faction-{{character.bnet.faction}}">
-                                    {{character.bnet.guild.name}}
-                                </div>
-                                <div ng-if="character.id" class="character-info-padding">
-                                    <span class="icon-small logo-warcraftlfg"></span>
-                                    <span class="m-l-5">WarcraftLFG</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-lg-4">
-                                <div>
-                                    {{"LANGUAGES"|translate}}:
-                                    <span ng-if="character.ad.languages.length > 0"
-                                          ng-repeat="language in character.ad.languages">{{"LANG_"+language|uppercase|translate}} </span>
-                                    <span ng-if="!character.ad.languages.length">{{ "LANG_NONE"|translate }}</span>
-                                </div>
-                                <div ng-if="character.ad.role.tank || character.ad.role.heal || character.ad.role.melee_dps || character.ad.role.ranged_dps">
-                                    {{"ROLES"|translate}}:&nbsp;
-                                    <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
-                                    <span ng-if="character.ad.role.heal" class="icon-small heal"></span>
-                                    <span ng-if="character.ad.role.melee_dps" class="icon-small dps"></span>
-                                    <span ng-if="character.ad.role.ranged_dps" class="icon-small ranged-dps"></span>
-                                </div>
-                                <div>
-                                    {{"RAIDS_PER_WEEK"|translate}}: {{character.ad.raids_per_week.min}} -
-                                    {{character.ad.raids_per_week.max}}
-                                </div>
-                                <div>
-                                    {{"ILVL"|translate}}:
+                                </td>
+                                <td class="faction-{{ character.bnet.faction }}">
+                                    <span>{{ character.bnet.guild.name }}</span>
+                                    <span ng-if="!character.bnet.guild.name && character.bnet.faction == 1">n/a</span>
+                                    <span ng-if="!character.bnet.guild.name && character.bnet.faction == 0">n/a</span>
+                                </td>
+                                <td>
+                                    {{character.region|uppercase}}-{{character.realm}}
+                                </td>
+                                <td>
+                                    <span ng-if="character.ad.languages.length > 0" ng-repeat="language in character.ad.languages"><span ng-if="$index > 0">, </span>{{ language|uppercase }}</span>
+                                </td>
+                                <td>
+                                        {{character.ad.raids_per_week.min}} - {{character.ad.raids_per_week.max}}
+                                </td>
+                                <td>
+                                    <div ng-if="character.ad.role.tank || character.ad.role.heal || character.ad.role.melee_dps || character.ad.role.ranged_dps">
+                                        <span ng-if="character.ad.role.tank" class="icon-small tank"></span>
+                                        <span ng-if="character.ad.role.heal" class="icon-small heal"></span>
+                                        <span ng-if="character.ad.role.melee_dps" class="icon-small dps"></span>
+                                        <span ng-if="character.ad.role.ranged_dps" class="icon-small ranged-dps"></span>
+                                    </div>
+                                </td>
+                                <td>
                                     <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
                                         {{character.bnet.items.averageItemLevelEquipped}}
                                     </span>
-                                </div>
-                                <div>
-                                    {{"RING"|translate}}:
-                                    <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1"
-                                          wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-5 col-lg-4 character-class-{{character.bnet.class}}">
-                                <div class="wlfg-progress">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            {{"PROGRESS"|translate}}:
-                                            <span wlfg-progress="character.bnet.progression.raids"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span wlfg-warcraft-logs="character.warcraftLogs.logs"
-                                      character-class="{{ character.bnet.class }}"></span>
-                            </div>
-                        </div>
-                        <div class="character-timestamp">
-                            <span am-time-ago="{{character.ad.updated| amSubtract : '1' : 'minute'}}"></span>
-                        </div>
-                    </div>
+                                </td>
+                                <td>
+                                    <span wlfg-progress="character.bnet.progression.raids"></span>
+                                </td>
+                                <td>
+                                    <span wlfg-warcraft-logs-average="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></span>
+                                </td>
+                                <td class="hidden-xs">
+                                    <span am-time-ago="character.ad.updated"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-lg-3"></div>
-            <div class="col-md-9 col-lg-9 text-center m-t-10 m-b-10">
-                <i class="fa fa-3x fa-spinner fa-spin" ng-if="loading"></i>
+            <div class="col-md-6 col-xs-6 m-b-10">
+                <nav>
+                  <ul class="pagination m-0">
+                    <li class="page-item" ng-class="{'disabled': page <= 1}">
+                        <a ng-if="page > 1" ng-href="#/character/list/{{ (page - 1) }}" ng-click="$event.preventDefault();changePage((page - 1))">
+                            <span class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo; &nbsp; Previous</span>
+                            </span>
+                        </a>
+                        <span ng-if="page <= 1" aria-hidden="true">&laquo; &nbsp; {{"PREVIOUS"|translate }}</span>
+                    </li>
+                  </ul>
+                </nav>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right m-b-10">
+                <nav>
+                  <ul class="pagination m-0">
+                    <li class="page-item" ng-class="{'disabled': characters.length < 20}">
+                        <a ng-if="characters.length == 20" ng-href="#/character/list/{{ (page + 1) }}" ng-click="$event.preventDefault();changePage((page + 1))">
+                            <span class="page-link" aria-label="Next">
+                                <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
+                            </span>
+                        </a>
+                        <span ng-if="characters.length < 20" aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
+                    </li>
+                  </ul>
+                </nav>
             </div>
         </div>
     </div>

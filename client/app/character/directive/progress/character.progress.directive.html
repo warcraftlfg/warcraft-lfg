@@ -1,4 +1,4 @@
-<span  ng-if="progress.progress" tooltip-placement="bottom" uib-tooltip="">
+<span  ng-if="progress.progress" ng-class="progress.difficultyClass" tooltip-placement="bottom" uib-tooltip="">
 	<span>{{ progress.progress }}</span>/<span>{{ progress.total }}</span> ({{ progress.difficulty }})
 </span>
 <span  ng-if="!progress.progress">

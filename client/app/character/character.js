@@ -18,7 +18,6 @@
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
 
-
         characters.get({
             "characterRegion": $stateParams.region,
             "characterRealm": $stateParams.realm,
@@ -46,9 +45,6 @@
                 $scope.$parent.loading = false;
             });
         };
-
-
-
     }
 
     CharacterUpdate.$inject = ["$scope", "socket", "$state", "$stateParams", "$translate", "LANGUAGES", "TIMEZONES", "characters"];
@@ -113,12 +109,10 @@
                 }
             );
         };
-
-
     }
 
-    CharacterList.$inject = ['$scope', '$stateParams', '$state', 'socket', "wlfgAppTitle", "characters"];
-    function CharacterList($scope, $stateParams, $state, socket, wlfgAppTitle, characters) {
+    CharacterList.$inject = ['$scope', '$stateParams', '$state', '$location', 'socket', "wlfgAppTitle", "characters"];
+    function CharacterList($scope, $stateParams, $state, $location, socket, wlfgAppTitle, characters) {
         wlfgAppTitle.setTitle('Characters LFG');
         //Reset error message
         $scope.$parent.error = null;
@@ -127,16 +121,23 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        $scope.initialLoading = 0;
 
+        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
         $scope.$watch('filters', function () {
             //  if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
             // && $scope.filters.states.timezone
-
             if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
+                if ($scope.initialLoading > 0) {
+                    $scope.page = 1;
+                    $state.go('.', {page: $scope.page}, {notify: false});
+                }
 
                 $scope.characters = [];
                 getCharacterAds();
+
+                $scope.initialLoading = 1;
 
             }
         }, true);
@@ -149,10 +150,18 @@
             getCharacterAds();
         };
 
+        $scope.changePage = function (page) {
+            $scope.page = page;
+            $state.go('.', {page: $scope.page}, {notify: false});
+
+            $scope.characters = [];
+            getCharacterAds();
+        }
+
         function getCharacterAds() {
             $scope.loading = true;
 
-            var params = {lfg: true, view: "detailed", number: 7};
+            var params = {lfg: true, view: "detailed", number: 20, page: ($scope.page - 1)};
 
             if ($scope.characters.length > 0) {
 
@@ -179,7 +188,6 @@
             delete params.states;
 
             characters.query(params, function (characters) {
-
                     $scope.$parent.loading = false;
                     $scope.loading = false;
 

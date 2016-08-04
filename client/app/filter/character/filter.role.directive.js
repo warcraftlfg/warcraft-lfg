@@ -59,5 +59,14 @@ function wlfgFilterRole($translate, $stateParams, $location) {
 
             $scope.$parent.loading = true;
         }, true);
+
+        $scope.toggleRoleCheckbox = function(role) {
+
+            if ($scope.roles[role].selected) {
+                $scope.roles[role].selected = false;
+            } else {
+                $scope.roles[role].selected = true;
+            }
+        };
     }
 }
