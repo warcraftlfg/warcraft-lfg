@@ -27,7 +27,7 @@ module.exports.getRank = function (tier, region, realm, name, callback) {
  * @param callback
  */
 module.exports.getProgress = function (tier, region, realm, name, callback) {
-    var endUrl = "guilds/progress/simple/" + tier + "/" + region + "/" + realm + "/" + name;
+    var endUrl = "progress/simple/" + tier + "/" + region + "/" + realm + "/" + name;
     this.request(endUrl, function (error, result) {
         callback(error, result && result.progress && result.progress['tier_' + tier]);
     });
@@ -73,7 +73,7 @@ module.exports.postUpdate = function (region, realm, name, callback) {
 module.exports.request = function (endUrl, callback) {
     var logger = applicationStorage.logger;
 
-    var url = encodeURI("http://progress.warcraftlfg.com/api/v1/" + endUrl);
+    var url = encodeURI("https://api.warcraftprogress.com/api/v1/" + endUrl);
 
     logger.debug('GET Progress API : %s', url);
 
