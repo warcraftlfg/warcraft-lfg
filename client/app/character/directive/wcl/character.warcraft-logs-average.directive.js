@@ -73,17 +73,17 @@ function wlfgWarcraftLogsAverage() {
                     };
 
                     var i = 0;
-                    scope.warcraftLogs['average'] = 0;
+                    scope.warcraftLogs.average = 0;
                     for (var difficulty = 3; difficulty <= 5; difficulty++) {
                         for (var spec = 0; spec <= 3; spec++) {
                             if (sortedLogs[difficulty][spec].length > 0) {
                                 i++;
                                 scope.warcraftLogs[difficulty][spec] = {median:Math.floor(average(sortedLogs[difficulty][spec]) * 100), number: sortedLogs[difficulty][spec].length};
-                                scope.warcraftLogs['average'] += Math.floor(average(sortedLogs[difficulty][spec]) * 100);
+                                scope.warcraftLogs.average += Math.floor(average(sortedLogs[difficulty][spec]) * 100);
                             }
                         }
                     }
-                    scope.warcraftLogs['average'] = Math.floor(scope.warcraftLogs['average'] / i);
+                    scope.warcraftLogs.average = Math.floor(scope.warcraftLogs.average / i);
                 } else {
                     scope.warcraftLogs = null;
                 }

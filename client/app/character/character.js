@@ -18,7 +18,6 @@
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
 
-
         characters.get({
             "characterRegion": $stateParams.region,
             "characterRealm": $stateParams.realm,
@@ -46,9 +45,6 @@
                 $scope.$parent.loading = false;
             });
         };
-
-
-
     }
 
     CharacterUpdate.$inject = ["$scope", "socket", "$state", "$stateParams", "$translate", "LANGUAGES", "TIMEZONES", "characters"];
@@ -113,12 +109,10 @@
                 }
             );
         };
-
-
     }
 
-    CharacterList.$inject = ['$scope', '$stateParams', '$state', 'socket', "wlfgAppTitle", "characters"];
-    function CharacterList($scope, $stateParams, $state, socket, wlfgAppTitle, characters) {
+    CharacterList.$inject = ['$scope', '$stateParams', '$state', '$location', 'socket', "wlfgAppTitle", "characters"];
+    function CharacterList($scope, $stateParams, $state, $location, socket, wlfgAppTitle, characters) {
         wlfgAppTitle.setTitle('Characters LFG');
         //Reset error message
         $scope.$parent.error = null;
@@ -129,7 +123,6 @@
         $scope.filters.states = {};
 
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
-
 
         $scope.$watch('filters', function () {
             //  if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
@@ -151,10 +144,14 @@
             getCharacterAds();
         };
 
+        $scope.changePage = function (page) {
+            $location.path('/character/list/'+page).search($location.search());
+        }
+
         function getCharacterAds() {
             $scope.loading = true;
 
-            var params = {lfg: true, view: "detailed", number: 20};
+            var params = {lfg: true, view: "detailed", number: 20, page: ($scope.page - 1)};
 
             if ($scope.characters.length > 0) {
 
