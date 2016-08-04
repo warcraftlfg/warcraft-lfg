@@ -100,20 +100,22 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     progressAPI.getRank(config.currentProgress, region, guild.realm, guild.name, function (error, rank) {
                         if (error) {
                             logger.error(error.message);
+                            callback();
                         } else if (rank) {
                             rank.updated = new Date().getTime();
+                            callback(null, rank);
                         }
-                        callback(null, rank);
                     });
                 },
                 progress: function (callback) {
                     progressAPI.getProgress(18,region,guild.realm,guild.name,function(error,progress){
                         if (error) {
                             logger.error(error.message);
+                            callback();
                         } else if(progress){
                             progress.updated = new Date().getTime();
+                            callback(null, progress);
                         }
-                        callback(null, progress);
                     });
                 }
             }, function (error, results) {
