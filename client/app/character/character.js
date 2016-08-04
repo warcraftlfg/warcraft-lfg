@@ -121,17 +121,23 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        $scope.initialLoading = 0;
 
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
         $scope.$watch('filters', function () {
             //  if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
             // && $scope.filters.states.timezone
-
             if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
+                if ($scope.initialLoading > 0) {
+                    $scope.page = 1;
+                    $location.search('page', 1);
+                }
 
                 $scope.characters = [];
                 getCharacterAds();
+
+                $scope.initialLoading = 1;
 
             }
         }, true);
@@ -145,7 +151,11 @@
         };
 
         $scope.changePage = function (page) {
-            $location.path('/character/list/'+page).search($location.search());
+            $scope.page = page;
+            $location.search('page', page);
+
+            $scope.characters = [];
+            getCharacterAds();
         }
 
         function getCharacterAds() {
