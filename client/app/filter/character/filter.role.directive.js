@@ -67,6 +67,6 @@ function wlfgFilterRole($translate, $stateParams, $location) {
             } else {
                 $scope.roles[role].selected = true;
             }
-        }
+        };
     }
 }
