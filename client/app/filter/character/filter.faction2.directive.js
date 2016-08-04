@@ -14,16 +14,16 @@ function wlfgFilterFaction2($stateParams, $location) {
 
     function link($scope, element, attrs) {
 
-        $scope.faction2 = null;
+        $scope.faction2 = "";
 
 
         if ($stateParams.faction) {
             if ($stateParams.faction == '0') {
-                $scope.faction2 = 0;
+                $scope.faction2 = '0';
                 $scope.filters.faction = 0;
 
             } else if ($stateParams.faction == '1') {
-                $scope.faction2 = 1;
+                $scope.faction2 = '1';
                 $scope.filters.faction = 1;
             }
         }
