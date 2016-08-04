@@ -131,7 +131,7 @@
             if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
                 if ($scope.initialLoading > 0) {
                     $scope.page = 1;
-                    $location.search('page', 1);
+                    $state.go('.', {page: $scope.page}, {notify: false});
                 }
 
                 $scope.characters = [];
@@ -152,7 +152,7 @@
 
         $scope.changePage = function (page) {
             $scope.page = page;
-            $location.search('page', page);
+            $state.go('.', {page: $scope.page}, {notify: false});
 
             $scope.characters = [];
             getCharacterAds();
