@@ -29,15 +29,19 @@ function wlfgProgress() {
 
                 if (currentProgress.mythic.total > 0) {
                     currentProgress.difficulty = 'M';
+                    currentProgress.difficultyClass = 'raid-mythic';
                     currentProgress.progress = currentProgress.mythic.total;
                 } else if (currentProgress.heroic.total > 0) {
                     currentProgress.difficulty = 'H';
+                    currentProgress.difficultyClass = 'raid-heroic';
                     currentProgress.progress = currentProgress.heroic.total;
                 }  else if (currentProgress.normal.total > 0) {
                     currentProgress.difficulty = 'N';
+                    currentProgress.difficultyClass = 'raid-normal';
                     currentProgress.progress = currentProgress.normal.total;
                 } else if (currentProgress.lfr.total > 0) {
                     currentProgress.difficulty = 'L';
+                    currentProgress.difficultyClass = 'raid-lfr';
                     currentProgress.progress = currentProgress.lfr.total;
                 }
 

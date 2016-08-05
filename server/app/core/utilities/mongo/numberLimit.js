@@ -15,7 +15,7 @@ module.exports.get = function (query) {
             return;
         }
 
-        number = number > 10 ? 10 : number;
+        number = number > 20 ? 20 : number;
         number = number < 0 ? 0 : number;
     }
     return number;

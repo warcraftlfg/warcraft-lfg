@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.dashboard')
+        .module('app.progress')
         .controller('ProgressController', Progress);
 
     Progress.$inject = ["$scope", "$stateParams", "$location", "wlfgAppTitle", "ranking"];
@@ -27,11 +27,11 @@
                 getRankings();
         });
 
-        $scope.page = ($stateParams.page > 0) ? parseInt($stateParams.page) : 1;
+        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
 
         function getRankings() {
-            ranking.get({tier: $scope.filters.tier, limit: 19, start: ($scope.page - 1) * 20}, function (ranking) {
+            ranking.get({tier: $scope.filters.tier, limit: 20, start: ($scope.page - 1) * 20}, function (ranking) {
                 if (ranking) {
                     $scope.ranking = ranking;
                     $scope.$parent.loading = false;
