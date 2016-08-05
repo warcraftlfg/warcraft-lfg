@@ -104,6 +104,8 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                         } else if (rank) {
                             rank.updated = new Date().getTime();
                             callback(null, rank);
+                        } else {
+                            callback();
                         }
                     });
                 },
@@ -115,6 +117,8 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                         } else if(progress){
                             progress.updated = new Date().getTime();
                             callback(null, progress);
+                        } else {
+                            callback();
                         }
                     });
                 }
