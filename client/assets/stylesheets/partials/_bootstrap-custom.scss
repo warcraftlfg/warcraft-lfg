@@ -11,6 +11,14 @@
     text-align: justify !important;
 }
 
+.table-striped>tbody>tr:nth-of-type(odd) {
+   background-color: #0C0C0C;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: #000;
+}
+
 @media (max-width: 767px) {
     .text-left-not-xs, .text-center-not-xs, .text-right-not-xs, .text-justify-not-xs {
         text-align: inherit !important;

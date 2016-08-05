@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-condensed">
+                    <table class="table table-condensed table-striped table-hover">
                         <thead wlfg-sort-character></thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
@@ -74,8 +74,8 @@
                                 <td>
                                     <span wlfg-progress="character.bnet.progression.raids"></span>
                                 </td>
-                                <td>
-                                    <span wlfg-warcraft-logs-average="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></span>
+                                <td class="character-class-{{ character.bnet.class }}">
+                                    <span class="wcl-tooltips" wlfg-warcraft-logs-average="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></span>
                                 </td>
                                 <td class="hidden-xs">
                                     <span am-time-ago="character.ad.updated"></span>
