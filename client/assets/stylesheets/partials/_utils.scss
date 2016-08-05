@@ -218,16 +218,16 @@
 .r-n-15 {right:-15px; }
 
 /*** Border **/
-.bd-b-d {border-bottom: 1px dashed #c5c5c5;}
-.bd-t-d {border-top: 1px dashed #c5c5c5;}
-.bd-r-d {border-right: 1px dashed #c5c5c5;}
-.bd-l-d {border-left: 1px dashed #c5c5c5;}
+.bd-b-d {border-bottom: 1px dotted #c5c5c5;}
+.bd-t-d {border-top: 1px dotted #c5c5c5;}
+.bd-r-d {border-right: 1px dotted #c5c5c5;}
+.bd-l-d {border-left: 1px dotted #c5c5c5;}
 .bd-b-s {border-bottom: 1px solid #c5c5c5;}
 .bd-t-s {border-top: 1px solid #c5c5c5;}
 .bd-r-s {border-right: 1px solid #c5c5c5;}
 .bd-l-s {border-left: 1px solid #c5c5c5;}
 .bd-s {border: 1px solid white;}
-.bd-d {border: 1px dashed #c5c5c5;}
+.bd-d {border: 1px dotted #c5c5c5;}
 .bd-b-0 {border-bottom: 0px solid #c5c5c5;}
 .bd-t-0 {border-top: 0px solid #c5c5c5;}
 
@@ -345,6 +345,7 @@
 
 /**** Text decoration *****/
 .txt-underline {text-decoration: underline;}
+.txt-dashed { text-decoration: underline; text-decoration-style: dashed;}
 .txt-no-decoration {text-decoration: none !important;}
 
 /****  Opacity  ****/

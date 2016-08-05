@@ -1,0 +1,25 @@
+.tooltip {
+	font-size: 14px;
+	font-weight: bold;
+
+	.tooltip-inner {
+		border-radius: 0px;
+		border: 1px solid white;
+	}
+}
+
+.tooltip.in {
+	opacity: 1 !important;
+}
+
+.tooltip.bottom {
+	margin-top: -2px !important
+}
+
+.tooltip.top {
+	margin-top: 2px !important;
+}
+
+.tooltip-arrow {
+	display: none !important
+}
