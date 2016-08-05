@@ -1,0 +1,3 @@
+<span ng-if="progress.mythicCount>0" class="bold">{{progress.mythicCount}}/13 (M)</span>
+<span ng-if="progress.heroicCount>0&&(progress.mythicCount==0||!progress.mythicCount)">{{progress.heroicCount}}/13 (H)</span>
+<span ng-if="(progress.heroicCount==0||!progress.heroicCount)&&(progress.mythicCount==0||!progress.mythicCount)" class="italic">{{progress.normalCount}}/13 (N)</span>

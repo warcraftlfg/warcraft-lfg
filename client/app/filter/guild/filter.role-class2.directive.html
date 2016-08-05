@@ -1,0 +1,65 @@
+<div class="">
+    <div class="row">
+        <div class="col-md-4 role-filter">
+            <div class="fw-700 m-b-5">{{"ROLE"|translate}}</div>
+            <div>
+                <div class="checkbox-inline" ng-class="{'selected':roles.tank.selected}" uib-tooltip="{{'TANK'|translate}}">
+                    <label class="tank">
+                        <input ng-model="roles.tank.selected" type="checkbox">
+                    </label>
+                </div>
+                <div class="checkbox-inline" ng-class="{'selected':roles.heal.selected}" uib-tooltip="{{'HEAL'|translate}}">
+                    <label class="heal">
+                        <input ng-model="roles.heal.selected" type="checkbox">
+                    </label>
+                </div>
+                <div class="checkbox-inline" ng-class="{'selected':roles.melee_dps.selected}"
+                     uib-tooltip="{{'MELEE_DPS'|translate}}">
+                    <label class="melee_dps">
+                        <input ng-model="roles.melee_dps.selected" type="checkbox">
+                    </label>
+                </div>
+                <div class="checkbox-inline" ng-class="{'selected':roles.ranged_dps.selected}"
+                     uib-tooltip="{{'RANGED_DPS'|translate}}">
+                    <label class="ranged_dps">
+                        <input ng-model="roles.ranged_dps.selected" type="checkbox">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 class-filter">
+            <div class="fw-700 m-b-5">{{"CLASS"|translate}}</div>
+            <div>
+                <div ng-repeat="(key, value) in classes" class="checkbox-inline" ng-class="{'selected':value.selected}" uib-tooltip="{{'CLASS_'+key|translate}}">
+                    <label class="class-{{ key }}">
+                           <input ng-model="value.selected" type="checkbox">
+                    </label>
+                </div>
+            </div>
+            <!--<div class="row p-0">
+                <div class="col-md-1" ng-repeat="(key,value) in classes">
+                    <div class="row p-0">
+                        <div class="col-md-5 p-0">
+                            <div class="checkbox-inline" ng-class="{'selected':value.selected}"
+                                 uib-tooltip="{{'CLASS_'+key|translate}}" >
+                                <label class="class-{{key}}" ng-click="switchClass(value)">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row p-0">
+                                <div ng-repeat="(role,selected) in value.roles" class="role col-md-6 checkbox-inline p-r-0"
+                                     ng-class="{'selected':selected}"
+                                     uib-tooltip="{{role|uppercase|translate}}">
+                                    <label class="role-{{role}}" >
+                                        <input ng-model="value.roles[role]" type="checkbox">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>

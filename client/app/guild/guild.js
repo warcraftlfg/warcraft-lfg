@@ -296,10 +296,18 @@
             getGuildAds();
         };
 
+        $scope.changePage = function (page) {
+            $scope.page = page;
+            $state.go('.', {page: $scope.page}, {notify: false});
+
+            $scope.characters = [];
+            getGuildAds();
+        }
+
         function getGuildAds() {
             $scope.loading = true;
 
-            var params = {lfg: true, view: "detailed", number: 7};
+            var params = {lfg: true, view: "detailed", number: 20 };
 
             if ($scope.guilds.length > 0) {
 
@@ -318,7 +326,6 @@
             delete params.states;
 
             guilds.query(params, function (guilds) {
-                    console.log(guilds[0]);
                     $scope.$parent.loading = false;
                     $scope.loading = false;
                     $scope.guilds = $scope.guilds.concat(guilds);

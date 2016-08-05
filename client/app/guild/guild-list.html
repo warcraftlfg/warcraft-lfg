@@ -1,4 +1,4 @@
-<section class="header header-guild">
+<section class="header header-guild m-b-0">
     <div class="">
         <div class="container">
             <div class="row">
@@ -31,7 +31,7 @@
                         <thead wlfg-sort-guild></thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
-                                <td colspan="11" class="p-15 loading">
+                                <td colspan="12" class="p-15 loading">
                                     <i class="fa fa-2x fa-spinner fa-spin"></i>
                                 </td>
                             </tr>
@@ -65,10 +65,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- TODO DIRECTIVE -->
-                                    <span ng-if="guild.progress.mythicCount>0">{{guild.progress.mythicCount}}/13 (M)</span>
-                                    <span ng-if="guild.progress.heroicCount>0&&guild.progress.mythicCount==0">{{guild.progress.heroicCount}}/13 (H)</span>
-                                    <span ng-if="guild.progress.heroicCount==0&&guild.progress.mythicCount==0">{{guild.progress.normalCount}}/13 (N)</span>
+                                    <span wlfg-progress-guild="guild.progress"></span>  
                                 </td>
                                 <td>
                                     <span ng-class="{legendary:guild.rank.world<=10,epic:guild.rank.world<=100&&guild.rank.world>10,rare:guild.rank.world<=2500&&guild.rank.world>100,uncommon:guild.rank.world>2500}">
