@@ -48,7 +48,7 @@
             <div class="col-md-6">
                 <table class="table table-condensed">
                     <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="">
                             {{rank}}
                         </td>
                         <td class="faction-{{guild.side}}">
@@ -70,7 +70,7 @@
             <div class="col-md-6">
                 <table class="table table-condensed">
                     <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'common': (rank > 2500)}" class="">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="">
                             {{rank}}
                         </td>
                         <td class="faction-{{guild.side}}">

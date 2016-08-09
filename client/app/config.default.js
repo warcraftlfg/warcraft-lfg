@@ -14,7 +14,7 @@
     "current": "t18",
     "t18": {
       "name": "Hellfire Citadel",
-      "bosses":  ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakunn", "Xhul'horac", "Mannoroth", "Archimonde"],
+      "bosses":  ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"],
     },
     "t19": {
       "name": "The Emerald Nightmare",
