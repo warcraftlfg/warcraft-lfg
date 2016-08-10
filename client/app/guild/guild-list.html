@@ -65,7 +65,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span wlfg-progress-guild="guild.progress"></span>  
+                                    <span wlfg-progress-guild="guild.progress" data-region="{{ guild.region }}" data-realm="{{ guild.realm }}" data-name="{{ guild.name }}"></span>  
                                 </td>
                                 <td>
                                     <span ng-class="{legendary:guild.rank.world<=10,epic:guild.rank.world<=100&&guild.rank.world>10,rare:guild.rank.world<=2500&&guild.rank.world>100,uncommon:guild.rank.world>2500}">

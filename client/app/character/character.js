@@ -156,7 +156,7 @@
 
             $scope.characters = [];
             getCharacterAds();
-        }
+        };
 
         function getCharacterAds() {
             $scope.loading = true;

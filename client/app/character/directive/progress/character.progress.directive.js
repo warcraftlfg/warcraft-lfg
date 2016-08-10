@@ -1,9 +1,9 @@
 angular
     .module('app.character')
-    .directive('wlfgProgress', wlfgProgress);
+    .directive('wlfgProgressCharacter', wlfgProgressCharacter);
 
-wlfgProgress.$inject = ['__env'];
-function wlfgProgress(__env) {
+wlfgProgressCharacter.$inject = ['__env'];
+function wlfgProgressCharacter(__env) {
     var directive = {
         link: link,
         restrict: 'A',
@@ -12,7 +12,7 @@ function wlfgProgress(__env) {
     return directive;
 
     function link(scope, element, attrs) {
-        scope.$watch(attrs.wlfgProgress, function(raids) {
+        scope.$watch(attrs.wlfgProgressCharacter, function(raids) {
             if (raids) {
                 progress = raids[raids.length-1];
                 var currentProgress = {'name': progress.name, 'tooltip': [], 'mythic':{'total': 0, 'bosses': {}}, 'heroic':{'total': 0, 'bosses': {}}, 'normal': {'total': 0, 'bosses': {}}, 'lfr': {'total': 0, 'bosses': {}}};

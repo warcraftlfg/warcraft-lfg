@@ -156,7 +156,7 @@ function wlfgFilterRoleClass2($translate, $stateParams, $location) {
                 $location.search('class', null);
                 $scope.filters.recruitment_class = null;
             }
-        }
+        };
 
     }
 }

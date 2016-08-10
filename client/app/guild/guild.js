@@ -302,7 +302,7 @@
 
             $scope.characters = [];
             getGuildAds();
-        }
+        };
 
         function getGuildAds() {
             $scope.loading = true;
