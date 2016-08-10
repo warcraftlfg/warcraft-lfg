@@ -9,28 +9,42 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <span class="css3-metro-dropdown">
-                                        <select ng-model="filters.tiers" class="form-control">
-                                            <option value="">Tier 18</option>
+                                        <select ng-model="filters.tier" class="form-control">
+                                            <option value="19">Tier 19</option>
+                                            <option value="18">Tier 18</option>
                                         </select>
                                     </span>
                                 </div>
                                 <div class="col-md-3">
                                   <span class="css3-metro-dropdown">
                                         <select ng-model="filters.region" class="form-control">
-                                            <option value="">World</option>
-                                            <option value="us">US</option>
-                                            <option value="eu">EU</option>
-                                            <option value="kr">KR</option>
-                                            <option value="tw">TW</option>
+                                            <option value="">{{ "WORLD"|translate }}</option>
+                                            <option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>
+                                            <option style="font-size: 2pt;" disabled>&nbsp;</option>
+                                            <option style="font-size: 0.1pt; background-color: #ccc;" disabled>&nbsp;</option>
+                                            <option style="font-size: 2pt;"  disabled>&nbsp;</option>
+                                            <option value="{{ key }}" ng-repeat="(key, subregion) in rankingSubregions">{{ "REGION_"+subregion|translate }}</option>
                                         </select>
                                     </span>
                                 </div>
                                 <div class="col-md-3">
-                                  <span class="css3-metro-dropdown">
+                                    <div isteven-multi-select
+                                         input-model="realms"
+                                         button-label="label"
+                                         item-label="label"
+                                         output-properties="region"
+                                         tick-property="selected"
+                                         translation="localRealms"
+                                         selection-mode="single"
+                                         on-item-click="setRealm(data)"
+                                         on-reset="resetRealm()"
+                                    >
+                                    </div>
+                                    <!--<span class="css3-metro-dropdown">
                                         <select ng-model="filters.realm" class="form-control">
                                             <option value="">All realm</option>
                                         </select>
-                                    </span>
+                                    </span>-->
                                 </div>
                                 <div class="col-md-3">
                                 </div>
@@ -68,7 +82,7 @@
                 </table>
             </div>
             <div class="col-md-6">
-                <table class="table table-condensed">
+                <table class="table table-condensed"  ng-show="'Object.keys(ranking).length > 10'">
                     <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="">
                             {{rank}}

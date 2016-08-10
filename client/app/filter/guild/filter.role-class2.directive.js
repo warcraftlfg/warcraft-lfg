@@ -150,7 +150,6 @@ function wlfgFilterRoleClass2($translate, $stateParams, $location) {
 
             if (tmpClasses.length > 0) {
                 $location.search('class', tmpClasses);
-                console.log(tmpClasses);
                 $scope.filters.recruitment_class = tmpClasses;
             } else {
                 $location.search('class', null);

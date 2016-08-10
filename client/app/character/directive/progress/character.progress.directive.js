@@ -47,7 +47,6 @@ function wlfgProgressCharacter(__env) {
                 }
 
                 scope.progress = currentProgress;
-                console.log(scope.progress);
             }
         });
     }

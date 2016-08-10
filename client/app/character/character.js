@@ -138,7 +138,6 @@
                 getCharacterAds();
 
                 $scope.initialLoading = 1;
-
             }
         }, true);
 

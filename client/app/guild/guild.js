@@ -300,7 +300,7 @@
             $scope.page = page;
             $state.go('.', {page: $scope.page}, {notify: false});
 
-            $scope.characters = [];
+            $scope.guilds = [];
             getGuildAds();
         };
 
