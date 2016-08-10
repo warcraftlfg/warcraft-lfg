@@ -2,25 +2,25 @@
   window.__env = window.__env || {};
 
   // WarcraftLFG url
-  window.__env.warcraftLfgUrl = 'http://warcraftlfg.dev.com';
+  window.__env.warcraftLfgUrl = 'https://warcraftlfg.dev.com';
 
   // WarcraftProgress url
-  window.__env.warcraftProgressUrl = 'http://warcraftprogress.dev.com';
+  window.__env.warcraftProgressUrl = 'https://warcraftprogress.dev.com';
 
   // WarcraftParser url
-  window.__env.warcraftParserUrl = 'http://warcraftparser.dev.com';
+  window.__env.warcraftParserUrl = 'https://warcraftparser.dev.com';
 
   var tiers = { 
-    "current": "t18",
-    "t18": {
+    "current": "18",
+    "18": {
       "name": "Hellfire Citadel",
       "bosses":  ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"],
     },
-    "t19": {
+    "19": {
       "name": "The Emerald Nightmare",
       "bosses": ["Nythendra", "Elerethe Renferal", "Il'gynoth, Heart of Corruption", "Ursoc", "Dragons of Nightmare", "Cenarius", "Xavius"],
     },
-    "t19.5": {
+    "19.5": {
       "name": "The Nighthold",
       "bosses": ["Skorpyron", "Chronomatic Anomaly", "Trilliax", "Spellblade Aluriel", "Tichondrius", "Krosus", "High Botanist Tel'arn", "Star Augur Etraeus", "Grand Magistrix Elisande", "Gul'dan"],
     }
