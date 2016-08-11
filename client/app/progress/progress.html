@@ -8,15 +8,17 @@
                         <div class="panel-body p-r-0 p-l-0">
                             <div class="row">
                                 <div class="col-md-3">
+                                    <div class="fw-700 m-b-5">{{"TIER"|translate}}</div>
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.tier" class="form-control">
-                                            <option value="19">Tier 19</option>
+                                            <!--<option value="19">Tier 19</option>-->
                                             <option value="18">Tier 18</option>
                                         </select>
                                     </span>
                                 </div>
                                 <div class="col-md-3">
-                                  <span class="css3-metro-dropdown">
+                                    <div class="fw-700 m-b-5">{{"REGION"|translate}}</div>
+                                    <span class="css3-metro-dropdown">
                                         <select ng-model="filters.region" class="form-control">
                                             <option value="">{{ "WORLD"|translate }}</option>
                                             <option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>
@@ -28,6 +30,7 @@
                                     </span>
                                 </div>
                                 <div class="col-md-3">
+                                    <div class="fw-700 m-b-5">{{"REALM"|translate}}</div>
                                     <div isteven-multi-select
                                          input-model="realms"
                                          button-label="label"
@@ -40,11 +43,6 @@
                                          on-reset="resetRealm()"
                                     >
                                     </div>
-                                    <!--<span class="css3-metro-dropdown">
-                                        <select ng-model="filters.realm" class="form-control">
-                                            <option value="">All realm</option>
-                                        </select>
-                                    </span>-->
                                 </div>
                                 <div class="col-md-3">
                                 </div>
@@ -61,6 +59,16 @@
         <div class="row">
             <div class="col-md-6">
                 <table class="table table-condensed">
+                    <tr class="text-center" ng-if="loading">
+                        <td colspan="12" class="p-15 loading">
+                            <i class="fa fa-2x fa-spinner fa-spin"></i>
+                        </td>
+                    </tr>
+                    <tr class="text-center" ng-if="noResult">
+                        <td colspan="12" class="p-15 loading">
+                            {{ "NO_DATA"|translate }}
+                        </td>
+                    </tr>
                     <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="">
                             {{rank}}
@@ -83,6 +91,16 @@
             </div>
             <div class="col-md-6">
                 <table class="table table-condensed"  ng-show="'Object.keys(ranking).length > 10'">
+                    <tr class="text-center" ng-if="loading">
+                        <td colspan="12" class="p-15 loading">
+                            <i class="fa fa-2x fa-spinner fa-spin"></i>
+                        </td>
+                    </tr>
+                    <tr class="text-center" ng-if="noResult">
+                        <td colspan="12" class="p-15 loading">
+                            {{ "NO_DATA"|translate }}
+                        </td>
+                    </tr>
                     <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="">
                             {{rank}}
@@ -118,7 +136,7 @@
             <div class="col-md-6 text-right">
                 <nav>
                   <ul class="pagination m-0">
-                    <li class="page-item">
+                    <li class="page-item" ng-class="{'disabled': noResult}">
                         <a ng-href="#/{{ path }}{{ (page + 1) }}">
                             <span class="page-link" aria-label="Previous">
                                 <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
@@ -131,7 +149,7 @@
         </div>
     </div>
 </div>
-<div class="dashboard-table">
+<!--<div class="dashboard-table">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -191,4 +209,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->

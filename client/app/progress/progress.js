@@ -5,9 +5,10 @@
         .module('app.progress')
         .controller('ProgressController', Progress);
 
-    Progress.$inject = ["$scope", "$state", "$stateParams", "$location", "$translate", "wlfgAppTitle", "ranking", "realms", "__env"];
-    function Progress($scope, $state, $stateParams, $location, $translate, wlfgAppTitle, ranking, realms, __env) {
+    Progress.$inject = ["$scope", "$state", "$stateParams", "$location", "$translate", "$timeout", "wlfgAppTitle", "ranking", "realms", "__env"];
+    function Progress($scope, $state, $stateParams, $location, $translate, $timeout, wlfgAppTitle, ranking, realms, __env) {
         wlfgAppTitle.setTitle("WarcraftProgress");
+        var initialLoading = true;
 
         $scope.rankingRegions = __env.rankingRegions;
         $scope.rankingSubregions = __env.rankingSubregions;
@@ -37,23 +38,39 @@
             $scope.filters.realm = $stateParams.realm;
         }
 
+        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
+
+        $scope.$watch('filters.region', function() {
+            $timeout(function () {
+                $scope.$emit('get:realms');
+            });
+        });
 
         $scope.$watch('filters', function() {
-            if ($scope.filters.realm) {
-                $state.go('progressRealm', {region: $scope.filters.region, realm: $scope.filters.realm},  {notify: false});
-            } else if ($scope.filters.region) {
-                $state.go('progressRegion', {region: $scope.filters.region}, {notify: false});
-            } else {
-                $state.go('progress', {}, {notify: false});
-            }
-            getRankings();
-        }, true);
+            if (!initialLoading) {
+                $scope.page = 1;
 
-        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
+                if ($scope.filters.realm) {
+                    $scope.path = "pve/"+$scope.filters.region + "/"+ $scope.filters.realm+"/";
+                    $state.go('progressRealm', {region: $scope.filters.region, realm: $scope.filters.realm, page: null},  {notify: false});
+                } else if ($scope.filters.region) {
+                    $scope.path = "pve/"+$scope.filters.region + "/";
+                    $state.go('progressRegion', {region: $scope.filters.region, page: null}, {notify: false});
+                } else {
+                    $scope.path = "pve/";
+                    $state.go('progress', {page: null}, {notify: false});
+                }
+            }
+
+            $scope.ranking = [];
+            getRankings();
+
+            initialLoading = false;
+        }, true);
 
         function getRankings() {
             var query;
-
+            
             query = angular.copy($scope.filters);
 
             if ( __env.rankingRegions[query.region]) {
@@ -66,35 +83,43 @@
             ranking.get(query, function (ranking) {
                 if (ranking) {
                     $scope.ranking = ranking;
+                    if (Object.keys(ranking).length <= 2) {
+                        $scope.noResult = true;
+                    }
                     $scope.$parent.loading = false;
-                } else {
-                    $scope.noResult = true;
-                    $scope.$parent.loading = false;
-
                 }
             });
         }
 
-        /*$scope.$on('get:realms', function () {
-            realms.query({realm_zone: $scope.filters.realm_zone}, function (realms) {
+        /* Realm stuff */
+        $scope.setRealm = function (data) {
+            $scope.filters.region = data.region;
+            $scope.filters.realm = data.name
+            //$scope.realmOut = data;
+        };
+
+        $scope.resetRealm = function () {
+            $scope.filters.realm = null;
+            angular.forEach($scope.realms, function (realm) {
+                realm.selected = false;
+            });
+        };
+
+        $scope.$on('get:realms', function () {
+            var realm_zone = "";
+            if ($scope.filters.region && __env.realms[$scope.filters.region]) {
+                    realm_zone = __env.realms[$scope.filters.region]
+            }
+            realms.query({realm_zone: realm_zone}, function (realms) {
                 $scope.realms = realms;
                 var realmIsInRealmZone = false;
                 angular.forEach(realms, function (realm) {
                     realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
-                    if ($stateParams.realm) {
-                        var params = $stateParams.realm.split('.');
-                        if (params.length == 2 && params[1] == realm.name && params[0] == realm.region) {
-                            realm.selected = true;
-                            realmIsInRealmZone = true;
-                        }
+                    if ($stateParams.realm == realm.name || $scope.filters.realm == realm.name) {
+                        realm.selected = true;
                     }
                 });
-
-                if (!realmIsInRealmZone) {
-                    $location.search('realm', null);
-                    $scope.filters.realm = null;
-                }
             });
-        });*/
+        });
     }
 })();

@@ -11,20 +11,20 @@
   window.__env.warcraftParserUrl = 'https://warcraftparser.dev.com';
 
   var realms = {
-    "eu": ["eu.en_GB.Europe.Paris", "eu.de_DE.Europe.Paris", "eu.fr_FR.Europe.Paris", "eu.es_ES.Europe.Paris", "eu.ru_RU.Europe.Paris", "eu.it_IT.Europe.Paris", "eu.pt_BR.Europe.Paris"],
-    "us": ["us.en_US.Australia.Melbourne", "us.es_MX.America.Chicago", "us.pt_BR.America.Sao_Paulo", "us.en_US.America.Los_Angeles", "us.en_US.America.Denver", "us.en_US.America.Chicago", "us.en_US.America.New_York"],
-    "tw": ["tw.zh_TW.Asia.Taipei"],
-    "kr": ["kr.ko_KR.Asia.Seoul"],
-    "en": ["eu.en_GB.Europe.Paris"],
-    "de": ["eu.de_DE.Europe.Paris"],
-    "fr": ["eu.fr_FR.Europe.Pari"],
-    "es": ["eu.es_ES.Europe.Paris"],
-    "ru": ["eu.ru_RU.Europe.Paris"],
-    "it": ["eu.it_IT.Europe.Paris"],
-    "pt": ["eu.pt_BR.Europe.Paris"],
-    "oc": ["us.en_US.Australia.Melbourne"],
-    "al": ["us.es_MX.America.Chicago"],
-    "br": ["us.pt_BR.America.Sao_Paulo"],
+    "eu": ["eu.en_GB.Europe/Paris", "eu.de_DE.Europe/Paris", "eu.fr_FR.Europe/Paris", "eu.es_ES.Europe/Paris", "eu.ru_RU.Europe/Paris", "eu.it_IT.Europe/Paris", "eu.pt_BR.Europe/Paris"],
+    "us": ["us.en_US.Australia/Melbourne", "us.es_MX.America/Chicago", "us.pt_BR.America/Sao_Paulo", "us.en_US.America/Los_Angeles", "us.en_US.America/Denver", "us.en_US.America/Chicago", "us.en_US.America/New_York"],
+    "tw": ["tw.zh_TW.Asia/Taipei"],
+    "kr": ["kr.ko_KR.Asia/Seoul"],
+    "en": ["eu.en_GB.Europe/Paris"],
+    "de": ["eu.de_DE.Europe/Paris"],
+    "fr": ["eu.fr_FR.Europe/Paris"],
+    "es": ["eu.es_ES.Europe/Paris"],
+    "ru": ["eu.ru_RU.Europe/Paris"],
+    "it": ["eu.it_IT.Europe/Paris"],
+    "pt": ["eu.pt_BR.Europe/Paris"],
+    "oc": ["us.en_US.Australia/Melbourne"],
+    "al": ["us.es_MX.America/Chicago"],
+    "br": ["us.pt_BR.America/Sao_Paulo"],
   }
 
   window.__env.realms = realms;
