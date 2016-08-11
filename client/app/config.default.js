@@ -37,16 +37,16 @@
   }
 
   var rankingSubregions = {
-    "en": "en_GB_Europe",
+    "al": "es_MX_America",
+    "br": "pt_BR_America",
     "de": "de_DE_Europe",
+    "en": "en_GB_Europe",
+    "es": "es_ES_Europe",
     "fr": "fr_FR_Europe",
-    "es": "es_ES.Europe",
-    "ru": "ru_RU.Europe",
-    "it": "it_IT.Europe",
-    "pt": "pt_BR.Europe",
-    "oc": "en_US.Australia",
-    "al": "es_MX.America",
-    "br": "pt_BR.America",
+    "it": "it_IT_Europe",
+    "oc": "en_US_Australia",
+    "pt": "pt_BR_Europe",
+    "ru": "ru_RU_Europe",
   }
 
   window.__env.rankingRegions = rankingRegions;

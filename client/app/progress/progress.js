@@ -80,6 +80,7 @@
             }
             query.limit = 20;
             query.start =  ($scope.page - 1) * 20;
+            $scope.noResult = false;
             ranking.get(query, function (ranking) {
                 if (ranking) {
                     $scope.ranking = ranking;
