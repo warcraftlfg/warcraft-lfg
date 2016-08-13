@@ -70,7 +70,6 @@ function wlfgFilterRealm($translate, $stateParams, $location, realms) {
         };
 
         $scope.$on('get:realms', function () {
-            console.log($scope.filters.realm_zone);
             realms.query({realm_zone: $scope.filters.realm_zone}, function (realms) {
                 $scope.realms = realms;
                 var realmIsInRealmZone = false;

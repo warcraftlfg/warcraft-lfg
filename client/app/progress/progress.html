@@ -1,5 +1,5 @@
 <div class="dashboard-intro-progress"></div>
-<div class="m-b-10">
+<div class="m-b-20">
     <div class="bg-black">
         <div class="container">
             <div class="row">
@@ -58,7 +58,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <table class="table table-condensed">
+                <table class="table table-condensed table-striped table-hover">
                     <tr class="text-center" ng-if="loading">
                         <td colspan="12" class="p-15 loading">
                             <i class="fa fa-2x fa-spinner fa-spin"></i>
@@ -70,7 +70,7 @@
                         </td>
                     </tr>
                     <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="bold">
                             {{rank}}
                         </td>
                         <td class="faction-{{guild.side}}">
@@ -78,8 +78,13 @@
                                 {{guild.name}}
                             </a>
                         </td>
-                        <td>
-                            <a href="#/pve/{{ guild.region }}/{{ guild.realm|lowercase }}/" class="txt-underline italic">
+                        <td ng-show="filters.realm == ''">
+                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                {{guild.region|uppercase}}-{{guild.realm}}
+                            </a>
+                        </td>
+                        <td ng-show="filters.realm != ''">
+                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
                                 {{guild.region|uppercase}}-{{guild.realm}}
                             </a>
                         </td>
@@ -90,7 +95,7 @@
                 </table>
             </div>
             <div class="col-md-6">
-                <table class="table table-condensed"  ng-show="'Object.keys(ranking).length > 10'">
+                <table class="table table-condensed table-striped table-hover"  ng-show="'Object.keys(ranking).length > 10'">
                     <tr class="text-center" ng-if="loading">
                         <td colspan="12" class="p-15 loading">
                             <i class="fa fa-2x fa-spinner fa-spin"></i>
@@ -102,7 +107,7 @@
                         </td>
                     </tr>
                     <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="">
+                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="bold">
                             {{rank}}
                         </td>
                         <td class="faction-{{guild.side}}">
@@ -110,8 +115,13 @@
                                 {{guild.name}}
                             </a>
                         </td>
-                        <td>
-                            <a href="#/pve/{{ guild.region }}/{{ guild.realm|lowercase }}/" class="txt-underline italic">
+                        <td ng-show="filters.realm == ''">
+                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                {{guild.region|uppercase}}-{{guild.realm}}
+                            </a>
+                        </td>
+                        <td ng-show="filters.realm != ''">
+                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
                                 {{guild.region|uppercase}}-{{guild.realm}}
                             </a>
                         </td>
@@ -123,7 +133,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 m-b-10">
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': page <= 1}">
@@ -133,7 +143,7 @@
                   </ul>
                 </nav>
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-6 m-b-10 text-right">
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': noResult}">
