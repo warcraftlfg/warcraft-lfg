@@ -38,11 +38,8 @@ module.exports.getCharacters = function (req, res) {
             callback(null, criteria, projection, limit, characterSort.get(req.query));
         },
         function (criteria, projection, limit, sort, callback) {
-            callback(null, criteria, projection, limit, sort, pageSkip.get(req.query));
-        },
-        function (criteria, projection, limit, sort,skip, callback) {
-            logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s skip:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort),JSON.stringify(skip));
-            characterModel.find(criteria, projection, sort, limit, skip, function (error, characters) {
+            logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
+            characterModel.find(criteria, projection, sort, limit, function (error, characters) {
                 callback(error, characters);
             });
         }

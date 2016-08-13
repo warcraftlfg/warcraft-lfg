@@ -91,7 +91,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': page <= 1}">
-                        <a ng-if="page > 1" ng-href="#/character/list/{{ (page - 1) }}" ng-click="$event.preventDefault();changePage((page - 1))">
+                        <a ng-if="page > 1" ng-href="#/character/list/{{ page - 1 }}" ng-click="$event.preventDefault();changePage((page - 1))">
                             <span class="page-link" aria-label="Previous">
                                 <span aria-hidden="true">&laquo; &nbsp; Previous</span>
                             </span>
@@ -105,7 +105,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': characters.length < 20}">
-                        <a ng-if="characters.length == 20" ng-href="#/character/list/{{ (page + 1) }}" ng-click="$event.preventDefault();changePage((page + 1))">
+                        <a ng-if="characters.length == 20" ng-href="#/character/list/{{ page + 1 }}" ng-click="$event.preventDefault();changePage((page + 1))">
                             <span class="page-link" aria-label="Next">
                                 <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
                             </span>

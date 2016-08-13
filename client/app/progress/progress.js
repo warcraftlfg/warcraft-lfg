@@ -111,7 +111,7 @@
         $scope.$on('get:realms', function () {
             var realm_zone = "";
             if ($scope.filters.region && __env.realms[$scope.filters.region]) {
-                    realm_zone = __env.realms[$scope.filters.region]
+                    realm_zone = __env.realms[$scope.filters.region];
             }
             realms.query({realm_zone: realm_zone}, function (realms) {
                 $scope.realms = realms;
