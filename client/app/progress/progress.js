@@ -52,13 +52,13 @@
 
                 if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
                     $scope.path = "pve/"+$scope.filters.region + "/"+ $scope.filters.realm+"/";
-                    $state.go('progressRealm', {region: $scope.filters.region, realm: $scope.filters.realm, page: null},  {notify: false});
+                    $state.go('progressRealm', {region: $scope.filters.region, realm: $scope.filters.realm, page: null});
                 } else if ($scope.filters.region) {
                     $scope.path = "pve/"+$scope.filters.region + "/";
-                    $state.go('progressRegion', {region: $scope.filters.region, page: null}, {notify: false});
+                    $state.go('progressRegion', {region: $scope.filters.region, page: null});
                 } else {
                     $scope.path = "pve/";
-                    $state.go('progress', {page: null}, {notify: false});
+                    $state.go('progress', {page: null});
                 }
             }
 
