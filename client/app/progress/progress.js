@@ -7,8 +7,8 @@
 
     Progress.$inject = ["$scope", "$state", "$stateParams", "$location", "$translate", "$timeout", "wlfgAppTitle", "ranking", "realms", "__env"];
     function Progress($scope, $state, $stateParams, $location, $translate, $timeout, wlfgAppTitle, ranking, realms, __env) {
-        var initialLoading = true;
         wlfgAppTitle.setTitle("WarcraftProgress");
+
         $scope.$parent.error = null;
         $scope.$parent.loading = true;
         $scope.rankingRegions = __env.rankingRegions;
@@ -16,6 +16,7 @@
         $scope.filters = {tier:'18'};
         $scope.filters.states = {};
         $scope.realms = [];
+        var initialLoading = false;
 
         $scope.localRealms = {
             selectAll: $translate.instant("SELECT_ALL"),
@@ -46,10 +47,10 @@
         });
 
         $scope.$watch('filters', function() {
-            if (!initialLoading) {
+            if (initialLoading) {
                 $scope.page = 1;
 
-                if ($scope.filters.realm) {
+                if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
                     $scope.path = "pve/"+$scope.filters.region + "/"+ $scope.filters.realm+"/";
                     $state.go('progressRealm', {region: $scope.filters.region, realm: $scope.filters.realm, page: null},  {notify: false});
                 } else if ($scope.filters.region) {
@@ -64,7 +65,7 @@
             $scope.ranking = [];
             getRankings();
 
-            initialLoading = false;
+            initialLoading = true;
         }, true);
 
         $scope.$parent.loading = false;
@@ -97,6 +98,7 @@
         /* Realm stuff */
         $scope.setRealm = function (data) {
             $scope.filters.region = data.region;
+            $scope.realmRegion = data.region;
             $scope.filters.realm = data.name;
             //$scope.realmOut = data;
         };
@@ -120,6 +122,7 @@
                     realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
                     if ($stateParams.realm == realm.name || $scope.filters.realm == realm.name) {
                         realm.selected = true;
+                        $scope.realmRegion = realm.region;
                     }
                 });
             });

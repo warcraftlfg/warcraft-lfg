@@ -18,14 +18,22 @@ function wlfgProgressGuild(__env, progress) {
                 scope.progress.tooltip = [];
                 scope.progress.tooltipLoad = false;
                 scope.progress.name = __env.tiers[__env.tiers.current].name;
+                scope.loadTooltip();
             } else {
+                scope.progress = {};
+                scope.progress.tooltip = [];
+                scope.progress.tooltipLoad = false;
+                scope.progress.name = __env.tiers[__env.tiers.current].name;
+                angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {
+                    scope.progress.tooltip.push({difficulty: 'common', 'boss': 'N: '+value});
+                });
             }
         });
 
         scope.loadTooltip = function() {
             if (!scope.progress.tooltipLoad) {
+                scope.progress.tooltipLoad = true;
                 progress.get({tier: __env.tiers.current,  region: attrs.region, realm: attrs.realm, name: attrs.name}, function (progress) {
-                    scope.progress.tooltipLoad = true;
                     if (progress) {
                         angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {
                             if (progress.mythic && progress.mythic[value] && progress.mythic[value].timestamps && progress.mythic[value].timestamps.length > 0) {
