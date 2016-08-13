@@ -45,6 +45,6 @@ function wlfgProgressGuild(__env, progress) {
                     }
                 });
             }   
-        }
+        };
     }
 }

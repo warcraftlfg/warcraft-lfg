@@ -25,7 +25,7 @@
     "oc": ["us.en_US.Australia/Melbourne"],
     "al": ["us.es_MX.America/Chicago"],
     "br": ["us.pt_BR.America/Sao_Paulo"],
-  }
+  };
 
   window.__env.realms = realms;
 
@@ -34,7 +34,7 @@
     "us": "us",
     "tw": "tw",
     "kr": "kr",
-  }
+  };
 
   var rankingSubregions = {
     "al": "es_MX_America",
@@ -47,7 +47,7 @@
     "oc": "en_US_Australia",
     "pt": "pt_BR_Europe",
     "ru": "ru_RU_Europe",
-  }
+  };
 
   window.__env.rankingRegions = rankingRegions;
   window.__env.rankingSubregions = rankingSubregions;

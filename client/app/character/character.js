@@ -139,19 +139,12 @@
                 }
 
                 $scope.characters = [];
+                console.log('GET CHARACTER ADS: '+initialLoading);
                 getCharacterAds();
 
                initialLoading = true;
             }
         }, true);
-
-
-        $scope.getMoreCharacters = function () {
-            if (($scope.$parent && $scope.$parent.loading) || $scope.loading) {
-                return;
-            }
-            getCharacterAds();
-        };
 
         $scope.changePage = function (page) {
             if (page > $scope.page) {
@@ -167,13 +160,14 @@
             }
 
             $scope.page = page;
-            //$state.go('.', {page: $scope.page}, {notify: false});
+            $state.go('.', {page: $scope.page}, {notify: false});
 
             $scope.characters = [];
             getCharacterAds();
         };
 
         function getCharacterAds() {
+            console.log('GET CAHRACTER ADS');
             $scope.loading = true;
 
             var params = {lfg: true, view: "detailed", number: 20, page: ($scope.page - 1)};
@@ -204,7 +198,9 @@
             delete params.states;
 
             characters.query(params, function (characters) {
-                    $scope.$parent.loading = false;
+                    if ($scope.$parent) {
+                        $scope.$parent.loading = false;
+                    }
                     $scope.loading = false;
 
                     $scope.characters = $scope.characters.concat(characters);

@@ -7,15 +7,14 @@
 
     Progress.$inject = ["$scope", "$state", "$stateParams", "$location", "$translate", "$timeout", "wlfgAppTitle", "ranking", "realms", "__env"];
     function Progress($scope, $state, $stateParams, $location, $translate, $timeout, wlfgAppTitle, ranking, realms, __env) {
-        wlfgAppTitle.setTitle("WarcraftProgress");
         var initialLoading = true;
-
+        wlfgAppTitle.setTitle("WarcraftProgress");
+        $scope.$parent.error = null;
+        $scope.$parent.loading = true;
         $scope.rankingRegions = __env.rankingRegions;
         $scope.rankingSubregions = __env.rankingSubregions;
-        
         $scope.filters = {tier:'18'};
         $scope.filters.states = {};
-
         $scope.realms = [];
 
         $scope.localRealms = {
@@ -68,7 +67,10 @@
             initialLoading = false;
         }, true);
 
+        $scope.$parent.loading = false;
+
         function getRankings() {
+            $scope.loading = true;
             var query;
             
             query = angular.copy($scope.filters);
@@ -87,15 +89,15 @@
                     if (Object.keys(ranking).length <= 2) {
                         $scope.noResult = true;
                     }
-                    $scope.$parent.loading = false;
                 }
+                $scope.loading = false;
             });
         }
 
         /* Realm stuff */
         $scope.setRealm = function (data) {
             $scope.filters.region = data.region;
-            $scope.filters.realm = data.name
+            $scope.filters.realm = data.name;
             //$scope.realmOut = data;
         };
 
