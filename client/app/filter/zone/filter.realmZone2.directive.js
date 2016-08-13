@@ -50,8 +50,6 @@ function wlfgFilterRealmZone2($translate, $stateParams, $location, $timeout) {
 
         $scope.filters.realm_zone = [];
 
-        $scope.filters.states.realmZones = true;
-
 
         if ($stateParams.realm_zone) {
             var realmZones = $stateParams.realm_zone;
@@ -80,6 +78,9 @@ function wlfgFilterRealmZone2($translate, $stateParams, $location, $timeout) {
         $timeout(function () {
             $scope.$emit('get:realms');
         });
+
+        
+        $scope.filters.states.realmZones = true;
 
         $scope.$watch('realmZones2Out',function() {
 

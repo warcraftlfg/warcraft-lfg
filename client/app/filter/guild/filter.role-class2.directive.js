@@ -37,6 +37,7 @@ function wlfgFilterRoleClass2($translate, $stateParams, $location) {
         };
 
         $scope.filters.recruitment_class = [];
+        $scope.filters.role = null;
 
         if ($stateParams.role) {
             var roles = $stateParams.role;
@@ -67,6 +68,7 @@ function wlfgFilterRoleClass2($translate, $stateParams, $location) {
             });
         }
 
+        $scope.filters.states.roles = true;
         $scope.filters.states.classes = true;
 
         $scope.$watch('roles', function () {
