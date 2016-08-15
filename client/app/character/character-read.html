@@ -158,7 +158,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                {{"PROGRESS_(T18)"|translate}}: <span wlfg-progress="character.bnet.progression.raids"></span>
+                                {{"PROGRESS_(T18)"|translate}} : <span wlfg-progress-character="character.bnet.progression.raids"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -235,7 +235,7 @@
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ITEM_LEVEL_BAG"|translate}}:
-                                        <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
+                                        <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevelEquipped>=ilvlColor.epic&&character.bnet.items.averageItemLevelEquipped<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevelEquipped>=ilvlColor.rare&&character.bnet.items.averageItemLevelEquipped<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevelEquipped>ilvlColor.uncommon&&character.bnet.items.averageItemLevelEquipped<ilvlColor.rare,'common':character.bnet.items.averageItemLevelEquipped<ilvlColor.uncommon}">
                                             {{character.bnet.items.averageItemLevel}}
                                         </span>
                                     </div> 
@@ -244,7 +244,7 @@
                                         <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"T18 EQUIPPED"|translate}}: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
+                                        T18: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ENDLESS RUNE"|translate}}: <span wlfg-reputation-rune="character.bnet.reputation"></span>

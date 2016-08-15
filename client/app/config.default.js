@@ -52,6 +52,15 @@
   window.__env.rankingRegions = rankingRegions;
   window.__env.rankingSubregions = rankingSubregions;
 
+  var ilvlColor = {
+    'legendary': 735,
+    'epic': 725,
+    'rare': 715,
+    'uncommon': 700, 
+  }
+
+  window.__env.ilvlColor = ilvlColor;
+
   var tiers = { 
     "current": "18",
     "18": {

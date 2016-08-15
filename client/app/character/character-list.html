@@ -67,7 +67,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
+                                    <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevelEquipped>=ilvlColor.epic&&character.bnet.items.averageItemLevelEquipped<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevelEquipped>=ilvlColor.rare&&character.bnet.items.averageItemLevelEquipped<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevelEquipped>ilvlColor.uncommon&&character.bnet.items.averageItemLevelEquipped<ilvlColor.rare,'common':character.bnet.items.averageItemLevelEquipped<ilvlColor.uncommon}">
                                         {{character.bnet.items.averageItemLevelEquipped}}
                                     </span>
                                 </td>

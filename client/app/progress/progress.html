@@ -59,76 +59,108 @@
         <div class="row">
             <div class="col-md-6">
                 <table class="table table-condensed table-striped table-hover">
-                    <tr class="text-center" ng-if="loading">
-                        <td colspan="12" class="p-15 loading">
-                            <i class="fa fa-2x fa-spinner fa-spin"></i>
-                        </td>
-                    </tr>
-                    <tr class="text-center" ng-if="noResult">
-                        <td colspan="12" class="p-15 loading">
-                            {{ "NO_DATA"|translate }}
-                        </td>
-                    </tr>
-                    <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="bold">
-                            {{rank}}
-                        </td>
-                        <td class="faction-{{guild.side}}">
-                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
-                                {{guild.name}}
-                            </a>
-                        </td>
-                        <td ng-show="filters.realm == ''">
-                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
-                                {{guild.region|uppercase}}-{{guild.realm}}
-                            </a>
-                        </td>
-                        <td ng-show="filters.realm != ''">
-                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
-                                {{guild.region|uppercase}}-{{guild.realm}}
-                            </a>
-                        </td>
-                        <td>
-                            <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
-                        </td>
-                    </tr>
+                    <thead>
+                        <th>
+                            {{"RANK"|translate}}
+                        </th>
+                        <th>
+                            {{"NAME"|translate}}
+                        </th>
+                        <th>
+                            {{"REALM"|translate}}
+                        </th>
+                        <th>
+                            {{"PROGRESS"|translate}}
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" ng-if="loading">
+                            <td colspan="12" class="p-15 loading">
+                                <i class="fa fa-2x fa-spinner fa-spin"></i>
+                            </td>
+                        </tr>
+                        <tr class="text-center" ng-if="noResult">
+                            <td colspan="12" class="p-15 loading">
+                                {{ "NO_DATA"|translate }}
+                            </td>
+                        </tr>
+                        <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
+                            <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="bold">
+                                {{rank}}
+                            </td>
+                            <td class="faction-{{guild.side}}">
+                                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
+                                    {{guild.name}}
+                                </a>
+                            </td>
+                            <td ng-show="filters.realm == ''">
+                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                    {{guild.region|uppercase}}-{{guild.realm}}
+                                </a>
+                            </td>
+                            <td ng-show="filters.realm != ''">
+                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                    {{guild.region|uppercase}}-{{guild.realm}}
+                                </a>
+                            </td>
+                            <td>
+                                <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div class="col-md-6">
                 <table class="table table-condensed table-striped table-hover"  ng-show="'Object.keys(ranking).length > 10'">
-                    <tr class="text-center" ng-if="loading">
-                        <td colspan="12" class="p-15 loading">
-                            <i class="fa fa-2x fa-spinner fa-spin"></i>
-                        </td>
-                    </tr>
-                    <tr class="text-center" ng-if="noResult">
-                        <td colspan="12" class="p-15 loading">
-                            {{ "NO_DATA"|translate }}
-                        </td>
-                    </tr>
-                    <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
-                        <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="bold">
-                            {{rank}}
-                        </td>
-                        <td class="faction-{{guild.side}}">
-                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
-                                {{guild.name}}
-                            </a>
-                        </td>
-                        <td ng-show="filters.realm == ''">
-                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
-                                {{guild.region|uppercase}}-{{guild.realm}}
-                            </a>
-                        </td>
-                        <td ng-show="filters.realm != ''">
-                            <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
-                                {{guild.region|uppercase}}-{{guild.realm}}
-                            </a>
-                        </td>
-                        <td>
-                            <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
-                        </td>
-                    </tr>
+                    <thead>
+                        <th>
+                            {{"RANK"|translate}}
+                        </th>
+                        <th>
+                            {{"NAME"|translate}}
+                        </th>
+                        <th>
+                            {{"REALM"|translate}}
+                        </th>
+                        <th>
+                            {{"PROGRESS"|translate}}
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" ng-if="loading">
+                            <td colspan="12" class="p-15 loading">
+                                <i class="fa fa-2x fa-spinner fa-spin"></i>
+                            </td>
+                        </tr>
+                        <tr class="text-center" ng-if="noResult">
+                            <td colspan="12" class="p-15 loading">
+                                {{ "NO_DATA"|translate }}
+                            </td>
+                        </tr>
+                        <tr ng-repeat="(rank,guild) in ranking"  ng-if="$index >= 10">
+                            <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}" class="bold">
+                                {{rank}}
+                            </td>
+                            <td class="faction-{{guild.side}}">
+                                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
+                                    {{guild.name}}
+                                </a>
+                            </td>
+                            <td ng-show="filters.realm == ''">
+                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                    {{guild.region|uppercase}}-{{guild.realm}}
+                                </a>
+                            </td>
+                            <td ng-show="filters.realm != ''">
+                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                    {{guild.region|uppercase}}-{{guild.realm}}
+                                </a>
+                            </td>
+                            <td>
+                                <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>

@@ -8,8 +8,8 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates", "messages"];
-    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates, messages) {
+    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates", "messages", "__env"];
+    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates, messages, __env) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -17,6 +17,7 @@
         //Initialize $scope variables
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
+        $scope.ilvlColor = __env.ilvlColor;
 
         characters.get({
             "characterRegion": $stateParams.region,
@@ -111,8 +112,8 @@
         };
     }
 
-    CharacterList.$inject = ['$scope', '$stateParams', '$state', '$location', 'socket', "wlfgAppTitle", "characters"];
-    function CharacterList($scope, $stateParams, $state, $location, socket, wlfgAppTitle, characters) {
+    CharacterList.$inject = ['$scope', '$stateParams', '$state', '$location', 'socket', "wlfgAppTitle", "characters", "__env"];
+    function CharacterList($scope, $stateParams, $state, $location, socket, wlfgAppTitle, characters, __env) {
         wlfgAppTitle.setTitle('Characters LFG');
 
         $scope.$parent.error = null;
@@ -121,6 +122,8 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        $scope.ilvlColor = __env.ilvlColor;
+        console.log($scope.ilvlColor);
         var initialLoading = false;
         var paginate = { since: false, max: false, character: null };
 

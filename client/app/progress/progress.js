@@ -5,8 +5,8 @@
         .module('app.progress')
         .controller('ProgressController', Progress);
 
-    Progress.$inject = ["$scope", "$state", "$stateParams", "$location", "$translate", "$timeout", "wlfgAppTitle", "ranking", "realms", "__env"];
-    function Progress($scope, $state, $stateParams, $location, $translate, $timeout, wlfgAppTitle, ranking, realms, __env) {
+    Progress.$inject = ["$rootScope", "$scope", "$state", "$stateParams", "$location", "$translate", "$timeout", "wlfgAppTitle", "ranking", "realms", "__env"];
+    function Progress($rootScope, $scope, $state, $stateParams, $location, $translate, $timeout, wlfgAppTitle, ranking, realms, __env) {
         wlfgAppTitle.setTitle("WarcraftProgress");
 
         $scope.$parent.error = null;
@@ -25,6 +25,16 @@
             search: $translate.instant("SEARCH"),
             nothingSelected: $translate.instant("ALL_REALMS")
         };
+
+        $rootScope.$on('$translateChangeSuccess', function () {
+            $scope.localRealms = {
+                selectAll: $translate.instant("SELECT_ALL"),
+                selectNone: $translate.instant("SELECT_NONE"),
+                reset: $translate.instant("RESET"),
+                search: $translate.instant("SEARCH"),
+                nothingSelected: $translate.instant("ALL_REALMS")
+            };
+        });
 
         //Reset error message
         $scope.$parent.error = null;

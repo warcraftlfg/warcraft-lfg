@@ -278,8 +278,7 @@
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
         $scope.$watch('filters', function () {
-            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages 
-                && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress && $scope.filters.states.roles) {
+            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress && $scope.filters.states.roles) {
                 if (initialLoading) {
                     $scope.page = 1;
                     paginate = { since: false, max: false, character: null };
