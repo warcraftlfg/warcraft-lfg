@@ -7,7 +7,7 @@
 
     Dashboard.$inject = ['$rootScope', '$scope', '$state', '$translate', 'socket', 'LANGUAGES', "wlfgAppTitle", "characters", "guilds"];
     function Dashboard($rootScope, $scope, $state, $translate, socket, LANGUAGES, wlfgAppTitle, characters, guilds) {
-        wlfgAppTitle.setTitle('Home');
+        wlfgAppTitle.setTitle('WarcraftLFG');
 
         $scope.$parent.loading = false;
 
