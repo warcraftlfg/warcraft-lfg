@@ -11,6 +11,7 @@ var pageSkip = process.require("core/utilities/mongo/pageSkip.js");
 var guildSort = process.require("guilds/utilities/mongo/guildSort.js");
 var guildService = process.require("guilds/guildService.js");
 var updateModel = process.require("updates/updateModel.js");
+var characterModel = process.require("characters/characterModel.js");
 
 /**
  * Return guilds
@@ -40,8 +41,8 @@ module.exports.getGuilds = function (req, res) {
                 callback(null, criteria, projection, limit, sort, pageSkip.get(req.query));
             },
             function (criteria, projection, limit, sort, skip, callback) {
-                logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s skip:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort),JSON.stringify(skip));
-                guildModel.find(criteria, projection, sort, limit,skip, function (error, guilds) {
+                logger.debug("guilds - criteria:%s projection:%s limit:%s sort:%s skip:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort), JSON.stringify(skip));
+                guildModel.find(criteria, projection, sort, limit, skip, function (error, guilds) {
                     callback(error, guilds);
                 });
             }
@@ -82,7 +83,7 @@ module.exports.getGuild = function (req, res, next) {
         bnet: 1,
         rank: 1,
         progress: 1,
-        parser:1
+        parser: 1
     };
     guildModel.findOne(criteria, projection, function (error, guild) {
         if (error) {
@@ -198,7 +199,6 @@ module.exports.putGuildParser = function (req, res) {
 };
 
 
-
 module.exports.getCount = function (req, res) {
     var logger = applicationStorage.logger;
     logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
@@ -223,4 +223,84 @@ module.exports.getCount = function (req, res) {
         }
         res.json({count: count});
     });
+};
+
+module.exports.getGuildParser = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
+
+    var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
+    var guildProjection = {
+        _id: 0,
+        "bnet.members": 1,
+        parser: 1
+    };
+    var characterProjection = {
+        _id: 0,
+        region: 1,
+        realm: 1,
+        name: 1,
+        updated: 1,
+        "bnet.faction": 1,
+        "bnet.class": 1,
+        "bnet.thumbnail": 1,
+        "bnet.guild.name": 1,
+        "bnet.race": 1,
+        "bnet.level": 1,
+        "bnet.talents": 1,
+        "bnet.progression.raids": {$slice: [-3,1]},
+        "bnet.items": 1,
+    };
+
+    async.waterfall([
+        function (callback) {
+
+            //Get Guilds  members & parser
+            guildModel.findOne(criteria, guildProjection, function (error, guild) {
+                callback(error, guild)
+            });
+        },
+        function (guild, callback) {
+            if (guild && guild.bnet.members && guild.parser.active) {
+                var parserChars = [];
+                async.each(guild.bnet.members, function (member, callback) {
+                    if (guild.parser.ranks["rank_" + member.rank]) {
+                        if (member.character && member.character.realm && member.character.name) {
+                            characterModel.findOne({
+                                region: req.params.region,
+                                realm: member.character.realm,
+                                name: member.character.name
+                            }, characterProjection, function (error, character) {
+                                if(character){
+                                    parserChars.push(character.bnet);
+                                }
+                                callback(error);
+                            });
+                        } else {
+                            callback();
+                        }
+                    } else {
+                        callback();
+                    }
+                }, function (error) {
+                    callback(error,parserChars);
+                });
+
+            } else {
+                callback(true)
+            }
+        }
+    ], function (error, result) {
+        if (error == true) {
+            req.next();
+        } else if (error) {
+            logger.error(error.message);
+            res.status(500).send(error.message);
+        } else {
+            res.json(result);
+        }
+
+    })
+
+
 };
