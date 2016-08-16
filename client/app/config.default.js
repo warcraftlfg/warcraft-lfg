@@ -57,7 +57,7 @@
     'epic': 725,
     'rare': 715,
     'uncommon': 700, 
-  }
+  };
 
   window.__env.ilvlColor = ilvlColor;
 

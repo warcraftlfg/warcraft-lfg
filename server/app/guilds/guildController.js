@@ -81,7 +81,8 @@ module.exports.getGuild = function (req, res, next) {
         updated: 1,
         bnet: 1,
         rank: 1,
-        progress: 1
+        progress: 1,
+        parser:1
     };
     guildModel.findOne(criteria, projection, function (error, guild) {
         if (error) {
@@ -173,6 +174,29 @@ module.exports.putGuildPerms = function (req, res) {
     });
 
 };
+
+/**
+ * Put guild parser info
+ * @param req
+ * @param res
+ */
+module.exports.putGuildParser = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+
+    var parser = req.body;
+    parser.updated = new Date().getTime();
+    guildModel.upsert(req.params.region, req.params.realm, req.params.name, {parser: parser}, function (error) {
+        if (error) {
+            logger.error(error.message);
+            res.status(500).send(error.message);
+        } else {
+            res.json();
+        }
+    });
+
+};
+
 
 
 module.exports.getCount = function (req, res) {
