@@ -246,6 +246,10 @@ module.exports.getGuildParser = function (req, res) {
         "bnet.talents": 1,
         "bnet.progression.raids": {$slice: [-3,1]},
         "bnet.items": 1,
+        "bnet.reputation": 1,
+        "bnet.achievements": 1,
+        "bnet.challenge.records": 1,
+        "warcraftLogs.logs": 1
     };
 
     async.waterfall([
@@ -268,7 +272,7 @@ module.exports.getGuildParser = function (req, res) {
                                 name: member.character.name
                             }, characterProjection, function (error, character) {
                                 if(character){
-                                    parserChars.push(character.bnet);
+                                    parserChars.push(character);
                                 }
                                 callback(error);
                             });
