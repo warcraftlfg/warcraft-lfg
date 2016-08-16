@@ -325,12 +325,12 @@
                 var type = (paginate.max) ? 'max' : 'since';
                 if ($scope.filters.sort == "ranking") {
                     if (paginate.guild.rank) {
-                        params.last = paginate.guild._id + "." + paginate.guild.rank.world;
+                        params.last = type+'.'+paginate.guild._id + "." + paginate.guild.rank.world;
                     } else {
-                        params.last = paginate.guild._id + ".0";
+                        params.last = type+'.'+paginate.guild._id + ".0";
                     }
                 } else {
-                    params.last = paginate.guild._id + "." + paginate.guild.ad.updated;
+                    params.last = type+'.'+paginate.guild._id + "." + paginate.guild.ad.updated;
                 }
             }
 
@@ -340,7 +340,11 @@
             guilds.query(params, function (guilds) {
                     $scope.$parent.loading = false;
                     $scope.loading = false;
-                    $scope.guilds = $scope.guilds.concat(guilds);
+                    if (params.last && params.last.indexOf('max') >= 0) {
+                         $scope.guilds = $scope.guilds.concat(guilds.reverse());
+                    } else {
+                        $scope.guilds = $scope.guilds.concat(guilds);
+                    }
                 },
                 function (error) {
                     $scope.$parent.error = error.data;
