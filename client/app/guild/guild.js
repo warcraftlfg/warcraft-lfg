@@ -262,8 +262,8 @@
 
     }
 
-    GuildList.$inject = ['$scope', '$state', "wlfgAppTitle", "guilds"];
-    function GuildList($scope, $state, wlfgAppTitle, guilds) {
+    GuildList.$inject = ['$scope', '$state', '$stateParams', "wlfgAppTitle", "guilds"];
+    function GuildList($scope, $state, $stateParams, wlfgAppTitle, guilds) {
         wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error = null;
@@ -272,13 +272,22 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        var initialLoading = false;
+        var paginate = { since: false, max: false, guild: null };
+
+        $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
         $scope.$watch('filters', function () {
-            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
-                // && $scope.filters.states.timezone
-                //socket.emit('get:guildAds', $scope.filters);
+            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress && $scope.filters.states.roles) {
+                if (initialLoading) {
+                    $scope.page = 1;
+                    paginate = { since: false, max: false, character: null };
+                }
+
                 $scope.guilds = [];
                 getGuildAds();
+
+                initialLoading = true;
             }
         }, true);
 
@@ -286,29 +295,42 @@
             $state.go($state.current, null, {reload: true, inherit: false});
         };
 
-        $scope.getMoreGuilds = function () {
-            if (($scope.$parent && $scope.$parent.loading) || $scope.loading) {
-                return;
+        $scope.changePage = function (page) {
+            if (page > $scope.page) {
+                paginate.guild = $scope.guilds[$scope.guilds.length - 1];
+                paginate.since = true;
+                paginate.max = false;
+            } else {
+                paginate.since = false;
+                paginate.max = true;
+                paginate.guild = $scope.guilds[0];
             }
 
+            if (page <= 1) {
+                paginate = { since: false, max: false, guild: null };
+            }
+
+            $scope.page = page;
+
+            $scope.guilds = [];
             getGuildAds();
         };
 
         function getGuildAds() {
             $scope.loading = true;
 
-            var params = {lfg: true, view: "detailed", number: 7};
+            var params = {lfg: true, view: "detailed", number: 20, page: ($scope.page - 1)};
 
-            if ($scope.guilds.length > 0) {
-
+            if ((paginate.max || paginate.since) && paginate.guild) {
+                var type = (paginate.max) ? 'max' : 'since';
                 if ($scope.filters.sort == "ranking") {
-                    if ($scope.guilds[$scope.guilds.length - 1].rank) {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].rank.world;
+                    if (paginate.guild.rank) {
+                        params.last = paginate.guild._id + "." + paginate.guild.rank.world;
                     } else {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
+                        params.last = paginate.guild._id + ".0";
                     }
                 } else {
-                    params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].ad.updated;
+                    params.last = paginate.guild._id + "." + paginate.guild.ad.updated;
                 }
             }
 

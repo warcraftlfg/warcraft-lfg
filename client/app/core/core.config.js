@@ -5,10 +5,20 @@
 
     core.config(configure);
 
-    function configure($translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, markedProvider) {
+    function configure($translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, $uibTooltipProvider, $urlMatcherFactoryProvider, markedProvider) {
 
         // Remove hashtag from url
         //$locationProvider.html5Mode(true).hashPrefix('#');
+
+        //$urlMatcherFactoryProvider.strictMode(false);
+
+        if ($(window).width() < 992) {
+            var options = {
+                trigger: 'dontTrigger' // default dummy trigger event to show tooltips
+            };
+
+            $uibTooltipProvider.options(options);
+        }
 
         //Translation Property
         $translateProvider.useLoader('wlfgTranslationLoader', {

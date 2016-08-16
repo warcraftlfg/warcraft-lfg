@@ -1,0 +1,11 @@
+table {
+	thead {
+		background-color: $red;
+	}
+
+	tbody {
+		td.loading {
+			padding: 15px !important;
+		}
+	}
+}
