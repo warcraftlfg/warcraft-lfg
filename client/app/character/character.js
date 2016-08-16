@@ -123,7 +123,6 @@
         $scope.filters = {};
         $scope.filters.states = {};
         $scope.ilvlColor = __env.ilvlColor;
-        console.log($scope.ilvlColor);
         var initialLoading = false;
         var paginate = { since: false, max: false, character: null };
 
@@ -173,19 +172,19 @@
                 var type = (paginate.max) ? 'max' : 'since';
                 if ($scope.filters.sort == "progress") {
                     if (paginate.character.progress) {
-                        params.last = paginate.character._id + "." + paginate.character.progress.score;
+                        params.last = type+'.'+paginate.character._id + "." + paginate.character.progress.score;
                     } else {
-                        params.last = paginate.character._id + ".0";
+                        params.last = type+'.'+paginate.character._id + ".0";
                     }
                 } else if ($scope.filters.sort == "ilevel") {
 
                     if (paginate.character.bnet && paginate.character.bnet.items && paginate.character.bnet.items.averageItemLevelEquipped) {
-                        params.last = paginate.character._id + "." + paginate.character.bnet.items.averageItemLevelEquipped;
+                        params.last = type+'.'+paginate.character._id + "." + paginate.character.bnet.items.averageItemLevelEquipped;
                     } else {
-                        params.last = paginate.character._id + ".0";
+                        params.last = type+'.'+paginate.character._id + ".0";
                     }
                 } else {
-                    params.last = paginate.character._id + "." + paginate.character.ad.updated;
+                    params.last = type+'.'+paginate.character._id + "." + paginate.character.ad.updated;
                 }
 
             }
@@ -197,7 +196,17 @@
                     $scope.$parent.loading = false;
                     $scope.loading = false;
 
-                    $scope.characters = $scope.characters.concat(characters);
+                    if (params.last && params.last.indexOf('max') >= 0) {
+                         $scope.characters = $scope.characters.concat(characters.reverse());
+                    } else {
+                        $scope.characters = $scope.characters.concat(characters);
+                    }
+
+                    if ($scope.characters.length <= 0) {
+                        $scope.noResult = true;
+                    } else {
+                        $scope.noResult = false;
+                    }
 
                 },
                 function (error) {

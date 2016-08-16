@@ -13,14 +13,14 @@ var ObjectId = require("mongodb").ObjectId;
 module.exports.add = function (query, criteria) {
 
 
-    var paramLastArray = params.parseQueryParam(query.last, 2);
+    var paramLastArray = params.parseQueryParam(query.last, 3);
     var paramSortArray = params.parseQueryParam(query.sort, 1);
-
 
     if (paramLastArray.length > 0 && paramSortArray.length > 0) {
 
-        var id = paramLastArray[0][0];
-        var value = parseInt(paramLastArray[0][1], 10);
+        var type = paramLastArray[0][0];
+        var id = paramLastArray[0][1];
+        var value = parseInt(paramLastArray[0][2], 10);
         var sort = paramSortArray[0][0];
 
         var tmpArray = [];
@@ -31,34 +31,60 @@ module.exports.add = function (query, criteria) {
         var tmpObj;
         if (sort === "ilevel") {
             tmpObj = {};
-            tmpObj["bnet.items.averageItemLevelEquipped"] = {$lt: value};
+            if (type == "max") {
+                tmpObj["bnet.items.averageItemLevelEquipped"] = {$lt: value};
+            } else {
+                tmpObj["bnet.items.averageItemLevelEquipped"] = {$lt: value};
+            }
             tmpArray.push(tmpObj);
 
             tmpObj = {};
             tmpObj["bnet.items.averageItemLevelEquipped"] = value;
-            tmpObj["_id"] = {$lt: new ObjectId(id)};
+            if (type == "max") {
+                tmpObj["_id"] = {$gt: new ObjectId(id)};
+            } else {
+                tmpObj["_id"] = {$lt: new ObjectId(id)};
+            }
             tmpArray.push(tmpObj);
         }
         else if (sort === "progress") {
             tmpObj = {};
-            tmpObj["progress.score"] = {$lt: value};
+            if (type == "max") {
+                tmpObj["progress.score"] = {$gt: value};
+            } else {
+                tmpObj["progress.score"] = {$lt: value};
+            }
             tmpArray.push(tmpObj);
 
             tmpObj = {};
             tmpObj["progress.score"] = value;
-            tmpObj["_id"] = {$lt: new ObjectId(id)};
+            if (type == "max") {
+                tmpObj["_id"] = {$gt: new ObjectId(id)};
+            } else {
+                tmpObj["_id"] = {$lt: new ObjectId(id)};
+            }
             tmpArray.push(tmpObj);
 
         } else {
             tmpObj = {};
-            tmpObj["ad.updated"] = {$lt: value};
+            if (type == "max") {
+                tmpObj["ad.updated"] = {$gt: value};
+            } else {
+                tmpObj["ad.updated"] = {$lt: value};
+            }
             tmpArray.push(tmpObj);
 
             tmpObj = {};
             tmpObj["ad.updated"] = value;
-            tmpObj["_id"] = {$lt: new ObjectId(id)};
+            if (type == "max") {
+                tmpObj["_id"] = {$gt: new ObjectId(id)};
+            } else {
+                tmpObj["_id"] = {$lt: new ObjectId(id)};
+            }
             tmpArray.push(tmpObj);
         }
+
+        console.log(tmpArray);
 
         if (tmpArray.length > 0) {
             if (!criteria["$and"]) {

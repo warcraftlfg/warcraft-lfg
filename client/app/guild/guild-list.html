@@ -31,8 +31,13 @@
                         <thead wlfg-sort-guild></thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
-                                <td colspan="12" class="p-15 loading">
+                                <td colspan="12" class="p-15 guilds-loading">
                                     <i class="fa fa-2x fa-spinner fa-spin"></i>
+                                </td>
+                            </tr>
+                            <tr class="text-center" ng-if="noResult">
+                                <td colspan="12" class="p-15 loading">
+                                    {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
                             <tr ng-repeat="guild in guilds">

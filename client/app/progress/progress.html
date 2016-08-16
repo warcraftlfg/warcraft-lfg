@@ -66,8 +66,11 @@
                         <th>
                             {{"NAME"|translate}}
                         </th>
-                        <th>
+                        <th ng-if="!filters.realm">
                             {{"REALM"|translate}}
+                        </th>
+                        <th ng-if="filters.realm || filters.region">
+                            {{"WORLD"|translate}}
                         </th>
                         <th>
                             {{"PROGRESS"|translate}}
@@ -75,7 +78,7 @@
                     </thead>
                     <tbody>
                         <tr class="text-center" ng-if="loading">
-                            <td colspan="12" class="p-15 loading">
+                            <td colspan="12" class="p-15 ranking-loading">
                                 <i class="fa fa-2x fa-spinner fa-spin"></i>
                             </td>
                         </tr>
@@ -93,15 +96,13 @@
                                     {{guild.name}}
                                 </a>
                             </td>
-                            <td ng-show="filters.realm == ''">
+                            <td ng-show="!filters.realm">
                                 <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
                                     {{guild.region|uppercase}}-{{guild.realm}}
                                 </a>
                             </td>
-                            <td ng-show="filters.realm != ''">
-                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
-                                    {{guild.region|uppercase}}-{{guild.realm}}
-                                </a>
+                            <td ng-class="{'legendary': (guild.world <= 10), 'epic': (guild.world > 10 && rank <= 100), 'rare': (guild.world > 100 && rank <= 2500), 'uncommon': (guild.world > 2500)}" class="bold" ng-show="filters.realm || filters.region">
+                                {{guild.world}}
                             </td>
                             <td>
                                 <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
@@ -119,8 +120,11 @@
                         <th>
                             {{"NAME"|translate}}
                         </th>
-                        <th>
+                        <th ng-if="!filters.realm">
                             {{"REALM"|translate}}
+                        </th>
+                        <th ng-if="filters.realm || filters.region">
+                            {{"WORLD"|translate}}
                         </th>
                         <th>
                             {{"PROGRESS"|translate}}
@@ -128,7 +132,7 @@
                     </thead>
                     <tbody>
                         <tr class="text-center" ng-if="loading">
-                            <td colspan="12" class="p-15 loading">
+                            <td colspan="12" class="p-15 ranking-loading">
                                 <i class="fa fa-2x fa-spinner fa-spin"></i>
                             </td>
                         </tr>
@@ -146,15 +150,13 @@
                                     {{guild.name}}
                                 </a>
                             </td>
-                            <td ng-show="filters.realm == ''">
+                            <td ng-show="!filters.realm">
                                 <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
                                     {{guild.region|uppercase}}-{{guild.realm}}
                                 </a>
                             </td>
-                            <td ng-show="filters.realm != ''">
-                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
-                                    {{guild.region|uppercase}}-{{guild.realm}}
-                                </a>
+                            <td ng-class="{'legendary': (guild.world <= 10), 'epic': (guild.world > 10 && rank <= 100), 'rare': (guild.world > 100 && rank <= 2500), 'uncommon': (guild.world > 2500)}" class="bold" ng-show="filters.realm || filters.region">
+                                {{guild.world}}
                             </td>
                             <td>
                                 <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
