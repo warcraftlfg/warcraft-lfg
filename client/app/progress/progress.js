@@ -15,6 +15,7 @@
         $scope.rankingSubregions = __env.rankingSubregions;
         $scope.filters = {tier:'18'};
         $scope.filters.states = {};
+        $scope.filters.realm = null;
         $scope.realms = [];
         var initialLoading = false;
 
