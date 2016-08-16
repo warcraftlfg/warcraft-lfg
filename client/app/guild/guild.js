@@ -345,6 +345,12 @@
                     } else {
                         $scope.guilds = $scope.guilds.concat(guilds);
                     }
+
+                    if ($scope.guilds.length <= 0) {
+                        $scope.noResult = true;
+                    } else {
+                        $scope.noResult = false;
+                    }
                 },
                 function (error) {
                     $scope.$parent.error = error.data;

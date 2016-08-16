@@ -202,6 +202,12 @@
                         $scope.characters = $scope.characters.concat(characters);
                     }
 
+                    if ($scope.characters.length <= 0) {
+                        $scope.noResult = true;
+                    } else {
+                        $scope.noResult = false;
+                    }
+
                 },
                 function (error) {
                     $scope.$parent.error = error.data;
