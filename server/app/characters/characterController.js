@@ -64,6 +64,7 @@ module.exports.getCharacters = function (req, res) {
 module.exports.getCharacter = function (req, res, next) {
 
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
     logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
@@ -82,7 +83,7 @@ module.exports.getCharacter = function (req, res, next) {
         "bnet.race": 1,
         "bnet.level": 1,
         "bnet.talents": 1,
-        "bnet.progression.raids": {$slice: [-3,1]},
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,1]},
         "bnet.items": 1,
         "bnet.reputation": 1,
         "bnet.achievements": 1,

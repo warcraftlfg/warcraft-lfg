@@ -67,7 +67,7 @@ module.exports.getGuildAds = function (req, res) {
     logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {id: req.user.id, "ad.lfg": {$exists: true}};
-    var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.side": 1, "perms": 1};
+    var projection = {_id: 1, name: 1, realm: 1, region: 1, "ad.updated": 1, "ad.lfg": 1, "bnet.side": 1, "perms": 1, "parser.active": 1};
     var sort = {"ad.updated": -1};
     async.waterfall([
         function (callback) {

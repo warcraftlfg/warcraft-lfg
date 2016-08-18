@@ -237,19 +237,8 @@ module.exports.getGuildParser = function (req, res) {
         realm: 1,
         name: 1,
         updated: 1,
-        "bnet.faction": 1,
-        "bnet.class": 1,
-        "bnet.thumbnail": 1,
-        "bnet.guild.name": 1,
-        "bnet.race": 1,
-        "bnet.level": 1,
-        "bnet.talents": 1,
-        "bnet.progression.raids": {$slice: [-3,1]},
+        parser: 1,
         "bnet.items": 1,
-        "bnet.reputation": 1,
-        "bnet.achievements": 1,
-        "bnet.challenge.records": 1,
-        "warcraftLogs.logs": 1
     };
 
     async.waterfall([

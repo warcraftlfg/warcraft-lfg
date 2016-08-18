@@ -50,7 +50,6 @@ module.exports.find = function (criteria, projection, sort, limit, skip, callbac
 module.exports.findOne = function (criteria, projection, callback) {
     var collection = applicationStorage.mongo.collection("characters");
     collection.findOne(criteria, projection, function (error, character) {
-
         //Sanitize before return
         if (character) {
             var confine = new Confine();
@@ -99,7 +98,7 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 character.ad = confine.normalize(obj.ad, characterAdSchema);
             }
 
-            if(obj.bnet){
+            if (obj.bnet){
                 character.bnet = obj.bnet;
             }
 
@@ -111,6 +110,9 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 character.progress = obj.progress;
             }
 
+            if (obj.parser){
+                character.parser = obj.parser;
+            }
             //Force region to lowercase
             region = region.toLowerCase();
 

@@ -28,7 +28,7 @@
                     <uib-tab-heading>
                         <div class="text-center">
                             <div>
-                               <i class="fa fa-certificate" aria-hidden="true"></i>
+                               <i class="fa fa-file-text-o" aria-hidden="true"></i>
                             </div>
                             <div>
                                 {{'RECRUITMENT'|translate}}
@@ -68,6 +68,7 @@
                                             <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
                                             <span class="css3-metro-dropdown">
                                                 <select ng-model="guild.ad.language" class="form-control">
+                                                    <option value="">{{"SELECT_LANG"|uppercase|translate}}</option>
                                                     <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
                                                 </select>
                                             </span>

@@ -152,7 +152,7 @@ passport.use('bnet-parser', new BnetStrategy({
         clientSecret: config.oauth.bnet.clientSecret,
         scope: "wow.profile",
         region: config.oauth.bnet.region || "eu",
-        callbackURL: config.oauth.bnet.callbackProgressURL
+        callbackURL: config.oauth.bnet.callbackParserURL
     },
     /** @namespace profile.battletag */
     function (accessToken, refreshToken, profile, done) {
