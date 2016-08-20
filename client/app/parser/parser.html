@@ -1,1 +1,201 @@
-<div class="dashboard-intro-parser"></div>
+<div ng-include="'app/guild/guild-read-header.html'"></div>
+<div class="guild-parser">
+    <div class="container">
+        <div ng-include="'app/guild/guild-read-intro.html'"></div>
+        <div class="row">
+            <div class="col-md-12 m-b-10">
+                
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-striped table-hover">
+                        <thead>
+                            <th class="cursor-pointer" ng-click="switchSort('name');">
+                                {{ "NAME"|translate }}
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th uib-tooltip='{{"TALENT"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/talent.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('bnet.level');">
+                                {{ "LEVEL"|translate }}
+                                <i ng-if="sort!='bnet.level'&&sort!='-bnet.level'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.level'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.level'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('bnet.items.averageItemLevelEquipped');">
+                                {{ "ITEM_LEVEL"|translate }}
+                                <i ng-if="sort!='bnet.items.averageItemLevelEquipped'&&sort!='-bnet.items.averageItemLevelEquipped'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.items.averageItemLevelEquipped'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.items.averageItemLevelEquipped'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer"  ng-click="switchSort('bnet.items.averageItemLevel');" >
+                                {{ "ITEM_LEVEL_BAG"|translate }}
+                                <i ng-if="sort!='bnet.items.averageItemLevel'&&sort!='-bnet.items.averageItemLevel'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.items.averageItemLevel'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.items.averageItemLevel'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <!--<th>{{ "WEAPON_MH"|translate }}</th>
+                            <th>{{ "WEAPON_OH"|translate }}</th>-->
+                            <th class="cursor-pointer" ng-click="switchSort('parser.legendary');" uib-tooltip='{{"LEGENDARY"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/legendary.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='parser.legendary'&&sort!='-parser.legendary'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.legendary'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.legendary'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');" uib-tooltip='{{"WARCRAFTLOGS"|translate}}' tooltip-append-to-body="true">
+                                WCL
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');">
+                                {{ "PROGRESS"|translate }}
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');" uib-tooltip='{{"ARTIFACT_TRAIT"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/artifact_trait.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');" uib-tooltip='{{"ARTIFACT_KNOWLEDGE"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/artifact_knowledge.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');">
+                                {{ "RELICS"|translate }}
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');">
+                                {{ "SURAMAR"|translate }}
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');" uib-tooltip='{{"ARCWAY"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/arcway.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer" ng-click="switchSort('name');" uib-tooltip='{{"COURT_OF_STAR"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/courtofstar.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th  class="cursor-pointer" ng-click="switchSort('name');" uib-tooltip='{{"OBLITERUM_FORGE"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/forge.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th>
+                                {{ "AUDIT"|translate }}
+                                <!--<i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>-->
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" ng-if="loading">
+                                <td colspan="16" class="p-15 parser-loading">
+                                    <i class="fa fa-2x fa-spinner fa-spin"></i>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="character in guildParser | orderBy:sort">
+                                <td class="bold class-{{ character.bnet.class }}">
+                                    <a ng-href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
+                                        {{ character.name }}
+                                    </a>
+                                </td>
+                                <td class="talent"> 
+                                    <span ng-if="talent.selected" ng-repeat="talent in character.bnet.talents">
+                                        <div uib-tooltip='{{ talent.spec.role }} : {{ talent.spec.name }}' tooltip-append-to-body="true" class="dis-inline-b icon-border-22" style="background-image: url('http://eu.media.blizzard.com/wow/icons/36/{{ talent.spec.icon }}.jpg');">
+                                            <img width="22" height="22" src="/assets/images/external/border.png">
+                                        </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ character.bnet.level }}
+                                </td>
+                                <td ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevelEquipped>=ilvlColor.epic&&character.bnet.items.averageItemLevelEquipped<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevelEquipped>=ilvlColor.rare&&character.bnet.items.averageItemLevelEquipped<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevelEquipped>ilvlColor.uncommon&&character.bnet.items.averageItemLevelEquipped<ilvlColor.rare,'common':character.bnet.items.averageItemLevelEquipped<ilvlColor.uncommon}">
+                                    {{ character.bnet.items.averageItemLevelEquipped }}
+                                </td>
+                                <td ng-class="{'legendary':character.bnet.items.averageItemLevel>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevel>=ilvlColor.epic&&character.bnet.items.averageItemLevel<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevel>=ilvlColor.rare&&character.bnet.items.averageItemLevel<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevel>ilvlColor.uncommon&&character.bnet.items.averageItemLevel<ilvlColor.rare,'common':character.bnet.items.averageItemLevel<ilvlColor.uncommon}">
+                                    {{ character.bnet.items.averageItemLevel }}
+                                </td>
+                                <!--<td ng-class="{'legendary':character.bnet.items.mainHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.mainHand.itemLevel>=ilvlColor.epic&&character.bnet.items.mainHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.mainHand.itemLevel>=ilvlColor.rare&&character.bnet.items.mainHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.mainHand.itemLevel>ilvlColor.uncommon&&character.bnet.items.mainHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.mainHand.itemLevel<ilvlColor.uncommon}">
+                                    {{ character.bnet.items.mainHand.itemLevel }}
+                                </td>
+                                <td ng-class="{'legendary':character.bnet.items.offHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.offHand.itemLevel>=ilvlColor.epic&&character.bnet.items.offHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.offHand.itemLevel>=ilvlColor.rare&&character.bnet.items.offHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.offHand.itemLevel>ilvlColor.uncommon&&character.bnet.items.offHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.offHand.itemLevel<ilvlColor.uncommon}">
+                                    {{ character.bnet.items.offHand.itemLevel }}
+                                </td>-->
+                                <td class="p-l-10">
+                                    {{ character.parser.legendary }}
+                                </td>
+                                <td class="character-class-{{ character.bnet.class }}">
+                                    <span class="wcl-tooltips" wlfg-warcraft-logs-average="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></span>
+                                </td>
+                                <td>
+                                    <span wlfg-progress-character="character.bnet.progression.raids"></span>
+                                </td>
+                                <td>
+                                    0
+                                </td>
+                                <td>
+                                    0
+                                </td>
+                                <td>
+                                    {{ character.bnet.items.mainHand.relics.length }}
+                                </td>
+                                <td>
+                                    0/3000
+                                    {{ character.parser.suramarReputation }}
+                                </td>
+                                <td>
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                    <img ng-if="character.parser.suramarDungeonArcway" width="16" height="16" src="/assets/images/external/arcway.jpg">
+                                </td>
+                                <td>
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                    <img ng-if="character.parser.suramarDungeonCOS" width="16" height="16" src="/assets/images/external/courtofstar.jpg">
+                                </td>
+                                <td>
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                    <img ng-if="character.parser.obliterumForge" width="16" height="16" src="/assets/images/external/forge.jpg">
+                                </td>
+                                <td>
+                                    <span wlfg-item-audit="character.bnet.items"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,7 +15,7 @@
                 controller: "ParserDashboardController"
             })
             .state("parser", {
-                url: "/parser/:region/:realm/:guild/",
+                url: "/guild/:region/:realm/:name/parser/",
                 templateUrl: "app/parser/parser.html",
                 controlerAs: 'vm',
                 title: 'WarcraftParser',

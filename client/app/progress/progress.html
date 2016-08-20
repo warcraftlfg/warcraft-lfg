@@ -95,6 +95,7 @@
                                 <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
                                     {{guild.name}}
                                 </a>
+                                <i ng-if="guild.lfg" class="fa fa-file-text-o txt-white m-l-5 f-12" tooltip-placement="top" uib-tooltip="{{ 'RECRUITMENT'|translate }}"></i>
                             </td>
                             <td ng-show="!filters.realm">
                                 <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">

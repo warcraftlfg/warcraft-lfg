@@ -18,7 +18,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <span ng-if="character">{{ character.realm }} - {{ character.region|uppercase}}</span>
+                    <span ng-if="character">{{ character.region|uppercase}}-{{ character.realm }} // // {{ character.ad.updated | amDateFormat:'MM-DD-YYYY HH:mm:ss'}} </span>
                     <span ng-if="!character">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
                     <a class="f-right" ng-if="user && user.id && character.id == user.id" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
                         <i class="fa fa-edit f-20"></i>
@@ -246,9 +246,9 @@
                                     <div class="col-md-2 col-sm-3 col-xs-6">
                                         T18: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
                                     </div>
-                                    <div class="col-md-2 col-sm-3 col-xs-6">
+                                    <!--<div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ENDLESS RUNE"|translate}}: <span wlfg-reputation-rune="character.bnet.reputation"></span>
-                                    </div>
+                                    </div>-->
                                     <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"AUDIT"|translate}}: <span wlfg-item-audit="character.bnet.items"></span>
                                     </div>
@@ -293,22 +293,22 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"GOLD"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="gold"></span>
+                                        {{"GOLD"|translate}}:  <span wlfg-challenge-medal="character.parser.challenge" medal-type="gold"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"SILVER"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="silver"></span>
+                                        {{"SILVER"|translate}}:  <span wlfg-challenge-medal="character.parser.challenge" medal-type="silver"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"BRONZE"|translate}}: <span wlfg-challenge-medal="character.bnet.achievements" medal-type="copper"></span>
+                                        {{"BRONZE"|translate}}: <span wlfg-challenge-medal="character.parser.challenge" medal-type="copper"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"TANK"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="tank"></span>
+                                        {{"TANK"|translate}}: <span wlfg-achievement-pg="character.parser.provingGrounds" pg-type="tank"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"DPS"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="dps"></span>
+                                        {{"DPS"|translate}}: <span wlfg-achievement-pg="character.parser.provingGrounds" pg-type="dps"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"HEALER"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="healer"></span>
+                                        {{"HEALER"|translate}}: <span wlfg-achievement-pg="character.parser.provingGrounds" pg-type="healer"></span>
                                     </div>
                                 </div>
                             </div>

@@ -1,66 +1,7 @@
-<wlfg-message-popup></wlfg-message-popup>
-<section class="header header-guild">
-    <div class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 ng-if="guild">
-                        <span class="icon-medium faction-{{guild.bnet.side}} m-t-0"></span>
-                        <span class="faction-{{guild.bnet.side}}">{{ guild.name }}</span>
-                    </h2>
-                    <h2 ng-if="!guild">{{"GUILD_NOT_FOUND"|translate}}</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="overlay">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <span ng-if="guild">{{ guild.realm }} - {{ guild.region|uppercase}}</span>
-                    <span ng-if="!guild">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
-                    <a class="f-right" ng-if="userCanEdit"
-                       href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update">
-                        <i class="fa fa-edit f-20"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<div ng-include="'app/guild/guild-read-header.html'"></div>
 <div class="guild-read">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-12 m-b-10" ng-if="queuePosition">
-                        {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
-                    </div>
-                    <div class="col-md-6 m-b-20">
-                        <button ng-click="updateGuild()" type="button" class="btn btn-default"
-                                aria-label="Update Guild">
-                            <i class="fa fa-refresh"></i> {{"UPDATE_GUILD"|translate}}
-                        </button>
-                        <button ng-if="guild.id" ng-click="openMessagePopup('sm');" type="button"
-                                class="btn btn-default" aria-label="Update Character">
-                            <img src="/assets/images/message.png" class="message-picto"/>
-                            {{"MESSAGE_OPEN_POPUP"|translate}}
-                        </button>
-                    </div>
-                    <!--<div class="col-md-6 m-b-20 text-right">
-                        <a href="http://www.askmrrobot.com/wow/combatlog/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}" target="_blank" class="m-l-10 href-icon">
-                            <img src="/assets/images/external/amr.png" class="external-icon" width="34" />
-                        </a>
-                        <a href="https://www.warcraftlogs.com/guilds/name/{{ guild.name }}/{{ guild.realm }}/{{ guild.realm|uppercase }}" target="_blank" class="m-l-10 href-icon">
-                            <img src="/assets/images/external/wcl.png" width="34" />
-                        </a>
-                        <a href="http://{{ character.region }}.battle.net/wow/en/guild/{{ guild.realm }}/{{ guild.name }}/" target="_blank" class="m-l-10 href-icon">
-                            <img src="/assets/images/external/armory.png" width="34" />
-                        </a>
-                    </div>-->
-                </div>
-            </div>
-        </div>
+        <div ng-include="'app/guild/guild-read-intro.html'"></div>
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default">
