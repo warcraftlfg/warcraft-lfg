@@ -7,5 +7,17 @@ table {
 		td.loading {
 			padding: 15px !important;
 		}
+
+		td.characters-loading {
+			height: 620px;
+		}
+
+		td.guilds-loading {
+			height: 640px;
+		}
+
+		td.ranking-loading {
+			height: 310px;
+		}
 	}
 }

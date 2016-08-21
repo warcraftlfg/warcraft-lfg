@@ -107,7 +107,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 },
                 progress: function (callback) {
-                    progressAPI.getProgress(18,region,guild.realm,guild.name,function(error,progress){
+                    progressAPI.getProgress(config.currentProgress,region,guild.realm,guild.name,function(error,progress){
                         if (error) {
                             logger.error(error.message);
                         } else if(progress){

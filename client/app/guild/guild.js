@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user","ranking","progress"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user,ranking,progress) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "ranking", "progress"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user, ranking, progress) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -22,21 +22,21 @@
         $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
 
         ranking.get({
-            "tier":18,
+            "tier": 18,
             "region": $stateParams.region,
             "realm": $stateParams.realm,
             "name": $stateParams.name
-        },function(rank){
+        }, function (rank) {
             $scope.rank = rank;
         });
 
 
         progress.get({
-            "tier":18,
+            "tier": 18,
             "region": $stateParams.region,
             "realm": $stateParams.realm,
             "name": $stateParams.name
-        },function(progress){
+        }, function (progress) {
             $scope.progress = progress;
         });
 
@@ -143,6 +143,8 @@
                 }
                 $scope.guild = guild;
 
+                $scope.tooltips = [];
+
 
                 $scope.$parent.loading = false;
 
@@ -156,38 +158,37 @@
                     }, function (data) {
                         $scope.$parent.loading = false;
                         $scope.guildRank = data.rank;
-                        if (data.rank !== 0) {
-                            // This is the guild leader, put the rank permissions in an easier form for table rendering
-                            var perms = $scope.guildRankPerms = [];
-                            var isOfRank = function (i) {
-                                return function (member) {
-                                    return member.rank === i;
-                                };
+                        var perms = $scope.guildRankPerms = [];
+                        var isOfRank = function (i) {
+                            return function (member) {
+                                return member.rank === i;
                             };
-                            for (var i = 0; i < 10; i++) {
-                                var members = $.grep(guild.bnet.members, isOfRank(i));
-                                members.sort(function (a, b) {
-                                    var c1 = a.character, c2 = b.character;
-                                    var ret = ((c1.level > c2.level) ? -1 : ((c1.level < c2.level) ? 1 : 0));
-                                    if (ret === 0) {
-                                        ret = ((c1.name < c2.name) ? -1 : ((c1.name > c2.name) ? 1 : 0));
-                                    }
-                                    return ret;
-                                });
-                                var tooltip = '<div>' + $.map(members.slice(0, 5), function (member) {
-                                        return '<div class="class-' + member.character.class + '">' + member.character.name + '</div>';
-                                    }).join('') + (members.length > 5 ? '<div>...</div>' : '') + '</div>';
-                                perms.push({
-                                    id: i,
-                                    size: members.length,
-                                    tooltip: tooltip,
-                                    ad: {
-                                        del: $.inArray(i, guild.perms.ad.del) !== -1,
-                                        edit: $.inArray(i, guild.perms.ad.edit) !== -1
-                                    }
-                                });
-                            }
+                        };
+                        for (var i = 0; i < 10; i++) {
+                            var members = $.grep(guild.bnet.members, isOfRank(i));
+                            members.sort(function (a, b) {
+                                var c1 = a.character, c2 = b.character;
+                                var ret = ((c1.level > c2.level) ? -1 : ((c1.level < c2.level) ? 1 : 0));
+                                if (ret === 0) {
+                                    ret = ((c1.name < c2.name) ? -1 : ((c1.name > c2.name) ? 1 : 0));
+                                }
+                                return ret;
+                            });
+                            var tooltip = '<div>' + $.map(members.slice(0, 5), function (member) {
+                                    return '<div class="class-' + member.character.class + '">' + member.character.name + '</div>';
+                                }).join('') + (members.length > 5 ? '<div>...</div>' : '') + '</div>';
+                            perms.push({
+                                id: i,
+                                size: members.length,
+                                tooltip : tooltip,
+                                ad: {
+                                    del: $.inArray(i, guild.perms.ad.del) !== -1,
+                                    edit: $.inArray(i, guild.perms.ad.edit) !== -1
+                                }
+                            });
                         }
+
+
                     });
                 }
             },
@@ -203,7 +204,7 @@
         };
 
 
-        $scope.saveAd = function() {
+        $scope.saveAd = function () {
             $scope.$parent.loading = true;
 
             guilds.upsert({
@@ -220,11 +221,25 @@
             });
         };
 
-        $scope.saveParser = function() {
+        $scope.saveParser = function () {
             $scope.$parent.loading = true;
+
+            guilds.upsert({
+                guildRegion: $scope.guild.region,
+                guildRealm: $scope.guild.realm,
+                guildName: $scope.guild.name,
+                part: "parser"
+            }, $scope.guild.parser, function () {
+                $scope.$parent.loading = false;
+                $state.go("account");
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+
         };
 
-        $scope.savePerms = function() {
+        $scope.savePerms = function () {
             var perms = $scope.guildRankPerms;
             if (!perms) {
                 return;
@@ -272,15 +287,22 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        var initialLoading = false;
+        var paginate = {since: false, max: false, guild: null};
 
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
         $scope.$watch('filters', function () {
-            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
-                // && $scope.filters.states.timezone
-                //socket.emit('get:guildAds', $scope.filters);
+            if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress && $scope.filters.states.roles) {
+                if (initialLoading) {
+                    $scope.page = 1;
+                    paginate = {since: false, max: false, character: null};
+                }
+
                 $scope.guilds = [];
                 getGuildAds();
+
+                initialLoading = true;
             }
         }, true);
 
@@ -288,29 +310,42 @@
             $state.go($state.current, null, {reload: true, inherit: false});
         };
 
-        $scope.getMoreGuilds = function () {
-            if (($scope.$parent && $scope.$parent.loading) || $scope.loading) {
-                return;
+        $scope.changePage = function (page) {
+            if (page > $scope.page) {
+                paginate.guild = $scope.guilds[$scope.guilds.length - 1];
+                paginate.since = true;
+                paginate.max = false;
+            } else {
+                paginate.since = false;
+                paginate.max = true;
+                paginate.guild = $scope.guilds[0];
             }
 
+            if (page <= 1) {
+                paginate = {since: false, max: false, guild: null};
+            }
+
+            $scope.page = page;
+
+            $scope.guilds = [];
             getGuildAds();
         };
 
         function getGuildAds() {
             $scope.loading = true;
 
-            var params = {lfg: true, view: "detailed", number: 7};
+            var params = {lfg: true, view: "detailed", number: 20, page: ($scope.page - 1)};
 
-            if ($scope.guilds.length > 0) {
-
+            if ((paginate.max || paginate.since) && paginate.guild) {
+                var type = (paginate.max) ? 'max' : 'since';
                 if ($scope.filters.sort == "ranking") {
-                    if ($scope.guilds[$scope.guilds.length - 1].rank) {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].rank.world;
+                    if (paginate.guild.rank) {
+                        params.last = type+'.'+paginate.guild._id + "." + paginate.guild.rank.world;
                     } else {
-                        params.last = $scope.guilds[$scope.guilds.length - 1]._id + ".0";
+                        params.last = type+'.'+paginate.guild._id + ".0";
                     }
                 } else {
-                    params.last = $scope.guilds[$scope.guilds.length - 1]._id + "." + $scope.guilds[$scope.guilds.length - 1].ad.updated;
+                    params.last = type+'.'+paginate.guild._id + "." + paginate.guild.ad.updated;
                 }
             }
 
@@ -318,10 +353,19 @@
             delete params.states;
 
             guilds.query(params, function (guilds) {
-                    console.log(guilds[0]);
                     $scope.$parent.loading = false;
                     $scope.loading = false;
-                    $scope.guilds = $scope.guilds.concat(guilds);
+                    if (params.last && params.last.indexOf('max') >= 0) {
+                         $scope.guilds = $scope.guilds.concat(guilds.reverse());
+                    } else {
+                        $scope.guilds = $scope.guilds.concat(guilds);
+                    }
+
+                    if ($scope.guilds.length <= 0) {
+                        $scope.noResult = true;
+                    } else {
+                        $scope.noResult = false;
+                    }
                 },
                 function (error) {
                     $scope.$parent.error = error.data;

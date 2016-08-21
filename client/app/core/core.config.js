@@ -5,10 +5,12 @@
 
     core.config(configure);
 
-    function configure($translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, $uibTooltipProvider, markedProvider) {
+    function configure($translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, $uibTooltipProvider, $urlMatcherFactoryProvider, markedProvider) {
 
         // Remove hashtag from url
         //$locationProvider.html5Mode(true).hashPrefix('#');
+
+        //$urlMatcherFactoryProvider.strictMode(false);
 
         if ($(window).width() < 992) {
             var options = {

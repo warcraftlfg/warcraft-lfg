@@ -36,7 +36,7 @@
          * Get user's characters  by region
          */
         $scope.updateCharacterRegion = function () {
-            console.log($scope.characterRegion);
+            $scope.userCharacters = null;
             if ($scope.characterRegion === '') {
                 $scope.userCharacters = null;
             } else {

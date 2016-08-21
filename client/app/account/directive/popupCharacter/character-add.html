@@ -15,17 +15,20 @@
                 </span>
             </div>
         </form>
-        <div class="form-group o-auto-y max-height-500">
+        <div class="form-group m-b-0 o-auto-y max-height-500">
             <label ng-show="userCharacters.length" for="region">{{
                 "CHARACTER_CREATE_CHOOSE"|translate}}</label>
             <p ng-show="!userCharacters.length && characterRegion!='' && !$parent.loading">
                 {{ "NO_CHARACTER_FOUND_FOR_REGION"|translate }}
             </p>
+            <div class="text-center m-b-10" ng-if="loading">
+                <i class="fa fa-2x fa-spinner fa-spin"></i>
+            </div>
             <p ng-repeat="character in userCharacters">
                 <a class="btn btn-inverse"
                    ng-click="createCharacterAd(characterRegion,character.realm,character.name)"
                    role="button">
-                    {{character.name}} ({{character.level}}) - {{character.realm}}
+                    <span class="class-{{character.class}}">{{character.name}}</span> ({{character.level}}) - {{character.realm}}
                 </a>
             </p>
         </div>

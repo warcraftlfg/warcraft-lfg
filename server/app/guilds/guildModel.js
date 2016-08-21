@@ -5,6 +5,8 @@ var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var guildAdSchema = process.require('config/db/guildAdSchema.json');
 var guildPermsSchema = process.require('config/db/guildPermsSchema.json');
+var guildParserSchema = process.require('config/db/guildParserSchema.json');
+
 var validator = process.require('core/utilities/validators/validator.js');
 var Confine = require("confine");
 
@@ -56,6 +58,7 @@ module.exports.findOne = function (criteria, projection, callback) {
             var confine = new Confine();
             guild.ad = confine.normalize(guild.ad, guildAdSchema);
             guild.perms = confine.normalize(guild.perms, guildPermsSchema);
+            guild.parser = confine.normalize(guild.parser, guildParserSchema);
         }
         callback(error, guild);
     });
@@ -99,12 +102,18 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 guild.ad = confine.normalize(obj.ad, guildAdSchema);
             }
 
+            if (obj.parser) {
+                var confine = new Confine();
+                guild.parser = confine.normalize(obj.parser, guildParserSchema);
+            }
+
             if (obj.bnet) {
                 guild.bnet = obj.bnet;
             }
 
             if (obj.perms) {
-                guild.perms = obj.perms;
+                var confine = new Confine();
+                guild.perms = confine.normalize(obj.perms, guildPermsSchema);
             }
 
             if (obj.wowProgress) {

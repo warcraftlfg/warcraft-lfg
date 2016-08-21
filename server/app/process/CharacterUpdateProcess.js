@@ -31,7 +31,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
             //Get next guild to update
             updateService.getNextUpdate('cu', function (error, characterUpdate) {
                 if (characterUpdate == null) {
-                    //Guild update is empty
+                    //Character update is empty
                     logger.info("No character to update ... waiting 3 sec");
                     setTimeout(function () {
                         callback(true);
@@ -121,6 +121,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                     }
                 }
             }, function (error, results) {
+                results.parser = self.parseCharacter(character);
                 results.bnet = character;
                 results.bnet.updated = new Date().getTime();
                 characterModel.upsert(region, character.realm, character.name, results, function (error) {
@@ -134,6 +135,92 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
         }
         self.updateCharacter();
     });
+};
+
+/**
+ * Update one character
+ */
+CharacterUpdateProcess.prototype.parseCharacter = function (character) {
+    // Parser
+    var parser = {};
+
+    // Suramar WQ unlock
+    if (character.achievements) {
+        var achievement = character.achievements.achievementsCompleted.indexOf(10617);
+        if (achievement >= 0) {
+            parser.suramarWQ = 6;
+            parser.suramarWQTime = character.achievements.achievementsCompletedTimestamp[achievement];
+        } else {
+            parser.suramarWQ = 0;
+            if (character.achievements.criteria.indexOf(40009)) {
+                parser.suramarWQ++;
+            }
+            if (character.achievements.criteria.indexOf(40956)) {
+                parser.suramarWQ++;
+            }
+            if (character.achievements.criteria.indexOf(42147)) {
+                parser.suramarWQ++;
+            }
+            if (character.achievements.criteria.indexOf(41760)) {
+                parser.suramarWQ++;
+            }
+            if (character.achievements.criteria.indexOf(41138)) {
+                parser.suramarWQ++;
+            }
+            if (character.achievements.criteria.indexOf(42230)) {
+                parser.suramarWQ++;
+            }
+        }
+    }
+
+    // Class Order Campaign
+    if (character.achievements) {
+        var achievement = character.achievements.achievementsCompleted.indexOf(10994);
+        if (achievement >= 0) {
+            parser.classOrderCampaign = true
+            parser.classOrderCampaignTime = character.achievements.achievementsCompletedTimestamp[achievement];
+        } else {
+            parser.classOrderCampaign = false;
+        }
+    }
+
+    // COS unlock
+    if (character.quests && character.quests.indexOf(43314)) {
+        parser.suramarDungeonCOS = true;
+    } else {
+        parser.suramarDungeonCOS = false;
+    }
+
+    // Arcway unlock
+    if (character.quests && character.quests.indexOf(44053)) {
+        parser.suramarDungeonArcway = true;
+    } else {
+        parser.suramarDungeonArcway = false;
+    }
+
+    // Reputation Suramar
+    for (var i = 0; i < character.reputation.length; i++) {
+        if (character.reputation[i].name == "The Nightfallen") {
+            parser.suramarReputation = character.reputation[i];
+        }
+    }
+
+    // Legendary
+    parser.legendary = 0;
+    for (var i = 0; i < character.items.length; i++) {
+        if (character.items[i].quality && character.items[i].quality == 5) {
+            parser.legendary++;
+        }
+    }
+
+    // T19
+    parser.t19 = 0;
+
+    // WCL
+
+    // Audit
+
+    return parser;
 };
 
 /**

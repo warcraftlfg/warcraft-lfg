@@ -28,7 +28,7 @@
                     <uib-tab-heading>
                         <div class="text-center">
                             <div>
-                               <i class="fa fa-certificate" aria-hidden="true"></i>
+                               <i class="fa fa-file-text-o" aria-hidden="true"></i>
                             </div>
                             <div>
                                 {{'RECRUITMENT'|translate}}
@@ -68,6 +68,7 @@
                                             <label>{{"GUILD_CREATE_PRIMARY_LANGUAGE"|translate}}</label>
                                             <span class="css3-metro-dropdown">
                                                 <select ng-model="guild.ad.language" class="form-control">
+                                                    <option value="">{{"SELECT_LANG"|uppercase|translate}}</option>
                                                     <option ng-repeat="language in languages" value="{{language}}">{{"LANG_"+language|uppercase|translate}}</option>
                                                 </select>
                                             </span>
@@ -262,7 +263,7 @@
                         <button type="submit" class="btn btn-default" ng-click="saveAd()">{{"SAVE"|translate}}</button>
                     </form>
                 </uib-tab>
-                <!--uib-tab index="1" active="activeTabs.parser">
+                <uib-tab index="1" active="activeTabs.parser">
                     <uib-tab-heading>
                         <div class="text-center">
                             <div>
@@ -287,7 +288,7 @@
                                         <div class="form-group m-b-5">
                                             <div class="checkbox m-t-0">
                                                 <label>
-                                                    <input ng-model="guild.ad.lfg" type="checkbox"> <strong>{{"GUILD_CREATE_PARSER"|translate}}</strong>
+                                                    <input ng-model="guild.parser.active" type="checkbox"> <strong>{{"GUILD_CREATE_PARSER"|translate}}</strong>
                                                 </label>
                                             </div>
                                         </div>
@@ -307,8 +308,8 @@
                                             <div class="row">
                                                 <div class="col-xs-6 col-sm-3 col-md-2 col-lg-1" ng-repeat="rank in guildRankPerms">
                                                     <span uib-tooltip-html="rank.tooltip" class="txt-underline"><label class="checkbox-inline">
-                                                        <input ng-model="rank.parser" type="checkbox" value="">
-                                                        {{"RANK"|translate}} {{ rank.id }} 
+                                                        <input ng-model="guild.parser.ranks['rank_'+rank.id]" type="checkbox">
+                                                        {{"RANK"|translate}} {{ rank.id }}
                                                     </label></span>
                                                 </div>
                                             </div>
@@ -319,7 +320,7 @@
                         </div>
                         <button type="submit" class="btn btn-default" ng-click="saveParser()">{{"SAVE"|translate}}</button>
                     </form>
-                </uib-tab!-->
+                </uib-tab>
                 <uib-tab index="2" ng-if="guildRank === 0">
                     <uib-tab-heading>
                         <div class="text-center">

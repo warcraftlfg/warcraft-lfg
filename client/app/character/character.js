@@ -8,8 +8,8 @@
         .controller('CharacterListController', CharacterList)
     ;
 
-    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates", "messages"];
-    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates, messages) {
+    CharacterRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "characters", "updates", "messages", "__env"];
+    function CharacterRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, characters, updates, messages, __env) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -17,6 +17,7 @@
         //Initialize $scope variables
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
+        $scope.ilvlColor = __env.ilvlColor;
 
         characters.get({
             "characterRegion": $stateParams.region,
@@ -111,75 +112,79 @@
         };
     }
 
-    CharacterList.$inject = ['$scope', '$stateParams', '$state', '$location', 'socket', "wlfgAppTitle", "characters"];
-    function CharacterList($scope, $stateParams, $state, $location, socket, wlfgAppTitle, characters) {
+    CharacterList.$inject = ['$scope', '$stateParams', '$state', '$location', 'socket', "wlfgAppTitle", "characters", "__env"];
+    function CharacterList($scope, $stateParams, $state, $location, socket, wlfgAppTitle, characters, __env) {
         wlfgAppTitle.setTitle('Characters LFG');
-        //Reset error message
+
         $scope.$parent.error = null;
         $scope.$parent.loading = true;
         $scope.characters = [];
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
-        $scope.initialLoading = 0;
+        $scope.ilvlColor = __env.ilvlColor;
+        var initialLoading = false;
+        var paginate = { since: false, max: false, character: null };
 
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
 
         $scope.$watch('filters', function () {
-            //  if ($scope.filters.states.classes && $scope.filters.states.faction && $scope.filters.states.role && $scope.filters.states.ilevel && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.days && $scope.filters.states.rpw && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.realmZones && $scope.filters.states.sort && $scope.filters.states.progress) {
-            // && $scope.filters.states.timezone
             if ($scope.filters.states.realmZones && $scope.filters.states.languages && $scope.filters.states.realm && $scope.filters.states.role && $scope.filters.states.classes && $scope.filters.states.ilevel && $scope.filters.states.faction && $scope.filters.states.progress && $scope.filters.states.days && $scope.filters.states.levelMax && $scope.filters.states.transfert && $scope.filters.states.sort) {
-                if ($scope.initialLoading > 0) {
+                if (initialLoading) {
                     $scope.page = 1;
-                    $state.go('.', {page: $scope.page}, {notify: false});
+                    paginate = { since: false, max: false, character: null };
                 }
 
                 $scope.characters = [];
                 getCharacterAds();
 
-                $scope.initialLoading = 1;
-
+               initialLoading = true;
             }
         }, true);
 
-
-        $scope.getMoreCharacters = function () {
-            if (($scope.$parent && $scope.$parent.loading) || $scope.loading) {
-                return;
-            }
-            getCharacterAds();
-        };
-
         $scope.changePage = function (page) {
+            if (page > $scope.page) {
+                paginate.character = $scope.characters[$scope.characters.length - 1];
+                paginate.since = true;
+                paginate.max = false;
+            } else {
+                paginate.since = false;
+                paginate.max = true;
+                paginate.character = $scope.characters[0];
+            }
+
+            if (page <= 1) {
+                paginate = { since: false, max: false, character: null };
+            }
+
             $scope.page = page;
-            $state.go('.', {page: $scope.page}, {notify: false});
 
             $scope.characters = [];
             getCharacterAds();
-        }
+        };
 
         function getCharacterAds() {
             $scope.loading = true;
 
             var params = {lfg: true, view: "detailed", number: 20, page: ($scope.page - 1)};
 
-            if ($scope.characters.length > 0) {
-
+            if ((paginate.max || paginate.since) && paginate.character) {
+                var type = (paginate.max) ? 'max' : 'since';
                 if ($scope.filters.sort == "progress") {
-                    if ($scope.characters[$scope.characters.length - 1].progress) {
-                        params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].progress.score;
+                    if (paginate.character.progress) {
+                        params.last = type+'.'+paginate.character._id + "." + paginate.character.progress.score;
                     } else {
-                        params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
+                        params.last = type+'.'+paginate.character._id + ".0";
                     }
                 } else if ($scope.filters.sort == "ilevel") {
 
-                    if ($scope.characters[$scope.characters.length - 1].bnet && $scope.characters[$scope.characters.length - 1].bnet.items && $scope.characters[$scope.characters.length - 1].bnet.items.averageItemLevelEquipped) {
-                        params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].bnet.items.averageItemLevelEquipped;
+                    if (paginate.character.bnet && paginate.character.bnet.items && paginate.character.bnet.items.averageItemLevelEquipped) {
+                        params.last = type+'.'+paginate.character._id + "." + paginate.character.bnet.items.averageItemLevelEquipped;
                     } else {
-                        params.last = $scope.characters[$scope.characters.length - 1]._id + ".0";
+                        params.last = type+'.'+paginate.character._id + ".0";
                     }
                 } else {
-                    params.last = $scope.characters[$scope.characters.length - 1]._id + "." + $scope.characters[$scope.characters.length - 1].ad.updated;
+                    params.last = type+'.'+paginate.character._id + "." + paginate.character.ad.updated;
                 }
 
             }
@@ -191,13 +196,24 @@
                     $scope.$parent.loading = false;
                     $scope.loading = false;
 
-                    $scope.characters = $scope.characters.concat(characters);
+                    if (params.last && params.last.indexOf('max') >= 0) {
+                         $scope.characters = $scope.characters.concat(characters.reverse());
+                    } else {
+                        $scope.characters = $scope.characters.concat(characters);
+                    }
+
+                    if ($scope.characters.length <= 0) {
+                        $scope.noResult = true;
+                    } else {
+                        $scope.noResult = false;
+                    }
 
                 },
                 function (error) {
                     $scope.$parent.error = error.data;
                     $scope.$parent.loading = false;
-                });
+                }
+            );
         }
     }
 })();
