@@ -21,12 +21,19 @@
                 title: 'WarcraftParser',
                 controller: "ParserController"
             })
-            .state("parserRealm", {
-                url: "/parser/:region/:realm/",
-                templateUrl: "app/parser/realm.html",
+            .state("parserLockout", {
+                url: "/guild/:region/:realm/:name/parser/lockout",
+                templateUrl: "app/parser/parser-lockout.html",
                 controlerAs: 'vm',
                 title: 'WarcraftParser',
-                controller: "ParserRealmController"
+                controller: "ParserController"
+            })
+            .state("parserBosses", {
+                url: "/guild/:region/:realm/:name/parser/bosses",
+                templateUrl: "app/parser/parser-bosses.html",
+                controlerAs: 'vm',
+                title: 'WarcraftParser',
+                controller: "ParserController"
             })
         ;
     }

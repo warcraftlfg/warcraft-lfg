@@ -1,4 +1,4 @@
-<section class="header header-guild">
+<section class="header header-guild m-b-10">
     <div class="">
         <div class="container">
             <div class="row">
@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <span ng-if="guild">{{ guild.region|uppercase}}-{{ guild.realm }} <span ng-if="guildParser">- {{ guildParser.length }} {{ "MEMBERS"|translate }}</span> // {{ guild.ad.updated | amDateFormat:'MM-DD-YYYY HH:mm:ss'}}</span>
+                    <span ng-if="guild">{{ guild.region|uppercase}}-{{ guild.realm }} <span ng-if="guildParser">- {{ guildParser.length }} {{ "MEMBERS"|translate }}</span> // {{ guild.updated | amDateFormat:'MM-DD-YYYY HH:mm:ss'}}</span>
                     <span ng-if="!guild"></span>
                     <a class="f-right" ng-if="userCanEdit"
                        href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update">

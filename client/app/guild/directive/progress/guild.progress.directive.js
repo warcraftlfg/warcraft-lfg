@@ -7,7 +7,7 @@ function wlfgProgressGuild(__env, progress) {
     var directive = {
         link: link,
         restrict: 'A',
-        templateUrl: 'app/guild/directive/progress/guild.progress.directive.html'
+        templateUrl: 'app/guild/directive/progress/guild.progress.directive.html',
     };
     return directive;
 

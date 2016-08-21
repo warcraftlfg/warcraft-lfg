@@ -75,8 +75,6 @@
     }
 
   }
-
-
 }
 
 .guild-read {
@@ -117,6 +115,20 @@
   .label {
     display: inline-block;
     margin-right: 4px;
+  }
+
+  .h-separator {
+    width: 1px;
+    background-color: $white;
+    display: inline-block;
+  }
+
+  .icon-tabs .active {
+    opacity: 1 !important;
+  }
+
+  .icon-tabs .fa:focus, .icon-tabs .fa:hover {
+    opacity: 1 !important;
   }
 }
 
@@ -161,9 +173,37 @@
   margin-top: 3px !important;
 }
 
-.guild-parser .talent {
-  padding-top: 3px;
-  padding-bottom: 3px;
+.guild-parser { 
+  .talent {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+
+  .p-l-10 {
+    padding-left: 12px !important;
+  }
+
+  .sortable {
+    position: relative;
+    padding-right: 15px;
+
+    div.icon-border-24 {
+      margin-right: 3px;
+    }
+
+    .fa.fa-sort, .fa.fa-sort-desc, .fa.fa-sort-asc {
+      position: absolute;
+      top: 11px;
+    }
+  }
+
+  .sort-img {
+    padding-right: 15px;
+
+    .sort-fix {
+      margin-right: 3px;
+    }
+  }
 }
 
 .guild-parser .p-l-10 {

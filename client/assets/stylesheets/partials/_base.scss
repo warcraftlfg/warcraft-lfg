@@ -64,6 +64,10 @@ body {
   color: $white;
 }
 
+.btn-default.disabled:focus, .btn-default.disabled:hover {
+  background-color: transparent !important;
+}
+
 .btn-inverse {
   background-color: $grey;
   color: #fff;
@@ -162,7 +166,7 @@ pre {
   color: white;
 }
 
-a i.fa:hover, a.href-icon {
+a.href-icon {
   color: #ccc;
   text-decoration: none;
 }

@@ -160,34 +160,34 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
             parser.suramar.worldQuestTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
         } else {
             parser.suramar.worldQuest = 0;
-            if (character.achievements.criteria.indexOf(40009)) {
+            if (character.quests.indexOf(40009) >= 0) {
                 parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(40956)) {
+            if (character.quests.indexOf(40956) >= 0) {
                 parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(42147)) {
+            if (character.quests.indexOf(42147) >= 0) {
                 parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(41760)) {
+            if (character.quests.indexOf(41760) >= 0) {
                 parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(41138)) {
+            if (character.quests.indexOf(41138) >= 0) {
                 parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(42230)) {
+            if (character.quests.indexOf(42230) >= 0) {
                 parser.suramar.worldQuest++;
             }
         }
     }
 
     // Suramar COS unlock
-    if (character.quests && character.quests.indexOf(43314)) {
+    if (character.quests && character.quests.indexOf(43314) >= 0) {
         parser.suramar.courtOfStar = true;
     }
 
     // Suramar Arcway unlock
-    if (character.quests && character.quests.indexOf(44053)) {
+    if (character.quests && character.quests.indexOf(44053) >= 0) {
         parser.suramar.arcway = true;
     }
 
@@ -203,13 +203,17 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
         var achievement = character.achievements.achievementsCompleted.indexOf(10994);
         if (achievement >= 0) {
             parser.classOrderCampaign = true
-            parser.classOrderCampaignTime = character.achievements.achievementsCompletedTimestamp[achievement];
-        } else {
-            parser.classOrderCampaign = false;
+            parser.classOrderCampaignTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
         }
     }
-    if (character.quests && character.quests.indexOf(10585)) {
-        parser.obliterumForge = true;
+
+    // Obliterum forge
+    if (character.achievements) {
+        var achievement = character.achievements.achievementsCompleted.indexOf(10585);
+        if (achievement >= 0) {
+            parser.obliterumForge = true;
+            parser.obliterumForgeTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
+        }
     }
 
     // Legendary
@@ -218,6 +222,12 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
         if (character.items[i].quality && character.items[i].quality == 5 && character.items[i].itemLevel > 850) {
             parser.legendary++;
         }
+    }
+
+    // Artifact trait
+    parser.artifact = {trait: 0, knowledge: 0, relic: 0};
+    if (character.bnet && character.bnet.items && character.bnet.items.mainHand) {
+        parser.artifact.relic = character.bnet.items.mainHand.relics.length;
     }
 
     // T19

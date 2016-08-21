@@ -67,79 +67,57 @@ function wlfgItemAudit($translate) {
                 if (items.neck && items.neck.tooltipParams.enchant) {
                     if (neckEnchant.indexOf(items.neck.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors['neck'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
+                        errors.neck.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
                     }
                 } else {
                     errorCount++;
-                    errors['neck'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
+                    errors.neck.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
                 }
 
                 if (items.back && items.back.tooltipParams.enchant) {
                     if (backEnchantLow.indexOf(items.back.tooltipParams.enchant) >= 0) {
                         errorCount++;
-                        errors['back'].problems.push({'message': $translate.instant("LOW_ENCHANT"), 'type': 'warning'});
+                        errors.back.problems.push({'message': $translate.instant("LOW_ENCHANT"), 'type': 'warning'});
                     } else if (backEnchantHigh.indexOf(items.back.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors['back'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});    
+                        errors.back.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});    
                     }
                 } else {
                     errorCount++;
-                    errors['back'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
+                    errors.back.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
                 }
 
                 if (items.finger1 && items.finger1.tooltipParams.enchant) {
                     if (ringEnchantLow.indexOf(items.finger1.tooltipParams.enchant) >= 0) {
                         errorCount++;
-                        errors['finger1'].problems.push({'message': $translate.instant("LOW_ENCHANT"), 'type': 'warning'});
+                        errors.finger1.problems.push({'message': $translate.instant("LOW_ENCHANT"), 'type': 'warning'});
                     } else if (ringEnchantHigh.indexOf(items.finger1.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors['finger1'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
+                        errors.finger1.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
                     }
                 } else {
                     if (!items.finger1) {
                         items.finger1 = {icon: ""};
                     }
                     errorCount++;
-                    errors['finger1'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
+                    errors.finger1.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
                 }
 
                 if (items.finger2 && items.finger2.tooltipParams.enchant) {
                     if (ringEnchantLow.indexOf(items.finger1.tooltipParams.enchant) >= 0) {
                         errorCount++;
-                        errors['finger2'].problems.push({'message': $translate.instant("LOW_ENCHANT"), 'type': 'warning'});
+                        errors.finger2.problems.push({'message': $translate.instant("LOW_ENCHANT"), 'type': 'warning'});
                     } else if (ringEnchantHigh.indexOf(items.finger1.tooltipParams.enchant) == -1) {
                         errorCount++;
-                        errors['finger2'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
+                        errors.finger2.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
                     }
                 } else {
                     if (!items.finger2) {
                         items.finger2 = {icon: ""};
                     }
                     errorCount++;
-                    errors['finger2'].problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
+                    errors.finger2.problems.push({'message': $translate.instant("NO_ENCHANT"), 'type': 'danger'});
                 }
-
-                /*if (items.mainHand && items.mainHand.tooltipParams.enchant) {
-                    if (weaponEnchant.indexOf(items.mainHand.tooltipParams.enchant) == -1) {
-                        errorCount++;
-                        errors.push($translate.instant("LOW_MAINHAND_ENCHANT"));
-                    }
-                } else {
-                    errorCount++;
-                    errors.push($translate.instant("NO_MAINHAND_ENCHANT"));
-                }
-
-                if (items.offHand && items.offHand.weaponInfo) {
-                    if (items.offHand.tooltipParams.enchant) {
-                        if (weaponEnchant.indexOf(items.offHand.tooltipParams.enchant) == -1) {
-                            errorCount++;
-                            errors.push($translate.instant("LOW_OFFHAND_ENCHANT"));
-                        }
-                    } else {
-                        errorCount++;
-                        errors.push($translate.instant("NO_OFFHAND_ENCHANT"));
-                    }
-                }*/
             }
 
             scope.errorCount = errorCount;

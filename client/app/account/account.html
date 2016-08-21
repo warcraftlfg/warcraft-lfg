@@ -34,8 +34,7 @@
                 <table class="table">
                     <tr ng-repeat="guildAd in guildAds">
                         <td class="faction-{{guildAd.bnet.side}}">
-                            <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/"
-                               class="txt-underline">
+                            <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/" class="txt-underline">
                                 {{guildAd.name}}
                             </a>
                         </td>
@@ -46,13 +45,17 @@
                             {{guildAd.region|uppercase}}
                         </td>
                         <td ng-init="diffDay = (guildAd.ad.updated | amDifference:null:'days')">
-                            <i ng-class="{'text-success':diffDay>=0&&diffDay<=90,'text-warning':diffDay>90&&diffDay<=120,'text-danger':diffDay<0||diffDay>120}" class="fa fa-file-text-o" tooltip-placement="top" uib-tooltip-template="'accountRecruitementTooltipTemplate.html'"></i>
+                            <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/">
+                                <i ng-class="{'text-success':diffDay<=0&&diffDay>=-90,'text-warning':diffDay<-90&&diffDay>=-120,'text-danger':diffDay>0||diffDay<-120}" class="fa fa-file-text-o" tooltip-placement="top" uib-tooltip-template="'accountRecruitementTooltipTemplate.html'"></i>
+                            </a>
                             <script type="text/ng-template" id="accountRecruitementTooltipTemplate.html">
                                 <span>{{"EXPIRE"|translate}} <span am-time-ago="{{guildAd.ad.updated|amAdd:'120':'days'}}"></span></span>
                             </script>
                         </td>
                         <td>
-                            <i ng-class="{'text-success':guildAd.parser.active,'text-danger':!guildAd.parser.active}" class="fa fa-bar-chart" tooltip-placement="top" uib-tooltip-template="'accountParserTooltipTemplate.html'"></i>
+                            <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/parser/">
+                                <i ng-class="{'text-success':guildAd.parser.active,'text-danger':!guildAd.parser.active}" class="fa fa-bar-chart" tooltip-placement="top" uib-tooltip-template="'accountParserTooltipTemplate.html'"></i>
+                            </a>
                             <script type="text/ng-template" id="accountParserTooltipTemplate.html">
                                 <span ng-if="guildAd.parser.active">{{"ACCOUNT_PARSER_ACTIVE"|translate}}</span>
                                 <span ng-if="!guildAd.parser.active">{{"ACCOUNT_PARSER_INACTIVE"|translate}}</span>

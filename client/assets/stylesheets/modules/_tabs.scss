@@ -5,15 +5,14 @@
 	.border-bottom {
 		width: 100%;
 		height: 1px;
-		background-color: white;
+		background-color: $black;
 		margin: 0 auto;
-		display: none;
 	}
 }
 
 .nav-tabs > li > a {
 	border-radius: 0px;
-	font-size: 16px;
+	font-size: 14px;
 	color: #a0a0a0;
 	background-color: $black;
 	border: none;
@@ -25,7 +24,7 @@
 	border: none;
 
 	.border-bottom {
-		display: block;
+		background-color: $white;
 	}
 }
 
@@ -34,12 +33,16 @@
 	color: white;
 	
 	.border-bottom {
-		display: block;
+		background-color: $white;
 	}
 }
 
 .nav.nav-tabs > li > a:focus {
 	background-color: $black !important;
+}
+
+.nav-tabs li a i.fa {
+	margin-bottom: 5px;
 }
 
 .no-tabs .nav-tabs {
@@ -55,4 +58,9 @@
 .no-tabs .nav-tabs > li.active > a, .no-tabs .nav-tabs > li.active > a:focus, .no-tabs .nav-tabs > li.active > a:hover {
 	background-color: $black !important;
 	border: 0;
-}  
+}
+
+.guild-update .nav-tabs, .guild-parser .nav-tabs {
+	cursor:default;
+	padding-bottom: 1px;
+}

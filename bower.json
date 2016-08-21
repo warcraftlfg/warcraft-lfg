@@ -22,6 +22,7 @@
     "angular-perfect-scrollbar": "^0.0.4"
   },
   "resolutions": {
-    "angular": "1.4.8"
+    "angular": "1.4.8",
+    "angular-translate": "~2.11.0"
   }
 }

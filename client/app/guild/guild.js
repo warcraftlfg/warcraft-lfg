@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "ranking", "progress"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user, ranking, progress) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "ranking", "progress", "__env"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user, ranking, progress, __env) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -19,25 +19,28 @@
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
 
-        $scope.bosses = ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"];
+        $scope.raid =  __env.tiers[__env.tiers.current];
+        $scope.progressAdvanced = false;
 
         ranking.get({
-            "tier": 18,
+            "tier": __env.tiers.current,
             "region": $stateParams.region,
             "realm": $stateParams.realm,
             "name": $stateParams.name
         }, function (rank) {
             $scope.rank = rank;
+            console.log(rank);
         });
 
 
         progress.get({
-            "tier": 18,
+            "tier": __env.tiers.current,
             "region": $stateParams.region,
             "realm": $stateParams.realm,
             "name": $stateParams.name
         }, function (progress) {
             $scope.progress = progress;
+            console.log($scope.progress);
         });
 
         guilds.get({

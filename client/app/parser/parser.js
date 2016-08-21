@@ -30,16 +30,24 @@
         };
     }
 
-    ParserController.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "__env"];
-    function ParserController($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user, __env) {
+    ParserController.$inject = ["$scope", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "moment", "__env"];
+    function ParserController($scope, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user, moment, __env) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
 
         $scope.$parent.error = null;
         $scope.$parent.loading = true;
 
+        $scope.route = $state.current.name;
+
         $scope.current_url = window.encodeURIComponent($location.absUrl());
         $scope.ilvlColor = __env.ilvlColor;
         $scope.sort = 'name';
+
+        $scope.lastReset = getLastDay();
+        $scope.raid = __env.tiers[__env.tiers.current];
+        $scope.currentTier = __env.tiers.current;
+
+        $scope.difficulty = "normalTimestamp";
 
         guilds.get({
                 "guildRegion": $stateParams.region,
@@ -77,13 +85,15 @@
             }
         );
 
+        $scope.loading = true;
+
         guilds.query({part: "parser", "guildRegion": $stateParams.region, "guildRealm": $stateParams.realm, "guildName": $stateParams.name
             }, function(guildParser) {
-                $scope.$parent.loading = false;
+                $scope.loading = false;
                 $scope.guildParser = guildParser;
             }, function (error) {
                 $scope.$parent.error = error.data;
-                $scope.$parent.loading = false;
+                $scope.loading = false;
             }
         );
 
@@ -105,11 +115,23 @@
         };
 
         $scope.switchSort = function(value) {
-            if ($scope.sort == value) {
+            if ($scope.sort === value) {
                 value = '-'+value;
             }
             
             $scope.sort = value;
         };
+    }
+
+    function getLastDay(region) {
+        var today = new Date();
+        var object;
+
+        var data = {day: "Wednesday", number: 4};
+
+        object = moment().day(-4);
+        object.set({'hour': 3, 'minute': 0, 'second': 0});
+
+        return object;
     }
 })();

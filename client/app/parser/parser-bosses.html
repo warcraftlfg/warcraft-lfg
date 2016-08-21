@@ -1,0 +1,79 @@
+<div ng-include="'app/guild/guild-read-header.html'"></div>
+<div class="guild-parser">
+    <div class="container">
+        <div ng-include="'app/guild/guild-read-intro.html'"></div>
+        <div ng-include="'app/parser/parser-navbar.html'"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-striped table-hover">
+                        <thead>
+                            <th class="cursor-pointer" ng-click="switchSort('name');">
+                                {{ "NAME"|translate }}
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[0].bosses['+$index+'].bestKills');" ng-repeat="(key, boss) in raid.bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/bosses/{{ currentTier }}/{{ key }}.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='bnet.progression.raids[0].bosses['+$index+'].bestKills'&&sort!='-bnet.progression.raids[0].bosses['+$index+'].bestKills'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.progression.raids[0].bosses['+$index+'].bestKills'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.progression.raids[0].bosses['+$index+'].bestKills'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" ng-if="loading">
+                                <td colspan="16" class="p-15 parser-loading">
+                                    <i class="fa fa-2x fa-spinner fa-spin"></i>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="character in guildParser | orderBy:sort">
+                                <td class="bold class-{{ character.bnet.class }}">
+                                    <a ng-href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
+                                        {{ character.name }}
+                                    </a>
+                                </td>
+                                <td class="text-center sort-img" ng-if="character.bnet.progression.raids[0].name == raid.name" ng-repeat="boss in character.bnet.progression.raids[0].bosses">
+                                    <span class="cursor-pointer bd-b-d sort-fix" tooltip-placement="top" uib-tooltip-template="'parserBossesTooltipTemplate.html'" tooltip-class="bossesCount-tooltips" tooltip-append-to-body="true">
+                                        <span class="legendary" ng-if="boss.mythicKills>0" ng-init="boss.bestKills = 'a'+boss.mythicKills ">{{ boss.mythicKills }}</span>
+                                        <span class="epic" ng-if="boss.heroicKills>0&&boss.mythicKills<=0" ng-init="boss.bestKills = 'b'+boss.heroicKills">{{ boss.heroicKills }}</span>
+                                        <span class="rare" ng-if="boss.normalKills>0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.bestKills = 'c'+boss.normalKills">{{ boss.normalKills }}</span>
+                                        <span class="uncommon" ng-if="boss.lfrKills>0&&boss.normalKills<=0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.normalKills = 'd'+boss.mythicKills">{{ boss.lfrKills }}</span>
+                                        <span class="common" ng-if="boss.lfrKills<=0&&boss.normalKills<=0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.bestKills = 'e'+0">0</span>
+                                    </span>
+                                    <script type="text/ng-template" id="parserBossesTooltipTemplate.html">
+                                        <table>
+                                            <tr>
+                                                <td class="p-5 legendary">{{ "MYTHIC"|translate }}</td>
+                                                <td class="p-5">{{ boss.mythicKills }}</td>
+                                                <td class="p-5">{{ boss.mythicTimestamp | amDateFormat:'MM-DD-YYYY HH:mm:ss' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-5 epic">{{ "HEROIC"|translate }}</td>
+                                                <td class="p-5">{{ boss.heroicKills }}</td>
+                                                <td class="p-5">{{ boss.heroicTimestamp | amDateFormat:'MM-DD-YYYY HH:mm:ss' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-5 rare">{{ "NORMAL"|translate }}</td>
+                                                <td class="p-5">{{ boss.normalKills }}</td>
+                                                <td class="p-5">{{ boss.normalTimestamp | amDateFormat:'MM-DD-YYYY HH:mm:ss'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-5 uncommon">{{ "LFR"|translate }}</td>
+                                                <td class="p-5">{{ boss.lfrKills }}</td>
+                                                <td class="p-5">{{ boss.lfrTimestamp | amDateFormat:'MM-DD-YYYY HH:mm:ss' }}</td>
+                                            </tr>
+                                        </table>
+                                    </script>
+                                </td>
+                                <td ng-if="character.bnet.progression.raids[0].name != raid.name" ng-repeat="boss in raid.bosses"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

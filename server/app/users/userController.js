@@ -19,7 +19,7 @@ module.exports.logout = function (req, res) {
     var logger = applicationStorage.logger;
     logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
     req.logout();
-    res.redirect('/');
+    res.redirect('/#/redirect');
 };
 
 /**
