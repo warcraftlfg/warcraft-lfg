@@ -64,6 +64,10 @@ body {
   color: $white;
 }
 
+.btn-default.disabled:focus, .btn-default.disabled:hover {
+  background-color: transparent !important;
+}
+
 .btn-inverse {
   background-color: $grey;
   color: #fff;
@@ -162,7 +166,7 @@ pre {
   color: white;
 }
 
-a i.fa:hover, a.href-icon {
+a.href-icon {
   color: #ccc;
   text-decoration: none;
 }
@@ -197,6 +201,18 @@ tags-input {
 
 .pagination>li.disabled:last-child>a, .pagination>li.disabled:last-child>span:hover {
   background-color: $black;
+}
+
+.icon-border-24 {
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+}
+
+.icon-border-22 {
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
 }
 
 @media (min-width: 979px) {

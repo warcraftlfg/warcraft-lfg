@@ -1,0 +1,18 @@
+<div class="col-md-6">
+	<table class="table table-condensed table-striped">
+		<tr ng-repeat="boss in progressOrder | orderBy:'-timestamp' | limitTo:progressAdvanced.left">
+			<td class="bold">{{ boss.name|uppercase|translate }}</td>
+			<td ng-class="{'legendary':boss.difficulty=='mythic','epic':boss.difficulty=='heroic','rare':boss.difficulty=='normal'}">{{ boss.difficulty|uppercase|translate }}</td>
+			<td>{{ boss.timestamp | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</td>
+		</tr>
+	</table>
+</div>
+<div class="col-md-6">
+	<table class="table table-condensed table-striped">
+		<tr ng-repeat="boss in progressOrder | orderBy:'-timestamp' | limitTo:progressAdvanced.right">
+			<td class="bold">{{ boss.name|uppercase|translate }}</td>
+			<td ng-class="{'legendary':boss.difficulty=='mythic','epic':boss.difficulty=='heroic','rare':boss.difficulty=='normal'}">{{ boss.difficulty|uppercase|translate }}</td>
+			<td>{{ boss.timestamp | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</td>
+		</tr>
+	</table>
+</div>

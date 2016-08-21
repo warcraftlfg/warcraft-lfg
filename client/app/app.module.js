@@ -30,7 +30,8 @@
         'app.layout',
         'app.message',
         'app.progress',
-        'app.parser'
+        'app.parser',
+        'app.redirect'
     ]);
 
 })();

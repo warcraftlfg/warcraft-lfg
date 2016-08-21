@@ -222,6 +222,7 @@ module.exports.getCount = function (req, res) {
 };
 
 module.exports.getGuildParser = function (req, res) {
+    var config = applicationStorage.config;
     var logger = applicationStorage.logger;
     logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
 
@@ -239,6 +240,12 @@ module.exports.getGuildParser = function (req, res) {
         updated: 1,
         parser: 1,
         "bnet.items": 1,
+        "bnet.class": 1,
+        "bnet.race": 1,
+        "bnet.level": 1,
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,1]},
+        "bnet.talents": 1,
+        "warcraftLogs.logs": 1
     };
 
     async.waterfall([

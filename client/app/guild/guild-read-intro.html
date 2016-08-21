@@ -1,0 +1,37 @@
+<wlfg-message-popup></wlfg-message-popup>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+           <div class="col-md-12" ng-if="queuePosition">
+                <button ng-if="queuePosition" type="button" class="btn btn-default disabled m-b-5">
+                    <i class="fa  fa-spinner"></i> {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} ({{"QUEUE_CHECK_MESSAGE"|translate}})
+                </button>
+            </div>
+            <div class="col-md-8 m-b-10">
+                <a ng-if="guildParser" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="btn btn-default">
+                    <i class="fa fa-file-text-o"></i> &nbsp;{{"INFORMATION"|translate}}
+                </a>
+                <a ng-if="!guildParser" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/" class="btn btn-default">
+                    <i class="fa fa-bar-chart"></i> &nbsp;{{"PARSER"|translate}}
+                </a>
+                <button ng-if="guild.id" ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
+                    <img src="/assets/images/message.png" class="message-picto"/> &nbsp;{{"MESSAGE_OPEN_POPUP"|translate}}
+                </button>
+                <button ng-class="{'disabled':queuePosition}" ng-click="updateGuild()" type="button" class="btn btn-default" aria-label="Update Guild">
+                    <i class="fa fa-refresh"></i> &nbsp;{{"UPDATE_GUILD"|translate}}
+                </button>
+            </div>
+            <div class="col-md-4 m-b-10 text-right">
+                <a href="http://www.askmrrobot.com/wow/combatlog/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}" target="_blank" class="m-l-10 href-icon">
+                    <img src="/assets/images/external/amr.png" class="external-icon" width="34" />
+                </a>
+                <a href="https://www.warcraftlogs.com/guilds/name/{{ guild.name }}/{{ guild.realm }}/{{ guild.region }}" target="_blank" class="m-l-10 href-icon">
+                    <img src="/assets/images/external/wcl.png" width="34" />
+                </a>
+                <a href="http://{{ guild.region }}.battle.net/wow/en/guild/{{ guild.realm }}/{{ guild.name }}/" target="_blank" class="m-l-10 href-icon">
+                    <img src="/assets/images/external/armory.png" width="34" />
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

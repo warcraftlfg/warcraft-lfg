@@ -44,7 +44,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
         },
         function (characterUpdate, callback) {
             //Sanitize name
-            bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, ["guild", "items", "progression", "talents", "achievements", "statistics", "challenge", "pvp", "reputation", "stats"], function (error, character) {
+            bnetAPI.getCharacter(characterUpdate.region, characterUpdate.realm, characterUpdate.name, ["guild", "items", "progression", "talents", "achievements", "statistics", "challenge", "pvp", "reputation", "stats", "quests"], function (error, character) {
                 if (character && character.realm && character.name) {
                     callback(error, characterUpdate.region, character);
                 } else {
@@ -122,6 +122,11 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 }
             }, function (error, results) {
                 results.parser = self.parseCharacter(character);
+
+                // Too many data, let's remove
+                character.achievements = null;
+                character.quests = null;
+
                 results.bnet = character;
                 results.bnet.updated = new Date().getTime();
                 characterModel.upsert(region, character.realm, character.name, results, function (error) {
@@ -138,38 +143,58 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
 };
 
 /**
- * Update one character
+ * Parse one character
  */
 CharacterUpdateProcess.prototype.parseCharacter = function (character) {
+    var self = this;
+
     // Parser
     var parser = {};
 
     // Suramar WQ unlock
+    parser.suramar = {};
     if (character.achievements) {
         var achievement = character.achievements.achievementsCompleted.indexOf(10617);
         if (achievement >= 0) {
-            parser.suramarWQ = 6;
-            parser.suramarWQTime = character.achievements.achievementsCompletedTimestamp[achievement];
+            parser.suramar.worldQuest = 6;
+            parser.suramar.worldQuestTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
         } else {
-            parser.suramarWQ = 0;
-            if (character.achievements.criteria.indexOf(40009)) {
-                parser.suramarWQ++;
+            parser.suramar.worldQuest = 0;
+            if (character.quests.indexOf(40009) >= 0) {
+                parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(40956)) {
-                parser.suramarWQ++;
+            if (character.quests.indexOf(40956) >= 0) {
+                parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(42147)) {
-                parser.suramarWQ++;
+            if (character.quests.indexOf(42147) >= 0) {
+                parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(41760)) {
-                parser.suramarWQ++;
+            if (character.quests.indexOf(41760) >= 0) {
+                parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(41138)) {
-                parser.suramarWQ++;
+            if (character.quests.indexOf(41138) >= 0) {
+                parser.suramar.worldQuest++;
             }
-            if (character.achievements.criteria.indexOf(42230)) {
-                parser.suramarWQ++;
+            if (character.quests.indexOf(42230) >= 0) {
+                parser.suramar.worldQuest++;
             }
+        }
+    }
+
+    // Suramar COS unlock
+    if (character.quests && character.quests.indexOf(43314) >= 0) {
+        parser.suramar.courtOfStar = true;
+    }
+
+    // Suramar Arcway unlock
+    if (character.quests && character.quests.indexOf(44053) >= 0) {
+        parser.suramar.arcway = true;
+    }
+
+    // Reputation Suramar
+    for (var i = 0; i < character.reputation.length; i++) {
+        if (character.reputation[i].name == "The Nightfallen") {
+            parser.suramar.reputation = character.reputation[i];
         }
     }
 
@@ -178,39 +203,31 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
         var achievement = character.achievements.achievementsCompleted.indexOf(10994);
         if (achievement >= 0) {
             parser.classOrderCampaign = true
-            parser.classOrderCampaignTime = character.achievements.achievementsCompletedTimestamp[achievement];
-        } else {
-            parser.classOrderCampaign = false;
+            parser.classOrderCampaignTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
         }
     }
 
-    // COS unlock
-    if (character.quests && character.quests.indexOf(43314)) {
-        parser.suramarDungeonCOS = true;
-    } else {
-        parser.suramarDungeonCOS = false;
-    }
-
-    // Arcway unlock
-    if (character.quests && character.quests.indexOf(44053)) {
-        parser.suramarDungeonArcway = true;
-    } else {
-        parser.suramarDungeonArcway = false;
-    }
-
-    // Reputation Suramar
-    for (var i = 0; i < character.reputation.length; i++) {
-        if (character.reputation[i].name == "The Nightfallen") {
-            parser.suramarReputation = character.reputation[i];
+    // Obliterum forge
+    if (character.achievements) {
+        var achievement = character.achievements.achievementsCompleted.indexOf(10585);
+        if (achievement >= 0) {
+            parser.obliterumForge = true;
+            parser.obliterumForgeTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
         }
     }
 
     // Legendary
     parser.legendary = 0;
     for (var i = 0; i < character.items.length; i++) {
-        if (character.items[i].quality && character.items[i].quality == 5) {
+        if (character.items[i].quality && character.items[i].quality == 5 && character.items[i].itemLevel > 850) {
             parser.legendary++;
         }
+    }
+
+    // Artifact trait
+    parser.artifact = {trait: 0, knowledge: 0, relic: 0};
+    if (character.bnet && character.bnet.items && character.bnet.items.mainHand) {
+        parser.artifact.relic = character.bnet.items.mainHand.relics.length;
     }
 
     // T19
@@ -220,8 +237,75 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
 
     // Audit
 
+    // Proving Grounds
+    parser.provingGrounds = {};
+    parser.provingGrounds.tank = self.parseCharacterProvingGrounds(character.achievements, 'tank');
+    parser.provingGrounds.dps = self.parseCharacterProvingGrounds(character.achievements, 'dps');
+    parser.provingGrounds.healer = self.parseCharacterProvingGrounds(character.achievements, 'tank');
+
+    parser.challenge = {};
+    parser.challenge.gold = self.parseCharacterChallengeMedal(character.achievements, 'gold');
+    parser.challenge.silver = self.parseCharacterChallengeMedal(character.achievements, 'silver');
+    parser.challenge.copper = self.parseCharacterChallengeMedal(character.achievements, 'copper');
+
     return parser;
 };
+
+/**
+ * Parse ProvingGround (WOD)
+ */
+CharacterUpdateProcess.prototype.parseCharacterProvingGrounds = function (achievements, type) {
+    var statId = {
+        'tank': [9578, 9579, 9580, 26345],
+        'dps': [9572, 9573, 9574, 26344],
+        'healer': [9584, 9585, 9586, 26346]
+    };
+
+    var criteriaId;
+
+    var data = {};
+
+    data.best = 0;
+
+    if (achievements && achievements.achievementsCompleted) {
+        if (achievements.achievementsCompleted.indexOf(statId[type][2]) != -1) {
+            data.gold = true;
+            if ((criteriaId = achievements.criteria.indexOf(statId[type][3])) != -1) {
+                data.best = achievements.criteria[criteriaId];
+            }
+        } else if (achievements.achievementsCompleted.indexOf(statId[type][1]) != -1) {
+            data.silver = true;
+        } else if (achievements.achievementsCompleted.indexOf(statId[type][0]) != -1) {
+            data.copper = true;
+        }
+    }
+
+    return data;
+
+}
+
+/**
+ * Parse ProvingGround (WOD)
+ */
+CharacterUpdateProcess.prototype.parseCharacterChallengeMedal = function (achievements, type) {
+    var statId = {
+        'gold': [8878, 8882, 9004, 8886, 9000, 8874, 8890, 8894],
+        'silver': [8877, 8881, 9003, 8885, 8999, 8873, 8889, 8893],
+        'copper': [8876, 8880, 9002, 8884, 8998, 8872, 8888, 8892]
+    };
+
+    var data = 0;
+
+    if (achievements && achievements.achievementsCompleted) {
+        statId[type].forEach(function(id) {
+            if (achievements.achievementsCompleted.indexOf(id) != -1) {
+                data++;
+            }
+        });
+    }
+
+    return data;
+}
 
 /**
  * Start characterUpdateProcess

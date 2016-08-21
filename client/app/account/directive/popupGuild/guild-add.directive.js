@@ -32,6 +32,8 @@
 
     AccountGuildAddPopupController.$inject = ["$scope", "$filter", "$uibModalInstance", "socket", "user"];
     function AccountGuildAddPopupController($scope, $filter, $uibModalInstance, socket, user) {
+        $scope.guildRegion = "";
+
         /**
          * Get user's guilds by region
          */
