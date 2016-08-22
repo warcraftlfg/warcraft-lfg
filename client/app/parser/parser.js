@@ -91,9 +91,17 @@
             }, function(guildParser) {
                 $scope.loading = false;
                 $scope.guildParser = guildParser;
+
+                if (guildParser.length <= 0) {
+                    $scope.noResult = true;
+                } else {
+                    $scope.noResult = false;
+                }
             }, function (error) {
-                $scope.$parent.error = error.data;
+                //$scope.$parent.error = error.data;
+                $scope.guildParser = [];
                 $scope.loading = false;
+                $scope.noResult = true;
             }
         );
 

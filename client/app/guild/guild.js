@@ -29,9 +29,7 @@
             "name": $stateParams.name
         }, function (rank) {
             $scope.rank = rank;
-            console.log(rank);
         });
-
 
         progress.get({
             "tier": __env.tiers.current,
@@ -40,7 +38,6 @@
             "name": $stateParams.name
         }, function (progress) {
             $scope.progress = progress;
-            console.log($scope.progress);
         });
 
         guilds.get({

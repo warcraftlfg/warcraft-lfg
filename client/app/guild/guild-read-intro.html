@@ -4,15 +4,18 @@
         <div class="row">
            <div class="col-md-12" ng-if="queuePosition">
                 <button ng-if="queuePosition" type="button" class="btn btn-default disabled m-b-5">
-                    <i class="fa  fa-spinner"></i> {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} ({{"QUEUE_CHECK_MESSAGE"|translate}})
+                    <i class="fa fa-spinner"></i> {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} ({{"QUEUE_CHECK_MESSAGE"|translate}})
                 </button>
             </div>
             <div class="col-md-8 m-b-10">
                 <a ng-if="guildParser" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="btn btn-default">
                     <i class="fa fa-file-text-o"></i> &nbsp;{{"INFORMATION"|translate}}
                 </a>
-                <a ng-if="!guildParser" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/" class="btn btn-default">
+                <a ng-if="!guildParser && guild.parser.active" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/" class="btn btn-default">
                     <i class="fa fa-bar-chart"></i> &nbsp;{{"PARSER"|translate}}
+                </a>
+                <a ng-if="!guildParser && !guild.parser.active && userCanEdit" href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update?parser" class="btn btn-default">
+                    <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
                 </a>
                 <button ng-if="guild.id" ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
                     <img src="/assets/images/message.png" class="message-picto"/> &nbsp;{{"MESSAGE_OPEN_POPUP"|translate}}

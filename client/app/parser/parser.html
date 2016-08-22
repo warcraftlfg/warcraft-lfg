@@ -128,8 +128,13 @@
                         </thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
-                                <td colspan="16" class="p-15 parser-loading">
+                                <td colspan="17" class="p-15 parser-loading">
                                     <i class="fa fa-2x fa-spinner fa-spin"></i>
+                                </td>
+                            </tr>
+                            <tr class="text-center" ng-if="noResult">
+                                <td colspan="17" class="p-15 loading">
+                                    {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
                             <tr ng-repeat="character in guildParser | orderBy:sort">

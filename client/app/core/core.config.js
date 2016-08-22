@@ -11,8 +11,7 @@
         //$locationProvider.html5Mode(true).hashPrefix('#');
 
         //$urlMatcherFactoryProvider.strictMode(false);
-
-        if ($(window).width() < 992) {
+        if (window.innerWidth < 992) {
             var options = {
                 trigger: 'dontTrigger' // default dummy trigger event to show tooltips
             };
