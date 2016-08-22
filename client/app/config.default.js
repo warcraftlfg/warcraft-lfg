@@ -2,13 +2,22 @@
   window.__env = window.__env || {};
 
   // WarcraftLFG url
-  window.__env.warcraftLfgUrl = 'https://warcraftlfg.dev.com';
+  window.__env.warcraftLfgUrl = 'https://www.warcraftlfg.com';
 
   // WarcraftProgress url
-  window.__env.warcraftProgressUrl = 'https://warcraftprogress.dev.com';
+  window.__env.warcraftProgressUrl = 'https://www.warcraftprogress.com';
 
   // WarcraftParser url
-  window.__env.warcraftParserUrl = 'https://warcraftparser.dev.com';
+  window.__env.warcraftParserUrl = 'https://www.warcraftparser.com';
+
+  // API Url
+  window.__env.apiUrl = 'https://api.warcrafthub.com';
+
+  // API Progress
+  window.__env.apiProgressUrl = 'https://api.warcraftprogress.com';
+
+  // HTML5
+  window.__env.hasbang = '#';
 
   var realms = {
     "eu": ["eu.en_GB.Europe/Paris", "eu.de_DE.Europe/Paris", "eu.fr_FR.Europe/Paris", "eu.es_ES.Europe/Paris", "eu.ru_RU.Europe/Paris", "eu.it_IT.Europe/Paris", "eu.pt_BR.Europe/Paris"],
@@ -78,10 +87,6 @@
   };
 
   window.__env.tiers = tiers;
-
-  var hashbang = '#';
-
-  window.__env.hasbang = hashbang;
 
   // Whether or not to enable debug mode
   // Setting this to false will disable console output

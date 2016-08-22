@@ -58,7 +58,7 @@ function WebServerProcess(autoStop, port) {
     //Allowed server to restart without loosing any session
     this.app.use(session({
         key: 'wgt.sid',
-        cookie: { maxAge : 3600000*24*14 },
+        cookie: { maxAge : 3600000*24*14, domain: '.'+config.server.domain },
         secret: config.session.secret,
         store: sessionStore,
         saveUninitialized: true,

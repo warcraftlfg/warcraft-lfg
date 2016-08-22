@@ -5,8 +5,8 @@
         .module('app.resource')
         .factory('progress', Progress);
 
-    Progress.$inject = ['$resource'];
-    function Progress($resource) {
-        return $resource('https://api.warcraftprogress.com/api/v1/progress/:tier/:region/:realm/:name');
+    Progress.$inject = ['$resource', '__env'];
+    function Progress($resource, __env) {
+        return $resource(__env.apiProgressUrl+'/api/v1/progress/:tier/:region/:realm/:name');
     }
 })();
