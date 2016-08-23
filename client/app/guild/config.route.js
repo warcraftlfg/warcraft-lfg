@@ -15,7 +15,7 @@
                 controller: "GuildReadController"
             })
             .state("guild-update", {
-                url: "/guild/:region/:realm/:name/update",
+                url: "/guild/:region/:realm/:name/update?parser",
                 templateUrl: "app/guild/guild-update.html",
                 controlerAs: 'vm',
                 title: 'Guild update',

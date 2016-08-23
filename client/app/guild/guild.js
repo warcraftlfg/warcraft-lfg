@@ -112,7 +112,7 @@
         $scope.timezones = TIMEZONES;
 
         $scope.activeTabs = {'lfg': false, 'parser': false};
-        if ($scope.host == "parser") {
+        if ($scope.host == "parser" || $stateParams.parser) {
             $scope.activeTabs.parser = true;
         } else {
             $scope.activeTabs.lfg = true;
