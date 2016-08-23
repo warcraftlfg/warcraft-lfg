@@ -9,7 +9,7 @@
         $httpProvider.defaults.withCredentials = true;
 
         // Remove hashtag from url
-        //$locationProvider.html5Mode(true).hashPrefix('#');
+        $locationProvider.html5Mode(true);
 
         if (window.innerWidth < 992) {
             var options = {
