@@ -2,7 +2,7 @@
     <div class="col-md-12 m-b-10">
         <ul class="nav nav-tabs">
             <li ng-class="{'active':route=='parser'}">
-                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/">
+                <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/">
                     <div class="text-center">
                         <div>
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li ng-class="{'active':route=='parserBosses'}">
-                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/bosses">
+                <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/bosses">
                     <div class="text-center">
                         <div>
                             <i class="fa fa-bolt" aria-hidden="true"></i>
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <!--<li class="">
-                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/wcl">
+                <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/wcl">
                     <div class="text-center">
                         <div>
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
@@ -41,7 +41,7 @@
                 </a>
             </li>-->
             <li ng-class="{'active':route=='parserLockout'}">
-                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/lockout">
+                <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/lockout">
                     <div class="text-center">
                         <div>
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -54,7 +54,7 @@
                 </a>
             </li>
             <!--<li class="">
-                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/lockout">
+                <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/lockout">
                     <div class="text-center">
                         <div>
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>

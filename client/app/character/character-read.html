@@ -20,7 +20,7 @@
                 <div class="col-md-12">
                     <span ng-if="character">{{ character.region|uppercase}}-{{ character.realm }} // {{ character.updated | amDateFormat:'MM-DD-YYYY HH:mm:ss'}} </span>
                     <span ng-if="!character">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
-                    <a class="f-right" ng-if="user && user.id && character.id == user.id" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
+                    <a class="f-right" ng-if="user && user.id && character.id == user.id" href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
                         <i class="fa fa-edit f-20"></i>
                     </a>
                 </div>

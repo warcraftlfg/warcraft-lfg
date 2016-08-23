@@ -46,7 +46,7 @@
                             </tr>
                             <tr ng-repeat="character in guildParser | orderBy:sort">
                                 <td class="bold class-{{ character.bnet.class }}">
-                                    <a ng-href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
+                                    <a ng-href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
                                         {{ character.name }}
                                     </a>
                                 </td>

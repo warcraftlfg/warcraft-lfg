@@ -92,13 +92,13 @@
                                 {{rank}}
                             </td>
                             <td class="faction-{{guild.side}}">
-                                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
+                                <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
                                     {{guild.name}}
                                 </a>
                                 <i ng-if="guild.lfg" class="fa fa-file-text-o txt-white m-l-5 f-12" tooltip-placement="top" uib-tooltip="{{ 'RECRUITMENT'|translate }}"></i>
                             </td>
                             <td ng-show="!filters.realm">
-                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                <a href="{{ hashbang }}/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
                                     {{guild.region|uppercase}}-{{guild.realm}}
                                 </a>
                             </td>
@@ -147,12 +147,12 @@
                                 {{rank}}
                             </td>
                             <td class="faction-{{guild.side}}">
-                                <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
+                                <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
                                     {{guild.name}}
                                 </a>
                             </td>
                             <td ng-show="!filters.realm">
-                                <a href="#/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
+                                <a href="{{ hashbang }}/pve/{{ guild.region }}/{{ guild.realm }}/" class="txt-underline italic">
                                     {{guild.region|uppercase}}-{{guild.realm}}
                                 </a>
                             </td>
@@ -172,7 +172,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': page <= 1}">
-                        <a ng-if="page > 1" ng-href="#/{{ path }}{{ (page - 1) }}"><span class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo; &nbsp; Previous</span></span></a>
+                        <a ng-if="page > 1" ng-href="{{ hashbang }}/{{ path }}{{ (page - 1) }}"><span class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo; &nbsp; Previous</span></span></a>
                         <span ng-if="page <= 1" aria-hidden="true">&laquo; &nbsp; {{"PREVIOUS"|translate }}</span>
                     </li>
                   </ul>
@@ -182,7 +182,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': noResult}">
-                        <a ng-href="#/{{ path }}{{ (page + 1) }}">
+                        <a ng-href="{{ hashbang }}/{{ path }}{{ (page + 1) }}">
                             <span class="page-link" aria-label="Previous">
                                 <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
                             </span>
@@ -208,7 +208,7 @@
                             </span>
                         </td>
                         <td class="faction-{{guild.bnet.side}}">
-                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
+                            <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
                                class="bold txt-underline">
                                 {{guild.name}}
                             </a>
@@ -235,7 +235,7 @@
                                   ng-if="character.id"></span>
                         </td>
                         <td class="class-{{character.bnet.class}}">
-                            <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
+                            <a href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
                                class="bold txt-underline class-{{character.bnet.class}}">
                                 {{character.name}}
                             </a>
