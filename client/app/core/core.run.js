@@ -10,6 +10,7 @@
 
     function runBlock($rootScope, $location, $window, $cookies, wlfgAppTitle, templateLoader, __env) {
         $rootScope.host = templateLoader.getTemplate();
+        $rootScope.apiUrl = __env.apiUrl;
 
         $rootScope.$on('$viewContentLoaded', function() {
             jQuery('html, body').animate({ scrollTop: 0 }, 200);

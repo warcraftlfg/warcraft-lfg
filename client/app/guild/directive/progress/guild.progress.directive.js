@@ -36,7 +36,7 @@ function wlfgProgressGuild(__env, progress) {
                 scope.progress = progress;
                 buildTooltip();
             });  
-        };
+        }
 
         function buildTooltip() {
             var progress = scope.progress;

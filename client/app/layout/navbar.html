@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="warcraftlfg-navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="{{ warcraftProgressUrl }}/#/">
+                    <a href="{{ warcraftProgressUrl }}/#/pve/">
                         {{"RANKING"|translate}}
                     </a>
                 </li>
@@ -30,7 +30,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ warcraftParserUrl }}/#/">
+                    <a href="{{ warcraftParserUrl }}/#/parser/">
                         {{"PARSER"|translate}}
                     </a>
                 </li>
@@ -39,7 +39,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="!user.id" class="cursor-default">
                     <span class="login-with">{{"CONNECT_BNET"|translate}} : </span>
-                    <a class="login-button" href="/auth/bnet/{{ host }}">
+                    <a class="login-button" href="{{ apiUrl }}/auth/bnet/{{ host }}">
                         <span class="login-bnet">
                             <span class="icon-small bnet"></span>
                             Battle.net

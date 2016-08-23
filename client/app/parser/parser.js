@@ -138,7 +138,7 @@
         var data = {day: "Wednesday", number: 4};
 
         object = moment().day(-4);
-        object.set({'hour': 3, 'minute': 0, 'second': 0});
+        object.set({'hour': 9, 'minute': 0, 'second': 0});
 
         return object;
     }

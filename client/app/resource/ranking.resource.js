@@ -7,6 +7,8 @@
 
     Ranking.$inject = ['$resource', '__env'];
     function Ranking($resource, __env) {
-        return $resource(__env.apiProgressUrl+'/api/v1/ranks/:tier/:region/:realm/:name');
+        return $resource(__env.apiProgressUrl+'/api/v1/ranks/:tier/:region/:realm/:name', {}, {
+        	get: { method: 'get', withCredentials: false }
+        });
     }
 })();

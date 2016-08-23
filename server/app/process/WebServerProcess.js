@@ -72,6 +72,25 @@ function WebServerProcess(autoStop, port) {
     this.app.use(passport.initialize());
     this.app.use(passport.session());
 
+    // SSO
+    this.app.use(function (req, res, next) {
+        //var config = applicationStorage.config;
+        // You could also wrap this in the `if (req.method === 'OPTIONS')` as in the cors-options-node.js example
+        var allowedOrigins = [config.oauth.bnet.callbackURL, config.oauth.bnet.callbackLfgURL, config.oauth.bnet.callbackProgressURL, config.oauth.bnet.callbackParserURL];
+        var origin = req.headers.origin;
+        /*if(allowedOrigins.indexOf(origin) > -1){
+            res.setHeader('Access-Control-Allow-Origin', origin);
+        }*/
+        if (origin) {
+            res.setHeader('Access-Control-Allow-Origin', origin);
+        }
+        // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE, CONNECT');
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+        res.setHeader('Access-Control-Allow-Credentials', true);
+        next();
+    });
+
     //Initialize auth routes
     this.app.use(process.require("users/routes.js"));
     this.app.use(function (req, res, next) {
