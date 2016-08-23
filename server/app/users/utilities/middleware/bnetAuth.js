@@ -17,7 +17,7 @@ passport.use('bnet', new BnetStrategy({
         clientSecret: config.oauth.bnet.clientSecret,
         scope: "wow.profile",
         region: config.oauth.bnet.region || "eu",
-        callbackURL: config.oauth.bnet.callbackURL
+        callbackURL: config.oauth.bnet.callbackURL+"/auth/bnet/callback"
     },
     /** @namespace profile.battletag */
     function (accessToken, refreshToken, profile, done) {
