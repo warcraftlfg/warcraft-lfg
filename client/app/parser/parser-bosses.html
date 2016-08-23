@@ -15,7 +15,7 @@
                                 <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[0].bosses['+$index+'].bestKills');" ng-repeat="(key, boss) in raid.bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
-                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/bosses/{{ currentTier }}/{{ key }}.jpg');">
+                                <div class="dis-inline-b icon-border-24 {{ raid.class }} boss-{{ key }}">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
                                 <i ng-if="sort!='bnet.progression.raids[0].bosses['+$index+'].bestKills'&&sort!='-bnet.progression.raids[0].bosses['+$index+'].bestKills'" class="fa fa-sort" aria-hidden="true"></i>

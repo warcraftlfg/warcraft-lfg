@@ -74,14 +74,17 @@
     "current": "18",
     "18": {
       "name": "Hellfire Citadel",
+      "class": "hfc-18",
       "bosses":  ["Hellfire Assault", "Iron Reaver", "Kormrok", "Hellfire High Council", "Kilrogg Deadeye", "Gorefiend", "Shadow-Lord Iskar", "Socrethar the Eternal", "Tyrant Velhari", "Fel Lord Zakuun", "Xhul'horac", "Mannoroth", "Archimonde"],
     },
     "19": {
       "name": "The Emerald Nightmare",
+      "class": "ten-19",
       "bosses": ["Nythendra", "Elerethe Renferal", "Il'gynoth, Heart of Corruption", "Ursoc", "Dragons of Nightmare", "Cenarius", "Xavius"],
     },
     "19.5": {
       "name": "The Nighthold",
+      "class": "tn-19",
       "bosses": ["Skorpyron", "Chronomatic Anomaly", "Trilliax", "Spellblade Aluriel", "Tichondrius", "Krosus", "High Botanist Tel'arn", "Star Augur Etraeus", "Grand Magistrix Elisande", "Gul'dan"],
     }
   };

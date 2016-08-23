@@ -86,7 +86,6 @@
 
 }
 
-
 .icon-medium {
   padding: 0px;
   display: inline-block;
@@ -259,8 +258,49 @@
   .spec-1{background: url('../images/icon/16/spec-sprite.png') no-repeat -5px -291px; width: 16px; height: 16px; display: inline-block; }
 }
 
+/* Raid */
 .raid-mythic { font-weight: bold; }
 .raid-heroic { }
 .raid-normal { font-style: italic; }
 .raid-lfr { font-weight: 300;  }
 
+/* Bosses */
+.hfc-18 {
+  &.boss-0 { background-image: url('../images/external/bosses/18/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/18/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/18/2.jpg'); }
+  &.boss-3 { background-image: url('../images/external/bosses/18/3.jpg'); }
+  &.boss-4 { background-image: url('../images/external/bosses/18/4.jpg'); }
+  &.boss-5 { background-image: url('../images/external/bosses/18/5.jpg'); }
+  &.boss-6 { background-image: url('../images/external/bosses/18/6.jpg'); }
+  &.boss-7 { background-image: url('../images/external/bosses/18/7.jpg'); }
+  &.boss-8 { background-image: url('../images/external/bosses/18/8.jpg'); }
+  &.boss-9 { background-image: url('../images/external/bosses/18/9.jpg'); }
+  &.boss-10 { background-image: url('../images/external/bosses/18/10.jpg'); }
+  &.boss-11 { background-image: url('../images/external/bosses/18/11.jpg'); }
+  &.boss-12 { background-image: url('../images/external/bosses/18/12.jpg'); }
+}
+
+.hfc-ten {
+  &.boss-0 { background-image: url('../images/external/bosses/19/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/19/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/19/2.jpg'); }
+  &.boss-3 { background-image: url('../images/external/bosses/19/3.jpg'); }
+  &.boss-4 { background-image: url('../images/external/bosses/19/4.jpg'); }
+  &.boss-5 { background-image: url('../images/external/bosses/19/5.jpg'); }
+  &.boss-6 { background-image: url('../images/external/bosses/19/6.jpg'); }
+  &.boss-7 { background-image: url('../images/external/bosses/19/7.jpg'); }
+}
+
+.hfc-tn {
+  &.boss-0 { background-image: url('../images/external/bosses/19.5/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/19.5/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/19.5/2.jpg'); }
+  &.boss-3 { background-image: url('../images/external/bosses/19.5/3.jpg'); }
+  &.boss-4 { background-image: url('../images/external/bosses/19.5/4.jpg'); }
+  &.boss-5 { background-image: url('../images/external/bosses/19.5/5.jpg'); }
+  &.boss-6 { background-image: url('../images/external/bosses/19.5/6.jpg'); }
+  &.boss-7 { background-image: url('../images/external/bosses/19.5/7.jpg'); }
+  &.boss-8 { background-image: url('../images/external/bosses/19.5/8.jpg'); }
+  &.boss-9 { background-image: url('../images/external/bosses/19.5/9.jpg'); }
+}
