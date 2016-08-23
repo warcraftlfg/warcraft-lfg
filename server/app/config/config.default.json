@@ -2,6 +2,7 @@
   "server": {
     "domain": "warcrafthub.com",
     "port": 3000,
+    "html5": true,
     "https": {
       "key": "server/app/config/sslcert/server.key",
       "cert": "server/app/config/sslcert/server.crt"

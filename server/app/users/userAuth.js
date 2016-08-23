@@ -16,25 +16,53 @@ process.require("users/utilities/middleware/bnetAuth.js");
 module.exports.bnetCallback = function (req, res) {
 	var config = applicationStorage.config;
 
-	return passport.authenticate("bnet", {successRedirect: config.oauth.bnet.callbackURL, failureRedirect: config.oauth.bnet.callbackURL})
+	var redirect = config.oauth.bnet.callbackURL;
+	if (config.server.html5) {
+		redirect += "/redirect";
+	} else {
+		redirect += "/#/redirect";
+	}
+
+	return passport.authenticate("bnet", {successRedirect: redirect, failureRedirect: redirect})
 };
 
-module.exports.bnetLfrCallback = function (req, res) {
+module.exports.bnetLfgCallback = function (req, res) {
     var config = applicationStorage.config;
 
-	return passport.authenticate("bnet-lfg", {successRedirect: config.oauth.bnet.callbackLfgURL, failureRedirect: config.oauth.bnet.callbackLfgURL})
+	var redirect = config.oauth.bnet.callbackLfgURL;
+	if (config.server.html5) {
+		redirect += "/redirect";
+	} else {
+		redirect += "/#/redirect";
+	}
+
+	return passport.authenticate("bnet-lfg", {successRedirect: redirect, failureRedirect: redirect})
 };
 
 module.exports.bnetProgressCallback = function (req, res) {
     var config = applicationStorage.config;
 
-	return passport.authenticate("bnet-progress", {successRedirect: config.oauth.bnet.callbackProgressURL, failureRedirect: config.oauth.bnet.callbackProgressURL})
+	var redirect = config.oauth.bnet.callbackProgressURL;
+	if (config.server.html5) {
+		redirect += "/redirect";
+	} else {
+		redirect += "/#/redirect";
+	}
+
+	return passport.authenticate("bnet-progress", {successRedirect: redirect, failureRedirect: redirect})
 };
 
 module.exports.bnetParserCallback = function (req, res) {
     var config = applicationStorage.config;
 
-	return passport.authenticate("bnet-progress", {successRedirect: config.oauth.bnet.callbackParserURL, failureRedirect: config.oauth.bnet.callbackParserURL})
+	var redirect = config.oauth.bnet.callbackParserURL;
+	if (config.server.html5) {
+		redirect += "/redirect";
+	} else {
+		redirect += "/#/redirect";
+	}
+
+	return passport.authenticate("bnet-progress", {successRedirect: redirect, failureRedirect: redirect})
 };
 
 
