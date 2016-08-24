@@ -26,18 +26,18 @@
         <div class="col-md-6">
             <h3 class="m-b-20">{{"EXAMPLES"|translate}}</h3>
             <table class="table table-condensed">
-                <tr ng-repeat="guild in guildAds" ng-if="guild.parser.active">
-                    <td class="faction-{{guild.bnet.side}}">
-                        <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/"
+                <tr>
+                    <td class="faction-1">
+                        <a href="{{ hashbang }}/guild/eu/Archimonde/Bloodlust/parser/"
                            class="bold txt-underline">
-                            {{guild.name}}
+                            Bloodlust
                         </a>
                     </td>
                     <td>
-                        {{guild.realm}}
+                        Archimonde
                     </td>
                     <td>
-                        {{guild.region|uppercase}}
+                        EU
                     </td>
                     <td class="hidden-xs">
                         {{"UPDATED"|translate}} <span am-time-ago="{{ fakeTimestamp |  amSubtract : '1' : 'hours' }}"></span>
