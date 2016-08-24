@@ -49,6 +49,8 @@
 
         $scope.difficulty = "normalTimestamp";
 
+        $scope.guildParser = [];
+
         guilds.get({
                 "guildRegion": $stateParams.region,
                 "guildRealm": $stateParams.realm,
