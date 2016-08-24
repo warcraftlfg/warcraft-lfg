@@ -113,15 +113,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default"  ng-if="character.ad && character.ad.updated">
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         {{"AD_UPDATED"|translate}}: <span am-time-ago="character.ad.updated"></span>
                                     </div>
-                                    <!--<div class="col-md-6">
-                                        {{"CHARACTER_UPDATED"|translate}}:  <span am-time-ago="character.updated"></span>
-                                    </div>-->
                                 </div>
                             </div>
                         </div>

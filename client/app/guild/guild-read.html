@@ -55,14 +55,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
+                <div class="panel panel-default" ng-if="guild.ad && guild.ad.updated">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 {{"AD_UPDATED"|translate}}: <span am-time-ago="guild.ad.updated"></span>
-                            </div>
-                            <div class="col-md-6">
-                                {{"GUILD_UPDATED"|translate}}: <span am-time-ago="guild.updated"></span>
                             </div>
                         </div>
                     </div>
