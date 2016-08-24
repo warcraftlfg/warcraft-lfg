@@ -11,6 +11,8 @@
     function ParserDashboardController($scope, $state, $stateParams, $location, guilds, user, wlfgAppTitle) {
         wlfgAppTitle.setTitle("WarcraftParser");
 
+        $scope.fakeTimestamp = new Date().getTime();
+
         getGuildAds();
 
         /**

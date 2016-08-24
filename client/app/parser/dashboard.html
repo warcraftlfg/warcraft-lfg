@@ -4,6 +4,9 @@
     <div class="container">
         <div class="row">
         	<div class="col-md-12 text-center">
+                <div class="m-b-20 bold">
+                    {{ "PARSER_INTRO"|translate }}
+                </div>
                 <a class="btn btn-inverse login-button" href="{{ apiUrl }}/auth/bnet/{{ host }}" ng-if="!user.id">
                 	{{"CONNECT_BNET"|translate}}
                     <span class="login-bnet">
@@ -21,8 +24,8 @@
 <div class="container m-t-20">
     <div class="row">
         <div class="col-md-6">
-            <h3 class="m-b-20">{{"EXAMPLE"|translate}}</h3>
-            <!--<table class="table table-condensed">
+            <h3 class="m-b-20">{{"EXAMPLES"|translate}}</h3>
+            <table class="table table-condensed">
                 <tr ng-repeat="guild in guildAds" ng-if="guild.parser.active">
                     <td class="faction-{{guild.bnet.side}}">
                         <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/parser/"
@@ -37,17 +40,17 @@
                         {{guild.region|uppercase}}
                     </td>
                     <td class="hidden-xs">
-                        {{"UPDATED"|translate}} <span am-time-ago="guild.ad.updated"></span>
+                        {{"UPDATED"|translate}} <span am-time-ago="{{ fakeTimestamp |  amSubtract : '1' : 'hours' }}"></span>
                     </td>
                 </tr>
-            </table>-->
+            </table>
         </div>
         <div class="col-md-6">
             <h3 class="m-b-20">{{"MY_GUILDS"|translate}}</h3>
-            <table class="table">
+            <table class="table table-condensed">
                 <tr ng-repeat="guildAd in guildAds">
                     <td class="faction-{{guildAd.bnet.side}}">
-                        <a href="{{ hashbang }}/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/parser/" class="txt-underline">
+                        <a href="{{ hashbang }}/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/parser/" class="txt-underline bold">
                             {{guildAd.name}}
                         </a>
                     </td>
