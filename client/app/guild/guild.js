@@ -56,27 +56,25 @@
                     });
                 });
                 $scope.$parent.loading = false;
-                if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
-                    $scope.$parent.loading = true;
-                    user.get({
-                        param: "guildRank",
-                        region: $stateParams.region,
-                        realm: $stateParams.realm,
-                        name: $stateParams.name
-                    }, function (data) {
-
-                        if (guild && !guild.perms) {
-                            //No perms set everyone can edit.
-                            $scope.userCanEdit = true;
-                        }
-                        if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
-                            if (guild.perms.ad.edit.indexOf(data.rank) >= 0) {
-                                $scope.userCanEdit = true;
+                if (guild && !guild.perms) {
+                    //No perms set everyone can edit.
+                    $scope.userCanEdit = true;
+                } else {
+                    if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
+                        $scope.$parent.loading = true;
+                        user.get({
+                            param: "guildRank",
+                            region: $stateParams.region,
+                            realm: $stateParams.realm,
+                            name: $stateParams.name
+                        }, function (data) {
+                            if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
+                                $scope.userCanEdit = $.inArray(data.rank, guild.perms.ad.edit) !== -1;
                             }
-                        }
 
-                        $scope.$parent.loading = false;
-                    });
+                            $scope.$parent.loading = false;
+                        });
+                    }
                 }
             },
             function (error) {

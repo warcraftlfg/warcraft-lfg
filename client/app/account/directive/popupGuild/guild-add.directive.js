@@ -44,7 +44,6 @@
             } else {
                 $scope.$parent.loading = true;
                  user.query({param: "guilds", region: $scope.guildRegion}, function (guilds) {
-                    console.log(guilds);
                     $scope.userGuilds = guilds;
                     $scope.$parent.loading = false;
                 }, function (error) {

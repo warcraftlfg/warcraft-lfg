@@ -79,6 +79,7 @@ module.exports.getGuild = function (req, res, next) {
         bnet: 1,
         rank: 1,
         progress: 1,
+        perms: 1,
         parser: 1
     };
     guildModel.findOne(criteria, projection, function (error, guild) {

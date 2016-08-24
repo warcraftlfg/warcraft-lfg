@@ -7,9 +7,36 @@
         .controller('ParserController', ParserController)
     ;
 
-    ParserDashboardController.$inject = ["$scope", "$state", "$stateParams", "$location", "guilds", "wlfgAppTitle"];
-    function ParserDashboardController($scope, $state, $stateParams, $location, guilds, wlfgAppTitle) {
+    ParserDashboardController.$inject = ["$scope", "$state", "$stateParams", "$location", "guilds", "user", "wlfgAppTitle"];
+    function ParserDashboardController($scope, $state, $stateParams, $location, guilds, user, wlfgAppTitle) {
         wlfgAppTitle.setTitle("WarcraftParser");
+
+        getGuildAds();
+
+        /**
+         * Get user's guildAds
+         */
+        function getGuildAds() {
+            $scope.$parent.loading = true;
+            user.query({param: "guildAds"}, function (guildAds) {
+                $scope.guildAds = guildAds;
+                $scope.$parent.loading = false;
+                $.each(guildAds, function (i, guild) {
+                    if (guild.perms) {
+                        guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
+                        guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
+                    }
+                    else {
+                        guild.perms = {ad: {}};
+                        guild.perms.ad.edit = true;
+                        guild.perms.ad.del = true;
+                    }
+                });
+            }, function (error) {
+                $scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+        }
 
         /**
          * Create a new Guild Ad
@@ -58,27 +85,25 @@
             }, function (guild) {
                 $scope.guild = guild;
                 $scope.$parent.loading = false;
-                if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
-                    $scope.$parent.loading = true;
-                    user.get({
-                        param: "guildRank",
-                        region: $stateParams.region,
-                        realm: $stateParams.realm,
-                        name: $stateParams.name
-                    }, function (data) {
-
-                        if (guild && !guild.perms) {
-                            //No perms set everyone can edit.
-                            $scope.userCanEdit = true;
-                        }
-                        if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
-                            if (guild.perms.ad.edit.indexOf(data.rank) >= 0) {
-                                $scope.userCanEdit = true;
+                if (guild && !guild.perms) {
+                    //No perms set everyone can edit.
+                    $scope.userCanEdit = true;
+                } else {
+                    if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
+                        $scope.$parent.loading = true;
+                        user.get({
+                            param: "guildRank",
+                            region: $stateParams.region,
+                            realm: $stateParams.realm,
+                            name: $stateParams.name
+                        }, function (data) {
+                            if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
+                                $scope.userCanEdit = $.inArray(data.rank, guild.perms.ad.edit) !== -1;
                             }
-                        }
 
-                        $scope.$parent.loading = false;
-                    });
+                            $scope.$parent.loading = false;
+                        });
+                    }
                 }
             },
             function (error) {

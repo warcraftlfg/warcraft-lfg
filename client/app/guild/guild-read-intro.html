@@ -17,12 +17,25 @@
                 <a ng-if="!guildParser && !guild.parser.active && userCanEdit" href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update?parser" class="btn btn-default">
                     <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
                 </a>
+                <div class="dis-inline-b" uib-tooltip="{{ 'PERMISSION_DENIED'|translate }}">
+                    <a ng-if="!guildParser && !guild.parser.active && !userCanEdit" href="" class="btn btn-default disabled cursor-pointer">
+                        <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
+                    </a>
+                </div>
                 <button ng-if="guild.id" ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
                     <img src="/assets/images/message.png" class="message-picto"/> &nbsp;{{"MESSAGE_OPEN_POPUP"|translate}}
                 </button>
                 <button ng-class="{'disabled':queuePosition}" ng-click="updateGuild()" type="button" class="btn btn-default" aria-label="Update Guild">
                     <i class="fa fa-refresh"></i> &nbsp;{{"UPDATE_GUILD"|translate}}
                 </button>
+                <a ng-if="guildParser && !guild.parser.active && userCanEdit" href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update?parser" class="btn btn-default">
+                    <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
+                </a>
+                <div class="dis-inline-b" uib-tooltip="{{ 'PERMISSION_DENIED'|translate }}">
+                    <a ng-if="guildParser && !guild.parser.active && !userCanEdit" href="" class="btn btn-default cursor-pointer disabled">
+                        <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
+                    </a>
+                </div>
             </div>
             <div class="col-md-4 m-b-10 text-right">
                 <a href="http://www.askmrrobot.com/wow/combatlog/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}" target="_blank" class="m-l-10 href-icon">
