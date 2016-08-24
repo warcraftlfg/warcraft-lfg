@@ -17,8 +17,8 @@
                 <a ng-if="!guildParser && !guild.parser.active && userCanEdit" href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update?parser" class="btn btn-default">
                     <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
                 </a>
-                <div class="dis-inline-b" uib-tooltip="{{ 'PERMISSION_DENIED'|translate }}">
-                    <a ng-if="!guildParser && !guild.parser.active && !userCanEdit" href="" class="btn btn-default disabled cursor-pointer">
+                <div class="dis-inline-b cursor-pointer" uib-tooltip="{{ 'PERMISSION_DENIED'|translate }}" ng-if="!guildParser && !guild.parser.active && !userCanEdit">
+                    <a href="" class="btn btn-default disabled cursor-pointer">
                         <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
                     </a>
                 </div>
@@ -31,8 +31,8 @@
                 <a ng-if="guildParser && !guild.parser.active && userCanEdit" href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update?parser" class="btn btn-default">
                     <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
                 </a>
-                <div class="dis-inline-b" uib-tooltip="{{ 'PERMISSION_DENIED'|translate }}">
-                    <a ng-if="guildParser && !guild.parser.active && !userCanEdit" href="" class="btn btn-default cursor-pointer disabled">
+                <div class="dis-inline-b cursor-pointer" uib-tooltip="{{ 'PERMISSION_DENIED'|translate }}" ng-if="guildParser && !guild.parser.active && !userCanEdit">
+                    <a href="" class="btn btn-default cursor-pointer disabled">
                         <i class="fa fa-bar-chart"></i> &nbsp;{{"ADD_TO_PARSER"|translate}}
                     </a>
                 </div>
