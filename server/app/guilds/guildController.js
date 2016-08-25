@@ -312,7 +312,7 @@ module.exports.searchGuild = function (req, res) {
         if (req.query.number) {
             limit = parseInt(req.query.number, 10);
 
-            if (isNaN(number)) {
+            if (isNaN(limit)) {
                 return;
             }
 
