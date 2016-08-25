@@ -35,7 +35,7 @@
                     }
                 });
             }, function (error) {
-                $scope.$parent.error = error.data;
+                //$scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
             });
         }
