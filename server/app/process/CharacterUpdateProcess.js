@@ -249,6 +249,8 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character, warcraftL
 
     if (warcraftLogs && warcraftLogs.logs) {
         parser.warcraftLogs = self.parseWarcraftLogs(warcraftLogs.logs, character.class);
+    } else {
+        parser.warcraftLogs = {average: 0};
     }
 
     return parser;
