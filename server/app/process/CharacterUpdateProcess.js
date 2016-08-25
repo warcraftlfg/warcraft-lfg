@@ -390,10 +390,10 @@ CharacterUpdateProcess.prototype.parseWarcraftLogs = function (logs, characterCl
             }
             warcraftLogs.average = Math.floor(warcraftLogs.average / i);
         } else {
-            var warcraftLogs = null;
+            var warcraftLogs = {average: 0};
         }
     } else {
-        var warcraftLogs = null;
+        var warcraftLogs = {average: 0};
     }
 
     return warcraftLogs;
