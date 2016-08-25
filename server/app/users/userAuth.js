@@ -62,7 +62,7 @@ module.exports.bnetParserCallback = function (req, res) {
 		redirect += "/#/redirect";
 	}
 
-	return passport.authenticate("bnet-progress", {successRedirect: redirect, failureRedirect: redirect})
+	return passport.authenticate("bnet-parser", {successRedirect: redirect, failureRedirect: redirect})
 };
 
 
