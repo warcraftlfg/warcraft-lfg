@@ -16,6 +16,10 @@
                         // File revision h4ck
                         template = "app/progress/progress.html";
                         return '<div ng-controller="ProgressController" ng-include="\''+template+'\'"></div>';
+                    } else if (result == "parser") {
+                        // File revision h4ck
+                        template = "app/parser/dashboard.html";
+                        return '<div ng-controller="ParserDashboardController" ng-include="\''+template+'\'"></div>';
                     } else {
                         // File revision h4ck
                         template = "app/dashboard/dashboard.html";

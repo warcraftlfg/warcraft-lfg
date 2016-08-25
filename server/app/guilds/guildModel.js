@@ -5,6 +5,8 @@ var async = require("async");
 var applicationStorage = process.require("core/applicationStorage.js");
 var guildAdSchema = process.require('config/db/guildAdSchema.json');
 var guildPermsSchema = process.require('config/db/guildPermsSchema.json');
+var guildParserSchema = process.require('config/db/guildParserSchema.json');
+
 var validator = process.require('core/utilities/validators/validator.js');
 var Confine = require("confine");
 
@@ -14,28 +16,28 @@ var Confine = require("confine");
  * @param projection
  * @param sort
  * @param limit
- * @param hint
+ * @param skip
  * @param callback
  */
-module.exports.find = function (criteria, projection, sort, limit, hint, callback) {
+module.exports.find = function (criteria, projection, sort, limit, skip, callback) {
     var collection = applicationStorage.mongo.collection("guilds");
-    if (hint === undefined && limit === undefined && callback == undefined) {
+    if (skip === undefined && limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, guilds) {
             callback(error, guilds);
         });
-    } else if (hint === undefined && callback == undefined) {
+    } else if (skip === undefined && callback == undefined) {
         callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     } else if (callback == undefined) {
-        callback = hint;
+        callback = skip;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     } else {
-        collection.find(criteria, projection).sort(sort).limit(limit).hint(hint).toArray(function (error, guilds) {
+        collection.find(criteria, projection).sort(sort).limit(limit).skip(skip).toArray(function (error, guilds) {
             callback(error, guilds);
         });
     }
@@ -56,6 +58,7 @@ module.exports.findOne = function (criteria, projection, callback) {
             var confine = new Confine();
             guild.ad = confine.normalize(guild.ad, guildAdSchema);
             guild.perms = confine.normalize(guild.perms, guildPermsSchema);
+            guild.parser = confine.normalize(guild.parser, guildParserSchema);
         }
         callback(error, guild);
     });
@@ -99,12 +102,18 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 guild.ad = confine.normalize(obj.ad, guildAdSchema);
             }
 
+            if (obj.parser) {
+                var confine = new Confine();
+                guild.parser = confine.normalize(obj.parser, guildParserSchema);
+            }
+
             if (obj.bnet) {
                 guild.bnet = obj.bnet;
             }
 
             if (obj.perms) {
-                guild.perms = obj.perms;
+                var confine = new Confine();
+                guild.perms = confine.normalize(obj.perms, guildPermsSchema);
             }
 
             if (obj.wowProgress) {

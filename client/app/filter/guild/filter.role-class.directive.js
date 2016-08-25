@@ -7,7 +7,7 @@ function wlfgFilterRoleClass($translate, $stateParams, $location) {
     var directive = {
         link: link,
         restrict: 'A',
-        templateUrl: 'app/filter/character/filter.role-class.directive.html'
+        templateUrl: 'app/filter/guild/filter.role-class.directive.html'
     };
 
     return directive;

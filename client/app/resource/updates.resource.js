@@ -5,9 +5,9 @@
         .module('app.resource')
         .factory('updates', Update);
 
-    Update.$inject = ['$resource'];
-    function Update($resource) {
-        return $resource('/api/v1/updates',{}, {
+    Update.$inject = ['$resource', '__env'];
+    function Update($resource, __env) {
+        return $resource(__env.apiUrl+'/api/v1/updates',{}, {
             post: {
                 method:'post'
             }

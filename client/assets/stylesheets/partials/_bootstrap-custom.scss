@@ -1,0 +1,89 @@
+.text-left-not-xs, .text-left-not-sm, .text-left-not-md, .text-left-not-lg {
+    text-align: left !important;
+}
+.text-center-not-xs, .text-center-not-sm, .text-center-not-md, .text-center-not-lg {
+    text-align: center !important;
+}
+.text-right-not-xs, .text-right-not-sm, .text-right-not-md, .text-right-not-lg {
+    text-align: right !important;
+}
+.text-justify-not-xs, .text-justify-not-sm, .text-justify-not-md, .text-justify-not-lg {
+    text-align: justify !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+   background-color: #0C0C0C;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: #000;
+}
+
+@media (max-width: 767px) {
+    .text-left-not-xs, .text-center-not-xs, .text-right-not-xs, .text-justify-not-xs {
+        text-align: inherit !important;
+    }
+    .text-left-xs {
+        text-align: left !important;
+    }
+    .text-center-xs {
+        text-align: center !important;
+    }
+    .text-right-xs {
+        text-align: right !important;
+    }
+    .text-justify-xs {
+        text-align: justify !important;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .text-left-not-sm, .text-center-not-sm, .text-right-not-sm, .text-justify-not-sm {
+        text-align: inherit !important;
+    }
+    .text-left-sm {
+        text-align: left !important;
+    }
+    .text-center-sm {
+        text-align: center !important;
+    }
+    .text-right-sm {
+        text-align: right !important;
+    }
+    .text-justify-sm {
+        text-align: justify !important;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .text-left-not-md, .text-center-not-md, .text-right-not-md, .text-justify-not-md {
+        text-align: inherit !important;
+    }
+    .text-left-md {
+        text-align: left !important;
+    }
+    .text-center-md {
+        text-align: center !important;
+    }
+    .text-right-md {
+        text-align: right !important;
+    }
+    .text-justify-md {
+        text-align: justify !important;
+    }
+}
+@media (min-width: 1200px) {
+    .text-left-not-lg, .text-center-not-lg, .text-right-not-lg, .text-justify-not-lg {
+        text-align: inherit !important;
+    }
+    .text-left-lg {
+        text-align: left !important;
+    }
+    .text-center-lg {
+        text-align: center !important;
+    }
+    .text-right-lg {
+        text-align: right !important;
+    }
+    .text-justify-lg {
+        text-align: justify !important;
+    }
+}

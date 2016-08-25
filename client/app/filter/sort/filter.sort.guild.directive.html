@@ -1,5 +1,18 @@
-<div class="sort">
-    <span>{{"SORT_BY"|translate}}</span>
-    <span ng-class="{'selected':sortOut==='date'}" class="sort-item" ng-click="sortOut='date'">{{"DATE"|translate|lowercase}}</span> -
-    <span ng-class="{'selected':sortOut==='ranking'}" class="sort-item" ng-click="sortOut='ranking'">{{"RANKING"|translate|lowercase}}</span>
-</div>
+<tr>
+	<th></th>
+	<th>{{ "NAME"|translate }}</th>
+	<th>{{ "REALM"|translate }}</th>
+	<th>{{ "LANGUE"|translate }}</th>
+	<th>{{ "RPW"|translate }}</th>
+	<th>{{ "ROLE"|translate }}</th>
+	<th>{{ "PROGRESS"|translate }}</th>
+	<th class="cursor-pointer" ng-class="{'selected':sortOut==='ranking'}" ng-click="sortOut='ranking'">
+	    {{ "WORLD"|translate }}  &nbsp;<i ng-show="sortOut!=='ranking'" class="fa fa-sort" aria-hidden="true"></i><i ng-show="sortOut==='ranking'" class="fa fa-sort-desc" aria-hidden="true"></i>
+	</th>
+	<th>{{ "REGION"|translate }}</th>
+	<th>{{ "LOCALE"|translate }}</th>
+	<th>{{ "REALM"|translate }}</th>
+	<th class="cursor-pointer" ng-class="{'selected':sortOut==='date'}" ng-click="sortOut='date'">
+	    {{ "UPDATE"|translate }}  &nbsp;<i ng-show="sortOut!=='date'" class="fa fa-sort" aria-hidden="true"></i><i ng-show="sortOut==='date'" class="fa fa-sort-desc" aria-hidden="true"></i>
+	</th>
+</tr>

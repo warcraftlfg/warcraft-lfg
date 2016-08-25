@@ -8,15 +8,15 @@
 
     wlfgAppTitle.$inject = ["$rootScope"];
     function wlfgAppTitle($rootScope) {
-        var title = "WarcraftLFG";
+        var title = "WarcraftHub";
 
 		return {
 			title: function() { return title; },
 			setTitle: function(newTitle) { 
 				if (newTitle) { 
-					title = newTitle+' - WarcraftLFG'; 
+					title = newTitle+' - WarcraftHub'; 
 				} else {
-					title = "WarcraftLFG";
+					title = "WarcraftHub";
 				}
 			}
 		};
