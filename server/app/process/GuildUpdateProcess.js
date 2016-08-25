@@ -89,7 +89,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                 });
 
             } else {
-                callback(error, region, guild, guildObj);
+                callback(null, region, guild, guildObj);
             }
         },
         function (region, guild, guildObj, callback) {
