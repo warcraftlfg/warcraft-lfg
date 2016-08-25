@@ -47,11 +47,11 @@
                                 <i ng-show="sort==='-parser.legendary'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.legendary'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="cursor-pointer" ng-click="switchSort('parser.wcl');" uib-tooltip='{{"WARCRAFTLOGS"|translate}}' tooltip-append-to-body="true">
+                            <th class="cursor-pointer" ng-click="switchSort('parser.warcraftLogs.average');" uib-tooltip='{{"WARCRAFTLOGS"|translate}}' tooltip-append-to-body="true">
                                 WCL
-                                <i ng-if="sort!='parser.wcl'&&sort!='-parser.wcl'" class="fa fa-sort" aria-hidden="true"></i>
-                                <i ng-show="sort==='-parser.wcl'" class="fa fa-sort-desc" aria-hidden="true"></i>
-                                <i ng-show="sort==='parser.wcl'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                                <i ng-if="sort!='parser.wcl'&&sort!='-parser.warcraftLogs.average'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.warcraftLogs.average'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.warcraftLogs.average'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="cursor-pointer">
                                 {{ "PROGRESS"|translate }}
@@ -169,7 +169,7 @@
                                     <span class="sort-fix">{{ character.parser.legendary }}</span>
                                 </td>
                                 <td class="character-class-{{ character.bnet.class }}">
-                                    <span class="wcl-tooltips" wlfg-warcraft-logs-average="character.warcraftLogs.logs" character-key="{{ key }}" character-class="{{ character.bnet.class }}"></span>
+                                    <span class="wcl-tooltips" wlfg-warcraft-logs-average="character.parser.warcraftLogs" character-key="{{ key }}" character-class="{{ character.bnet.class }}"></span>
                                 </td>
                                 <td>
                                     <span wlfg-progress-character="character.bnet.progression.raids"></span>
