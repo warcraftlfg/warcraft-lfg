@@ -16,8 +16,12 @@ function wlfgProgressGuild(__env, progress) {
             if (progress) {
                 scope.progressTooltip = [];
                 scope.progressName = __env.tiers[__env.tiers.current].name;
+                scope.progress = progress;
                 if (attrs.region && attrs.realm && attrs.name) {
-                    loadTooltip();
+                    scope.progressTooltipLoad = false;
+                    angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {
+                        scope.progressTooltip.push({difficulty: 'common', 'boss': 'N: '+value});
+                    });
                 } else {
                     buildTooltip();
                 }
@@ -31,11 +35,14 @@ function wlfgProgressGuild(__env, progress) {
             }
         });
 
-        function loadTooltip() {
-            progress.get({tier: __env.tiers.current,  region: attrs.region, realm: attrs.realm, name: attrs.name}, function (progress) {
-                scope.progress = progress;
-                buildTooltip();
-            });  
+        scope.loadTooltip = function() {
+            if (!scope.progressTooltipLoad) {
+                scope.progressTooltipLoad = true;
+                progress.get({tier: __env.tiers.current,  region: attrs.region, realm: attrs.realm, name: attrs.name}, function (progress) {
+                    scope.progress = progress;
+                    changeTooltip();
+                });
+            }
         }
 
         function buildTooltip() {
@@ -55,6 +62,23 @@ function wlfgProgressGuild(__env, progress) {
             } else {
                 angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {
                     scope.progressTooltip.push({difficulty: 'common', 'boss': 'N: '+value});
+                });
+            }
+        }
+
+        function changeTooltip() {
+            var progress = scope.progress;
+            if (progress) {
+                angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {
+                    if (progress.mythic && progress.mythic[value] && progress.mythic[value].timestamps && progress.mythic[value].timestamps.length > 0) {
+                        scope.progressTooltip[key].difficulty = "legendary";
+                    } else if (progress.heroic && progress.heroic[value] && progress.heroic[value].timestamps && progress.heroic[value].timestamps.length > 0) {
+                        scope.progressTooltip[key].difficulty = "epic";
+                    } else if (progress.normal && progress.normal[value] && progress.normal[value].timestamps && progress.normal[value].timestamps.length > 0) {
+                        scope.progressTooltip[key].difficulty = "rare";
+                    } else {
+                        scope.progressTooltip[key].difficulty = "common";
+                    }
                 });
             }
         }
