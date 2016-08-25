@@ -93,7 +93,7 @@
                 query.region = __env.rankingSubregions[query.region];
             }
             query.limit = 20;
-            query.start =  ($scope.page - 1) * 20;
+            query.start =  (($scope.page - 1) * 20)+1;
             $scope.noResult = false;
             ranking.get(query, function (ranking) {
                 if (ranking) {
