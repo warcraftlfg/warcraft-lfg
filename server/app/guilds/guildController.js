@@ -244,7 +244,7 @@ module.exports.getGuildParser = function (req, res) {
         "bnet.class": 1,
         "bnet.race": 1,
         "bnet.level": 1,
-        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,1]},
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress, 1]},
         "bnet.talents": 1,
         "warcraftLogs.logs": 1
     };
@@ -268,7 +268,7 @@ module.exports.getGuildParser = function (req, res) {
                                 realm: member.character.realm,
                                 name: member.character.name
                             }, characterProjection, function (error, character) {
-                                if(character){
+                                if (character) {
                                     parserChars.push(character);
                                 }
                                 callback(error);
@@ -280,7 +280,7 @@ module.exports.getGuildParser = function (req, res) {
                         callback();
                     }
                 }, function (error) {
-                    callback(error,parserChars);
+                    callback(error, parserChars);
                 });
 
             } else {
@@ -299,5 +299,25 @@ module.exports.getGuildParser = function (req, res) {
 
     })
 
+
+};
+
+module.exports.searchGuild = function (req, res) {
+    var logger = applicationStorage.logger;
+    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
+
+    guildModel.find({name: {$regex: "^" + req.params.text, $options: "i"}},
+        {region: 1, realm: 1, name: 1, _id: 0},
+        {name: 1},
+        7,
+        function (error, guilds) {
+            if (error) {
+                logger.error(error.message);
+                res.status(500).send(error.message);
+            } else {
+                res.json(guilds);
+            }
+        }
+    );
 
 };

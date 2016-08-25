@@ -9,6 +9,7 @@ router.get("/guilds", guildController.getGuilds);
 router.get("/guilds/count", guildController.getCount);
 router.get("/guilds/:region/:realm/:name", guildController.getGuild);
 router.get("/guilds/parser/:region/:realm/:name", guildController.getGuildParser);
+router.get("/guilds/search/:text", guildController.searchGuild);
 
 
 //Define route for authenticated users
