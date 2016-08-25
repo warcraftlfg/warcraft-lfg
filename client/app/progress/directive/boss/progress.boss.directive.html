@@ -1,0 +1,12 @@
+<div tooltip-placement="top" uib-tooltip-template="'progressTooltipTemplate.html'" tooltip-is-open="false" tooltip-append-to-body="true">
+	<span class="bold cursor-pointer bd-b-d" ng-if="progress.mythicCount>0">{{progress.mythicCount}}/13 (M)</span>
+	<span class="cursor-pointer bd-b-d" ng-if="progress.heroicCount>0&&progress.mythicCount==0">{{progress.heroicCount}}/13 (H)</span>
+	<span class="italic cursor-pointer bd-b-d" ng-if="progress.heroicCount==0&&progress.mythicCount==0">{{progress.normalCount}}/13 (N)</span>
+</div>
+
+<script type="text/ng-template" id="progressTooltipTemplate.html">
+  <div class="text-left txt-underline">{{ progress.name }}</div>
+  <div class="{{ tooltip.difficulty }} text-left" ng-repeat="tooltip in progress.tooltip">
+  	{{ tooltip.boss }}
+  </div>
+</script>

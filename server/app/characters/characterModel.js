@@ -13,28 +13,28 @@ var Confine = require("confine");
  * @param projection
  * @param sort
  * @param limit
- * @param hint
+ * @param skip
  * @param callback
  */
-module.exports.find = function (criteria, projection, sort, limit, hint, callback) {
+module.exports.find = function (criteria, projection, sort, limit, skip, callback) {
     var collection = applicationStorage.mongo.collection("characters");
-    if (hint === undefined && limit === undefined && callback == undefined) {
+    if (skip === undefined && limit === undefined && callback == undefined) {
         callback = sort;
         collection.find(criteria, projection).toArray(function (error, characters) {
             callback(error, characters);
         });
-    } else if (hint === undefined && callback == undefined) {
+    } else if (skip === undefined && callback == undefined) {
         callback = limit;
         collection.find(criteria, projection).sort(sort).toArray(function (error, characters) {
             callback(error, characters);
         });
     } else if (callback == undefined) {
-        callback = hint;
+        callback = skip;
         collection.find(criteria, projection).sort(sort).limit(limit).toArray(function (error, characters) {
             callback(error, characters);
         });
     } else {
-        collection.find(criteria, projection).sort(sort).limit(limit).hint(hint).toArray(function (error, characters) {
+        collection.find(criteria, projection).sort(sort).limit(limit).skip(skip).toArray(function (error, characters) {
             callback(error, characters);
         });
     }
@@ -50,7 +50,6 @@ module.exports.find = function (criteria, projection, sort, limit, hint, callbac
 module.exports.findOne = function (criteria, projection, callback) {
     var collection = applicationStorage.mongo.collection("characters");
     collection.findOne(criteria, projection, function (error, character) {
-
         //Sanitize before return
         if (character) {
             var confine = new Confine();
@@ -99,7 +98,7 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 character.ad = confine.normalize(obj.ad, characterAdSchema);
             }
 
-            if(obj.bnet){
+            if (obj.bnet){
                 character.bnet = obj.bnet;
             }
 
@@ -111,6 +110,9 @@ module.exports.upsert = function (region, realm, name, obj, callback) {
                 character.progress = obj.progress;
             }
 
+            if (obj.parser){
+                character.parser = obj.parser;
+            }
             //Force region to lowercase
             region = region.toLowerCase();
 

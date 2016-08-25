@@ -1,0 +1,26 @@
+<span ng-show="warcraftLogs['average'] > 0" ng-class="{legendary:warcraftLogs['average']>=95,epic:warcraftLogs['average']>=75&&warcraftLogs['average']<95,rare:warcraftLogs['average']>=50&&warcraftLogs['average']<75,uncommon:warcraftLogs['average']>=25&&warcraftLogs['average']<50,common:warcraftLogs['average']<25}" tooltip-placement="top" uib-tooltip-template="'wclAverageTooltipTemplate.html'" class="bd-b-d cursor-pointer" tooltip-is-open="false">
+	{{ warcraftLogs['average'] }} %
+</span>
+
+<script type="text/ng-template" id="wclAverageTooltipTemplate.html">
+	<table class="table table-condensed m-b-0 character-class-{{character.bnet.class}}" ng-if="warcraftLogs != null">
+		<tbody>
+		    <tr class="" ng-if="difficulty[0] || difficulty[1] || difficulty[2] || difficulty[3]" ng-repeat="(key,difficulty) in warcraftLogs">
+		        <td class="bold">{{"RAID_DIFFICULTY_"+key|translate}}</div>
+		        <td ng-class="{legendary:stat.median>=95,epic:stat.median>=75&&stat.median<95,rare:stat.median>=50&&stat.median<75,uncommon:stat.median>=25&&stat.median<50,common:stat.median<25,'p-0':!stat}" ng-repeat="(spec,stat) in difficulty" class="">
+		        	<span tooltip-placement="top" ng-if="stat" uib-tooltip="{{stat.number}} {{'BOSS'|translate }}">
+			        	<span  class="spec-{{spec}} v-center"></span>
+			        	<span class="m-l-5">{{stat.median}}%</span>
+		        	</span>
+		        </td>
+		    </tr>
+		</tbody>
+	</table>
+    <!--<div class="text-left m-b-5 " ng-if="difficulty[0] || difficulty[1] || difficulty[2] || difficulty[3]" ng-repeat="(key,difficulty) in warcraftLogs">
+        <span class="p-r-5">{{"RAID_DIFFICULTY_"+key|translate}}</span>
+        <span ng-if="stat" ng-class="{legendary:stat.median>=95,epic:stat.median>=75&&stat.median<95,rare:stat.median>=50&&stat.median<75,uncommon:stat.median>=25&&stat.median<50,common:stat.median<25}" ng-repeat="(spec,stat) in difficulty" class="p-0 p-r-5">
+        	<span class="spec-{{spec}} v-center"></span>
+        	<span class="">{{stat.median}}%</span>
+        </span>
+    </div>-->
+</script>

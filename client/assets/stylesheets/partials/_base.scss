@@ -3,7 +3,7 @@ $font-family: 'Open Sans', sans-serif;
 
 $light: 100;
 $regular: 400;
-$bold: 600;
+$bold: 700;
 
 $black: #151515;
 $grey: #282828;
@@ -14,6 +14,7 @@ $white: #fff;
 $alliance: #0078FF;
 $horde: #B30000;
 $green: #24340D;
+$blue: #0a182b;
 
 * {
   margin: 0;
@@ -62,6 +63,10 @@ body {
 .btn-default:active:focus, .btn-default:active:hover {
   background-color: $black;
   color: $white;
+}
+
+.btn-default.disabled:focus, .btn-default.disabled:hover {
+  background-color: transparent !important;
 }
 
 .btn-inverse {
@@ -162,7 +167,7 @@ pre {
   color: white;
 }
 
-a i.fa:hover, a.href-icon {
+a.href-icon {
   color: #ccc;
   text-decoration: none;
 }
@@ -197,6 +202,18 @@ tags-input {
 
 .pagination>li.disabled:last-child>a, .pagination>li.disabled:last-child>span:hover {
   background-color: $black;
+}
+
+.icon-border-24 {
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+}
+
+.icon-border-22 {
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
 }
 
 @media (min-width: 979px) {

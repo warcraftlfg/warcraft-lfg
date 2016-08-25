@@ -1,0 +1,29 @@
+<section class="header header-guild m-b-10">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 ng-if="guild">
+                        <span class="icon-medium faction-{{guild.bnet.side}} m-t-0"></span>
+                        <span class="faction-{{guild.bnet.side}}">{{ guild.name }}</span>
+                    </h2>
+                    <h2 ng-if="!guild"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <span ng-if="guild">{{ guild.region|uppercase}}-{{ guild.realm }} <span ng-if="guildParser">- {{ guildParser.length }} {{ "MEMBERS"|translate }}</span> // {{ guild.updated | amDateFormat:'MM-DD-YYYY HH:mm:ss'}}</span>
+                    <span ng-if="!guild"></span>
+                    <a class="f-right" ng-if="userCanEdit"
+                       href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/update">
+                        <i class="fa fa-edit f-18"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

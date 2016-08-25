@@ -9,7 +9,6 @@ var updateService = process.require("updates/updateService.js");
 var guildModel = process.require("guilds/guildModel.js");
 var guildService = process.require("guilds/guildService.js");
 var bnetAPI = process.require("core/api/bnet.js");
-var wowProgressAPI = process.require("core/api/wowProgress.js");
 var progressAPI = process.require("core/api/progress.js");
 
 /**
@@ -56,45 +55,58 @@ GuildUpdateProcess.prototype.updateGuild = function () {
 
             })
         },
-        function(region,guild,callback){
+        function (region, guild, callback) {
             //Set guild to update for progress (change with url call update)
             updateModel.insert('wp_gu', region, guild.realm, guild.name, 5, function (error) {
-                callback(error,region,guild);
+                callback(error, region, guild);
             });
         },
         function (region, guild, callback) {
+            guildModel.findOne({
+                region: region,
+                realm: guild.realm,
+                name: guild.name
+            }, {ad: 1, parser: 1}, function (error, guildObj) {
+                callback(error, region, guild, guildObj);
+            });
+        },
+        function (region, guild, guildObj, callback) {
+            if (guildObj && guildObj.parser.active && guild.members ) {
+                async.each(guild.members, function (member, callback) {
+                    if (guildObj.parser.ranks["rank_" + member.rank]) {
+                        if (member.character && member.character.realm && member.character.name) {
+                            updateModel.insert('cu', region, member.character.realm, member.character.name, 3, function (error) {
+                                callback(error);
+                            });
+                        } else {
+                            callback();
+                        }
+                    } else {
+                        callback();
+                    }
+                }, function (error) {
+                    callback(error, region, guild, guildObj);
+                });
+
+            } else {
+                callback(error, region, guild, guildObj);
+            }
+        },
+        function (region, guild, guildObj, callback) {
             async.parallel({
                 ad: function (callback) {
-                    async.waterfall([
-                        function (callback) {
-                            guildModel.findOne({
-                                region: region,
-                                realm: guild.realm,
-                                name: guild.name
-                            }, {ad: 1}, function (error, guild) {
-                                callback(error, guild);
-                            });
-                        },
-                        function (guild, callback) {
-                            if (guild && guild.ad && guild.ad.timezone && guild.ad.lfg == true) {
-                                var offset = Math.round(moment.tz.zone(guild.ad.timezone).parse(Date.UTC()) / 60);
-                                async.each(guild.ad.play_time, function (day, callback) {
-                                    day.start.hourUTC = day.start.hour + offset;
-                                    day.end.hourUTC = day.end.hour + offset;
-                                    callback();
-                                }, function () {
-                                    callback(null, guild.ad);
-                                });
-                            } else {
-                                callback();
-                            }
-                        }
-                    ], function (error, ad) {
-                        if (error) {
-                            logger.error(error.message);
-                        }
-                        callback(null, ad)
-                    });
+                    if (guildObj && guildObj.ad && guildObj.ad.timezone && guildObj.ad.lfg == true) {
+                        var offset = Math.round(moment.tz.zone(guildObj.ad.timezone).parse(Date.UTC()) / 60);
+                        async.each(guildObj.ad.play_time, function (day, callback) {
+                            day.start.hourUTC = day.start.hour + offset;
+                            day.end.hourUTC = day.end.hour + offset;
+                            callback();
+                        }, function () {
+                            callback(null, guildObj.ad);
+                        });
+                    } else {
+                        callback();
+                    }
                 },
                 rank: function (callback) {
                     progressAPI.getRank(config.currentProgress, region, guild.realm, guild.name, function (error, rank) {
@@ -110,11 +122,11 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 },
                 progress: function (callback) {
-                    progressAPI.getProgress(18,region,guild.realm,guild.name,function(error,progress){
+                    progressAPI.getProgress(config.currentProgress, region, guild.realm, guild.name, function (error, progress) {
                         if (error) {
                             logger.error(error.message);
                             callback();
-                        } else if(progress){
+                        } else if (progress) {
                             progress.updated = new Date().getTime();
                             callback(null, progress);
                         } else {

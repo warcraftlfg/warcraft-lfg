@@ -10,5 +10,13 @@
         $scope.warcraftLfgUrl = __env.warcraftLfgUrl;
         $scope.warcraftProgressUrl = __env.warcraftProgressUrl;
         $scope.warcraftParserUrl = __env.warcraftParserUrl;
+        $scope.apiUrl = __env.apiUrl;
+        if (__env.html5) {
+            $scope.hashbang = '';
+            $scope.hashbangAbs = '';
+        } else {
+            $scope.hashbang = '#';
+            $scope.hashbangAbs = '#/';
+        }
     }
 })();

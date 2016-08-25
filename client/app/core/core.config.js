@@ -5,10 +5,21 @@
 
     core.config(configure);
 
-    function configure($translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, markedProvider) {
+    function configure($httpProvider, $translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, $uibTooltipProvider, $urlMatcherFactoryProvider, markedProvider, __env) {
+        $httpProvider.defaults.withCredentials = true;
 
         // Remove hashtag from url
-        //$locationProvider.html5Mode(true).hashPrefix('#');
+        if (__env.html5) {
+            $locationProvider.html5Mode(true);
+        }
+
+        if (window.innerWidth < 992) {
+            var options = {
+                trigger: 'dontTrigger' // default dummy trigger event to show tooltips
+            };
+
+            $uibTooltipProvider.options(options);
+        }
 
         //Translation Property
         $translateProvider.useLoader('wlfgTranslationLoader', {

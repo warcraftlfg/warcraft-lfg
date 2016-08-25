@@ -9,6 +9,7 @@ var userModel = process.require("users/userModel.js");
 var characterCriteria = process.require("characters/utilities/mongo/characterCriteria.js");
 var characterProjection = process.require("characters/utilities/mongo/characterProjection.js");
 var numberLimit = process.require("core/utilities/mongo/numberLimit.js");
+var pageSkip = process.require("core/utilities/mongo/pageSkip.js");
 var characterSort = process.require("characters/utilities/mongo/characterSort.js");
 var updateModel = process.require("updates/updateModel.js");
 
@@ -63,6 +64,7 @@ module.exports.getCharacters = function (req, res) {
 module.exports.getCharacter = function (req, res, next) {
 
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
     logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
@@ -81,12 +83,13 @@ module.exports.getCharacter = function (req, res, next) {
         "bnet.race": 1,
         "bnet.level": 1,
         "bnet.talents": 1,
-        "bnet.progression.raids": {$slice: [-3,1]},
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,1]},
         "bnet.items": 1,
         "bnet.reputation": 1,
         "bnet.achievements": 1,
         "bnet.challenge.records": 1,
-        "warcraftLogs.logs": 1
+        "warcraftLogs.logs": 1,
+        "parser": 1,
     };
     async.waterfall([
         function (callback) {

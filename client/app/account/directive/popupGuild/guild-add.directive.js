@@ -32,15 +32,19 @@
 
     AccountGuildAddPopupController.$inject = ["$scope", "$filter", "$uibModalInstance", "socket", "user"];
     function AccountGuildAddPopupController($scope, $filter, $uibModalInstance, socket, user) {
+        $scope.guildRegion = "";
+
         /**
          * Get user's guilds by region
          */
         $scope.updateGuildRegion = function () {
+            $scope.userGuilds = null;
             if ($scope.guildRegion === '') {
                 $scope.userGuilds = null;
             } else {
                 $scope.$parent.loading = true;
-                $scope.userGuilds = user.query({param: "guilds", region: $scope.guildRegion}, function () {
+                 user.query({param: "guilds", region: $scope.guildRegion}, function (guilds) {
+                    $scope.userGuilds = guilds;
                     $scope.$parent.loading = false;
                 }, function (error) {
                     $scope.$parent.error = error.data;

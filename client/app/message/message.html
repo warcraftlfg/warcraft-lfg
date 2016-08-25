@@ -28,7 +28,7 @@
                 <div class="panel-body p-t-0 p-b-0 bd-t-s scroller" ng-style="heightListStyle()"
                      wlfg-message-height-list perfect-scrollbar wheel-propagation="false" wheel-speed="2"
                      min-scrollbar-length="20" suppress-scroll-x="true">
-                    <a href="#/messages/{{entities[0]._id || entities[0].id}}/{{entities[1]._id || entities[1].id}}/">
+                    <a href="{{ hashbang }}/messages/{{entities[0]._id || entities[0].id}}/{{entities[1]._id || entities[1].id}}/">
                         <div class="row bd-b-s p-b-10 p-t-10 active message-conversation" ng-if="messages.length == 0">
                             <div class="col-md-12">
                                 <div class="h-20 txt-ellipsis"
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="#/messages/{{conversation.entities[0]._id || conversation.entities[0].id}}/{{conversation.entities[1]._id || conversation.entities[1].id}}/"
+                    <a href="{{ hashbang }}/messages/{{conversation.entities[0]._id || conversation.entities[0].id}}/{{conversation.entities[1]._id || conversation.entities[1].id}}/"
                        ng-repeat="conversation in conversations">
                         <div class="row bd-b-s p-b-10 p-t-10 message-conversation"
                              ng-class="{'active':(conversation.entities[0]._id==objId1 || conversation.entities[0]._id==objId2) && (conversation.entities[1]._id==objId1 || conversation.entities[1]._id==objId2)}"

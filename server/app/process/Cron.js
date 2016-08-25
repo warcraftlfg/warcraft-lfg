@@ -65,6 +65,15 @@ Cron.prototype.cleanAds = function () {
                     callback();
                 });
             },
+            function (callback) {
+                logger.info("Put parser guilds in update list");
+                guildService.putParserInUpdateList(function (error) {
+                    if (error) {
+                        logger.error(error.message);
+                    }
+                    callback();
+                });
+            },
             /*function (callback) {
                logger.info("Refresh Wowprogress Guild Ads");
                 guildService.refreshWowProgressAds(function (error) {

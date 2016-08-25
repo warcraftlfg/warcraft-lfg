@@ -100,7 +100,7 @@ module.exports.putLfgAdsInUpdateList = function (callback) {
         function (guilds, callback) {
             async.each(guilds, function (guild, callback) {
                 updateModel.insert('gu', guild.region, guild.realm, guild.name, 3, function (error) {
-                    logger.verbose("Insert guild to update %s-%s-%s to update with priority 3", guild.region, guild.realm, guild.name);
+                    logger.verbose("Insert guild to update (lfg) %s-%s-%s to update with priority 3", guild.region, guild.realm, guild.name);
                     callback(error);
                 });
             }, function (error) {
@@ -111,7 +111,36 @@ module.exports.putLfgAdsInUpdateList = function (callback) {
         if (error && error !== true) {
             logger.error(error.message);
         } else {
-            logger.info("Added %s guilds to update", length)
+            logger.info("Added %s guilds to update (lfg)", length)
+        }
+        callback();
+    });
+};
+
+
+module.exports.putParserInUpdateList = function (callback) {
+    var logger = applicationStorage.logger;
+    async.waterfall([
+        function (callback) {
+            guildModel.find({"parser.active": true}, {region: 1, realm: 1, name: 1}, function (error, guilds) {
+                callback(error, guilds);
+            });
+        },
+        function (guilds, callback) {
+            async.each(guilds, function (guild, callback) {
+                updateModel.insert('gu', guild.region, guild.realm, guild.name, 3, function (error) {
+                    logger.verbose("Insert guild to update (parser) %s-%s-%s to update with priority 3", guild.region, guild.realm, guild.name);
+                    callback(error);
+                });
+            }, function (error) {
+                callback(error, guilds.length);
+            });
+        }
+    ], function (error, length) {
+        if (error && error !== true) {
+            logger.error(error.message);
+        } else {
+            logger.info("Added %s guilds to update (parser)", length)
         }
         callback();
     });
