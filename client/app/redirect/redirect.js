@@ -9,7 +9,11 @@
     function RedirectController($state, $cookies) {
     	var toState = $cookies.getObject('lastUrl');
     	var toParams = $cookies.getObject('lastUrlParams');
-        
-    	$state.go(toState.name, toParams);
+
+        if (toState && toParams && toState.name) {        
+    	   $state.go(toState.name, toParams);
+        } else {
+            $state.go('dashboard');
+        }
     }
 })();

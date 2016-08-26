@@ -74,6 +74,7 @@
 
         $scope.lastReset = getLastDay();
         $scope.raid = __env.tiers[__env.tiers.current];
+        $scope.itemSlot = __env.itemSlot;
         $scope.currentTier = __env.tiers.current;
 
         $scope.difficulty = "normalTimestamp";
@@ -152,6 +153,8 @@
         };
 
         $scope.switchSort = function(value) {
+            console.log(value);
+            console.log($scope.guildParser);
             if ($scope.sort === value) {
                 value = '-'+value;
             }

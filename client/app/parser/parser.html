@@ -14,10 +14,13 @@
                                 <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th uib-tooltip='{{"TALENT"|translate}}' tooltip-append-to-body="true">
+                            <th class="cursor-pointer sortable" ng-click="switchSort('bnet.talents[0].slug');" uib-tooltip='{{"TALENT"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/talent.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
+                                <i ng-if="sort!='bnet.talents[0].slug'&&sort!='-bnet.talents[0].slug'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.talents[0].slug'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.talents[0].slug'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="cursor-pointer" ng-click="switchSort('bnet.level');">
                                 {{ "LEVEL"|translate }}
@@ -49,7 +52,7 @@
                             </th>
                             <th class="cursor-pointer" ng-click="switchSort('parser.warcraftLogs.average');" uib-tooltip='{{"WARCRAFTLOGS"|translate}}' tooltip-append-to-body="true">
                                 WCL
-                                <i ng-if="sort!='parser.wcl'&&sort!='-parser.warcraftLogs.average'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-if="sort!='parser.warcraftLogs.average'&&sort!='-parser.warcraftLogs.average'" class="fa fa-sort" aria-hidden="true"></i>
                                 <i ng-show="sort==='-parser.warcraftLogs.average'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.warcraftLogs.average'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
@@ -137,7 +140,7 @@
                                     {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
-                            <tr ng-repeat="(key, character) in guildParser | orderBy:sort">
+                            <tr ng-repeat="(key, character) in guildParser | orderBy:[sort, 'name']">
                                 <td class="bold class-{{ character.bnet.class }}">
                                     <a ng-href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
                                         {{ character.name }}
@@ -153,16 +156,16 @@
                                 <td>
                                     {{ character.bnet.level }}
                                 </td>
-                                <td ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevelEquipped>=ilvlColor.epic&&character.bnet.items.averageItemLevelEquipped<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevelEquipped>=ilvlColor.rare&&character.bnet.items.averageItemLevelEquipped<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevelEquipped>ilvlColor.uncommon&&character.bnet.items.averageItemLevelEquipped<ilvlColor.rare,'common':character.bnet.items.averageItemLevelEquipped<ilvlColor.uncommon}">
+                                <td ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevelEquipped>=ilvlColor.epic&&character.bnet.items.averageItemLevelEquipped<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevelEquipped>=ilvlColor.rare&&character.bnet.items.averageItemLevelEquipped<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevelEquipped>=ilvlColor.uncommon&&character.bnet.items.averageItemLevelEquipped<ilvlColor.rare,'common':character.bnet.items.averageItemLevelEquipped<ilvlColor.uncommon}">
                                     {{ character.bnet.items.averageItemLevelEquipped }}
                                 </td>
-                                <td ng-class="{'legendary':character.bnet.items.averageItemLevel>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevel>=ilvlColor.epic&&character.bnet.items.averageItemLevel<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevel>=ilvlColor.rare&&character.bnet.items.averageItemLevel<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevel>ilvlColor.uncommon&&character.bnet.items.averageItemLevel<ilvlColor.rare,'common':character.bnet.items.averageItemLevel<ilvlColor.uncommon}">
+                                <td ng-class="{'legendary':character.bnet.items.averageItemLevel>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevel>=ilvlColor.epic&&character.bnet.items.averageItemLevel<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevel>=ilvlColor.rare&&character.bnet.items.averageItemLevel<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevel>=ilvlColor.uncommon&&character.bnet.items.averageItemLevel<ilvlColor.rare,'common':character.bnet.items.averageItemLevel<ilvlColor.uncommon}">
                                     {{ character.bnet.items.averageItemLevel }}
                                 </td>
-                                <!--<td ng-class="{'legendary':character.bnet.items.mainHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.mainHand.itemLevel>=ilvlColor.epic&&character.bnet.items.mainHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.mainHand.itemLevel>=ilvlColor.rare&&character.bnet.items.mainHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.mainHand.itemLevel>ilvlColor.uncommon&&character.bnet.items.mainHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.mainHand.itemLevel<ilvlColor.uncommon}">
+                                <!--<td ng-class="{'legendary':character.bnet.items.mainHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.mainHand.itemLevel>=ilvlColor.epic&&character.bnet.items.mainHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.mainHand.itemLevel>=ilvlColor.rare&&character.bnet.items.mainHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.mainHand.itemLevel>=ilvlColor.uncommon&&character.bnet.items.mainHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.mainHand.itemLevel<ilvlColor.uncommon}">
                                     {{ character.bnet.items.mainHand.itemLevel }}
                                 </td>
-                                <td ng-class="{'legendary':character.bnet.items.offHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.offHand.itemLevel>=ilvlColor.epic&&character.bnet.items.offHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.offHand.itemLevel>=ilvlColor.rare&&character.bnet.items.offHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.offHand.itemLevel>ilvlColor.uncommon&&character.bnet.items.offHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.offHand.itemLevel<ilvlColor.uncommon}">
+                                <td ng-class="{'legendary':character.bnet.items.offHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.offHand.itemLevel>=ilvlColor.epic&&character.bnet.items.offHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.offHand.itemLevel>=ilvlColor.rare&&character.bnet.items.offHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.offHand.itemLevel>=ilvlColor.uncommon&&character.bnet.items.offHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.offHand.itemLevel<ilvlColor.uncommon}">
                                     {{ character.bnet.items.offHand.itemLevel }}
                                 </td>-->
                                 <td class="text-center sort-img">
