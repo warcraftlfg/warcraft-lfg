@@ -71,7 +71,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
             });
         },
         function (region, guild, guildObj, callback) {
-            if (guildObj && guildObj.parser.active && guild.members ) {
+            if (guildObj && guildObj.parser.active && guild.members) {
                 async.each(guild.members, function (member, callback) {
                     if (guildObj.parser.ranks["rank_" + member.rank]) {
                         if (member.character && member.character.realm && member.character.name) {
@@ -135,14 +135,15 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 }
             }, function (error, results) {
-                results.bnet = guild;
-                results.bnet.updated = new Date().getTime();
-                guildModel.upsert(region, guild.realm, guild.name, results, function (error) {
-                    if (error) {
-                        logger.error(error.message);
-                    }
-                    callback();
-                });
+                if (error) {
+                    callback(error);
+                } else {
+                    results.bnet = guild;
+                    results.bnet.updated = new Date().getTime();
+                    guildModel.upsert(region, guild.realm, guild.name, results, function (error) {
+                        callback(error);
+                    });
+                }
             })
         }
     ], function (error) {
