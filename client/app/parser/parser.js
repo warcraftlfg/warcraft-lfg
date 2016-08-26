@@ -74,6 +74,7 @@
 
         $scope.lastReset = getLastDay();
         $scope.raid = __env.tiers[__env.tiers.current];
+        $scope.itemSlot = __env.itemSlot;
         $scope.currentTier = __env.tiers.current;
 
         $scope.difficulty = "normalTimestamp";

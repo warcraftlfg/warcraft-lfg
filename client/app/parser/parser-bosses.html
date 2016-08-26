@@ -42,7 +42,7 @@
                                     {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
-                            <tr ng-repeat="character in guildParser | orderBy:sort">
+                            <tr ng-repeat="character in guildParser | orderBy:[sort, 'name']">
                                 <td class="bold class-{{ character.bnet.class }}">
                                     <a ng-href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
                                         {{ character.name }}
