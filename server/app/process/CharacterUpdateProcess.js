@@ -121,6 +121,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 }
             }, function (error, results) {
                 results.parser = self.parseCharacter(character, results.warcraftLogs);
+                self.parseCharacterTalents(character);
 
                 // Too many data, let's remove
                 character.achievements = null;
@@ -408,6 +409,30 @@ CharacterUpdateProcess.prototype.parseWarcraftLogsAverage = function (values) {
         sum += values[i]; //don't forget to add the base
     }
     return sum/values.length;
+}
+
+/**
+ * Parse Character talents
+ */
+CharacterUpdateProcess.prototype.parseCharacterTalents = function (character) {
+    var talentSelected;
+
+    if (character && character.talents && character.talents.length > 0) {
+        character.talents.forEach(function(talent) {
+            if (talent.selected) {
+                talentSelected = talent;
+                talentSelected.slug = character.class+'-';
+                if (talent.spec && talent.spec.name) {
+                    talentSelected.slug =  talentSelected.slug + talent.spec.name.toLowerCase();
+                }
+            }
+        });
+
+        if (talentSelected) {
+            character.talents = [];
+            character.talents.push(talentSelected);
+        }
+    }
 }
 
 /**

@@ -91,6 +91,8 @@
 
   window.__env.tiers = tiers;
 
+  window.__env.itemSlot =  ["mainHand", "head", "neck", "shoulder", "back", "chest", "wrist", "hands", "waist", "legs", "feet", "finger1", "finger2", "trinket1", "trinket2"];
+
   // Whether or not to enable debug mode
   // Setting this to false will disable console output
   window.__env.enableDebug = true;

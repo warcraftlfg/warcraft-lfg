@@ -264,6 +264,25 @@
 .raid-normal { font-style: italic; }
 .raid-lfr { font-weight: 300;  }
 
+/* Item slot */
+.item {
+  &.slot-head { background-image: url('../images/external/item/head.jpg'); }
+  &.slot-neck { background-image: url('../images/external/item/neck.jpg'); }
+  &.slot-shoulder { background-image: url('../images/external/item/shoulder.jpg'); }
+  &.slot-back { background-image: url('../images/external/item/back.jpg'); }
+  &.slot-chest { background-image: url('../images/external/item/chest.jpg'); }
+  &.slot-wrist { background-image: url('../images/external/item/wrist.jpg'); }
+  &.slot-hands { background-image: url('../images/external/item/hands.jpg'); }
+  &.slot-waist { background-image: url('../images/external/item/waist.jpg'); }
+  &.slot-legs { background-image: url('../images/external/item/legs.jpg'); }
+  &.slot-feet { background-image: url('../images/external/item/feet.jpg'); }
+  &.slot-finger1 { background-image: url('../images/external/item/finger1.jpg'); }
+  &.slot-finger2 { background-image: url('../images/external/item/finger2.jpg'); }
+  &.slot-trinket1 { background-image: url('../images/external/item/trinket1.jpg'); }
+  &.slot-trinket2 { background-image: url('../images/external/item/trinket2.jpg'); }
+  &.slot-mainHand { background-image: url('../images/external/item/mainHand.jpg'); }
+}
+
 /* Bosses */
 .hfc-18 {
   &.boss-0 { background-image: url('../images/external/bosses/18/0.jpg'); }

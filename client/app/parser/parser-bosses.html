@@ -14,6 +14,14 @@
                                 <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
+                            <th class="cursor-pointer sortable" ng-click="switchSort('bnet.talents[0].slug');" uib-tooltip='{{"TALENT"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/talent.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='bnet.talents[0].slug'&&sort!='-bnet.talents[0].slug'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.talents[0].slug'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.talents[0].slug'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
                             <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[0].bosses['+$index+'].bestKills');" ng-repeat="(key, boss) in raid.bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24 {{ raid.class }} boss-{{ key }}">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
@@ -25,7 +33,7 @@
                         </thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
-                                <td colspan="16" class="p-15 parser-loading">
+                                <td colspan="17" class="p-15 parser-loading">
                                     <i class="fa fa-2x fa-spinner fa-spin"></i>
                                 </td>
                             </tr>
@@ -34,19 +42,26 @@
                                     {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
-                            <tr ng-repeat="character in guildParser | orderBy:sort">
+                            <tr ng-repeat="character in guildParser | orderBy:[sort, 'name']">
                                 <td class="bold class-{{ character.bnet.class }}">
                                     <a ng-href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
                                         {{ character.name }}
                                     </a>
                                 </td>
+                                <td class="talent"> 
+                                    <span ng-if="talent.selected" ng-repeat="talent in character.bnet.talents">
+                                        <div uib-tooltip='{{ talent.spec.role }} : {{ talent.spec.name }}' tooltip-append-to-body="true" class="dis-inline-b icon-border-22" style="background-image: url('http://eu.media.blizzard.com/wow/icons/36/{{ talent.spec.icon }}.jpg');">
+                                            <img width="22" height="22" src="/assets/images/external/border.png">
+                                        </div>
+                                    </span>
+                                </td>
                                 <td class="text-center sort-img" ng-if="character.bnet.progression.raids[0].name == raid.name" ng-repeat="boss in character.bnet.progression.raids[0].bosses">
                                     <span class="cursor-pointer bd-b-d sort-fix" tooltip-placement="top" uib-tooltip-template="'parserBossesTooltipTemplate.html'" tooltip-class="bossesCount-tooltips" tooltip-append-to-body="true">
-                                        <span class="legendary" ng-if="boss.mythicKills>0" ng-init="boss.bestKills = 'a'+boss.mythicKills ">{{ boss.mythicKills }}</span>
-                                        <span class="epic" ng-if="boss.heroicKills>0&&boss.mythicKills<=0" ng-init="boss.bestKills = 'b'+boss.heroicKills">{{ boss.heroicKills }}</span>
-                                        <span class="rare" ng-if="boss.normalKills>0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.bestKills = 'c'+boss.normalKills">{{ boss.normalKills }}</span>
-                                        <span class="uncommon" ng-if="boss.lfrKills>0&&boss.normalKills<=0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.normalKills = 'd'+boss.mythicKills">{{ boss.lfrKills }}</span>
-                                        <span class="common" ng-if="boss.lfrKills<=0&&boss.normalKills<=0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.bestKills = 'e'+0">0</span>
+                                        <span class="legendary" ng-if="boss.mythicKills>0" ng-init="boss.bestKills = (boss.mythicKills+100000000)">{{ boss.mythicKills }}</span>
+                                        <span class="epic" ng-if="boss.heroicKills>0&&boss.mythicKills<=0" ng-init="boss.bestKills = (10000000+boss.heroicKills)">{{ boss.heroicKills }}</span>
+                                        <span class="rare" ng-if="boss.normalKills>0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.bestKills = (1000000+boss.normalKills)">{{ boss.normalKills }}</span>
+                                        <span class="uncommon" ng-if="boss.lfrKills>0&&boss.normalKills<=0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.bestKills = (100000+boss.lfrKills)">{{ boss.lfrKills }}</span>
+                                        <span class="common" ng-if="boss.lfrKills<=0&&boss.normalKills<=0&&boss.heroicKills<=0&&boss.mythicKills<=0" ng-init="boss.bestKills = (10000+0)">0</span>
                                     </span>
                                     <script type="text/ng-template" id="parserBossesTooltipTemplate.html">
                                         <table>
