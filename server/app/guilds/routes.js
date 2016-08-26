@@ -8,11 +8,14 @@ var sanitize = process.require("guilds/utilities/middleware/sanitize.js");
 router.get("/guilds", guildController.getGuilds);
 router.get("/guilds/count", guildController.getCount);
 router.get("/guilds/:region/:realm/:name", guildController.getGuild);
+router.get("/guilds/parser/:region/:realm/:name", guildController.getGuildParser);
+router.get("/guilds/search/:text", guildController.searchGuild);
+
 
 //Define route for authenticated users
 router.put("/guilds/ad/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.hasGuildAdEditPermission, guildController.putGuildAd);
 router.delete("/guilds/ad/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.hasGuildAdDelPermission, guildController.deleteGuildAd);
 router.put("/guilds/perms/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.hasGuildGMPermission, guildController.putGuildPerms);
-
+router.put("/guilds/parser/:region/:realm/:name", auth.isAuthenticated, sanitize.sanitize, auth.hasGuildAdEditPermission, guildController.putGuildParser);
 
 module.exports = router;

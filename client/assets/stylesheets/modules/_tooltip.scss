@@ -1,0 +1,64 @@
+.tooltip {
+	font-size: 13px;
+	font-weight: bold;
+
+	.tooltip-inner {
+		border-radius: 0px;
+		border: 1px solid white;
+	}
+}
+
+.tooltip.in {
+	opacity: 1 !important;
+}
+
+.tooltip.bottom {
+	margin-top: -2px !important
+}
+
+.tooltip.top {
+	margin-top: 2px !important;
+}
+
+.tooltip-arrow {
+	display: none !important
+}
+
+.wcl-tooltips {
+	.tooltip {
+		font-size: 12px;
+
+		.tooltip-inner {
+			padding-bottom: 0px;
+			max-width: 250px !important;
+
+			table {
+				border-bottom: 0px solid black;
+				background-color: #000 !important;
+
+				tr td {
+					border-top: 0px solid black;
+					padding-top: 0px;
+					padding-bottom: 3px;
+				}
+			}
+
+		}
+
+		.tooltip-inner table tr::last-child td {
+			padding-bottom: 0px !important;
+		}
+	}
+}
+
+.audit-tooltips {
+	.tooltip-inner {
+		max-width: 500px !important;
+	}
+}
+
+.bossesCount-tooltips {
+	.tooltip-inner {
+		max-width: 500px !important;
+	}
+}

@@ -24,14 +24,19 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-condensed">
+                    <table class="table table-condensed table-striped table-hover">
                         <thead wlfg-sort-character></thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
-                                <td colspan="11" class="p-15 loading">
+                                <td colspan="11" class="p-15 characters-loading">
                                     <i class="fa fa-2x fa-spinner fa-spin"></i>
                                 </td>
-                            </tr>   
+                            </tr>
+                            <tr class="text-center" ng-if="noResult">
+                                <td colspan="12" class="p-15 loading">
+                                    {{ "NO_DATA"|translate }}
+                                </td>
+                            </tr>
                             <tr ng-repeat="character in characters">
                                 <td class="text-center">
                                     <span ng-class="{'logo-warcraftlfg':character.id}" class="icon-small source-tooltip"
@@ -40,7 +45,7 @@
                                     </span>
                                 </td>
                                 <td class="class-{{character.bnet.class}}">
-                                    <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold">
+                                    <a href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" class="bold">
                                         {{character.name}}
                                     </a>
                                 </td>
@@ -67,15 +72,15 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
+                                    <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevelEquipped>=ilvlColor.epic&&character.bnet.items.averageItemLevelEquipped<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevelEquipped>=ilvlColor.rare&&character.bnet.items.averageItemLevelEquipped<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevelEquipped>=ilvlColor.uncommon&&character.bnet.items.averageItemLevelEquipped<ilvlColor.rare,'common':character.bnet.items.averageItemLevelEquipped<ilvlColor.uncommon}">
                                         {{character.bnet.items.averageItemLevelEquipped}}
                                     </span>
                                 </td>
                                 <td>
-                                    <span wlfg-progress="character.bnet.progression.raids"></span>
+                                    <span wlfg-progress-character="character.bnet.progression.raids"></span>
                                 </td>
-                                <td>
-                                    <span wlfg-warcraft-logs-average="character.warcraftLogs.logs" character-class="{{ character.bnet.class }}"></span>
+                                <td class="character-class-{{ character.bnet.class }}">
+                                    <span class="wcl-tooltips" wlfg-warcraft-logs-average="character.parser.warcraftLogs" character-class="{{ character.bnet.class }}"></span>
                                 </td>
                                 <td class="hidden-xs">
                                     <span am-time-ago="character.ad.updated"></span>
@@ -91,7 +96,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': page <= 1}">
-                        <a ng-if="page > 1" ng-href="#/character/list/{{ (page - 1) }}" ng-click="$event.preventDefault();changePage((page - 1))">
+                        <a ng-if="page > 1" ng-href="{{ hashbang }}/character/list/{{ page - 1 }}" ng-click="$event.preventDefault();changePage((page - 1))">
                             <span class="page-link" aria-label="Previous">
                                 <span aria-hidden="true">&laquo; &nbsp; Previous</span>
                             </span>
@@ -105,7 +110,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': characters.length < 20}">
-                        <a ng-if="characters.length == 20" ng-href="#/character/list/{{ (page + 1) }}" ng-click="$event.preventDefault();changePage((page + 1))">
+                        <a ng-if="characters.length == 20" ng-href="{{ hashbang }}/character/list/{{ page + 1 }}" ng-click="$event.preventDefault();changePage((page + 1))">
                             <span class="page-link" aria-label="Next">
                                 <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
                             </span>

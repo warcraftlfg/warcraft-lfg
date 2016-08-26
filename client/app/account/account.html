@@ -34,8 +34,7 @@
                 <table class="table">
                     <tr ng-repeat="guildAd in guildAds">
                         <td class="faction-{{guildAd.bnet.side}}">
-                            <a href="#/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/"
-                               class="txt-underline">
+                            <a href="{{ hashbang }}/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/" class="txt-underline">
                                 {{guildAd.name}}
                             </a>
                         </td>
@@ -45,21 +44,32 @@
                         <td>
                             {{guildAd.region|uppercase}}
                         </td>
-                        <td>
-                             <span ng-if="guildAd.ad.lfg">
-                                {{"EXPIRE"|translate}} <span
-                                     am-time-ago="{{guildAd.ad.updated|amAdd:'120':'days'}}"></span>
-                            </span>
+                        <td ng-init="diffDay = (guildAd.ad.updated | amDifference:null:'days')">
+                            <a href="{{ hashbang }}/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/" tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip-template="'accountRecruitementTooltipTemplate.html'">
+                                <i ng-class="{'text-success':diffDay<=0&&diffDay>=-90,'text-warning':diffDay<-90&&diffDay>=-120,'text-danger':diffDay>0||diffDay<-120}" class="fa fa-file-text-o"></i>
+                            </a>
+                            <script type="text/ng-template" id="accountRecruitementTooltipTemplate.html">
+                                <span>{{"EXPIRE"|translate}} <span am-time-ago="{{guildAd.ad.updated|amAdd:'120':'days'}}"></span></span>
+                            </script>
                         </td>
                         <td>
+                            <a href="{{ hashbang }}/guild/{{ guildAd.region }}/{{ guildAd.realm }}/{{ guildAd.name }}/parser/" tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip-template="'accountParserTooltipTemplate.html'">
+                                <i ng-class="{'text-success':guildAd.parser.active,'text-danger':!guildAd.parser.active}" class="fa fa-bar-chart"></i>
+                            </a>
+                            <script type="text/ng-template" id="accountParserTooltipTemplate.html">
+                                <span ng-if="guildAd.parser.active">{{"ACCOUNT_PARSER_ACTIVE"|translate}}</span>
+                                <span ng-if="!guildAd.parser.active">{{"ACCOUNT_PARSER_INACTIVE"|translate}}</span>
+                            </script>
+                        </td>
+                        <td class="text-right">
                             <a class="txt-white m-r-10 f-16 txt-no-decoration"
-                               href="#/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update"
-                               ng-if="guildAd.perms.ad.edit" tooltip-placement="top"
+                               href="{{ hashbang }}/guild/{{guildAd.region}}/{{guildAd.realm}}/{{guildAd.name}}/update"
+                               ng-if="guildAd.perms.ad.edit" tooltip-placement="top" tooltip-append-to-body="true"
                                uib-tooltip="{{'EDIT'|translate }}">
                                 <i class="fa fa-pencil"></i>
                             </a>
                             <span tooltip-placement="top" ng-if="guildAd.perms.ad.del"
-                                  uib-tooltip="{{'DELETE'|translate }}">
+                                  uib-tooltip="{{'DELETE'|translate }}" tooltip-append-to-body="true">
                                 <span class="txt-white m-r-10 f-16 cursor-pointer"
                                       ng-click="deleteGuildAd(guildAd.region,guildAd.realm,guildAd.name)" wlfg-confirm
                                       wlfg-confirm-content="{{'CONFIRM_DELETE_GUILD_AD'|translate}}">
@@ -89,12 +99,12 @@
                             <div class="icon-small class-{{characterAd.bnet.class}} m-r-5 m-l-5"></div>
                         </td>
                         <td class="class-{{characterAd.bnet.class}}">
-                            <a href="#/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/"
+                            <a href="{{ hashbang }}/character/{{ characterAd.region }}/{{ characterAd.realm }}/{{ characterAd.name }}/"
                                class="txt-underline">
                                 {{characterAd.name}}
                             </a>
                         </td>
-                        <td>
+                        <td class="faction-{{character.bnet.faction}}">
                             {{characterAd.realm}}
                         </td>
                         <td>
@@ -108,7 +118,7 @@
                         </td>
                         <td>
                             <a class="txt-no-decoration txt-white m-r-10 f-16 txt-no-decoration"
-                               href="#/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"
+                               href="{{ hashbang }}/character/{{characterAd.region}}/{{characterAd.realm}}/{{characterAd.name}}/update"
                                tooltip-placement="top" uib-tooltip="{{'EDIT'|translate }}">
                                 <i class="fa fa-pencil"></i>
                             </a>

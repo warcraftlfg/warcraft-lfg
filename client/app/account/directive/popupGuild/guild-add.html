@@ -15,11 +15,14 @@
                 </span>
             </div>
         </form>
-        <div class="form-group o-auto-y max-height-500">
+        <div class="form-group m-b-0 o-auto-y max-height-500">
             <label ng-show="userGuilds.length" for="region">{{ "GUILD_CREATE_CHOOSE"|translate }}</label>
-            <p ng-show="!userGuilds.length && guildRegion!='' && !$parent.loading">
+            <p ng-show="!userGuilds.length && guildRegion !='' && !$parent.loading">
                 {{ "NO_GUILD_FOUND_FOR_REGION"|translate }}
             </p>
+            <div class="text-center m-b-10" ng-if="loading">
+                <i class="fa fa-2x fa-spinner fa-spin"></i>
+            </div>
             <p ng-repeat="guild in userGuilds">
                 <a class="btn btn-inverse" ng-click="createGuildAd(guildRegion,guild.realm,guild.name)"
                    role="button">{{guild.name}} - {{guild.realm}}</a>

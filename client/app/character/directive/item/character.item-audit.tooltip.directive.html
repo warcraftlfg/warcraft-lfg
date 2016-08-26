@@ -1,3 +1,15 @@
-<div ng-repeat="error in errors">
-	{{error}}
-</div>
+<table class="m-b-0">
+	<tr ng-class="{'m-b-5': !$last}" ng-if="audit.problems.length > 0" ng-repeat="(key, audit) in audits">
+			<td class="p-5">
+				<img ng-if="audit.icon" ng-src="http://eu.media.blizzard.com/wow/icons/18/{{audit.icon}}.jpg" />
+			</td>
+			<td class="p-5">
+				{{ key }} 
+			</td>
+			<td class="p-5"> 
+				<span class="text-{{ problem.type }}" ng-repeat="problem in audit.problems">
+					{{ problem.message}}<span ng-if="!$last">,</span>
+				</span>
+			</td>
+	</tr>
+</table>

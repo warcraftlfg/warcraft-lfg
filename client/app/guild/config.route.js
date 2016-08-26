@@ -15,14 +15,14 @@
                 controller: "GuildReadController"
             })
             .state("guild-update", {
-                url: "/guild/:region/:realm/:name/update",
+                url: "/guild/:region/:realm/:name/update?parser",
                 templateUrl: "app/guild/guild-update.html",
                 controlerAs: 'vm',
                 title: 'Guild update',
                 controller: "GuildUpdateController"
             })
             .state("guild-list", {
-                url: "/guild/list/:page?realm_zone&language&faction&realm&class&day&timezone&raids_per_week&progress&sort",
+                url: "/guild/list/:page?realm_zone&language&faction&realm&class&day&timezone&raids_per_week&progress&sort&role",
                 templateUrl: "app/guild/guild-list.html",
                 controlerAs: 'vm',
                 title: 'Guild list',

@@ -96,7 +96,7 @@
                             </span>
                         </td>
                         <td class="faction-{{guild.bnet.side}}">
-                            <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
+                            <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
                                class="bold txt-underline">
                                 {{guild.name}}
                             </a>
@@ -121,7 +121,7 @@
                             <span ng-class="{'logo-warcraftlfg':character.id}" class="icon-small source-tooltip" uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}' ng-if="character.id"></span>
                         </td>
                         <td class="class-{{character.bnet.class}}">
-                            <a href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
+                            <a href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
                                class="bold txt-underline class-{{character.bnet.class}}">
                                 {{character.name}}
                             </a>

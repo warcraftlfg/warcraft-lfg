@@ -5,12 +5,15 @@
 
     core.config(configure);
 
-    function configure($translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, $uibTooltipProvider, markedProvider) {
+    function configure($httpProvider, $translateProvider, $urlRouterProvider, $stateProvider, $locationProvider, $uibTooltipProvider, $urlMatcherFactoryProvider, markedProvider, __env) {
+        $httpProvider.defaults.withCredentials = true;
 
         // Remove hashtag from url
-        //$locationProvider.html5Mode(true).hashPrefix('#');
+        if (__env.html5) {
+            $locationProvider.html5Mode(true);
+        }
 
-        if ($(window).width() < 992) {
+        if (window.innerWidth < 992) {
             var options = {
                 trigger: 'dontTrigger' // default dummy trigger event to show tooltips
             };

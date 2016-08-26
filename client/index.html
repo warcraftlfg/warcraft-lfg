@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app" ng-cloak ng-controller="CoreController">
     <head>
+        <base href="/">
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
 
-        <title ng-bind="wlfgAppTitle.title()">WarcraftLFG</title>
+        <title ng-bind="wlfgAppTitle.title()">WarcraftHub</title>
 
-        <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard">
+        <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard, Progress, Parser, Strategy, Kill, History, Rating, Loot, Statistic, Armory, Instance, Achievement">
         <meta name="description" content="WarcraftLFG strive to be the link between players and guilds: Our goal is to provide each party with a meaningful set of data to help you find your perfect guild mates.">
         <meta name="robots" content="index,follow" />
         <meta name="wot-verification" content="f5398c96908c90e06fc3"/>
@@ -50,7 +52,6 @@
         <link href="/assets/css/main.css" rel="stylesheet">
         <!-- endbuild -->
 
-        <!--<base href="/">-->
     </head>
 
     <body>
@@ -77,6 +78,7 @@
         <script type="text/javascript" src="/../bower_components/angular/angular.min.js"></script>
         <script type="text/javascript" src="/../bower_components/angular-resource/angular-resource.min.js"></script>
         <script type="text/javascript" src="/../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-cookies/angular-cookies.min.js"></script>
         <script type="text/javascript" src="/../bower_components/isteven-angular-multiselect/isteven-multi-select.js"></script>
         <script type="text/javascript" src="/../bower_components/angular-ranger/angular-ranger.min.js"></script>
         <script type="text/javascript" src="/../bower_components/angular-socket-io/socket.min.js"></script>
@@ -130,19 +132,13 @@
         <script src="/app/filter/filter.js"></script>
         <script src="/app/filter/sort/filter.sort.character.directive.js"></script>
         <script src="/app/filter/sort/filter.sort.guild.directive.js"></script>
-        <!-- TODO CHOOSE ONE -->
-        <script src="/app/filter/zone/filter.realmZone.directive.js"></script>
         <script src="/app/filter/zone/filter.realmZone2.directive.js"></script>
-        <!-- ENDTODO -->
         <script src="/app/filter/zone/filter.realm.directive.js"></script>
         <script src="/app/filter/zone/filter.language.directive.js"></script>
-        <!-- TODO CHOOSE ONE -->
-        <script src="/app/filter/character/filter.faction.directive.js"></script>
         <script src="/app/filter/character/filter.faction2.directive.js"></script>
-        <!-- ENDTODO -->
         <script src="/app/filter/character/filter.role.directive.js"></script>
         <script src="/app/filter/character/filter.class.directive.js"></script>
-        <script src="/app/filter/character/filter.role-class.directive.js"></script>
+        <script src="/app/filter/guild/filter.role-class2.directive.js"></script>
         <script src="/app/filter/character/filter.ilevel.directive.js"></script>
         <script src="/app/filter/character/filter.progress.directive.js"></script>
         <script src="/app/filter/time/filter.day.directive.js"></script>
@@ -214,6 +210,8 @@
 
         <!-- guild -->
         <script src="/app/guild/guild.module.js"></script>
+        <script src="/app/guild/directive/progress/guild.progress.directive.js"></script>
+        <script src="/app/guild/directive/progress/guild.progress-advanced.directive.js"></script>
         <script src="/app/guild/directive/menu/guild.menu.directive.js"></script>
         <script src="/app/guild/config.route.js"></script>
         <script src="/app/guild/guild.js"></script>
@@ -228,6 +226,11 @@
         <script src="/app/parser/parser.module.js"></script>
         <script src="/app/parser/config.route.js"></script>
         <script src="/app/parser/parser.js"></script>
+
+        <!-- redirect -->
+        <script src="/app/redirect/redirect.module.js"></script>
+        <script src="/app/redirect/config.route.js"></script>
+        <script src="/app/redirect/redirect.js"></script>
 
         <!-- message -->
         <script src="/app/message/message.module.js"></script>
@@ -246,11 +249,13 @@
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-70750580-1', 'auto');
+          ga('create', 'UA-70750580-1',  'auto', {'allowLinker': true});
+          ga('require', 'linker');
+          ga('linker:autoLink', ['www.warcraftlfg.com','www.warcraftprogress.com','www.warcraftparser.com','www.warcrafthub.com','beta.warcraftlfg.com'] );
         </script>
 
         <!-- Third party -->
-        <script type="text/javascript" async src="//wow.zamimg.com/widgets/power.js"></script>
+        <!--<script type="text/javascript" async src="//wow.zamimg.com/widgets/power.js"></script>-->
         <script>var wowhead_tooltips = { "colorlinks": false, "iconizelinks": false, "renamelinks": false }</script>
     </body>
 </html>

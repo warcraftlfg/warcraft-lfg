@@ -1,5 +1,5 @@
 <wlfg-message-popup></wlfg-message-popup>
-<section class="header header-character">
+<section class="header header-character m-b-10">
     <div class="">
         <div class="container">
             <div class="row">
@@ -18,9 +18,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <span ng-if="character">{{ character.realm }} - {{ character.region|uppercase}}</span>
+                    <span ng-if="character">{{ character.region|uppercase}}-{{ character.realm }} // {{ character.updated | amDateFormat:'MM-DD-YYYY HH:mm:ss'}} </span>
                     <span ng-if="!character">{{ "CHARACTERS_DESCRIPTION"|translate}}</span>
-                    <a class="f-right" ng-if="user && user.id && character.id == user.id" href="#/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
+                    <a class="f-right" ng-if="user && user.id && character.id == user.id" href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/update">
                         <i class="fa fa-edit f-20"></i>
                     </a>
                 </div>
@@ -33,18 +33,20 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-12 m-b-10" ng-if="queuePosition">
-                        {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} - {{"QUEUE_CHECK_MESSAGE"|translate}}
+                   <div class="col-md-12" ng-if="queuePosition">
+                        <button ng-if="queuePosition" type="button" class="btn btn-default disabled m-b-5">
+                            <i class="fa fa-spinner"></i> {{"QUEUE_POSITION"|translate}} {{queuePosition.count}} ({{"QUEUE_CHECK_MESSAGE"|translate}})
+                        </button>
                     </div>
-                    <div class="col-md-6 m-b-20">
-                        <button ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
+                    <div class="col-md-6 m-b-10">
+                        <button ng-class="{'disabled':queuePosition}" ng-click="updateCharacter()" type="button" class="btn btn-default" aria-label="Update Character">
                             <i class="fa fa-refresh"></i> {{"UPDATE_CHARACTER"|translate}}
                         </button>
                         <button ng-if="character.id" ng-click="openMessagePopup('sm');" type="button" class="btn btn-default" aria-label="Update Character">
                             <img src="/assets/images/message.png" class="message-picto" /> {{"MESSAGE_OPEN_POPUP"|translate}}
                         </button>
                     </div>
-                    <div class="col-md-6 m-b-20 text-right">
+                    <div class="col-md-6 m-b-10 text-right">
                         <a href="https://www.askmrrobot.com/wow/player/{{ character.region }}/{{ character.realm }}/{{ character.name }}" target="_blank" class="m-l-10 href-icon">
                             <img src="/assets/images/external/amr.png" class="external-icon" width="34" />
                         </a>
@@ -111,14 +113,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default"  ng-if="character.ad && character.ad.updated">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         {{"AD_UPDATED"|translate}}: <span am-time-ago="character.ad.updated"></span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        {{"CHARACTER_UPDATED"|translate}}:  <span am-time-ago="character.updated"></span>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +157,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                {{"PROGRESS_(T18)"|translate}}: <span wlfg-progress="character.bnet.progression.raids"></span>
+                                {{"PROGRESS_(T18)"|translate}} : <span wlfg-progress-character="character.bnet.progression.raids"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -235,7 +234,7 @@
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ITEM_LEVEL_BAG"|translate}}:
-                                        <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=735,'epic':character.bnet.items.averageItemLevelEquipped>=725&&character.bnet.items.averageItemLevelEquipped<735,'rare':character.bnet.items.averageItemLevelEquipped>=715&&character.bnet.items.averageItemLevelEquipped<725,'uncommon':character.bnet.items.averageItemLevelEquipped<715}">
+                                        <span ng-class="{'legendary':character.bnet.items.averageItemLevelEquipped>=ilvlColor.legendary,'epic':character.bnet.items.averageItemLevelEquipped>=ilvlColor.epic&&character.bnet.items.averageItemLevelEquipped<ilvlColor.legendary,'rare':character.bnet.items.averageItemLevelEquipped>=ilvlColor.rare&&character.bnet.items.averageItemLevelEquipped<ilvlColor.epic,'uncommon':character.bnet.items.averageItemLevelEquipped>=ilvlColor.uncommon&&character.bnet.items.averageItemLevelEquipped<ilvlColor.rare,'common':character.bnet.items.averageItemLevelEquipped<ilvlColor.uncommon}">
                                             {{character.bnet.items.averageItemLevel}}
                                         </span>
                                     </div> 
@@ -244,11 +243,11 @@
                                         <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"T18 EQUIPPED"|translate}}: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
+                                        T18: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
                                     </div>
-                                    <div class="col-md-2 col-sm-3 col-xs-6">
+                                    <!--<div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ENDLESS RUNE"|translate}}: <span wlfg-reputation-rune="character.bnet.reputation"></span>
-                                    </div>
+                                    </div>-->
                                     <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"AUDIT"|translate}}: <span wlfg-item-audit="character.bnet.items"></span>
                                     </div>
@@ -293,22 +292,22 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"GOLD"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="gold"></span>
+                                        {{"GOLD"|translate}}:  <span wlfg-challenge-medal="character.parser.challenge" medal-type="gold"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"SILVER"|translate}}:  <span wlfg-challenge-medal="character.bnet.achievements" medal-type="silver"></span>
+                                        {{"SILVER"|translate}}:  <span wlfg-challenge-medal="character.parser.challenge" medal-type="silver"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"BRONZE"|translate}}: <span wlfg-challenge-medal="character.bnet.achievements" medal-type="copper"></span>
+                                        {{"BRONZE"|translate}}: <span wlfg-challenge-medal="character.parser.challenge" medal-type="copper"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"TANK"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="tank"></span>
+                                        {{"TANK"|translate}}: <span wlfg-achievement-pg="character.parser.provingGrounds" pg-type="tank"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"DPS"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="dps"></span>
+                                        {{"DPS"|translate}}: <span wlfg-achievement-pg="character.parser.provingGrounds" pg-type="dps"></span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"HEALER"|translate}}: <span wlfg-achievement-pg="character.bnet.achievements" pg-type="healer"></span>
+                                        {{"HEALER"|translate}}: <span wlfg-achievement-pg="character.parser.provingGrounds" pg-type="healer"></span>
                                     </div>
                                 </div>
                             </div>

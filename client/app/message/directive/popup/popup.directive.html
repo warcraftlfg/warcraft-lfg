@@ -2,8 +2,12 @@
 	<div class="p-15 p-t-0">
 		<div class="modal-body text-center p-t-0">
 		    <div class="">
-		    	<a href="/auth/bnet" class="btn btn-inverse m-t-15" ng-if="!user || !user.id">
+		    	<a href="{{ apiUrl }}/auth/bnet" class="btn btn-inverse m-t-15" ng-if="!user || !user.id">
 		    		{{ "CONNECT_BNET"|translate }}
+                    <span class="login-bnet">
+                        <span class="icon-small bnet"></span>
+                        Battle.net
+                    </span>
 		    	</a>
 				<div ng-if="characterAds.length === 0 &&  guildAds.length === 0" class="m-b-10 m-t-15">
 					{{ "MESSAGE_NO_OBJECT_1"|translate }} <a href="/#/account" class="txt-underline">{{ "MESSAGE_NO_OBJECT_2"|translate }}</a>.

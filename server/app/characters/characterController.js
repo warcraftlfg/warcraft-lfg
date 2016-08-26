@@ -38,11 +38,8 @@ module.exports.getCharacters = function (req, res) {
             callback(null, criteria, projection, limit, characterSort.get(req.query));
         },
         function (criteria, projection, limit, sort, callback) {
-            callback(null, criteria, projection, limit, sort, pageSkip.get(req.query));
-        },
-        function (criteria, projection, limit, sort,skip, callback) {
-            logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s skip:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort),JSON.stringify(skip));
-            characterModel.find(criteria, projection, sort, limit, skip, function (error, characters) {
+            logger.debug("characters - criteria:%s projection:%s limit:%s sort:%s", JSON.stringify(criteria), JSON.stringify(projection), JSON.stringify(limit), JSON.stringify(sort));
+            characterModel.find(criteria, projection, sort, limit, function (error, characters) {
                 callback(error, characters);
             });
         }
@@ -67,6 +64,7 @@ module.exports.getCharacters = function (req, res) {
 module.exports.getCharacter = function (req, res, next) {
 
     var logger = applicationStorage.logger;
+    var config = applicationStorage.config;
     logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
 
     var criteria = {region: req.params.region, realm: req.params.realm, name: req.params.name};
@@ -85,12 +83,13 @@ module.exports.getCharacter = function (req, res, next) {
         "bnet.race": 1,
         "bnet.level": 1,
         "bnet.talents": 1,
-        "bnet.progression.raids": {$slice: [-3,1]},
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,1]},
         "bnet.items": 1,
         "bnet.reputation": 1,
         "bnet.achievements": 1,
         "bnet.challenge.records": 1,
-        "warcraftLogs.logs": 1
+        "warcraftLogs.logs": 1,
+        "parser": 1,
     };
     async.waterfall([
         function (callback) {

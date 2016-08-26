@@ -26,9 +26,9 @@
                 $translate.use($scope.user.language);
                 amMoment.changeLocale($scope.user.language);
             } else {
-                $scope.currentLanguage = $translate.use() ||
-                    $translate.preferredLanguage();
-                amMoment.changeLocale($translate.use() || $translate.preferredLanguage());
+                $scope.currentLanguage = 'en';
+                $translate.use('en');
+                amMoment.changeLocale($translate.use());
             }
         }, true);
         
@@ -54,11 +54,12 @@
         }
 
         /* Get user ads with profile ? */
-        user.query({param: "guildAds"}, function (guildAds) {
+        /*user.query({param: "guildAds"}, function (guildAds) {
             $scope.user.guildAds = [];
             $.each(guildAds, function (i, guild) {
                 $scope.user.guildAds.push(guild.name + '-' + guild.realm + '-' + guild.region);
             });
-        });
+        });*/
+        /* I don't remember why :D */
     }
 })();

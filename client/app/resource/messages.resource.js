@@ -5,9 +5,9 @@
         .module('app.resource')
         .factory('messages', Messages);
 
-    Messages.$inject = ['$resource'];
-    function Messages($resource) {
-        return $resource('/api/v1/messages/:objId1/:objId2/:param',{}, {
+    Messages.$inject = ['$resource', '__env'];
+    function Messages($resource, __env) {
+        return $resource(__env.apiUrl+'/api/v1/messages/:objId1/:objId2/:param',{}, {
             post: {
                 method:'post'
             }

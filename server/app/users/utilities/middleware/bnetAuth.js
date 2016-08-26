@@ -17,7 +17,7 @@ passport.use('bnet', new BnetStrategy({
         clientSecret: config.oauth.bnet.clientSecret,
         scope: "wow.profile",
         region: config.oauth.bnet.region || "eu",
-        callbackURL: config.oauth.bnet.callbackURL
+        callbackURL: config.oauth.bnet.callbackURL+"/auth/bnet/callback"
     },
     /** @namespace profile.battletag */
     function (accessToken, refreshToken, profile, done) {
@@ -62,7 +62,7 @@ passport.use('bnet-lfg', new BnetStrategy({
         clientSecret: config.oauth.bnet.clientSecret,
         scope: "wow.profile",
         region: config.oauth.bnet.region || "eu",
-        callbackURL: config.oauth.bnet.callbackLfgURL
+        callbackURL: config.oauth.bnet.callbackURL+"/auth/bnet/lfg/callback"
     },
     /** @namespace profile.battletag */
     function (accessToken, refreshToken, profile, done) {
@@ -107,7 +107,7 @@ passport.use('bnet-progress', new BnetStrategy({
         clientSecret: config.oauth.bnet.clientSecret,
         scope: "wow.profile",
         region: config.oauth.bnet.region || "eu",
-        callbackURL: config.oauth.bnet.callbackProgressURL
+        callbackURL: config.oauth.bnet.callbackURL+"/auth/bnet/progress/callback"
     },
     /** @namespace profile.battletag */
     function (accessToken, refreshToken, profile, done) {
@@ -152,7 +152,7 @@ passport.use('bnet-parser', new BnetStrategy({
         clientSecret: config.oauth.bnet.clientSecret,
         scope: "wow.profile",
         region: config.oauth.bnet.region || "eu",
-        callbackURL: config.oauth.bnet.callbackProgressURL
+        callbackURL: config.oauth.bnet.callbackURL+"/auth/bnet/parser/callback"
     },
     /** @namespace profile.battletag */
     function (accessToken, refreshToken, profile, done) {
