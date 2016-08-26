@@ -152,6 +152,8 @@
         };
 
         $scope.switchSort = function(value) {
+            console.log(value);
+            console.log($scope.guildParser);
             if ($scope.sort === value) {
                 value = '-'+value;
             }
