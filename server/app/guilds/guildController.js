@@ -184,7 +184,23 @@ module.exports.putGuildParser = function (req, res) {
 
     var parser = req.body;
     parser.updated = new Date().getTime();
-    guildModel.upsert(req.params.region, req.params.realm, req.params.name, {parser: parser}, function (error) {
+
+    async.series([
+        function(callback){
+            if(parser.active == true){
+                updateModel.insert('gu', req.params.region, req.params.realm, req.params.name, 5, function (error) {
+                    callback(error);
+                });
+            }else{
+                callback();
+            }
+        },
+        function(callback){
+            guildModel.upsert(req.params.region, req.params.realm, req.params.name, {parser: parser}, function (error) {
+                callback(error);
+            });
+        }
+    ],function(error){
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -192,6 +208,7 @@ module.exports.putGuildParser = function (req, res) {
             res.json();
         }
     });
+
 
 };
 
