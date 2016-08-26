@@ -187,7 +187,7 @@ module.exports.putGuildParser = function (req, res) {
 
     async.series([
         function(callback){
-            if(parser.active == true){
+            if(parser && parser.active == true){
                 updateModel.insert('gu', req.params.region, req.params.realm, req.params.name, 5, function (error) {
                     callback(error);
                 });
