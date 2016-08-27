@@ -263,7 +263,7 @@ module.exports.getGuildParser = function (req, res) {
         "bnet.level": 1,
         "bnet.progression.raids": {$slice: [config.currentCharacterProgress, 1]},
         "bnet.talents": 1,
-        "warcraftLogs.logs": 1
+        "warcraftLogs": 1
     };
 
     async.waterfall([

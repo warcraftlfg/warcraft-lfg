@@ -31,7 +31,7 @@ var russianRealms = {
  * @param name
  * @param callback
  */
-module.exports.getRankings = function (region, realm, name, callback) {
+module.exports.getRankings = function (region, realm, name, metric, callback) {
 
     var logger = applicationStorage.logger;
     var config = applicationStorage.config;
@@ -46,40 +46,18 @@ module.exports.getRankings = function (region, realm, name, callback) {
     realm = realm.split("'").join("");
 
     //noinspection JSUnresolvedVariable
-    var url = encodeURI("https://www.warcraftlogs.com/v1/rankings/character/" + name + "/" + realm + "/" + region + "?metric=dps&api_key=" + config.warcraftLogs.api_key);
+    var url = encodeURI("https://www.warcraftlogs.com/v1/parses/character/" + name + "/" + realm + "/" + region + "?metric="+metric+"&api_key=" + config.warcraftLogs.api_key);
 
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             try {
-                warcraftlogs.dps = JSON.parse(body);
+                warcraftlogs = JSON.parse(body);
             }
             catch (e) {
                 return callback(new Error("WARCRAFTLOGS_API_ERROR"));
             }
-            //noinspection JSUnresolvedVariable
-            url = encodeURI("https://www.warcraftlogs.com/v1/rankings/character/" + name + "/" + realm + "/" + region + "?metric=hps&api_key=" + config.warcraftLogs.api_key);
 
-            request(url, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    try {
-                        warcraftlogs.hps = JSON.parse(body);
-                    }
-                    catch (e) {
-                        return callback(new Error("WARCRAFTLOGS_API_ERROR"));
-                    }
-
-                    callback(error, warcraftlogs);
-                }
-                else {
-                    if (error) {
-                        logger.error(error.message + " on fetching warcraftlogs api " + url);
-                    }
-                    else {
-                        logger.warn("Error HTTP " + response.statusCode + " on fetching warcraftlogs api " + url);
-                    }
-                    callback(new Error("WARCRAFTLOGS_API_ERROR"));
-                }
-            });
+            callback(error, warcraftlogs);
         }
         else {
             if (error) {

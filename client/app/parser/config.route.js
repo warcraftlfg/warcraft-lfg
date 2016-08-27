@@ -42,6 +42,13 @@
                 title: 'WarcraftParser',
                 controller: "ParserController"
             })
+            .state("parserWCL", {
+                url: "/guild/:region/:realm/:name/parser/wcl",
+                templateUrl: "app/parser/parser-wcl.html",
+                controlerAs: 'vm',
+                title: 'WarcraftParser',
+                controller: "ParserController"
+            })
         ;
     }
 })();
