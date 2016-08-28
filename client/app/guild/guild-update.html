@@ -304,7 +304,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="form-group m-b-0">
-                                            <label class="m-b-10">{{"RANK"|translate}}</label>
+                                            <label class="m-b-10">{{"RANK"|translate}} <span ng-show="numberOfRank()" class="text-danger">({{ "NO_RANK_SELECTED"|translate }})</span></label>
                                             <div class="row">
                                                 <div class="col-xs-6 col-sm-3 col-md-2 col-lg-1" ng-repeat="rank in guildRankPerms">
                                                     <span uib-tooltip-html="rank.tooltip" class="txt-underline"><label class="checkbox-inline">

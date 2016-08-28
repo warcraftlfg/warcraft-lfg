@@ -36,7 +36,7 @@
         if (event && event.type && event.type == "keydown") {
           $state.go('guild-read', {region: item.region, realm: item.realm, name: item.name});
         }
-      }
+      };
 
       $scope.goSearch = function() {
         $state.go('search', {term: $scope.asyncSelected});
