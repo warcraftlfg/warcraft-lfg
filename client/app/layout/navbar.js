@@ -10,7 +10,7 @@
       $scope.warcraftLfgUrl = __env.warcraftLfgUrl;
       $scope.warcraftProgressUrl = __env.warcraftProgressUrl;
       $scope.warcraftParserUrl = __env.warcraftParserUrl;
-      $scope.apiUrl = __env.apiUrl;
+      $scope.apiUrl = __env.apiProgressUrl;
       if (__env.html5) {
           $scope.hashbang = '';
           $scope.hashbangAbs = '';
@@ -20,7 +20,7 @@
       }
 
       $scope.getLocation = function(val) {
-          return $http.get(__env.apiUrl+'/api/v1/guilds/search/'+val, {
+          return $http.get(__env.apiUrl+'/api/v1/search/'+val, {
               params: {
                   number: 5
               }

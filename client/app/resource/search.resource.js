@@ -7,7 +7,7 @@
 
     Search.$inject = ['$resource', '__env'];
     function Search($resource, __env) {
-        return $resource(__env.apiUrl+'/api/v1/guilds/search/:search', {}, {
+        return $resource(__env.apiProgressUrl+'/api/v1/search/:search', {}, {
             get: { method: 'get', withCredentials: false,  isArray: true}
         });
     }
