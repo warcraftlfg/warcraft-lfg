@@ -47,7 +47,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
             //Sanitize name
             bnetAPI.getGuild(guildUpdate.region, guildUpdate.realm, guildUpdate.name, ["members"], function (error, guild) {
                 if (guild && guild.realm && guild.name) {
-                    callback(error, guildUpdate.region, guild);
+                    callback(error, guildUpdate.region, guildUpdate.priority, guild);
                 } else {
                     logger.warn("Bnet return empty guild skip it");
                     callback(true);
@@ -55,11 +55,15 @@ GuildUpdateProcess.prototype.updateGuild = function () {
 
             })
         },
-        function (region, guild, callback) {
-            //Set guild to update for progress (change with url call update)
-            updateModel.insert('wp_gu', region, guild.realm, guild.name, 5, function (error) {
-                callback(error, region, guild);
-            });
+        function (region, priority, guild, callback) {
+            if (priority > 0) {
+                //Set guild to update for progress (change with url call update)
+                updateModel.insert('wp_gu', region, guild.realm, guild.name, 5, function (error) {
+                    callback(error, region, guild);
+                });
+            } else {
+                callback(null, region, guild);
+            }
         },
         function (region, guild, callback) {
             guildModel.findOne({
