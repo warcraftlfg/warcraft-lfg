@@ -88,7 +88,7 @@ module.exports.getCharacter = function (req, res, next) {
         "bnet.reputation": 1,
         "bnet.achievements": 1,
         "bnet.challenge.records": 1,
-        "warcraftLogs.logs": 1,
+        "warcraftLogs.difficulty": 1,
         "parser": 1,
     };
     async.waterfall([

@@ -31,6 +31,7 @@
         'app.message',
         'app.progress',
         'app.parser',
+        'app.search',
         'app.redirect'
     ]);
 

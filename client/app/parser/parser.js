@@ -153,10 +153,12 @@
         };
 
         $scope.switchSort = function(value) {
-            console.log(value);
-            console.log($scope.guildParser);
             if ($scope.sort === value) {
-                value = '-'+value;
+                if (value.substr(0, 1) == '-') {
+                    value = value.slice(1);
+                } else {
+                    value = '-'+value;
+                }
             }
             
             $scope.sort = value;
