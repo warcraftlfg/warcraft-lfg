@@ -25,8 +25,13 @@
 }
 
 [uib-typeahead-popup].dropdown-menu {
-  border: 1px solid $red;
+  border: 1px solid $white;
+  border-top: 0px;
   background-color: $grey;
+}
+
+.typeahead-item {
+  padding: 10px !important;
 }
 
 li.active .typeahead-item {

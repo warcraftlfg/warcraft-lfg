@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.progress')
+        .module('app.parser')
         .config(getRoutes);
 
     function getRoutes($stateProvider) {
