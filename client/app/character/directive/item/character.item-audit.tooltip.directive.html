@@ -4,7 +4,7 @@
 				<img ng-if="audit.icon" ng-src="http://eu.media.blizzard.com/wow/icons/18/{{audit.icon}}.jpg" />
 			</td>
 			<td class="p-5">
-				{{ key }} 
+				{{ key|uppercase|translate }} 
 			</td>
 			<td class="p-5"> 
 				<span class="text-{{ problem.type }}" ng-repeat="problem in audit.problems">

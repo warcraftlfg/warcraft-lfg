@@ -34,6 +34,16 @@
                         {{"PARSER"|translate}}
                     </a>
                 </li>
+                <li class="">
+                    <form method="get" action="/search/">
+                        <span class="input-search-container"><input type="text" class="input-search" placeholder="{{ 'SEARCH_PLACEHOLDER'|translate }}" ng-model="asyncSelected" placeholder="Locations loaded via $http" uib-typeahead="guild for guilds in getLocation($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" typeahead-min-length="4" typeahead-wait-ms="200" typeahead-template-url="customTemplate.html" typeahead-append-to-body="true" /></span><span class="input-submit-container"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        <script type="text/ng-template" id="customTemplate.html">
+                          <a class="typeahead-item">
+                            {{ match.model.name }} ({{ match.model.region|uppercase }}-{{ match.model.realm }})
+                          </a>
+                        </script>
+                    </form>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
