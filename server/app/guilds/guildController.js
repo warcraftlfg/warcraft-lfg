@@ -318,38 +318,3 @@ module.exports.getGuildParser = function (req, res) {
 
 
 };
-
-module.exports.searchGuild = function (req, res) {
-    var logger = applicationStorage.logger;
-    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
-
-    if (req.params.text.length >= 3) {
-
-        var limit = 0;
-        if (req.query.number) {
-            limit = parseInt(req.query.number, 10);
-
-            if (isNaN(limit)) {
-                return;
-            }
-
-            limit = limit < 0 ? 0 : limit;
-        }
-        guildModel.find({name: {$regex: "^" + req.params.text, $options: "i"}},
-            {region: 1, realm: 1, name: 1, "bnet.side": 1, _id: 0},
-            {name: 1}, limit,
-            function (error, guilds) {
-                if (error) {
-                    logger.error(error.message);
-                    res.status(500).send(error.message);
-                } else {
-                    res.json(guilds);
-                }
-            }
-        );
-    }
-    else {
-        res.json([]);
-    }
-}
-;

@@ -51,7 +51,7 @@
     	<div class="col-md-4 m-b-10">
             <table class="table table-condensed">
                 <tr ng-repeat="guild in guilds | limitTo : limit : (limit*0)">
-                    <td class="faction-{{guild.bnet.side}}">
+                    <td class="faction-{{guild.side}}">
                         <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
                            class="bold txt-underline">
                             {{guild.name}}
@@ -69,7 +69,7 @@
     	<div class="col-md-4 m-b-10">
             <table class="table table-condensed">
                 <tr ng-repeat="guild in guilds | limitTo : limit : (limit*1)">
-                    <td class="faction-{{guild.bnet.side}}">
+                    <td class="faction-{{guild.side}}">
                         <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
                            class="bold txt-underline">
                             {{guild.name}}
@@ -87,7 +87,7 @@
     	<div class="col-md-4 m-b-10">
             <table class="table table-condensed">
                 <tr ng-repeat="guild in guilds | limitTo : limit : (limit*2)">
-                    <td class="faction-{{guild.bnet.side}}">
+                    <td class="faction-{{guild.side}}">
                         <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
                            class="bold txt-underline">
                             {{guild.name}}
