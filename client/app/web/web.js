@@ -9,7 +9,6 @@
         .controller('WebTermsController', Terms)
         .controller('WebCookiesController', Cookies)
         .controller('WebRoadmapController', Roadmap)
-
     ;
 
     About.$inject = ['$scope','socket','$state'];

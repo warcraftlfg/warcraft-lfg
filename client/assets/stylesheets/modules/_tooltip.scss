@@ -25,29 +25,27 @@
 }
 
 .wcl-tooltips {
-	.tooltip {
-		font-size: 12px;
+	font-size: 12px;
 
-		.tooltip-inner {
-			padding-bottom: 0px;
-			max-width: 250px !important;
+	.tooltip-inner {
+		padding-bottom: 0px;
+		max-width: 250px !important;
 
-			table {
-				border-bottom: 0px solid black;
-				background-color: #000 !important;
+		table {
+			border-bottom: 0px solid black;
+			background-color: #000 !important;
 
-				tr td {
-					border-top: 0px solid black;
-					padding-top: 0px;
-					padding-bottom: 3px;
-				}
+			tr td {
+				border-top: 0px solid black;
+				padding-top: 0px;
+				padding-bottom: 3px;
 			}
-
 		}
 
-		.tooltip-inner table tr::last-child td {
-			padding-bottom: 0px !important;
-		}
+	}
+
+	.tooltip-inner table tr::last-child td {
+		padding-bottom: 0px !important;
 	}
 }
 

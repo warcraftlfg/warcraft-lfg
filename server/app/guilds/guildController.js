@@ -186,21 +186,21 @@ module.exports.putGuildParser = function (req, res) {
     parser.updated = new Date().getTime();
 
     async.series([
-        function(callback){
-            if(parser && parser.active == true){
+        function (callback) {
+            if (parser && parser.active == true) {
                 updateModel.insert('gu', req.params.region, req.params.realm, req.params.name, 5, function (error) {
                     callback(error);
                 });
-            }else{
+            } else {
                 callback();
             }
         },
-        function(callback){
+        function (callback) {
             guildModel.upsert(req.params.region, req.params.realm, req.params.name, {parser: parser}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -263,7 +263,7 @@ module.exports.getGuildParser = function (req, res) {
         "bnet.level": 1,
         "bnet.progression.raids": {$slice: [config.currentCharacterProgress, 1]},
         "bnet.talents": 1,
-        "warcraftLogs.logs": 1
+        "warcraftLogs": 1
     };
 
     async.waterfall([
@@ -318,38 +318,3 @@ module.exports.getGuildParser = function (req, res) {
 
 
 };
-
-module.exports.searchGuild = function (req, res) {
-    var logger = applicationStorage.logger;
-    logger.info("%s %s %s %s", req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.query));
-
-    if (req.params.text.length >= 3) {
-
-        var limit = 0;
-        if (req.query.number) {
-            limit = parseInt(req.query.number, 10);
-
-            if (isNaN(limit)) {
-                return;
-            }
-
-            limit = limit < 0 ? 0 : limit;
-        }
-        guildModel.find({name: {$regex: "^" + req.params.text, $options: "i"}},
-            {region: 1, realm: 1, name: 1, _id: 0},
-            {name: 1}, limit,
-            function (error, guilds) {
-                if (error) {
-                    logger.error(error.message);
-                    res.status(500).send(error.message);
-                } else {
-                    res.json(guilds);
-                }
-            }
-        );
-    }
-    else {
-        res.json([]);
-    }
-}
-;
