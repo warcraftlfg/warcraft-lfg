@@ -186,21 +186,21 @@ module.exports.putGuildParser = function (req, res) {
     parser.updated = new Date().getTime();
 
     async.series([
-        function(callback){
-            if(parser && parser.active == true){
+        function (callback) {
+            if (parser && parser.active == true) {
                 updateModel.insert('gu', req.params.region, req.params.realm, req.params.name, 5, function (error) {
                     callback(error);
                 });
-            }else{
+            } else {
                 callback();
             }
         },
-        function(callback){
+        function (callback) {
             guildModel.upsert(req.params.region, req.params.realm, req.params.name, {parser: parser}, function (error) {
                 callback(error);
             });
         }
-    ],function(error){
+    ], function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -336,7 +336,7 @@ module.exports.searchGuild = function (req, res) {
             limit = limit < 0 ? 0 : limit;
         }
         guildModel.find({name: {$regex: "^" + req.params.text, $options: "i"}},
-            {region: 1, realm: 1, name: 1, _id: 0},
+            {region: 1, realm: 1, name: 1, "bnet.side": 1, _id: 0},
             {name: 1}, limit,
             function (error, guilds) {
                 if (error) {
