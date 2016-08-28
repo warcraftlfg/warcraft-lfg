@@ -10,7 +10,16 @@
     function SearchController($scope, $state, $stateParams, search, wlfgAppTitle) {
         wlfgAppTitle.setTitle("Search");
 
-        console.log($stateParams.term);
+        $scope.term = $stateParams.term;
+
+        search.get({
+            "search": $scope.term
+        }, function(guilds) {
+            $scope.limit = Math.ceil(guilds.length / 3);
+            $scope.guilds = guilds;
+        }, function(error) {
+
+        });
 
     }
 })();
