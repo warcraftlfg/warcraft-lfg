@@ -23,7 +23,8 @@
           return $http.get(__env.apiProgressUrl+'/api/v1/search/'+val, {
               params: {
                   number: 5
-              }
+              },
+              withCredentials: false,
           }).then(function (response) {
               return response.data.map(function(guild) {
                   return guild;
