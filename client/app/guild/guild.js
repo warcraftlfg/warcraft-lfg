@@ -212,7 +212,7 @@
             }
 
             return data;
-        } 
+        };
 
         $scope.saveAd = function () {
             $scope.$parent.loading = true;
