@@ -232,6 +232,12 @@
         };
 
         $scope.saveParser = function () {
+            if ($scope.guild && $scope.guild.parser && $scope.guild.parser.active) {
+                if ($scope.numberOfRank()) {
+                    return;
+                }
+            }
+
             $scope.$parent.loading = true;
 
             guilds.upsert({
