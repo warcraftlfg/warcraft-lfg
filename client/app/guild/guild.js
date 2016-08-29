@@ -201,6 +201,18 @@
             tag.value = tag.text.toLowerCase().replace(/[ -_'"]/g, '');
         };
 
+        $scope.numberOfRank = function() {
+            var data = true;
+            if ($scope.guild && $scope.guild.parser && $scope.guild.parser.ranks) {
+                angular.forEach($scope.guild.parser.ranks, function(rank, key) {
+                    if (rank) {
+                        data = false;
+                    }
+                });
+            }
+
+            return data;
+        };
 
         $scope.saveAd = function () {
             $scope.$parent.loading = true;
@@ -220,6 +232,12 @@
         };
 
         $scope.saveParser = function () {
+            if ($scope.guild && $scope.guild.parser && $scope.guild.parser.active) {
+                if ($scope.numberOfRank()) {
+                    return;
+                }
+            }
+
             $scope.$parent.loading = true;
 
             guilds.upsert({
