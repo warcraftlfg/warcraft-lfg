@@ -178,13 +178,13 @@
                                     <span wlfg-progress-character="character.bnet.progression.raids"></span>
                                 </td>
                                 <td class="text-center sort-img">
-                                    <span class="sort-fix">0</span>
+                                    <span class="sort-fix">{{ character.parser.artifact.trait }}</span>
                                 </td>
                                 <td class="text-center sort-img">
                                     <span class="sort-fix">0</span>
                                 </td>
                                 <td>
-                                    {{ character.bnet.items.mainHand.relics.length }}
+                                    {{ character.parser.artifact.relic }}
                                 </td>
                                 <td>
                                     <span ng-if="!character.parser.suramar.reputation.value">0/3000</span>
