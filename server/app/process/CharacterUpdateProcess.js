@@ -263,6 +263,15 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
     parser.artifact = {trait: 0, knowledge: 0, relic: 0};
     if (character.bnet && character.bnet.items && character.bnet.items.mainHand) {
         parser.artifact.relic = character.bnet.items.mainHand.relics.length;
+
+        var traitCount = 0;
+        character.bnet.items.mainHand.artifactTraits.forEach(function(trait) {
+            if (trait && trait.rank) {
+                traitCount += trait.rank;
+            }
+        });
+
+        parser.artifact.trait = traitCount;
     }
 
     // T19
