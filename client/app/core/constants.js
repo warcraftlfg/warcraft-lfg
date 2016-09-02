@@ -6,7 +6,8 @@
 
 	// Import variables if present (from env.js)
 	if (window) {  
-	  Object.assign(__env, window.__env);
+        __env = window.__env;
+	   //Object.assign(__env, window.__env);
 	}
 
     angular
