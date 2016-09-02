@@ -26,9 +26,8 @@
                 $translate.use($scope.user.language);
                 amMoment.changeLocale($scope.user.language);
             } else {
-                $scope.currentLanguage = 'en';
-                $translate.use('en');
-                amMoment.changeLocale($translate.use());
+                $scope.currentLanguage = $translate.use() || $translate.preferredLanguage();
+                amMoment.changeLocale($translate.use() || $translate.preferredLanguage());
             }
         }, true);
         
