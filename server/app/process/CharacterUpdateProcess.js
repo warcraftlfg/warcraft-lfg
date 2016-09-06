@@ -272,7 +272,7 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
             }
         });
 
-        parser.artifact.trait = traitCount;
+        parser.artifact.trait = (traitCount - parser.artifact.relic);
     }
 
     // T19
