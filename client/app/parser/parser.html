@@ -47,13 +47,13 @@
                                 <i ng-show="sort==='bnet.items.mainHand.itemLevel'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>-->
                             <!--<th>{{ "WEAPON_OH"|translate }}</th>-->
-                            <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.legendary');" uib-tooltip='{{"LEGENDARY"|translate}}' tooltip-append-to-body="true">
+                            <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.legendary.count');" uib-tooltip='{{"LEGENDARY"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/legendary.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
-                                <i ng-if="sort!='parser.legendary'&&sort!='-parser.legendary'" class="fa fa-sort" aria-hidden="true"></i>
-                                <i ng-show="sort==='-parser.legendary'" class="fa fa-sort-desc" aria-hidden="true"></i>
-                                <i ng-show="sort==='parser.legendary'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                                <i ng-if="sort!='parser.legendary.count'&&sort!='-parser.legendary.count'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.legendary.count'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.legendary.count'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="cursor-pointer" ng-click="switchSort('warcraftLogs.bestHighSpec.median');" uib-tooltip='{{"WARCRAFTLOGS"|translate}}' tooltip-append-to-body="true">
                                 WCL
@@ -171,7 +171,22 @@
                                     {{ character.bnet.items.mainHand.itemLevel }}
                                 </td>-->
                                 <td class="text-center sort-img">
-                                    <span class="sort-fix">{{ character.parser.legendary }}</span>
+                                    <span class="sort-fix" ng-if="!character.parser.legendary.count || character.parser.legendary.count <= 0">0</span>
+                                    <span class="sort-fix bd-b-d cursor-pointer" ng-if="character.parser.legendary.count > 0" tooltip-placement="top" uib-tooltip-template="'parserLegendaryTooltips.html'" tooltip-append-to-body="true" tooltip-is-open="false" tooltip-class="wcl-tooltips">{{ character.parser.legendary.count }}</span>
+                                    <script type="text/ng-template" id="parserLegendaryTooltips.html">
+                                        <table class="table table-condensed m-b-0 text-left">
+                                            <tbody>
+                                                <tr class="legendary" ng-repeat="item in character.parser.legendary.items">
+                                                    <td>
+                                                            <img ng-if="item.icon" ng-src="http://{{character.region}}.media.blizzard.com/wow/icons/18/{{item.icon}}.jpg" alt="{{slot}}" title="{{item.name}}" />
+                                                    </td>
+                                                    <td>
+                                                        {{ item.name }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </script>
                                 </td>
                                 <td class="character-class-{{ character.bnet.class }}">
                                     <span class="sort-fix" wlfg-warcraft-logs-average="character.warcraftLogs" character-class="{{ character.bnet.class }}"></span>
