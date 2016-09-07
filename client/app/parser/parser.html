@@ -34,14 +34,19 @@
                                 <i ng-show="sort==='-bnet.items.averageItemLevelEquipped'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='bnet.items.averageItemLevelEquipped'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="cursor-pointer"  ng-click="switchSort('bnet.items.averageItemLevel');" >
+                            <th class="cursor-pointer" ng-click="switchSort('bnet.items.averageItemLevel');" >
                                 {{ "ITEM_LEVEL_BAG"|translate }}
                                 <i ng-if="sort!='bnet.items.averageItemLevel'&&sort!='-bnet.items.averageItemLevel'" class="fa fa-sort" aria-hidden="true"></i>
                                 <i ng-show="sort==='-bnet.items.averageItemLevel'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='bnet.items.averageItemLevel'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <!--<th>{{ "WEAPON_MH"|translate }}</th>
-                            <th>{{ "WEAPON_OH"|translate }}</th>-->
+                            <!--<th class="cursor-pointer" ng-click="switchSort('bnet.items.mainHand.itemLevel');">
+                                {{ "WEAPON"|translate }}
+                                <i ng-if="sort!='bnet.items.mainHand.itemLevel'&&sort!='-bnet.items.mainHand.itemLevel'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.items.mainHand.itemLevel'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.items.mainHand.itemLevel'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>-->
+                            <!--<th>{{ "WEAPON_OH"|translate }}</th>-->
                             <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.legendary');" uib-tooltip='{{"LEGENDARY"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/legendary.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
@@ -84,11 +89,11 @@
                                 <i ng-show="sort==='-parser.artifact.relic'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.artifact.relic'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="cursor-pointer" ng-click="switchSort('parser.suramar.reputation.standing');">
+                            <th class="cursor-pointer" ng-click="switchSort('parser.suramar.reputation.sort');">
                                 {{ "SURAMAR"|translate }}
-                                <i ng-if="sort!='parser.suramar.reputation.standing'&&sort!='-parser.suramar.reputation.standing'" class="fa fa-sort" aria-hidden="true"></i>
-                                <i ng-show="sort==='-parser.suramar.reputation.standing'" class="fa fa-sort-desc" aria-hidden="true"></i>
-                                <i ng-show="sort==='parser.suramar.reputation.standing'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                                <i ng-if="sort!='parser.suramar.reputation.sort'&&sort!='-parser.suramar.reputation.sort'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.suramar.reputation.sort'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.suramar.reputation.sort'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.suramar.worldQuest');" uib-tooltip='{{"SURAMAR_WORLD_QUEST"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/suramarWQ.jpg');">
@@ -164,9 +169,6 @@
                                 </td>
                                 <!--<td ng-class="{'legendary':character.bnet.items.mainHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.mainHand.itemLevel>=ilvlColor.epic&&character.bnet.items.mainHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.mainHand.itemLevel>=ilvlColor.rare&&character.bnet.items.mainHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.mainHand.itemLevel>=ilvlColor.uncommon&&character.bnet.items.mainHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.mainHand.itemLevel<ilvlColor.uncommon}">
                                     {{ character.bnet.items.mainHand.itemLevel }}
-                                </td>
-                                <td ng-class="{'legendary':character.bnet.items.offHand.itemLevel>=ilvlColor.legendary,'epic':character.bnet.items.offHand.itemLevel>=ilvlColor.epic&&character.bnet.items.offHand.itemLevel<ilvlColor.legendary,'rare':character.bnet.items.offHand.itemLevel>=ilvlColor.rare&&character.bnet.items.offHand.itemLevel<ilvlColor.epic,'uncommon':character.bnet.items.offHand.itemLevel>=ilvlColor.uncommon&&character.bnet.items.offHand.itemLevel<ilvlColor.rare,'common':character.bnet.items.offHand.itemLevel<ilvlColor.uncommon}">
-                                    {{ character.bnet.items.offHand.itemLevel }}
                                 </td>-->
                                 <td class="text-center sort-img">
                                     <span class="sort-fix">{{ character.parser.legendary }}</span>
@@ -181,13 +183,13 @@
                                     <span class="sort-fix">{{ character.parser.artifact.trait }}</span>
                                 </td>
                                 <td class="text-center sort-img">
-                                    <span class="sort-fix">0</span>
+                                    <span class="sort-fix">?</span>
                                 </td>
                                 <td>
                                     {{ character.parser.artifact.relic }}
                                 </td>
                                 <td>
-                                    <span ng-if="!character.parser.suramar.reputation.value">0/3000</span>
+                                    <span ng-if="!character.parser.suramar.reputation.value">0 / 3000</span>
                                     <span ng-if="character.parser.suramar.reputation.value">
                                         {{ character.parser.suramar.reputation.value }} / {{ character.parser.suramar.reputation.max }}
                                     </span>

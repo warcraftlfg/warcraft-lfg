@@ -233,6 +233,30 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
         }
     }
 
+    if (parser.suramar.reputation) {
+        if (parser.reputation.suramar.standing == 7) {
+                parser.suramar.reputation.sort = (50000*7) + parser.suramar.reputation.value;
+        } else {
+            parser.suramar.reputation.sort = (parser.suramar.reputation.max*parser.reputation.suramar.standing) + parser.suramar.reputation.value;
+        }
+    }
+
+    if (!parser.suramar.reputation) {
+        parser.suramar.reputation = { name: "The Nightfallen", standing: 3, value: "????", max: 3000, sort: 3000 };
+
+        if (character.quests && character.quests.indexOf(43341) >= 0) {
+            parser.suramar.reputation = { name: "The Nightfallen", standing: 4, value: "????", max: 6000, sort: 6000, };
+        }
+
+        if (character.quests && character.quests.indexOf(44561) >= 0) {
+            parser.suramar.reputation = { name: "The Nightfallen", standing: 5, value: "????", max: 12000, sort: 12000 };
+        }
+
+        if (character.quests && character.quests.indexOf(44562) >= 0) {
+            parser.suramar.reputation = { name: "The Nightfallen", standing: 6, value: "????", max: 21000, sort: 21000 };
+        }
+    }
+
     // Class Order Campaign
     if (character.achievements) {
         var achievement = character.achievements.achievementsCompleted.indexOf(10994);
