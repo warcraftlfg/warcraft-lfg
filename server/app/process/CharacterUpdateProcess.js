@@ -234,10 +234,10 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
     }
 
     if (parser.suramar.reputation) {
-        if (parser.reputation.suramar.standing == 7) {
+        if (parser.suramar.reputation.standing == 7) {
                 parser.suramar.reputation.sort = (50000*7) + parser.suramar.reputation.value;
         } else {
-            parser.suramar.reputation.sort = (parser.suramar.reputation.max*parser.reputation.suramar.standing) + parser.suramar.reputation.value;
+            parser.suramar.reputation.sort = (parser.suramar.reputation.max*parser.suramar.reputation.standing) + parser.suramar.reputation.value;
         }
     }
 
