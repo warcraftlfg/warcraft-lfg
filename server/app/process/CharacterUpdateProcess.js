@@ -253,8 +253,9 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
 
     // Legendary
     parser.legendary = 0;
-    for (var i = 0; i < character.items.length; i++) {
-        if (character.items[i].quality && character.items[i].quality == 5 && character.items[i].itemLevel > 850) {
+    var itemSlot = Object.keys( character.items );
+    for( var i = 0,length = itemSlot.length; i < length; i++ ) {
+        if (character.items[itemSlot[i]].quality && character.items[itemSlot[i]].quality === 5 && character.items[itemSlot[i]].itemLevel > 850) {
             parser.legendary++;
         }
     }
