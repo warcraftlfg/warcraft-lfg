@@ -216,14 +216,10 @@ CharacterUpdateProcess.prototype.parseCharacter = function (character) {
         }
     }
 
-    // Suramar COS unlock
-    if (character.quests && character.quests.indexOf(43314) >= 0) {
-        parser.suramar.courtOfStar = true;
-    }
-
-    // Suramar Arcway unlock
+    // Suramar Arcway & COS unlock
     if (character.quests && character.quests.indexOf(44053) >= 0) {
         parser.suramar.arcway = true;
+        parser.suramar.courtOfStar = true;
     }
 
     // Reputation Suramar
