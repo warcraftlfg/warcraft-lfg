@@ -169,9 +169,11 @@
         var today = new Date();
         var object;
 
-        var data = {day: "Wednesday", number: 4};
-
-        object = moment().day(-4);
+        if (region == "EU") {
+            object = moment().day(-4);
+        } else {
+            object = moment().day(-3);
+        }
         object.set({'hour': 9, 'minute': 0, 'second': 0});
 
         return object;

@@ -23,17 +23,28 @@ function wlfgItemAudit($translate) {
             var gemEnchant = [127760, 127761, 127762, 127763, 127764, 127765];*/
 
             /* Legion */
-            var neckEnchant = [228408, 228409, 228410, 190892, 191006, 191023, 190893, 191007, 191024, 228402, 228403, 228404, 190894, 191008, 191025, 228405, 228406, 228407];
+            //var neckEnchant = [228408, 228409, 228410, 190892, 191006, 191023, 190893, 191007, 191024, 228402, 228403, 228404, 190894, 191008, 191025, 228405, 228406, 228407];
+            var neckEnchant = [5891, 5437, 5438, 5889, 5439, 5890];
             
-            var ringEnchantLow = [190866, 190992, 191009, 190867, 190993, 191010, 190868, 190994, 191011, 190869, 190995, 191012];
-            var ringEnchantHigh = [190870, 190996, 191013, 190871, 190997, 191014, 190872, 190998, 191015, 190873, 190999, 191016];
+            //var ringEnchantLow = [190866, 190992, 191009, 190867, 190993, 191010, 190868, 190994, 191011, 190869, 190995, 191012];
+            //var ringEnchantHigh = [190870, 190996, 191013, 190871, 190997, 191014, 190872, 190998, 191015, 190873, 190999, 191016];
 
-            var backEnchantLow = [190875, 191001, 191018, 190876, 191002, 191019, 190874, 191000, 191017];
-            var backEnchantHigh = [190878, 191004, 191021, 190879, 191005, 191022, 190877, 191003, 191020];
+            var ringEnchantLow = [5423, 5424, 5425, 5426];
+            var ringEnchantHigh = [5427, 5428, 5429, 5430];
 
-            var gemLow = [195848, 195851, 195849, 195850];
-            var gemMedium = [195852, 195855, 195853, 195854];
-            var gemHigh = [195879, 195880, 195878];
+            //var backEnchantLow = [190875, 191001, 191018, 190876, 191002, 191019, 190874, 191000, 191017];
+            //var backEnchantHigh = [190878, 191004, 191021, 190879, 191005, 191022, 190877, 191003, 191020];
+
+            var backEnchantLow = [5431, 5432, 5433];
+            var backEnchantHigh = [5434, 5435, 5436];
+
+            //var gemLow = [195848, 195851, 195849, 195850];
+            //var gemMedium = [195852, 195855, 195853, 195854];
+            //var gemHigh = [195879, 195880, 195878];
+
+            var gemLow = [130215, 130216, 130217, 130218];
+            var gemMedium = [];
+            var gemHigh = [130219, 130220, 130221, 130222, 130246, 130247, 130248];
 
             var errorCount = 0;
             var errors = {};
@@ -45,7 +56,7 @@ function wlfgItemAudit($translate) {
                 } else {
                     errors[key] = { "icon": "", "problems": [] };
                 }
-                if (item.tooltipParams && item.tooltipParams.gem0) {
+                if (key != "mainHand" && key != "offHand" && item.tooltipParams && item.tooltipParams.gem0) {
                     if (gemLow.indexOf(item.tooltipParams.gem0) >= 0) {
                         errorCount++;
                         errors[key].problems.push({'message': $translate.instant("LOW_GEM"), 'type': 'warning'});
