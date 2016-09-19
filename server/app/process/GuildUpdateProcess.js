@@ -129,7 +129,12 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     progressAPI.getProgress(config.currentProgress, config.currentRaid, region, guild.realm, guild.name, function (error, progress) {
                         if (error) {
                             logger.error(error.message);
-                            callback();
+                            if(error.statusCode ==404){
+                                callback(null,{});
+                            }else{
+                                callback()
+                            }
+
                         } else if (progress) {
                             progress.updated = new Date().getTime();
                             callback(null, progress);
