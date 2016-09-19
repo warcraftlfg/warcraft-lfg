@@ -30,6 +30,7 @@ function wlfgProgressGuild(__env, progress) {
                 scope.progress = {};
                 scope.progressTooltip = [];
                 scope.progressName = __env.tiers[__env.tiers.current].name;
+                scope.progressTotal = __env.tiers[__env.tiers.current].bosses.length;
                 angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {
                     scope.progressTooltip.push({difficulty: 'common', 'boss': 'N: '+value});
                 });
@@ -39,7 +40,7 @@ function wlfgProgressGuild(__env, progress) {
         scope.loadTooltip = function() {
             if (!scope.progressTooltipLoad) {
                 scope.progressTooltipLoad = true;
-                progress.get({tier: __env.tiers.current,  region: attrs.region, realm: attrs.realm, name: attrs.name}, function (progress) {
+                progress.get({tier: __env.tiers.current, raid: __env.tiers[__env.tiers.current].name, region: attrs.region, realm: attrs.realm, name: attrs.name}, function (progress) {
                     scope.progress = progress;
                     changeTooltip();
                 });
