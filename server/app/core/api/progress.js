@@ -7,13 +7,15 @@ var applicationStorage = process.require("core/applicationStorage.js");
 
 /**
  * Return the guild rank
+ * @param tier
+ * @param raid
  * @param region
  * @param realm
  * @param name
  * @param callback
  */
-module.exports.getRank = function (tier, region, realm, name, callback) {
-    var endUrl = "ranks/" + tier + "/" + region + "/" + realm + "/" + name;
+module.exports.getRank = function (tier, raid, region, realm, name, callback) {
+    var endUrl = "ranks/" + tier + "/" + raid + "/" + region + "/" + realm + "/" + name;
     this.request(endUrl, function (error, result) {
         callback(error, result);
     });
@@ -21,13 +23,15 @@ module.exports.getRank = function (tier, region, realm, name, callback) {
 
 /**
  * Return the guild progress
+ * @param tier
+ * @param raid
  * @param region
  * @param realm
  * @param name
  * @param callback
  */
-module.exports.getProgress = function (tier, region, realm, name, callback) {
-    var endUrl = "progress/simple/" + tier + "/" + region + "/" + realm + "/" + name;
+module.exports.getProgress = function (tier, raid, region, realm, name, callback) {
+    var endUrl = "progress/simple/" + tier + "/" + raid + "/" + region + "/" + realm + "/" + name;
     this.request(endUrl, function (error, result) {
         callback(error, result && result.progress && result.progress['tier_' + tier]);
     });
@@ -46,7 +50,7 @@ module.exports.postUpdate = function (region, realm, name, callback) {
 
     var url = encodeURI("https://api.warcraftprogress.com/api/v1/updates");
 
-    var body = {type:"guild",region: region, realm: realm, name: name};
+    var body = {type: "guild", region: region, realm: realm, name: name};
 
     logger.debug('POST Progress API : %s %s ', url, JSON.stringify(body));
 

@@ -113,7 +113,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     }
                 },
                 rank: function (callback) {
-                    progressAPI.getRank(config.currentProgress, region, guild.realm, guild.name, function (error, rank) {
+                    progressAPI.getRank(config.currentProgress, config.currentRaid, region, guild.realm, guild.name, function (error, rank) {
                         if (error) {
                             logger.error(error.message);
                             callback();
@@ -126,7 +126,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     });
                 },
                 progress: function (callback) {
-                    progressAPI.getProgress(config.currentProgress, region, guild.realm, guild.name, function (error, progress) {
+                    progressAPI.getProgress(config.currentProgress, config.currentRaid, region, guild.realm, guild.name, function (error, progress) {
                         if (error) {
                             logger.error(error.message);
                             callback();
