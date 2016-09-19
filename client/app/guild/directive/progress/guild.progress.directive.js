@@ -18,7 +18,6 @@ function wlfgProgressGuild(__env, progress) {
                 scope.progressName = __env.tiers[__env.tiers.current].name;
                 scope.progressTotal = __env.tiers[__env.tiers.current].bosses.length;
                 scope.progress = progress;
-                console.log(progress);
                 if (attrs.region && attrs.realm && attrs.name) {
                     scope.progressTooltipLoad = false;
                     angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {

@@ -13,7 +13,6 @@ function warcraftLogsInfo() {
 
     function link(scope, element, attrs) {
         scope.$watch(attrs.wlfgWarcraftLogsInfo, function(logs){
-            console.log(logs);
             if (logs) {
                 scope.warcraftLogs = logs;
             }

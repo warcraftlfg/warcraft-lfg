@@ -117,14 +117,35 @@ module.exports.parseCharacter = function (character) {
         character.items.mainHand.artifactTraits.forEach(function(trait) {
         	if (character.items.mainHand.relics[0] && relics[character.items.mainHand.relics[0].itemId] && relics[character.items.mainHand.relics[0].itemId].indexOf(trait.id) >= 0) {
         		traitModified++;
+                if (trait && trait.rank) {
+                    trait.rank--;
+                }
         	}
+
+            if (character.items.mainHand.relics[1] && relics[character.items.mainHand.relics[1].itemId] && relics[character.items.mainHand.relics[1].itemId].indexOf(trait.id) >= 0) {
+                traitModified++;
+                if (trait && trait.rank) {
+                    trait.rank--;
+                }
+            }
+
+            if (character.items.mainHand.relics[2] && relics[character.items.mainHand.relics[2].itemId] && relics[character.items.mainHand.relics[2].itemId].indexOf(trait.id) >= 0) {
+                traitModified++;
+                if (trait && trait.rank) {
+                    trait.rank--;
+                }
+            }
 
             if (trait && trait.rank) {
                 traitCount += trait.rank;
             }
         });
 
-        parser.artifact.trait = (traitCount - traitModified);
+        if (character.items && character.items.mainHand) {
+            character.items.mainHand.artifactTotal = traitCount;
+        }
+
+        parser.artifact.trait = traitCount;
     }
 
     // T19

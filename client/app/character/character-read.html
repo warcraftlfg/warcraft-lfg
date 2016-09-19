@@ -239,11 +239,14 @@
                                         </span>
                                     </div> 
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        {{"RING_ILEVEL"|translate}}:
-                                        <span wlfg-legendary-ring wlfg-legendary-ring-1="character.bnet.items.finger1" wlfg-legendary-ring-2="character.bnet.items.finger2"></span>
+                                        {{"ARTIFACT_RANK"|translate}}:
+                                        <span ng-if="character.bnet.items.mainHand.artifactTotal" ng-class="{'legendary':character.bnet.items.mainHand.artifactTotal>=22,'epic':character.bnet.items.mainHand.artifactTotal>=18&&character.bnet.items.mainHand.artifactTotal<22,'rare':character.bnet.items.mainHand.artifactTotal>=14&&character.bnet.items.mainHand.artifactTotal<18,'uncommon':character.bnet.items.mainHand.artifactTotal>=10&&character.bnet.items.mainHand.artifactTotal<14,'common':character.bnet.items.mainHand.artifactTotal<10}">
+                                            {{ character.bnet.items.mainHand.artifactTotal }}
+                                        </span>
+                                        <span ng-if="!character.bnet.items.mainHand.artifactTotal">0</span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        T18: <span wlfg-item-t18="character.bnet.items" character-class="{{ character.bnet.class }}"></span>
+                                        T19: 0
                                     </div>
                                     <!--<div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ENDLESS RUNE"|translate}}: <span wlfg-reputation-rune="character.bnet.reputation"></span>
@@ -282,6 +285,23 @@
                                     <tr wlfg-item='character.bnet.items["offHand"]' slot="Offhand"></tr>
                                 </table>
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        {{"ARTIFACT_RANK"|translate}}:
+                                        <span ng-if="character.bnet.items.mainHand.artifactTotal" ng-class="{'legendary':character.bnet.items.mainHand.artifactTotal>=22,'epic':character.bnet.items.mainHand.artifactTotal>=18&&character.bnet.items.mainHand.artifactTotal<22,'rare':character.bnet.items.mainHand.artifactTotal>=14&&character.bnet.items.mainHand.artifactTotal<18,'uncommon':character.bnet.items.mainHand.artifactTotal>=10&&character.bnet.items.mainHand.artifactTotal<14,'common':character.bnet.items.mainHand.artifactTotal<10}">
+                                            {{ character.bnet.items.mainHand.artifactTotal }}
+                                        </span>
+                                        <span ng-if="!character.bnet.items.mainHand.artifactTotal">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" wlfg-item-artifact='character.bnet.items.mainHand'>
                         </div>
                     </div>
                 </div>
