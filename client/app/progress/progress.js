@@ -13,7 +13,7 @@
         $scope.$parent.loading = true;
         $scope.rankingRegions = __env.rankingRegions;
         $scope.rankingSubregions = __env.rankingSubregions;
-        $scope.filters = {tier:'18'};
+        $scope.filters = {tier:'19'};
         $scope.filters.states = {};
         $scope.filters.realm = null;
         $scope.realms = [];

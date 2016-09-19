@@ -257,7 +257,7 @@
                 <div class="row" ng-if="!progressAdvanced">
                     <div class="col-md-6">
                         <table class="table table-condensed table-striped">
-                            <tr ng-repeat="(key, boss) in raid.bosses | limitTo:7">
+                            <tr ng-repeat="(key, boss) in raid.bosses | limitTo:4">
                                 <td class="bold">{{ boss|uppercase|translate}}</td>
                                 <td ng-class="{
                                 'legendary':progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0,
@@ -295,7 +295,7 @@
                     </div>
                     <div class="col-md-6">
                         <table class="table table-condensed table-striped">
-                            <tr ng-repeat="(key, boss) in raid.bosses | limitTo:-6">
+                            <tr ng-repeat="(key, boss) in raid.bosses | limitTo:-3">
                                 <td class="bold">{{ boss|uppercase|translate }}</td>
                                 <td ng-class="{
                                 'legendary':progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0,
