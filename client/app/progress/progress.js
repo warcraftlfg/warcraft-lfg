@@ -13,7 +13,7 @@
         $scope.$parent.loading = true;
         $scope.rankingRegions = __env.rankingRegions;
         $scope.rankingSubregions = __env.rankingSubregions;
-        $scope.filters = {tier:'19',raid:"The Emerald Nightmare"};
+        $scope.filters = {tier: __env.tiers.current, raid: __env.tiers[__env.tiers.current].name};
         $scope.filters.states = {};
         $scope.filters.realm = null;
         $scope.realms = [];
