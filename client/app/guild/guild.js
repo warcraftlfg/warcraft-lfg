@@ -24,6 +24,7 @@
 
         ranking.get({
             "tier": __env.tiers.current,
+            "raid": __env.tiers[__env.tiers.current].name,
             "region": $stateParams.region,
             "realm": $stateParams.realm,
             "name": $stateParams.name
@@ -33,6 +34,7 @@
 
         progress.get({
             "tier": __env.tiers.current,
+            "raid": __env.tiers[__env.tiers.current].name,
             "region": $stateParams.region,
             "realm": $stateParams.realm,
             "name": $stateParams.name
