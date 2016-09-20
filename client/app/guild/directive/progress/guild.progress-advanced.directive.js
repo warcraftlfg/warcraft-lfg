@@ -33,7 +33,7 @@ function wlfgProgressAdvancedGuild(__env, progress) {
                 });
 
                 scope.progressAdvanced.right = Math.floor(scope.progressOrder.length / 2)*-1;
-                if (scope.progressOrder.length % 2) {
+                if ((scope.progressOrder.length % 2) === 0) {
                     scope.progressAdvanced.left = Math.floor(scope.progressOrder.length / 2);
                 } else {
                     scope.progressAdvanced.left = Math.floor(scope.progressOrder.length / 2)+1;
