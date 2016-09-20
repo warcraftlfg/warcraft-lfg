@@ -46,16 +46,16 @@
   };
 
   var rankingSubregions = {
-    "al": "es_MX_America",
-    "br": "pt_BR_America",
-    "de": "de_DE_Europe",
-    "en": "en_GB_Europe",
-    "es": "es_ES_Europe",
-    "fr": "fr_FR_Europe",
-    "it": "it_IT_Europe",
-    "oc": "en_US_Australia",
-    "pt": "pt_BR_Europe",
-    "ru": "ru_RU_Europe",
+    "al": "es_MX#America",
+    "br": "pt_BR#America",
+    "de": "de_DE#Europe",
+    "en": "en_GB#Europe",
+    "es": "es_ES#Europe",
+    "fr": "fr_FR#Europe",
+    "it": "it_IT#Europe",
+    "oc": "en_US#Australia",
+    "pt": "pt_BR#Europe",
+    "ru": "ru_RU#Europe",
   };
 
   window.__env.rankingRegions = rankingRegions;
