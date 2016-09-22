@@ -399,6 +399,7 @@
         //Reset error message
         $scope.$parent.error = null;
 
+        $scope.difficulties = ["mythic","heroic","normal"];
         $scope.roster = {};
 
         progress.get({
