@@ -272,15 +272,15 @@
                                 </td>
                                 <td>
                                     <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<0&&diffDay>-7" am-time-ago="progress.mythic[boss].timestamps[0]"></span>
+                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
                                     <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<0&&diffDay>-7" am-time-ago="progress.heroic[boss].timestamps[0]"></span>
+                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
                                     <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<0&&diffDay>-7" am-time-ago="progress.normal[boss].timestamps[0]"></span>
+                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
                                     <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
@@ -310,15 +310,15 @@
                                 </td>
                                 <td>
                                     <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<0&&diffDay>-7" am-time-ago="progress.mythic[boss].timestamps[0]"></span>
+                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
                                     <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<0&&diffDay>-7" am-time-ago="progress.heroic[boss].timestamps[0]"></span>
+                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
                                     <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<0&&diffDay>-7" am-time-ago="progress.normal[boss].timestamps[0]"></span>
+                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>             
                                     </span>
                                     <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
