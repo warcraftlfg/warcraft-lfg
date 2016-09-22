@@ -6,6 +6,7 @@
         .controller('GuildReadController', GuildRead)
         .controller('GuildUpdateController', GuildUpdate)
         .controller('GuildListController', GuildList)
+        .controller('GuildProgressController', GuildProgress)
     ;
 
     GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "ranking", "progress", "__env"];
@@ -19,7 +20,7 @@
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
 
-        $scope.raid =  __env.tiers[__env.tiers.current];
+        $scope.raid = __env.tiers[__env.tiers.current];
         $scope.progressAdvanced = false;
 
         ranking.get({
@@ -180,7 +181,7 @@
                             perms.push({
                                 id: i,
                                 size: members.length,
-                                tooltip : tooltip,
+                                tooltip: tooltip,
                                 ad: {
                                     del: $.inArray(i, guild.perms.ad.del) !== -1,
                                     edit: $.inArray(i, guild.perms.ad.edit) !== -1
@@ -203,10 +204,10 @@
             tag.value = tag.text.toLowerCase().replace(/[ -_'"]/g, '');
         };
 
-        $scope.numberOfRank = function() {
+        $scope.numberOfRank = function () {
             var data = true;
             if ($scope.guild && $scope.guild.parser && $scope.guild.parser.ranks) {
-                angular.forEach($scope.guild.parser.ranks, function(rank, key) {
+                angular.forEach($scope.guild.parser.ranks, function (rank, key) {
                     if (rank) {
                         data = false;
                     }
@@ -358,12 +359,12 @@
                 var type = (paginate.max) ? 'max' : 'since';
                 if ($scope.filters.sort == "ranking") {
                     if (paginate.guild.rank) {
-                        params.last = type+'.'+paginate.guild._id + "." + paginate.guild.rank.world;
+                        params.last = type + '.' + paginate.guild._id + "." + paginate.guild.rank.world;
                     } else {
-                        params.last = type+'.'+paginate.guild._id + ".0";
+                        params.last = type + '.' + paginate.guild._id + ".0";
                     }
                 } else {
-                    params.last = type+'.'+paginate.guild._id + "." + paginate.guild.ad.updated;
+                    params.last = type + '.' + paginate.guild._id + "." + paginate.guild.ad.updated;
                 }
             }
 
@@ -374,7 +375,7 @@
                     $scope.$parent.loading = false;
                     $scope.loading = false;
                     if (params.last && params.last.indexOf('max') >= 0) {
-                         $scope.guilds = $scope.guilds.concat(guilds.reverse());
+                        $scope.guilds = $scope.guilds.concat(guilds.reverse());
                     } else {
                         $scope.guilds = $scope.guilds.concat(guilds);
                     }
@@ -390,5 +391,40 @@
                     $scope.$parent.loading = false;
                 });
         }
+    }
+
+    GuildProgress.$inject = ["$scope", "$stateParams", "wlfgAppTitle", "kills", "progress", "__env"];
+    function GuildProgress($scope, $stateParams, wlfgAppTitle, kills, progress, __env) {
+        wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
+        //Reset error message
+        $scope.$parent.error = null;
+
+        $scope.roster = {};
+
+        progress.get({
+            "tier": __env.tiers.current,
+            "raid": __env.tiers[__env.tiers.current].name,
+            "region": $stateParams.region,
+            "realm": $stateParams.realm,
+            "name": $stateParams.name
+        }, function (progress) {
+            $scope.progress = progress;
+        });
+
+        $scope.loadRoster = function (difficulty, boss, timestamp) {
+            kills.get({
+                "tier": __env.tiers.current,
+                "raid": __env.tiers[__env.tiers.current].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name,
+                "difficulty": difficulty,
+                "boss": boss,
+                "timestamp": timestamp.join(',')
+            }, function (roster) {
+                $scope.roster[timestamp.join('')] = roster;
+            });
+
+        };
     }
 })();
