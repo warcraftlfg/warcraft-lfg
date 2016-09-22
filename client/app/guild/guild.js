@@ -401,6 +401,7 @@
 
         $scope.difficulties = ["mythic","heroic","normal"];
         $scope.roster = {};
+        $scope.__env = __env;
 
         progress.get({
             "tier": __env.tiers.current,
