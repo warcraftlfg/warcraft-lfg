@@ -10,55 +10,55 @@
                     <div uib-accordion-group class="panel-default" heading="{{boss}}"
                          ng-repeat="(boss, kills) in progress[difficulty]">
                         <div class="row">
-                            <div class="col-md-6">
-                                <h4>{{kills.timestamps.length}} kills recorded</h4>
-                                <div ng-repeat="timestamp in kills.timestamps">
+                            <div class="col-md-12">
+                                <uib-tabset active="activeJustified" justified="true">
+                                    <uib-tab index="0" heading="Kills">
+                                        <h4>{{kills.timestamps.length}} kills recorded</h4>
+                                        <div ng-repeat="timestamp in kills.timestamps">
 
-                                    <div class="m-b-5 m-l-10 cursor-pointer"
-                                         ng-click="showRoster =!showRoster;loadRoster(difficulty,boss,timestamp)">
-                                        {{timestamp[0]| amDateFormat:'LLLL'}} <span ng-show="$first">(First kill)</span>
-                                    </div>
-                                    <div ng-show="showRoster">
-                                        Roster size : {{roster[timestamp.join('')].length}}
-                                        <table class="table table-condensed table-striped">
-                                            <tr ng-repeat="player in roster[timestamp.join('')]">
-                                                <td class="class-{{player.characterClass}}">{{player.characterName}}
-                                                </td>
-                                                <td>{{player.characterSpec}}</td>
-                                                <td>{{player.characterRole}}</td>
-                                                <td>{{player.characterAverageItemLevelEquipped}}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
+                                            <div class="m-b-5 cursor-pointer"
+                                                 ng-click="showRoster =!showRoster;loadRoster(difficulty,boss,timestamp)">
+                                                {{timestamp[0]| amDateFormat:'LLLL'}} <span ng-show="$first">(First kill)</span>
+                                            </div>
+                                            <div ng-show="showRoster">
+                                                Roster size : {{roster[timestamp.join('')].length}}
+                                                <table class="table table-condensed table-striped">
+                                                    <tr ng-repeat="player in roster[timestamp.join('')]">
+                                                        <td class="class-{{player.characterClass}}">
+                                                            {{player.characterName}}
+                                                        </td>
+                                                        <td>{{player.characterSpec}}</td>
+                                                        <td>{{player.characterRole}}</td>
+                                                        <td>{{player.characterAverageItemLevelEquipped}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+                                    <uib-tab index="1" heading="Irrelevant kills">
+                                        <h4>{{kills.irrelevantTimestamps.length}} irrelevant kills recorded</h4>
+                                        <div ng-repeat="timestamp in kills.irrelevantTimestamps">
 
-
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <h4>{{kills.irrelevantTimestamps.length}} irrelevant kills recorded</h4>
-                                <div ng-repeat="timestamp in kills.irrelevantTimestamps">
-
-                                    <div class="m-b-5 m-l-10 cursor-pointer"
-                                         ng-click="showRoster =!showRoster;loadRoster(difficulty,boss,timestamp)">
-                                        {{timestamp[0]| amDateFormat:'LLLL'}}
-                                    </div>
-                                    <div ng-show="showRoster">
-                                        Roster size : {{roster[timestamp.join('')].length}}
-                                        <table class="table table-condensed table-striped">
-                                            <tr ng-repeat="player in roster[timestamp.join('')]">
-                                                <td class="class-{{player.characterClass}}">{{player.characterName}}
-                                                </td>
-                                                <td>{{player.characterSpec}}</td>
-                                                <td>{{player.characterRole}}</td>
-                                                <td>{{player.characterAverageItemLevelEquipped}}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-
-
+                                            <div class="m-b-5 cursor-pointer"
+                                                 ng-click="showRoster =!showRoster;loadRoster(difficulty,boss,timestamp)">
+                                                {{timestamp[0]| amDateFormat:'LLLL'}}
+                                            </div>
+                                            <div ng-show="showRoster">
+                                                Roster size : {{roster[timestamp.join('')].length}}
+                                                <table class="table table-condensed table-striped">
+                                                    <tr ng-repeat="player in roster[timestamp.join('')]">
+                                                        <td class="class-{{player.characterClass}}">
+                                                            {{player.characterName}}
+                                                        </td>
+                                                        <td>{{player.characterSpec}}</td>
+                                                        <td>{{player.characterRole}}</td>
+                                                        <td>{{player.characterAverageItemLevelEquipped}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+                                </uib-tabset>
                             </div>
                         </div>
 
