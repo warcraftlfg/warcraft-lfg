@@ -33,7 +33,7 @@ module.exports.getRank = function (tier, raid, region, realm, name, callback) {
 module.exports.getProgress = function (tier, raid, region, realm, name, callback) {
     var endUrl = "progress/simple/" + tier + "/" + raid + "/" + region + "/" + realm + "/" + name;
     this.request(endUrl, function (error, result) {
-        callback(error, result && result.progress && result.progress['tier_' + tier]);
+        callback(error, result && result.progress && result.progress['tier_' + tier] && result.progress['tier_' + tier][raid]);
     });
 };
 
