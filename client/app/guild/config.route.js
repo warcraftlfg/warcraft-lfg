@@ -14,13 +14,6 @@
                 title: 'Guild Read',
                 controller: "GuildReadController"
             })
-            .state("guild-progress", {
-                url: "/guild/:region/:realm/:name/progress",
-                templateUrl: "app/guild/guild-progress.html",
-                controlerAs: 'vm',
-                title: 'Guild Progress',
-                controller: "GuildProgressController"
-            })
             .state("guild-update", {
                 url: "/guild/:region/:realm/:name/update?parser",
                 templateUrl: "app/guild/guild-update.html",

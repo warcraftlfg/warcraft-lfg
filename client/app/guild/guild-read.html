@@ -31,7 +31,9 @@
                         </div>
                         <div ng-if="guild.ad.description" class="row m-t-10">
                             <div class="col-md-12">
-                                <div id="guild-description" perfect-scrollbar wheel-propagation="false" wheel-speed="2" min-scrollbar-length="20" suppress-scroll-x="true" class="guild-description scroller" marked="guild.ad.description">
+                                <div id="guild-description" perfect-scrollbar wheel-propagation="false" wheel-speed="2"
+                                     min-scrollbar-length="20" suppress-scroll-x="true"
+                                     class="guild-description scroller" marked="guild.ad.description">
                                     <div class="p-t-10"></div>
 
                                 </div>
@@ -48,7 +50,7 @@
                                 {{"CONTACT"|translate}}:
                                 <div ng-bind-html="guild.ad.website | linky:'_blank'" class="overflow"></div>
                             </div>-->
-                            <div class="col-md-6 cursor-pointer" ng-if="guild.id" ng-click="openMessagePopup('sm');" >
+                            <div class="col-md-6 cursor-pointer" ng-if="guild.id" ng-click="openMessagePopup('sm');">
                                 <span class="icon-small logo-warcraftlfg"></span>
                                 <span class="m-l-5">WarcraftLFG</span>
                             </div>
@@ -106,7 +108,8 @@
                 </div>
             </div>
         </div>
-        <div class="row" ng-if="guild.ad.lfg && (recruit.tank > 0 || recruit.heal > 0 || recruit.melee_dps > 0 || recruit.ranged_dps > 0)">
+        <div class="row"
+             ng-if="guild.ad.lfg && (recruit.tank > 0 || recruit.heal > 0 || recruit.melee_dps > 0 || recruit.ranged_dps > 0)">
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -207,38 +210,51 @@
                         <div class="row">
                             <div class="col-md-3">
                                 {{"PROGRESS"|translate}} :
-                                <span wlfg-progress-guild="progress"></span>    
+                                <span wlfg-progress-guild="progress"></span>
                             </div>
                             <div class="col-md-2" ng-if="rank.world">
                                 {{"WORLD"|translate}} : <span class="bold"
-                                    ng-class="{legendary:rank.world<=10,epic:rank.world<=100&&rank.world>10,rare:rank.world<=2500&&rank.world>100,uncommon:rank.world>2500}">
+                                                              ng-class="{legendary:rank.world<=10,epic:rank.world<=100&&rank.world>10,rare:rank.world<=2500&&rank.world>100,uncommon:rank.world>2500}">
                                     {{rank.world}}
                                 </span>
                             </div>
                             <div class="col-md-2" ng-if="rank.region">
                                 {{guild.region|uppercase}} : <span class="bold"
-                                    ng-class="{legendary:rank.region<=10,epic:rank.region<=100&&rank.region>10,rare:rank.region<=2500&&rank.region>100,uncommon:rank.region>2500}">
+                                                                   ng-class="{legendary:rank.region<=10,epic:rank.region<=100&&rank.region>10,rare:rank.region<=2500&&rank.region>100,uncommon:rank.region>2500}">
                                     {{rank.region}}
                                 </span>
                             </div>
                             <div class="col-md-2" ng-if="rank.locale">
                                 {{'REGION_'+rank.locale.type+'_SHORT'|uppercase|translate}} : <span class="bold"
-                                    ng-class="{legendary:rank.locale.rank<=10,epic:rank.locale.rank<=100&&rank.locale.rank>10,rare:rank.locale.rank<=2500&&rank.locale.rank>100,uncommon:rank.locale.rank>2500}">
+                                                                                                    ng-class="{legendary:rank.locale.rank<=10,epic:rank.locale.rank<=100&&rank.locale.rank>10,rare:rank.locale.rank<=2500&&rank.locale.rank>100,uncommon:rank.locale.rank>2500}">
                                     {{rank.locale.rank}}
+                                </span>
+                            </div>
+                            <div class="col-md-2" ng-if="rank.realm">
+                                {{'REALM'|translate}} : <span class="bold"
+                                                              ng-class="{legendary:rank.realm<=10,epic:rank.realm<=100&&rank.realm>10,rare:rank.realm<=2500&&rank.realm>100,uncommon:rank.realm>2500}">
+                                    {{rank.realm}}
                                 </span>
                             </div>
                             <div class="col-md-2" class="common" ng-if="!rank.world">
                                 {{"NO RANK FOUND"|translate}}
                             </div>
-                            <div class="col-md-3 text-right icon-tabs">
-                               <table class="f-right">
+                            <div class="col-md-1 text-right icon-tabs">
+                                <table class="f-right">
                                     <tr>
                                         <td class="p-r-10 v-bottom">
-                                            <i ng-class="{'active':!progressAdvanced}" ng-click="progressAdvanced = false" class="fa fa-list cursor-pointer opacity-50" tooltip-placement="top" uib-tooltip="{{'SIMPLE_VIEW'|translate}}" tooltip-append-to-body="true"></i>
+                                            <i ng-class="{'active':!progressAdvanced}"
+                                               ng-click="progressAdvanced = false"
+                                               class="fa fa-list cursor-pointer opacity-50" tooltip-placement="top"
+                                               uib-tooltip="{{'SIMPLE_VIEW'|translate}}"
+                                               tooltip-append-to-body="true"></i>
                                         </td>
                                         <td class="h-separator">&nbsp;</td>
                                         <td class="p-l-10 v-bottom">
-                                            <i ng-class="{'active':progressAdvanced}" ng-click="progressAdvanced = true" class="fa fa-list-alt cursor-pointer opacity-50"  tooltip-placement="top" uib-tooltip="{{'ADVANCED_VIEW'|translate}}" tooltip-append-to-body="true"></i>
+                                            <i ng-class="{'active':progressAdvanced}" ng-click="progressAdvanced = true"
+                                               class="fa fa-list-alt cursor-pointer opacity-50" tooltip-placement="top"
+                                               uib-tooltip="{{'ADVANCED_VIEW'|translate}}"
+                                               tooltip-append-to-body="true"></i>
                                         </td>
                                     </tr>
                                 </table>
@@ -271,23 +287,35 @@
                                     <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0"
+                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                        <span ng-if="diffDay<=0&&diffDay>-7"
+                                              am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                        <span ng-if="diffDay<=0&&diffDay>-7"
+                                              am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
+                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                        <span ng-if="diffDay<=0&&diffDay>-7"
+                                              am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
                                     <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
                                 </td>
                                 <td>
-                                    <span ng-if="">
-
+                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0">
+                                         {{progress.mythic[boss].timestamps.length}} kill<span ng-if="progress.mythic[boss].timestamps.length>1">s</span>
+                                    </span>
+                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
+                                         {{progress.heroic[boss].timestamps.length}} kill<span ng-if="progress.heroic[boss].timestamps.length>1">s</span>
+                                    </span>
+                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
+                                        {{progress.normal[boss].timestamps.length}} kill<span ng-if="progress.normal[boss].timestamps.length>1">s</span>
                                     </span>
                                 </td>
                             </tr>
@@ -309,19 +337,36 @@
                                     <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0"
+                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                        <span ng-if="diffDay<=0&&diffDay>-7"
+                                              am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
+                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                        <span ng-if="diffDay<=0&&diffDay>-7"
+                                              am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)" ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
-                                        <span ng-if="diffDay<=0&&diffDay>-7" am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
+                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                        <span ng-if="diffDay<=0&&diffDay>-7"
+                                              am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
                                         <span ng-if="diffDay>0||diffDay<=-7">{{ progress.normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>             
                                     </span>
                                     <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                                </td>
+                                <td>
+                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0">
+                                         {{progress.mythic[boss].timestamps.length}} kill<span ng-if="progress.mythic[boss].timestamps.length>1">s</span>
+                                    </span>
+                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
+                                         {{progress.heroic[boss].timestamps.length}} kill<span ng-if="progress.heroic[boss].timestamps.length>1">s</span>
+                                    </span>
+                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
+                                        {{progress.normal[boss].timestamps.length}} kill<span ng-if="progress.normal[boss].timestamps.length>1">s</span>
+                                    </span>
                                 </td>
                             </tr>
                         </table>
@@ -333,5 +378,6 @@
                 </div>
             </div>
         </div>
+        <div ng-include="'app/guild/guild-progress.html'"></div>
     </div>
 </div>
