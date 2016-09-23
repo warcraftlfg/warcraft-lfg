@@ -306,6 +306,7 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        $scope.progressName = __env.tiers[__env.tiers.current].name;
         var initialLoading = false;
         var paginate = {since: false, max: false, guild: null};
 
