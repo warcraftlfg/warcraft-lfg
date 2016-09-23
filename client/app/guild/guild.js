@@ -6,11 +6,10 @@
         .controller('GuildReadController', GuildRead)
         .controller('GuildUpdateController', GuildUpdate)
         .controller('GuildListController', GuildList)
-        .controller('GuildProgressController', GuildProgress)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "ranking", "progress", "__env"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user, ranking, progress, __env) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "kills", "updates", "user", "ranking", "progress", "__env"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, kills, updates, user, ranking, progress, __env) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -19,6 +18,10 @@
         $scope.guild_ad = null;
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
+        $scope.difficulties = ["mythic", "heroic", "normal"];
+        $scope.roster = {};
+        $scope.progressCount = __env.tiers[__env.tiers.current].bosses.length;
+
 
         $scope.raid = __env.tiers[__env.tiers.current];
         $scope.progressAdvanced = false;
@@ -102,6 +105,22 @@
                 $scope.$parent.error = error.data;
                 $scope.$parent.loading = false;
             });
+        };
+
+        $scope.loadRoster = function (difficulty, boss, timestamp) {
+            kills.get({
+                "tier": __env.tiers.current,
+                "raid": __env.tiers[__env.tiers.current].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name,
+                "difficulty": difficulty,
+                "boss": boss,
+                "timestamp": timestamp.join(',')
+            }, function (roster) {
+                $scope.roster[timestamp.join('')] = roster;
+            });
+
         };
     }
 
@@ -391,42 +410,5 @@
                     $scope.$parent.loading = false;
                 });
         }
-    }
-
-    GuildProgress.$inject = ["$scope", "$stateParams", "wlfgAppTitle", "kills", "progress", "__env"];
-    function GuildProgress($scope, $stateParams, wlfgAppTitle, kills, progress, __env) {
-        wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
-        //Reset error message
-        $scope.$parent.error = null;
-
-        $scope.difficulties = ["mythic","heroic","normal"];
-        $scope.roster = {};
-        $scope.__env = __env;
-
-        progress.get({
-            "tier": __env.tiers.current,
-            "raid": __env.tiers[__env.tiers.current].name,
-            "region": $stateParams.region,
-            "realm": $stateParams.realm,
-            "name": $stateParams.name
-        }, function (progress) {
-            $scope.progress = progress;
-        });
-
-        $scope.loadRoster = function (difficulty, boss, timestamp) {
-            kills.get({
-                "tier": __env.tiers.current,
-                "raid": __env.tiers[__env.tiers.current].name,
-                "region": $stateParams.region,
-                "realm": $stateParams.realm,
-                "name": $stateParams.name,
-                "difficulty": difficulty,
-                "boss": boss,
-                "timestamp": timestamp.join(',')
-            }, function (roster) {
-                $scope.roster[timestamp.join('')] = roster;
-            });
-
-        };
     }
 })();
