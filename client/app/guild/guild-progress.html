@@ -45,7 +45,7 @@
                                                                 <tr ng-if="$even"
                                                                     ng-repeat="player in roster[timestamp.join('')]">
                                                                     <td class="class-{{player.characterClass}}">
-                                                                        {{player.characterName}}
+                                                                        <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span> {{player.characterName}}
                                                                     </td>
                                                                     <td>{{player.characterSpec}}</td>
                                                                     <td>
@@ -60,7 +60,7 @@
                                                                 <tr ng-if="$odd"
                                                                     ng-repeat="player in roster[timestamp.join('')]">
                                                                     <td class="class-{{player.characterClass}}">
-                                                                        {{player.characterName}}
+                                                                        <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span> {{player.characterName}}
                                                                     </td>
                                                                     <td>{{player.characterSpec}}</td>
                                                                     <td>
@@ -89,10 +89,9 @@
                                                     <table class="table table-condensed table-striped">
                                                         <tr ng-repeat="player in roster[timestamp.join('')]">
                                                             <td class="class-{{player.characterClass}}">
-                                                                {{player.characterName}}
+                                                                <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span> {{player.characterName}}
                                                             </td>
                                                             <td>{{player.characterSpec}}</td>
-                                                            <td>{{player.characterRole}}</td>
                                                             <td>{{player.characterAverageItemLevelEquipped}}
                                                             </td>
                                                         </tr>
