@@ -32,7 +32,8 @@
         'app.progress',
         'app.parser',
         'app.search',
-        'app.redirect'
+        'app.redirect',
+        'app.stats'
     ]);
 
 })();
