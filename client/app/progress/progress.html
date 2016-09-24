@@ -212,21 +212,24 @@
             <div class="col-md-6">
                 <h3 class="m-b-20">Heroic Emerald Nightmare</h3>
                 <table class="table table-condensed">
-                    <tr ng-repeat="(boss,value) in stats[0].stats.heroic">
-                        <td>{{boss}}</td>
-                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    <tr ng-repeat="(boss,value) in stats.stats.heroic">
+                        <td>H: {{boss}}</td>
+                        <td>{{value}} ({{value/stats.stats.count*100|number:2}}%)</td>
                     </tr>
                 </table>
             </div>
             <div class="col-md-6">
                 <h3 class="m-b-20">Normal Emerald Nightmare</h3>
                 <table class="table table-condensed">
-                    <tr ng-repeat="(boss,value) in stats[0].stats.normal">
-                        <td>{{boss}}</td>
-                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    <tr ng-repeat="(boss,value) in stats.stats.normal">
+                        <td>N: {{boss}}</td>
+                        <td>{{value}} ({{value/stats.stats.count*100|number:2}}%)</td>
                     </tr>
                 </table>
             </div>
+        </div>
+        <div class="italic">
+            Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats.stats.count}} guilds.
         </div>
     </div>
 </div>
