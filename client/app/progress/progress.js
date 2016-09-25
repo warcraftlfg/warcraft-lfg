@@ -110,7 +110,7 @@
             });
         }
 
-        stats.get({
+        stats.getGuildStats({
             "tier": __env.tiers.current,
             "raid": __env.tiers[__env.tiers.current].name,
             "limit": 1
