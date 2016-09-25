@@ -5,6 +5,17 @@
             <div class="row">
                 <div class="col-md-12 m-t-20">
                     <h1>The Emerald Nightmare</h1>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group form-inline m-b-5">
+                                <div class="checkbox m-t-0 m-r-20" ng-repeat="(boss,checked) in bosses">
+                                    <label>
+                                        <input ng-change="refreshCharts()" ng-model="bosses[boss]" type="checkbox"> <strong>{{boss|uppercase|translate}}</strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div ng-repeat="(difficulty,chart) in charts">
                         <h3>{{difficulty|uppercase|translate}}</h3>
                     <canvas  id="line" height="80" class="chart chart-line" chart-data="chart.data"

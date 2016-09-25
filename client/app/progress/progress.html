@@ -209,8 +209,8 @@
 <div class="">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <h3 class="m-b-20">Normal The Emerald Nightmare</h3>
+            <div class="col-md-4">
+                <h3 class="m-b-20">Normal</h3>
                 <table class="table table-condensed">
                     <tr ng-repeat="(boss,value) in stats.stats.normal">
                         <td class="bold">N: {{boss}}</td>
@@ -219,8 +219,8 @@
                     </tr>
                 </table>
             </div>
-            <div class="col-md-6">
-                <h3 class="m-b-20">Heroic The Emerald Nightmare</h3>
+            <div class="col-md-4">
+                <h3 class="m-b-20">Heroic</h3>
                 <table class="table table-condensed">
                     <tr ng-repeat="(boss,value) in stats.stats.heroic">
                         <td class="bold">H: {{boss}}</td>
@@ -229,15 +229,8 @@
                     </tr>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="m-b-20">Mythic The Emerald Nightmare</h3>
+            <div class="col-md-4">
+                <h3 class="m-b-20">Mythic</h3>
                 <table class="table table-condensed">
                     <tr ng-repeat="(boss,value) in stats.stats.mythic">
                         <td class="bold">H: {{boss}}</td>
@@ -246,11 +239,10 @@
                     </tr>
                 </table>
             </div>
-        </div>
-        <div class="row m-b-20">
-            <div class="col-md-12 italic">
+            <div class="col-md-12 italic m-b-20">
                 Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats.stats.count}} guilds.
             </div>
         </div>
+
     </div>
 </div>
