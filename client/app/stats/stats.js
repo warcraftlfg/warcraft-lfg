@@ -24,7 +24,7 @@
         });
 
         var difficulties = ['normal', 'heroic', 'mythic'];
-        stats.get({
+        stats.getGuildStats({
             "tier": $stateParams.tier,
             "raid": $stateParams.raid,
         }, function (stats) {
