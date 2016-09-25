@@ -206,92 +206,51 @@
         </div>
     </div>
 </div>
-<div class="dashboard-table">
+<div class="">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="m-b-20">Heroic Emerald Nightmare</h3>
+                <h3 class="m-b-20">Normal The Emerald Nightmare</h3>
                 <table class="table table-condensed">
-                    <tr ng-repeat="(boss,value) in stats.stats.heroic">
-                        <td>H: {{boss}}</td>
-                        <td>{{value}} ({{value/stats.stats.count*100|number:2}}%)</td>
+                    <tr ng-repeat="(boss,value) in stats.stats.normal">
+                        <td class="bold">N: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats.stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
             <div class="col-md-6">
-                <h3 class="m-b-20">Normal Emerald Nightmare</h3>
+                <h3 class="m-b-20">Heroic The Emerald Nightmare</h3>
                 <table class="table table-condensed">
-                    <tr ng-repeat="(boss,value) in stats.stats.normal">
-                        <td>N: {{boss}}</td>
-                        <td>{{value}} ({{value/stats.stats.count*100|number:2}}%)</td>
+                    <tr ng-repeat="(boss,value) in stats.stats.heroic">
+                        <td class="bold">H: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats.stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
-        </div>
-        <div class="italic">
-            Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats.stats.count}} guilds.
         </div>
     </div>
 </div>
 
-<!--<div class="dashboard-table">
+<div class="">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="m-b-20">Mythic Hellfire Citadel</h3>
+                <h3 class="m-b-20">Mythic The Emerald Nightmare</h3>
                 <table class="table table-condensed">
-                    <tr ng-repeat="guild in guildAds">
-                        <td ng-class="{'logo-warcraftlfg':guild.id}" class="icon-small">
-                            <span class="source-tooltip"
-                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
-                                  ng-if="guild.id">
-                            </span>
-                        </td>
-                        <td class="faction-{{guild.bnet.side}}">
-                            <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
-                               class="bold txt-underline">
-                                {{guild.name}}
-                            </a>
-                        </td>
-                        <td>
-                            {{guild.realm}}
-                        </td>
-                        <td>
-                            {{guild.region|uppercase}}
-                        </td>
-                        <td class="hidden-xs">
-                            {{"UPDATED"|translate}} <span am-time-ago="guild.ad.updated"></span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <h3 class="m-b-20">Heroic Hellfire Citadel</h3>
-                <table class="table table-condensed">
-                    <tr ng-repeat="character in characterAds">
-                        <td ng-class="{'logo-warcraftlfg':character.id}" class="icon-small">
-                            <span class="source-tooltip"
-                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
-                                  ng-if="character.id"></span>
-                        </td>
-                        <td class="class-{{character.bnet.class}}">
-                            <a href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
-                               class="bold txt-underline class-{{character.bnet.class}}">
-                                {{character.name}}
-                            </a>
-                        </td>
-                        <td>
-                            {{character.realm}}
-                        </td>
-                        <td>
-                            {{character.region|uppercase}}
-                        </td>
-                        <td class="hidden-xs">
-                            {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
-                        </td>
+                    <tr ng-repeat="(boss,value) in stats.stats.mythic">
+                        <td class="bold">H: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats.stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
         </div>
+        <div class="row m-b-20">
+            <div class="col-md-12 italic">
+                Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats.stats.count}} guilds.
+            </div>
+        </div>
     </div>
-</div>-->
+</div>
