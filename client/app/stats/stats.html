@@ -4,10 +4,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 m-t-20">
-                    <canvas  id="line" height="60" ng-repeat="chart in charts" class="chart chart-line" chart-data="chart.data"
-                            chart-labels="chart.labels" chart-series="chart.series" chart-options="chart.options"
+                    <h1>The Emerald Nightmare</h1>
+                    <div ng-repeat="(difficulty,chart) in charts">
+                        <h3>{{difficulty|uppercase|translate}}</h3>
+                    <canvas  id="line" height="80" class="chart chart-line" chart-data="chart.data"
+                            chart-labels="chart.labels" chart-series="chart.series" chart-options="options"
                             chart-dataset-override="datasetOverride">
                     </canvas>
+                    </div>
                 </div>
             </div>
         </div>

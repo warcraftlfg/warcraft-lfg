@@ -13,61 +13,59 @@
         $scope.$parent.loading = false;
 
 
-        $scope.charts = [];
+        $scope.charts = {normal:{},heroic:{},mythic:{}};
         $scope.labels = [];
-        $scope.data= [];
+        $scope.data = [];
         $scope.series = [];
         stats.get({
             "tier": $stateParams.tier,
             "raid": $stateParams.raid,
         }, function (stats) {
 
-            var bosses = __env.tiers[__env.tiers.current].bosses;
+            var difficulties = ['normal','heroic','mythic'];
 
-            bosses.forEach(function(boss){
-                var chart = {labels:[],data:[],series:[],options:[]};
+            difficulties.forEach(function (difficulty) {
+                var chart = {labels: [], data: [], series: []};
 
-                var bossDatas = {normal:[],heroic:[],mythic:[]};
+                var bossDatas = {};
                 stats.forEach(function (stat) {
                     chart.labels.push(parseInt(("" + stat._id).substr(0, 8), 16) * 1000);
-                    bossDatas.normal.push((stat.stats.normal[boss]/stat.stats.count*100).toFixed(2));
-                    bossDatas.heroic.push((stat.stats.heroic[boss]/stat.stats.count*100).toFixed(2));
-                    bossDatas.mythic.push((stat.stats.mythic[boss]/stat.stats.count*100).toFixed(2));
+                    angular.forEach(stat.stats[difficulty],function(value,boss){
+                        if(!bossDatas[boss]){
+                            bossDatas[boss]=[];
+                        }
+                        bossDatas[boss].push(stat.stats[difficulty][boss]);
+                    });
                 });
-                angular.forEach(bossDatas,function(datas,difficulty) {
+                angular.forEach(bossDatas, function (datas, boss) {
                     chart.data.push(datas);
-                    chart.series.push(difficulty);
+                    chart.series.push(boss);
                 });
-                chart.options= {
-                    title: {
-                        display:true,
-                        text:boss
-                    },
-                    scales: {
-                        xAxes: [{
-                            type: 'time',
-                            time: {
-                                tooltipFormat: 'L LTS',
-                                displayFormats: {
-                                    'hour': 'L LTS'
-                                }
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                max: 100,
-                                min: 0,
-                                stepSize: 25
-                            }
-                        }]
-                    }
-                };
-                $scope.charts.push(chart);
+
+                $scope.charts[difficulty] = chart;
 
             });
 
         });
+        $scope.options = {
+            scales: {
+                xAxes: [{
+                    type: 'time',
 
+                    time: {
+                        tooltipFormat: 'L LTS',
+                        displayFormats: {
+                            'hour': 'L LTS'
+                        }
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                    }
+                }]
+            }
+        };
 
 
     }
