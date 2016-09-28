@@ -110,9 +110,10 @@
             });
         }
 
-        stats.getGuildStats({
+        stats.get({
             "tier": __env.tiers.current,
             "raid": __env.tiers[__env.tiers.current].name,
+            "type": "guild",
             "limit": 1
         }, function (stats) {
             $scope.stats = stats[0];

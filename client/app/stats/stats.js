@@ -13,25 +13,37 @@
         $scope.$parent.loading = false;
 
 
-        $scope.charts = {normal: {}, heroic: {}, mythic: {}};
-        $scope.labels = [];
-        $scope.data = [];
-        $scope.series = [];
-        $scope.stats = {};
+        $scope.guildCharts = {normal: {}, heroic: {}, mythic: {}};
+        $scope.characterCharts = {};
+
+        $scope.guildStats = {};
+        $scope.characterStats = {};
         $scope.bosses = {};
         __env.tiers[__env.tiers.current].bosses.forEach(function (boss) {
             $scope.bosses[boss] = true;
         });
 
         var difficulties = ['normal', 'heroic', 'mythic'];
-        stats.getGuildStats({
+        stats.get({
             "tier": $stateParams.tier,
             "raid": $stateParams.raid,
+            "type": "guild",
         }, function (stats) {
-            $scope.stats = stats;
-            $scope.refreshCharts();
+            $scope.guildStats = stats;
+            $scope.refreshGuildCharts();
 
         });
+
+        /*stats.get({
+            "tier": $stateParams.tier,
+            "raid": $stateParams.raid,
+            "type": "character",
+            "subtype": "class"
+        }, function (stats) {
+            $scope.characterStats = stats[0].stats;
+            $scope.refreshCharacterCharts();
+        });*/
+
         $scope.options = {
             scales: {
                 xAxes: [{
@@ -52,12 +64,12 @@
             }
         };
 
-        $scope.refreshCharts = function () {
+        $scope.refreshGuildCharts = function () {
             difficulties.forEach(function (difficulty) {
                 var chart = {labels: [], data: [], series: []};
 
                 var bossDatas = {};
-                $scope.stats.forEach(function (stat) {
+                $scope.guildStats.forEach(function (stat) {
                     chart.labels.push(parseInt(("" + stat._id).substr(0, 8), 16) * 1000);
                     angular.forEach(stat.stats[difficulty], function (value, boss) {
                         if (!bossDatas[boss]) {
@@ -73,11 +85,23 @@
                     }
                 });
 
-                $scope.charts[difficulty] = chart;
+                $scope.guildCharts[difficulty] = chart;
 
             });
         };
 
+        /*$scope.refreshCharacterCharts = function () {
+            $scope.characterStats.forEach(function (stat) {
+                if (!$scope.characterCharts[stat.difficulty]) {
+                    $scope.characterCharts[stat.difficulty] = {};
+                }
+                if (!$scope.characterCharts[stat.difficulty][stat.boss]) {
+                    $scope.characterCharts[stat.difficulty][stat.boss] = {count: 0, data: [], series: []};
+                }
+                $scope.characterCharts[stat.difficulty][stat.boss].data.push(stat.count);
+                $scope.characterCharts[stat.difficulty][stat.boss].series.push(stat.class);
+            });
+        };*/
 
     }
 })();
