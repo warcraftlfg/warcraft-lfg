@@ -58,7 +58,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
         function (region, priority, guild, callback) {
             if (priority > 0) {
                 //Set guild to update for progress (change with url call update)
-                updateModel.insert('wp_gu', region, guild.realm, guild.name, 5, function (error) {
+                updateModel.insert('wp_gu', region, guild.realm, guild.name, priority==5?10:priority, function (error) {
                     callback(error, region, guild);
                 });
             } else {
