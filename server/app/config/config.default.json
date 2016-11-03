@@ -52,7 +52,9 @@
     3,
     0
   ],
-  "currentProgress": 18,
-  "currentRaid": "The Emerald Nightmare",
+  "progress":[
+    {"tier":19,"raid":"The Emerald Nightmare"},
+    {"tier":19,"raid":"Trial of Valor"}
+  ],
   "currentCharacterProgress": -3
 }
