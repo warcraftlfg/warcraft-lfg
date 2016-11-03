@@ -23,7 +23,7 @@ module.exports.get = function (query, callback) {
     var criteria = {};
 
     //Do sync stuff
-    //lfgCriterion.add(query, criteria);
+    lfgCriterion.add(query, criteria);
     factionCriterion.add(query, criteria);
     languageCriterion.add(query, criteria);
     recruitmentClassCriterion.add(query, criteria);
