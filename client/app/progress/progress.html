@@ -161,6 +161,10 @@
                                class="bold">
                                 {{guild.name}}
                             </a>
+                            <i ng-if="guild.lfg" class="fa fa-file-text-o txt-white m-l-5 f-12" tooltip-placement="top"
+                               uib-tooltip="{{ 'RECRUITMENT'|translate }}"></i>
+                            <i ng-if="guild.parser" class="fa fa-bar-chart txt-white m-l-5 f-12" tooltip-placement="top"
+                               uib-tooltip="{{ 'PARSER'|translate }}"></i>
                         </td>
                         <td ng-show="!filters.realm">
                             <a href="{{ hashbang }}/pve/{{ guild.region }}/{{ guild.realm }}/"
