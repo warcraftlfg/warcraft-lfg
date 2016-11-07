@@ -19,9 +19,19 @@
         $scope.guildStats = {};
         $scope.characterStats = {};
         $scope.bosses = {};
-        __env.tiers[__env.tiers.current].bosses.forEach(function (boss) {
-            $scope.bosses[boss] = true;
+        $scope.raidName = $stateParams.raid;
+
+        $scope.raids = [];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            if (__env.tiers[value].name == $stateParams.raid)  {
+                __env.tiers[value].bosses.forEach(function (boss) {
+                    $scope.bosses[boss] = true;
+                });
+            }
+            $scope.raids.push(__env.tiers[value]);
         });
+
+
 
         var difficulties = ['normal', 'heroic', 'mythic'];
         stats.get({
