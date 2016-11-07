@@ -18,7 +18,7 @@ module.exports.add = function (query, criteria) {
     if (paramSortArray.length > 0) {
         var sortQuery = paramSortArray[0][0];
         if (sortQuery === "ranking") {
-            criteria["rank"] = {$exists: true};
+            criteria["rank.world"] = {$exists: true};
         }
     }
 
