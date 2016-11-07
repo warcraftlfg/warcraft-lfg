@@ -7,15 +7,19 @@ function wlfgProgressBoss(__env) {
     var directive = {
         link: link,
         restrict: 'AE',
-        templateUrl: 'app/progress/directive/boss/progress.boss.directive.html'
+        templateUrl: 'app/progress/directive/boss/progress.boss.directive.html',
+        scope: true,
     };
     return directive;
 
     function link(scope, element, attrs) {
+        var raidKey = attrs.key;
+        var raidName = __env.tiers[__env.tiers.current[raidKey]].name;
+
         scope.progress = angular.fromJson(attrs.progress);
         scope.progress.tooltip = [];
-        scope.progress.name = __env.tiers[__env.tiers.current].name;
-        angular.forEach(__env.tiers[__env.tiers.current].bosses, function(value, key) {
+        scope.progress.name = raidName;
+        angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
             if (scope.progress.mythic[value] && scope.progress.mythic[value] > 0) {
                 scope.progress.tooltip.push({difficulty: 'legendary', 'boss': 'M: '+value});
             } else if (scope.progress.heroic[value] && scope.progress.heroic[value] > 0) {

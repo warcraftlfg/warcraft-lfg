@@ -7,14 +7,16 @@ function wlfgProgressCharacter(__env) {
     var directive = {
         link: link,
         restrict: 'A',
-        templateUrl: 'app/character/directive/progress/character.progress.directive.html'
+        templateUrl: 'app/character/directive/progress/character.progress.directive.html',
+        scope: true,
     };
     return directive;
 
     function link(scope, element, attrs) {
         scope.$watch(attrs.wlfgProgressCharacter, function(raids) {
+            console.log(raids);
             if (raids) {
-                progress = raids[raids.length-1];
+                progress = raids;
                 var currentProgress = {'name': progress.name, 'tooltip': [], 'mythic':{'total': 0, 'bosses': {}}, 'heroic':{'total': 0, 'bosses': {}}, 'normal': {'total': 0, 'bosses': {}}, 'lfr': {'total': 0, 'bosses': {}}};
                 currentProgress.total = progress.bosses.length;
                 progress.bosses.forEach(function (boss) {

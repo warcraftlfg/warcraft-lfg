@@ -20,31 +20,47 @@
         $scope.current_url = window.encodeURIComponent($location.absUrl());
         $scope.difficulties = ["mythic", "heroic", "normal"];
         $scope.roster = {};
-        $scope.progressCount = __env.tiers[__env.tiers.current].bosses.length;
+        //$scope.raidRank = {};
+        //$scope.raidProgress = {};
+        //$scope.progressCount = __env.tiers[__env.tiers.current].bosses.length;
 
 
-        $scope.raid = __env.tiers[__env.tiers.current];
+        //$scope.raid = __env.tiers[__env.tiers.current];
+        $scope.raids = [];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            $scope.raids.push(__env.tiers[value]);
+        });
         $scope.progressAdvanced = false;
 
-        ranking.get({
-            "tier": __env.tiers.current,
-            "raid": __env.tiers[__env.tiers.current].name,
-            "region": $stateParams.region,
-            "realm": $stateParams.realm,
-            "name": $stateParams.name
-        }, function (rank) {
-            $scope.rank = rank;
+        angular.forEach(__env.tiers.current, function(value, key) {
+            ranking.get({
+                "tier":__env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (rank) {
+                if (!$scope.ranks) {
+                    $scope.ranks = {};
+                }
+                $scope.ranks[key] = rank;
+            }); 
+
+            progress.get({
+                "tier": __env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (progress) {
+                if (!$scope.raidProgress) {
+                    $scope.raidProgress = {};
+                }
+                $scope.raidProgress[key] = progress;
+                $scope.raidProgress[key].name = __env.tiers[value].name;
+            });
         });
 
-        progress.get({
-            "tier": __env.tiers.current,
-            "raid": __env.tiers[__env.tiers.current].name,
-            "region": $stateParams.region,
-            "realm": $stateParams.realm,
-            "name": $stateParams.name
-        }, function (progress) {
-            $scope.progress = progress;
-        });
 
         guilds.get({
                 "guildRegion": $stateParams.region,
@@ -107,10 +123,10 @@
             });
         };
 
-        $scope.loadRoster = function (difficulty, boss, timestamp) {
+        $scope.loadRoster = function (key, difficulty, boss, timestamp) {
             kills.get({
-                "tier": __env.tiers.current,
-                "raid": __env.tiers[__env.tiers.current].name,
+                "tier": $scope.raids[key].tier,
+                "raid": $scope.raids[key].name,
                 "region": $stateParams.region,
                 "realm": $stateParams.realm,
                 "name": $stateParams.name,
@@ -315,8 +331,8 @@
 
     }
 
-    GuildList.$inject = ['$scope', '$state', '$stateParams', "wlfgAppTitle", "guilds"];
-    function GuildList($scope, $state, $stateParams, wlfgAppTitle, guilds) {
+    GuildList.$inject = ['$scope', '$state', '$stateParams', "wlfgAppTitle", "guilds", "__env"];
+    function GuildList($scope, $state, $stateParams, wlfgAppTitle, guilds, __env) {
         wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error = null;
@@ -325,6 +341,10 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        $scope.raids = [];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            $scope.raids.push(__env.tiers[value]);
+        });
         var initialLoading = false;
         var paginate = {since: false, max: false, guild: null};
 
