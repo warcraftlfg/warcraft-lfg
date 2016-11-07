@@ -15,20 +15,18 @@ function wlfgProgressGuild(__env, progress) {
     function link(scope, element, attrs) {
         var raidKey = attrs.key;
         var raidName = __env.tiers[__env.tiers.current[raidKey]].name;
+        var raidTier = __env.tiers[__env.tiers.current[raidKey]].tier;
 
         scope.$watch(attrs.wlfgProgressGuild, function(progress){
-            console.log(progress);
-            console.log(raidKey);
-            console.log(raidName);
-            if (progress && (progress[raidKey] || progress[raidName])) {
+            if (progress && (progress[raidKey] || progress[raidTier][raidName])) {
 
                 scope.progressTooltip = [];
                 scope.progressName = __env.tiers[__env.tiers.current[raidKey]].name;
                 scope.progressTotal = __env.tiers[__env.tiers.current[raidKey]].bosses.length;
                 if (progress[raidKey]) {
                     scope.progress = progress[raidKey];
-                } else if (progress[raidName]) {
-                    scope.progress = progress[raidName];
+                } else if (progress[raidTier][raidName]) {
+                    scope.progress = progress[raidTier][raidName];
                 }
                 if (attrs.region && attrs.realm && attrs.name) {
                     scope.progressTooltipLoad = false;
