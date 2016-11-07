@@ -7,8 +7,8 @@
             <div class="col-md-6 m-b-5">
                 <span class="css3-metro-dropdown css3-metro-dropdown-inverse">
                     <select ng-model="difficulty" class="form-control">
-                        <option value="normalTimestamp">{{ raid.name|uppercase|translate }} : {{ "NORMAL"|translate }}</option>
-                        <option value="heroicTimestamp">{{ raid.name|uppercase|translate }} : {{ "HEROIC"|translate }}</option>
+                        <option value="normalTimestamp">{{ raids[0].name|uppercase|translate }} / {{ raids[1].name|uppercase|translate }} : {{ "NORMAL"|translate }}</option>
+                        <option value="heroicTimestamp">{{ raids[0].name|uppercase|translate }} / {{ raids[1].name|uppercase|translate }} : {{ "HEROIC"|translate }}</option>
                     </select>
                 </span>
             </div>
@@ -32,14 +32,28 @@
                                 <i ng-show="sort==='-bnet.talents[0].slug'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='bnet.talents[0].slug'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[0].bosses['+$index+'].'+difficulty);" ng-repeat="(key, boss) in raid.bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
-                                <div class="dis-inline-b icon-border-24 {{ raid.class }} boss-{{ key }}">
+                            <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[0].bosses['+$index+'].'+difficulty);" ng-repeat="(key, boss) in raids[0].bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24 {{ raids[0].class }} boss-{{ key }}">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
                                 <i ng-if="sort!='bnet.progression.raids[0].bosses['+$index+'].'+difficulty&&sort!='-bnet.progression.raids[0].bosses['+$index+'].'+difficulty" class="fa fa-sort" aria-hidden="true"></i>
                                 <i ng-show="sort==='-bnet.progression.raids[0].bosses['+$index+'].'+difficulty" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='bnet.progression.raids[0].bosses['+$index+'].'+difficulty" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
+
+                            
+                            <!-- Duplicate entry -->
+                            <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[2].bosses['+$index+'].'+difficulty);" ng-repeat="(key, boss) in raids[1].bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24 {{ raids[1].class }} boss-{{ key }}">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='bnet.progression.raids[2].bosses['+$index+'].'+difficulty&&sort!='-bnet.progression.raids[2].bosses['+$index+'].'+difficulty" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.progression.raids[2].bosses['+$index+'].'+difficulty" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.progression.raids[2].bosses['+$index+'].'+difficulty" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <!-- End -->
+
+
                         </thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
@@ -48,7 +62,7 @@
                                 </td>
                             </tr>
                             <tr class="text-center" ng-if="noResult">
-                                <td colspan="{{ raid.bosses.length + 1 }}" class="p-15 loading">
+                                <td colspan="{{ raids[0].bosses.length + 1 }}" class="p-15 loading">
                                     {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
@@ -65,11 +79,22 @@
                                         </div>
                                     </span>
                                 </td>
-                                <td class="text-center sort-img" ng-if="character.bnet.progression.raids[0].name == raid.name" ng-repeat="boss in character.bnet.progression.raids[0].bosses">
+                                <td class="text-center sort-img" ng-if="character.bnet.progression.raids[0].name == raids[0].name" ng-repeat="boss in character.bnet.progression.raids[0].bosses">
                                     <i ng-if="boss[difficulty] < lastReset.valueOf()" class="fa fa-times text-danger sort-fix" aria-hidden="true"></i>
                                     <i ng-if="boss[difficulty]  > lastReset.valueOf()" class="fa fa-check text-success sort-fix" aria-hidden="true"></i>
                                 </td>
-                                <td ng-if="character.bnet.progression.raids[0].name != raid.name" ng-repeat="boss in raid.bosses"></td>
+                                <td ng-if="character.bnet.progression.raids[0].name != raids[0].name" ng-repeat="boss in raids[0].bosses"></td>
+
+
+                                <!-- Duplicate entry -->
+                                <td class="text-center sort-img" ng-if="character.bnet.progression.raids[2].name == raids[1].name" ng-repeat="boss in character.bnet.progression.raids[2].bosses">
+                                    <i ng-if="boss[difficulty] < lastReset.valueOf()" class="fa fa-times text-danger sort-fix" aria-hidden="true"></i>
+                                    <i ng-if="boss[difficulty]  > lastReset.valueOf()" class="fa fa-check text-success sort-fix" aria-hidden="true"></i>
+                                </td>
+                                <td ng-if="character.bnet.progression.raids[2].name != raids[1].name" ng-repeat="boss in raids[1].bosses"></td>
+                                <!-- End -->
+
+
                             </tr>
                         </tbody>
                     </table>
