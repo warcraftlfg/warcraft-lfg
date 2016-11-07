@@ -22,14 +22,28 @@
                                 <i ng-show="sort==='-bnet.talents[0].slug'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='bnet.talents[0].slug'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="text-center sortable" ng-click="switchSort('-warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median');" ng-repeat="(key, boss) in raid.bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
-                                <div class="dis-inline-b icon-border-24 {{ raid.class }} boss-{{ key }}">
+                            <th class="text-center sortable" ng-click="switchSort('-warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median');" ng-repeat="(key, boss) in raids[0].bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24 {{ raids[0].class }} boss-{{ key }}">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
                                 <i ng-if="sort!='warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'&&sort!='-warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'" class="fa fa-sort" aria-hidden="true"></i>
                                 <i ng-show="sort==='-warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
+
+
+                            <!-- Duplicate entry -->
+                            <th class="text-center sortable" ng-click="switchSort('-warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median');" ng-repeat="(key, boss) in raids[1].bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24 {{ raids[1].class }} boss-{{ key }}">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'&&sort!='-warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='warcraftLogs.bosses[\''+boss+'\'].bestHighSpec.median'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <!-- End -->
+
+
                         </thead>
                         <tbody>
                             <tr class="text-center" ng-if="loading">
@@ -38,7 +52,7 @@
                                 </td>
                             </tr>
                             <tr class="text-center" ng-if="noResult">
-                                <td colspan="{{ raid.bosses.length + 1 }}" class="p-15 loading">
+                                <td colspan="{{ raids[0].bosses.length + 1 }}" class="p-15 loading">
                                     {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
@@ -55,10 +69,20 @@
                                         </div>
                                     </span>
                                 </td>
-                                <td class="text-center sort-img" ng-repeat="(key, boss) in raid.bosses">
+                                <td class="text-center sort-img" ng-repeat="(key, boss) in raids[0].bosses">
                                     <span wlfg-warcraft-logs-average="character.warcraftLogs.bosses[boss]" character-class="{{ character.bnet.class }}"></span>
                                     <span ng-if="!character.warcraftLogs.bosses[boss].bestHighSpec" ng-init="character.warcraftLogs.bosses[boss].bestHighSpec.median = 0"></span>
                                 </td>
+
+
+                                <!--Duplicate Entry -->
+                                <td class="text-center sort-img" ng-repeat="(key, boss) in raids[1].bosses">
+                                    <span wlfg-warcraft-logs-average="character.warcraftLogs.bosses[boss]" character-class="{{ character.bnet.class }}"></span>
+                                    <span ng-if="!character.warcraftLogs.bosses[boss].bestHighSpec" ng-init="character.warcraftLogs.bosses[boss].bestHighSpec.median = 0"></span>
+                                </td>
+                                <!-- End -->
+
+
                             </tr>
                         </tbody>
                     </table>

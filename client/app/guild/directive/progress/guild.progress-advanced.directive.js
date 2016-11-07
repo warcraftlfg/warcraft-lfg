@@ -7,26 +7,30 @@ function wlfgProgressAdvancedGuild(__env, progress) {
     var directive = {
         link: link,
         restrict: 'A',
-        templateUrl: 'app/guild/directive/progress/guild.progress-advanced.directive.html'
+        templateUrl: 'app/guild/directive/progress/guild.progress-advanced.directive.html',
+        scope: true,
     };
     return directive;
 
     function link(scope, element, attrs) {
+        var raidKey = attrs.key;
+
         scope.$watch(attrs.wlfgProgressAdvancedGuild, function(progress){
             if (progress) {
                 scope.progressAdvanced = {};
-                scope.progressAdvanced.name = __env.tiers[__env.tiers.current].name;
+                scope.progressAdvanced.name =__env.tiers[__env.tiers.current[raidKey]].name;
                 scope.progressOrder = [];
-                angular.forEach(progress.mythic, function(value, key) {
+                scope.progress = progress[raidKey];
+                angular.forEach(scope.progress.mythic, function(value, key) {
                     if (value.timestamps && value.timestamps.length > 0 && value.timestamps[0].length > 0) {
                         scope.progressOrder.push({name: key, timestamp: value.timestamps[0][0], difficulty: 'mythic'});
                     }
                 });
-                angular.forEach(progress.heroic, function(value, key) {
+                angular.forEach(scope.progress.heroic, function(value, key) {
                     if (value.timestamps && value.timestamps.length > 0 && value.timestamps[0].length > 0) {
                         scope.progressOrder.push({name: key, timestamp: value.timestamps[0][0], difficulty: 'heroic'});
                     }                });
-                angular.forEach(progress.normal, function(value, key) {
+                angular.forEach(scope.progress.normal, function(value, key) {
                     if (value.timestamps && value.timestamps.length > 0 && value.timestamps[0].length > 0) {
                         scope.progressOrder.push({name: key, timestamp: value.timestamps[0][0], difficulty: 'normal'});
                     }

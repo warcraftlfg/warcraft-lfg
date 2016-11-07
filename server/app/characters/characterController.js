@@ -83,7 +83,7 @@ module.exports.getCharacter = function (req, res, next) {
         "bnet.race": 1,
         "bnet.level": 1,
         "bnet.talents": 1,
-        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,1]},
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,config.currentCharacterProgressLength]},
         "bnet.items": 1,
         "bnet.reputation": 1,
         "bnet.achievements": 1,

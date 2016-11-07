@@ -13,7 +13,7 @@ function wlfgFilterProgress($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        $scope.progress = {difficulty:"none", min:1, max:7};
+        $scope.progress = {difficulty:"none", min:1, max:10};
 
 
         if ($stateParams.progress) {
