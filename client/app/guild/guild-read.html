@@ -277,46 +277,46 @@
                             <tr ng-repeat="(key, boss) in raids[1].bosses | limitTo:2">
                                 <td class="bold">{{ boss|uppercase|translate}}</td>
                                 <td ng-class="{
-                                'legendary':raidProgress[1].mythic[boss] && progress.mythic[boss].timestamps.length > 0,
-                                'epic':progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0),
-                                'rare':progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0),
-                                'common':!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)
+                                'legendary':raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0,
+                                'epic':raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0),
+                                'rare':raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0),
+                                'common':!(raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0) && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)
                                 }">
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
-                                    <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                                    <span ng-if="raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!(raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0) && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0"
-                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                    <span ng-if="raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0"
+                                          ng-init="diffDay = (raidProgress[1].mythic[boss].timestamps[0] | amDifference:null:'days')">
                                         <span ng-if="diffDay<=0&&diffDay>-7"
-                                              am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
-                                        <span ng-if="diffDay>0||diffDay<=-7">{{ progress.mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                                              am-time-ago="raidProgress[1].mythic[boss].timestamps[0][0]"></span>
+                                        <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[1].mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
-                                          ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                    <span ng-if="raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (raidProgress[1].heroic[boss].timestamps[0] | amDifference:null:'days')">
                                         <span ng-if="diffDay<=0&&diffDay>-7"
-                                              am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
-                                        <span ng-if="diffDay>0||diffDay<=-7">{{ progress.heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                                              am-time-ago="raidProgress[1].heroic[boss].timestamps[0][0]"></span>
+                                        <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[1].heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
-                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                    <span ng-if="raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (raidProgress[1].mythic[boss].timestamps[0] | amDifference:null:'days')">
                                         <span ng-if="diffDay<=0&&diffDay>-7"
-                                              am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
-                                        <span ng-if="diffDay>0||diffDay<=-7">{{ progress.normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                                              am-time-ago="raidProgress[1].normal[boss].timestamps[0][0]"></span>
+                                        <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[1].normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                                    <span ng-if="!(raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0) && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">&nbsp;</span>
                                 </td>
                                 <td>
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0">
-                                         {{progress.mythic[boss].timestamps.length}} kill<span ng-if="progress.mythic[boss].timestamps.length>1">s</span>
+                                    <span ng-if="raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0">
+                                         {{raidProgress[1].mythic[boss].timestamps.length}} kill<span ng-if="raidProgress[1].mythic[boss].timestamps.length>1">s</span>
                                     </span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
-                                         {{progress.heroic[boss].timestamps.length}} kill<span ng-if="progress.heroic[boss].timestamps.length>1">s</span>
+                                    <span ng-if="raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">
+                                         {{raidProgress[1].heroic[boss].timestamps.length}} kill<span ng-if="raidProgress[1].heroic[boss].timestamps.length>1">s</span>
                                     </span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
-                                        {{progress.normal[boss].timestamps.length}} kill<span ng-if="progress.normal[boss].timestamps.length>1">s</span>
+                                    <span ng-if="raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">
+                                        {{raidProgress[1].normal[boss].timestamps.length}} kill<span ng-if="raidProgress[1].normal[boss].timestamps.length>1">s</span>
                                     </span>
                                 </td>
                             </tr>
@@ -327,46 +327,46 @@
                             <tr ng-repeat="(key, boss) in raids[1].bosses | limitTo:-1">
                                 <td class="bold">{{ boss|uppercase|translate }}</td>
                                 <td ng-class="{
-                                'legendary':progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0,
-                                'epic':progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0),
-                                'rare':progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0),
-                                'common':!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)
+                                'legendary':raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0,
+                                'epic':raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0),
+                                'rare':raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0),
+                                'common':!(raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0) && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)
                                 }">
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
-                                    <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                                    <span ng-if="raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                                    <span ng-if="raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                                    <span ng-if="raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                                    <span ng-if="!(raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0) && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
                                 </td>
                                 <td>
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0"
-                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                    <span ng-if="raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0"
+                                          ng-init="diffDay = (raidProgress[1].mythic[boss].timestamps[0] | amDifference:null:'days')">
                                         <span ng-if="diffDay<=0&&diffDay>-7"
-                                              am-time-ago="progress.mythic[boss].timestamps[0][0]"></span>
-                                        <span ng-if="diffDay>0||diffDay<=-7">{{ progress.mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                                              am-time-ago="raidProgress[1].mythic[boss].timestamps[0][0]"></span>
+                                        <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[1].mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
-                                          ng-init="diffDay = (progress.heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                    <span ng-if="raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (raidProgress[1].heroic[boss].timestamps[0] | amDifference:null:'days')">
                                         <span ng-if="diffDay<=0&&diffDay>-7"
-                                              am-time-ago="progress.heroic[boss].timestamps[0][0]"></span>
-                                        <span ng-if="diffDay>0||diffDay<=-7">{{ progress.heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                                              am-time-ago="raidProgress[1].heroic[boss].timestamps[0][0]"></span>
+                                        <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[1].heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)"
-                                          ng-init="diffDay = (progress.mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                    <span ng-if="raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)"
+                                          ng-init="diffDay = (raidProgress[1].mythic[boss].timestamps[0] | amDifference:null:'days')">
                                         <span ng-if="diffDay<=0&&diffDay>-7"
-                                              am-time-ago="progress.normal[boss].timestamps[0][0]"></span>
-                                        <span ng-if="diffDay>0||diffDay<=-7">{{ progress.normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>             
+                                              am-time-ago="raidProgress[1].normal[boss].timestamps[0][0]"></span>
+                                        <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[1].normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
                                     </span>
-                                    <span ng-if="!(progress.normal[boss] && progress.normal[boss].timestamps.length > 0) && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                                    <span ng-if="!(raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0) && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">&nbsp;</span>
                                 </td>
                                 <td>
-                                    <span ng-if="progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0">
-                                         {{progress.mythic[boss].timestamps.length}} kill<span ng-if="progress.mythic[boss].timestamps.length>1">s</span>
+                                    <span ng-if="raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0">
+                                         {{raidProgress[1].mythic[boss].timestamps.length}} kill<span ng-if="raidProgress[1].mythic[boss].timestamps.length>1">s</span>
                                     </span>
-                                    <span ng-if="progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0 && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
-                                         {{progress.heroic[boss].timestamps.length}} kill<span ng-if="progress.heroic[boss].timestamps.length>1">s</span>
+                                    <span ng-if="raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0 && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">
+                                         {{raidProgress[1].heroic[boss].timestamps.length}} kill<span ng-if="raidProgress[1].heroic[boss].timestamps.length>1">s</span>
                                     </span>
-                                    <span ng-if="progress.normal[boss] && progress.normal[boss].timestamps.length > 0 && !(progress.heroic[boss] && progress.heroic[boss].timestamps.length > 0) && !(progress.mythic[boss] && progress.mythic[boss].timestamps.length > 0)">
-                                        {{progress.normal[boss].timestamps.length}} kill<span ng-if="progress.normal[boss].timestamps.length>1">s</span>
+                                    <span ng-if="raidProgress[1].normal[boss] && raidProgress[1].normal[boss].timestamps.length > 0 && !(raidProgress[1].heroic[boss] && raidProgress[1].heroic[boss].timestamps.length > 0) && !(raidProgress[1].mythic[boss] && raidProgress[1].mythic[boss].timestamps.length > 0)">
+                                        {{raidProgress[1].normal[boss].timestamps.length}} kill<span ng-if="raidProgress[1].normal[boss].timestamps.length>1">s</span>
                                     </span>
                                 </td>
                             </tr>

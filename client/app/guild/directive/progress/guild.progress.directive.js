@@ -18,7 +18,8 @@ function wlfgProgressGuild(__env, progress) {
         var raidTier = __env.tiers[__env.tiers.current[raidKey]].tier;
 
         scope.$watch(attrs.wlfgProgressGuild, function(progress){
-            if (progress && (progress[raidKey] || progress[raidTier][raidName])) {
+            console.log(progress);
+            if (progress && (progress[raidKey] || (progress[raidTier] && progress[raidTier][raidName]))) {
 
                 scope.progressTooltip = [];
                 scope.progressName = __env.tiers[__env.tiers.current[raidKey]].name;
