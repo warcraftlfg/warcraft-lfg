@@ -18,6 +18,13 @@ function wlfgProgressGuild(__env, progress) {
         var raidTier = __env.tiers[__env.tiers.current[raidKey]].tier;
 
         scope.$watch(attrs.wlfgProgressGuild, function(progress){
+            if (progress && attrs.region && attrs.realm && attrs.name) {
+                if (progress[raidTier] && progress[raidTier][raidName]) {
+                    progress = progress[raidTier][raidName];
+                } else {
+                    progress = null;
+                }
+            }
             if (progress) {
                 scope.progressTooltip = [];
                 scope.progressName = __env.tiers[__env.tiers.current[raidKey]].name;
@@ -27,11 +34,7 @@ function wlfgProgressGuild(__env, progress) {
                 } else if (progress[raidTier][raidName]) {
                     scope.progress = progress[raidTier][raidName];
                 }*/
-                if (progress[raidTier] && progress[raidTier][raidName]) {
-                    scope.progress = progress[raidTier][raidName];
-                } else {
-                    scope.progress = progress;
-                }
+                scope.progress = progress;
                 if (attrs.region && attrs.realm && attrs.name) {
                     scope.progressTooltipLoad = false;
                     angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
