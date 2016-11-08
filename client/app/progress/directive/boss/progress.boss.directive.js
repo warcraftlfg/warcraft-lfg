@@ -19,6 +19,7 @@ function wlfgProgressBoss(__env) {
         scope.progress = angular.fromJson(attrs.progress);
         scope.progress.tooltip = [];
         scope.progress.name = raidName;
+        scope.progress.total = __env.tiers[__env.tiers.current[raidKey]].bosses.length;
         angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
             if (scope.progress.mythic[value] && scope.progress.mythic[value] > 0) {
                 scope.progress.tooltip.push({difficulty: 'legendary', 'boss': 'M: '+value});
