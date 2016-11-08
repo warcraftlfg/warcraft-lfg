@@ -211,7 +211,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 {{ raids[1].name |translate}} :
-                                <span wlfg-progress-guild="raidProgress" data-key="1"></span>
+                                <span wlfg-progress-guild="raidProgress[1]" data-key="1"></span>
                             </div>
                             <div class="col-md-2" ng-if="ranks[1].world">
                                 {{"WORLD"|translate}} : <span class="bold"
@@ -388,7 +388,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 {{ raids[0].name |translate}} :
-                                <span wlfg-progress-guild="raidProgress" data-key="0"></span>
+                                <span wlfg-progress-guild="raidProgress[0]" data-key="0"></span>
                             </div>
                             <div class="col-md-2" ng-if="ranks[0].world">
                                 {{"WORLD"|translate}} : <span class="bold"

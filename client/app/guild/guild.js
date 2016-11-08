@@ -21,7 +21,7 @@
         $scope.difficulties = ["mythic", "heroic", "normal"];
         $scope.roster = {};
         //$scope.raidRank = {};
-        //$scope.raidProgress = {};
+        $scope.raidProgress = [];
         //$scope.progressCount = __env.tiers[__env.tiers.current].bosses.length;
 
 

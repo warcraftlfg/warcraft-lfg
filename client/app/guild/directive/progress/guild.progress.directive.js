@@ -18,17 +18,17 @@ function wlfgProgressGuild(__env, progress) {
         var raidTier = __env.tiers[__env.tiers.current[raidKey]].tier;
 
         scope.$watch(attrs.wlfgProgressGuild, function(progress){
-            console.log(progress);
-            if (progress && (progress[raidKey] || (progress[raidTier] && progress[raidTier][raidName]))) {
+            if (progress) {
 
                 scope.progressTooltip = [];
                 scope.progressName = __env.tiers[__env.tiers.current[raidKey]].name;
                 scope.progressTotal = __env.tiers[__env.tiers.current[raidKey]].bosses.length;
-                if (progress[raidKey]) {
+                /*if (progress[raidKey]) {
                     scope.progress = progress[raidKey];
                 } else if (progress[raidTier][raidName]) {
                     scope.progress = progress[raidTier][raidName];
-                }
+                }*/
+                scope.progress = progress;
                 if (attrs.region && attrs.realm && attrs.name) {
                     scope.progressTooltipLoad = false;
                     angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
