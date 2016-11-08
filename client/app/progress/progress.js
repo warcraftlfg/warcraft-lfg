@@ -93,7 +93,9 @@
             initialLoading = true;
         }, true);
 
-        $scope.$watch('page', function () {   
+        $scope.$watch('page', function () {
+            console.log($scope.page);
+            console.log(initialLoadingPage);
             if ($scope.page >= 1) {
                 if (initialLoadingPage) {
                     if ($scope.page != $scope.lastPage) {
@@ -117,9 +119,9 @@
                     $scope.ranking = [];
                     getRankings();
                 }
-
-                initialLoadingPage = true;
             }
+
+            initialLoadingPage = true;
 
         });
 
