@@ -187,6 +187,10 @@
             }
         };
 
+        $scope.nextPage = function() {
+            $scope.page++;
+        };
+
         $scope.$on('get:realms', function () {
             var realm_zone = "";
             if ($scope.filters.region && __env.realms[$scope.filters.region]) {
