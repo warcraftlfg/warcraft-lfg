@@ -208,7 +208,7 @@
                 <nav>
                     <ul class="pagination m-0">
                         <li class="page-item" ng-class="{'disabled': noResult}">
-                            <a ng-click="page = page + 1">
+                            <a ng-click="nextPage()">
                                     <span class="page-link" aria-label="Previous"><span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span></span>
                             </a>
                             <a class="hide" ng-href="{{ hashbang }}/{{ path }}{{ (page + 1) }}"></a>
