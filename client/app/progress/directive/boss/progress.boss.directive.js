@@ -16,21 +16,24 @@ function wlfgProgressBoss(__env) {
         var raidKey = attrs.key;
         var raidName = __env.tiers[__env.tiers.current[raidKey]].name;
 
-        scope.progress = angular.fromJson(attrs.progress);
-        scope.progress.tooltip = [];
-        scope.progress.name = raidName;
-        scope.progress.total = __env.tiers[__env.tiers.current[raidKey]].bosses.length;
-        angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
-            if (scope.progress.mythic[value] && scope.progress.mythic[value] > 0) {
-                scope.progress.tooltip.push({difficulty: 'legendary', 'boss': 'M: '+value});
-            } else if (scope.progress.heroic[value] && scope.progress.heroic[value] > 0) {
-                scope.progress.tooltip.push({difficulty: 'epic', 'boss': 'H: '+value});
-            } else if (scope.progress.normal[value] && scope.progress.normal[value] > 0) {
-                scope.progress.tooltip.push({difficulty: 'rare', 'boss': 'N: '+value});
-            } else {
-                 scope.progress.tooltip.push({difficulty: 'common', 'boss': 'N: '+value});
-            }
-        });
+        scope.$watch(attrs.progress, function(progress){
+            console.log(progress);
+            scope.progress = angular.fromJson(progress);
+            scope.progress.tooltip = [];
+            scope.progress.name = raidName;
+            scope.progress.total = __env.tiers[__env.tiers.current[raidKey]].bosses.length;
+            angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
+                if (scope.progress.mythic[value] && scope.progress.mythic[value] > 0) {
+                    scope.progress.tooltip.push({difficulty: 'legendary', 'boss': 'M: '+value});
+                } else if (scope.progress.heroic[value] && scope.progress.heroic[value] > 0) {
+                    scope.progress.tooltip.push({difficulty: 'epic', 'boss': 'H: '+value});
+                } else if (scope.progress.normal[value] && scope.progress.normal[value] > 0) {
+                    scope.progress.tooltip.push({difficulty: 'rare', 'boss': 'N: '+value});
+                } else {
+                     scope.progress.tooltip.push({difficulty: 'common', 'boss': 'N: '+value});
+                }
+            });
+        }, true);
     }
 
 }
