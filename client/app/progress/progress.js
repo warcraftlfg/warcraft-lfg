@@ -69,7 +69,10 @@
 
         $scope.$watch('filters', function () {
             if (initialLoading) {
-                //$scope.page = 1;
+                if ($scope.page > 1) {
+                    $scope.page = 1;
+                    initialLoadingPage = false;
+                }
 
                 if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
                     $scope.path = "pve/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
@@ -94,8 +97,6 @@
         }, true);
 
         $scope.$watch('page', function () {
-            console.log($scope.page);
-            console.log(initialLoadingPage);
             if ($scope.page >= 1) {
                 if (initialLoadingPage) {
                     if ($scope.page != $scope.lastPage) {
