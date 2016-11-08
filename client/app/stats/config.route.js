@@ -14,8 +14,6 @@
                 title: 'WarcraftProgress',
                 controller: "StatsController"
             })
-
-
         ;
     }
 })();
