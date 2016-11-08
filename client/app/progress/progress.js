@@ -93,13 +93,9 @@
             initialLoading = true;
         }, true);
 
-<<<<<<< HEAD
-        $scope.$watch('page', function () {   
-=======
         $scope.$watch('page', function () {
             console.log($scope.page);
             console.log(initialLoadingPage);
->>>>>>> 4a46a55e2ae6ba1800b094f130b6c432664ee47d
             if ($scope.page >= 1) {
                 if (initialLoadingPage) {
                     if ($scope.page != $scope.lastPage) {
@@ -123,17 +119,9 @@
                     $scope.ranking = [];
                     getRankings();
                 }
-<<<<<<< HEAD
-
-                initialLoadingPage = true;
-            }
-
-=======
             }
 
             initialLoadingPage = true;
-
->>>>>>> 4a46a55e2ae6ba1800b094f130b6c432664ee47d
         });
 
         $scope.$parent.loading = false;
