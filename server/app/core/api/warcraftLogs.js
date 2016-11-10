@@ -31,7 +31,7 @@ var russianRealms = {
  * @param name
  * @param callback
  */
-module.exports.getRankings = function (region, realm, name, metric, callback) {
+module.exports.getRankings = function (region, realm, name, metric, zone, callback) {
 
     var logger = applicationStorage.logger;
     var config = applicationStorage.config;
@@ -46,7 +46,7 @@ module.exports.getRankings = function (region, realm, name, metric, callback) {
     realm = realm.split("'").join("");
 
     //noinspection JSUnresolvedVariable
-    var url = encodeURI("https://www.warcraftlogs.com/v1/parses/character/" + name + "/" + realm + "/" + region + "?metric="+metric+"&api_key=" + config.warcraftLogs.api_key);
+    var url = encodeURI("https://www.warcraftlogs.com/v1/parses/character/" + name + "/" + realm + "/" + region + "?metric="+metric+"&zone="+zone+"&api_key=" + config.warcraftLogs.api_key);
 
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
