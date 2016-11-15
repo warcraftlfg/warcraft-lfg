@@ -360,6 +360,8 @@
     "REGION_DE_DE#EUROPE_SHORT": "DE",
     "REGION_en_GB#Europe": "Angleterre",
     "REGION_EN_GB#EUROPE_SHORT": "EN",
+    "REGION_en_US#America": "Amérique du Nord",
+    "REGION_EN_US#AMERICA_SHORT": "NA",
     "REGION_en_US#Australia": "Australie",
     "REGION_EN_US#AUSTRALIA_SHORT": "OC",
     "REGION_es_ES#Europe": "Espagne",
