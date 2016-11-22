@@ -24,6 +24,46 @@ var russianRealms = {
     "Galakrond": "Галакронд"
 };
 
+var frenchRealms = {
+    "Arak-arahm": "arakarahm",
+    "Arathi": "arathi",
+    "Archimonde": "archimonde",
+    "Chants éternels": "chants-eternels",
+    "Cho'gall": "cho’gall",
+    "Confrérie du Thorium": "confrerie-du-thorium",
+    "Conseil des Ombres": "conseil-des-ombres",
+    "Culte de la Rive noire": "culte-de-la-rive-noire",
+    "Dalaran": "dalaran",
+    "Drek'Thar": "drekthar",
+    "Eitrigg": "eitrigg",
+    "Eldre'Thalas": "eldrethalas",
+    "Elune": "elune",
+    "Garona": "garona",
+    "Hyjal": "hyjal",
+    "Illidan": "illidan",
+    "Kael'thas": "kaelthas",
+    "Khaz Modan": "khaz-modan",
+    "Kirin Tor": "kirin-tor",
+    "Krasus": "krasus",
+    "La Croisade écarlate": "la-croisade-ecarlate",
+    "Les Clairvoyants": "les-clairvoyants",
+    "Les Sentinelles": "les-sentinelles",
+    "Marécage de Zangar": "marecage-de-zangar",
+    "Medivh": "medivh",
+    "Naxxramas": "naxxramas",
+    "Ner'zhul": "ner’zhul",
+    "Rashgarroth": "rashgarroth",
+    "Sargeras": "sargeras",
+    "Sinstralis": "sinstralis",
+    "Temple noir": "temple-noir",
+    "Throk'Feroth": "throkferoth",
+    "Uldaman": "uldaman",
+    "Varimathras": "varimathras",
+    "Vol'jin": "voljin",
+    "Ysondre": "ysondre"
+};
+
+
 /**
  * Return the guild ranking from warcraftLogs
  * @param region
@@ -40,6 +80,10 @@ module.exports.getRankings = function (region, realm, name, metric, zone, callba
 
     if (region.toLowerCase() == "eu" && russianRealms[realm]) {
         realm = russianRealms[realm];
+    }
+
+    if (region.toLowerCase() == "eu" && frenchRealms[realm]) {
+        realm = frenchRealms[realm];
     }
 
     realm = realm.split(" ").join("-");
