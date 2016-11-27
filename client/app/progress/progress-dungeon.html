@@ -12,15 +12,15 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.dungeon" class="form-control">
                                             <option value="">{{"ALL_DUNGEONS"|translate}}</option>
-                                            <option value="">{{"BLACK_ROOK_HOLD"|translate}}</option>
-                                            <option value="">{{"COURT_OF_STARS"|translate}}</option>
-                                            <option value="">{{"DARKHEART_THICKET"|translate}}</option>
-                                            <option value="">{{"EYE_OF_AZSHARA"|translate}}</option>
-                                            <option value="">{{"HALL_OF_VALOR"|translate}}</option>
-                                            <option value="">{{"MAW_OF_SOULS"|translate}}</option>
-                                            <option value="">{{"NELTHARIONS_LAIR"|translate}}</option>
-                                            <option value="">{{"THE_ARCWAY"|translate}}</option>
-                                            <option value="">{{"VAULT_OF_THE_WARDENS"|translate}}</option>
+                                            <option value="Black Rook Hold">{{"BLACK_ROOK_HOLD"|translate}}</option>
+                                            <option value="Court of Stars">{{"COURT_OF_STARS"|translate}}</option>
+                                            <option value="Darkheart Thicket">{{"DARKHEART_THICKET"|translate}}</option>
+                                            <option value="Eye of Azshara">{{"EYE_OF_AZSHARA"|translate}}</option>
+                                            <option value="Halls of Valor">{{"HALL_OF_VALOR"|translate}}</option>
+                                            <option value="Maw of Souls">{{"MAW_OF_SOULS"|translate}}</option>
+                                            <option value="Neltharion's Lair">{{"NELTHARIONS_LAIR"|translate}}</option>
+                                            <option value="The Arcway">{{"THE_ARCWAY"|translate}}</option>
+                                            <option value="Vault of the Wardens">{{"VAULT_OF_THE_WARDENS"|translate}}</option>
                                         </select>
                                     </span>
                                 </div>
@@ -30,11 +30,11 @@
                                         <select ng-model="filters.region" class="form-control">
                                             <option value="">{{ "WORLD"|translate }}</option>
                                             <option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>
-                                            <option style="font-size: 2pt;" disabled>&nbsp;</option>
+                                            <!--<option style="font-size: 2pt;" disabled>&nbsp;</option>
                                             <option style="font-size: 0.1pt; background-color: #ccc;"
                                                     disabled>&nbsp;</option>
                                             <option style="font-size: 2pt;" disabled>&nbsp;</option>
-                                            <option value="{{ key }}" ng-repeat="(key, subregion) in rankingSubregions">{{ "REGION_"+subregion|translate }}</option>
+                                            <option value="{{ key }}" ng-repeat="(key, subregion) in rankingSubregions">{{ "REGION_"+subregion|translate }}</option>-->
                                         </select>
                                     </span>
                                 </div>
@@ -58,14 +58,14 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.affixes" class="form-control">
                                             <option value="">All affixes</option>
-                                            <option value="">Raging, Necrotic, Fortified</option>
-                                            <option value="">Bolstering, Overflowing, Tyrannical</option>
-                                            <option value="">Sanguine, Volcanic, Fortified</option>
-                                            <option value="">Teeming, Necrotic, Tyrannical</option>
-                                            <option value="">Raging, Volcanic, Tyrannical</option>
-                                            <option value="">Bolstering, Skittish, Fortified</option>
-                                            <option value="">Sanguine, Overflowing, Tyrannical</option>
-                                            <option value="">Teeming, Skittish, Fortified</option>
+                                            <option value="Raging Necrotic Fortified">Raging, Necrotic, Fortified</option>
+                                            <option value="Bolstering Overflowing Tyrannical">Bolstering, Overflowing, Tyrannical</option>
+                                            <option value="Sanguine Volcanic Fortified">Sanguine, Volcanic, Fortified</option>
+                                            <option value="Teeming Necrotic Tyrannical">Teeming, Necrotic, Tyrannical</option>
+                                            <option value="Raging Volcanic Tyrannical">Raging, Volcanic, Tyrannical</option>
+                                            <option value="Bolstering Skittish Fortified">Bolstering, Skittish, Fortified</option>
+                                            <option value="Sanguine Overflowing Tyrannical">Sanguine, Overflowing, Tyrannical</option>
+                                            <option value="Teeming Skittish Fortified">Teeming, Skittish, Fortified</option>
                                         </select>
                                     </span>
                                 </div>

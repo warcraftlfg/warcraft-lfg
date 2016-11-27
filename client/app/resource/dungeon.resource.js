@@ -7,7 +7,7 @@
 
     Dungeon.$inject = ['$resource', '__env'];
     function Dungeon($resource, __env) {
-        return $resource(__env.apiProgressUrl+'/api/v1/dungeons/legion/:region/:realm/:dungeon', {}, {
+        return $resource(__env.apiProgressUrl+'/api/v1/dungeons/legion/', {}, {
         	get: { method: 'get', withCredentials: false, isArray: true }
         });
     }

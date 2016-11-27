@@ -30,25 +30,28 @@
             })
 
             .state("progressDungeon", {
-                url: "/mythic/:page",
+                url: "/dungeon/?dungeon&affixes",
                 templateUrl: "app/progress/progress-dungeon.html",
                 controlerAs: 'vm',
                 title: 'WarcraftProgress',
-                controller: "ProgressDungeonController"
+                controller: "ProgressDungeonController",
+                reloadOnSearch: false
             })
             .state("progressDungeonRegion", {
-                url: "/pve/:region/:page",
+                url: "/dungeon/:region/?dungeon&affixes",
                 templateUrl: "app/progress/progress-dungeon.html",
                 controlerAs: 'vm',
                 title: 'WarcraftProgress',
-                controller: "ProgressDungeonController"
+                controller: "ProgressDungeonController",
+                reloadOnSearch: false
             })
             .state("progressDungeonRealm", {
-                url: "/pve/:region/:realm/:page",
+                url: "/dungeon/:region/:realm/?dungeon&affixes",
                 templateUrl: "app/progress/progress-dungeon.html",
                 controlerAs: 'vm',
                 title: 'WarcraftProgress',
-                controller: "ProgressDungeonController"
+                controller: "ProgressDungeonController",
+                reloadOnSearch: false
             })
         ;
     }

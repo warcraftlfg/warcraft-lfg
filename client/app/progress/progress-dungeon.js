@@ -48,7 +48,7 @@
 
         //Reset error message
         $scope.$parent.error = null;
-        $scope.path = "pve/";
+        $scope.path = "dungeon/";
         if ($stateParams.region) {
             $scope.path += $stateParams.region + "/";
             $scope.filters.region = $stateParams.region;
@@ -75,19 +75,32 @@
                 }
 
                 if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
-                    $scope.path = "pve/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
-                    $state.go('progressRealm', {
+                    $scope.path = "dungeon/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
+                    $state.go('progressDungeonRealm', {
                         region: $scope.filters.region,
                         realm: $scope.filters.realm,
                         page: null
                     }, {notify: false});
                 } else if ($scope.filters.region) {
-                    $scope.path = "pve/" + $scope.filters.region + "/";
-                    $state.go('progressRegion', {region: $scope.filters.region, page: null}, {notify: false});
+                    $scope.path = "dungeon/" + $scope.filters.region + "/";
+                    $state.go('progressDungeonRegion', {region: $scope.filters.region, page: null}, {notify: false});
                 } else {
-                    $scope.path = "pve/";
-                    $state.go('progress', {page: null}, {notify: false});
+                    $scope.path = "dungeon/";
+                    $state.go('progressDungeon', {page: null}, {notify: false});
                 }
+
+                if ($scope.filters.dungeon != "") {
+                    $location.search('dungeon', $scope.filters.dungeon);
+                } else {
+                    $location.search('dungeon', null);
+                }
+
+                if ($scope.filters.affixes != "") {
+                    $location.search('affixes', $scope.filters.affixes);
+                } else {
+                    $location.search('affixes', null);
+                }
+
             }
 
             $scope.ranking = [];
@@ -101,18 +114,18 @@
                 if (initialLoadingPage) {
                     if ($scope.page != $scope.lastPage) {
                         if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
-                            $scope.path = "pve/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
-                            $state.go('progressRealm', {
+                            $scope.path = "dungeon/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
+                            $state.go('progressDungeonRealm', {
                                 region: $scope.filters.region,
                                 realm: $scope.filters.realm,
                                 page: $scope.page
                             }, {notify: false});
                         } else if ($scope.filters.region) {
-                            $scope.path = "pve/" + $scope.filters.region + "/";
-                            $state.go('progressRegion', {region: $scope.filters.region, page: $scope.page}, {notify: false});
+                            $scope.path = "dungeon/" + $scope.filters.region + "/";
+                            $state.go('progressDungeonRegion', {region: $scope.filters.region, page: $scope.page}, {notify: false});
                         } else {
-                            $scope.path = "pve/";
-                            $state.go('progress', {page: $scope.page}, {notify: false});
+                            $scope.path = "dungeon/";
+                            $state.go('progressDungeon', {page: $scope.page}, {notify: false});
                         }
                         $scope.lastPage = $scope.page;
                     }
@@ -129,6 +142,7 @@
 
         function getRankings() {
             $scope.loading = true;
+            $scope.rankings = [];
             var query;
 
             query = angular.copy($scope.filters);
@@ -138,15 +152,15 @@
             } else {
                 query.region = __env.rankingSubregions[query.region];
             }
-            query.limit = 20;
+            query.limit = 50;
             query.start = (($scope.page - 1) * 20) + 1;
 
-            $scope.noResults= false;
+            $scope.noResults = false;
             dungeon.get(query, function (ranking) {
                 if (ranking) {
                     $scope.rankings = ranking;
                     if (Object.keys(ranking).length <= 2) {
-                        $scope.noResults= true;
+                        $scope.noResults = true;
                     }
                 }
                 $scope.loading = false;

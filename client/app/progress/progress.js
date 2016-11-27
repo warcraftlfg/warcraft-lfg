@@ -143,6 +143,7 @@
 
             angular.forEach(__env.tiers.current, function(value, key) {
                 $scope.noResults[key] = false;
+                $scope.rankings[key] = [];
                 query.raid = $scope.raids[key].name;
                 ranking.get(query, function (ranking) {
                     if (ranking) {
