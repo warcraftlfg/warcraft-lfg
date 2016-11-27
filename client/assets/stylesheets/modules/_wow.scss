@@ -330,3 +330,22 @@
   &.boss-8 { background-image: url('../images/external/bosses/19.5/8.jpg'); }
   &.boss-9 { background-image: url('../images/external/bosses/19.5/9.jpg'); }
 }
+
+/* Dungeon affixes */
+.dungeon-affixe {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  background-size: contain;
+
+  &.bolstering { background-image: url('../images/external/dungeon/bolstering.jpg'); }
+  &.fortified { background-image: url('../images/external/dungeon/fortified.jpg'); }
+  &.nectrotic { background-image: url('../images/external/dungeon/nectrotic.jpg'); }
+  &.overflowing { background-image: url('../images/external/dungeon/overflowing.jpg'); }
+  &.raging { background-image: url('../images/external/dungeon/raging.jpg'); }
+  &.sanguine { background-image: url('../images/external/dungeon/sanguine.jpg'); }
+  &.skittish { background-image: url('../images/external/dungeon/skittish.jpg'); }
+  &.teeming { background-image: url('../images/external/dungeon/teeming.jpg'); }
+  &.tyrannical { background-image: url('../images/external/dungeon/tyrannical.jpg'); }
+  &.volcanic { background-image: url('../images/external/dungeon/volcanic.jpg'); }
+}
