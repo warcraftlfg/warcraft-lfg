@@ -243,7 +243,7 @@ module.exports.parseWarcraftLogs = function (wclDps, wclHps, characterClass) {
         9: {"Affliction": 0, "Demonology": 1, "Destruction": 2},
         10: {"Brewmaster": 0, "Mistweaver": 1, "Windwalker": 2},
         11: {"Balance": 0, "Feral": 1, "Guardian": 2, "Restoration": 3},
-        12: {"Havoc": 0, "Vengeance": 2}
+        12: {"Havoc": 0, "Vengeance": 1}
     }
 
     var classSpec = {
@@ -258,7 +258,7 @@ module.exports.parseWarcraftLogs = function (wclDps, wclHps, characterClass) {
         9: {0: "dps", 1: "dps", 2: "dps", 3: null},
         10: {0: "tank", 1: "heal", 2: "dps", 3: null},
         11: {0: "dps", 1: "dps", 2: "tank", 3: "heal"},
-        12: {0: "dps", 1: "dps", 2: null, 3: null}
+        12: {0: "dps", 1: "tank", 2: null, 3: null}
     };
 
     if (wclDps || wclHps) {

@@ -261,7 +261,7 @@ module.exports.getGuildParser = function (req, res) {
         "bnet.class": 1,
         "bnet.race": 1,
         "bnet.level": 1,
-        "bnet.progression.raids": {$slice: [config.currentCharacterProgress, 1]},
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress, config.currentCharacterProgressLength]},
         "bnet.talents": 1,
         "warcraftLogs": 1
     };

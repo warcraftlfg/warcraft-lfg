@@ -9,8 +9,8 @@
 
         <title ng-bind="wlfgAppTitle.title()">WarcraftHub</title>
 
-        <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard, Progress, Parser, Strategy, Kill, History, Rating, Loot, Statistic, Armory, Instance, Achievement.">
-        <meta name="description" content="WarcraftHub - Recruitment, PvE Ranking, Roster analysis. Warcraft Progress | Warcraft LFG | Warcraft Parser">
+        <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard, Progress, Parser, Strategy, Kill, History, Rating, Loot, Statistic, Armory, Instance, Achievement, Mythic+.">
+        <meta name="description" content="WarcraftHub - Recruitment, PvE Ranking, Mythic+ Ranking, Roster analysis. Warcraft Progress | Warcraft LFG | Warcraft Parser">
         <meta name="robots" content="index,follow" />
         <meta name="wot-verification" content="f5398c96908c90e06fc3"/>
 
@@ -163,6 +163,7 @@
         <script src="/app/resource/stats.resource.js"></script>
         <script src="/app/resource/progress.resource.js"></script>
         <script src="/app/resource/search.resource.js"></script>
+        <script src="/app/resource/dungeon.resource.js"></script>
 
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
@@ -229,8 +230,10 @@
         <!-- progress -->
         <script src="/app/progress/progress.module.js"></script>
         <script src="/app/progress/directive/boss/progress.boss.directive.js"></script>
+        <script src="/app/progress/directive/dungeon/dungeon-realm.directive.js"></script>
         <script src="/app/progress/config.route.js"></script>
         <script src="/app/progress/progress.js"></script>
+        <script src="/app/progress/progress-dungeon.js"></script>
 
         <!-- parser -->
         <script src="/app/parser/parser.module.js"></script>

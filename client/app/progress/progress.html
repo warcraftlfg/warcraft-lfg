@@ -1,5 +1,5 @@
 <div class="dashboard-intro-progress"></div>
-<div class="m-b-20">
+<div class="m-b-20" id="page">
     <div class="bg-black">
         <div class="container">
             <div class="row">
@@ -78,17 +78,21 @@
                     </th>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td colspan="5" ng-if="filters.realm || filters.region" class="text-center bold">{{ raids[0].name | translate }}</td>
+                        <td colspan="4" ng-if="!filters.realm && !filters.region" class="text-center bold">{{ raids[0].name | translate }}</td>
+                    </tr> 
                     <tr class="text-center" ng-if="loading">
                         <td colspan="12" class="p-15 ranking-loading">
                             <i class="fa fa-2x fa-spinner fa-spin"></i>
                         </td>
                     </tr>
-                    <tr class="text-center" ng-if="noResult">
+                    <tr class="text-center" ng-if="noResults[0]">
                         <td colspan="12" class="p-15 loading">
                             {{ "NO_DATA"|translate }}
                         </td>
                     </tr>
-                    <tr ng-repeat="(rank,guild) in ranking" ng-if="$index < 10">
+                    <tr ng-repeat="(rank,guild) in rankings[0]">
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}"
                             class="bold">
                             {{rank}}
@@ -100,6 +104,8 @@
                             </a>
                             <i ng-if="guild.lfg" class="fa fa-file-text-o txt-white m-l-5 f-12" tooltip-placement="top"
                                uib-tooltip="{{ 'RECRUITMENT'|translate }}"></i>
+                            <i ng-if="guild.parser" class="fa fa-bar-chart txt-white m-l-5 f-12" tooltip-placement="top"
+                               uib-tooltip="{{ 'PARSER'|translate }}"></i>
                         </td>
                         <td ng-show="!filters.realm">
                             <a href="{{ hashbang }}/pve/{{ guild.region }}/{{ guild.realm }}/"
@@ -112,15 +118,14 @@
                             {{guild.world}}
                         </td>
                         <td>
-                            <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
+                            <span wlfg-progress-guild="guild.progress" data-key="0"></span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-md-6">
-                <table class="table table-condensed table-striped table-hover"
-                       ng-show="'Object.keys(ranking).length > 10'">
+                <table class="table table-condensed table-striped table-hover">
                     <thead>
                     <th>
                         {{"RANK"|translate}}
@@ -139,17 +144,21 @@
                     </th>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td colspan="5" ng-if="filters.realm || filters.region" class="text-center bold">{{ raids[1].name | translate }}</td>
+                        <td colspan="4" ng-if="!filters.realm && !filters.region" class="text-center bold">{{ raids[1].name | translate }}</td>
+                    </tr>
                     <tr class="text-center" ng-if="loading">
                         <td colspan="12" class="p-15 ranking-loading">
                             <i class="fa fa-2x fa-spinner fa-spin"></i>
                         </td>
                     </tr>
-                    <tr class="text-center" ng-if="noResult">
+                    <tr class="text-center" ng-if="noResults[1]">
                         <td colspan="12" class="p-15 loading">
                             {{ "NO_DATA"|translate }}
                         </td>
                     </tr>
-                    <tr ng-repeat="(rank,guild) in ranking" ng-if="$index >= 10">
+                    <tr ng-repeat="(rank,guild) in rankings[1]">
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}"
                             class="bold">
                             {{rank}}
@@ -159,6 +168,10 @@
                                class="bold">
                                 {{guild.name}}
                             </a>
+                            <i ng-if="guild.lfg" class="fa fa-file-text-o txt-white m-l-5 f-12" tooltip-placement="top"
+                               uib-tooltip="{{ 'RECRUITMENT'|translate }}"></i>
+                            <i ng-if="guild.parser" class="fa fa-bar-chart txt-white m-l-5 f-12" tooltip-placement="top"
+                               uib-tooltip="{{ 'PARSER'|translate }}"></i>
                         </td>
                         <td ng-show="!filters.realm">
                             <a href="{{ hashbang }}/pve/{{ guild.region }}/{{ guild.realm }}/"
@@ -171,7 +184,7 @@
                             {{guild.world}}
                         </td>
                         <td>
-                            <wlfg-progress-boss progress="{{ guild.progress }}"></wlfg-progress-boss>
+                            <span wlfg-progress-guild="guild.progress" data-key="1"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -183,9 +196,10 @@
                 <nav>
                     <ul class="pagination m-0">
                         <li class="page-item" ng-class="{'disabled': page <= 1}">
-                            <a ng-if="page > 1" ng-href="{{ hashbang }}/{{ path }}{{ (page - 1) }}"><span
-                                    class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo; &nbsp; Previous</span></span></a>
-                            <span ng-if="page <= 1" aria-hidden="true">&laquo; &nbsp; {{"PREVIOUS"|translate }}</span>
+                            <a ng-click="backPage()">
+                                <span class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo; &nbsp; {{"PREVIOUS"|translate }}</span></span>
+                            </a>
+                            <a class="hide" ng-href="{{ hashbang }}/{{ path }}{{ (page - 1) }}"></a>
                         </li>
                     </ul>
                 </nav>
@@ -194,11 +208,10 @@
                 <nav>
                     <ul class="pagination m-0">
                         <li class="page-item" ng-class="{'disabled': noResult}">
-                            <a ng-href="{{ hashbang }}/{{ path }}{{ (page + 1) }}">
-                            <span class="page-link" aria-label="Previous">
-                                <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
-                            </span>
+                            <a ng-click="nextPage()">
+                                    <span class="page-link" aria-label="Previous"><span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span></span>
                             </a>
+                            <a class="hide" ng-href="{{ hashbang }}/{{ path }}{{ (page + 1) }}"></a>
                         </li>
                     </ul>
                 </nav>
@@ -206,92 +219,77 @@
         </div>
     </div>
 </div>
-<div class="dashboard-table">
+<div class="">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <h3 class="m-b-20">Heroic Emerald Nightmare</h3>
+            <div class="col-md-4">
+                <h3 class="m-b-20">Normal</h3>
                 <table class="table table-condensed">
-                    <tr ng-repeat="(boss,value) in stats.stats.heroic">
-                        <td>H: {{boss}}</td>
-                        <td>{{value}} ({{value/stats.stats.count*100|number:2}}%)</td>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[0].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[0].stats.normal">
+                        <td class="bold">N: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[1].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[1].stats.normal">
+                        <td class="bold">N: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
-            <div class="col-md-6">
-                <h3 class="m-b-20">Normal Emerald Nightmare</h3>
+            <div class="col-md-4">
+                <h3 class="m-b-20">Heroic</h3>
                 <table class="table table-condensed">
-                    <tr ng-repeat="(boss,value) in stats.stats.normal">
-                        <td>N: {{boss}}</td>
-                        <td>{{value}} ({{value/stats.stats.count*100|number:2}}%)</td>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[0].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[0].stats.heroic">
+                        <td class="bold">H: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[1].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[1].stats.heroic">
+                        <td class="bold">H: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
+            <div class="col-md-4">
+                <h3 class="m-b-20">Mythic</h3>
+                <table class="table table-condensed">
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[0].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[0].stats.mythic">
+                        <td class="bold">M: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[1].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[1].stats.mythic">
+                        <td class="bold">M: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-12 italic m-b-20">
+                Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats[0].stats.count}} ({{ raids[0].name | translate }}) and {{ stats[1].stats.count }} ({{ raids[1].name | translate }}) guilds. (Show time stats: <a href="{{ hashbang }}/stats/19/The Emerald Nightmare" class="txt-underline">{{ raids[0].name | translate }}</a> - <a href="{{ hashbang }}/stats/19/Trial of Valor" class="txt-underline">{{ raids[1].name | translate }}</a> )
+            </div>
+
         </div>
-        <div class="italic">
-            Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats.stats.count}} guilds.
-        </div>
+
     </div>
 </div>
-
-<!--<div class="dashboard-table">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="m-b-20">Mythic Hellfire Citadel</h3>
-                <table class="table table-condensed">
-                    <tr ng-repeat="guild in guildAds">
-                        <td ng-class="{'logo-warcraftlfg':guild.id}" class="icon-small">
-                            <span class="source-tooltip"
-                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
-                                  ng-if="guild.id">
-                            </span>
-                        </td>
-                        <td class="faction-{{guild.bnet.side}}">
-                            <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/"
-                               class="bold txt-underline">
-                                {{guild.name}}
-                            </a>
-                        </td>
-                        <td>
-                            {{guild.realm}}
-                        </td>
-                        <td>
-                            {{guild.region|uppercase}}
-                        </td>
-                        <td class="hidden-xs">
-                            {{"UPDATED"|translate}} <span am-time-ago="guild.ad.updated"></span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <h3 class="m-b-20">Heroic Hellfire Citadel</h3>
-                <table class="table table-condensed">
-                    <tr ng-repeat="character in characterAds">
-                        <td ng-class="{'logo-warcraftlfg':character.id}" class="icon-small">
-                            <span class="source-tooltip"
-                                  uib-tooltip='{{"AD_SOURCE_WARCRAFTLFG"|translate}}'
-                                  ng-if="character.id"></span>
-                        </td>
-                        <td class="class-{{character.bnet.class}}">
-                            <a href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/"
-                               class="bold txt-underline class-{{character.bnet.class}}">
-                                {{character.name}}
-                            </a>
-                        </td>
-                        <td>
-                            {{character.realm}}
-                        </td>
-                        <td>
-                            {{character.region|uppercase}}
-                        </td>
-                        <td class="hidden-xs">
-                            {{"UPDATED"|translate}} <span am-time-ago="character.ad.updated"></span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>-->

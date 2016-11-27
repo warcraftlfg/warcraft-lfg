@@ -73,7 +73,11 @@
         $scope.sort = 'name';
 
         $scope.lastReset = getLastDay();
-        $scope.raid = __env.tiers[__env.tiers.current];
+        $scope.raids = [];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            $scope.raids.push(__env.tiers[value]);
+        });
+
         $scope.itemSlot = __env.itemSlot;
         $scope.currentTier = __env.tiers.current;
 

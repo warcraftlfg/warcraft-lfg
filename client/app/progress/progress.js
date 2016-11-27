@@ -13,11 +13,20 @@
         $scope.$parent.loading = true;
         $scope.rankingRegions = __env.rankingRegions;
         $scope.rankingSubregions = __env.rankingSubregions;
-        $scope.filters = {tier: __env.tiers.current, raid: __env.tiers[__env.tiers.current].name};
+        $scope.filters = {tier: __env.tiers.current[0], raid: __env.tiers[__env.tiers.current[0]].name};
         $scope.filters.states = {};
         $scope.filters.realm = null;
         $scope.realms = [];
+        $scope.rankings = [];
+        $scope.stats = [];
+        $scope.noResults = [];
         var initialLoading = false;
+        var initialLoadingPage = false;
+
+        $scope.raids = [];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            $scope.raids.push(__env.tiers[value]);
+        });
 
         $scope.localRealms = {
             selectAll: $translate.instant("SELECT_ALL"),
@@ -50,6 +59,7 @@
         }
 
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
+        $scope.lastPage = $scope.page;
 
         $scope.$watch('filters.region', function () {
             $timeout(function () {
@@ -59,7 +69,10 @@
 
         $scope.$watch('filters', function () {
             if (initialLoading) {
-                $scope.page = 1;
+                if ($scope.page > 1) {
+                    $scope.page = 1;
+                    initialLoadingPage = false;
+                }
 
                 if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
                     $scope.path = "pve/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
@@ -67,13 +80,13 @@
                         region: $scope.filters.region,
                         realm: $scope.filters.realm,
                         page: null
-                    });
+                    }, {notify: false});
                 } else if ($scope.filters.region) {
                     $scope.path = "pve/" + $scope.filters.region + "/";
-                    $state.go('progressRegion', {region: $scope.filters.region, page: null});
+                    $state.go('progressRegion', {region: $scope.filters.region, page: null}, {notify: false});
                 } else {
                     $scope.path = "pve/";
-                    $state.go('progress', {page: null});
+                    $state.go('progress', {page: null}, {notify: false});
                 }
             }
 
@@ -82,6 +95,35 @@
 
             initialLoading = true;
         }, true);
+
+        $scope.$watch('page', function () {
+            if ($scope.page >= 1) {
+                if (initialLoadingPage) {
+                    if ($scope.page != $scope.lastPage) {
+                        if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
+                            $scope.path = "pve/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
+                            $state.go('progressRealm', {
+                                region: $scope.filters.region,
+                                realm: $scope.filters.realm,
+                                page: $scope.page
+                            }, {notify: false});
+                        } else if ($scope.filters.region) {
+                            $scope.path = "pve/" + $scope.filters.region + "/";
+                            $state.go('progressRegion', {region: $scope.filters.region, page: $scope.page}, {notify: false});
+                        } else {
+                            $scope.path = "pve/";
+                            $state.go('progress', {page: $scope.page}, {notify: false});
+                        }
+                        $scope.lastPage = $scope.page;
+                    }
+
+                    $scope.ranking = [];
+                    getRankings();
+                }
+            }
+
+            initialLoadingPage = true;
+        });
 
         $scope.$parent.loading = false;
 
@@ -98,24 +140,31 @@
             }
             query.limit = 20;
             query.start = (($scope.page - 1) * 20) + 1;
-            $scope.noResult = false;
-            ranking.get(query, function (ranking) {
-                if (ranking) {
-                    $scope.ranking = ranking;
-                    if (Object.keys(ranking).length <= 2) {
-                        $scope.noResult = true;
+
+            angular.forEach(__env.tiers.current, function(value, key) {
+                $scope.noResults[key] = false;
+                query.raid = $scope.raids[key].name;
+                ranking.get(query, function (ranking) {
+                    if (ranking) {
+                        $scope.rankings[key] = ranking;
+                        if (Object.keys(ranking).length <= 2) {
+                            $scope.noResults[key] = true;
+                        }
                     }
-                }
-                $scope.loading = false;
+                    $scope.loading = false;
+                });
             });
         }
 
-        stats.get({
-            "tier": __env.tiers.current,
-            "raid": __env.tiers[__env.tiers.current].name,
-            "limit": 1
-        }, function (stats) {
-            $scope.stats = stats[0];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            stats.get({
+                "tier": __env.tiers.current[key],
+                "raid": __env.tiers[__env.tiers.current[key]].name,
+                "type": "guild",
+                "limit": 1
+            }, function (stats) {
+                $scope.stats[key] = stats[0];
+            });
         });
 
         /* Realm stuff */
@@ -131,6 +180,16 @@
             angular.forEach($scope.realms, function (realm) {
                 realm.selected = false;
             });
+        };
+
+        $scope.backPage = function() {
+            if ($scope.page > 1) {
+                $scope.page--;
+            }
+        };
+
+        $scope.nextPage = function() {
+            $scope.page++;
         };
 
         $scope.$on('get:realms', function () {

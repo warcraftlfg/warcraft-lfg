@@ -66,3 +66,26 @@
 		max-width: 500px !important;
 	}
 }
+
+.dungeon-tooltips {
+	.tooltip-inner {
+		padding-bottom: 0px;
+		max-width: 500px !important;
+
+		table {
+			border-bottom: 0px solid black;
+			background-color: #000 !important;
+
+			tr td {
+				border-top: 0px solid black;
+				padding-top: 0px;
+				padding-bottom: 3px;
+			}
+		}
+
+	}
+
+	.tooltip-inner table tr::last-child td {
+		padding-bottom: 0px !important;
+	}
+}

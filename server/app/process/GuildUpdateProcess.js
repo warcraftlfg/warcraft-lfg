@@ -58,7 +58,7 @@ GuildUpdateProcess.prototype.updateGuild = function () {
         function (region, priority, guild, callback) {
             if (priority > 0) {
                 //Set guild to update for progress (change with url call update)
-                updateModel.insert('wp_gu', region, guild.realm, guild.name, 5, function (error) {
+                updateModel.insert('wp_gu', region, guild.realm, guild.name, priority == 5 ? 10 : priority, function (error) {
                     callback(error, region, guild);
                 });
             } else {
@@ -113,29 +113,76 @@ GuildUpdateProcess.prototype.updateGuild = function () {
                     }
                 },
                 rank: function (callback) {
-                    progressAPI.getRank(config.currentProgress, config.currentRaid, region, guild.realm, guild.name, function (error, rank) {
-                        if (error) {
-                            logger.error(error.message);
-                            callback();
-                        } else if (rank) {
-                            rank.updated = new Date().getTime();
-                            callback(null, rank);
-                        } else {
-                            callback();
+
+                    var result = {};
+                    var nbResult = 0;
+                    async.forEachSeries(config.progress, function (progress, callback) {
+                        if (result[progress.tier] == null)
+                            result[progress.tier] = {};
+                        progressAPI.getRank(progress.tier, progress.raid, region, guild.realm, guild.name, function (error, rank) {
+                            if (error) {
+                                logger.error(error.message);
+                                callback();
+                            } else if (rank) {
+                                result.updated = new Date().getTime();
+                                if (result.world && result.region && result.realm && result.locale) {
+                                    result.world = result.world + rank.world;
+                                    result.region = result.region + rank.region;
+                                    result.realm = result.realm + rank.realm;
+                                    result.locale.rank = result.locale.rank + rank.locale.rank;
+                                }
+                                else {
+                                    result.world = rank.world;
+                                    result.region = rank.region;
+                                    result.realm = rank.realm;
+                                    result.locale = rank.locale;
+                                }
+                                nbResult++;
+                                result[progress.tier][progress.raid] = rank;
+                                callback();
+                            } else {
+                                callback();
+                            }
+                        });
+                    }, function () {
+                        if (nbResult > 0) {
+                            result.world = result.world / nbResult;
+                            result.region = result.region / nbResult;
+                            result.realm = result.realm / nbResult;
+                            result.locale.rank = result.locale.rank / nbResult;
                         }
+                        callback(null, result);
                     });
+
                 },
                 progress: function (callback) {
-                    progressAPI.getProgress(config.currentProgress, config.currentRaid, region, guild.realm, guild.name, function (error, progress) {
-                        if (error) {
-                            logger.error(error.message);
-                            callback()
-                        } else if (progress) {
-                            progress.updated = new Date().getTime();
-                            callback(null, progress);
-                        } else {
-                            callback();
-                        }
+                    var result = {};
+                    async.forEachSeries(config.progress, function (progress, callback) {
+                        if (result[progress.tier] == null)
+                            result[progress.tier] = {};
+                        progressAPI.getProgress(progress.tier, progress.raid, region, guild.realm, guild.name, function (error, progressResult) {
+                            if (error) {
+                                logger.error(error.message);
+                                callback()
+                            } else if (progressResult) {
+                                result.updated = new Date().getTime();
+                                if (result.normalCount && result.heroicCount && result.mythicCount) {
+                                    result.normalCount = result.normalCount + progressResult.normalCount;
+                                    result.heroicCount = result.heroicCount + progressResult.heroicCount;
+                                    result.mythicCount = result.mythicCount + progressResult.mythicCount;
+                                } else {
+                                    result.normalCount = progressResult.normalCount;
+                                    result.heroicCount = progressResult.heroicCount;
+                                    result.mythicCount = progressResult.mythicCount;
+                                }
+                                result[progress.tier][progress.raid] = progressResult;
+                                callback();
+                            } else {
+                                callback();
+                            }
+                        });
+                    }, function () {
+                        callback(null, result);
                     });
                 }
             }, function (error, results) {

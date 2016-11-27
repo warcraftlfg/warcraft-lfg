@@ -11,6 +11,7 @@ var updateService = process.require("updates/updateService.js");
 var characterModel = process.require("characters/characterModel.js");
 var characterService = process.require("characters/characterService.js");
 var characterParsing = process.require("characters/characterParsing.js");
+var realmModel = process.require("realms/realmModel.js")
 
 /**
  * CharacterUpdateProcess constructor
@@ -54,6 +55,16 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
             })
         },
         function (region, character, callback) {
+            realmModel.findOne({region: region, name: character.realm}, {"bnet.slug": 1}, function(error, realm) {
+                if (realm && realm.bnet && realm.bnet.slug) {
+                    callback(error, region, character, realm.bnet.slug);
+                } else {
+                    logger.warn("Can't find realm slug for realm!");
+                    callback(true);                  
+                }
+            });
+        },
+        function (region, character, realmSlug, callback) {
             async.parallel({
                 ad: function (callback) {
                     async.waterfall([
@@ -89,7 +100,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 },
                 warcraftLogsDps: function (callback) {
                     //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, character.realm, character.name, 'dps', function (error, warcraftLogs) {
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'dps', '10', function (error, warcraftLogs) {
                         var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);
@@ -104,7 +115,37 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 },
                 warcraftLogsHps: function (callback) {
                     //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, character.realm, character.name, 'hps', function (error, warcraftLogs) {
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'hps', '10', function (error, warcraftLogs) {
+                        var tmpObj = {};
+                        if (error && error !== true) {
+                            logger.error(error.message);
+                            tmpObj.logs = null;
+                            tmpObj.updated = new Date().getTime();
+                        } else {
+                            tmpObj.logs = warcraftLogs;
+                            tmpObj.updated = new Date().getTime();
+                        }
+                        callback(null, tmpObj);
+                    });
+                },
+                warcraftLogsDps2: function (callback) {
+                    //Get WarcraftLogs
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'dps', '12', function (error, warcraftLogs) {
+                        var tmpObj = {};
+                        if (error && error !== true) {
+                            logger.error(error.message);
+                            tmpObj.logs = null;
+                            tmpObj.updated = new Date().getTime();
+                        } else {
+                            tmpObj.logs = warcraftLogs;
+                            tmpObj.updated = new Date().getTime();
+                        }
+                        callback(null, tmpObj);
+                    });
+                },
+                warcraftLogsHps2: function (callback) {
+                    //Get WarcraftLogs
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'hps', '12', function (error, warcraftLogs) {
                         var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);
@@ -146,6 +187,14 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
 
                 // Set current specialization
                 characterParsing.parseCharacterTalents(character);
+
+                if (results.warcraftLogsDps2 && results.warcraftLogsDps2.logs && results.warcraftLogsDps2.logs.length > 0) {
+                    results.warcraftLogsDps.logs = results.warcraftLogsDps.logs.concat(results.warcraftLogsDps2.logs);
+                }
+
+                if (results.warcraftLogsHps2 && results.warcraftLogsHps2.logs && results.warcraftLogsHps2.logs.length > 0) {
+                    results.warcraftLogsHps.logs = results.warcraftLogsHps.logs.concat(results.warcraftLogsHps2.logs);
+                }
 
                 // Clean warcraftLogs
                 results.warcraftLogs = {};

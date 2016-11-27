@@ -7,7 +7,7 @@
 
     Stats.$inject = ['$resource', '__env'];
     function Stats($resource, __env) {
-        return $resource(__env.apiProgressUrl + '/api/v1/stats/boss/:tier/:raid', {}, {
+        return $resource(__env.apiProgressUrl + '/api/v1/stats/:type/:subtype/:tier/:raid', {}, {
             get: { method: 'get', withCredentials: false,  isArray: true}
         });
     }
