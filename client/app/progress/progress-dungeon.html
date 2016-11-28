@@ -126,7 +126,7 @@
                                 {{ $index + 1 }}
                             </td>
                             <td>
-                                <img ng-repeat="affixe in team.affixes" ng-src="/assets/images/external/dungeon/{{ affixe|lowercase }}.jpg" width="16" ng-class="{'m-r-5': !$last}" />
+                                <div ng-repeat="affixe in team.affixes" uib-tooltip="{{affixe}}" ng-class="{'m-r-5': !$last}" class="dungeon-affixe {{affixe|lowercase}}"></div>
                             </td>
                             <td>
                                 {{ team.dungeon }}

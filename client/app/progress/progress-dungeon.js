@@ -89,13 +89,13 @@
                     $state.go('progressDungeon', {page: null}, {notify: false});
                 }
 
-                if ($scope.filters.dungeon != "") {
+                if ($scope.filters.dungeon !== "") {
                     $location.search('dungeon', $scope.filters.dungeon);
                 } else {
                     $location.search('dungeon', null);
                 }
 
-                if ($scope.filters.affixes != "") {
+                if ($scope.filters.affixes !== "") {
                     $location.search('affixes', $scope.filters.affixes);
                 } else {
                     $location.search('affixes', null);
