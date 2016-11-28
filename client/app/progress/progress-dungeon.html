@@ -12,15 +12,15 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.dungeon" class="form-control">
                                             <option value="">{{"ALL_DUNGEONS"|translate}}</option>
-                                            <option value="">{{"BLACK_ROOK_HOLD"|translate}}</option>
-                                            <option value="">{{"COURT_OF_STARS"|translate}}</option>
-                                            <option value="">{{"DARKHEART_THICKET"|translate}}</option>
-                                            <option value="">{{"EYE_OF_AZSHARA"|translate}}</option>
-                                            <option value="">{{"HALL_OF_VALOR"|translate}}</option>
-                                            <option value="">{{"MAW_OF_SOULS"|translate}}</option>
-                                            <option value="">{{"NELTHARIONS_LAIR"|translate}}</option>
-                                            <option value="">{{"THE_ARCWAY"|translate}}</option>
-                                            <option value="">{{"VAULT_OF_THE_WARDENS"|translate}}</option>
+                                            <option value="Black Rook Hold">{{"BLACK_ROOK_HOLD"|translate}}</option>
+                                            <option value="Court of Stars">{{"COURT_OF_STARS"|translate}}</option>
+                                            <option value="Darkheart Thicket">{{"DARKHEART_THICKET"|translate}}</option>
+                                            <option value="Eye of Azshara">{{"EYE_OF_AZSHARA"|translate}}</option>
+                                            <option value="Halls of Valor">{{"HALL_OF_VALOR"|translate}}</option>
+                                            <option value="Maw of Souls">{{"MAW_OF_SOULS"|translate}}</option>
+                                            <option value="Neltharion's Lair">{{"NELTHARIONS_LAIR"|translate}}</option>
+                                            <option value="The Arcway">{{"THE_ARCWAY"|translate}}</option>
+                                            <option value="Vault of the Wardens">{{"VAULT_OF_THE_WARDENS"|translate}}</option>
                                         </select>
                                     </span>
                                 </div>
@@ -29,12 +29,14 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.region" class="form-control">
                                             <option value="">{{ "WORLD"|translate }}</option>
-                                            <option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>
-                                            <option style="font-size: 2pt;" disabled>&nbsp;</option>
+                                            <option value="us">US</option>
+                                            <option value="eu">EU</option>
+                                            <!--<option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>-->
+                                            <!--<option style="font-size: 2pt;" disabled>&nbsp;</option>
                                             <option style="font-size: 0.1pt; background-color: #ccc;"
                                                     disabled>&nbsp;</option>
                                             <option style="font-size: 2pt;" disabled>&nbsp;</option>
-                                            <option value="{{ key }}" ng-repeat="(key, subregion) in rankingSubregions">{{ "REGION_"+subregion|translate }}</option>
+                                            <option value="{{ key }}" ng-repeat="(key, subregion) in rankingSubregions">{{ "REGION_"+subregion|translate }}</option>-->
                                         </select>
                                     </span>
                                 </div>
@@ -58,14 +60,14 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.affixes" class="form-control">
                                             <option value="">All affixes</option>
-                                            <option value="">Raging, Necrotic, Fortified</option>
-                                            <option value="">Bolstering, Overflowing, Tyrannical</option>
-                                            <option value="">Sanguine, Volcanic, Fortified</option>
-                                            <option value="">Teeming, Necrotic, Tyrannical</option>
-                                            <option value="">Raging, Volcanic, Tyrannical</option>
-                                            <option value="">Bolstering, Skittish, Fortified</option>
-                                            <option value="">Sanguine, Overflowing, Tyrannical</option>
-                                            <option value="">Teeming, Skittish, Fortified</option>
+                                            <option value="Raging#Necrotic#Fortified">{{"RAGING_NECROTIC_FORTIFIED"|translate}}</option>
+                                            <option value="Bolstering#Overflowing#Tyrannical">{{"BOLSTERING_OVERFLOWING_TYRANNICAL"|translate}}</option>
+                                            <option value="Sanguine#Volcanic#Fortified">{{"SANGUINE_VOLCANIC_FORTIFIED"|translate}}</option>
+                                            <option value="Teeming#Necrotic#Tyrannical">{{"TEEMING_NECROTIC_TYRANNICAL"|translate}}</option>
+                                            <option value="Raging#Volcanic#Tyrannical">{{"RAGING_VOLCANIC_TYRANNICAL"|translate}}</option>
+                                            <option value="Bolstering#Skittish#Fortified">{{"BOLSTERING_SKITTISH_FORTIFIED"|translate}}</option>
+                                            <option value="Sanguine#Overflowing#Tyrannical">{{"SANGUINE_OVERFLOWING_TYRANNICAL"|translate}}</option>
+                                            <option value="Teeming#Skittish#Fortified">{{"TEEMING_SKITTISH_FORTIFIED"|translate}}</option>
                                         </select>
                                     </span>
                                 </div>
@@ -121,12 +123,12 @@
                             </td>
                         </tr>
                         <tr ng-repeat="team in rankings">
-                            <td ng-class="{'legendary': ($index + 1 <= 10), 'epic': ($index + 1 > 10 && $index + 1 <= 100), 'rare': ($index + 1 > 100 && $index + 1 <= 2500), 'uncommon': ($index + 1 > 2500)}"
+                            <td ng-init="rank = (limit*(page-1))+$index + 1" ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}"
                                 class="bold">
-                                {{ $index + 1 }}
+                                {{ rank }}
                             </td>
                             <td>
-                                <img ng-repeat="affixe in team.affixes" ng-src="/assets/images/external/dungeon/{{ affixe|lowercase }}.jpg" width="16" ng-class="{'m-r-5': !$last}" />
+                                <div ng-repeat="affixe in team.affixes" uib-tooltip="{{affixe}}" ng-class="{'m-r-5': !$last}" class="dungeon-affixe {{affixe|lowercase}}"></div>
                             </td>
                             <td>
                                 {{ team.dungeon }}
@@ -142,15 +144,11 @@
                                     <span ng-if="character.role == 'tank'" class="icon-small tank"></span>
                                     <span ng-if="character.role == 'healer'" class="icon-small heal"></span>
                                     <span ng-if="character.role == 'dps'" class="icon-small dps"></span>
-                                    &nbsp;<span class="class-{{ character.class }}">{{ character.name }}</span>
+                                    &nbsp;<span class="class-{{ character.class }}"><a href="http://{{ team.region }}.battle.net/wow/fr/character/{{ character.realm }}/{{ character.name }}/advanced" target="_blank">{{ character.name }}</a></span>
                                 </span>
                             </td>
                             <td ng-show="!filters.realm">
-                                <span wlfg-dungeon-realm="{{ team.roster }}" region="{{ team.region }}"></span>
-                                <!--<a href="{{ hashbang }}/pve/{{ team.region }}/{{ team.realm }}/"
-                                   class="txt-underline italic">
-                                    {{ team.region|uppercase}}-{{team.realm}}
-                                </a>-->
+                                <span wlfg-dungeon-realm="{{ team }}"></span>
                             </td>
                             <td>
                             {{ team.date | date:'dd-MM-yyyy'}}

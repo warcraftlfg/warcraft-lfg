@@ -17,22 +17,8 @@ function wlfgDungeonRealm() {
 
 
 
-        scope.$watch(attrs.wlfgDungeonRealm, function(roster) {
-            scope.dungeonRegion = attrs.region.toUpperCase();
-            scope.dungeonRealm = attrs.region.toUpperCase();
-            scope.dungeonRoster = roster;
-            angular.forEach(roster, function(value, key) {
-                if (realms[value.realm]) {
-                    realms[value.realm]++;
-                    if (realms[value.realm] >= 4) {
-                        scope.dungeonRealm = attrs.region.toUpperCase()+'-'+value.realm;
-                    }
-                } else {
-                    realms[value.realm] = 1;
-                }
-
-
-            });
+        scope.$watch(attrs.wlfgDungeonRealm, function(team) {
+            scope.team = team;
         }, true);
     }
 
