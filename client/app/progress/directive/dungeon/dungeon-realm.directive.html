@@ -1,5 +1,5 @@
 <div tooltip-placement="top" uib-tooltip-template="'dungeonRealmTooltipTemplate.html'" tooltip-is-open="false" tooltip-append-to-body="true" tooltip-class="dungeon-tooltips">
-	<span class="cursor-pointer bd-b-d" ng-click="goToRealm(dungeonRegion, dungeonLink)">{{ dungeonRealm }}</span> <i class="realm-link fa fa-link"></i>
+	<span class="cursor-pointer bd-b-d" ng-click="goToRealm(dungeonRegion, dungeonLink)">{{ dungeonRealm }}</span> <i class="realm-link fa fa-link" ng-if="dungeonRealmsLength > 1"></i>
 </div>
 
 <script type="text/ng-template" id="dungeonRealmTooltipTemplate.html">
@@ -13,6 +13,11 @@
 	                <span ng-if="character.role == 'dps'" class="icon-small dps"></span>
 		        </td>
 		        <td class="class-{{ character.class }}">{{ character.name }}</td>
+		    </tr>
+		    <tr ng-repeat="realm in dungeonRealms">
+		    	<td>
+		    		{{ realm }}
+		    	</td>
 		    </tr>
 		</tbody>
 	</table>
