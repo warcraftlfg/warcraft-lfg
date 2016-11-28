@@ -1,5 +1,5 @@
 <div tooltip-placement="top" uib-tooltip-template="'dungeonRealmTooltipTemplate.html'" tooltip-is-open="false" tooltip-append-to-body="true" tooltip-class="dungeon-tooltips">
-	<span class="cursor-pointer bd-b-d">{{ dungeonRealm }}</span>
+	<span class="cursor-pointer bd-b-d" ng-click="goToRealm(dungeonRegion, dungeonLink)">{{ dungeonRealm }}</span> <i class="realm-link fa fa-link"></i>
 </div>
 
 <script type="text/ng-template" id="dungeonRealmTooltipTemplate.html">

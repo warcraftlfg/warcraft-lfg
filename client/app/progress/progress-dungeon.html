@@ -29,8 +29,8 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.region" class="form-control">
                                             <option value="">{{ "WORLD"|translate }}</option>
-                                            <option value="US">US</option>
-                                            <option value="EU">EU</option>
+                                            <option value="us">US</option>
+                                            <option value="eu">EU</option>
                                             <!--<option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>-->
                                             <!--<option style="font-size: 2pt;" disabled>&nbsp;</option>
                                             <option style="font-size: 0.1pt; background-color: #ccc;"
@@ -144,11 +144,11 @@
                                     <span ng-if="character.role == 'tank'" class="icon-small tank"></span>
                                     <span ng-if="character.role == 'healer'" class="icon-small heal"></span>
                                     <span ng-if="character.role == 'dps'" class="icon-small dps"></span>
-                                    &nbsp;<span class="class-{{ character.class }}">{{ character.name }}</span>
+                                    &nbsp;<span class="class-{{ character.class }}"><a href="http://{{ team.region }}.battle.net/wow/fr/character/{{ character.realm }}/{{ character.name }}/advanced" target="_blank">{{ character.name }}</a></span>
                                 </span>
                             </td>
                             <td ng-show="!filters.realm">
-                                <span wlfg-dungeon-realm="{{ team.roster }}" region="{{ team.region }}" realm="{{ team.realms[0] }}"></span>
+                                <span wlfg-dungeon-realm="{{ team.roster }}" region="{{ team.region }}" realms="{{ team.realms }}" realm="{{ team.realms[0] }}"></span>
                                 <!--<a href="{{ hashbang }}/pve/{{ team.region }}/{{ team.realm }}/"
                                    class="txt-underline italic">
                                     {{ team.region|uppercase}}-{{team.realm}}

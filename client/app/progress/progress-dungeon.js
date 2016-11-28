@@ -80,17 +80,28 @@
                     $state.go('progressDungeonRealm', {
                         region: $scope.filters.region,
                         realm: $scope.filters.realm,
-                        page: null
+                        page: null,
+                        dungeon: $scope.filters.dungeon,
+                        affixes: $scope.filters.affixes
                     }, {notify: false});
                 } else if ($scope.filters.region) {
                     $scope.path = "dungeon/" + $scope.filters.region + "/";
-                    $state.go('progressDungeonRegion', {region: $scope.filters.region, page: null}, {notify: false});
+                    $state.go('progressDungeonRegion', {
+                        region: $scope.filters.region,
+                        page: null,
+                        dungeon: $scope.filters.dungeon,
+                        affixes: $scope.filters.affixes
+                    }, {notify: false});
                 } else {
                     $scope.path = "dungeon/";
-                    $state.go('progressDungeon', {page: null}, {notify: false});
+                    $state.go('progressDungeon', {
+                        page: null,
+                        dungeon: $scope.filters.dungeon,
+                        affixes: $scope.filters.affixes
+                    }, {notify: false});
                 }
 
-                if ($scope.filters.dungeon !== "") {
+                /*if ($scope.filters.dungeon !== "") {
                     $location.search('dungeon', $scope.filters.dungeon);
                 } else {
                     $location.search('dungeon', null);
@@ -100,7 +111,7 @@
                     $location.search('affixes', $scope.filters.affixes);
                 } else {
                     $location.search('affixes', null);
-                }
+                }*/
 
             }
 
@@ -171,6 +182,10 @@
                 $scope.noResults = true;
             });
         }
+
+        $scope.goToRealm = function(region, realm) {
+            $scope.setRealm({region: region.toLowerCase(), name: realm});
+        };
 
         /* Realm stuff */
         $scope.setRealm = function (data) {

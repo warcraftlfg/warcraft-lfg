@@ -35,7 +35,6 @@
                 controlerAs: 'vm',
                 title: 'WarcraftProgress',
                 controller: "ProgressDungeonController",
-                reloadOnSearch: false
             })
             .state("progressDungeonRegion", {
                 url: "/dungeon/:region/:page?dungeon&affixes",
@@ -43,7 +42,6 @@
                 controlerAs: 'vm',
                 title: 'WarcraftProgress',
                 controller: "ProgressDungeonController",
-                reloadOnSearch: false
             })
             .state("progressDungeonRealm", {
                 url: "/dungeon/:region/:realm/:page?dungeon&affixes",
@@ -51,7 +49,6 @@
                 controlerAs: 'vm',
                 title: 'WarcraftProgress',
                 controller: "ProgressDungeonController",
-                reloadOnSearch: false
             })
         ;
     }
