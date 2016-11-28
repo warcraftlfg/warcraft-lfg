@@ -184,7 +184,11 @@
         }
 
         $scope.goToRealm = function(region, realm) {
-            $scope.setRealm({region: region.toLowerCase(), name: realm});
+            if (realm) {
+                $scope.setRealm({region: region.toLowerCase(), name: realm});
+            } else {
+               $scope.filters.region = region; 
+            }
         };
 
         /* Realm stuff */

@@ -17,17 +17,8 @@ function wlfgDungeonRealm() {
 
 
 
-        scope.$watch(attrs.wlfgDungeonRealm, function(roster) {
-            scope.dungeonRegion = attrs.region.toUpperCase();
-            scope.dungeonRealm = attrs.region.toUpperCase();
-            scope.dungeonRealmsLength = attrs.realmslength;
-            scope.dungeonLink = null;
-            scope.dungeonRealms = attrs.realms;
-            scope.dungeonRoster = roster;
-            if (attrs.realm && attrs.realm !== "") {
-                scope.dungeonRealm = attrs.region.toUpperCase()+'-'+attrs.realm;
-                scope.dungeonLink = attrs.realm;
-            }
+        scope.$watch(attrs.wlfgDungeonRealm, function(team) {
+            scope.team = team;
         }, true);
     }
 
