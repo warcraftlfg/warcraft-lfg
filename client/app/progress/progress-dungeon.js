@@ -20,6 +20,7 @@
         $scope.rankings = [];
         $scope.stats = [];
         $scope.noResults = [];
+        $scope.limit = 20;
         var initialLoading = false;
         var initialLoadingPage = false;
 
@@ -152,8 +153,8 @@
             } else {
                 query.region = __env.rankingSubregions[query.region];
             }
-            query.limit = 50;
-            query.start = (($scope.page - 1) * 20) + 1;
+            query.limit = $scope.limit;
+            query.page = $scope.page;
 
             $scope.noResults = false;
             dungeon.get(query, function (ranking) {
@@ -164,6 +165,10 @@
                     }
                 }
                 $scope.loading = false;
+            }, function(error) {
+
+                $scope.loading = false;
+                $scope.noResults = true;
             });
         }
 

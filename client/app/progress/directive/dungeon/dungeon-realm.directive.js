@@ -21,7 +21,10 @@ function wlfgDungeonRealm() {
             scope.dungeonRegion = attrs.region.toUpperCase();
             scope.dungeonRealm = attrs.region.toUpperCase();
             scope.dungeonRoster = roster;
-            angular.forEach(roster, function(value, key) {
+            if (attrs.realm && attrs.realm !== "") {
+                scope.dungeonRealm = attrs.region.toUpperCase()+'-'+attrs.realm;
+            }
+            /*angular.forEach(roster, function(value, key) {
                 if (realms[value.realm]) {
                     realms[value.realm]++;
                     if (realms[value.realm] >= 4) {
@@ -32,7 +35,7 @@ function wlfgDungeonRealm() {
                 }
 
 
-            });
+            });*/
         }, true);
     }
 

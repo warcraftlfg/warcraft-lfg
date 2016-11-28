@@ -29,7 +29,9 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.region" class="form-control">
                                             <option value="">{{ "WORLD"|translate }}</option>
-                                            <option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>
+                                            <option value="US">US</option>
+                                            <option value="EU">EU</option>
+                                            <!--<option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>-->
                                             <!--<option style="font-size: 2pt;" disabled>&nbsp;</option>
                                             <option style="font-size: 0.1pt; background-color: #ccc;"
                                                     disabled>&nbsp;</option>
@@ -58,14 +60,14 @@
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.affixes" class="form-control">
                                             <option value="">All affixes</option>
-                                            <option value="Raging Necrotic Fortified">Raging, Necrotic, Fortified</option>
-                                            <option value="Bolstering Overflowing Tyrannical">Bolstering, Overflowing, Tyrannical</option>
-                                            <option value="Sanguine Volcanic Fortified">Sanguine, Volcanic, Fortified</option>
-                                            <option value="Teeming Necrotic Tyrannical">Teeming, Necrotic, Tyrannical</option>
-                                            <option value="Raging Volcanic Tyrannical">Raging, Volcanic, Tyrannical</option>
-                                            <option value="Bolstering Skittish Fortified">Bolstering, Skittish, Fortified</option>
-                                            <option value="Sanguine Overflowing Tyrannical">Sanguine, Overflowing, Tyrannical</option>
-                                            <option value="Teeming Skittish Fortified">Teeming, Skittish, Fortified</option>
+                                            <option value="Raging#Necrotic#Fortified">{{"RAGING_NECROTIC_FORTIFIED"|translate}}</option>
+                                            <option value="Bolstering#Overflowing#Tyrannical">{{"BOLSTERING_OVERFLOWING_TYRANNICAL"|translate}}</option>
+                                            <option value="Sanguine#Volcanic#Fortified">{{"SANGUINE_VOLCANIC_FORTIFIED"|translate}}</option>
+                                            <option value="Teeming#Necrotic#Tyrannical">{{"TEEMING_NECROTIC_TYRANNICAL"|translate}}</option>
+                                            <option value="Raging#Volcanic#Tyrannical">{{"RAGING_VOLCANIC_TYRANNICAL"|translate}}</option>
+                                            <option value="Bolstering#Skittish#Fortified">{{"BOLSTERING_SKITTISH_FORTIFIED"|translate}}</option>
+                                            <option value="Sanguine#Overflowing#Tyrannical">{{"SANGUINE_OVERFLOWING_TYRANNICAL"|translate}}</option>
+                                            <option value="Teeming#Skittish#Fortified">{{"TEEMING_SKITTISH_FORTIFIED"|translate}}</option>
                                         </select>
                                     </span>
                                 </div>
@@ -121,9 +123,9 @@
                             </td>
                         </tr>
                         <tr ng-repeat="team in rankings">
-                            <td ng-class="{'legendary': ($index + 1 <= 10), 'epic': ($index + 1 > 10 && $index + 1 <= 100), 'rare': ($index + 1 > 100 && $index + 1 <= 2500), 'uncommon': ($index + 1 > 2500)}"
+                            <td ng-init="rank = (limit*(page-1))+$index + 1" ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}"
                                 class="bold">
-                                {{ $index + 1 }}
+                                {{ rank }}
                             </td>
                             <td>
                                 <div ng-repeat="affixe in team.affixes" uib-tooltip="{{affixe}}" ng-class="{'m-r-5': !$last}" class="dungeon-affixe {{affixe|lowercase}}"></div>
@@ -146,7 +148,7 @@
                                 </span>
                             </td>
                             <td ng-show="!filters.realm">
-                                <span wlfg-dungeon-realm="{{ team.roster }}" region="{{ team.region }}"></span>
+                                <span wlfg-dungeon-realm="{{ team.roster }}" region="{{ team.region }}" realm="{{ team.realms[0] }}"></span>
                                 <!--<a href="{{ hashbang }}/pve/{{ team.region }}/{{ team.realm }}/"
                                    class="txt-underline italic">
                                     {{ team.region|uppercase}}-{{team.realm}}
