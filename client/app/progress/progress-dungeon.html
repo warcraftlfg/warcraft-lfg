@@ -148,11 +148,7 @@
                                 </span>
                             </td>
                             <td ng-show="!filters.realm">
-                                <span wlfg-dungeon-realm="{{ team.roster }}" region="{{ team.region }}" realms="{{ team.realms }}" realm="{{ team.realms[0] }}"></span>
-                                <!--<a href="{{ hashbang }}/pve/{{ team.region }}/{{ team.realm }}/"
-                                   class="txt-underline italic">
-                                    {{ team.region|uppercase}}-{{team.realm}}
-                                </a>-->
+                                <span wlfg-dungeon-realm="{{ team }}"></span>
                             </td>
                             <td>
                             {{ team.date | date:'dd-MM-yyyy'}}

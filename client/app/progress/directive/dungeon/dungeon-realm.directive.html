@@ -1,12 +1,14 @@
 <div tooltip-placement="top" uib-tooltip-template="'dungeonRealmTooltipTemplate.html'" tooltip-is-open="false" tooltip-append-to-body="true" tooltip-class="dungeon-tooltips">
-	<span class="cursor-pointer bd-b-d" ng-click="goToRealm(dungeonRegion, dungeonLink)">{{ dungeonRealm }}</span> <i class="realm-link fa fa-link"></i>
+	<span class="cursor-pointer bd-b-d" ng-click="goToRealm(team.region, team.realms[0])" ng-if="team.realms">{{ team.region|uppercase }}-{{ team.realms[0] }}</span>
+	<span class="cursor-pointer bd-b-d" ng-click="goToRealm(team.region, NULL)" ng-if="!team.realms">{{ team.region|uppercase }}</span> 
+	<i class="realm-link fa fa-link" ng-if="team.realms.length > 1"></i>
 </div>
 
 <script type="text/ng-template" id="dungeonRealmTooltipTemplate.html">
 	<table class="table table-condensed m-b-0 text-left">
 		<tbody>
-		    <tr class="" ng-repeat="character in dungeonRoster">
-		        <td class="bold">{{ dungeonRegion }}-{{ character.realm }}</div>
+		    <tr class="" ng-repeat="character in team.roster">
+		        <td class="bold">{{ team.region|uppercase }}-{{ character.realm }}</div>
 		        <td>
 	                <span ng-if="character.role == 'tank'" class="icon-small tank"></span>
 	                <span ng-if="character.role == 'healer'" class="icon-small heal"></span>
@@ -16,4 +18,7 @@
 		    </tr>
 		</tbody>
 	</table>
+	<!--<div>
+		<span ng-repeat="realm in team.realms">{{ realm }} &nbsp;</span>
+	</div>-->
 </script>
