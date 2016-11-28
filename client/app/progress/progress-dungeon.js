@@ -23,6 +23,7 @@
         $scope.limit = 20;
         var initialLoading = false;
         var initialLoadingPage = false;
+        var realmSetRegion = false;
 
         $scope.raids = [];
         angular.forEach(__env.tiers.current, function(value, key) {
@@ -51,6 +52,9 @@
         $scope.$parent.error = null;
         $scope.path = "dungeon/";
         if ($stateParams.region) {
+            if ($stateParams.realm) {
+                realmSetRegion = true;
+            }
             $scope.path += $stateParams.region + "/";
             $scope.filters.region = $stateParams.region;
         }
@@ -63,6 +67,14 @@
         $scope.lastPage = $scope.page;
 
         $scope.$watch('filters.region', function () {
+            if (!realmSetRegion) {
+                $scope.filters.realm = null;
+                angular.forEach($scope.realms, function (realm) {
+                    realm.label = realm.name + " (" + realm.region.toUpperCase() + ")";
+                    realm.selected = false;
+                });
+            }
+            realmSetRegion = false;
             $timeout(function () {
                 $scope.$emit('get:realms');
             });
@@ -193,6 +205,9 @@
 
         /* Realm stuff */
         $scope.setRealm = function (data) {
+            if (data.region != $scope.filters.region) {
+                realmSetRegion = true;
+            }
             $scope.filters.region = data.region;
             $scope.realmRegion = data.region;
             $scope.filters.realm = data.name;
