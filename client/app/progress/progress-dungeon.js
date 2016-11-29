@@ -62,6 +62,12 @@
             $scope.path += $stateParams.realm + "/";
             $scope.filters.realm = $stateParams.realm;
         }
+        if ($stateParams.dungeon) {
+            $scope.filters.dungeon = $stateParams.dungeon;
+        }
+        if ($stateParams.affixes) {
+            $scope.filters.affixes = $stateParams.affixes;
+        }
 
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
         $scope.lastPage = $scope.page;
@@ -113,17 +119,7 @@
                     }, {notify: false});
                 }
 
-                /*if ($scope.filters.dungeon !== "") {
-                    $location.search('dungeon', $scope.filters.dungeon);
-                } else {
-                    $location.search('dungeon', null);
-                }
 
-                if ($scope.filters.affixes !== "") {
-                    $location.search('affixes', $scope.filters.affixes);
-                } else {
-                    $location.search('affixes', null);
-                }*/
 
             }
 
