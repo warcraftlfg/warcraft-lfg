@@ -155,6 +155,40 @@ module.exports.parseCharacter = function (character) {
 
     // Audit
 
+    // Mythic 
+    parser.mythic = {};
+    parser.mythic.dungeon = {};
+    if (character.statistics.subCategories[5] && character.statistics.subCategories[5].subCategories[6]) {
+        var dungeonLegion = character.statistics.subCategories[5].subCategories[6];
+        parser.mythic.dungeon.eoa = (dungeonLegion.statistics[2]) ? dungeonLegion.statistics[2].quantity : 0;
+        parser.mythic.dungeon.dht = (dungeonLegion.statistics[5]) ? dungeonLegion.statistics[5].quantity : 0;
+        parser.mythic.dungeon.nl = (dungeonLegion.statistics[8]) ? dungeonLegion.statistics[8].quantity : 0;
+        parser.mythic.dungeon.hov = (dungeonLegion.statistics[11]) ? dungeonLegion.statistics[11].quantity : 0;
+        //parser.mythic.dungeon.vh = (dungeonLegion.statistics[16] && dungeonLegion.statistics[17]) ? dungeonLegion.statistics[16].quantity + dungeonLegion.statistics[17].quantity : 0;
+        parser.mythic.dungeon.vow = (dungeonLegion.statistics[20]) ? dungeonLegion.statistics[20].quantity : 0;
+        parser.mythic.dungeon.brh = (dungeonLegion.statistics[23]) ? dungeonLegion.statistics[23].quantity : 0;
+        parser.mythic.dungeon.mos = (dungeonLegion.statistics[26]) ? dungeonLegion.statistics[26].quantity : 0;
+        parser.mythic.dungeon.arcway = (dungeonLegion.statistics[29]) ? dungeonLegion.statistics[29].quantity : 0;
+        parser.mythic.dungeon.cos = (dungeonLegion.statistics[32]) ? dungeonLegion.statistics[32].quantity : 0;
+
+        parser.mythic.total = 0;
+        var dungeon = Object.keys( parser.mythic.dungeon );
+        for( var i = 0, length = dungeon.length; i < length; i++ ) {
+                parser.mythic.total += parseInt(parser.mythic.dungeon[dungeon[i]]);
+        }
+    }
+
+    // Mythic+
+    var key;
+    key = character.achievements.criteria.indexOf(33096)
+    parser.mythic.level2 = (key >= 0) ? character.achievements.criteriaQuantity[key] : 0;
+    key = character.achievements.criteria.indexOf(33097)
+    parser.mythic.level5 = (key >= 0) ? character.achievements.criteriaQuantity[key] : 0;
+    key = character.achievements.criteria.indexOf(33098)
+    parser.mythic.level10 = (key >= 0) ? character.achievements.criteriaQuantity[key] : 0;
+    key = character.achievements.criteria.indexOf(32028)
+    parser.mythic.level15 = (key >= 0) ? character.achievements.criteriaQuantity[key] : 0;
+
     // Proving Grounds
     parser.provingGrounds = {};
     parser.provingGrounds.tank = self.parseCharacterProvingGrounds(character.achievements, 'tank');

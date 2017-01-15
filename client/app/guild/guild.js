@@ -20,18 +20,27 @@
         $scope.current_url = window.encodeURIComponent($location.absUrl());
         $scope.difficulties = ["mythic", "heroic", "normal"];
         $scope.roster = {};
-        //$scope.raidRank = {};
+
+        $scope.pasteRaidProgress = [];
         $scope.raidProgress = [];
-        //$scope.progressCount = __env.tiers[__env.tiers.current].bosses.length;
 
 
-        //$scope.raid = __env.tiers[__env.tiers.current];
         $scope.raids = [];
+        $scope.pasteRaids = [];
+
+        // Get current raid
         angular.forEach(__env.tiers.current, function(value, key) {
             $scope.raids.push(__env.tiers[value]);
         });
+
+        // Get paste raid
+        angular.forEach(__env.tiers.paste, function(value, key) {
+            $scope.pasteRaids.push(__env.tiers[value]);
+        });
+
         $scope.progressAdvanced = false;
 
+        // Get current ranking
         angular.forEach(__env.tiers.current, function(value, key) {
             ranking.get({
                 "tier":__env.tiers[value].tier,
@@ -61,7 +70,38 @@
             });
         });
 
+        // Get paste ranking
+        angular.forEach(__env.tiers.paste, function(value, key) {
+            ranking.get({
+                "tier":__env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (rank) {
+                if (!$scope.pasteRanks) {
+                    $scope.pasteRanks = {};
+                }
+                $scope.pasteRanks[key] = rank;
+            }); 
 
+            progress.get({
+                "tier": __env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (progress) {
+                if (!$scope.pasteRaidProgress) {
+                    $scope.pasteRaidProgress = {};
+                }
+                $scope.pasteRaidProgress[key] = progress;
+                $scope.pasteRaidProgress[key].name = __env.tiers[value].name;
+            });
+        });
+
+
+        // Get LFG info
         guilds.get({
                 "guildRegion": $stateParams.region,
                 "guildRealm": $stateParams.realm,

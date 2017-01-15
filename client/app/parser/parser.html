@@ -67,6 +67,12 @@
                                 <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>-->
                             </th>
+                            <th class="cursor-pointer" ng-click="switchSort('parser.mythic.total');" uib-tooltip='Mythic+' tooltip-append-to-body="true">
+                                Mythic
+                                <i ng-if="sort!='parser.mythic.total'&&sort!='-parser.mythic.total'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.mythic.total'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.mythic.total'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
                             <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.artifact.trait');" uib-tooltip='{{"ARTIFACT_TRAIT"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/artifact_trait.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
@@ -95,14 +101,14 @@
                                 <i ng-show="sort==='-parser.suramar.reputation.sort'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.suramar.reputation.sort'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.suramar.worldQuest');" uib-tooltip='{{"SURAMAR_WORLD_QUEST"|translate}}' tooltip-append-to-body="true">
+                            <!--<th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.suramar.worldQuest');" uib-tooltip='{{"SURAMAR_WORLD_QUEST"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/suramarWQ.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
                                 <i ng-if="sort!='parser.suramar.worldQuest'&&sort!='-parser.suramar.arcway'" class="fa fa-sort" aria-hidden="true"></i>
                                 <i ng-show="sort==='-parser.suramar.worldQuest'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.suramar.worldQuest'" class="fa fa-sort-asc" aria-hidden="true"></i>
-                            </th>
+                            </th>-->
                             <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.suramar.arcway');" uib-tooltip='{{"ARCWAY"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/arcway.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
@@ -192,8 +198,49 @@
                                     <span class="sort-fix" wlfg-warcraft-logs-average="character.warcraftLogs" character-class="{{ character.bnet.class }}"></span>
                                 </td>
                                 <td>
-                                    <span wlfg-progress-character="character.bnet.progression.raids[0]"></span> &nbsp;
-                                    <span wlfg-progress-character="character.bnet.progression.raids[2]"></span>
+                                    <span wlfg-progress-character="character.bnet.progression.raids[1]"></span>
+                                </td>
+                                <td class="text-center sort-img">
+                                    <span class="sort-fix" ng-if="!character.parser.mythic">0</span>
+                                    <span class="sort-fix bd-b-d cursor-pointer" ng-if="character.parser.mythic" tooltip-placement="top" uib-tooltip-template="'parserDungeonMythicTooltips.html'" tooltip-append-to-body="true" tooltip-is-open="false" tooltip-class="wcl-tooltips">{{ character.parser.mythic.total }}</span>
+                                    <script type="text/ng-template" id="parserDungeonMythicTooltips.html">
+                                        <table class="table table-condensed m-b-0 text-left">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Mythic 2+
+                                                    </td>
+                                                    <td>
+                                                        {{ character.parser.mythic.level2 }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Mythic 5+
+                                                    </td>
+                                                    <td>
+                                                        {{ character.parser.mythic.level5 }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Mythic 10+
+                                                    </td>
+                                                    <td>
+                                                        {{ character.parser.mythic.level10 }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Mythic 15+
+                                                    </td>
+                                                    <td>
+                                                        {{ character.parser.mythic.level15 }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </script>
                                 </td>
                                 <td class="text-center sort-img">
                                     <span class="sort-fix">{{ character.parser.artifact.trait }}</span>
@@ -210,9 +257,9 @@
                                         {{ character.parser.suramar.reputation.value }} / {{ character.parser.suramar.reputation.max }}
                                     </span>
                                 </td>
-                                <td class="text-center sort-img">
+                                <!--<td class="text-center sort-img">
                                      <span class="sort-fix">{{ character.parser.suramar.worldQuest }}/6</span>
-                                </td>
+                                </td>-->
                                 <td class="text-center sort-img">
                                     <span class="sort-fix">
                                         <i ng-if="!character.parser.suramar.arcway" class="fa fa-times text-danger" aria-hidden="true"></i>

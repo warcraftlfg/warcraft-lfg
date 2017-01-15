@@ -79,6 +79,7 @@
         });
 
         $scope.itemSlot = __env.itemSlot;
+        $scope.dungeons = __env.dungeons;
         $scope.currentTier = __env.tiers.current;
 
         $scope.difficulty = "normalTimestamp";

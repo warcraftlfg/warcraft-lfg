@@ -14,8 +14,14 @@ function wlfgProgressGuild(__env, progress) {
 
     function link(scope, element, attrs) {
         var raidKey = attrs.key;
-        var raidName = __env.tiers[__env.tiers.current[raidKey]].name;
-        var raidTier = __env.tiers[__env.tiers.current[raidKey]].tier;
+        if (attrs.paste) {
+            var raidData = __env.tiers.paste;
+        } else {
+            var raidData = __env.tiers.current;
+        }
+
+        var raidName = __env.tiers[raidData[raidKey]].name;
+        var raidTier = __env.tiers[raidData[raidKey]].tier;
 
         scope.$watch(attrs.wlfgProgressGuild, function(progress){
             if (progress && attrs.region && attrs.realm && attrs.name) {
@@ -27,8 +33,8 @@ function wlfgProgressGuild(__env, progress) {
             }
             if (progress) {
                 scope.progressTooltip = [];
-                scope.progressName = __env.tiers[__env.tiers.current[raidKey]].name;
-                scope.progressTotal = __env.tiers[__env.tiers.current[raidKey]].bosses.length;
+                scope.progressName = __env.tiers[raidData[raidKey]].name;
+                scope.progressTotal = __env.tiers[raidData[raidKey]].bosses.length;
                 /*if (progress[raidKey]) {
                     scope.progress = progress[raidKey];
                 } else if (progress[raidTier][raidName]) {
@@ -37,7 +43,7 @@ function wlfgProgressGuild(__env, progress) {
                 scope.progress = progress;
                 if (attrs.region && attrs.realm && attrs.name) {
                     scope.progressTooltipLoad = false;
-                    angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
+                    angular.forEach(__env.tiers[raidData[raidKey]].bosses, function(value, key) {
                         scope.progressTooltip.push({difficulty: 'common', 'boss': 'N: '+value});
                     });
                 } else {
@@ -47,9 +53,9 @@ function wlfgProgressGuild(__env, progress) {
             } else {
                 scope.progress = {};
                 scope.progressTooltip = [];
-                scope.progressName = __env.tiers[__env.tiers.current[raidKey]].name;
-                scope.progressTotal = __env.tiers[__env.tiers.current[raidKey]].bosses.length;
-                angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
+                scope.progressName = __env.tiers[raidData[raidKey]].name;
+                scope.progressTotal = __env.tiers[raidData[raidKey]].bosses.length;
+                angular.forEach(__env.tiers[raidData[raidKey]].bosses, function(value, key) {
                     scope.progressTooltip.push({difficulty: 'common', 'boss': 'N: '+value});
                 });
             }
@@ -58,7 +64,7 @@ function wlfgProgressGuild(__env, progress) {
         scope.loadTooltip = function() {
             if (!scope.progressTooltipLoad) {
                 scope.progressTooltipLoad = true;
-                progress.get({tier: __env.tiers[__env.tiers.current[raidKey]].tier, raid: __env.tiers[__env.tiers.current[raidKey]].name, region: attrs.region, realm: attrs.realm, name: attrs.name}, function (progress) {
+                progress.get({tier: __env.tiers[raidData[raidKey]].tier, raid: __env.tiers[raidData[raidKey]].name, region: attrs.region, realm: attrs.realm, name: attrs.name}, function (progress) {
                     scope.progress = progress;
                     changeTooltip();
                 });
@@ -68,7 +74,7 @@ function wlfgProgressGuild(__env, progress) {
         function buildTooltip() {
             var progress = scope.progress;
             if (progress) {
-                angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
+                angular.forEach(__env.tiers[raidData[raidKey]].bosses, function(value, key) {
                     if (progress.mythic && progress.mythic[value] && ((progress.mythic[value].timestamps && progress.mythic[value].timestamps.length > 0) || progress.mythic[value] > 0)) {
                         scope.progressTooltip.push({difficulty: 'legendary', 'boss': 'M: '+value});
                     } else if (progress.heroic && progress.heroic[value] && ((progress.heroic[value].timestamps && progress.heroic[value].timestamps.length > 0) || progress.heroic[value] > 0)) {
@@ -80,7 +86,7 @@ function wlfgProgressGuild(__env, progress) {
                     }
                 });
             } else {
-                angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
+                angular.forEach(__env.tiers[raidData[raidKey]].bosses, function(value, key) {
                     scope.progressTooltip.push({difficulty: 'common', 'boss': 'N: '+value});
                 });
             }
@@ -89,7 +95,7 @@ function wlfgProgressGuild(__env, progress) {
         function changeTooltip() {
             var progress = scope.progress;
             if (progress) {
-                angular.forEach(__env.tiers[__env.tiers.current[raidKey]].bosses, function(value, key) {
+                angular.forEach(__env.tiers[raidData[raidKey]].bosses, function(value, key) {
                     if (progress.mythic && progress.mythic[value] && progress.mythic[value].timestamps && progress.mythic[value].timestamps.length > 0) {
                         scope.progressTooltip[key].difficulty = "legendary";
                     } else if (progress.heroic && progress.heroic[value] && progress.heroic[value].timestamps && progress.heroic[value].timestamps.length > 0) {
