@@ -13,13 +13,16 @@
         $scope.$parent.loading = true;
         $scope.rankingRegions = __env.rankingRegions;
         $scope.rankingSubregions = __env.rankingSubregions;
-        $scope.filters = {tier: __env.tiers.current[0], raid: __env.tiers[__env.tiers.current[0]].name};
+        $scope.filters = {tier: __env.tiers.current[0] };
         $scope.filters.states = {};
         $scope.filters.realm = null;
         $scope.realms = [];
         $scope.rankings = [];
         $scope.stats = [];
         $scope.noResults = [];
+
+        $scope.raidName =  __env.tiers[__env.tiers.current[0]].name;
+
         var initialLoading = false;
         var initialLoadingPage = false;
 
@@ -133,6 +136,11 @@
 
             query = angular.copy($scope.filters);
 
+            query.raid = __env.tiers[query.tier].name;
+            $scope.raidName = query.raid;
+            var realTier = query.tier.split('.');
+            query.tier = realTier[0];
+
             if (__env.rankingRegions[query.region]) {
                 query.region = __env.rankingRegions[query.region];
             } else {
@@ -141,32 +149,28 @@
             query.limit = 20;
             query.start = (($scope.page - 1) * 20) + 1;
 
-            angular.forEach(__env.tiers.current, function(value, key) {
-                $scope.noResults[key] = false;
-                $scope.rankings[key] = [];
-                query.raid = $scope.raids[key].name;
-                ranking.get(query, function (ranking) {
-                    if (ranking) {
-                        $scope.rankings[key] = ranking;
-                        if (Object.keys(ranking).length <= 2) {
-                            $scope.noResults[key] = true;
-                        }
+            $scope.noResults = false;
+            $scope.rankings = [];
+            ranking.get(query, function (ranking) {
+                if (ranking) {
+                    $scope.rankings = ranking;
+                    if (Object.keys(ranking).length <= 2) {
+                        $scope.noResults = true;
                     }
-                    $scope.loading = false;
-                });
+                }
+                $scope.loading = false;
             });
-        }
 
-        angular.forEach(__env.tiers.current, function(value, key) {
             stats.get({
-                "tier": __env.tiers.current[key],
-                "raid": __env.tiers[__env.tiers.current[key]].name,
+                "tier":  __env.tiers[$scope.filters.tier].tier,
+                "raid": __env.tiers[$scope.filters.tier].name,
                 "type": "guild",
                 "limit": 1
             }, function (stats) {
-                $scope.stats[key] = stats[0];
+                console.log(stats);
+                $scope.stats = stats[0];
             });
-        });
+        }
 
         /* Realm stuff */
         $scope.setRealm = function (data) {

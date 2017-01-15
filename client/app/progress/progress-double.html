@@ -11,9 +11,7 @@
                                     <div class="fw-700 m-b-5">{{"TIER"|translate}}</div>
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.tier" class="form-control">
-                                            <option value="19.3">Tier 19 - Nighthold</option>
-                                            <option value="19.2">Tier 19 - Trial of Valor</option>
-                                            <option value="19">Tier 19 - Emerald Nightmare</option>
+                                            <option value="19">Tier 19</option>
                                             <!--<option value="18">Tier 18</option>-->
                                         </select>
                                     </span>
@@ -81,20 +79,20 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="5" ng-if="filters.realm || filters.region" class="text-center bold">{{ raidName | translate }}</td>
-                        <td colspan="4" ng-if="!filters.realm && !filters.region" class="text-center bold">{{ raidName | translate }}</td>
+                        <td colspan="5" ng-if="filters.realm || filters.region" class="text-center bold">{{ raids[0].name | translate }}</td>
+                        <td colspan="4" ng-if="!filters.realm && !filters.region" class="text-center bold">{{ raids[0].name | translate }}</td>
                     </tr> 
                     <tr class="text-center" ng-if="loading">
                         <td colspan="12" class="p-15 ranking-loading">
                             <i class="fa fa-2x fa-spinner fa-spin"></i>
                         </td>
                     </tr>
-                    <tr class="text-center" ng-if="noResults">
+                    <tr class="text-center" ng-if="noResults[0]">
                         <td colspan="12" class="p-15 loading">
                             {{ "NO_DATA"|translate }}
                         </td>
                     </tr>
-                    <tr ng-repeat="(rank,guild) in rankings" ng-if="$index < 10">
+                    <tr ng-repeat="(rank,guild) in rankings[0]">
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}"
                             class="bold">
                             {{rank}}
@@ -120,7 +118,7 @@
                             {{guild.world}}
                         </td>
                         <td>
-                            <span wlfg-progress-guild="guild.progress" data-tier="{{ filters.tier }}"></span>
+                            <span wlfg-progress-guild="guild.progress" data-key="0"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -147,20 +145,20 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="5" ng-if="filters.realm || filters.region" class="text-center bold">{{ raidName | translate }}</td>
-                        <td colspan="4" ng-if="!filters.realm && !filters.region" class="text-center bold">{{ raidName | translate }}</td>
+                        <td colspan="5" ng-if="filters.realm || filters.region" class="text-center bold">{{ raids[1].name | translate }}</td>
+                        <td colspan="4" ng-if="!filters.realm && !filters.region" class="text-center bold">{{ raids[1].name | translate }}</td>
                     </tr>
                     <tr class="text-center" ng-if="loading">
                         <td colspan="12" class="p-15 ranking-loading">
                             <i class="fa fa-2x fa-spinner fa-spin"></i>
                         </td>
                     </tr>
-                    <tr class="text-center" ng-if="noResults">
+                    <tr class="text-center" ng-if="noResults[1]">
                         <td colspan="12" class="p-15 loading">
                             {{ "NO_DATA"|translate }}
                         </td>
                     </tr>
-                    <tr ng-repeat="(rank,guild) in rankings" ng-if="$index >= 10">
+                    <tr ng-repeat="(rank,guild) in rankings[1]">
                         <td ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}"
                             class="bold">
                             {{rank}}
@@ -186,7 +184,7 @@
                             {{guild.world}}
                         </td>
                         <td>
-                            <span wlfg-progress-guild="guild.progress" data-tier="{{ filters.tier }}"></span>
+                            <span wlfg-progress-guild="guild.progress" data-key="1"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -228,12 +226,20 @@
                 <h3 class="m-b-20">Normal</h3>
                 <table class="table table-condensed">
                     <tr>
-                        <td colspan="3" class="text-center bold">{{ raidName | translate }}</td>
+                        <td colspan="3" class="text-center bold">{{ raids[0].name | translate }}</td>
                     </tr> 
-                    <tr ng-repeat="(boss,value) in stats.stats.normal">
+                    <tr ng-repeat="(boss,value) in stats[0].stats.normal">
                         <td class="bold">N: {{boss}}</td>
                         <td>{{value}}</td>
-                        <td>{{value/stats.stats.count*100|number:2}}%</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[1].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[1].stats.normal">
+                        <td class="bold">N: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
@@ -241,12 +247,20 @@
                 <h3 class="m-b-20">Heroic</h3>
                 <table class="table table-condensed">
                     <tr>
-                        <td colspan="3" class="text-center bold">{{ raidName | translate }}</td>
+                        <td colspan="3" class="text-center bold">{{ raids[0].name | translate }}</td>
                     </tr> 
-                    <tr ng-repeat="(boss,value) in stats.stats.heroic">
+                    <tr ng-repeat="(boss,value) in stats[0].stats.heroic">
                         <td class="bold">H: {{boss}}</td>
                         <td>{{value}}</td>
-                        <td>{{value/stats.stats.count*100|number:2}}%</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[1].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[1].stats.heroic">
+                        <td class="bold">H: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
@@ -254,17 +268,25 @@
                 <h3 class="m-b-20">Mythic</h3>
                 <table class="table table-condensed">
                     <tr>
-                        <td colspan="3" class="text-center bold">{{ raidName | translate }}</td>
+                        <td colspan="3" class="text-center bold">{{ raids[0].name | translate }}</td>
                     </tr> 
-                    <tr ng-repeat="(boss,value) in stats.stats.mythic">
+                    <tr ng-repeat="(boss,value) in stats[0].stats.mythic">
                         <td class="bold">M: {{boss}}</td>
                         <td>{{value}}</td>
-                        <td>{{value/stats.stats.count*100|number:2}}%</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center bold">{{ raids[1].name | translate }}</td>
+                    </tr> 
+                    <tr ng-repeat="(boss,value) in stats[1].stats.mythic">
+                        <td class="bold">M: {{boss}}</td>
+                        <td>{{value}}</td>
+                        <td>{{value/stats[0].stats.count*100|number:2}}%</td>
                     </tr>
                 </table>
             </div>
             <div class="col-md-12 italic m-b-20">
-                Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats.stats.count}} ({{ raidName | translate }}) guilds. (Show time stats: <a href="{{ hashbang }}/stats/19/{{ raidName }}" class="txt-underline">{{ raidName | translate }}</a>)
+                Stats generated at {{stats._id|wlfgObjectIdToTimestamp|amDateFormat:'L LTS'}} from {{stats[0].stats.count}} ({{ raids[0].name | translate }}) and {{ stats[1].stats.count }} ({{ raids[1].name | translate }}) guilds. (Show time stats: <a href="{{ hashbang }}/stats/19/The Emerald Nightmare" class="txt-underline">{{ raids[0].name | translate }}</a> - <a href="{{ hashbang }}/stats/19/Trial of Valor" class="txt-underline">{{ raids[1].name | translate }}</a> )
             </div>
 
         </div>
