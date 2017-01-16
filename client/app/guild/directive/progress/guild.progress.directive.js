@@ -13,20 +13,25 @@ function wlfgProgressGuild(__env, progress) {
     return directive;
 
     function link(scope, element, attrs) {
+        var raidName = null;
+        var raidTier = null;
+        var raidKey = null;
+        var raidData = null;
+        
         if (attrs.tier) {
-            var raidName = __env.tiers[attrs.tier].name;
-            var raidTier = __env.tiers[attrs.tier].tier;
-            var raidKey = attrs.tier;
+            raidName = __env.tiers[attrs.tier].name;
+            raidTier = __env.tiers[attrs.tier].tier;
+            raidKey = attrs.tier;
         } else {
             if (attrs.paste) {
-                var raidData = __env.tiers.paste;
+                raidData = __env.tiers.paste;
             } else {
-                var raidData = __env.tiers.current;
+                raidData = __env.tiers.current;
             }
 
-            var raidName = __env.tiers[raidData[attrs.key]].name;
-            var raidTier = __env.tiers[raidData[attrs.key]].tier;
-            var raidKey = raidData[attrs.key];
+            raidName = __env.tiers[raidData[attrs.key]].name;
+            raidTier = __env.tiers[raidData[attrs.key]].tier;
+            raidKey = raidData[attrs.key];
         }
 
         scope.$watch(attrs.wlfgProgressGuild, function(progress){

@@ -4,7 +4,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
-                        {{ pasteRaids[index].name |translate}} :
+                        {{ pasteRaids[index].name |translate}} : {{ pasteRaids[index].bosses.length/2 | number:0 }}
                         <span wlfg-progress-guild="pasteRaidProgress[index]" data-key="{{ index }}" data-paste="1"></span>
                     </div>
                     <div class="col-md-2" ng-if="pasteRanks[index].world">
@@ -68,7 +68,7 @@
         <div class="row" ng-if="!progressAdvanced">
             <div class="col-md-6">
                 <table class="table table-condensed table-striped">
-                    <tr ng-repeat="(key, boss) in pasteRaids[index].bosses | limitTo:4">
+                    <tr ng-repeat="(key, boss) in pasteRaids[index].bosses | limitTo: (pasteRaids[index].bosses.length/2 | number:0) ">
                         <td class="bold">{{ boss|uppercase|translate}}</td>
                         <td ng-class="{
                         'legendary':pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0,
@@ -118,7 +118,7 @@
             </div>
             <div class="col-md-6">
                 <table class="table table-condensed table-striped">
-                    <tr ng-repeat="(key, boss) in pasteRaids[index].bosses | limitTo:-3">
+                    <tr ng-repeat="(key, boss) in pasteRaids[index].bosses | limitTo: ((pasteRaids[index].bosses.length/2) | number:0) : ((pasteRaids[index].bosses.length/2) | number:0)  ">
                         <td class="bold">{{ boss|uppercase|translate }}</td>
                         <td ng-class="{
                         'legendary':pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0,
@@ -180,7 +180,7 @@
             <div class="text-center">
                 <div>
                     {{difficulty|uppercase|translate}} -
-                    <span ng-if="!pasteRaidProgress[index][difficulty+'Count']">0</span>{{pasteRaidProgress[index][difficulty+'Count']}}/{{pasteRaids[index].bosses.length}}
+                    {{pasteRaidProgress[index][difficulty+'Count']}}/{{pasteRaids[index].bosses.length}}
                 </div>
                 <div class="border-bottom"></div>
             </div>
