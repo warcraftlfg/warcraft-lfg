@@ -22,13 +22,13 @@
                                 <i ng-show="sort==='-bnet.talents[0].slug'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='bnet.talents[0].slug'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[0].bosses['+$index+'].bestKills');" ng-repeat="(key, boss) in raids[0].bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
+                            <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[2].bosses['+$index+'].bestKills');" ng-repeat="(key, boss) in raids[0].bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24 {{ raids[0].class }} boss-{{ key }}">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
-                                <i ng-if="sort!='bnet.progression.raids[1].bosses['+$index+'].bestKills'&&sort!='-bnet.progression.raids[1].bosses['+$index+'].bestKills'" class="fa fa-sort" aria-hidden="true"></i>
-                                <i ng-show="sort==='-bnet.progression.raids[1].bosses['+$index+'].bestKills'" class="fa fa-sort-desc" aria-hidden="true"></i>
-                                <i ng-show="sort==='bnet.progression.raids[1].bosses['+$index+'].bestKills'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                                <i ng-if="sort!='bnet.progression.raids[2].bosses['+$index+'].bestKills'&&sort!='-bnet.progression.raids[2].bosses['+$index+'].bestKills'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.progression.raids[2].bosses['+$index+'].bestKills'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.progression.raids[2].bosses['+$index+'].bestKills'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                         </thead>
                         <tbody>
@@ -55,7 +55,7 @@
                                         </div>
                                     </span>
                                 </td>
-                                <td class="text-center sort-img" ng-if="character.bnet.progression.raids[1].name == raids[0].name" ng-repeat="boss in character.bnet.progression.raids[1].bosses">
+                                <td class="text-center sort-img" ng-if="character.bnet.progression.raids[2].name == raids[0].name" ng-repeat="boss in character.bnet.progression.raids[2].bosses">
                                     <span class="cursor-pointer bd-b-d sort-fix" tooltip-placement="top" uib-tooltip-template="'parserBossesTooltipTemplate.html'" tooltip-class="bossesCount-tooltips" tooltip-append-to-body="true">
                                         <span class="legendary" ng-if="boss.mythicKills>0" ng-init="boss.bestKills = (boss.mythicKills+100000000)">{{ boss.mythicKills }}</span>
                                         <span class="epic" ng-if="boss.heroicKills>0&&boss.mythicKills<=0" ng-init="boss.bestKills = (10000000+boss.heroicKills)">{{ boss.heroicKills }}</span>
@@ -88,7 +88,7 @@
                                         </table>
                                     </script>
                                 </td>
-                                <td ng-if="character.bnet.progression.raids[1].name != raids[0].name" ng-repeat="boss in raids[0].bosses"></td>
+                                <td ng-if="character.bnet.progression.raids[2].name != raids[0].name" ng-repeat="boss in raids[0].bosses"></td>
                             </tr>
                         </tbody>
                     </table>
