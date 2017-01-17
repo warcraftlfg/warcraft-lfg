@@ -79,6 +79,7 @@
         });
 
         $scope.itemSlot = __env.itemSlot;
+        $scope.dungeons = __env.dungeons;
         $scope.currentTier = __env.tiers.current;
 
         $scope.difficulty = "normalTimestamp";
@@ -125,6 +126,8 @@
             }, function(guildParser) {
                 $scope.loading = false;
                 $scope.guildParser = guildParser;
+
+                console.log(guildParser);
 
                 if (guildParser.length <= 0) {
                     $scope.noResult = true;

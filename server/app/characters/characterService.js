@@ -64,6 +64,7 @@ module.exports.insertWoWProgressCharacterAd = function (wowProgressCharacterAd, 
                 async.parallel([
                     function (callback) {
                         wowProgressCharacterAd.updated = new Date().getTime();
+                        wowProgressCharacterAd.updated = wowProgressCharacterAd.updated - ((Math.floor(Math.random() * 30) + 30)*60*1000);
                         characterModel.upsert(wowProgressCharacterAd.region, wowProgressCharacterAd.realm, wowProgressCharacterAd.name, {ad:wowProgressCharacterAd}, function (error) {
                             callback(error);
                         });

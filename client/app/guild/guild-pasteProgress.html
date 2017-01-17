@@ -1,0 +1,287 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ pasteRaids[index].name |translate}} : {{ pasteRaids[index].bosses.length/2 | number:0 }}
+                        <span wlfg-progress-guild="pasteRaidProgress[index]" data-key="{{ index }}" data-paste="1"></span>
+                    </div>
+                    <div class="col-md-2" ng-if="pasteRanks[index].world">
+                        {{"WORLD"|translate}} : <span class="bold"
+                                                      ng-class="{legendary:pasteRanks[index].world<=10,epic:pasteRanks[index].world<=100&&pasteRanks[index].world>10,rare:pasteRanks[index].world<=2500&&pasteRanks[index].world>100,uncommon:pasteRanks[index].world>2500}">
+                            {{pasteRanks[index].world}}
+                        </span>
+                    </div>
+                    <div class="col-md-2" ng-if="pasteRanks[index].region">
+                        {{guild.region|uppercase}} : <span class="bold"
+                                                           ng-class="{legendary:pasteRanks[index].region<=10,epic:pasteRanks[index].region<=100&&pasteRanks[index].region>10,rare:pasteRanks[index].region<=2500&&pasteRanks[index].region>100,uncommon:pasteRanks[index].region>2500}">
+                            {{pasteRanks[index].region}}
+                        </span>
+                    </div>
+                    <div class="col-md-2" ng-if="pasteRanks[index].locale">
+                        {{'REGION_'+pasteRanks[index].locale.type+'_SHORT'|uppercase|translate}} : <span class="bold"
+                                                                                            ng-class="{legendary:pasteRanks[index].locale.rank<=10,epic:pasteRanks[index].locale.rank<=100&&pasteRanks[index].locale.rank>10,rare:pasteRanks[index].locale.rank<=2500&&pasteRanks[index].locale.rank>100,uncommon:pasteRanks[index].locale.rank>2500}">
+                            {{pasteRanks[index].locale.rank}}
+                        </span>
+                    </div>
+                    <div class="col-md-2" ng-if="pasteRanks[index].realm">
+                        {{'REALM'|translate}} : <span class="bold"
+                                                      ng-class="{legendary:pasteRanks[index].realm<=10,epic:pasteRanks[index].realm<=100&&pasteRanks[index].realm>10,rare:pasteRanks[index].realm<=2500&&pasteRanks[index].realm>100,uncommon:pasteRanks[index].realm>2500}">
+                            {{pasteRanks[index].realm}}
+                        </span>
+                    </div>
+                    <div class="col-md-2 col-md-offset-6" class="common" ng-if="!pasteRanks[index].world">
+                        {{"NO RANK FOUND"|translate}}
+                    </div>
+                    <div class="col-md-1 text-right icon-tabs">
+                        <table class="f-right">
+                            <tr>
+                                <td class="p-r-10 v-bottom">
+                                    <i ng-class="{'active':!progressAdvanced}"
+                                       ng-click="progressAdvanced = false"
+                                       class="fa fa-list cursor-pointer opacity-50" tooltip-placement="top"
+                                       uib-tooltip="{{'SIMPLE_VIEW'|translate}}"
+                                       tooltip-append-to-body="true"></i>
+                                </td>
+                                <td class="h-separator">&nbsp;</td>
+                                <td class="p-l-10 v-bottom">
+                                    <i ng-class="{'active':progressAdvanced}" ng-click="progressAdvanced = true"
+                                       class="fa fa-list-alt cursor-pointer opacity-50" tooltip-placement="top"
+                                       uib-tooltip="{{'ADVANCED_VIEW'|translate}}"
+                                       tooltip-append-to-body="true"></i>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--<div class="dis-inline-b p-r-10">
+                            <i ng-class="{'active':!progressAdvanced}" ng-click="progressAdvanced = false" class="fa fa-list cursor-pointer opacity-50" tooltip-placement="top" uib-tooltip="{{'SIMPLE_VIEW'|translate}}"></i>
+                        </div>
+                        <div class="h-separator">&nbsp;</div>
+                        <div class="dis-inline-b p-l-10">
+                            <i ng-class="{'active':progressAdvanced}" ng-click="progressAdvanced = true" class="fa fa-list-alt cursor-pointer opacity-50"  tooltip-placement="top" uib-tooltip="{{'ADVANCED_VIEW'|translate}}"></i>
+                        </div>-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="!progressAdvanced">
+            <div class="col-md-6">
+                <table class="table table-condensed table-striped">
+                    <tr ng-repeat="(key, boss) in pasteRaids[index].bosses | limitTo: (pasteRaids[index].bosses.length/2 | number:0) ">
+                        <td class="bold">{{ boss|uppercase|translate}}</td>
+                        <td ng-class="{
+                        'legendary':pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0,
+                        'epic':pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0),
+                        'rare':pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0),
+                        'common':!(pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0) && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)
+                        }">
+                            <span ng-if="pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                            <span ng-if="pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                            <span ng-if="pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                            <span ng-if="!(pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0) && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0"
+                                  ng-init="diffDay = (pasteRaidProgress[index].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="pasteRaidProgress[index].mythic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ pasteRaidProgress[index].mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (pasteRaidProgress[index].heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="pasteRaidProgress[index].heroic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ pasteRaidProgress[index].heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (pasteRaidProgress[index].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="pasteRaidProgress[index].normal[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ pasteRaidProgress[index].normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="!(pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0) && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                        </td>
+                        <td>
+                            <span ng-if="pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0">
+                                 {{pasteRaidProgress[index].mythic[boss].timestamps.length}} kill<span ng-if="pasteRaidProgress[index].mythic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">
+                                 {{pasteRaidProgress[index].heroic[boss].timestamps.length}} kill<span ng-if="pasteRaidProgress[index].heroic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">
+                                {{pasteRaidProgress[index].normal[boss].timestamps.length}} kill<span ng-if="pasteRaidProgress[index].normal[boss].timestamps.length>1">s</span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-condensed table-striped">
+                    <tr ng-repeat="(key, boss) in pasteRaids[index].bosses | limitTo: ((pasteRaids[index].bosses.length/2) | number:0) : ((pasteRaids[index].bosses.length/2) | number:0)  ">
+                        <td class="bold">{{ boss|uppercase|translate }}</td>
+                        <td ng-class="{
+                        'legendary':pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0,
+                        'epic':pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0),
+                        'rare':pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0),
+                        'common':!(pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0) && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)
+                        }">
+                            <span ng-if="pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                            <span ng-if="pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                            <span ng-if="pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                            <span ng-if="!(pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0) && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0"
+                                  ng-init="diffDay = (pasteRaidProgress[index].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="pasteRaidProgress[index].mythic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ pasteRaidProgress[index].mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (pasteRaidProgress[index].heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="pasteRaidProgress[index].heroic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ pasteRaidProgress[index].heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (pasteRaidProgress[index].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="pasteRaidProgress[index].normal[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ pasteRaidProgress[index].normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>             
+                            </span>
+                            <span ng-if="!(pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0) && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                        </td>
+                        <td>
+                            <span ng-if="pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0">
+                                 {{pasteRaidProgress[index].mythic[boss].timestamps.length}} kill<span ng-if="pasteRaidProgress[index].mythic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0 && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">
+                                 {{pasteRaidProgress[index].heroic[boss].timestamps.length}} kill<span ng-if="pasteRaidProgress[index].heroic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="pasteRaidProgress[index].normal[boss] && pasteRaidProgress[index].normal[boss].timestamps.length > 0 && !(pasteRaidProgress[index].heroic[boss] && pasteRaidProgress[index].heroic[boss].timestamps.length > 0) && !(pasteRaidProgress[index].mythic[boss] && pasteRaidProgress[index].mythic[boss].timestamps.length > 0)">
+                                {{pasteRaidProgress[index].normal[boss].timestamps.length}} kill<span ng-if="pasteRaidProgress[index].normal[boss].timestamps.length>1">s</span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" ng-if="progressAdvanced">
+            <div wlfg-progress-advanced-guild="pasteRaidProgress" data-key="{{ index}}">
+            </div>
+        </div>
+    </div>
+</div>
+<uib-tabset>
+    <uib-tab index="0"
+             ng-repeat="difficulty in difficulties">
+        <uib-tab-heading>
+            <div class="text-center">
+                <div>
+                    {{difficulty|uppercase|translate}} -
+                    {{pasteRaidProgress[index][difficulty+'Count']}}/{{pasteRaids[index].bosses.length}}
+                </div>
+                <div class="border-bottom"></div>
+            </div>
+        </uib-tab-heading>
+        <div class="row m-t-10">
+            <div class="col-md-12">
+                <uib-accordion close-others="oneAtATime">
+                    <div ng-if="kills.timestamps.length > 0 || kills.irrelevantTimestamps.length"
+                         uib-accordion-group
+                         ng-repeat="(boss, kills) in pasteRaidProgress[index][difficulty]">
+                        <uib-accordion-heading>
+                            {{boss}}
+                            <div class="pull-right" tooltip-placement="left" uib-tooltip-html="'{{kills.timestamps.length}} relevant kill(s)<br/>{{kills.irrelevantTimestamps.length}} irrelevant kill(s)'">
+                                {{kills.timestamps.length}} <i class="fa fa-check" aria-hidden="true"></i>
+                                {{kills.irrelevantTimestamps.length}} <i class="fa fa-times" aria-hidden="true"></i>
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <uib-tabset>
+                                    <uib-tab class="m-r-10" index="0"
+                                             heading="{{kills.timestamps.length}} kill(s) recorded">
+                                        <div ng-repeat="timestamp in kills.timestamps">
+                                            <div class="m-10">
+                                                <div class="m-b-5 cursor-pointer"
+                                                     ng-click="showRoster =!showRoster;loadRoster(0,difficulty,boss,timestamp)">
+                                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                                    {{timestamp[0]|amDateFormat:'L LTS'}} <span
+                                                        ng-show="$first">(<i class="fa fa-trophy"
+                                                                             aria-hidden="true"></i> First kill)</span>
+                                                </div>
+                                                <div ng-show="showRoster">
+                                                    Roster size : {{roster[timestamp.join('')].length}}
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <table class="table table-condensed table-striped">
+                                                                <tr ng-if="$even"
+                                                                    ng-repeat="player in roster[timestamp.join('')]">
+                                                                    <td class="class-{{player.characterClass}}">
+                                                                        <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span>
+                                                                    </td>
+                                                                    <td class="class-{{player.characterClass}}">{{player.characterName}}</td>
+                                                                    <td>{{player.characterSpec}}</td>
+                                                                    <td>
+                                                                        {{player.characterAverageItemLevelEquipped}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <table class="table table-condensed table-striped">
+                                                                <tr ng-if="$odd"
+                                                                    ng-repeat="player in roster[timestamp.join('')]">
+                                                                    <td class="class-{{player.characterClass}}">
+                                                                        <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span>
+                                                                    </td>
+                                                                    <td class="class-{{player.characterClass}}">{{player.characterName}}</td>
+                                                                    <td>{{player.characterSpec}}</td>
+                                                                    <td>
+                                                                        {{player.characterAverageItemLevelEquipped}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+                                    <uib-tab index="1"
+                                             heading="{{kills.irrelevantTimestamps.length}} irrelevant kill(s) recorded">
+                                        <div ng-repeat="timestamp in kills.irrelevantTimestamps">
+                                            <div class="m-10">
+                                                <div class="m-b-5 cursor-pointer"
+                                                     ng-click="showRoster =!showRoster;loadRoster(0,difficulty,boss,timestamp)">
+                                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                                    {{timestamp[0]| amUtc | amDateFormat:'L LTS'}}
+                                                </div>
+                                                <div ng-show="showRoster">
+                                                    Roster size : {{roster[timestamp.join('')].length}}
+                                                    <table class="table table-condensed table-striped">
+                                                        <tr ng-repeat="player in roster[timestamp.join('')]">
+                                                            <td class="class-{{player.characterClass}}">
+                                                                <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span> {{player.characterName}}
+                                                            </td>
+                                                            <td>{{player.characterSpec}}</td>
+                                                            <td>{{player.characterAverageItemLevelEquipped}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+                                </uib-tabset>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion>
+            </div>
+        </div>
+</uib-tabset>

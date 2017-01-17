@@ -35,6 +35,13 @@
                 title: 'WarcraftParser',
                 controller: "ParserController"
             })
+            .state("parserMythic", {
+                url: "/guild/:region/:realm/:name/parser/mythic",
+                templateUrl: "app/parser/parser-mythic.html",
+                controlerAs: 'vm',
+                title: 'WarcraftParser',
+                controller: "ParserController"
+            })
             .state("parserStuff", {
                 url: "/guild/:region/:realm/:name/parser/gear",
                 templateUrl: "app/parser/parser-stuff.html",

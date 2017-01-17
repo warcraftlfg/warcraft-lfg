@@ -4,16 +4,6 @@
         <div ng-include="'app/guild/guild-read-intro.html'"></div>
         <div ng-include="'app/parser/parser-navbar.html'"></div>
         <div class="row">
-            <div class="col-md-6 m-b-5">
-                <span class="css3-metro-dropdown css3-metro-dropdown-inverse">
-                    <select ng-model="difficulty" class="form-control">
-                        <option value="normalTimestamp">{{ raids[0].name|uppercase|translate }} / {{ raids[1].name|uppercase|translate }} : {{ "NORMAL"|translate }}</option>
-                        <option value="heroicTimestamp">{{ raids[0].name|uppercase|translate }} / {{ raids[1].name|uppercase|translate }} : {{ "HEROIC"|translate }}</option>
-                    </select>
-                </span>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
                     <table class="table table-condensed table-striped table-hover">
@@ -32,13 +22,13 @@
                                 <i ng-show="sort==='-bnet.talents[0].slug'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='bnet.talents[0].slug'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="text-center sortable" ng-click="switchSort('bnet.progression.raids[0].bosses['+$index+'].'+difficulty);" ng-repeat="(key, boss) in raids[0].bosses" uib-tooltip='{{ boss|uppercase|translate }}' tooltip-append-to-body="true">
-                                <div class="dis-inline-b icon-border-24 {{ raids[0].class }} boss-{{ key }}">
+                            <th class="text-center sortable" ng-click="switchSort('parser.mythic.dungeon.'+dungeon+'');" ng-repeat="(key, dungeon) in dungeons" uib-tooltip='{{"DUNGEON_"+dungeon|uppercase|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24 dungeon-{{ dungeon }}">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
-                                <i ng-if="sort!='bnet.progression.raids[0].bosses['+$index+'].'+difficulty&&sort!='-bnet.progression.raids[0].bosses['+$index+'].'+difficulty" class="fa fa-sort" aria-hidden="true"></i>
-                                <i ng-show="sort==='-bnet.progression.raids[0].bosses['+$index+'].'+difficulty" class="fa fa-sort-desc" aria-hidden="true"></i>
-                                <i ng-show="sort==='bnet.progression.raids[0].bosses['+$index+'].'+difficulty" class="fa fa-sort-asc" aria-hidden="true"></i>
+                                <i ng-if="sort!='parser.mythic.dungeon.'+dungeon+''&&sort!='-parser.mythic.dungeon.'+dungeon+''" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.mythic.dungeon.'+dungeon+''" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.mythic.dungeon.'+dungeon+''" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                         </thead>
                         <tbody>
@@ -48,7 +38,7 @@
                                 </td>
                             </tr>
                             <tr class="text-center" ng-if="noResult">
-                                <td colspan="{{ raids[0].bosses.length + 1 }}" class="p-15 loading">
+                                <td colspan="{{ raid.bosses.length + 1 }}" class="p-15 loading">
                                     {{ "NO_DATA"|translate }}
                                 </td>
                             </tr>
@@ -65,11 +55,11 @@
                                         </div>
                                     </span>
                                 </td>
-                                <td class="text-center sort-img" ng-if="character.bnet.progression.raids[1].name == raids[0].name" ng-repeat="boss in character.bnet.progression.raids[1].bosses">
-                                    <i ng-if="boss[difficulty] < lastReset.valueOf()" class="fa fa-times text-danger sort-fix" aria-hidden="true"></i>
-                                    <i ng-if="boss[difficulty]  > lastReset.valueOf()" class="fa fa-check text-success sort-fix" aria-hidden="true"></i>
+                                <td class="text-center sort-img" ng-repeat="(key, value) in character.parser.mythic.dungeon">
+                                    <span class="sort-fix" ng-if="!character.parser.mythic">0</span>
+                                    <span class="sort-fix cursor-pointer" ng-if="character.parser.mythic">{{ character.parser.mythic.dungeon[key] }}</span>
                                 </td>
-                                <td ng-if="character.bnet.progression.raids[1].name != raids[0].name" ng-repeat="boss in raids[0].bosses"></td>
+                                <td class="text-center sort-img" ng-if="!character.parser.mythic" ng-repeat="dungeon in dungeons"><span class="sort-fix cursor-pointer">0</span></td>
                             </tr>
                         </tbody>
                     </table>
