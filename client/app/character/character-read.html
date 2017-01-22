@@ -157,13 +157,13 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                {{ character.bnet.progression.raids[1].name }} : <span wlfg-progress-character="character.bnet.progression.raids[1]"></span>
+                                {{ character.bnet.progression.raids[2].name }} : <span wlfg-progress-character="character.bnet.progression.raids[2]"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr ng-repeat="boss in character.bnet.progression.raids[1].bosses | limitTo:5">
+                                    <tr ng-repeat="boss in character.bnet.progression.raids[2].bosses | limitTo:5">
                                         <td class="bold">{{ boss.name|uppercase|translate}}</td>
                                         <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
@@ -191,7 +191,7 @@
                             </div>
                             <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr ng-repeat="boss in character.bnet.progression.raids[1].bosses | limitTo:-5">
+                                    <tr ng-repeat="boss in character.bnet.progression.raids[2].bosses | limitTo:-5">
                                         <td class="bold">{{ boss.name|uppercase|translate}}</td>
                                         <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
@@ -224,13 +224,13 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                {{ character.bnet.progression.raids[2].name }} : <span wlfg-progress-character="character.bnet.progression.raids[2]"></span>
+                                {{ character.bnet.progression.raids[1].name }} : <span wlfg-progress-character="character.bnet.progression.raids[1]"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr ng-repeat="boss in character.bnet.progression.raids[2].bosses | limitTo:2">
+                                    <tr ng-repeat="boss in character.bnet.progression.raids[1].bosses | limitTo:2">
                                         <td class="bold">{{ boss.name|uppercase|translate}}</td>
                                         <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
@@ -258,7 +258,7 @@
                             </div>
                             <div class="col-md-6">
                                 <table class="table table-condensed">
-                                    <tr ng-repeat="boss in character.bnet.progression.raids[2].bosses | limitTo:-1">
+                                    <tr ng-repeat="boss in character.bnet.progression.raids[1].bosses | limitTo:-1">
                                         <td class="bold">{{ boss.name|uppercase|translate}}</td>
                                         <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
                                             <span ng-if="boss.mythicKills>0">Mythic</span>
@@ -438,7 +438,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="row">
                     <div class="col-md-12">

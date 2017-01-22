@@ -4,7 +4,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
-                        {{ pasteRaids[index].name |translate}} : {{ pasteRaids[index].bosses.length/2 | number:0 }}
+                        {{ pasteRaids[index].name |translate}} :
                         <span wlfg-progress-guild="pasteRaidProgress[index]" data-key="{{ index }}" data-paste="1"></span>
                     </div>
                     <div class="col-md-2" ng-if="pasteRanks[index].world">
