@@ -3501,7 +3501,6 @@ function wlfgItemArtifact() {
 
                 scope.traitsRight = Math.floor(items.artifactTraits.length / 2)*-1;
                 if ((items.artifactTraits.length % 2) === 0) {
-                    console.log('HERE');
                     scope.traitsLeft = Math.floor(items.artifactTraits.length / 2);
                 } else {
                     scope.traitsLeft = Math.floor(items.artifactTraits.length / 2)+1;

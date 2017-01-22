@@ -2,7 +2,7 @@ angular
     .module('app.character')
     .directive('wlfgItemT18', wlfgItemT18);
 
-function wlfgItemT18() {
+function wlfgItemT19() {
     var directive = {
         link: link,
         restrict: 'A',

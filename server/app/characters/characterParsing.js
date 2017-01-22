@@ -98,11 +98,34 @@ module.exports.parseCharacter = function (character) {
 
     // Legendary
     parser.legendary =  {count: 0, items: []};
+
+    // T19
+    parser.t19 = 0;
+    var t19 = {
+        1: "Obsidian Aspect",
+        2: "Highlord",
+        3: "Eagletalon",
+        4: "Doomblade",
+        5: "Purifier",
+        6: "Dreadwyrm",
+        7: "Shackled Elements",
+        8: "Everburning Knowledge",
+        9: "Azj'Aqir",
+        10: "Enveloped Dissonance",
+        11: "Astral Warden",
+        12: "Second Sight",
+    };
+
+    // Legendary + T19
     var itemSlot = Object.keys( character.items );
     for( var i = 0,length = itemSlot.length; i < length; i++ ) {
         if (character.items[itemSlot[i]].quality && character.items[itemSlot[i]].quality === 5 && character.items[itemSlot[i]].itemLevel > 850) {
             parser.legendary.count++;
             parser.legendary.items.push(character.items[itemSlot[i]]);
+        }
+
+        if (character.items[itemSlot[i]].name && character.items[itemSlot[i]].name.indexOf(t19[character.class]) >= 0) {
+            parser.t19++;
         }
     }
 
@@ -147,9 +170,6 @@ module.exports.parseCharacter = function (character) {
 
         parser.artifact.trait = traitCount;
     }
-
-    // T19
-    parser.t19 = 0;
 
     // WCL
 

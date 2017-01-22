@@ -14,7 +14,6 @@ function wlfgProgressCharacter(__env) {
 
     function link(scope, element, attrs) {
         scope.$watch(attrs.wlfgProgressCharacter, function(raids) {
-            console.log(raids);
             if (raids) {
                 progress = raids;
                 var currentProgress = {'name': progress.name, 'tooltip': [], 'mythic':{'total': 0, 'bosses': {}}, 'heroic':{'total': 0, 'bosses': {}}, 'normal': {'total': 0, 'bosses': {}}, 'lfr': {'total': 0, 'bosses': {}}};

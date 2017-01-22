@@ -81,13 +81,19 @@
                                 <i ng-show="sort==='-parser.artifact.trait'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.artifact.trait'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.artifact.knowledge');" uib-tooltip='{{"ARTIFACT_KNOWLEDGE"|translate}}' tooltip-append-to-body="true">
+                            <!--<th class="cursor-pointer text-center sortable" ng-click="switchSort('parser.artifact.knowledge');" uib-tooltip='{{"ARTIFACT_KNOWLEDGE"|translate}}' tooltip-append-to-body="true">
                                 <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/artifact_knowledge.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
                                 <i ng-if="sort!='parser.artifact.knowledge'&&sort!='-parser.artifact.knowledge'" class="fa fa-sort" aria-hidden="true"></i>
                                 <i ng-show="sort==='-parser.artifact.knowledge'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.artifact.knowledge'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>-->
+                            <th class="cursor-pointer" ng-click="switchSort('parser.t19');" uib-tooltip='T19' tooltip-append-to-body="true">
+                                T19
+                                <i ng-if="sort!='parser.t19'&&sort!='-parser.t19'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.t19'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.t19'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="cursor-pointer" ng-click="switchSort('parser.artifact.relic');">
                                 {{ "RELICS"|translate }}
@@ -245,8 +251,8 @@
                                 <td class="text-center sort-img">
                                     <span class="sort-fix">{{ character.parser.artifact.trait }}</span>
                                 </td>
-                                <td class="text-center sort-img">
-                                    <span class="sort-fix">?</span>
+                                <td class="">
+                                    {{ character.parser.t19 }}
                                 </td>
                                 <td>
                                     {{ character.parser.artifact.relic }}
