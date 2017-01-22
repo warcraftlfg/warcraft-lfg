@@ -84,8 +84,6 @@ module.exports.add = function (query, criteria) {
             tmpArray.push(tmpObj);
         }
 
-        console.log(tmpArray);
-
         if (tmpArray.length > 0) {
             if (!criteria["$and"]) {
                 criteria["$and"] = [{"$or": tmpArray}];

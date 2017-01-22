@@ -98,38 +98,66 @@ module.exports.parseCharacter = function (character) {
 
     // Legendary
     parser.legendary =  {count: 0, items: []};
+
+    // T19
+    parser.t19 = 0;
+    var t19 = {
+        1: "Obsidian Aspect",
+        2: "Highlord",
+        3: "Eagletalon",
+        4: "Doomblade",
+        5: "Purifier",
+        6: "Dreadwyrm",
+        7: "Shackled Elements",
+        8: "Everburning Knowledge",
+        9: "Azj'Aqir",
+        10: "Enveloped Dissonance",
+        11: "Astral Warden",
+        12: "Second Sight",
+    };
+
+    // Legendary + T19
     var itemSlot = Object.keys( character.items );
     for( var i = 0,length = itemSlot.length; i < length; i++ ) {
         if (character.items[itemSlot[i]].quality && character.items[itemSlot[i]].quality === 5 && character.items[itemSlot[i]].itemLevel > 850) {
             parser.legendary.count++;
             parser.legendary.items.push(character.items[itemSlot[i]]);
         }
+
+        if (character.items[itemSlot[i]].name && character.items[itemSlot[i]].name.indexOf(t19[character.class]) >= 0) {
+            parser.t19++;
+        }
     }
 
     // Artifact trait
     parser.artifact = {trait: 0, knowledge: 0, relic: 0};
     if (character.items && character.items.mainHand) {
-        parser.artifact.relic = character.items.mainHand.relics.length;
+        var weaponArtifact = character.items.mainHand;
+        if (weaponArtifact.artifactId == 0) {
+            weaponArtifact = character.items.offHand;
+        }
+
+        parser.artifact.relic = weaponArtifact.relics.length;
 
         var traitCount = 0;
         var relics = relicsData.getData();
         var traitModified = 0;
-        character.items.mainHand.artifactTraits.forEach(function(trait) {
-        	if (character.items.mainHand.relics[0] && relics[character.items.mainHand.relics[0].itemId] && relics[character.items.mainHand.relics[0].itemId].indexOf(trait.id) >= 0) {
+        weaponArtifact.artifactTraits.forEach(function(trait) {
+        	if (weaponArtifact.relics[0] && relics[weaponArtifact.relics[0].itemId] && relics[weaponArtifact.relics[0].itemId].indexOf(trait.id) >= 0) {
         		traitModified++;
                 if (trait && trait.rank) {
                     trait.rank--;
                 }
         	}
 
-            if (character.items.mainHand.relics[1] && relics[character.items.mainHand.relics[1].itemId] && relics[character.items.mainHand.relics[1].itemId].indexOf(trait.id) >= 0) {
+            if (weaponArtifact.relics[1] && relics[weaponArtifact.relics[1].itemId] && relics[weaponArtifact.relics[1].itemId].indexOf(trait.id) >= 0) {
                 traitModified++;
                 if (trait && trait.rank) {
                     trait.rank--;
                 }
             }
 
-            if (character.items.mainHand.relics[2] && relics[character.items.mainHand.relics[2].itemId] && relics[character.items.mainHand.relics[2].itemId].indexOf(trait.id) >= 0) {
+            if (weaponArtifact.relics[2] && relics[weaponArtifact.relics[2].itemId] && relics[weaponArtifact.relics[2].itemId].indexOf(trait.id) >= 0) {
                 traitModified++;
                 if (trait && trait.rank) {
                     trait.rank--;
@@ -141,15 +169,12 @@ module.exports.parseCharacter = function (character) {
             }
         });
 
-        if (character.items && character.items.mainHand) {
-            character.items.mainHand.artifactTotal = traitCount;
+        if (character.items && weaponArtifact) {
+            weaponArtifact.artifactTotal = traitCount;
         }
 
         parser.artifact.trait = traitCount;
     }
-
-    // T19
-    parser.t19 = 0;
 
     // WCL
 

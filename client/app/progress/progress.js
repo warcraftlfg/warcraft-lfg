@@ -167,7 +167,6 @@
                 "type": "guild",
                 "limit": 1
             }, function (stats) {
-                console.log(stats);
                 $scope.stats = stats[0];
             });
         }

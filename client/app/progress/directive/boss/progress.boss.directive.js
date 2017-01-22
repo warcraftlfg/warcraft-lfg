@@ -17,7 +17,6 @@ function wlfgProgressBoss(__env) {
         var raidName = __env.tiers[__env.tiers.current[raidKey]].name;
 
         scope.$watch(attrs.progress, function(progress){
-            console.log(progress);
             scope.progress = angular.fromJson(progress);
             scope.progress.tooltip = [];
             scope.progress.name = raidName;
