@@ -4,65 +4,30 @@
 var request = require("request");
 var applicationStorage = process.require("core/applicationStorage.js");
 
-//For russian Ream wowprogress is bad ...
-var russianRealms = {
-    "Gordunni": "Гордунни",
-    "Howling Fjord": "Ревущий фьорд",
-    "Blackscar": "Черный Шрам",
-    "Ashenvale": "Ясеневый лес",
-    "Soulflayer": "Свежеватель Душ",
-    "Razuvious": "Разувий",
-    "Azuregos": "Азурегос",
-    "Booty Bay": "Пиратская Бухта",
-    "Eversong": "Вечная Песня",
-    "Deathguard": "Страж смерти",
-    "Lich King": "Король-лич",
-    "Fordragon": "Дракономор",
-    "Borean Tundra": "Борейская тундра",
-    "Goldrinn": "Голдринн",
-    "Grom": "Гром",
-    "Galakrond": "Галакронд"
+//For some Realms wowprogress is bad ...
+var enGBToLocalSlugRealm = {
+    "ashenvale": "ясеневыи-лес",
+    "azuregos": "азурегос",
+    "blackscar": "черныи-шрам",
+    "booty-bay": "пиратская-бухта",
+    "borean-tundra": "бореиская-тундра",
+    "deathguard": "страж-смерти",
+    "deathweaver": "ткач-смерти",
+    "deepholm": "подземье",
+    "eversong": "вечная-песня",
+    "fordragon": "дракономор",
+    "galakrond": "галакронд",
+    "goldrinn": "голдринн",
+    "gordunni": "гордунни",
+    "greymane": "седогрив",
+    "grom": "гром",
+    "howling-fjord": "ревущии-фьорд",
+    "lich-king": "корольлич",
+    "nerzhul": "ner’zhul",
+    "razuvious": "разувии",
+    "soulflayer": "свежеватель-душ",
+    "thermaplugg": "термоштепсель"
 };
-
-var frenchRealms = {
-    "Arak-arahm": "arakarahm",
-    "Arathi": "arathi",
-    "Archimonde": "archimonde",
-    "Chants éternels": "chants-eternels",
-    "Cho'gall": "cho’gall",
-    "Confrérie du Thorium": "confrerie-du-thorium",
-    "Conseil des Ombres": "conseil-des-ombres",
-    "Culte de la Rive noire": "culte-de-la-rive-noire",
-    "Dalaran": "dalaran",
-    "Drek'Thar": "drekthar",
-    "Eitrigg": "eitrigg",
-    "Eldre'Thalas": "eldrethalas",
-    "Elune": "elune",
-    "Garona": "garona",
-    "Hyjal": "hyjal",
-    "Illidan": "illidan",
-    "Kael'thas": "kaelthas",
-    "Khaz Modan": "khaz-modan",
-    "Kirin Tor": "kirin-tor",
-    "Krasus": "krasus",
-    "La Croisade écarlate": "la-croisade-ecarlate",
-    "Les Clairvoyants": "les-clairvoyants",
-    "Les Sentinelles": "les-sentinelles",
-    "Marécage de Zangar": "marecage-de-zangar",
-    "Medivh": "medivh",
-    "Naxxramas": "naxxramas",
-    "Ner'zhul": "ner’zhul",
-    "Rashgarroth": "rashgarroth",
-    "Sargeras": "sargeras",
-    "Sinstralis": "sinstralis",
-    "Temple noir": "temple-noir",
-    "Throk'Feroth": "throkferoth",
-    "Uldaman": "uldaman",
-    "Varimathras": "varimathras",
-    "Vol'jin": "voljin",
-    "Ysondre": "ysondre"
-};
-
 
 /**
  * Return the guild ranking from warcraftLogs
@@ -78,14 +43,9 @@ module.exports.getRankings = function (region, realm, name, metric, zone, callba
 
     var warcraftlogs = {};
 
-    if (region.toLowerCase() == "eu" && russianRealms[realm]) {
-        realm = russianRealms[realm];
+    if (region.toLowerCase() == "eu" && enGBToLocalSlugRealm[realm]) {
+        realm = enGBToLocalSlugRealm[realm];
     }
-
-    if (region.toLowerCase() == "eu" && frenchRealms[realm]) {
-        realm = frenchRealms[realm];
-    }
-
     realm = realm.split(" ").join("-");
     realm = realm.split("'").join("");
 
