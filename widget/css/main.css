@@ -1,0 +1,76 @@
+/* 
+Custom CSS for...
+'Modern Business' HTML Theme by Start Bootstrap
+
+All Start Bootstrap themes are licensed under Apache 2.0. 
+For more info and more free Bootstrap 3 HTML themes, visit http://startbootstrap.com!
+*/
+
+/* Global Styles */
+
+html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.widget {
+    padding: 10px 10px 10px 10px;
+    position: relative;
+}
+
+.widget.theme-dark {
+    background-color: #1C1E1C;
+    border: 3px solid #3C3E3C;
+    color: #CCCECC;
+    text-align: center;
+}
+
+.credits {
+    font-size: 12px;
+    color: #E4B65C;
+    margin-bottom: 5px;
+}
+
+.title {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.ranking {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.guild {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.realm {
+    font-weight: normal;
+    font-style: italic;
+}
+
+.div-link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-decoration: none; /* No underlines on the link */
+    z-index: 10; /* Places the link above everything else in the div */
+    background-color: #FFF; /* Fix to make div clickable in IE */
+    opacity: 0; /* Fix to make div clickable in IE */
+    filter: alpha(opacity=1); /* Fix to make div clickable in IE */
+}
+
+
+.legendary, .quality-5 { color: rgb(255, 128, 0) }
+.epic, .quality-4 { color: rgb(163, 53, 238) }
+.rare, .quality-3 { color: rgb(0, 112, 255) }
+.uncommon, .quality-2 { color: rgb(30, 255, 0) }
+.common, .quality-1 { color: #666 }
+.faction-0, .alliance { color: #0078FF; }
+.faction-1, .horde { color: #B30000; }
