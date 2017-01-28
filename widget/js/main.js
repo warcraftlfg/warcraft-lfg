@@ -24,9 +24,12 @@ app.config(['$routeProvider', function ($routeProvider) {
  * Controls all other Pages
  */
 app.controller('WidgetRankingController', function ($scope, $routeParams, $resource) {
-  console.log($routeParams);
+  if ($routeParams.theme) {
+    $scope.theme = $routeParams.theme;
+  } else {
+    $scope.theme = "dark";
+  }
   ranking = $resource('https://api.warcraftprogress.com/api/v1/ranks/:tier/:raid/:region/:realm/:name', {}, { get: { method: 'get', withCredentials: false }});
-  console.log(ranking);
   var query = {};
   query.raid = "The Nighthold"
   query.tier = "19";
