@@ -163,10 +163,19 @@
             });
         };
 
-        $scope.loadRoster = function (key, difficulty, boss, timestamp) {
+        $scope.loadRoster = function (key, difficulty, boss, timestamp, paste) {
+            var tier, raid;
+
+            if (paste) {
+                tier = $scope.pasteRaids[key].tier;
+                raid = $scope.pasteRaids[key].name;
+            } else {
+                tier = $scope.raids[key].tier
+                raid = $scope.raids[key].name;
+            }
             kills.get({
-                "tier": $scope.raids[key].tier,
-                "raid": $scope.raids[key].name,
+                "tier": tier,
+                "raid": raid,
                 "region": $stateParams.region,
                 "realm": $stateParams.realm,
                 "name": $stateParams.name,

@@ -206,7 +206,7 @@
                                         <div ng-repeat="timestamp in kills.timestamps">
                                             <div class="m-10">
                                                 <div class="m-b-5 cursor-pointer"
-                                                     ng-click="showRoster =!showRoster;loadRoster(0,difficulty,boss,timestamp)">
+                                                     ng-click="showRoster =!showRoster;loadRoster(index,difficulty,boss,timestamp,1)">
                                                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                                                     {{timestamp[0]|amDateFormat:'L LTS'}} <span
                                                         ng-show="$first">(<i class="fa fa-trophy"
@@ -257,7 +257,7 @@
                                         <div ng-repeat="timestamp in kills.irrelevantTimestamps">
                                             <div class="m-10">
                                                 <div class="m-b-5 cursor-pointer"
-                                                     ng-click="showRoster =!showRoster;loadRoster(0,difficulty,boss,timestamp)">
+                                                     ng-click="showRoster =!showRoster;loadRoster(index,difficulty,boss,timestamp,1)">
                                                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                                                     {{timestamp[0]| amUtc | amDateFormat:'L LTS'}}
                                                 </div>
