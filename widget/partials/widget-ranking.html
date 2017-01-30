@@ -3,6 +3,6 @@
     <div class="credits">WarcraftHub.com</div>
     <div class="title">Realm rank</div>
     <div class="ranking" ng-class="{'legendary': (ranking.realm <= 3), 'epic': (ranking.realm > 3 && ranking.realm <= 10), 'rare': (ranking.realm > 10 && ranking.realm <= 25), 'uncommon': (ranking.realm > 25)}">{{ ranking.realm }}</div>
-    <div class="guild horde">{{ name }}</div>
+    <div class="guild faction-{{ranking.faction}}">{{ name }}</div>
     <div class="realm">{{ region|uppercase }}-{{ realm }}</div>
 </div>
