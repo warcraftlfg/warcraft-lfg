@@ -13,8 +13,8 @@ function wlfgFilterIlevel($stateParams, $location) {
     return directive;
 
     function link($scope, element, attrs) {
-        var min = 575;
-        var max = 750;
+        var min = 800;
+        var max = 1000;
         $scope.ilevel = {min:min,max:max};
 
         if ($stateParams.ilevel) {
