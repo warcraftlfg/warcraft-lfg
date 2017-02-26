@@ -133,7 +133,7 @@ module.exports.parseCharacter = function (character) {
     parser.artifact = {trait: 0, knowledge: 0, relic: 0};
     if (character.items && character.items.mainHand) {
         var weaponArtifact = character.items.mainHand;
-        if (weaponArtifact.artifactId == 0) {
+        if (weaponArtifact.artifactId == 0 &&  character.items.offHand && character.items.offHand.artifactId && character.items.offHand.artifactId > 0) {
             weaponArtifact = character.items.offHand;
         }
 

@@ -64,7 +64,7 @@ module.exports.insertWoWProgressGuildAd = function (wowProgressGuildAd, callback
                 async.parallel([
                     function (callback) {
                         wowProgressGuildAd.updated = new Date().getTime();
-                        wowProgressGuildAd.updated = wowProgressGuildAd.updated  - ((Math.floor(Math.random() * 30) + 30)*60*1000);
+                        wowProgressGuildAd.updated = wowProgressGuildAd.updated  - ((Math.floor(Math.random() * 30) + 60)*60*1000);
                         guildModel.upsert(wowProgressGuildAd.region, wowProgressGuildAd.realm, wowProgressGuildAd.name, {ad: wowProgressGuildAd}, function (error) {
                             callback(error);
                         });

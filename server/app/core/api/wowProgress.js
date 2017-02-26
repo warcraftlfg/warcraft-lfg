@@ -234,7 +234,14 @@ module.exports.getWoWProgressPage = function (path, callback) {
     var url = "http://www.wowprogress.com" + path;
     var logger = applicationStorage.logger;
 
-    request(url, function (error, response, body) {
+    var options = {
+      url: url,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+      }
+    };
+
+    request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error, body);
         }
