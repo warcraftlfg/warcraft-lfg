@@ -131,13 +131,13 @@
                                 <i ng-show="sort==='-parser.suramar.courtOfStar'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.suramar.courtOfStar'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
-                            <th  class="cursor-pointer text-center sortable" ng-click="switchSort('parser.obliterumForge');" uib-tooltip='{{"OBLITERUM_FORGE"|translate}}' tooltip-append-to-body="true">
-                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/forge.jpg');">
+                            <th  class="cursor-pointer text-center sortable" ng-click="switchSort('parser.artifactTraitsVersion');" uib-tooltip='{{"Artifact Trait v2"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/artifact_trait_v2.jpg');">
                                     <img width="24" height="24" src="/assets/images/external/border.png">
                                 </div>
-                                <i ng-if="sort!='parser.obliterumForge'&&sort!='-parser.obliterumForge'" class="fa fa-sort" aria-hidden="true"></i>
-                                <i ng-show="sort==='-parser.obliterumForge'" class="fa fa-sort-desc" aria-hidden="true"></i>
-                                <i ng-show="sort==='parser.obliterumForge'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                                <i ng-if="sort!='parser.artifactTraitsVersion'&&sort!='-parser.artifactTraitsVersion'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.artifactTraitsVersion'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.artifactTraitsVersion'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="text-center">
                                 {{ "AUDIT"|translate }}
@@ -280,8 +280,8 @@
                                 </td>
                                 <td class="text-center sort-img">
                                     <span class="sort-fix">
-                                        <i ng-if="!character.parser.obliterumForge" class="fa fa-times text-danger" aria-hidden="true"></i>
-                                        <img ng-if="character.parser.obliterumForge" width="18" height="18" src="/assets/images/external/forge.jpg">
+                                        <i ng-if="!character.parser.artifactTraitsVersion || !character.parser.artifactTraitsVersion == 1" class="fa fa-times text-danger" aria-hidden="true"></i>
+                                        <i ng-if="character.parser.artifactTraitsVersion == 2" class="text-success fa fa-check"></i>
                                     </span>
                                 </td>
                                 <td class="text-center">

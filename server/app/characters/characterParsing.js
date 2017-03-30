@@ -13,7 +13,7 @@ module.exports.parseCharacter = function (character) {
 
     // Suramar WQ unlock
     parser.suramar = {};
-    if (character.achievements) {
+    if (character.achievements && character.quests) {
         var achievement = character.achievements.achievementsCompleted.indexOf(10617);
         if (achievement >= 0) {
             parser.suramar.worldQuest = 6;
@@ -40,6 +40,19 @@ module.exports.parseCharacter = function (character) {
             }
         }
     }
+
+    // New Artifact Trait
+    // 45864 / 45862 / 45863 / 45865 / 45861 / 45842 / 45866
+    parser.artifactTraitsVersion = 1;
+    if (character.quests) {
+        if (character.quests.indexOf(45864) >= 0 || character.quests.indexOf(45862) >= 0 || character.quests.indexOf(45863) >= 0 
+            || character.quests.indexOf(45865) >= 0 || character.quests.indexOf(45861) >= 0 || character.quests.indexOf(45842) >= 0 
+            || character.quests.indexOf(45866) >= 0) {
+            parser.artifactTraitsVersion = 2;
+        }
+    }
+
+
 
     // Suramar Arcway & COS unlock
     if (character.quests && character.quests.indexOf(44053) >= 0) {
