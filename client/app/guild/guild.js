@@ -170,7 +170,7 @@
                 tier = $scope.pasteRaids[key].tier;
                 raid = $scope.pasteRaids[key].name;
             } else {
-                tier = $scope.raids[key].tier
+                tier = $scope.raids[key].tier;
                 raid = $scope.raids[key].name;
             }
             kills.get({

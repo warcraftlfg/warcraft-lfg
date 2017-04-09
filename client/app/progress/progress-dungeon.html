@@ -8,6 +8,15 @@
                         <div class="panel-body p-r-0 p-l-0">
                             <div class="row">
                                 <div class="col-md-3">
+                                    <div class="fw-700 m-b-5">{{"Patch"|translate}}</div>
+                                    <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.extension" class="form-control">
+                                            <option value="legion72">7.2+</option>
+                                            <option value="legion">7.0 - 7.1.5</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="fw-700 m-b-5">{{"DUNGEON"|translate}}</div>
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.dungeon" class="form-control">
@@ -55,7 +64,7 @@
                                     >
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <!--<div class="col-md-3">
                                     <div class="fw-700 m-b-5">{{"AFFIXES"|translate}}</div>
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.affixes" class="form-control">
@@ -70,7 +79,7 @@
                                             <option value="Teeming#Skittish#Fortified">{{"TEEMING_SKITTISH_FORTIFIED"|translate}}</option>
                                         </select>
                                     </span>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>

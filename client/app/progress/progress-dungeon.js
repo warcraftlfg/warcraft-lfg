@@ -15,6 +15,7 @@
         $scope.rankingSubregions = __env.rankingSubregions;
         $scope.filters = {};
         $scope.filters.states = {};
+        $scope.filters.extension = "legion72";
         $scope.filters.realm = null;
         $scope.realms = [];
         $scope.rankings = [];
@@ -68,6 +69,9 @@
         if ($stateParams.affixes) {
             $scope.filters.affixes = $stateParams.affixes;
         }
+        if ($stateParams.extension) {
+            $scope.filters.extension = $stateParams.extension;
+        }
 
         $scope.page = (parseInt($stateParams.page) > 0) ? parseInt($stateParams.page) : 1;
         $scope.lastPage = $scope.page;
@@ -93,6 +97,8 @@
                     initialLoadingPage = false;
                 }
 
+                console.log("WATCH FILTERS");
+
                 if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
                     $scope.path = "dungeon/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
                     $state.go('progressDungeonRealm', {
@@ -100,7 +106,8 @@
                         realm: $scope.filters.realm,
                         page: null,
                         dungeon: $scope.filters.dungeon,
-                        affixes: $scope.filters.affixes
+                        affixes: $scope.filters.affixes,
+                        extension: $scope.filters.extension
                     }, {notify: false});
                 } else if ($scope.filters.region) {
                     $scope.path = "dungeon/" + $scope.filters.region + "/";
@@ -108,14 +115,16 @@
                         region: $scope.filters.region,
                         page: null,
                         dungeon: $scope.filters.dungeon,
-                        affixes: $scope.filters.affixes
+                        affixes: $scope.filters.affixes,
+                        extension: $scope.filters.extension
                     }, {notify: false});
                 } else {
                     $scope.path = "dungeon/";
                     $state.go('progressDungeon', {
                         page: null,
                         dungeon: $scope.filters.dungeon,
-                        affixes: $scope.filters.affixes
+                        affixes: $scope.filters.affixes,
+                        extension: $scope.filters.extension
                     }, {notify: false});
                 }
 
@@ -172,6 +181,7 @@
             } else {
                 query.region = __env.rankingSubregions[query.region];
             }
+
             query.limit = $scope.limit;
             query.page = $scope.page;
 
