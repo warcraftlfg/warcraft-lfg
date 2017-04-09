@@ -97,8 +97,6 @@
                     initialLoadingPage = false;
                 }
 
-                console.log("WATCH FILTERS");
-
                 if ($scope.filters.realm && $scope.filters.region == $scope.realmRegion) {
                     $scope.path = "dungeon/" + $scope.filters.region + "/" + $scope.filters.realm + "/";
                     $state.go('progressDungeonRealm', {
