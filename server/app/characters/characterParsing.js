@@ -70,6 +70,8 @@ module.exports.parseCharacter = function (character) {
     if (parser.suramar.reputation) {
         if (parser.suramar.reputation.standing == 7) {
                 parser.suramar.reputation.sort = (50000*7) + parser.suramar.reputation.value;
+                parser.suramar.reputation.value = 999;
+                parser.suramar.reputation.max = 999;
         } else {
             parser.suramar.reputation.sort = (parser.suramar.reputation.max*parser.suramar.reputation.standing) + parser.suramar.reputation.value;
         }
@@ -143,7 +145,14 @@ module.exports.parseCharacter = function (character) {
     }
 
     // Artifact trait
-    parser.artifact = {trait: 0, knowledge: 0, relic: 0};
+    parser.artifact = {trait: 0, knowledge: 0, relic: 0, challenge: 0};
+    if (character.achievements) {
+        var achievement = character.achievements.achievementsCompleted.indexOf(11611);
+        if (achievement >= 0) {
+            parser.artifact.challenge = 1;
+        }
+    }
+
     if (character.items && character.items.mainHand) {
         var weaponArtifact = character.items.mainHand;
         if (weaponArtifact.artifactId == 0 &&  character.items.offHand && character.items.offHand.artifactId && character.items.offHand.artifactId > 0) {
