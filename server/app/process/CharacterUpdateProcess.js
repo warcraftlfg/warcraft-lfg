@@ -128,36 +128,6 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                         callback(null, tmpObj);
                     });
                 },
-                warcraftLogsDps2: function (callback) {
-                    //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'dps', '11', 1, function (error, warcraftLogs) {
-                        var tmpObj = {};
-                        if (error && error !== true) {
-                            logger.error(error.message);
-                            tmpObj.logs = null;
-                            tmpObj.updated = new Date().getTime();
-                        } else {
-                            tmpObj.logs = warcraftLogs;
-                            tmpObj.updated = new Date().getTime();
-                        }
-                        callback(null, tmpObj);
-                    });
-                },
-                warcraftLogsHps2: function (callback) {
-                    //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'hps', '11', 1, function (error, warcraftLogs) {
-                        var tmpObj = {};
-                        if (error && error !== true) {
-                            logger.error(error.message);
-                            tmpObj.logs = null;
-                            tmpObj.updated = new Date().getTime();
-                        } else {
-                            tmpObj.logs = warcraftLogs;
-                            tmpObj.updated = new Date().getTime();
-                        }
-                        callback(null, tmpObj);
-                    });
-                },
                 progress: function (callback) {
                     var progress = {score:0}
                     if (character.progression && character.progression.raids) {
@@ -188,7 +158,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 // Set current specialization
                 characterParsing.parseCharacterTalents(character);
 
-                if (!results.warcraftLogsDps || !results.warcraftLogsDps.logs || results.warcraftLogsDps.logs <= 0) {
+                /*if (!results.warcraftLogsDps || !results.warcraftLogsDps.logs || results.warcraftLogsDps.logs <= 0) {
                     if (results.warcraftLogsDps2 && results.warcraftLogsDps2.logs && results.warcraftLogsDps2.logs.length > 0) {
                         results.warcraftLogsDps.logs = results.warcraftLogsDps2.logs;
                     }   
@@ -198,7 +168,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                     if (results.warcraftLogsHps2 && results.warcraftLogsHps2.logs && results.warcraftLogsHps2.logs.length > 0) {
                         results.warcraftLogsHps.logs = results.warcraftLogsHps2.logs;
                     }
-                }
+                }*/
 
                 /*if (results.warcraftLogsDps2 && results.warcraftLogsDps2.logs && results.warcraftLogsDps2.logs.length > 0) {
                     results.warcraftLogsDps.logs = results.warcraftLogsDps.logs.concat(results.warcraftLogsDps2.logs);
