@@ -15,7 +15,7 @@
         $scope.rankingSubregions = __env.rankingSubregions;
         $scope.filters = {};
         $scope.filters.states = {};
-        $scope.filters.extension = "legion72";
+        $scope.filters.extension = "legion725";
         $scope.filters.realm = null;
         $scope.realms = [];
         $scope.rankings = [];
