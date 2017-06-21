@@ -118,7 +118,7 @@
             </div>
             <div class="col-md-6">
                 <table class="table table-condensed table-striped">
-                    <tr ng-repeat="(key, boss) in raids[0].bosses | limitTo:-5">
+                    <tr ng-repeat="(key, boss) in raids[0].bosses | limitTo:-4">
                         <td class="bold">{{ boss|uppercase|translate }}</td>
                         <td ng-class="{
                         'legendary':raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0,

@@ -100,7 +100,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 },
                 warcraftLogsDps: function (callback) {
                     //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'dps', '11', 2, function (error, warcraftLogs) {
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'dps', '13', 1, function (error, warcraftLogs) {
                         var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);
@@ -115,7 +115,7 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                 },
                 warcraftLogsHps: function (callback) {
                     //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'hps', '11', 2, function (error, warcraftLogs) {
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'hps', '13', 1, function (error, warcraftLogs) {
                         var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);

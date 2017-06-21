@@ -89,11 +89,11 @@
                                 <i ng-show="sort==='-parser.artifact.knowledge'" class="fa fa-sort-desc" aria-hidden="true"></i>
                                 <i ng-show="sort==='parser.artifact.knowledge'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>-->
-                            <th class="cursor-pointer" ng-click="switchSort('parser.t19');" uib-tooltip='T19' tooltip-append-to-body="true">
-                                T19
-                                <i ng-if="sort!='parser.t19'&&sort!='-parser.t19'" class="fa fa-sort" aria-hidden="true"></i>
-                                <i ng-show="sort==='-parser.t19'" class="fa fa-sort-desc" aria-hidden="true"></i>
-                                <i ng-show="sort==='parser.t19'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <th class="cursor-pointer" ng-click="switchSort('parser.t20');" uib-tooltip='T20' tooltip-append-to-body="true">
+                                T20
+                                <i ng-if="sort!='parser.t20'&&sort!='-parser.t20'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-parser.t20'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='parser.t20'" class="fa fa-sort-asc" aria-hidden="true"></i>
                             </th>
                             <th class="cursor-pointer" ng-click="switchSort('parser.artifact.relic');">
                                 {{ "RELICS"|translate }}
@@ -212,7 +212,7 @@
                                     <span class="sort-fix" wlfg-warcraft-logs-average="character.warcraftLogs" character-class="{{ character.bnet.class }}"></span>
                                 </td>
                                 <td>
-                                    <span wlfg-progress-character="character.bnet.progression.raids[2]"></span>
+                                    <span wlfg-progress-character="character.bnet.progression.raids[3]"></span>
                                 </td>
                                 <td class="text-center sort-img">
                                     <span class="sort-fix" ng-if="!character.parser.mythic">0</span>
@@ -260,7 +260,7 @@
                                     <span class="sort-fix">{{ character.parser.artifact.trait }}</span>
                                 </td>
                                 <td class="">
-                                    {{ character.parser.t19 }}
+                                    {{ character.parser.t20 }}
                                 </td>
                                 <td>
                                     {{ character.parser.artifact.relic }}

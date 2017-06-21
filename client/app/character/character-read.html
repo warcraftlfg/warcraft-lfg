@@ -157,6 +157,73 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
+                                {{ character.bnet.progression.raids[3].name }} : <span wlfg-progress-character="character.bnet.progression.raids[3]"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-condensed">
+                                    <tr ng-repeat="boss in character.bnet.progression.raids[3].bosses | limitTo:5">
+                                        <td class="bold">{{ boss.name|uppercase|translate}}</td>
+                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
+                                            <span ng-if="boss.mythicKills>0">Mythic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">No kill</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">{{boss.heroicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">{{boss.normalKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">{{boss.lfrKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">0</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0" am-time-ago="boss.mythicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0" am-time-ago="boss.heroicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0" am-time-ago="boss.normalTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0" am-time-ago="boss.lfrTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-condensed">
+                                    <tr ng-repeat="boss in character.bnet.progression.raids[3].bosses | limitTo:-4">
+                                        <td class="bold">{{ boss.name|uppercase|translate}}</td>
+                                        <td ng-class="{'legendary':boss.mythicKills>0,'epic':boss.heroicKills>0&&boss.mythicKills==0,'rare':boss.normalKills>0&&boss.mythicKills==0&&boss.heroicKills==0,'uncommon':boss.lfrKills>0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0,'common':boss.lfrKills==0&&boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0}">
+                                            <span ng-if="boss.mythicKills>0">Mythic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">Heroic</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">Normal</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">LFR</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">No kill</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0">{{boss.mythicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0">{{boss.heroicKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0">{{boss.normalKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0">{{boss.lfrKills}}</span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">0</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="boss.mythicKills>0" am-time-ago="boss.mythicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills>0" am-time-ago="boss.heroicTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills>0" am-time-ago="boss.normalTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills>0" am-time-ago="boss.lfrTimestamp"></span>
+                                            <span ng-if="boss.mythicKills==0&&boss.heroicKills==0&&boss.normalKills==0&&boss.lfrKills==0">&nbsp;</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
                                 {{ character.bnet.progression.raids[2].name }} : <span wlfg-progress-character="character.bnet.progression.raids[2]"></span>
                             </div>
                         </div>
@@ -220,7 +287,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -353,7 +420,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
@@ -373,13 +440,13 @@
                                     </div> 
                                     <div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ARTIFACT_RANK"|translate}}:
-                                        <span ng-if="character.bnet.items.mainHand.artifactTotal" ng-class="{'legendary':character.bnet.items.mainHand.artifactTotal>=22,'epic':character.bnet.items.mainHand.artifactTotal>=18&&character.bnet.items.mainHand.artifactTotal<22,'rare':character.bnet.items.mainHand.artifactTotal>=14&&character.bnet.items.mainHand.artifactTotal<18,'uncommon':character.bnet.items.mainHand.artifactTotal>=10&&character.bnet.items.mainHand.artifactTotal<14,'common':character.bnet.items.mainHand.artifactTotal<10}">
+                                        <span ng-if="character.bnet.items.mainHand.artifactTotal" ng-class="{'legendary':character.bnet.items.mainHand.artifactTotal>=52,'epic':character.bnet.items.mainHand.artifactTotal>=46&&character.bnet.items.mainHand.artifactTotal<52,'rare':character.bnet.items.mainHand.artifactTotal>=40&&character.bnet.items.mainHand.artifactTotal<46,'uncommon':character.bnet.items.mainHand.artifactTotal>=34&&character.bnet.items.mainHand.artifactTotal<46,'common':character.bnet.items.mainHand.artifactTotal<34}">
                                             {{ character.bnet.items.mainHand.artifactTotal }}
                                         </span>
                                         <span ng-if="!character.bnet.items.mainHand.artifactTotal">0</span>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-6">
-                                        T19: {{ character.parser.t19 }}
+                                        T20: {{ character.parser.t20 }}
                                     </div>
                                     <!--<div class="col-md-2 col-sm-3 col-xs-6">
                                         {{"ENDLESS RUNE"|translate}}: <span wlfg-reputation-rune="character.bnet.reputation"></span>

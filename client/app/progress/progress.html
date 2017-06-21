@@ -11,6 +11,7 @@
                                     <div class="fw-700 m-b-5">{{"TIER"|translate}}</div>
                                     <span class="css3-metro-dropdown">
                                         <select ng-model="filters.tier" class="form-control">
+                                            <option value="20">Tier 20 - Tomb of Sargeras</option>
                                             <option value="19.3">Tier 19 - Nighthold</option>
                                             <option value="19.2">Tier 19 - Trial of Valor</option>
                                             <option value="19">Tier 19 - Emerald Nightmare</option>
@@ -120,7 +121,7 @@
                             {{guild.world}}
                         </td>
                         <td>
-                            <span wlfg-progress-guild="guild.progress" data-tier="{{ filters.tier }}"></span>
+                            <span wlfg-progress-guild="guild.progress" data-tier="{{ filters.tier }}" data-region="{{ guild.region }}" data-realm="{{ guild.realm }}" data-name="{{ guild.name }}"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -186,7 +187,7 @@
                             {{guild.world}}
                         </td>
                         <td>
-                            <span wlfg-progress-guild="guild.progress" data-tier="{{ filters.tier }}"></span>
+                            <span wlfg-progress-guild="guild.progress" data-tier="{{ filters.tier }}" data-region="{{ guild.region }}" data-realm="{{ guild.realm }}" data-name="{{ guild.name }}"></span>
                         </td>
                     </tr>
                     </tbody>

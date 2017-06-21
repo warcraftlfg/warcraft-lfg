@@ -115,23 +115,23 @@ module.exports.parseCharacter = function (character) {
     parser.legendary =  {count: 0, items: []};
 
     // T19
-    parser.t19 = 0;
-    var t19 = {
-        1: "Obsidian Aspect",
-        2: "Highlord",
-        3: "Eagletalon",
-        4: "Doomblade",
-        5: "Purifier",
-        6: "Dreadwyrm",
-        7: "Shackled Elements",
-        8: "Everburning Knowledge",
-        9: "Azj'Aqir",
-        10: "Enveloped Dissonance",
-        11: "Astral Warden",
-        12: "Second Sight",
+    parser.t20 = 0;
+    var t20 = {
+        1: "Titanic Onslaught",
+        2: "Radiant Lightbringer",
+        3: "Wildstalker",
+        4: "Fanged Slayer",
+        5: "Blind Absolution",
+        6: "Gravewarden",
+        7: "Skybreaker",
+        8: "Arcane Tempest",
+        9: "Diabolic",
+        10: "Xuen",
+        11: "Storrmheart",
+        12: "Demonbane",
     };
 
-    // Legendary + T19
+    // Legendary + T20
     var itemSlot = Object.keys( character.items );
     for( var i = 0,length = itemSlot.length; i < length; i++ ) {
         if (character.items[itemSlot[i]].quality && character.items[itemSlot[i]].quality === 5 && character.items[itemSlot[i]].itemLevel > 850) {
@@ -139,8 +139,8 @@ module.exports.parseCharacter = function (character) {
             parser.legendary.items.push(character.items[itemSlot[i]]);
         }
 
-        if (character.items[itemSlot[i]].name && character.items[itemSlot[i]].name.indexOf(t19[character.class]) >= 0) {
-            parser.t19++;
+        if (character.items[itemSlot[i]].name && character.items[itemSlot[i]].name.indexOf(t20[character.class]) >= 0) {
+            parser.t20++;
         }
     }
 
@@ -207,6 +207,7 @@ module.exports.parseCharacter = function (character) {
     parser.mythic.dungeon = {};
     if (character.statistics.subCategories[5] && character.statistics.subCategories[5].subCategories[6]) {
         var dungeonLegion = character.statistics.subCategories[5].subCategories[6];
+        
         parser.mythic.dungeon.eoa = (dungeonLegion.statistics[2]) ? dungeonLegion.statistics[2].quantity : 0;
         parser.mythic.dungeon.dht = (dungeonLegion.statistics[5]) ? dungeonLegion.statistics[5].quantity : 0;
         parser.mythic.dungeon.nl = (dungeonLegion.statistics[8]) ? dungeonLegion.statistics[8].quantity : 0;
@@ -215,8 +216,8 @@ module.exports.parseCharacter = function (character) {
         parser.mythic.dungeon.vow = (dungeonLegion.statistics[20]) ? dungeonLegion.statistics[20].quantity : 0;
         parser.mythic.dungeon.brh = (dungeonLegion.statistics[23]) ? dungeonLegion.statistics[23].quantity : 0;
         parser.mythic.dungeon.mos = (dungeonLegion.statistics[26]) ? dungeonLegion.statistics[26].quantity : 0;
-        parser.mythic.dungeon.arcway = (dungeonLegion.statistics[29]) ? dungeonLegion.statistics[29].quantity : 0;
-        parser.mythic.dungeon.cos = (dungeonLegion.statistics[32]) ? dungeonLegion.statistics[32].quantity : 0;
+        parser.mythic.dungeon.arcway = (dungeonLegion.statistics[27]) ? dungeonLegion.statistics[27].quantity : 0;
+        parser.mythic.dungeon.cos = (dungeonLegion.statistics[28]) ? dungeonLegion.statistics[28].quantity : 0;
 
         parser.mythic.total = 0;
         var dungeon = Object.keys( parser.mythic.dungeon );
