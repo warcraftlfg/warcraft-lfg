@@ -43,7 +43,6 @@ function wlfgProgressGuild(__env, progress) {
                 }
             }*/
 
-            console.log(progress);
             if (progress) {
                 scope.progressTooltip = [];
                 scope.progressName = __env.tiers[raidKey].name;
