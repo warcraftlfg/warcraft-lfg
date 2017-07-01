@@ -145,29 +145,29 @@ async.waterfall([
                 callback(error)
             });
     },
-    //Start the mail transporter
-    function (callback) {
-        var mailConfig = wellknown(config.mail.service);
-        mailConfig.auth = {user: config.mail.user, pass: config.mail.pass};
-        mailConfig.poll = true;
-
-        applicationStorage.mailTransporter = nodemailer.createTransport(mailConfig);
-
-        // Wrap sendMail() method to make sure we never send out emails to
-        // real users while in a development environment
-        var _sendMail = applicationStorage.mailTransporter.sendMail;
-        applicationStorage.mailTransporter.sendMail = function (mailOptions, callback) {
-            if (env === 'development') {
-                mailOptions = lodash.clone(mailOptions);
-                mailOptions.to = config.mail.fromAddress;
-                delete mailOptions.cc;
-                delete mailOptions.bcc;
-            }
-            return _sendMail.apply(this, [mailOptions, callback]);
-        };
-
-        callback();
-    },
+    // //Start the mail transporter
+    // function (callback) {
+    //     var mailConfig = wellknown(config.mail.service);
+    //     mailConfig.auth = {user: config.mail.user, pass: config.mail.pass};
+    //     mailConfig.poll = true;
+    //
+    //     applicationStorage.mailTransporter = nodemailer.createTransport(mailConfig);
+    //
+    //     // Wrap sendMail() method to make sure we never send out emails to
+    //     // real users while in a development environment
+    //     var _sendMail = applicationStorage.mailTransporter.sendMail;
+    //     applicationStorage.mailTransporter.sendMail = function (mailOptions, callback) {
+    //         if (env === 'development') {
+    //             mailOptions = lodash.clone(mailOptions);
+    //             mailOptions.to = config.mail.fromAddress;
+    //             delete mailOptions.cc;
+    //             delete mailOptions.bcc;
+    //         }
+    //         return _sendMail.apply(this, [mailOptions, callback]);
+    //     };
+    //
+    //     callback();
+    // },
     //Create instance of processes
     function (callback) {
         var processes = [];

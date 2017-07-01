@@ -138,7 +138,7 @@
                                         {{ character.name }}
                                     </a>
                                 </td>
-                                <td class="talent">
+                                <td class="talent"> 
                                     <span ng-if="talent.selected" ng-repeat="talent in character.bnet.talents">
                                         <div uib-tooltip='{{ talent.spec.role }} : {{ talent.spec.name }}' tooltip-append-to-body="true" class="dis-inline-b icon-border-22" style="background-image: url('http://eu.media.blizzard.com/wow/icons/36/{{ talent.spec.icon }}.jpg');">
                                             <img width="22" height="22" src="/assets/images/external/border.png">
