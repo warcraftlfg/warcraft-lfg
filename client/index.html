@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app" ng-cloak ng-controller="CoreController">
     <head>
+        <base href="/">
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
 
         <title ng-bind="wlfgAppTitle.title()">WarcraftHub</title>
 
-        <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard, Progress, Parser, Strategy, Kill, History, Rating, Loot, Statistic, Armory, Instance, Achievement">
-        <meta name="description" content="WarcraftLFG strive to be the link between players and guilds: Our goal is to provide each party with a meaningful set of data to help you find your perfect guild mates.">
+        <meta name="keywords" content="World of Warcraft, Guild, Player, Group, LFG, LFM, WoW, MMO, MMORPG, Raid, Blizzard, Progress, Parser, Strategy, Kill, History, Rating, Loot, Statistic, Armory, Instance, Achievement, Mythic+.">
+        <meta name="description" content="WarcraftHub - Recruitment, PvE Ranking, Mythic+ Ranking, Roster analysis. Warcraft Progress | Warcraft LFG | Warcraft Parser">
         <meta name="robots" content="index,follow" />
         <meta name="wot-verification" content="f5398c96908c90e06fc3"/>
 
@@ -50,7 +52,6 @@
         <link href="/assets/css/main.css" rel="stylesheet">
         <!-- endbuild -->
 
-        <!--<base href="/">-->
     </head>
 
     <body>
@@ -93,6 +94,8 @@
         <script type="text/javascript" src="/../bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
         <script type="text/javascript" src="/../bower_components/marked/lib/marked.js"></script>
         <script type="text/javascript" src="/../bower_components/angular-marked/dist/angular-marked.js"></script>
+        <script type="text/javascript" src="/../bower_components/chart.js/dist/Chart.min.js"></script>
+        <script type="text/javascript" src="/../bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
         <!-- endbuild -->
 
         <!-- build:js app/warcraftlfg.min.js -->
@@ -156,8 +159,11 @@
         <script src="/app/resource/updates.resource.js"></script>
         <script src="/app/resource/messages.resource.js"></script>
         <script src="/app/resource/ranking.resource.js"></script>
+        <script src="/app/resource/kills.resource.js"></script>
+        <script src="/app/resource/stats.resource.js"></script>
         <script src="/app/resource/progress.resource.js"></script>
-
+        <script src="/app/resource/search.resource.js"></script>
+        <script src="/app/resource/dungeon.resource.js"></script>
 
         <!-- core module -->
         <script src="/app/core/core.module.js"></script>
@@ -181,6 +187,11 @@
         <script src="/app/dashboard/config.route.js"></script>
         <script src="/app/dashboard/dashboard.js"></script>
 
+        <!-- stats -->
+        <script src="/app/stats/stats.module.js"></script>
+        <script src="/app/stats/config.route.js"></script>
+        <script src="/app/stats/stats.js"></script>
+
         <!-- account -->
         <script src="/app/account/account.module.js"></script>
         <script src="/app/account/config.route.js"></script>
@@ -196,8 +207,9 @@
         <script src="/app/character/directive/wcl/character.warcraft-logs-average.directive.js"></script>
         <script src="/app/character/directive/progress/character.progress.directive.js"></script>
         <script src="/app/character/directive/item/character.item.directive.js"></script>
-        <script src="/app/character/directive/item/character.item-t18.directive.js"></script>
+        <script src="/app/character/directive/item/character.item-t20.directive.js"></script>
         <script src="/app/character/directive/item/character.item-audit.directive.js"></script>
+        <script src="/app/character/directive/item/character.item-artifact.directive.js"></script>
         <script src="/app/character/directive/reputation/character.reputation-rune.directive.js"></script>
         <script src="/app/character/directive/achievement/character.achievement-pg.directive.js"></script>
         <script src="/app/character/directive/challenge/character.challenge-medal.directive.js"></script>
@@ -218,8 +230,10 @@
         <!-- progress -->
         <script src="/app/progress/progress.module.js"></script>
         <script src="/app/progress/directive/boss/progress.boss.directive.js"></script>
+        <script src="/app/progress/directive/dungeon/dungeon-realm.directive.js"></script>
         <script src="/app/progress/config.route.js"></script>
         <script src="/app/progress/progress.js"></script>
+        <script src="/app/progress/progress-dungeon.js"></script>
 
         <!-- parser -->
         <script src="/app/parser/parser.module.js"></script>
@@ -230,6 +244,11 @@
         <script src="/app/redirect/redirect.module.js"></script>
         <script src="/app/redirect/config.route.js"></script>
         <script src="/app/redirect/redirect.js"></script>
+
+        <!-- search -->
+        <script src="/app/search/search.module.js"></script>
+        <script src="/app/search/config.route.js"></script>
+        <script src="/app/search/search.js"></script>
 
         <!-- message -->
         <script src="/app/message/message.module.js"></script>
@@ -248,7 +267,9 @@
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-70750580-1', 'auto');
+          ga('create', 'UA-70750580-1',  'auto', {'allowLinker': true});
+          ga('require', 'linker');
+          ga('linker:autoLink', ['www.warcraftlfg.com','www.warcraftprogress.com','www.warcraftparser.com','www.warcrafthub.com','beta.warcraftlfg.com'] );
         </script>
 
         <!-- Third party -->

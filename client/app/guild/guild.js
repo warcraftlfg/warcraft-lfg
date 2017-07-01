@@ -8,8 +8,8 @@
         .controller('GuildListController', GuildList)
     ;
 
-    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "updates", "user", "ranking", "progress", "__env"];
-    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, updates, user, ranking, progress, __env) {
+    GuildRead.$inject = ["$scope", "socket", "$state", "$stateParams", "$location", "wlfgAppTitle", "guilds", "kills", "updates", "user", "ranking", "progress", "__env"];
+    function GuildRead($scope, socket, $state, $stateParams, $location, wlfgAppTitle, guilds, kills, updates, user, ranking, progress, __env) {
         wlfgAppTitle.setTitle($stateParams.name + ' @ ' + $stateParams.realm + ' (' + $stateParams.region.toUpperCase() + ')');
         //Reset error message
         $scope.$parent.error = null;
@@ -18,31 +18,90 @@
         $scope.guild_ad = null;
         $scope.$parent.loading = true;
         $scope.current_url = window.encodeURIComponent($location.absUrl());
+        $scope.difficulties = ["mythic", "heroic", "normal"];
+        $scope.roster = {};
 
-        $scope.raid =  __env.tiers[__env.tiers.current];
+        $scope.pasteRaidProgress = [];
+        $scope.raidProgress = [];
+
+
+        $scope.raids = [];
+        $scope.pasteRaids = [];
+
+        // Get current raid
+        angular.forEach(__env.tiers.current, function(value, key) {
+            $scope.raids.push(__env.tiers[value]);
+        });
+
+        // Get paste raid
+        angular.forEach(__env.tiers.paste, function(value, key) {
+            $scope.pasteRaids.push(__env.tiers[value]);
+        });
+
         $scope.progressAdvanced = false;
 
-        ranking.get({
-            "tier": __env.tiers.current,
-            "region": $stateParams.region,
-            "realm": $stateParams.realm,
-            "name": $stateParams.name
-        }, function (rank) {
-            $scope.rank = rank;
-            console.log(rank);
+        // Get current ranking
+        angular.forEach(__env.tiers.current, function(value, key) {
+            ranking.get({
+                "tier":__env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (rank) {
+                if (!$scope.ranks) {
+                    $scope.ranks = {};
+                }
+                $scope.ranks[key] = rank;
+            }); 
+
+            progress.get({
+                "tier": __env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (progress) {
+                if (!$scope.raidProgress) {
+                    $scope.raidProgress = {};
+                }
+                $scope.raidProgress[key] = progress;
+                $scope.raidProgress[key].name = __env.tiers[value].name;
+            });
+        });
+
+        // Get paste ranking
+        angular.forEach(__env.tiers.paste, function(value, key) {
+            ranking.get({
+                "tier":__env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (rank) {
+                if (!$scope.pasteRanks) {
+                    $scope.pasteRanks = {};
+                }
+                $scope.pasteRanks[key] = rank;
+            }); 
+
+            progress.get({
+                "tier": __env.tiers[value].tier,
+                "raid": __env.tiers[value].name,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name
+            }, function (progress) {
+                if (!$scope.pasteRaidProgress) {
+                    $scope.pasteRaidProgress = {};
+                }
+                $scope.pasteRaidProgress[key] = progress;
+                $scope.pasteRaidProgress[key].name = __env.tiers[value].name;
+            });
         });
 
 
-        progress.get({
-            "tier": __env.tiers.current,
-            "region": $stateParams.region,
-            "realm": $stateParams.realm,
-            "name": $stateParams.name
-        }, function (progress) {
-            $scope.progress = progress;
-            console.log($scope.progress);
-        });
-
+        // Get LFG info
         guilds.get({
                 "guildRegion": $stateParams.region,
                 "guildRealm": $stateParams.realm,
@@ -59,27 +118,25 @@
                     });
                 });
                 $scope.$parent.loading = false;
-                if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
-                    $scope.$parent.loading = true;
-                    user.get({
-                        param: "guildRank",
-                        region: $stateParams.region,
-                        realm: $stateParams.realm,
-                        name: $stateParams.name
-                    }, function (data) {
-
-                        if (guild && !guild.perms) {
-                            //No perms set everyone can edit.
-                            $scope.userCanEdit = true;
-                        }
-                        if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
-                            if (guild.perms.ad.edit.indexOf(data.rank) >= 0) {
-                                $scope.userCanEdit = true;
+                if (guild && !guild.perms) {
+                    //No perms set everyone can edit.
+                    $scope.userCanEdit = true;
+                } else {
+                    if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
+                        $scope.$parent.loading = true;
+                        user.get({
+                            param: "guildRank",
+                            region: $stateParams.region,
+                            realm: $stateParams.realm,
+                            name: $stateParams.name
+                        }, function (data) {
+                            if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
+                                $scope.userCanEdit = $.inArray(data.rank, guild.perms.ad.edit) !== -1;
                             }
-                        }
 
-                        $scope.$parent.loading = false;
-                    });
+                            $scope.$parent.loading = false;
+                        });
+                    }
                 }
             },
             function (error) {
@@ -105,6 +162,31 @@
                 $scope.$parent.loading = false;
             });
         };
+
+        $scope.loadRoster = function (key, difficulty, boss, timestamp, paste) {
+            var tier, raid;
+
+            if (paste) {
+                tier = $scope.pasteRaids[key].tier;
+                raid = $scope.pasteRaids[key].name;
+            } else {
+                tier = $scope.raids[key].tier;
+                raid = $scope.raids[key].name;
+            }
+            kills.get({
+                "tier": tier,
+                "raid": raid,
+                "region": $stateParams.region,
+                "realm": $stateParams.realm,
+                "name": $stateParams.name,
+                "difficulty": difficulty,
+                "boss": boss,
+                "timestamp": timestamp.join(',')
+            }, function (roster) {
+                $scope.roster[timestamp.join('')] = roster;
+            });
+
+        };
     }
 
     GuildUpdate.$inject = ["$scope", "socket", "$state", "$stateParams", "LANGUAGES", "TIMEZONES", "guilds", "user", "moment"];
@@ -115,7 +197,7 @@
         $scope.timezones = TIMEZONES;
 
         $scope.activeTabs = {'lfg': false, 'parser': false};
-        if ($scope.host == "parser") {
+        if ($scope.host == "parser" || $stateParams.parser) {
             $scope.activeTabs.parser = true;
         } else {
             $scope.activeTabs.lfg = true;
@@ -183,7 +265,7 @@
                             perms.push({
                                 id: i,
                                 size: members.length,
-                                tooltip : tooltip,
+                                tooltip: tooltip,
                                 ad: {
                                     del: $.inArray(i, guild.perms.ad.del) !== -1,
                                     edit: $.inArray(i, guild.perms.ad.edit) !== -1
@@ -206,6 +288,18 @@
             tag.value = tag.text.toLowerCase().replace(/[ -_'"]/g, '');
         };
 
+        $scope.numberOfRank = function () {
+            var data = true;
+            if ($scope.guild && $scope.guild.parser && $scope.guild.parser.ranks) {
+                angular.forEach($scope.guild.parser.ranks, function (rank, key) {
+                    if (rank) {
+                        data = false;
+                    }
+                });
+            }
+
+            return data;
+        };
 
         $scope.saveAd = function () {
             $scope.$parent.loading = true;
@@ -225,6 +319,12 @@
         };
 
         $scope.saveParser = function () {
+            if ($scope.guild && $scope.guild.parser && $scope.guild.parser.active) {
+                if ($scope.numberOfRank()) {
+                    return;
+                }
+            }
+
             $scope.$parent.loading = true;
 
             guilds.upsert({
@@ -280,8 +380,8 @@
 
     }
 
-    GuildList.$inject = ['$scope', '$state', '$stateParams', "wlfgAppTitle", "guilds"];
-    function GuildList($scope, $state, $stateParams, wlfgAppTitle, guilds) {
+    GuildList.$inject = ['$scope', '$state', '$stateParams', "wlfgAppTitle", "guilds", "__env"];
+    function GuildList($scope, $state, $stateParams, wlfgAppTitle, guilds, __env) {
         wlfgAppTitle.setTitle('Guilds LFM');
 
         $scope.$parent.error = null;
@@ -290,6 +390,10 @@
         $scope.last = {};
         $scope.filters = {};
         $scope.filters.states = {};
+        $scope.raids = [];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            $scope.raids.push(__env.tiers[value]);
+        });
         var initialLoading = false;
         var paginate = {since: false, max: false, guild: null};
 
@@ -343,12 +447,12 @@
                 var type = (paginate.max) ? 'max' : 'since';
                 if ($scope.filters.sort == "ranking") {
                     if (paginate.guild.rank) {
-                        params.last = type+'.'+paginate.guild._id + "." + paginate.guild.rank.world;
+                        params.last = type + '.' + paginate.guild._id + "." + paginate.guild.rank.world;
                     } else {
-                        params.last = type+'.'+paginate.guild._id + ".0";
+                        params.last = type + '.' + paginate.guild._id + ".0";
                     }
                 } else {
-                    params.last = type+'.'+paginate.guild._id + "." + paginate.guild.ad.updated;
+                    params.last = type + '.' + paginate.guild._id + "." + paginate.guild.ad.updated;
                 }
             }
 
@@ -359,7 +463,7 @@
                     $scope.$parent.loading = false;
                     $scope.loading = false;
                     if (params.last && params.last.indexOf('max') >= 0) {
-                         $scope.guilds = $scope.guilds.concat(guilds.reverse());
+                        $scope.guilds = $scope.guilds.concat(guilds.reverse());
                     } else {
                         $scope.guilds = $scope.guilds.concat(guilds);
                     }

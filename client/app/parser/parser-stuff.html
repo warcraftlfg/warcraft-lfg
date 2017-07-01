@@ -1,0 +1,70 @@
+<div ng-include="'app/guild/guild-read-header.html'"></div>
+<div class="guild-parser">
+    <div class="container">
+        <div ng-include="'app/guild/guild-read-intro.html'"></div>
+        <div ng-include="'app/parser/parser-navbar.html'"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-striped table-hover">
+                        <thead>
+                            <th class="cursor-pointer" ng-click="switchSort('name');">
+                                {{ "NAME"|translate }}
+                                <i ng-if="sort!='name'&&sort!='-name'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-name'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='name'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="cursor-pointer sortable" ng-click="switchSort('bnet.talents[0].slug');" uib-tooltip='{{"TALENT"|translate}}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24" style="background-image: url('/assets/images/external/talent.jpg');">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='bnet.talents[0].slug'&&sort!='-bnet.talents[0].slug'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.talents[0].slug'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.talents[0].slug'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                            <th class="sortable" ng-click="switchSort('bnet.items.'+item+'.itemLevel');" ng-repeat="(key, item) in itemSlot" uib-tooltip='{{ item|uppercase|translate }}' tooltip-append-to-body="true">
+                                <div class="dis-inline-b icon-border-24 item slot-{{ item }}">
+                                    <img width="24" height="24" src="/assets/images/external/border.png">
+                                </div>
+                                <i ng-if="sort!='bnet.items'+item+'.itemLevel'&&sort!='-bnet.items'+item+'.itemLevel'" class="fa fa-sort" aria-hidden="true"></i>
+                                <i ng-show="sort==='-bnet.items'+item+'.itemLevel'" class="fa fa-sort-desc" aria-hidden="true"></i>
+                                <i ng-show="sort==='bnet.items'+item+'.itemLevel'" class="fa fa-sort-asc" aria-hidden="true"></i>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" ng-if="loading">
+                                <td colspan="17" class="p-15 parser-loading">
+                                    <i class="fa fa-2x fa-spinner fa-spin"></i>
+                                </td>
+                            </tr>
+                            <tr class="text-center" ng-if="noResult">
+                                <td colspan="{{ raid.bosses.length + 1 }}" class="p-15 loading">
+                                    {{ "NO_DATA"|translate }}
+                                </td>
+                            </tr>
+                            <tr ng-repeat="character in guildParser | orderBy:[sort, 'name']">
+                                <td class="bold class-{{ character.bnet.class }}">
+                                    <a ng-href="{{ hashbang }}/character/{{ character.region }}/{{ character.realm }}/{{ character.name }}/" target="_blank">
+                                        {{ character.name }}
+                                    </a>
+                                </td>
+                                <td class="talent"> 
+                                    <span ng-if="talent.selected" ng-repeat="talent in character.bnet.talents">
+                                        <div uib-tooltip='{{ talent.spec.role }} : {{ talent.spec.name }}' tooltip-append-to-body="true" class="dis-inline-b icon-border-22" style="background-image: url('http://eu.media.blizzard.com/wow/icons/36/{{ talent.spec.icon }}.jpg');">
+                                            <img width="22" height="22" src="/assets/images/external/border.png">
+                                        </div>
+                                    </span>
+                                </td>
+                                <td class="" ng-repeat="(key, item) in itemSlot">
+                                    <span class="quality-{{ character.bnet.items[item].quality }}">
+                                        {{ character.bnet.items[item].itemLevel }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -16,10 +16,56 @@ var async = require("async");
  * @param res
  */
 module.exports.logout = function (req, res) {
+    var config = applicationStorage.config;
     var logger = applicationStorage.logger;
+    var redirect = config.oauth.bnet.callbackURL;
+    if (config.server.html5) {
+        redirect += "/redirect";
+    } else {
+        redirect += "/#/redirect";
+    }
     logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
     req.logout();
-    res.redirect('/#/redirect');
+    res.redirect(redirect);
+};
+module.exports.logoutLfg = function (req, res) {
+    var config = applicationStorage.config;
+    var logger = applicationStorage.logger;
+    var redirect = config.oauth.bnet.callbackLfgURL;
+    if (config.server.html5) {
+        redirect += "/redirect";
+    } else {
+        redirect += "/#/redirect";
+    }
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+    req.logout();
+    res.redirect(redirect);
+};
+module.exports.logoutProgress = function (req, res) {
+    var config = applicationStorage.config;
+    var logger = applicationStorage.logger;
+    var redirect = config.oauth.bnet.callbackProgressURL;
+    if (config.server.html5) {
+        redirect += "/redirect";
+    } else {
+        redirect += "/#/redirect";
+    }
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+    req.logout();
+    res.redirect(redirect);
+};
+module.exports.logoutParser = function (req, res) {
+    var config = applicationStorage.config;
+    var logger = applicationStorage.logger;
+    var redirect = config.oauth.bnet.callbackParserURL;
+    if (config.server.html5) {
+        redirect += "/redirect";
+    } else {
+        redirect += "/#/redirect";
+    }
+    logger.info("%s %s %s %s",  req.headers['x-forwarded-for'] || req.connection.remoteAddress, req.method, req.path, JSON.stringify(req.params));
+    req.logout();
+    res.redirect(redirect);
 };
 
 /**

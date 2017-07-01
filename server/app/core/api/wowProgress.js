@@ -234,7 +234,14 @@ module.exports.getWoWProgressPage = function (path, callback) {
     var url = "http://www.wowprogress.com" + path;
     var logger = applicationStorage.logger;
 
-    request(url, function (error, response, body) {
+    var options = {
+      url: url,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+      }
+    };
+
+    request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             callback(error, body);
         }
@@ -258,10 +265,10 @@ module.exports.getAds = function (callback) {
         var $body = cheerio.load(body);
         var tables = $body('table.rating.recr').get();
 
-        var $guilds = cheerio.load(tables[0]);
+        var $guilds = cheerio.load(tables[1]);
         var guilds = $guilds('tr').get();
 
-        var $characters = cheerio.load(tables[1]);
+        var $characters = cheerio.load(tables[2]);
         var characters = $characters('tr').get();
 
         var charactersResult = [];
@@ -269,7 +276,6 @@ module.exports.getAds = function (callback) {
         async.forEach(characters, function (character, callback) {
             var $character = cheerio.load(character);
             var url = $character('a').attr('href');
-
             self.parseCharacterPage(url, function (error, character) {
                 charactersResult.push(character);
                 callback();
@@ -326,7 +332,6 @@ module.exports.parseCharacterPage = function (url, callback) {
         if (armoryUrl == "undefined") {
             return callback(new Error('Armory link undefined'));
         }
-
 
         result.name = $body('h1').text();
         result.realm = armoryUrl.match("battle.net/wow/character/(.*)/(.*)/")[1];

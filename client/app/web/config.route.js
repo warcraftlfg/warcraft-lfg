@@ -20,6 +20,13 @@
                 controllerAs: 'vm',
                 title: 'About us',
                 controller: "WebPrivacyController"
+            })
+            .state("widget", {
+                url: "/widget",
+                templateUrl: "app/web/widget.html",
+                controllerAs: 'vm',
+                title: 'Widget',
+                controller: "WebWidgetController"
             });
     }
 })();

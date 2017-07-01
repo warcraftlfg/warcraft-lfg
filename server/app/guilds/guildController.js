@@ -79,6 +79,7 @@ module.exports.getGuild = function (req, res, next) {
         bnet: 1,
         rank: 1,
         progress: 1,
+        perms: 1,
         parser: 1
     };
     guildModel.findOne(criteria, projection, function (error, guild) {
@@ -183,7 +184,23 @@ module.exports.putGuildParser = function (req, res) {
 
     var parser = req.body;
     parser.updated = new Date().getTime();
-    guildModel.upsert(req.params.region, req.params.realm, req.params.name, {parser: parser}, function (error) {
+
+    async.series([
+        function (callback) {
+            if (parser && parser.active == true) {
+                updateModel.insert('gu', req.params.region, req.params.realm, req.params.name, 5, function (error) {
+                    callback(error);
+                });
+            } else {
+                callback();
+            }
+        },
+        function (callback) {
+            guildModel.upsert(req.params.region, req.params.realm, req.params.name, {parser: parser}, function (error) {
+                callback(error);
+            });
+        }
+    ], function (error) {
         if (error) {
             logger.error(error.message);
             res.status(500).send(error.message);
@@ -191,6 +208,7 @@ module.exports.putGuildParser = function (req, res) {
             res.json();
         }
     });
+
 
 };
 
@@ -243,9 +261,9 @@ module.exports.getGuildParser = function (req, res) {
         "bnet.class": 1,
         "bnet.race": 1,
         "bnet.level": 1,
-        "bnet.progression.raids": {$slice: [config.currentCharacterProgress,1]},
+        "bnet.progression.raids": {$slice: [config.currentCharacterProgress, config.currentCharacterProgressLength]},
         "bnet.talents": 1,
-        "warcraftLogs.logs": 1
+        "warcraftLogs": 1
     };
 
     async.waterfall([
@@ -267,7 +285,7 @@ module.exports.getGuildParser = function (req, res) {
                                 realm: member.character.realm,
                                 name: member.character.name
                             }, characterProjection, function (error, character) {
-                                if(character){
+                                if (character) {
                                     parserChars.push(character);
                                 }
                                 callback(error);
@@ -279,7 +297,7 @@ module.exports.getGuildParser = function (req, res) {
                         callback();
                     }
                 }, function (error) {
-                    callback(error,parserChars);
+                    callback(error, parserChars);
                 });
 
             } else {

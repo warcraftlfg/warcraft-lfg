@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.progress')
+        .module('app.parser')
         .config(getRoutes);
 
     function getRoutes($stateProvider) {
@@ -31,6 +31,27 @@
             .state("parserBosses", {
                 url: "/guild/:region/:realm/:name/parser/bosses",
                 templateUrl: "app/parser/parser-bosses.html",
+                controlerAs: 'vm',
+                title: 'WarcraftParser',
+                controller: "ParserController"
+            })
+            .state("parserMythic", {
+                url: "/guild/:region/:realm/:name/parser/mythic",
+                templateUrl: "app/parser/parser-mythic.html",
+                controlerAs: 'vm',
+                title: 'WarcraftParser',
+                controller: "ParserController"
+            })
+            .state("parserStuff", {
+                url: "/guild/:region/:realm/:name/parser/gear",
+                templateUrl: "app/parser/parser-stuff.html",
+                controlerAs: 'vm',
+                title: 'WarcraftParser',
+                controller: "ParserController"
+            })
+            .state("parserWCL", {
+                url: "/guild/:region/:realm/:name/parser/wcl",
+                templateUrl: "app/parser/parser-wcl.html",
                 controlerAs: 'vm',
                 title: 'WarcraftParser',
                 controller: "ParserController"

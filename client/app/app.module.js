@@ -31,7 +31,9 @@
         'app.message',
         'app.progress',
         'app.parser',
-        'app.redirect'
+        'app.search',
+        'app.redirect',
+        'app.stats'
     ]);
 
 })();

@@ -1,0 +1,287 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ raids[0].name |translate}} :
+                        <span wlfg-progress-guild="raidProgress[0]" data-key="0"></span>
+                    </div>
+                    <div class="col-md-2" ng-if="ranks[0].world">
+                        {{"WORLD"|translate}} : <span class="bold"
+                                                      ng-class="{legendary:ranks[0].world<=10,epic:ranks[0].world<=100&&ranks[0].world>10,rare:ranks[0].world<=2500&&ranks[0].world>100,uncommon:ranks[0].world>2500}">
+                            {{ranks[0].world}}
+                        </span>
+                    </div>
+                    <div class="col-md-2" ng-if="ranks[0].region">
+                        {{guild.region|uppercase}} : <span class="bold"
+                                                           ng-class="{legendary:ranks[0].region<=10,epic:ranks[0].region<=100&&ranks[0].region>10,rare:ranks[0].region<=2500&&ranks[0].region>100,uncommon:ranks[0].region>2500}">
+                            {{ranks[0].region}}
+                        </span>
+                    </div>
+                    <div class="col-md-2" ng-if="ranks[0].locale">
+                        {{'REGION_'+ranks[0].locale.type+'_SHORT'|uppercase|translate}} : <span class="bold"
+                                                                                            ng-class="{legendary:ranks[0].locale.rank<=10,epic:ranks[0].locale.rank<=100&&ranks[0].locale.rank>10,rare:ranks[0].locale.rank<=2500&&ranks[0].locale.rank>100,uncommon:ranks[0].locale.rank>2500}">
+                            {{ranks[0].locale.rank}}
+                        </span>
+                    </div>
+                    <div class="col-md-2" ng-if="ranks[0].realm">
+                        {{'REALM'|translate}} : <span class="bold"
+                                                      ng-class="{legendary:ranks[0].realm<=10,epic:ranks[0].realm<=100&&ranks[0].realm>10,rare:ranks[0].realm<=2500&&ranks[0].realm>100,uncommon:ranks[0].realm>2500}">
+                            {{ranks[0].realm}}
+                        </span>
+                    </div>
+                    <div class="col-md-2 col-md-offset-6" class="common" ng-if="!ranks[0].world">
+                        {{"NO RANK FOUND"|translate}}
+                    </div>
+                    <div class="col-md-1 text-right icon-tabs">
+                        <table class="f-right">
+                            <tr>
+                                <td class="p-r-10 v-bottom">
+                                    <i ng-class="{'active':!progressAdvanced}"
+                                       ng-click="progressAdvanced = false"
+                                       class="fa fa-list cursor-pointer opacity-50" tooltip-placement="top"
+                                       uib-tooltip="{{'SIMPLE_VIEW'|translate}}"
+                                       tooltip-append-to-body="true"></i>
+                                </td>
+                                <td class="h-separator">&nbsp;</td>
+                                <td class="p-l-10 v-bottom">
+                                    <i ng-class="{'active':progressAdvanced}" ng-click="progressAdvanced = true"
+                                       class="fa fa-list-alt cursor-pointer opacity-50" tooltip-placement="top"
+                                       uib-tooltip="{{'ADVANCED_VIEW'|translate}}"
+                                       tooltip-append-to-body="true"></i>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--<div class="dis-inline-b p-r-10">
+                            <i ng-class="{'active':!progressAdvanced}" ng-click="progressAdvanced = false" class="fa fa-list cursor-pointer opacity-50" tooltip-placement="top" uib-tooltip="{{'SIMPLE_VIEW'|translate}}"></i>
+                        </div>
+                        <div class="h-separator">&nbsp;</div>
+                        <div class="dis-inline-b p-l-10">
+                            <i ng-class="{'active':progressAdvanced}" ng-click="progressAdvanced = true" class="fa fa-list-alt cursor-pointer opacity-50"  tooltip-placement="top" uib-tooltip="{{'ADVANCED_VIEW'|translate}}"></i>
+                        </div>-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="!progressAdvanced">
+            <div class="col-md-6">
+                <table class="table table-condensed table-striped">
+                    <tr ng-repeat="(key, boss) in raids[0].bosses | limitTo:5">
+                        <td class="bold">{{ boss|uppercase|translate}}</td>
+                        <td ng-class="{
+                        'legendary':raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0,
+                        'epic':raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0),
+                        'rare':raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0),
+                        'common':!(raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0) && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)
+                        }">
+                            <span ng-if="raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                            <span ng-if="raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                            <span ng-if="raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                            <span ng-if="!(raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0) && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0"
+                                  ng-init="diffDay = (raidProgress[0].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="raidProgress[0].mythic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[0].mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (raidProgress[0].heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="raidProgress[0].heroic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[0].heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (raidProgress[0].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="raidProgress[0].normal[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[0].normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="!(raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0) && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                        </td>
+                        <td>
+                            <span ng-if="raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0">
+                                 {{raidProgress[0].mythic[boss].timestamps.length}} kill<span ng-if="raidProgress[0].mythic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">
+                                 {{raidProgress[0].heroic[boss].timestamps.length}} kill<span ng-if="raidProgress[0].heroic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">
+                                {{raidProgress[0].normal[boss].timestamps.length}} kill<span ng-if="raidProgress[0].normal[boss].timestamps.length>1">s</span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-condensed table-striped">
+                    <tr ng-repeat="(key, boss) in raids[0].bosses | limitTo:-4">
+                        <td class="bold">{{ boss|uppercase|translate }}</td>
+                        <td ng-class="{
+                        'legendary':raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0,
+                        'epic':raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0),
+                        'rare':raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0),
+                        'common':!(raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0) && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)
+                        }">
+                            <span ng-if="raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0">{{"MYTHIC"|translate}}</span>
+                            <span ng-if="raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">{{"HEROIC"|translate}}</span>
+                            <span ng-if="raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">{{"NORMAL"|translate}}</span>
+                            <span ng-if="!(raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0) && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">{{"NO_KILL"|translate}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0"
+                                  ng-init="diffDay = (raidProgress[0].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="raidProgress[0].mythic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[0].mythic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (raidProgress[0].heroic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="raidProgress[0].heroic[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[0].heroic[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>
+                            </span>
+                            <span ng-if="raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)"
+                                  ng-init="diffDay = (raidProgress[0].mythic[boss].timestamps[0] | amDifference:null:'days')">
+                                <span ng-if="diffDay<=0&&diffDay>-7"
+                                      am-time-ago="raidProgress[0].normal[boss].timestamps[0][0]"></span>
+                                <span ng-if="diffDay>0||diffDay<=-7">{{ raidProgress[0].normal[boss].timestamps[0][0] | amDateFormat:'MMM D, YYYY, HH:mm:ss' }}</span>             
+                            </span>
+                            <span ng-if="!(raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0) && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">&nbsp;</span>
+                        </td>
+                        <td>
+                            <span ng-if="raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0">
+                                 {{raidProgress[0].mythic[boss].timestamps.length}} kill<span ng-if="raidProgress[0].mythic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0 && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">
+                                 {{raidProgress[0].heroic[boss].timestamps.length}} kill<span ng-if="raidProgress[0].heroic[boss].timestamps.length>1">s</span>
+                            </span>
+                            <span ng-if="raidProgress[0].normal[boss] && raidProgress[0].normal[boss].timestamps.length > 0 && !(raidProgress[0].heroic[boss] && raidProgress[0].heroic[boss].timestamps.length > 0) && !(raidProgress[0].mythic[boss] && raidProgress[0].mythic[boss].timestamps.length > 0)">
+                                {{raidProgress[0].normal[boss].timestamps.length}} kill<span ng-if="raidProgress[0].normal[boss].timestamps.length>1">s</span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" ng-if="progressAdvanced">
+            <div wlfg-progress-advanced-guild="raidProgress" data-key="0">
+            </div>
+        </div>
+    </div>
+</div>
+<uib-tabset>
+    <uib-tab index="0"
+             ng-repeat="difficulty in difficulties">
+        <uib-tab-heading>
+            <div class="text-center">
+                <div>
+                    {{difficulty|uppercase|translate}} -
+                    {{raidProgress[0][difficulty+'Count']}}/{{raids[0].bosses.length}}
+                </div>
+                <div class="border-bottom"></div>
+            </div>
+        </uib-tab-heading>
+        <div class="row m-t-10">
+            <div class="col-md-12">
+                <uib-accordion close-others="oneAtATime">
+                    <div ng-if="kills.timestamps.length > 0 || kills.irrelevantTimestamps.length"
+                         uib-accordion-group
+                         ng-repeat="(boss, kills) in raidProgress[0][difficulty]">
+                        <uib-accordion-heading>
+                            {{boss}}
+                            <div class="pull-right" tooltip-placement="left" uib-tooltip-html="'{{kills.timestamps.length}} relevant kill(s)<br/>{{kills.irrelevantTimestamps.length}} irrelevant kill(s)'">
+                                {{kills.timestamps.length}} <i class="fa fa-check" aria-hidden="true"></i>
+                                {{kills.irrelevantTimestamps.length}} <i class="fa fa-times" aria-hidden="true"></i>
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <uib-tabset>
+                                    <uib-tab class="m-r-10" index="0"
+                                             heading="{{kills.timestamps.length}} kill(s) recorded">
+                                        <div ng-repeat="timestamp in kills.timestamps">
+                                            <div class="m-10">
+                                                <div class="m-b-5 cursor-pointer"
+                                                     ng-click="showRoster =!showRoster;loadRoster(0,difficulty,boss,timestamp)">
+                                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                                    {{timestamp[0]|amDateFormat:'L LTS'}} <span
+                                                        ng-show="$first">(<i class="fa fa-trophy"
+                                                                             aria-hidden="true"></i> First kill)</span>
+                                                </div>
+                                                <div ng-show="showRoster">
+                                                    Roster size : {{roster[timestamp.join('')].length}}
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <table class="table table-condensed table-striped">
+                                                                <tr ng-if="$even"
+                                                                    ng-repeat="player in roster[timestamp.join('')]">
+                                                                    <td class="class-{{player.characterClass}}">
+                                                                        <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span>
+                                                                    </td>
+                                                                    <td class="class-{{player.characterClass}}">{{player.characterName}}</td>
+                                                                    <td>{{player.characterSpec}}</td>
+                                                                    <td>
+                                                                        {{player.characterAverageItemLevelEquipped}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <table class="table table-condensed table-striped">
+                                                                <tr ng-if="$odd"
+                                                                    ng-repeat="player in roster[timestamp.join('')]">
+                                                                    <td class="class-{{player.characterClass}}">
+                                                                        <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span>
+                                                                    </td>
+                                                                    <td class="class-{{player.characterClass}}">{{player.characterName}}</td>
+                                                                    <td>{{player.characterSpec}}</td>
+                                                                    <td>
+                                                                        {{player.characterAverageItemLevelEquipped}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+                                    <uib-tab index="1"
+                                             heading="{{kills.irrelevantTimestamps.length}} irrelevant kill(s) recorded">
+                                        <div ng-repeat="timestamp in kills.irrelevantTimestamps">
+                                            <div class="m-10">
+                                                <div class="m-b-5 cursor-pointer"
+                                                     ng-click="showRoster =!showRoster;loadRoster(0,difficulty,boss,timestamp)">
+                                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                                    {{timestamp[0]| amUtc | amDateFormat:'L LTS'}}
+                                                </div>
+                                                <div ng-show="showRoster">
+                                                    Roster size : {{roster[timestamp.join('')].length}}
+                                                    <table class="table table-condensed table-striped">
+                                                        <tr ng-repeat="player in roster[timestamp.join('')]">
+                                                            <td class="class-{{player.characterClass}}">
+                                                                <span class="icon-small" ng-class="{'tank':player.characterRole=='TANK','dps':player.characterRole=='DPS','heal':player.characterRole=='HEALING'}"></span> {{player.characterName}}
+                                                            </td>
+                                                            <td>{{player.characterSpec}}</td>
+                                                            <td>{{player.characterAverageItemLevelEquipped}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+                                </uib-tabset>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion>
+            </div>
+        </div>
+</uib-tabset>

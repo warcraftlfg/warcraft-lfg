@@ -25,8 +25,9 @@ module.exports.get = function (query) {
         projection["bnet.items.finger2"] = 1;
         projection["bnet.faction"] = 1;
         projection["bnet.guild.name"] = 1;
-        projection["bnet.progression.raids"] = {$slice: [config.currentCharacterProgress,1]};
-        projection["warcraftLogs.logs"] = 1;
+        projection["bnet.progression.raids"] = {$slice: [config.currentCharacterProgress,config.currentCharacterProgressLength]};
+        projection["warcraftLogs.bestHighSpec"] = 1;
+        projection["warcraftLogs.difficulty"] = 1;
         projection["progress.score"] = 1;
         projection["id"] = 1;
 

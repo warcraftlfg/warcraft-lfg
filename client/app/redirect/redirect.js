@@ -10,8 +10,10 @@
     	var toState = $cookies.getObject('lastUrl');
     	var toParams = $cookies.getObject('lastUrlParams');
 
-    	/*console.log(toState.name);
-    	console.log(toParams);*/
-    	$state.go(toState.name, toParams);
+        if (toState && toParams && toState.name) {        
+    	   $state.go(toState.name, toParams);
+        } else {
+            $state.go('dashboard');
+        }
     }
 })();

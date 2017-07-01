@@ -7,9 +7,38 @@
         .controller('ParserController', ParserController)
     ;
 
-    ParserDashboardController.$inject = ["$scope", "$state", "$stateParams", "$location", "guilds", "wlfgAppTitle"];
-    function ParserDashboardController($scope, $state, $stateParams, $location, guilds, wlfgAppTitle) {
+    ParserDashboardController.$inject = ["$scope", "$state", "$stateParams", "$location", "guilds", "user", "wlfgAppTitle"];
+    function ParserDashboardController($scope, $state, $stateParams, $location, guilds, user, wlfgAppTitle) {
         wlfgAppTitle.setTitle("WarcraftParser");
+
+        $scope.fakeTimestamp = new Date().getTime();
+
+        getGuildAds();
+
+        /**
+         * Get user's guildAds
+         */
+        function getGuildAds() {
+            $scope.$parent.loading = true;
+            user.query({param: "guildAds"}, function (guildAds) {
+                $scope.guildAds = guildAds;
+                $scope.$parent.loading = false;
+                $.each(guildAds, function (i, guild) {
+                    if (guild.perms) {
+                        guild.perms.ad.edit = $.inArray(guild.rank, guild.perms.ad.edit) !== -1;
+                        guild.perms.ad.del = $.inArray(guild.rank, guild.perms.ad.del) !== -1;
+                    }
+                    else {
+                        guild.perms = {ad: {}};
+                        guild.perms.ad.edit = true;
+                        guild.perms.ad.del = true;
+                    }
+                });
+            }, function (error) {
+                //$scope.$parent.error = error.data;
+                $scope.$parent.loading = false;
+            });
+        }
 
         /**
          * Create a new Guild Ad
@@ -44,10 +73,18 @@
         $scope.sort = 'name';
 
         $scope.lastReset = getLastDay();
-        $scope.raid = __env.tiers[__env.tiers.current];
+        $scope.raids = [];
+        angular.forEach(__env.tiers.current, function(value, key) {
+            $scope.raids.push(__env.tiers[value]);
+        });
+
+        $scope.itemSlot = __env.itemSlot;
+        $scope.dungeons = __env.dungeons;
         $scope.currentTier = __env.tiers.current;
 
         $scope.difficulty = "normalTimestamp";
+
+        $scope.guildParser = [];
 
         guilds.get({
                 "guildRegion": $stateParams.region,
@@ -56,27 +93,25 @@
             }, function (guild) {
                 $scope.guild = guild;
                 $scope.$parent.loading = false;
-                if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
-                    $scope.$parent.loading = true;
-                    user.get({
-                        param: "guildRank",
-                        region: $stateParams.region,
-                        realm: $stateParams.realm,
-                        name: $stateParams.name
-                    }, function (data) {
-
-                        if (guild && !guild.perms) {
-                            //No perms set everyone can edit.
-                            $scope.userCanEdit = true;
-                        }
-                        if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
-                            if (guild.perms.ad.edit.indexOf(data.rank) >= 0) {
-                                $scope.userCanEdit = true;
+                if (guild && !guild.perms) {
+                    //No perms set everyone can edit.
+                    $scope.userCanEdit = true;
+                } else {
+                    if (guild.bnet && $scope.$parent.user && $scope.$parent.user.id) {
+                        $scope.$parent.loading = true;
+                        user.get({
+                            param: "guildRank",
+                            region: $stateParams.region,
+                            realm: $stateParams.realm,
+                            name: $stateParams.name
+                        }, function (data) {
+                            if (data && guild && guild.perms && guild.perms.ad && guild.perms.ad.edit) {
+                                $scope.userCanEdit = $.inArray(data.rank, guild.perms.ad.edit) !== -1;
                             }
-                        }
 
-                        $scope.$parent.loading = false;
-                    });
+                            $scope.$parent.loading = false;
+                        });
+                    }
                 }
             },
             function (error) {
@@ -91,9 +126,17 @@
             }, function(guildParser) {
                 $scope.loading = false;
                 $scope.guildParser = guildParser;
+
+                if (guildParser.length <= 0) {
+                    $scope.noResult = true;
+                } else {
+                    $scope.noResult = false;
+                }
             }, function (error) {
-                $scope.$parent.error = error.data;
+                //$scope.$parent.error = error.data;
+                $scope.guildParser = [];
                 $scope.loading = false;
+                $scope.noResult = true;
             }
         );
 
@@ -116,7 +159,11 @@
 
         $scope.switchSort = function(value) {
             if ($scope.sort === value) {
-                value = '-'+value;
+                if (value.substr(0, 1) == '-') {
+                    value = value.slice(1);
+                } else {
+                    value = '-'+value;
+                }
             }
             
             $scope.sort = value;
@@ -127,10 +174,12 @@
         var today = new Date();
         var object;
 
-        var data = {day: "Wednesday", number: 4};
-
-        object = moment().day(-4);
-        object.set({'hour': 3, 'minute': 0, 'second': 0});
+        if (region == "EU") {
+            object = moment().day(-4);
+        } else {
+            object = moment().day(-3);
+        }
+        object.set({'hour': 9, 'minute': 0, 'second': 0});
 
         return object;
     }

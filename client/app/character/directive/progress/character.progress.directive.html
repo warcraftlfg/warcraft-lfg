@@ -1,8 +1,8 @@
-<span ng-if="progress.progress" ng-class="progress.difficultyClass" class="cursor-pointer bd-b-d" tooltip-placement="top" uib-tooltip-template="'progressCharacterTooltipTemplate.html'" tooltip-is-open="false">
+<span ng-if="progress.progress" ng-class="progress.difficultyClass" class="cursor-pointer bd-b-d" tooltip-placement="top" uib-tooltip-template="'progressCharacterTooltipTemplate.html'" tooltip-is-open="false" tooltip-class="progress-tooltips">
 	<span>{{ progress.progress }}</span>/<span>{{ progress.total }}</span> ({{ progress.difficulty }})
 </span>
-<span ng-if="!progress.progress" class="italic cursor-pointer bd-b-d" uib-tooltip-template="'progressCharacterTooltipTemplate.html'">
-    0/13 (N)
+<span ng-if="!progress.progress" class="italic cursor-pointer bd-b-d" uib-tooltip-template="'progressCharacterTooltipTemplate.html'" tooltip-class="progress-tooltips">
+    0/{{ progress.total }} (N)
 </span>
 
 <script type="text/ng-template" id="progressCharacterTooltipTemplate.html">

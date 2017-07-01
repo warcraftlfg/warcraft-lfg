@@ -20,9 +20,12 @@
     "isteven-angular-multiselect": "angular-multi-select#~4.0.0",
     "ng-scroll-glue": "~2.0.10",
     "angular-perfect-scrollbar": "^0.0.4",
-    "angular-cookies": "~1.5.8"
+    "angular-cookies": "^1.5.8",
+    "chart.js": "^2.3.0",
+    "angular-chart.js": "^1.0.3"
   },
   "resolutions": {
-    "angular": "1.4.8"
+    "angular": "1.4.8",
+    "angular-translate": "~2.11.0"
   }
 }

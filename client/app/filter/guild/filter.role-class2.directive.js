@@ -146,7 +146,14 @@ function wlfgFilterRoleClass2($translate, $stateParams, $location) {
                 }
             }
 
-            if (!angular.equals($stateParams.class, tmpClasses)) {
+            var params = null;
+
+            if ($stateParams.class instanceof Array) {
+                params = $stateParams.class;
+            } else {
+                params = [$stateParams.class];
+            }
+            if (!angular.equals(params, tmpClasses)) {
                 $scope.$parent.loading = true;
             }
 

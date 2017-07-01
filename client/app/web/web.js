@@ -6,10 +6,10 @@
         .controller('WebAboutController', About)
         .controller('WebContactController', Contact)
         .controller('WebPrivacyController', Privacy)
+        .controller('WebWidgetController', Widget)
         .controller('WebTermsController', Terms)
         .controller('WebCookiesController', Cookies)
         .controller('WebRoadmapController', Roadmap)
-
     ;
 
     About.$inject = ['$scope','socket','$state'];
@@ -23,6 +23,11 @@
     Privacy.$inject = ['$scope','socket','$state'];
     function Privacy($scope, socket, $state) {
     }
+
+    Widget.$inject = ['$scope','socket','$state'];
+    function Widget($scope, socket, $state) {
+    }
+
 
     Terms.$inject = ['$scope','socket','$state'];
     function Terms($scope, socket, $state) {

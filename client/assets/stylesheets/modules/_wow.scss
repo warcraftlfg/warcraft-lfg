@@ -1,5 +1,6 @@
 
-.heirloom, .quality-7 { color: rgb(229, 204, 128) }
+.heirloom, .quality-7 { color: rgb(0, 204, 255) }
+.artifact, .quality-6 { color: rgb(230, 204, 128) }
 .legendary, .quality-5 { color: rgb(255, 128, 0) }
 .epic, .quality-4 { color: rgb(163, 53, 238) }
 .rare, .quality-3 { color: rgb(0, 112, 255) }
@@ -85,7 +86,6 @@
   &.bnet {background: url('../images/icon/16/bnet.png') left center no-repeat; width: 18px; height: 18px; margin-top: -4px; margin-right: 2px; }
 
 }
-
 
 .icon-medium {
   padding: 0px;
@@ -259,8 +259,122 @@
   .spec-1{background: url('../images/icon/16/spec-sprite.png') no-repeat -5px -291px; width: 16px; height: 16px; display: inline-block; }
 }
 
+/* Raid */
 .raid-mythic { font-weight: bold; }
 .raid-heroic { }
 .raid-normal { font-style: italic; }
 .raid-lfr { font-weight: 300;  }
 
+/* Item slot */
+.item {
+  &.slot-head { background-image: url('../images/external/item/head.jpg'); }
+  &.slot-neck { background-image: url('../images/external/item/neck.jpg'); }
+  &.slot-shoulder { background-image: url('../images/external/item/shoulder.jpg'); }
+  &.slot-back { background-image: url('../images/external/item/back.jpg'); }
+  &.slot-chest { background-image: url('../images/external/item/chest.jpg'); }
+  &.slot-wrist { background-image: url('../images/external/item/wrist.jpg'); }
+  &.slot-hands { background-image: url('../images/external/item/hands.jpg'); }
+  &.slot-waist { background-image: url('../images/external/item/waist.jpg'); }
+  &.slot-legs { background-image: url('../images/external/item/legs.jpg'); }
+  &.slot-feet { background-image: url('../images/external/item/feet.jpg'); }
+  &.slot-finger1 { background-image: url('../images/external/item/finger1.jpg'); }
+  &.slot-finger2 { background-image: url('../images/external/item/finger2.jpg'); }
+  &.slot-trinket1 { background-image: url('../images/external/item/trinket1.jpg'); }
+  &.slot-trinket2 { background-image: url('../images/external/item/trinket2.jpg'); }
+  &.slot-mainHand { background-image: url('../images/external/item/mainHand.jpg'); }
+}
+
+/* Bosses */
+.hfc-18 {
+  &.boss-0 { background-image: url('../images/external/bosses/18/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/18/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/18/2.jpg'); }
+  &.boss-3 { background-image: url('../images/external/bosses/18/3.jpg'); }
+  &.boss-4 { background-image: url('../images/external/bosses/18/4.jpg'); }
+  &.boss-5 { background-image: url('../images/external/bosses/18/5.jpg'); }
+  &.boss-6 { background-image: url('../images/external/bosses/18/6.jpg'); }
+  &.boss-7 { background-image: url('../images/external/bosses/18/7.jpg'); }
+  &.boss-8 { background-image: url('../images/external/bosses/18/8.jpg'); }
+  &.boss-9 { background-image: url('../images/external/bosses/18/9.jpg'); }
+  &.boss-10 { background-image: url('../images/external/bosses/18/10.jpg'); }
+  &.boss-11 { background-image: url('../images/external/bosses/18/11.jpg'); }
+  &.boss-12 { background-image: url('../images/external/bosses/18/12.jpg'); }
+}
+
+.ten-19 {
+  &.boss-0 { background-image: url('../images/external/bosses/19/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/19/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/19/2.jpg'); }
+  &.boss-3 { background-image: url('../images/external/bosses/19/3.jpg'); }
+  &.boss-4 { background-image: url('../images/external/bosses/19/4.jpg'); }
+  &.boss-5 { background-image: url('../images/external/bosses/19/5.jpg'); }
+  &.boss-6 { background-image: url('../images/external/bosses/19/6.jpg'); }
+  &.boss-7 { background-image: url('../images/external/bosses/19/7.jpg'); }
+}
+
+.tov-19 {
+  &.boss-0 { background-image: url('../images/external/bosses/19.2/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/19.2/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/19.2/2.jpg'); }
+}
+
+.tn-19 {
+  &.boss-0 { background-image: url('../images/external/bosses/19.5/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/19.5/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/19.5/2.jpg'); }
+  &.boss-3 { background-image: url('../images/external/bosses/19.5/3.jpg'); }
+  &.boss-4 { background-image: url('../images/external/bosses/19.5/4.jpg'); }
+  &.boss-5 { background-image: url('../images/external/bosses/19.5/5.jpg'); }
+  &.boss-6 { background-image: url('../images/external/bosses/19.5/6.jpg'); }
+  &.boss-7 { background-image: url('../images/external/bosses/19.5/7.jpg'); }
+  &.boss-8 { background-image: url('../images/external/bosses/19.5/8.jpg'); }
+  &.boss-9 { background-image: url('../images/external/bosses/19.5/9.jpg'); }
+}
+
+.tos-20 {
+  &.boss-0 { background-image: url('../images/external/bosses/20/0.jpg'); }
+  &.boss-1 { background-image: url('../images/external/bosses/20/1.jpg'); }
+  &.boss-2 { background-image: url('../images/external/bosses/20/2.jpg'); }
+  &.boss-3 { background-image: url('../images/external/bosses/20/3.jpg'); }
+  &.boss-4 { background-image: url('../images/external/bosses/20/4.jpg'); }
+  &.boss-5 { background-image: url('../images/external/bosses/20/5.jpg'); }
+  &.boss-6 { background-image: url('../images/external/bosses/20/6.jpg'); }
+  &.boss-7 { background-image: url('../images/external/bosses/20/7.jpg'); }
+  &.boss-8 { background-image: url('../images/external/bosses/20/8.jpg'); }
+}
+
+/* Dungeon affixes */
+.dungeon-affixe {
+  width: 16px;
+  height: 16px;
+  display: block;
+  float: left;
+  background-size: contain;
+
+  &.bolstering { background-image: url('../images/external/dungeon/bolstering.jpg'); }
+  &.fortified { background-image: url('../images/external/dungeon/fortified.jpg'); }
+  &.necrotic { background-image: url('../images/external/dungeon/necrotic.jpg'); }
+  &.overflowing { background-image: url('../images/external/dungeon/overflowing.jpg'); }
+  &.raging { background-image: url('../images/external/dungeon/raging.jpg'); }
+  &.sanguine { background-image: url('../images/external/dungeon/sanguine.jpg'); }
+  &.skittish { background-image: url('../images/external/dungeon/skittish.jpg'); }
+  &.teeming { background-image: url('../images/external/dungeon/teeming.jpg'); }
+  &.tyrannical { background-image: url('../images/external/dungeon/tyrannical.jpg'); }
+  &.volcanic { background-image: url('../images/external/dungeon/volcanic.jpg'); }
+  &.explosive { background-image: url('../images/external/dungeon/explosive.jpg'); }
+  &.quaking { background-image: url('../images/external/dungeon/quaking.jpg'); }
+  &.bursting { background-image: url('../images/external/dungeon/bursting.jpg'); }
+  &.grievous { background-image: url('../images/external/dungeon/grievous.jpg'); }
+
+}
+
+
+.dungeon-eoa { background-image: url('../images/external/dungeon/eyeofazshara.jpg'); }
+.dungeon-dht { background-image: url('../images/external/dungeon/darkheartthicket.jpg'); }
+.dungeon-nl { background-image: url('../images/external/dungeon/neltharionslair.jpg'); }
+.dungeon-hov { background-image: url('../images/external/dungeon/hallsofvalor.jpg'); }
+.dungeon-vow { background-image: url('../images/external/dungeon/vaultofthewardens.jpg'); }
+.dungeon-brh { background-image: url('../images/external/dungeon/blackrookhold.jpg'); }
+.dungeon-mos { background-image: url('../images/external/dungeon/mawofsouls.jpg'); }
+.dungeon-arcway { background-image: url('../images/external/dungeon/arcway.jpg'); }
+.dungeon-cos { background-image: url('../images/external/dungeon/courtofstar.jpg');  }

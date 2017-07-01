@@ -2,6 +2,7 @@ bower_components
 node_modules
 npm-debug.log
 client/assets/css
+client/robots.txt
 server/app/config/config.json
 www
 logs

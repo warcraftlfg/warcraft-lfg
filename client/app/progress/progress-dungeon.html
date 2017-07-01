@@ -1,0 +1,202 @@
+<div class="dashboard-intro-progress"></div>
+<div class="m-b-20" id="page">
+    <div class="bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default m-b-0">
+                        <div class="panel-body p-r-0 p-l-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="fw-700 m-b-5">Patch</div>
+                                    <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.extension" class="form-control">
+                                            <option value="legion725">7.2.5+</option>
+                                            <option value="legion72">7.2</option>
+                                            <option value="legion">7.0 - 7.1.5</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="fw-700 m-b-5">{{"DUNGEON"|translate}}</div>
+                                    <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.dungeon" class="form-control">
+                                            <option value="">{{"ALL_DUNGEONS"|translate}}</option>
+                                            <option value="Black Rook Hold">{{"BLACK_ROOK_HOLD"|translate}}</option>
+                                            <option value="Cathedral of Eternal Night">{{"CATHEDRAL_OF_ETERNAL_NIGHT"|translate}}</option>
+                                            <option value="Court of Stars">{{"COURT_OF_STARS"|translate}}</option>
+                                            <option value="Darkheart Thicket">{{"DARKHEART_THICKET"|translate}}</option>
+                                            <option value="Eye of Azshara">{{"EYE_OF_AZSHARA"|translate}}</option>
+                                            <option value="Halls of Valor">{{"HALL_OF_VALOR"|translate}}</option>
+                                            <option value="Maw of Souls">{{"MAW_OF_SOULS"|translate}}</option>
+                                            <option value="Neltharion's Lair">{{"NELTHARIONS_LAIR"|translate}}</option>
+                                            <option value="Return to Karazhan: Lower">{{"RETURN_TO_KARAZHAN_LOWER"|translate}}</option>
+                                            <option value="Return to Karazhan: Upper">{{"RETURN_TO_KARAZHAN_UPPER"|translate}}</option>
+                                            <option value="The Arcway">{{"THE_ARCWAY"|translate}}</option>
+                                            <option value="Vault of the Wardens">{{"VAULT_OF_THE_WARDENS"|translate}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="fw-700 m-b-5">{{"REGION"|translate}}</div>
+                                    <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.region" class="form-control">
+                                            <option value="">{{ "WORLD"|translate }}</option>
+                                            <option value="us">US</option>
+                                            <option value="eu">EU</option>
+                                            <!--<option value="{{ region }}" ng-repeat="region in rankingRegions">{{ region|uppercase }}</option>-->
+                                            <option style="font-size: 2pt;" disabled>&nbsp;</option>
+                                            <option style="font-size: 0.1pt; background-color: #ccc;"
+                                                    disabled>&nbsp;</option>
+                                            <option style="font-size: 2pt;" disabled>&nbsp;</option>
+                                            <option value="{{ key }}" ng-repeat="(key, subregion) in rankingSubregions">{{ "REGION_"+subregion|translate }}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="fw-700 m-b-5">{{"REALM"|translate}}</div>
+                                    <div isteven-multi-select
+                                         input-model="realms"
+                                         button-label="label"
+                                         item-label="label"
+                                         output-properties="region"
+                                         tick-property="selected"
+                                         translation="localRealms"
+                                         selection-mode="single"
+                                         on-item-click="setRealm(data)"
+                                         on-reset="resetRealm()"
+                                    >
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-3">
+                                    <div class="fw-700 m-b-5">{{"AFFIXES"|translate}}</div>
+                                    <span class="css3-metro-dropdown">
+                                        <select ng-model="filters.affixes" class="form-control">
+                                            <option value="">All affixes</option>
+                                            <option value="Raging#Necrotic#Fortified">{{"RAGING_NECROTIC_FORTIFIED"|translate}}</option>
+                                            <option value="Bolstering#Overflowing#Tyrannical">{{"BOLSTERING_OVERFLOWING_TYRANNICAL"|translate}}</option>
+                                            <option value="Sanguine#Volcanic#Fortified">{{"SANGUINE_VOLCANIC_FORTIFIED"|translate}}</option>
+                                            <option value="Teeming#Necrotic#Tyrannical">{{"TEEMING_NECROTIC_TYRANNICAL"|translate}}</option>
+                                            <option value="Raging#Volcanic#Tyrannical">{{"RAGING_VOLCANIC_TYRANNICAL"|translate}}</option>
+                                            <option value="Bolstering#Skittish#Fortified">{{"BOLSTERING_SKITTISH_FORTIFIED"|translate}}</option>
+                                            <option value="Sanguine#Overflowing#Tyrannical">{{"SANGUINE_OVERFLOWING_TYRANNICAL"|translate}}</option>
+                                            <option value="Teeming#Skittish#Fortified">{{"TEEMING_SKITTISH_FORTIFIED"|translate}}</option>
+                                        </select>
+                                    </span>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-striped table-hover">
+                        <thead>
+                            <th>
+                                {{"RANK"|translate}}
+                            </th>
+                            <th>
+                                {{"AFFIXES"|translate}}
+                            </th>
+                            <th>
+                                {{"DUNGEON"|translate}}
+                            </th>
+                            <th>
+                                {{"KEY"|translate}}
+                            </th>
+                            <th>
+                                {{"TIME"|translate}}
+                            </th>
+                            <th ng-if="!filters.realm">
+                                {{"TEAM"|translate}}
+                            </th>
+                            <th>
+                                {{"REALM"|translate}}
+                            </th>
+                            <th>
+                                {{"DATE"|translate}}
+                            </th>
+                        </thead>
+                        <tbody> 
+                        <tr class="text-center" ng-if="loading">
+                            <td colspan="12" class="p-15 ranking-loading">
+                                <i class="fa fa-2x fa-spinner fa-spin"></i>
+                            </td>
+                        </tr>
+                        <tr class="text-center" ng-if="noResults">
+                            <td colspan="12" class="p-15 loading">
+                                {{ "NO_DATA"|translate }}
+                            </td>
+                        </tr>
+                        <tr ng-repeat="team in rankings">
+                            <td ng-init="rank = (limit*(page-1))+$index + 1" ng-class="{'legendary': (rank <= 10), 'epic': (rank > 10 && rank <= 100), 'rare': (rank > 100 && rank <= 2500), 'uncommon': (rank > 2500)}"
+                                class="bold">
+                                {{ rank }}
+                            </td>
+                            <td>
+                                <div ng-repeat="affixe in team.affixes" uib-tooltip="{{affixe}}" ng-class="{'m-r-5': !$last}" class="dungeon-affixe {{affixe|lowercase}}"></div>
+                            </td>
+                            <td>
+                                {{ team.dungeon }}
+                            </td>
+                            <td>
+                                {{ team.level }}
+                            </td>
+                            <td>
+                                {{ team.time | date:"mm:ss"}}
+                            </td>
+                            <td class="faction-{{guild.side}}">
+                                <span ng-repeat="character in team.roster" ng-class="{'m-r-5': !$last}">
+                                    <span ng-if="character.role == 'tank'" class="icon-small tank"></span>
+                                    <span ng-if="character.role == 'healer'" class="icon-small heal"></span>
+                                    <span ng-if="character.role == 'dps'" class="icon-small dps"></span>
+                                    &nbsp;<span class="class-{{ character.class }}"><a href="http://{{ team.region }}.battle.net/wow/fr/character/{{ character.realm }}/{{ character.name }}/advanced" target="_blank">{{ character.name }}</a></span>
+                                </span>
+                            </td>
+                            <td ng-show="!filters.realm">
+                                <span wlfg-dungeon-realm="{{ team }}"></span>
+                            </td>
+                            <td>
+                            {{ team.date | date:'dd-MM-yyyy'}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 m-b-10">
+                <nav>
+                    <ul class="pagination m-0">
+                        <li class="page-item" ng-class="{'disabled': page <= 1}">
+                            <a ng-click="backPage()">
+                                <span class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo; &nbsp; {{"PREVIOUS"|translate }}</span></span>
+                            </a>
+                            <a class="hide" ng-href="{{ hashbang }}/{{ path }}{{ (page - 1) }}"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-6 m-b-10 text-right">
+                <nav>
+                    <ul class="pagination m-0">
+                        <li class="page-item" ng-class="{'disabled': noResult}">
+                            <a ng-click="nextPage()">
+                                    <span class="page-link" aria-label="Previous"><span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span></span>
+                            </a>
+                            <a class="hide" ng-href="{{ hashbang }}/{{ path }}{{ (page + 1) }}"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

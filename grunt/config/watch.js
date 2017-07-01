@@ -16,6 +16,14 @@ module.exports = {
             spawn: false,
         },
     },
+    ngtemplates: {
+        files: ['client/app/**/*.js'],
+        tasks: ['ngtemplates'],
+        options: {
+            atBegin:true,
+            spawn: false,
+        },
+    },
     copy: {
         files: ['client/**'],
         tasks: ['copy:dev'],

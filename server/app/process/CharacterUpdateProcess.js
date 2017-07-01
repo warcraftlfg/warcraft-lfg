@@ -10,7 +10,8 @@ var updateModel = process.require("updates/updateModel.js");
 var updateService = process.require("updates/updateService.js");
 var characterModel = process.require("characters/characterModel.js");
 var characterService = process.require("characters/characterService.js");
-
+var characterParsing = process.require("characters/characterParsing.js");
+var realmModel = process.require("realms/realmModel.js")
 
 /**
  * CharacterUpdateProcess constructor
@@ -54,6 +55,16 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
             })
         },
         function (region, character, callback) {
+            realmModel.findOne({region: region, name: character.realm}, {"bnet.slug": 1}, function(error, realm) {
+                if (realm && realm.bnet && realm.bnet.slug) {
+                    callback(error, region, character, realm.bnet.slug);
+                } else {
+                    logger.warn("Can't find realm slug for realm!");
+                    callback(true);                  
+                }
+            });
+        },
+        function (region, character, realmSlug, callback) {
             async.parallel({
                 ad: function (callback) {
                     async.waterfall([
@@ -87,21 +98,38 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                         callback(null, ad);
                     });
                 },
-                warcraftLogs: function (callback) {
+                warcraftLogsDps: function (callback) {
                     //Get WarcraftLogs
-                    warcraftLogsAPI.getRankings(region, character.realm, character.name, function (error, warcraftLogs) {
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'dps', '13', 1, function (error, warcraftLogs) {
                         var tmpObj = {};
                         if (error && error !== true) {
                             logger.error(error.message);
+                            tmpObj.logs = null;
+                            tmpObj.updated = new Date().getTime();
+                        } else {
+                            tmpObj.logs = warcraftLogs;
+                            tmpObj.updated = new Date().getTime();
                         }
-                        tmpObj.logs = warcraftLogs;
-                        tmpObj.updated = new Date().getTime();
-                        callback(null, tmpObj)
+                        callback(null, tmpObj);
+                    });
+                },
+                warcraftLogsHps: function (callback) {
+                    //Get WarcraftLogs
+                    warcraftLogsAPI.getRankings(region, realmSlug, character.name, 'hps', '13', 1, function (error, warcraftLogs) {
+                        var tmpObj = {};
+                        if (error && error !== true) {
+                            logger.error(error.message);
+                            tmpObj.logs = null;
+                            tmpObj.updated = new Date().getTime();
+                        } else {
+                            tmpObj.logs = warcraftLogs;
+                            tmpObj.updated = new Date().getTime();
+                        }
+                        callback(null, tmpObj);
                     });
                 },
                 progress: function (callback) {
                     var progress = {score:0}
-
                     if (character.progression && character.progression.raids) {
                         character.progression.raids[character.progression.raids.length - 3].bosses.forEach(function(boss){
                             if(boss.normalKills>0){
@@ -121,14 +149,52 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
                     }
                 }
             }, function (error, results) {
-                results.parser = self.parseCharacter(character);
+                // Time taken start
+                //var start = new Date().getTime();
+
+                // Parser achievements & co
+                results.parser = characterParsing.parseCharacter(character);
+
+                // Set current specialization
+                characterParsing.parseCharacterTalents(character);
+
+                /*if (!results.warcraftLogsDps || !results.warcraftLogsDps.logs || results.warcraftLogsDps.logs <= 0) {
+                    if (results.warcraftLogsDps2 && results.warcraftLogsDps2.logs && results.warcraftLogsDps2.logs.length > 0) {
+                        results.warcraftLogsDps.logs = results.warcraftLogsDps2.logs;
+                    }   
+                }
+
+                if (!results.warcraftLogsHps || !results.warcraftLogsHps.logs || results.warcraftLogsHps.logs <= 0) {
+                    if (results.warcraftLogsHps2 && results.warcraftLogsHps2.logs && results.warcraftLogsHps2.logs.length > 0) {
+                        results.warcraftLogsHps.logs = results.warcraftLogsHps2.logs;
+                    }
+                }*/
+
+                /*if (results.warcraftLogsDps2 && results.warcraftLogsDps2.logs && results.warcraftLogsDps2.logs.length > 0) {
+                    results.warcraftLogsDps.logs = results.warcraftLogsDps.logs.concat(results.warcraftLogsDps2.logs);
+                }
+
+                if (results.warcraftLogsHps2 && results.warcraftLogsHps2.logs && results.warcraftLogsHps2.logs.length > 0) {
+                    results.warcraftLogsHps.logs = results.warcraftLogsHps.logs.concat(results.warcraftLogsHps2.logs);
+                }*/
+
+                // Clean warcraftLogs
+                results.warcraftLogs = {};
+                results.warcraftLogs = characterParsing.parseWarcraftLogs(results.warcraftLogsDps, results.warcraftLogsHps, character.class);
 
                 // Too many data, let's remove
                 character.achievements = null;
                 character.quests = null;
 
+                // Set bnet info
                 results.bnet = character;
                 results.bnet.updated = new Date().getTime();
+
+                // Time taken end
+                /*var end = new Date().getTime();
+                var time = end - start;
+                console.log('Execution time: ' + time);*/
+
                 characterModel.upsert(region, character.realm, character.name, results, function (error) {
                     callback(error);
                 });
@@ -141,171 +207,6 @@ CharacterUpdateProcess.prototype.updateCharacter = function () {
         self.updateCharacter();
     });
 };
-
-/**
- * Parse one character
- */
-CharacterUpdateProcess.prototype.parseCharacter = function (character) {
-    var self = this;
-
-    // Parser
-    var parser = {};
-
-    // Suramar WQ unlock
-    parser.suramar = {};
-    if (character.achievements) {
-        var achievement = character.achievements.achievementsCompleted.indexOf(10617);
-        if (achievement >= 0) {
-            parser.suramar.worldQuest = 6;
-            parser.suramar.worldQuestTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
-        } else {
-            parser.suramar.worldQuest = 0;
-            if (character.quests.indexOf(40009) >= 0) {
-                parser.suramar.worldQuest++;
-            }
-            if (character.quests.indexOf(40956) >= 0) {
-                parser.suramar.worldQuest++;
-            }
-            if (character.quests.indexOf(42147) >= 0) {
-                parser.suramar.worldQuest++;
-            }
-            if (character.quests.indexOf(41760) >= 0) {
-                parser.suramar.worldQuest++;
-            }
-            if (character.quests.indexOf(41138) >= 0) {
-                parser.suramar.worldQuest++;
-            }
-            if (character.quests.indexOf(42230) >= 0) {
-                parser.suramar.worldQuest++;
-            }
-        }
-    }
-
-    // Suramar COS unlock
-    if (character.quests && character.quests.indexOf(43314) >= 0) {
-        parser.suramar.courtOfStar = true;
-    }
-
-    // Suramar Arcway unlock
-    if (character.quests && character.quests.indexOf(44053) >= 0) {
-        parser.suramar.arcway = true;
-    }
-
-    // Reputation Suramar
-    for (var i = 0; i < character.reputation.length; i++) {
-        if (character.reputation[i].name == "The Nightfallen") {
-            parser.suramar.reputation = character.reputation[i];
-        }
-    }
-
-    // Class Order Campaign
-    if (character.achievements) {
-        var achievement = character.achievements.achievementsCompleted.indexOf(10994);
-        if (achievement >= 0) {
-            parser.classOrderCampaign = true
-            parser.classOrderCampaignTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
-        }
-    }
-
-    // Obliterum forge
-    if (character.achievements) {
-        var achievement = character.achievements.achievementsCompleted.indexOf(10585);
-        if (achievement >= 0) {
-            parser.obliterumForge = true;
-            parser.obliterumForgeTimestamp = character.achievements.achievementsCompletedTimestamp[achievement];
-        }
-    }
-
-    // Legendary
-    parser.legendary = 0;
-    for (var i = 0; i < character.items.length; i++) {
-        if (character.items[i].quality && character.items[i].quality == 5 && character.items[i].itemLevel > 850) {
-            parser.legendary++;
-        }
-    }
-
-    // Artifact trait
-    parser.artifact = {trait: 0, knowledge: 0, relic: 0};
-    if (character.bnet && character.bnet.items && character.bnet.items.mainHand) {
-        parser.artifact.relic = character.bnet.items.mainHand.relics.length;
-    }
-
-    // T19
-    parser.t19 = 0;
-
-    // WCL
-
-    // Audit
-
-    // Proving Grounds
-    parser.provingGrounds = {};
-    parser.provingGrounds.tank = self.parseCharacterProvingGrounds(character.achievements, 'tank');
-    parser.provingGrounds.dps = self.parseCharacterProvingGrounds(character.achievements, 'dps');
-    parser.provingGrounds.healer = self.parseCharacterProvingGrounds(character.achievements, 'tank');
-
-    parser.challenge = {};
-    parser.challenge.gold = self.parseCharacterChallengeMedal(character.achievements, 'gold');
-    parser.challenge.silver = self.parseCharacterChallengeMedal(character.achievements, 'silver');
-    parser.challenge.copper = self.parseCharacterChallengeMedal(character.achievements, 'copper');
-
-    return parser;
-};
-
-/**
- * Parse ProvingGround (WOD)
- */
-CharacterUpdateProcess.prototype.parseCharacterProvingGrounds = function (achievements, type) {
-    var statId = {
-        'tank': [9578, 9579, 9580, 26345],
-        'dps': [9572, 9573, 9574, 26344],
-        'healer': [9584, 9585, 9586, 26346]
-    };
-
-    var criteriaId;
-
-    var data = {};
-
-    data.best = 0;
-
-    if (achievements && achievements.achievementsCompleted) {
-        if (achievements.achievementsCompleted.indexOf(statId[type][2]) != -1) {
-            data.gold = true;
-            if ((criteriaId = achievements.criteria.indexOf(statId[type][3])) != -1) {
-                data.best = achievements.criteria[criteriaId];
-            }
-        } else if (achievements.achievementsCompleted.indexOf(statId[type][1]) != -1) {
-            data.silver = true;
-        } else if (achievements.achievementsCompleted.indexOf(statId[type][0]) != -1) {
-            data.copper = true;
-        }
-    }
-
-    return data;
-
-}
-
-/**
- * Parse ProvingGround (WOD)
- */
-CharacterUpdateProcess.prototype.parseCharacterChallengeMedal = function (achievements, type) {
-    var statId = {
-        'gold': [8878, 8882, 9004, 8886, 9000, 8874, 8890, 8894],
-        'silver': [8877, 8881, 9003, 8885, 8999, 8873, 8889, 8893],
-        'copper': [8876, 8880, 9002, 8884, 8998, 8872, 8888, 8892]
-    };
-
-    var data = 0;
-
-    if (achievements && achievements.achievementsCompleted) {
-        statId[type].forEach(function(id) {
-            if (achievements.achievementsCompleted.indexOf(id) != -1) {
-                data++;
-            }
-        });
-    }
-
-    return data;
-}
 
 /**
  * Start characterUpdateProcess

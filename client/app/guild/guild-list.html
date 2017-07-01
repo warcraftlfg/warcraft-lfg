@@ -48,7 +48,7 @@
                                     </span>
                                 </td>
                                 <td class="faction-{{guild.bnet.side}}">
-                                    <a href="#/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
+                                    <a href="{{ hashbang }}/guild/{{ guild.region }}/{{ guild.realm }}/{{ guild.name }}/" class="bold">
                                         {{guild.name}}
                                     </a>
                                 </td>
@@ -70,7 +70,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span wlfg-progress-guild="guild.progress" data-region="{{ guild.region }}" data-realm="{{ guild.realm }}" data-name="{{ guild.name }}"></span>  
+                                    <span wlfg-progress-guild="guild.progress" data-region="{{ guild.region }}" data-realm="{{ guild.realm }}" data-name="{{ guild.name }}" data-key="0"></span>
                                 </td>
                                 <td>
                                     <span ng-class="{legendary:guild.rank.world<=10,epic:guild.rank.world<=100&&guild.rank.world>10,rare:guild.rank.world<=2500&&guild.rank.world>100,uncommon:guild.rank.world>2500}">
@@ -106,7 +106,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': page <= 1}">
-                        <a ng-if="page > 1" ng-href="#/guild/list/{{ (page - 1) }}" ng-click="$event.preventDefault();changePage((page - 1))">
+                        <a ng-if="page > 1" ng-href="{{ hashbang }}/guild/list/{{ (page - 1) }}" ng-click="$event.preventDefault();changePage((page - 1))">
                             <span class="page-link" aria-label="Previous">
                                 <span aria-hidden="true">&laquo; &nbsp; Previous</span>
                             </span>
@@ -120,7 +120,7 @@
                 <nav>
                   <ul class="pagination m-0">
                     <li class="page-item" ng-class="{'disabled': guilds.length < 20}">
-                        <a ng-if="guilds.length == 20" ng-href="#/guild/list/{{ (page + 1) }}" ng-click="$event.preventDefault();changePage((page + 1))">
+                        <a ng-if="guilds.length == 20" ng-href="{{ hashbang }}/guild/list/{{ (page + 1) }}" ng-click="$event.preventDefault();changePage((page + 1))">
                             <span class="page-link" aria-label="Next">
                                 <span aria-hidden="true">{{"NEXT"|translate }} &nbsp; &raquo;</span>
                             </span>

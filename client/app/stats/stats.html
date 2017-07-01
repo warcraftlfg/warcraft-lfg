@@ -1,0 +1,42 @@
+<div class="m-b-20">
+    <div class="bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 m-t-20">
+                    <h1>{{ raidName }}</h1>
+                    <!--div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group form-inline m-b-5">
+                                <div class="checkbox m-t-0 m-r-20" ng-repeat="(boss,checked) in bosses">
+                                    <label>
+                                        <input ng-change="refreshGuildCharts()" ng-model="bosses[boss]" type="checkbox">
+                                        <strong>{{boss|uppercase|translate}}</strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div-->
+                    <div ng-repeat="(difficulty,chart) in guildCharts">
+                        <h3>{{difficulty|uppercase|translate}}</h3>
+                        <canvas id="line" height="80" class="chart chart-line" chart-data="chart.data"
+                                chart-labels="chart.labels" chart-series="chart.series" chart-options="options"
+                                chart-dataset-override="datasetOverride">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+            <!--div class="row">
+                <div class="col-md-12">
+                    <div class="row" ng-repeat="(difficulty,difficultyCharts) in characterCharts">
+                        <h3>{{difficulty|uppercase|translate}}</h3>
+                        <div class="col-md-3" ng-repeat="chart in difficultyCharts">
+                            <canvas id="pie" class="chart chart-pie"
+                                    chart-data="chart.data" chart-labels="chart.series">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div-->
+        </div>
+    </div>
+</div>

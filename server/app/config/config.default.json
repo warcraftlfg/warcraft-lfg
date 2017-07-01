@@ -1,5 +1,8 @@
 {
   "server": {
+    "domain": "warcrafthub.com",
+    "port": 3000,
+    "html5": true,
     "https": {
       "key": "server/app/config/sslcert/server.key",
       "cert": "server/app/config/sslcert/server.crt"
@@ -49,6 +52,9 @@
     3,
     0
   ],
-  "currentProgress": 18,
+  "progress":[
+    {"tier":19,"raid":"The Emerald Nightmare"},
+    {"tier":19,"raid":"Trial of Valor"}
+  ],
   "currentCharacterProgress": -3
 }

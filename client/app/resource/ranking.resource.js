@@ -5,8 +5,10 @@
         .module('app.resource')
         .factory('ranking', Ranking);
 
-    Ranking.$inject = ['$resource'];
-    function Ranking($resource) {
-        return $resource('https://api.warcraftprogress.com/api/v1/ranks/:tier/:region/:realm/:name');
+    Ranking.$inject = ['$resource', '__env'];
+    function Ranking($resource, __env) {
+        return $resource(__env.apiProgressUrl+'/api/v1/ranks/:tier/:raid/:region/:realm/:name', {}, {
+        	get: { method: 'get', withCredentials: false }
+        });
     }
 })();
